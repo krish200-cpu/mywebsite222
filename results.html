@@ -3,18 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Results | Funeral Match Engine</title>
+    <title>Curated Results | Funeral Match</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         :root { 
             --deep-slate: #121416; --card-bg: #1C1F22; --gold: #B39359; 
-            --white: #F4F4F4; --text-dim: #8A8F98; --border: rgba(255, 255, 255, 0.08);
+            --gold-glow: rgba(179, 147, 89, 0.15); --white: #F4F4F4; 
+            --text-dim: #8A8F98; --border: rgba(255, 255, 255, 0.08);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
         body { background-color: var(--deep-slate); color: var(--white); -webkit-font-smoothing: antialiased; }
 
-        /* Smooth Navigation */
         nav {
             padding: 20px 24px; background: rgba(18, 20, 22, 0.95);
             backdrop-filter: blur(20px); border-bottom: 1px solid var(--border);
@@ -26,19 +26,20 @@
 
         .container { max-width: 650px; margin: 0 auto; padding: 20px 20px 140px; }
 
-        /* The 28px Organic Card Architecture */
+        /* Premier Partner & Standard Card Architecture */
         .entry {
             background: var(--card-bg); border-radius: 28px; margin-bottom: 20px;
             padding: 30px; border: 1px solid var(--border);
             transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .entry.sponsored { border: 1px solid var(--gold); box-shadow: 0 0 30px rgba(179, 147, 89, 0.1); }
+        .entry.sponsored { border: 1px solid var(--gold); box-shadow: 0 0 30px var(--gold-glow); position: relative; }
+        .sponsored-tag { position: absolute; top: -12px; left: 30px; background: var(--gold); color: #000; font-size: 0.55rem; font-weight: 800; padding: 4px 12px; border-radius: 4px; text-transform: uppercase; letter-spacing: 1px; }
 
         .header-flex { display: flex; justify-content: space-between; align-items: flex-start; }
         .d-name { font-family: 'Playfair Display', serif; font-size: 1.5rem; }
         .score-val { color: var(--gold); font-size: 1.2rem; font-weight: 600; text-align: right; }
+        .score-label { font-size: 0.5rem; color: var(--text-dim); text-transform: uppercase; display: block; }
 
-        /* Refined Features (Facility Tags) */
         .tag-row { display: flex; gap: 8px; margin: 15px 0 25px; flex-wrap: wrap; }
         .tag { font-size: 0.6rem; color: var(--text-dim); background: rgba(255,255,255,0.03); padding: 5px 12px; border-radius: 10px; border: 1px solid var(--border); text-transform: uppercase; }
 
@@ -47,8 +48,9 @@
         .price-val span { color: var(--gold); margin-right: 2px; }
 
         .btn-lock { background: var(--gold); color: #000; padding: 12px 24px; border-radius: 14px; border: none; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; cursor: pointer; }
+        .btn-details { background: transparent; color: var(--white); border: 1px solid var(--border); padding: 12px 24px; border-radius: 14px; font-size: 0.7rem; text-transform: uppercase; cursor: pointer; }
 
-        /* The Glass Configurator (Sort + Filters) */
+        /* Unified Glass Configurator Overlay */
         .glass-overlay {
             position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(15px);
             z-index: 2000; display: none; align-items: flex-end;
@@ -57,15 +59,17 @@
         .config-card {
             background: rgba(28, 31, 34, 0.95); border-top: 1px solid var(--gold);
             width: 100%; border-radius: 40px 40px 0 0; padding: 40px 24px;
+            animation: slideUp 0.4s ease;
         }
+        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
 
         .filter-group { margin-bottom: 25px; }
         .group-label { font-size: 0.65rem; color: var(--gold); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; display: block; }
         .pill-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
         .pill { background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 15px; border-radius: 18px; font-size: 0.75rem; text-align: center; cursor: pointer; color: var(--text-dim); }
-        .pill.active { border-color: var(--gold); color: var(--gold); background: rgba(179, 147, 89, 0.1); }
+        .pill.active { border-color: var(--gold); color: var(--gold); background: var(--gold-glow); }
 
-        /* The Quote Machine (Floating Pill) */
+        /* Quote Machine Floating Pill */
         .quote-machine {
             position: fixed; bottom: 35px; left: 50%; transform: translateX(-50%);
             background: var(--card-bg); border: 1px solid var(--gold); padding: 14px 28px;
@@ -78,15 +82,15 @@
 
     <nav>
         <a href="index.html" class="logo">Funeral<span>Match</span></a>
-        <button style="background:none; border:1px solid var(--gold); color:var(--gold); padding:8px 16px; border-radius:20px; font-size:0.6rem; cursor:pointer;" onclick="toggleConfig()">Refine Selection</button>
+        <button class="btn-lock" style="padding: 8px 16px; font-size: 0.6rem;" onclick="toggleConfig()">Refine Selection</button>
     </nav>
 
     <div class="container" id="resultsList"></div>
 
     <div class="quote-machine">
-        <span style="font-size: 0.6rem; text-transform: uppercase; letter-spacing: 1.5px;">Live Automated Quote</span>
+        <span style="font-size: 0.6rem; text-transform: uppercase; letter-spacing: 1.5px;">Live Quote Benchmarking</span>
         <div style="width: 1px; height: 15px; background: var(--border);"></div>
-        <span id="globalPrice" class="pill-price">£0</span>
+        <span id="globalPrice" class="pill-price">£3,450</span>
     </div>
 
     <div class="glass-overlay" id="configOverlay">
@@ -99,21 +103,21 @@
                 </div>
             </div>
             <div class="filter-group">
-                <span class="group-label">Refined Features (Add-ons)</span>
+                <span class="group-label">Add Essential Services</span>
                 <div class="pill-grid">
                     <div class="pill" onclick="toggleAddon('limo', 450, this)">+ Limousine</div>
                     <div class="pill" onclick="toggleAddon('celebrant', 250, this)">+ Celebrant</div>
                 </div>
             </div>
-            <button class="btn-lock" style="width:100%; padding:20px;" onclick="toggleConfig()">Update Results</button>
+            <button class="btn-lock" style="width:100%; padding:20px; border-radius: 20px;" onclick="toggleConfig()">Apply Changes</button>
         </div>
     </div>
 
     <script>
         const directors = [
-            { id: 1, name: "Belgrave & Beaumont", base: 3450, score: 99, sponsored: true, tags: ['Private Mortuary', 'Mercedes Fleet'] },
+            { id: 1, name: "Belgrave & Beaumont", base: 3450, score: 99, sponsored: true, tags: ['Private Mortuary', 'Mercedes Fleet', 'Chapel of Rest'] },
             { id: 2, name: "Westminster Partners", base: 2800, score: 96, sponsored: false, tags: ['Family Led', 'Local Chapel'] },
-            { id: 3, name: "St. James Care", base: 2650, score: 91, sponsored: false, tags: ['Vetted Provider'] }
+            { id: 3, name: "St. James Independent", base: 2650, score: 91, sponsored: false, tags: ['Vetted Provider', 'Rapid Response'] }
         ];
 
         let addons = 0;
@@ -138,6 +142,7 @@
             const list = document.getElementById('resultsList');
             const sorted = [...directors].sort((a,b) => {
                 if(a.sponsored) return -1;
+                if(b.sponsored) return 1;
                 return activeSort === 'price' ? (a.base - b.base) : (b.score - a.score);
             });
 
@@ -146,14 +151,15 @@
                 const total = d.base + addons;
                 list.innerHTML += `
                     <div class="entry ${d.sponsored ? 'sponsored' : ''}">
+                        ${d.sponsored ? '<span class="sponsored-tag">Premier Partner</span>' : ''}
                         <div class="header-flex">
                             <h2 class="d-name">${d.name}</h2>
-                            <div class="score-pill"><span class="score-val">${d.score}</span></div>
+                            <div><span class="score-val">${d.score}</span><span class="score-label">Score</span></div>
                         </div>
                         <div class="tag-row">${d.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
                         <div class="card-footer">
                             <div class="price-val"><span>£</span>${total.toLocaleString()}</div>
-                            <button class="btn-lock">Lock Price</button>
+                            <button class="${d.sponsored ? 'btn-lock' : 'btn-details'}">${d.sponsored ? 'Lock Price' : 'Details'}</button>
                         </div>
                     </div>`;
             });
