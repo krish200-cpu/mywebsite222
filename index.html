@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Funeral Match | Find Support</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Funeral Match | Compassionate Comparison</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary: #1a1c1e;
-            --accent: #c5a059;
+            --accent: #b39359; /* Muted professional gold */
             --text-soft: #64748b;
-            --bg: #ffffff;
-            --dynamic-padding: clamp(1.5rem, 5vw, 4rem);
+            --bg: #fcfaf7; /* Warm white/alabaster */
+            --dynamic-padding: clamp(1.5rem, 6vw, 5rem);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -21,247 +21,274 @@
             color: var(--primary);
             font-family: 'Inter', sans-serif;
             -webkit-font-smoothing: antialiased;
+            line-height: 1.6;
         }
 
-        .viewport-wrapper {
+        /* --- SUBTLE BACKGROUND DESIGN --- */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: radial-gradient(circle at 90% 10%, rgba(179, 147, 89, 0.03) 0%, transparent 40%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .wrapper {
             display: flex;
             flex-direction: column;
             min-height: 100vh;
-            min-height: 100dvh;
             padding: var(--dynamic-padding);
-            max-width: 1300px;
+            max-width: 1400px;
             margin: 0 auto;
         }
 
-        /* --- STACKED BRANDING & REFINED LOGIN --- */
+        /* --- REFINED HEADER --- */
         header {
             display: flex;
             justify-content: space-between;
-            align-items: center; 
-            margin-bottom: clamp(3rem, 10vh, 6rem);
+            align-items: center;
+            margin-bottom: 8vh;
         }
 
-        .brand-stack {
+        .brand-logo {
             display: flex;
             flex-direction: column;
-            line-height: 0.8;
-            text-transform: uppercase;
+            text-decoration: none;
         }
 
-        .brand-top {
-            font-size: 0.7rem;
-            font-weight: 500;
-            color: var(--text-soft);
-            letter-spacing: 4px;
-            margin-bottom: 6px;
-        }
-
-        .brand-bottom {
-            font-size: 1.4rem;
-            font-weight: 700;
-            color: var(--primary);
-            letter-spacing: 6px;
-        }
-
-        /* Refined Login Button */
-        .login-btn {
-            background: var(--primary);
-            color: var(--accent);
+        .brand-funeral {
             font-size: 0.65rem;
-            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            color: var(--text-soft);
+            margin-bottom: 2px;
+            font-weight: 500;
+        }
+
+        .brand-match {
+            font-size: 1.3rem;
+            text-transform: uppercase;
+            letter-spacing: 7px;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .brand-match span {
+            color: var(--accent); /* Subtle color in the logo */
+        }
+
+        .director-login {
+            font-size: 0.65rem;
+            font-weight: 600;
+            color: var(--text-soft);
             text-decoration: none;
             text-transform: uppercase;
-            letter-spacing: 1.2px;
-            padding: 10px 18px;
-            border-radius: 4px;
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            letter-spacing: 1.5px;
+            padding: 8px 16px;
+            border: 1px solid rgba(0,0,0,0.05);
+            border-radius: 2px;
+            transition: all 0.4s ease;
         }
 
-        .login-btn:hover {
-            transform: translateY(-1px);
-            background: #000;
-            box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+        .director-login:hover {
+            color: var(--primary);
+            border-color: var(--accent);
+            background: #fff;
         }
 
-        /* --- HERO CONTENT --- */
+        /* --- MAIN SECTION --- */
         main {
             flex: 1;
             display: flex;
             flex-direction: column;
             justify-content: center;
+            max-width: 850px;
         }
 
-        .content-group {
-            max-width: 800px;
+        .tagline {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            color: var(--accent);
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            display: block;
         }
 
         h1 {
-            font-size: clamp(2.6rem, 8vw, 4.5rem);
+            font-size: clamp(2.8rem, 8vw, 4.8rem);
             font-weight: 600;
             letter-spacing: -0.05em;
-            line-height: 0.95;
-            margin-bottom: 1.5rem;
-            color: #111;
+            line-height: 0.9;
+            margin-bottom: 2rem;
+            color: var(--primary);
         }
 
-        .description {
-            font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+        .intro {
+            font-size: clamp(1.1rem, 2.2vw, 1.4rem);
             color: var(--text-soft);
-            line-height: 1.6;
-            margin-bottom: 3.5rem;
             font-weight: 300;
-            max-width: 620px;
+            margin-bottom: 4rem;
+            max-width: 600px;
         }
 
-        /* --- SEARCH INTERFACE --- */
-        .search-wrap {
+        /* --- SEARCH & LOCATION --- */
+        .search-container {
             width: 100%;
             max-width: 600px;
         }
 
-        .form-hint {
-            font-size: 0.75rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: var(--accent);
-            margin-bottom: 15px;
-            display: block;
-        }
-
-        .input-group {
+        .input-row {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 15px;
+            margin-bottom: 20px;
         }
 
         input {
             width: 100%;
-            height: 72px;
-            border: 1px solid #e5e7eb;
-            border-radius: 12px;
-            padding: 0 28px;
-            font-size: 1.15rem;
-            outline: none;
+            height: 70px;
+            border: 1px solid #e2ded0;
             background: #fff;
-            transition: all 0.4s ease;
-        }
-
-        input:focus {
-            border-color: var(--accent);
-            box-shadow: 0 10px 25px rgba(197, 160, 89, 0.05);
-        }
-
-        button.search-btn {
-            width: 100%;
-            height: 72px;
-            background: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 12px;
+            padding: 0 25px;
             font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
+            outline: none;
+            transition: border 0.3s;
         }
 
-        button.search-btn:hover {
-            background: #000;
-        }
+        input:focus { border-color: var(--accent); }
 
-        /* --- TRUST PILLARS --- */
-        .trust-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 3rem;
-            margin-top: 6rem;
-            padding-top: 3rem;
-            border-top: 1px solid #f3f4f6;
-        }
-
-        .trust-card h3 {
-            font-size: 0.8rem;
-            color: var(--accent);
+        .search-btn {
+            width: 100%;
+            height: 70px;
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 2px;
-            margin-bottom: 12px;
+            cursor: pointer;
+            transition: 0.3s;
         }
 
-        .trust-card p {
-            font-size: 0.95rem;
+        .search-btn:hover { background: #000; letter-spacing: 3px; }
+
+        .location-trigger {
+            background: none;
+            border: none;
+            color: var(--accent);
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 5px 0;
+        }
+
+        /* --- FOOTER / LINKS --- */
+        footer {
+            margin-top: 10vh;
+            padding-top: 40px;
+            border-top: 1px solid rgba(0,0,0,0.05);
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: flex-end;
+            gap: 30px;
+        }
+
+        .footer-nav {
+            display: flex;
+            gap: 30px;
+        }
+
+        .footer-nav a {
+            text-decoration: none;
             color: var(--text-soft);
-            line-height: 1.5;
-            font-weight: 400;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
-        /* --- DEVICE SPECIFIC AUTOMATION --- */
-        @media (min-width: 850px) {
-            .input-group {
-                flex-direction: row;
-                gap: 12px;
-            }
-            input { width: 65%; }
-            button.search-btn { width: 35%; }
+        .footer-nav a:hover { color: var(--accent); }
+
+        .copy { font-size: 0.7rem; color: #cbd5e1; }
+
+        /* DESKTOP TWEAKS */
+        @media (min-width: 800px) {
+            .input-row { flex-direction: row; gap: 0; border: 1px solid #e2ded0; background: #fff; padding: 5px; }
+            input { border: none; }
+            .search-btn { width: 220px; height: 60px; }
         }
     </style>
 </head>
 <body>
 
-    <div class="viewport-wrapper">
+    <div class="wrapper">
         <header>
-            <div class="brand-stack">
-                <span class="brand-top">Funeral</span>
-                <span class="brand-bottom">Match</span>
-            </div>
-            <a href="#" class="login-btn">Director Login</a>
+            <a href="/" class="brand-logo">
+                <span class="brand-funeral">Funeral</span>
+                <span class="brand-match">Mat<span>c</span>h</span>
+            </a>
+            <a href="#" class="director-login">Director Login</a>
         </header>
 
         <main>
-            <div class="content-group">
-                <h1>Gentle guidance <br>when it matters.</h1>
-                <p class="description">
-                    We help you navigate a difficult time with clarity. Compare verified local funeral directors based on service and transparent pricing.
-                </p>
+            <span class="tagline">Providing clarity in quiet moments</span>
+            <h1>A simpler way <br>to find care.</h1>
+            <p class="intro">
+                Compare local funeral directors with total price transparency and verified service standards.
+            </p>
 
-                <div class="search-wrap">
-                    <span class="form-hint">Find local care</span>
-                    <form id="mainAction" class="input-group">
-                        <input 
-                            type="text" 
-                            id="pc" 
-                            placeholder="Enter postcode" 
-                            required 
-                            autocomplete="off"
-                        >
-                        <button type="submit" class="search-btn">See options</button>
-                    </form>
-                </div>
-            </div>
-
-            <div class="trust-grid">
-                <div class="trust-card">
-                    <h3>Transparent</h3>
-                    <p>Verified pricing data with no hidden service or administration fees.</p>
-                </div>
-                <div class="trust-card">
-                    <h3>Verified</h3>
-                    <p>Every provider is independently vetted for quality of care and service.</p>
-                </div>
-                <div class="trust-card">
-                    <h3>Compassionate</h3>
-                    <p>Our tools are designed to provide neutral, pressure-free support.</p>
-                </div>
+            <div class="search-container">
+                <form id="searchForm" class="input-row">
+                    <input type="text" id="postcode" placeholder="Enter your postcode" required autocomplete="off">
+                    <button type="submit" class="search-btn">Find Support</button>
+                </form>
+                
+                <button type="button" class="location-trigger" onclick="getLocation()">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+                    Use my current location
+                </button>
             </div>
         </main>
+
+        <footer>
+            <nav class="footer-nav">
+                <a href="#">About Us</a>
+                <a href="#">Our Process</a>
+                <a href="#">Transparency Report</a>
+                <a href="#">Contact</a>
+            </nav>
+            <span class="copy">© 2026 Funeral Match. All rights reserved.</span>
+        </footer>
     </div>
 
     <script>
-        document.getElementById('mainAction').addEventListener('submit', function(e) {
+        document.getElementById('searchForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            const val = document.getElementById('pc').value.trim();
+            const val = document.getElementById('postcode').value.trim();
             window.location.href = `search-results.html?postcode=${encodeURIComponent(val)}`;
         });
+
+        function getLocation() {
+            if (navigator.geolocation) {
+                const btn = document.querySelector('.location-trigger');
+                btn.innerText = "Finding you...";
+                navigator.geolocation.getCurrentPosition((pos) => {
+                    // In a real app, you would reverse-geocode this. 
+                    // For now, we simulate a found location.
+                    document.getElementById('postcode').value = "Detected Location";
+                    btn.innerText = "Location Found";
+                }, () => {
+                    btn.innerText = "Location access denied";
+                });
+            }
+        }
     </script>
 </body>
 </html>
