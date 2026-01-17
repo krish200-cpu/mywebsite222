@@ -9,27 +9,27 @@
         :root { --deep-slate: #121416; --gold: #B39359; --white: #F4F4F4; }
         body { background: var(--deep-slate); color: var(--white); font-family: 'Inter', sans-serif; margin: 0; }
         .hero { height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; text-align: center; }
-        h1 { font-family: 'Playfair Display', serif; font-size: 2.5rem; color: var(--gold); }
-        .callback-card { background: #1C1F22; padding: 30px; border-radius: 24px; border: 1px solid rgba(179,147,89,0.3); width: 100%; max-width: 400px; }
-        input { width: 100%; padding: 15px; margin: 15px 0; border-radius: 12px; border: 1px solid #333; background: #000; color: white; box-sizing: border-box; }
-        .btn-call { background: var(--gold); color: #000; width: 100%; padding: 15px; border-radius: 12px; border: none; font-weight: 700; cursor: pointer; }
-        .btn-outline { background: transparent; color: var(--gold); border: 1px solid var(--gold); margin-top: 20px; padding: 15px; width: 100%; border-radius: 12px; text-decoration: none; display: inline-block; box-sizing: border-box; }
+        h1 { font-family: 'Playfair Display', serif; font-size: 3rem; color: var(--gold); margin-bottom: 10px; }
+        .callback-card { background: #1C1F22; padding: 30px; border-radius: 24px; border: 1px solid rgba(179,147,89,0.3); width: 100%; max-width: 400px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+        input { width: 100%; padding: 18px; margin: 15px 0; border-radius: 12px; border: 1px solid #333; background: #000; color: white; box-sizing: border-box; font-size: 1rem; }
+        .btn-call { background: var(--gold); color: #000; width: 100%; padding: 18px; border-radius: 12px; border: none; font-weight: 700; cursor: pointer; font-size: 1rem; }
+        .btn-outline { background: transparent; color: var(--gold); border: 1px solid var(--gold); margin-top: 20px; padding: 15px; width: 100%; border-radius: 12px; text-decoration: none; display: inline-block; box-sizing: border-box; font-weight: 600; }
         .pulse { width: 10px; height: 10px; background: var(--gold); border-radius: 50%; display: inline-block; margin-right: 8px; box-shadow: 0 0 10px var(--gold); animation: p 2s infinite; }
-        @keyframes p { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
+        @keyframes p { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.3; transform: scale(1.2); } }
     </style>
 </head>
 <body>
     <div class="hero">
         <h1>Bespoke Care</h1>
         <div class="callback-card">
-            <div style="font-size: 0.8rem; text-transform: uppercase; color: var(--gold);"><span class="pulse"></span>Instant Callback</div>
-            <p style="color: #8A8F98; font-size: 0.9rem;">Dealing with a bereavement? We will call you in under 15 minutes.</p>
-            <form onsubmit="alert('Director Notified. Stand by.'); return false;">
-                <input type="tel" placeholder="Your Phone Number" required>
+            <div style="font-size: 0.7rem; text-transform: uppercase; color: var(--gold); letter-spacing: 2px;"><span class="pulse"></span>Instant Callback</div>
+            <p style="color: #8A8F98; font-size: 0.95rem; margin-top: 10px;">Dealing with a bereavement? Our senior care team will call you back immediately.</p>
+            <form onsubmit="alert('Director Notified. Your priority callback is being routed now.'); return false;">
+                <input type="tel" placeholder="Enter your phone number" required>
                 <button class="btn-call">Request Priority Call</button>
             </form>
         </div>
-        <a href="arrange.html" class="btn-outline">Plan an Arrangement</a>
+        <a href="arrange.html" class="btn-outline">Plan a Full Arrangement Online →</a>
     </div>
 </body>
 </html>
