@@ -2,65 +2,310 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Funeral Match | Welcome</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        :root { --primary: #0a1118; --gold: #c5a059; --bg: #ffffff; --slate: #64748b; }
-        * { box-sizing: border-box; font-family: 'Inter', -apple-system, sans-serif; }
-        body { margin: 0; height: 100vh; display: flex; align-items: center; justify-content: center; background: var(--bg); }
-
-        .welcome-card { max-width: 480px; width: 90%; text-align: center; animation: fadeIn 1s ease; }
-        .logo { font-weight: 900; color: var(--gold); letter-spacing: 2px; margin-bottom: 30px; text-transform: uppercase; font-size: 1rem; }
-        h1 { font-size: 3rem; letter-spacing: -2.5px; margin: 0 0 20px 0; line-height: 1; }
-        p { color: var(--slate); font-size: 1.1rem; line-height: 1.6; margin-bottom: 40px; }
-
-        .gate-form {
-            background: #f8fafc; border: 1px solid #e2e8f0; padding: 10px; border-radius: 100px;
-            display: flex; box-shadow: 0 15px 30px rgba(0,0,0,0.05);
+        /* --- CSS STYLES --- */
+        :root {
+            --primary: #0a1118;
+            --accent: #c5a059;
+            --text-main: #1d1d1f;
+            --text-secondary: #6e6e73;
+            --bg-gradient: radial-gradient(circle at 50% -20%, #ffffff 0%, #f5f5f7 100%);
+            --input-bg: rgba(255, 255, 255, 0.8);
+            --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .gate-form input {
-            flex: 1; border: none; background: none; padding: 15px 25px; font-size: 1rem; 
-            font-weight: 600; outline: none; text-transform: uppercase;
-        }
-        .btn-begin {
-            background: var(--primary); color: white; border: none; padding: 15px 35px;
-            border-radius: 100px; font-weight: 700; cursor: pointer; transition: 0.3s;
-        }
-        .btn-begin:hover { background: var(--gold); transform: scale(1.02); }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
-        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            overflow: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Hero Section Container */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            text-align: center;
+        }
+
+        /* Branding */
+        .brand {
+            position: absolute;
+            top: 40px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            color: var(--accent);
+            animation: fadeInDown 1s ease forwards;
+        }
+
+        /* Typography */
+        .content-wrap {
+            max-width: 600px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s ease forwards 0.2s;
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 8vw, 4rem);
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: clamp(1.1rem, 3vw, 1.25rem);
+            color: var(--text-secondary);
+            line-height: 1.5;
+            margin-bottom: 40px;
+            font-weight: 400;
+        }
+
+        /* Form Styling */
+        .input-group {
+            position: relative;
+            background: var(--input-bg);
+            border: 1px solid rgba(0,0,0,0.1);
+            padding: 8px;
+            border-radius: 100px;
+            display: flex;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            transition: var(--transition-smooth);
+            max-width: 460px;
+            margin: 0 auto;
+        }
+
+        .input-group:focus-within {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+            border-color: var(--accent);
+            background: #fff;
+        }
+
+        input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            padding: 15px 25px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            outline: none;
+            color: var(--text-main);
+            width: 100%;
+        }
+
+        input::placeholder {
+            color: #a1a1a6;
+            text-transform: none;
+        }
+
+        /* Auto-capitalize postcode while typing */
+        input#postcode {
+            text-transform: uppercase;
+        }
+
+        .btn-submit {
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 100px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            white-space: nowrap;
+        }
+
+        .btn-submit:hover {
+            background: #000;
+            transform: scale(1.02);
+        }
+
+        .btn-submit:active {
+            transform: scale(0.98);
+        }
+
+        /* Loading & Success States */
+        .loader {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 0.8s linear infinite;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .error-shake {
+            animation: shake 0.4s ease;
+            border-color: #ff453a !important;
+        }
+
+        /* Mobile Optimization */
         @media (max-width: 480px) {
-            .gate-form { flex-direction: column; background: none; border: none; box-shadow: none; padding: 0; }
-            .gate-form input { background: #f8fafc; border: 1px solid #eee; border-radius: 15px; margin-bottom: 10px; text-align: center; }
-            .btn-begin { border-radius: 15px; width: 100%; padding: 20px; }
+            .input-group {
+                flex-direction: column;
+                border-radius: 20px;
+                background: transparent;
+                box-shadow: none;
+                border: none;
+                padding: 0;
+            }
+
+            input {
+                background: #fff;
+                border: 1px solid rgba(0,0,0,0.1);
+                border-radius: 15px;
+                margin-bottom: 12px;
+                text-align: center;
+                padding: 20px;
+            }
+
+            .btn-submit {
+                width: 100%;
+                padding: 20px;
+                border-radius: 15px;
+            }
+
+            .brand { top: 30px; }
+        }
+
+        /* Transition Screen Overlay */
+        #overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            z-index: 9999;
+            transform: translateY(100%);
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        #overlay.active {
+            transform: translateY(0);
         }
     </style>
 </head>
 <body>
 
-<div class="welcome-card">
-    <div class="logo">Funeral Match</div>
-    <h1>Welcome.</h1>
-    <p>Find the right support with 100% verified price transparency. Enter your postcode to begin.</p>
-    
-    <div class="gate-form">
-        <input type="text" id="pc" placeholder="E.G. SS17" maxlength="8">
-        <button class="btn-begin" onclick="navigateToResults()">Begin</button>
-    </div>
-</div>
+    <div id="overlay"></div>
 
-<script>
-    function navigateToResults() {
-        const postcode = document.getElementById('pc').value.trim();
-        if (postcode.length < 3) {
-            alert("Please enter a valid postcode.");
-            return;
-        }
-        // REAL WORLD PROGRESS: Navigates to a physical separate file with data in the URL
-        window.location.href = `results.html?postcode=${encodeURIComponent(postcode)}`;
-    }
-</script>
+    <section class="hero">
+        <div class="brand">Funeral Match</div>
 
+        <div class="content-wrap">
+            <h1>Support for the <br>next steps.</h1>
+            <p>We help you find and compare local directors with total price transparency. Start by seeing who is near you.</p>
+
+            <form id="postcodeForm" class="input-group">
+                <input 
+                    type="text" 
+                    id="postcode" 
+                    placeholder="Enter postcode (e.g. SS17)" 
+                    maxlength="8" 
+                    autocomplete="postal-code"
+                    required
+                >
+                <button type="submit" class="btn-submit">
+                    <span class="btn-text">Begin search</span>
+                    <div class="loader" id="loader"></div>
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <script>
+        document.getElementById('postcodeForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const input = document.getElementById('postcode');
+            const group = document.querySelector('.input-group');
+            const btnText = document.querySelector('.btn-text');
+            const loader = document.getElementById('loader');
+            const overlay = document.getElementById('overlay');
+            
+            // Basic UK Postcode regex for validation
+            const postcodeRegex = /^[A-Z]{1,2}[0-9][A-Z0-9]? ?[0-9][A-Z]{2}$/i;
+            const value = input.value.trim();
+
+            if (!postcodeRegex.test(value)) {
+                // Shake interaction for invalid input
+                group.classList.add('error-shake');
+                setTimeout(() => group.classList.remove('error-shake'), 400);
+                return;
+            }
+
+            // --- SUCCESS STATE / TRANSITION ---
+            
+            // 1. Loading micro-interaction
+            btnText.style.display = 'none';
+            loader.style.display = 'block';
+            input.disabled = true;
+
+            // 2. Simulate API check / Local storage save
+            // Here you would normally fetch(api_url)
+            localStorage.setItem('userPostcode', value.toUpperCase());
+
+            setTimeout(() => {
+                // 3. Smooth page transition
+                overlay.classList.add('active');
+                
+                // 4. Redirect after animation
+                setTimeout(() => {
+                    window.location.href = 'results.html'; 
+                }, 600);
+            }, 1000);
+        });
+
+        // Focus interaction: Clear error if user starts typing again
+        document.getElementById('postcode').addEventListener('input', function() {
+            document.querySelector('.input-group').classList.remove('error-shake');
+        });
+    </script>
 </body>
 </html>
