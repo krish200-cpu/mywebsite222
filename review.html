@@ -1,48 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Final Review</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        body { background: #121416; color: #F4F4F4; font-family: 'Inter', sans-serif; padding: 40px 20px; }
-        .card { background: #1C1F22; padding: 30px; border-radius: 24px; border: 1px solid rgba(255,255,255,0.08); max-width: 500px; margin: 0 auto; }
-        .row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.9rem; }
-        .gold { color: #B39359; }
-        .btn { width: 100%; padding: 18px; border-radius: 12px; border: none; font-weight: 700; margin-top: 20px; cursor: pointer; }
+        body { background: #121416; color: #F4F4F4; font-family: sans-serif; padding: 40px 20px; }
+        .card { background: #1C1F22; padding: 30px; border-radius: 20px; max-width: 500px; margin: 0 auto; }
+        .line { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #333; }
+        .btn { width: 100%; padding: 15px; background: #B39359; color: #000; border: none; font-weight: 700; margin-top: 20px; border-radius: 8px; cursor: pointer; }
     </style>
 </head>
 <body>
     <div class="card">
-        <h1 style="font-family:'Playfair Display'; text-align:center">Your Arrangement</h1>
+        <h2>Your Arrangement Manifest</h2>
         <div id="list"></div>
-        <div style="text-align:center; margin-top:30px;">
-            <div style="font-size:0.7rem; letter-spacing:2px; color:#B39359">TOTAL ESTIMATE</div>
-            <div id="total" style="font-size:2.5rem; font-family:'Playfair Display'">£0</div>
-        </div>
-        <button class="btn" style="background:#B39359; color:#000" onclick="window.location.href='success.html'">CONFIRM & SEND</button>
-        <button class="btn" style="background:transparent; color:#fff; border:1px solid #333" onclick="window.print()">PRINT/PDF</button>
+        <div id="total" style="font-size: 2rem; color: #B39359; text-align: center; margin-top: 20px;"></div>
+        <button class="btn" onclick="window.location.href='success.html'">Confirm & Finalise</button>
     </div>
-
     <script>
         const d = JSON.parse(localStorage.getItem('f_data'));
-        if(d) {
-            let t = d.base, h = `<div class="row"><span>Base Director Fee</span><span>£${t}</span></div>`;
-            Object.keys(d.choices).forEach(k => {
-                const s = d.choices[k];
-                if(Array.isArray(s)) s.forEach(v=>{ h+=`<div class="row"><span>${v.n}</span><span>+£${v.p}</span></div>`; t+=v.p; });
-                else {
-                    let p = s.p > 0 ? '+£'+s.p : 'Incl.';
-                    if(s.b) p = "POA";
-                    h += `<div class="row"><span>${s.b ? 'Request: '+(s.req||'Custom') : s.n}</span><span>${p}</span></div>`;
-                    t += (s.p||0);
-                    if(s.l > 0) { h+=`<div class="row"><span>${s.l} Limousines</span><span>+£${s.l*250}</span></div>`; t+=(s.l*250); }
-                }
-            });
-            document.getElementById('list').innerHTML = h;
-            document.getElementById('total').innerText = '£'+t.toLocaleString();
-        }
+        let t = d.base, h = `<div class="line"><span>Director Fee</span><span>£${t}</span></div>`;
+        Object.keys(d.choices).forEach(k => {
+            const s = d.choices[k];
+            if(Array.isArray(s)) s.forEach(v => { h += `<div class="line"><span>${v.n}</span><span>+£${v.p}</span></div>`; t += v.p; });
+            else { h += `<div class="line"><span>${s.n}</span><span>${s.p>0?'+£'+s.p:'Incl.'}</span></div>`; t += s.p; }
+        });
+        document.getElementById('list').innerHTML = h;
+        document.getElementById('total').innerText = '£'+t.toLocaleString();
     </script>
 </body>
 </html>
