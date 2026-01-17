@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Review Arrangement | Funeral Match</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root { 
+            --deep-slate: #121416; --card-bg: #1C1F22; --gold: #B39359; 
+            --white: #F4F4F4; --text-dim: #8A8F98; --border: rgba(255, 255, 255, 0.08);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background-color: var(--deep-slate); color: var(--white); padding: 40px 20px; }
+
+        .container { max-width: 600px; margin: 0 auto; }
+        h1 { font-family: 'Playfair Display', serif; font-size: 2rem; margin-bottom: 30px; text-align: center; }
+        
+        .manifest-card { background: var(--card-bg); border-radius: 24px; padding: 30px; border: 1px solid var(--border); margin-bottom: 30px; }
+        .item-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+        .item-row:last-child { border-bottom: none; }
+        .item-label { color: var(--text-dim); }
+        .item-val { font-weight: 500; text-align: right; max-width: 60% }
+
+        .total-section { text-align: center; margin: 40px 0; }
+        .total-label { text-transform: uppercase; letter-spacing: 2px; font-size: 0.7rem; color: var(--gold); }
+        .grand-total { font-family: 'Playfair Display', serif; font-size: 3rem; margin-top: 5px; }
+
+        .action-btns { display: grid; grid-template-columns: 1fr; gap: 15px; }
+        .btn-confirm { background: var(--gold); color: #000; padding: 20px; border-radius: 16px; border: none; font-weight: 700; text-transform: uppercase; cursor: pointer; font-size: 0.9rem; }
+        .btn-print { background: transparent; color: var(--white); border: 1px solid var(--border); padding: 15px; border-radius: 16px; cursor: pointer; font-size: 0.8rem; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Review Your Arrangement</h1>
+    
+    <div id="manifestList" class="manifest-card">
+        </div>
+
+    <div class="total-section">
+        <div class="total-label">Estimated Arrangement Total</div>
+        <div class="grand-total" id="finalPrice">£0</div>
+        <p style="font-size: 0.7rem; color: var(--text-dim); margin-top: 10px;">*Final price subject to bespoke vehicle quotes and local disbursements.</p>
+    </div>
+
+    <div class="action-btns">
+        <button class="btn-confirm" onclick="submitArrangement()">Confirm & Send to Director</button>
+        <button class="btn-print" onclick="window.print()">Download PDF Manifest</button>
+        <a href="arrange.html" style="color: var(--text-dim); text-align: center; display: block; margin-top: 15px; font-size: 0.8rem; text-decoration: none;">← Edit Arrangement</a>
+    </div>
+</div>
+
+<script>
+    // In a real app, we would pull this from localStorage or a Database
+    // For this demo, let's assume the data was saved at the end of Step 10
+    const summaryData = JSON.parse(localStorage.getItem('funeralArrangement')) || {};
+    
+    function renderManifest() {
+        const list = document.getElementById('manifestList');
+        let html = '';
+        let total = summaryData.basePrice || 2500;
+
+        // Iterate through the 10 steps stored in summaryData
+        Object.keys(summaryData.steps).forEach(stepNum => {
+            const step = summaryData.steps[stepNum];
+            if (Array.isArray(step)) {
+                step.forEach(item => {
+                    html += `<div class="item-row"><span class="item-label">${item.name}</span><span class="item-val">£${item.price}</span></div>`;
+                    total += item.price;
+                });
+            } else if (step) {
+                let priceDisplay = step.price > 0 ? `£${step.price}` : 'Incl.';
+                if (step.bespoke) priceDisplay = "POA";
+                
+                html += `<div class="item-row">
+                    <span class="item-label">Step ${stepNum}: ${step.name}</span>
+                    <span class="item-val">${priceDisplay} ${step.limos ? '(+' + step.limos + ' Limos)' : ''}</span>
+                </div>`;
+                
+                total += (step.price || 0);
+                if (step.limos) total += (step.limos * 250);
+            }
+        });
+
+        list.innerHTML = html;
+        document.getElementById('finalPrice').innerText = `£${total.toLocaleString()}`;
+    }
+
+    function submitArrangement() {
+        alert("Your bespoke arrangement has been sent to the Funeral Director. They will contact you within 2 hours with a finalized quote.");
+        window.location.href = 'success.html';
+    }
+
+    // Initialize
+    renderManifest();
+</script>
+</body>
+</html>
