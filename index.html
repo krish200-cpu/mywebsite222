@@ -1,106 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Funeral Match | Welcome</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <title>Funeral Match | Stable Home</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        :root { --primary: #0a1118; --accent: #c5a059; --slate: #64748b; --bg: #ffffff; }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-        
+        :root { --primary: #0a1118; --accent: #c5a059; --slate: #64748b; }
         body { 
-            background: var(--bg);
-            color: var(--primary);
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            margin: 0; padding: 0; font-family: 'Inter', sans-serif; 
+            height: 100vh; display: flex; align-items: center; justify-content: center;
+            background: #ffffff;
         }
-
-        .hero { 
-            max-width: 600px; 
-            width: 90%; 
-            text-align: center; 
+        .container { text-align: center; max-width: 500px; width: 90%; }
+        h1 { font-size: 3rem; margin-bottom: 10px; letter-spacing: -2px; }
+        p { color: var(--slate); margin-bottom: 30px; font-size: 1.1rem; }
+        
+        .input-box {
+            background: #f1f5f9; border-radius: 100px; padding: 10px;
+            display: flex; border: 1px solid #e2e8f0;
         }
-
-        .brand { 
-            font-weight: 700; 
-            font-size: 0.8rem; 
-            letter-spacing: 3px; 
-            color: var(--accent); 
-            text-transform: uppercase; 
-            margin-bottom: 40px; 
-        }
-
-        h1 { font-size: clamp(2.5rem, 8vw, 3.5rem); letter-spacing: -0.04em; line-height: 1.1; margin-bottom: 24px; }
-        p { color: var(--slate); font-size: 1.2rem; line-height: 1.6; margin-bottom: 40px; }
-
-        .gate {
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-            padding: 10px;
-            border-radius: 100px;
-            display: flex;
-            max-width: 480px;
-            margin: 0 auto;
-        }
-
-        input {
-            flex: 1;
-            border: none;
-            background: none;
-            padding: 0 25px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            outline: none;
-            text-transform: uppercase;
-        }
-
-        button {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 16px 35px;
-            border-radius: 100px;
-            font-weight: 700;
-            cursor: pointer;
-        }
-
-        @media (max-width: 500px) {
-            .gate { flex-direction: column; background: none; border: none; padding: 0; }
-            input { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 15px; height: 60px; margin-bottom: 10px; text-align: center; }
-            button { width: 100%; height: 60px; border-radius: 15px; }
-        }
+        input { flex: 1; border: none; background: none; padding: 0 20px; font-size: 1rem; outline: none; text-transform: uppercase; }
+        button { background: var(--primary); color: white; border: none; padding: 15px 30px; border-radius: 100px; font-weight: 700; cursor: pointer; }
     </style>
 </head>
 <body>
 
-    <div class="hero">
-        <div class="brand">Funeral Match</div>
-        <h1>Expert support, <br>locally found.</h1>
-        <p>Take a moment to compare local funeral directors with verified price transparency.</p>
+    <div class="container">
+        <div style="color:var(--accent); font-weight:700; letter-spacing:3px; margin-bottom:20px;">FUNERAL MATCH</div>
+        <h1>Welcome.</h1>
+        <p>This is your stable front page. We won't move until you are ready.</p>
 
-        <form id="entryForm" class="gate">
-            <input type="text" id="pc" placeholder="Enter postcode" required>
+        <form id="mainForm" class="input-box">
+            <input type="text" id="pc" placeholder="Enter Postcode" required>
             <button type="submit">Begin</button>
         </form>
     </div>
 
     <script>
-        // 1. CLEAR ANY OLD MEMORY IMMEDIATELY ON LOAD
-        localStorage.clear();
-        sessionStorage.clear();
-
-        // 2. NAVIGATION LOGIC (ONLY ON BUTTON CLICK)
-        document.getElementById('entryForm').addEventListener('submit', function(e) {
+        // FORCED STOP: This kills any previous redirect loops
+        window.stop(); 
+        
+        document.getElementById('mainForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            const postcode = document.getElementById('pc').value.trim();
-            
-            // We use a physical link to the second file
-            window.location.href = 'results.html?postcode=' + encodeURIComponent(postcode);
+            const val = document.getElementById('pc').value.trim();
+            // This is the ONLY place a redirect happens
+            window.location.href = "results.html?postcode=" + encodeURIComponent(val);
         });
     </script>
-
 </body>
 </html>
