@@ -3,179 +3,205 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Bespoke Search | Funeral Match</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <title>Personalised Quote Engine | Funeral Match</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         :root { 
-            --midnight: #101112; 
-            --stone: #1A1C1E; 
-            --gold: #B39359; 
-            --gold-muted: rgba(179, 147, 89, 0.15);
-            --white: #FFFFFF; 
-            --text-dim: #888C91;
-            --border: rgba(255,255,255,0.06);
+            --midnight: #0D0E0F; --stone: #16181A; --gold: #B39359; 
+            --white: #FFFFFF; --text-dim: #7A7E85; --border: rgba(255,255,255,0.05);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
         body { background-color: var(--midnight); color: var(--white); -webkit-font-smoothing: antialiased; }
 
-        /* Minimal Navigation */
-        nav {
-            padding: 30px 24px;
-            background: var(--midnight);
-            border-bottom: 1px solid var(--border);
-            display: flex; justify-content: space-between; align-items: center;
+        /* Fixed Automation Header */
+        .quote-monitor {
             position: sticky; top: 0; z-index: 100;
-        }
-        .logo { font-size: 0.8rem; font-weight: 700; letter-spacing: 6px; text-transform: uppercase; color: var(--white); text-decoration: none; }
-        .logo span { color: var(--gold); }
-
-        /* Filter Row */
-        .filter-row {
-            padding: 15px 24px;
-            background: var(--midnight);
+            background: rgba(13, 14, 15, 0.95); backdrop-filter: blur(15px);
             border-bottom: 1px solid var(--border);
-            display: flex; gap: 20px; overflow-x: auto;
-            scrollbar-width: none;
+            padding: 20px 24px; display: flex; justify-content: space-between; align-items: center;
         }
-        .filter-btn {
-            background: none; border: none; color: var(--text-dim);
-            font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1.5px;
-            white-space: nowrap; cursor: pointer; padding-bottom: 4px;
+        .current-req { font-size: 0.65rem; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); }
+        .current-val { font-size: 0.8rem; font-weight: 600; color: var(--white); }
+
+        /* Soft Luxury Controls */
+        .engine-controls { padding: 30px 24px 10px; display: flex; justify-content: space-between; align-items: center; }
+        .sort-pill { 
+            background: var(--stone); border: 1px solid var(--border); display: flex; border-radius: 4px; overflow: hidden;
         }
-        .filter-btn.active { color: var(--gold); border-bottom: 1px solid var(--gold); }
-
-        .container { max-width: 700px; margin: 0 auto; padding: 24px 20px; }
-
-        /* Sponsored Avenue Branding */
-        .sponsored-label { 
-            font-size: 0.6rem; letter-spacing: 2px; text-transform: uppercase; 
-            color: var(--gold); margin-bottom: 12px; display: block; 
-            font-weight: 600;
+        .sort-opt { 
+            padding: 10px 15px; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1px; 
+            cursor: pointer; transition: 0.3s; color: var(--text-dim);
         }
+        .sort-opt.active { background: var(--gold); color: #000; font-weight: 700; }
 
-        /* The Card Design - Soft Luxury */
+        .container { max-width: 700px; margin: 0 auto; padding: 20px; }
+
+        /* Results Card */
         .entry {
-            background: var(--stone);
-            margin-bottom: 30px;
-            padding: 30px;
-            border: 1px solid var(--border);
-            transition: border-color 0.4s ease;
+            background: var(--stone); margin-bottom: 20px; padding: 30px;
+            border: 1px solid var(--border); position: relative;
         }
-        .entry.sponsored { 
-            border: 1px solid var(--gold-muted);
-            background: linear-gradient(180deg, rgba(179, 147, 89, 0.05) 0%, var(--stone) 100%);
+        .entry.recommended { border: 1px solid rgba(179, 147, 89, 0.4); }
+        .rec-tag { 
+            position: absolute; top: -1px; right: 30px; background: var(--gold); color: #000; 
+            font-size: 0.6rem; font-weight: 800; padding: 4px 12px; text-transform: uppercase; letter-spacing: 1px;
         }
 
-        .entry-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; }
-        
-        .title-group h2 { 
-            font-family: 'Playfair Display', serif; font-weight: 400; font-size: 1.5rem; 
-            margin-bottom: 4px; letter-spacing: -0.01em; 
-        }
-        .distance { font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; }
+        .header-row { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; }
+        .d-name { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 400; }
+        .score-wrap { text-align: right; }
+        .score-val { font-size: 1.1rem; color: var(--gold); display: block; }
+        .score-lbl { font-size: 0.5rem; letter-spacing: 2px; color: var(--text-dim); text-transform: uppercase; }
 
-        /* Transparency Score Box */
-        .t-score { text-align: right; }
-        .t-score span { display: block; font-size: 1.2rem; font-weight: 400; color: var(--gold); }
-        .t-score label { font-size: 0.55rem; letter-spacing: 2px; color: var(--text-dim); }
+        .service-summary { font-size: 0.85rem; color: var(--text-dim); line-height: 1.6; margin-bottom: 25px; font-weight: 300; }
 
-        .service-summary { 
-            font-size: 0.85rem; color: var(--text-dim); line-height: 1.6; 
-            margin-bottom: 25px; padding-left: 15px; border-left: 1px solid var(--gold);
-        }
-
-        /* Pricing & Primary Action */
-        .entry-footer {
-            display: flex; justify-content: space-between; align-items: center;
+        .footer-row { 
+            display: flex; justify-content: space-between; align-items: center; 
             padding-top: 25px; border-top: 1px solid var(--border);
         }
-        .price-group p { font-size: 0.6rem; text-transform: uppercase; color: var(--text-dim); letter-spacing: 1.5px; margin-bottom: 4px; }
-        .price-group h3 { font-size: 1.4rem; font-weight: 400; font-family: 'Playfair Display', serif; }
-        .price-group h3 span { color: var(--gold); margin-right: 2px; }
+        .price-big { font-family: 'Playfair Display', serif; font-size: 1.5rem; }
+        .price-big span { color: var(--gold); font-size: 0.9rem; }
 
-        .actions { display: flex; gap: 15px; }
-        .btn {
-            background: none; border: none; font-size: 0.7rem; font-weight: 600;
-            text-transform: uppercase; letter-spacing: 1.5px; cursor: pointer; padding: 12px 20px;
+        .btn-lock { 
+            background: var(--gold); color: #000; padding: 12px 24px; border: none; 
+            font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; cursor: pointer;
         }
-        .btn-text { color: var(--white); border-bottom: 1px solid var(--text-dim); padding: 0 0 4px 0; }
-        .btn-gold { background: var(--gold); color: #000; padding: 12px 25px; }
 
-        .search-footer { text-align: center; padding: 40px; color: var(--text-dim); font-size: 0.75rem; font-style: italic; font-family: 'Playfair Display', serif; }
+        /* Filter Modal Styles */
+        .modal { 
+            position: fixed; inset: 0; background: var(--midnight); z-index: 200; 
+            display: none; padding: 60px 24px; flex-direction: column; 
+        }
+        .modal.active { display: flex; }
+        .filter-title { font-size: 0.7rem; color: var(--gold); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 20px; text-align: center; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 30px; }
+        .pill { background: var(--stone); padding: 15px; text-align: center; border: 1px solid var(--border); font-size: 0.8rem; cursor: pointer; }
+        .pill.active { border-color: var(--gold); color: var(--gold); background: rgba(179, 147, 89, 0.05); }
 
+        footer { padding: 60px 24px; border-top: 1px solid var(--border); text-align: center; background: var(--stone); }
+        .footer-nav a { font-size: 0.7rem; color: var(--text-dim); text-decoration: none; text-transform: uppercase; margin: 0 10px; letter-spacing: 1px; }
     </style>
 </head>
 <body>
 
-    <nav>
-        <a href="index.html" class="logo">Funeral<span>Match</span></a>
-        <div style="font-size: 0.65rem; color: var(--text-dim); letter-spacing: 1px;">LONDON • SW1A</div>
-    </nav>
-
-    <div class="filter-row">
-        <button class="filter-btn active">Service Type</button>
-        <button class="filter-btn">Faith & Culture</button>
-        <button class="filter-btn">Distance</button>
-        <button class="filter-btn">Transparency Score</button>
+    <div class="quote-monitor">
+        <div>
+            <p class="current-req">Current Configuration</p>
+            <p class="current-val" id="displayConfig">Standard Attended • Secular</p>
+        </div>
+        <button class="btn-lock" style="padding: 10px 15px; font-size: 0.6rem;" onclick="toggleModal()">Edit</button>
     </div>
 
-    <div class="container">
-        
-        <div class="entry sponsored">
-            <span class="sponsored-label">Premier Partner</span>
-            <div class="entry-header">
-                <div class="title-group">
-                    <h2>Belgrave & Beaumont</h2>
-                    <p class="distance">0.2 miles away • Mayfair</p>
-                </div>
-                <div class="t-score">
-                    <span>99</span><label>SCORE</label>
-                </div>
-            </div>
-            <p class="service-summary">
-                Specialising in high-standard traditional services and international repatriation. Vetted for excellence in private mortuary care and ceremony planning.
-            </p>
-            <div class="entry-footer">
-                <div class="price-group">
-                    <p>Fixed Quote</p>
-                    <h3><span>£</span>4,150</h3>
-                </div>
-                <div class="actions">
-                    <button class="btn btn-text">View Facilities</button>
-                    <button class="btn btn-gold">Lock Price</button>
-                </div>
-            </div>
+    <div class="engine-controls">
+        <p style="font-size: 0.7rem; color: var(--text-dim);">25 Nearest Directors</p>
+        <div class="sort-pill">
+            <div class="sort-opt active" onclick="setSort('rec', this)">Recommended</div>
+            <div class="sort-opt" onclick="setSort('price', this)">Cheapest</div>
         </div>
-
-        <div class="entry">
-            <div class="entry-header">
-                <div class="title-group">
-                    <h2>Independent Care Group</h2>
-                    <p class="distance">0.9 miles away • Westminster</p>
-                </div>
-                <div class="t-score">
-                    <span>94</span><label>SCORE</label>
-                </div>
-            </div>
-            <p class="service-summary">
-                Providing standard attended cremation and woodland burial options. Family-owned with a focus on local community support and transparency.
-            </p>
-            <div class="entry-footer">
-                <div class="price-group">
-                    <p>Fixed Quote</p>
-                    <h3><span>£</span>2,850</h3>
-                </div>
-                <div class="actions">
-                    <button class="btn btn-text">Details</button>
-                    <button class="btn btn-gold">Lock Price</button>
-                </div>
-            </div>
-        </div>
-
-        <p class="search-footer">Viewing the 25 nearest funeral directors to your location.</p>
-
     </div>
 
+    <div class="container" id="resultsContainer">
+        </div>
+
+    <div class="modal" id="filterModal">
+        <span class="filter-title">Customise Requirements</span>
+        <div class="grid">
+            <div class="pill active" onclick="updateConfig('type', 'Standard', this)">Standard</div>
+            <div class="pill" onclick="updateConfig('type', 'Sea', this)">Burial at Sea</div>
+            <div class="pill" onclick="updateConfig('type', 'Natural', this)">Natural Burial</div>
+            <div class="pill" onclick="updateConfig('type', 'Unattended', this)">Unattended</div>
+        </div>
+        <div class="grid">
+            <div class="pill active" onclick="updateConfig('faith', 'Secular', this)">Secular</div>
+            <div class="pill" onclick="updateConfig('faith', 'Religious', this)">Religious</div>
+        </div>
+        <button class="btn-lock" style="width: 100%; padding: 20px;" onclick="toggleModal()">Apply & Re-Calculate</button>
+    </div>
+
+    <footer>
+        <div class="footer-nav">
+            <a href="#">About</a> <a href="#">Legal</a> <a href="#">Privacy</a>
+            <a href="#" style="color: var(--gold);">Director Portal</a>
+        </div>
+    </footer>
+
+    <script>
+        const directors = Array.from({length: 25}, (_, i) => ({
+            id: i,
+            name: ["Evergreen", "Belgrave", "Oceanic", "Ethos", "Heritage"][i % 5] + " Partners " + (i + 1),
+            score: 90 + Math.floor(Math.random() * 10),
+            basePrice: 2000 + (Math.random() * 2000),
+            specialism: i % 4 === 0 ? 'Sea' : (i % 3 === 0 ? 'Natural' : 'Standard'),
+            faith: i % 5 === 0 ? 'Religious' : 'Secular'
+        }));
+
+        let config = { type: 'Standard', faith: 'Secular' };
+        let currentSort = 'rec';
+
+        function updateConfig(key, val, el) {
+            config[key] = val;
+            el.parentElement.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+            el.classList.add('active');
+            document.getElementById('displayConfig').innerText = `${config.type} • ${config.faith}`;
+            render();
+        }
+
+        function setSort(type, el) {
+            currentSort = type;
+            el.parentElement.querySelectorAll('.sort-opt').forEach(p => p.classList.remove('active'));
+            el.classList.add('active');
+            render();
+        }
+
+        function render() {
+            const container = document.getElementById('resultsContainer');
+            container.innerHTML = '';
+
+            let list = directors.map(d => {
+                let finalPrice = d.basePrice;
+                if(config.type === 'Sea') finalPrice += 1500;
+                if(config.type === 'Natural') finalPrice += 400;
+                return {...d, finalPrice};
+            });
+
+            // Filtering
+            list = list.filter(d => d.specialism === config.type || d.id === 0); // Always show sponsored
+
+            // Sorting Engine
+            if(currentSort === 'cheapest') {
+                list.sort((a,b) => a.finalPrice - b.finalPrice);
+            } else {
+                list.sort((a,b) => b.score - a.score);
+            }
+
+            list.forEach((d, idx) => {
+                const isRecommended = currentSort === 'rec' && idx === 0;
+                container.innerHTML += `
+                    <div class="entry ${isRecommended ? 'recommended' : ''}">
+                        ${isRecommended ? '<div class="rec-tag">Recommended</div>' : ''}
+                        <div class="header-row">
+                            <h2 class="d-name">${d.name}</h2>
+                            <div class="score-wrap">
+                                <span class="score-val">${d.score}</span>
+                                <span class="score-lbl">Score</span>
+                            </div>
+                        </div>
+                        <p class="service-summary">Professional specialist in ${d.specialism} arrangements. Verified facilities and response standards.</p>
+                        <div class="footer-row">
+                            <div class="price-group">
+                                <p style="font-size: 0.55rem; color: var(--text-dim); text-transform: uppercase;">Estimated Quote</p>
+                                <h3 class="price-big"><span>£</span>${Math.floor(d.finalPrice).toLocaleString()}</h3>
+                            </div>
+                            <button class="btn-lock">Lock Price</button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function toggleModal() { document.getElementById('filterModal').classList.toggle('active'); }
+        render();
+    </script>
 </body>
 </html>
