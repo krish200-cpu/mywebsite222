@@ -2,195 +2,247 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Funeral Match | Find Local Support</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Funeral Match | Compassionate Support</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary: #1a1c1e;
             --accent: #c5a059;
             --text-soft: #64748b;
-            --bg-warm: #fdfdfd;
-            --glass: rgba(255, 255, 255, 0.9);
-            --ease: cubic-bezier(0.16, 1, 0.3, 1);
+            --bg: #ffffff;
+            --dynamic-padding: clamp(1.5rem, 5vw, 4rem);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         
         body { 
-            background-color: var(--bg-warm);
-            background-image: radial-gradient(at 0% 0%, hsla(37,30%,98%,1) 0, transparent 50%);
+            background-color: var(--bg);
             color: var(--primary);
             font-family: 'Inter', -apple-system, sans-serif;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
             -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
         }
 
-        /* Nav Detail */
-        nav {
-            padding: 40px 8%;
+        .viewport-wrapper {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            min-height: 100dvh;
+            padding: var(--dynamic-padding);
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* --- TOP SECTION: LOGO & STATUS --- */
+        header {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            margin-bottom: 4rem;
         }
 
         .logo {
             font-weight: 600;
-            font-size: 0.9rem;
-            letter-spacing: 2px;
+            font-size: 0.8rem;
+            letter-spacing: 3px;
             text-transform: uppercase;
-            color: var(--primary);
         }
 
-        /* Hero Content */
+        .status-pill {
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: var(--accent);
+            border: 1px solid #eee;
+            padding: 6px 14px;
+            border-radius: 50px;
+            text-transform: uppercase;
+        }
+
+        /* --- MAIN SECTION: HIERARCHY --- */
         main {
             flex: 1;
             display: flex;
-            align-items: center;
+            flex-direction: column;
             justify-content: center;
-            padding: 0 8% 10vh 8%;
         }
 
-        .hero-box {
-            max-width: 650px;
-            text-align: center;
-            animation: fadeIn 1.2s var(--ease) forwards;
+        .content-group {
+            max-width: 680px;
+        }
+
+        .pre-title {
+            color: var(--accent);
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            display: block;
         }
 
         h1 {
-            font-size: clamp(2.2rem, 6vw, 3.4rem);
-            font-weight: 500;
-            letter-spacing: -0.03em;
-            line-height: 1.15;
-            margin-bottom: 24px;
-            color: #111;
+            font-size: clamp(2.4rem, 8vw, 4rem);
+            font-weight: 600;
+            letter-spacing: -0.05em;
+            line-height: 1;
+            margin-bottom: 1.5rem;
         }
 
-        .support-text {
-            font-size: 1.2rem;
+        .description {
+            font-size: clamp(1.1rem, 2.5vw, 1.4rem);
             color: var(--text-soft);
             line-height: 1.6;
-            margin-bottom: 48px;
+            margin-bottom: 3rem;
             font-weight: 300;
         }
 
-        /* Postcode Interaction */
-        .search-container {
-            background: white;
-            border: 1px solid #e2e8f0;
-            border-radius: 100px;
-            padding: 8px;
-            display: flex;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.03);
-            transition: var(--ease);
-            max-width: 520px;
-            margin: 0 auto;
+        /* --- INTERACTIVE FORM --- */
+        .search-module {
+            position: relative;
+            width: 100%;
+            max-width: 580px;
         }
 
-        .search-container:focus-within {
-            border-color: var(--accent);
-            box-shadow: 0 20px 50px rgba(197, 160, 89, 0.1);
-            transform: translateY(-2px);
+        .search-prompt {
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--primary);
+            display: block;
+        }
+
+        .form-area {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
         }
 
         input {
-            flex: 1;
-            border: none;
+            width: 100%;
+            height: 68px;
+            border: 1px solid #e2e8f0;
+            border-radius: 20px;
             padding: 0 28px;
-            font-size: 1.05rem;
+            font-size: 1.1rem;
             font-weight: 500;
             outline: none;
-            background: transparent;
+            background: #fcfcfd;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        input::placeholder { color: #94a3b8; font-weight: 400; }
+        input:focus {
+            border-color: var(--accent);
+            background: #ffffff;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.04);
+        }
 
         button {
+            width: 100%;
+            height: 68px;
             background: var(--primary);
             color: white;
             border: none;
-            padding: 16px 36px;
-            border-radius: 100px;
-            font-size: 1rem;
-            font-weight: 500;
+            border-radius: 20px;
+            font-size: 1.1rem;
+            font-weight: 600;
             cursor: pointer;
-            transition: background 0.3s ease;
+            transition: all 0.3s ease;
         }
 
-        button:hover { background: #000; }
+        button:hover {
+            background: #000;
+            transform: translateY(-2px);
+        }
 
-        /* Subtle Trust Row */
-        .trust-footer {
-            position: absolute;
-            bottom: 40px;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            gap: 40px;
+        /* --- INFORMATION GRID --- */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 5rem;
+            padding-top: 3rem;
+            border-top: 1px solid #f1f5f9;
+        }
+
+        .info-card h3 {
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .info-card p {
+            font-size: 0.85rem;
             color: var(--text-soft);
-            font-size: 0.8rem;
-            font-weight: 500;
-            letter-spacing: 0.5px;
+            line-height: 1.5;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(15px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Mobile Optimization */
-        @media (max-width: 600px) {
-            .search-container { flex-direction: column; background: none; border: none; box-shadow: none; padding: 0; }
-            input { background: white; border: 1px solid #e2e8f0; border-radius: 16px; height: 65px; margin-bottom: 12px; text-align: center; }
-            button { width: 100%; height: 65px; border-radius: 16px; }
-            .trust-footer { flex-direction: column; align-items: center; gap: 10px; bottom: 20px; }
+        /* --- RESPONSIVE ADAPTATION --- */
+        @media (min-width: 850px) {
+            .form-area {
+                flex-direction: row;
+                background: #fcfcfd;
+                border: 1px solid #e2e8f0;
+                border-radius: 100px;
+                padding: 10px;
+                gap: 0;
+            }
+            input { border: none; background: transparent; height: 50px; }
+            button { width: auto; height: 50px; padding: 0 45px; border-radius: 100px; }
         }
     </style>
 </head>
 <body>
 
-    <nav>
-        <div class="logo">Funeral Match</div>
-    </nav>
+    <div class="viewport-wrapper">
+        <header>
+            <div class="logo">Funeral Match</div>
+            <div class="status-pill">Fully Transparent</div>
+        </header>
 
-    <main>
-        <div class="hero-box">
-            <h1>Gentle guidance <br>when you need it most.</h1>
-            <p class="support-text">
-                We’re here to help you navigate your options with clarity and care. 
-                Enter your postcode to see local directors who can help.
-            </p>
+        <main>
+            <div class="content-group">
+                <span class="pre-title">Supporting you through the journey</span>
+                <h1>Gentle guidance when you need it most.</h1>
+                <p class="description">
+                    We bring clarity to a difficult time by helping you compare local funeral directors based on service, verified pricing, and compassionate care.
+                </p>
 
-            <form id="navigateForm" class="search-container">
-                <input 
-                    type="text" 
-                    id="userPostcode" 
-                    placeholder="Enter your postcode" 
-                    required 
-                    autocomplete="off"
-                    spellcheck="false"
-                >
-                <button type="submit">See options</button>
-            </form>
-        </div>
-    </main>
+                <div class="search-module">
+                    <label for="pc" class="search-prompt">Where can we help you find support?</label>
+                    <form id="interactionForm" class="form-area">
+                        <input 
+                            type="text" 
+                            id="pc" 
+                            placeholder="Enter your postcode" 
+                            required 
+                            autocomplete="off"
+                        >
+                        <button type="submit">See local options</button>
+                    </form>
+                </div>
+            </div>
 
-    <div class="trust-footer">
-        <span>Verified Local Care</span>
-        <span>Independent Guidance</span>
-        <span>No Commitment</span>
+            <div class="info-grid">
+                <div class="info-card">
+                    <h3>Verified Pricing</h3>
+                    <p>Direct comparisons with no hidden costs or unexpected fees.</p>
+                </div>
+                <div class="info-card">
+                    <h3>Local Expertise</h3>
+                    <p>Connected to 25+ trusted directors in your immediate area.</p>
+                </div>
+                <div class="info-card">
+                    <h3>No Commitment</h3>
+                    <p>Browse options at your own pace without any pressure to book.</p>
+                </div>
+            </div>
+        </main>
     </div>
 
     <script>
-        document.getElementById('navigateForm').addEventListener('submit', function(e) {
+        document.getElementById('interactionForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            const postcode = document.getElementById('userPostcode').value.trim();
-            
-            // This constructs a clean path for GitHub Pages
-            const target = "search-results.html";
-            window.location.href = `${target}?postcode=${encodeURIComponent(postcode)}`;
+            const val = document.getElementById('pc').value.trim();
+            window.location.href = `search-results.html?postcode=${encodeURIComponent(val)}`;
         });
     </script>
 </body>
