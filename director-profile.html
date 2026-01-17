@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile | Funeral Match</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
+    <style>
+        :root { --black: #1a1c1e; --gold: #b39359; --bg: #fcfaf7; --border: #e2ded0; --text-soft: #64748b; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: var(--bg); font-family: 'Inter', sans-serif; height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px; }
+        .page-frame { width: 100%; max-width: 1300px; height: 90vh; border: 1px solid var(--border); background: #fff; display: flex; flex-direction: column; border-radius: 4px; overflow: hidden; }
+        header { padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--bg); }
+        .logo { font-size: 1rem; font-weight: 800; text-transform: uppercase; letter-spacing: 5px; text-decoration: none; }
+        .logo .f { color: var(--black); }
+        .logo .m { color: var(--gold); }
+        .layout { display: grid; grid-template-columns: 1fr 400px; flex: 1; overflow: hidden; }
+        .content { padding: 40px; overflow-y: auto; border-right: 1px solid var(--bg); }
+        .summary { padding: 40px; background: #fff; }
+        .quote-table { width: 100%; border-collapse: collapse; margin: 30px 0; }
+        .quote-table td { padding: 15px 0; border-bottom: 1px solid var(--bg); }
+        .total-card { background: var(--black); color: #fff; padding: 30px; border-radius: 12px; text-align: center; margin-bottom: 30px; }
+        input, select { width: 100%; padding: 12px; margin-bottom: 10px; border: 1px solid var(--border); border-radius: 6px; }
+        .btn { width: 100%; padding: 15px; background: var(--gold); color: #fff; border: none; border-radius: 6px; font-weight: 700; cursor: pointer; text-transform: uppercase; }
+        .support-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; }
+        .support-card { padding: 15px; background: var(--bg); border-radius: 8px; font-size: 0.8rem; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="page-frame">
+        <header>
+            <a href="index.html" class="logo"><span class="f">Funeral</span><span class="m">Match</span></a>
+            <div style="font-size:0.7rem;">REF: FM-7721</div>
+        </header>
+        <div class="layout">
+            <main class="content">
+                <h1 style="font-family:'Playfair Display',serif; font-size:2.5rem;">Sterling & Sons</h1>
+                <p style="color:var(--text-soft); margin-top:10px;">Independent Relational Care Specialists</p>
+                <table class="quote-table">
+                    <tr><td>Professional Fees</td><td style="text-align:right">£1,450</td></tr>
+                    <tr><td>Eco-Wicker Coffin</td><td style="text-align:right"><input type="checkbox" checked onchange="calc()"> +£650</td></tr>
+                    <tr><td>Sea Burial Service</td><td style="text-align:right"><input type="checkbox" onchange="calc()"> +£1,150</td></tr>
+                </table>
+                <div style="margin-top:40px;">
+                    <span style="font-size:0.7rem; font-weight:800; color:var(--gold);">EXTENDED CARE PARTNERS</span>
+                    <div class="support-grid">
+                        <div class="support-card"><strong>Sterling Probate</strong><br>Estate & Will Legal help.</div>
+                        <div class="support-card"><strong>Horizon Grief</strong><br>Counseling & Support.</div>
+                    </div>
+                </div>
+            </main>
+            <aside class="summary">
+                <div class="total-card"><span>TOTAL QUOTE</span><h2 id="total">£2,100</h2></div>
+                <div style="background:var(--bg); padding:20px; border-radius:8px;">
+                    <h3 style="margin-bottom:15px; font-size:1rem;">Request Callback</h3>
+                    <input type="text" placeholder="Your Name">
+                    <input type="tel" placeholder="Phone Number">
+                    <select><option>Immediate Support</option><option>Pricing Question</option></select>
+                    <button class="btn" onclick="alert('Lead Captured')">Contact Director</button>
+                </div>
+            </aside>
+        </div>
+    </div>
+    <script>
+        function calc() {
+            let t = 1450;
+            const c = document.querySelectorAll('input[type="checkbox"]');
+            if(c[0].checked) t += 650;
+            if(c[1].checked) t += 1150;
+            document.getElementById('total').innerText = '£' + t.toLocaleString();
+        }
+    </script>
+</body>
+</html>
