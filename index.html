@@ -2,86 +2,52 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Search | Funeral Match</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Playfair+Display:ital,wght@0,400;1,500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
-        :root { --black: #1a1c1e; --gold: #b39359; --bg: #fcfaf7; --border: #e2ded0; --text-soft: #64748b; }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: var(--bg); font-family: 'Inter', sans-serif; min-height: 100vh; display: flex; justify-content: center; align-items: center; }
-        
-        .page-frame { width: 100%; max-width: 1200px; min-height: 100vh; background: #fff; display: flex; flex-direction: column; position: relative; }
-        @media (min-width: 1024px) { .page-frame { height: 90vh; min-height: auto; border: 1px solid var(--border); border-radius: 4px; box-shadow: 0 40px 100px rgba(0,0,0,0.03); } }
+        :root { --black: #1A1A1B; --gold: #B39359; --stone: #F4F1EA; --white: #FFFFFF; }
+        body { background: var(--stone); font-family: 'Inter', sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
+        .frame { width: 100%; max-width: 1200px; background: var(--white); display: grid; grid-template-columns: 1fr; border-radius: 2px; box-shadow: 0 40px 100px rgba(0,0,0,0.05); }
+        @media (min-width: 1024px) { .frame { grid-template-columns: 1fr 1fr; height: 85vh; } }
 
-        header { padding: 30px 20px; display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-size: 1rem; font-weight: 800; text-transform: uppercase; letter-spacing: 4px; text-decoration: none; }
-        .logo .f { color: var(--black); }
-        .logo .m { color: var(--gold); }
+        .img-side { background: #EAE7E0; display: none; flex-direction: column; justify-content: flex-end; padding: 60px; }
+        @media (min-width: 1024px) { .img-side { display: flex; } }
 
-        .main-content { flex: 1; padding: 20px; max-width: 800px; margin: 0 auto; width: 100%; }
-        h1 { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 8vw, 3.2rem); line-height: 1.1; margin-bottom: 30px; }
-        
-        .pathways { display: grid; grid-template-columns: 1fr; gap: 15px; margin-bottom: 30px; }
-        @media (min-width: 600px) { .pathways { grid-template-columns: 1fr 1fr; } }
-        
-        .path-card { border: 1px solid var(--border); padding: 20px; border-radius: 12px; cursor: pointer; background: var(--bg); transition: 0.2s; }
-        .path-card:active { transform: scale(0.98); background: #fff; border-color: var(--gold); }
+        .form-side { padding: clamp(30px, 5vw, 80px); display: flex; flex-direction: column; overflow-y: auto; }
+        .logo { font-size: 0.9rem; font-weight: 800; letter-spacing: 5px; text-transform: uppercase; text-decoration: none; color: var(--black); margin-bottom: 60px; }
+        .logo span { color: var(--gold); }
 
-        input { width: 100%; height: 65px; border: 1px solid var(--border); border-radius: 12px; padding: 0 20px; font-size: 1.1rem; outline: none; -webkit-appearance: none; }
-        .cta-btn { width: 100%; margin-top: 15px; background: var(--black); color: #fff; border: none; padding: 22px; border-radius: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; }
-        
-        .partner-ad { margin-top: 40px; padding: 20px; border: 1px solid var(--gold); border-radius: 12px; display: flex; align-items: center; gap: 15px; }
+        h1 { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 4vw, 3rem); font-weight: 400; line-height: 1.1; margin-bottom: 20px; }
+        .search-wrap { border-bottom: 2px solid #EEE; display: flex; align-items: center; margin: 40px 0; }
+        input { flex: 1; border: none; padding: 20px 0; font-size: 1.2rem; outline: none; font-family: 'Playfair Display', serif; }
+        .btn-go { background: var(--black); color: #fff; border: none; padding: 18px 30px; border-radius: 40px; text-transform: uppercase; font-size: 0.7rem; font-weight: 800; letter-spacing: 1px; cursor: pointer; transition: 0.3s; }
+        .btn-go:hover { background: var(--gold); }
 
-        footer { padding: 30px 20px; border-top: 1px solid var(--bg); display: flex; flex-direction: column; gap: 20px; font-size: 0.75rem; color: var(--text-soft); text-align: center; }
-        @media (min-width: 600px) { footer { flex-direction: row; justify-content: space-between; text-align: left; } }
-
-        #overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 1000; visibility: hidden; opacity: 0; transition: 0.6s; }
+        .revenue-slot { border: 1px solid var(--gold); padding: 20px; border-radius: 4px; margin-top: auto; display: flex; gap: 15px; align-items: center; cursor: pointer; }
+        footer { margin-top: 40px; font-size: 0.65rem; color: #AAA; text-transform: uppercase; letter-spacing: 1px; display: flex; gap: 20px; }
     </style>
 </head>
 <body>
-    <div id="overlay"></div>
-    <div class="page-frame">
-        <header>
-            <a href="index.html" class="logo"><span class="f">Funeral</span><span class="m">Match</span></a>
-            <div style="font-size: 0.6rem; font-weight: 800; color: var(--gold);">HELP: 0800 123 4567</div>
-        </header>
-        <main class="main-content">
-            <h1>Where do you <br>need support?</h1>
-            <div class="pathways">
-                <div class="path-card" onclick="document.getElementById('postcode').focus()">
-                    <h3 style="font-size: 0.7rem; color: var(--gold); text-transform: uppercase;">Immediate</h3>
-                    <p style="font-size: 0.85rem; color: var(--text-soft);">Urgent help today.</p>
+    <div class="frame">
+        <div class="img-side">
+            <p style="font-family: 'Playfair Display'; italic; font-size: 1.4rem; color: var(--gold);">"Compassion is the heart of every search."</p>
+        </div>
+        <div class="form-side">
+            <a href="#" class="logo">Funeral<span>Match</span></a>
+            <main>
+                <h1>How can we assist <br>your family today?</h1>
+                <div class="search-wrap">
+                    <input type="text" id="pc" placeholder="Enter postcode to compare local care">
+                    <button class="btn-go" onclick="location.href='results.html'">Search</button>
                 </div>
-                <div class="path-card" onclick="document.getElementById('postcode').focus()">
-                    <h3 style="font-size: 0.7rem; color: var(--gold); text-transform: uppercase;">Future</h3>
-                    <p style="font-size: 0.85rem; color: var(--text-soft);">Planning & Comparison.</p>
+                <div class="revenue-slot">
+                    <div style="width:10px; height:10px; background:var(--gold); border-radius:50%;"></div>
+                    <p style="font-size: 0.8rem;"><strong>Partner Highlight:</strong> Secure your family's future with 5-star rated Pre-Paid Plans. <span style="text-decoration: underline;">View details</span></p>
                 </div>
-            </div>
-            <input type="text" id="postcode" placeholder="Enter postcode" inputmode="text">
-            <button class="cta-btn" onclick="search()">Compare Local Options</button>
-
-            <div class="partner-ad">
-                <div style="min-width:40px; height:40px; background:var(--bg); border:1px solid var(--gold); border-radius:50%"></div>
-                <div style="font-size: 0.8rem;">
-                    <strong>SafeGuard Pre-Paid Plans</strong><br>
-                    <span style="color:var(--text-soft)">Protect your family from future costs.</span>
-                </div>
-            </div>
-        </main>
-        <footer>
-            <div>&copy; 2026 Funeral Match</div>
-            <nav style="display:flex; gap:15px; justify-content: center;"><a>About</a><a>Contact</a><a>Privacy</a></nav>
-        </footer>
+            </main>
+            <footer><span>About</span><span>Legal</span><span>0800 123 4567</span></footer>
+        </div>
     </div>
-    <script>
-        window.onload = () => { if(window.innerWidth > 768) document.getElementById('postcode').focus(); };
-        function search() {
-            const pc = document.getElementById('postcode').value;
-            if(!pc) return;
-            document.getElementById('overlay').style.visibility = 'visible';
-            document.getElementById('overlay').style.opacity = '1';
-            setTimeout(() => { window.location.href = `search-results.html?pc=${pc}`; }, 600);
-        }
-    </script>
 </body>
 </html>
