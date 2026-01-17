@@ -3,179 +3,157 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Compare Support | Funeral Match</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <title>Personalised Care | Funeral Match</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root { 
-            --midnight: #121416; 
-            --charcoal: #1C1E20;
-            --gold: #B39359; 
-            --white: #FFFFFF; 
-            --text-muted: #8E959F;
-            --glass: rgba(255, 255, 255, 0.03);
+            --midnight: #121416; --charcoal: #1C1E20; --gold: #B39359; 
+            --white: #FFFFFF; --text-muted: #8E959F; --border: rgba(255,255,255,0.08);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        
-        body { 
-            background-color: var(--midnight);
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
-            font-family: 'Inter', sans-serif; 
-            color: var(--white); 
-            padding-bottom: 40px;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background-color: var(--midnight); color: var(--white); padding-bottom: 100px; }
 
-        /* Results Header */
+        /* Header Navigation */
         nav {
-            padding: 20px 24px;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            background: rgba(18, 20, 22, 0.9);
-            backdrop-filter: blur(10px);
-            z-index: 100;
+            padding: 16px 24px;
+            background: rgba(18, 20, 22, 0.95);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--border);
+            display: flex; justify-content: space-between; align-items: center;
+            position: sticky; top: 0; z-index: 100;
         }
-
-        .mini-logo { font-size: 0.7rem; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; color: var(--white); text-decoration: none; }
+        .mini-logo { font-size: 0.8rem; font-weight: 700; letter-spacing: 5px; text-transform: uppercase; color: var(--white); text-decoration: none; }
         .mini-logo span { color: var(--gold); }
 
-        .location-tag { font-size: 0.7rem; color: var(--gold); text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
-
-        /* Filter Bar */
-        .filter-scroll {
-            display: flex;
-            gap: 12px;
-            padding: 16px 24px;
-            overflow-x: auto;
-            white-space: nowrap;
-            -ms-overflow-style: none;
-            scrollbar-width: none;
+        /* Action Bar */
+        .action-bar { padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; }
+        .results-count { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
+        .filter-trigger { 
+            background: var(--charcoal); border: 1px solid var(--gold); color: var(--gold);
+            padding: 8px 16px; border-radius: 4px; font-size: 0.7rem; font-weight: 600; text-transform: uppercase;
         }
-        .filter-scroll::-webkit-scrollbar { display: none; }
 
-        .chip {
-            padding: 8px 16px;
-            border-radius: 20px;
-            background: var(--charcoal);
-            border: 1px solid rgba(255,255,255,0.1);
-            color: var(--text-muted);
-            font-size: 0.75rem;
-            font-weight: 500;
-        }
-        .chip.active { border-color: var(--gold); color: var(--gold); background: rgba(179, 147, 89, 0.05); }
-
-        /* Director Card */
-        .results-container { padding: 0 20px; max-width: 600px; margin: 0 auto; }
+        /* Director Cards */
+        .container { max-width: 600px; margin: 0 auto; padding: 0 16px; }
         
-        .director-card {
-            background: var(--charcoal);
-            border-radius: 12px;
-            margin-bottom: 20px;
-            overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.05);
-            transition: transform 0.2s;
+        .card {
+            background: var(--charcoal); border: 1px solid var(--border);
+            border-radius: 8px; margin-bottom: 16px; overflow: hidden;
         }
 
-        .card-body { padding: 20px; }
-
-        .header-row { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
+        .card-main { padding: 20px; }
+        .card-header { display: flex; justify-content: space-between; margin-bottom: 8px; }
+        .name { font-size: 1.1rem; font-weight: 600; letter-spacing: -0.5px; }
         
-        .director-name { font-size: 1.1rem; font-weight: 600; letter-spacing: -0.5px; }
-        .rating { color: var(--gold); font-size: 0.75rem; display: flex; align-items: center; gap: 4px; }
-
-        .service-features { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
-        .feature-tag { font-size: 0.65rem; color: var(--text-muted); background: rgba(255,255,255,0.03); padding: 4px 8px; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
-
-        .price-footer {
-            background: rgba(0,0,0,0.2);
-            padding: 16px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-top: 1px solid rgba(255,255,255,0.05);
+        /* Transparency Score Badge */
+        .score-badge { 
+            font-size: 0.65rem; padding: 4px 8px; border-radius: 4px;
+            background: rgba(179, 147, 89, 0.1); color: var(--gold); border: 1px solid rgba(179, 147, 89, 0.3);
         }
 
-        .price-label { font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
-        .price-value { font-size: 1.25rem; font-weight: 700; color: var(--white); }
-        .price-value span { color: var(--gold); font-size: 0.9rem; margin-right: 2px; }
+        .meta-info { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 16px; display: flex; gap: 10px; }
 
-        .btn-quote {
-            background: var(--gold);
-            color: #000;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 6px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+        .price-strip {
+            background: rgba(0,0,0,0.2); padding: 16px 20px;
+            display: flex; justify-content: space-between; align-items: center;
+            border-top: 1px solid var(--border);
         }
+        .price-label { font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; }
+        .amount { font-size: 1.3rem; font-weight: 700; }
+        .amount span { font-size: 0.9rem; color: var(--gold); }
 
+        .btn-group { display: flex; gap: 10px; margin-top: 12px; }
+        .btn { flex: 1; padding: 12px; border-radius: 4px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; cursor: pointer; border: none; }
+        .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--white); }
+        .btn-gold { background: var(--gold); color: #000; }
+
+        /* Filter Pop-up (Modal) */
+        .modal {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.9);
+            z-index: 200; display: none; /* Toggle with JS */
+            flex-direction: column; padding: 40px 24px;
+        }
+        .modal.active { display: flex; }
+        .modal-header { margin-bottom: 30px; display: flex; justify-content: space-between; }
+        .filter-group { margin-bottom: 24px; }
+        .filter-label { font-size: 0.7rem; color: var(--gold); text-transform: uppercase; margin-bottom: 12px; display: block; }
+        .filter-options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .opt { background: var(--charcoal); padding: 12px; border-radius: 4px; font-size: 0.8rem; border: 1px solid var(--border); text-align: center; }
+        .opt.selected { border-color: var(--gold); color: var(--gold); }
     </style>
 </head>
 <body>
 
     <nav>
         <a href="index.html" class="mini-logo">Funeral<span>Match</span></a>
-        <div class="location-tag">Results for: SW1A</div>
+        <div class="score-badge">Local Priority</div>
     </nav>
 
-    <div class="filter-scroll">
-        <div class="chip active">Traditional</div>
-        <div class="chip">Eco-Friendly</div>
-        <div class="chip">Direct Cremation</div>
-        <div class="chip">Religious</div>
-        <div class="chip">Multicultural</div>
+    <div class="action-bar">
+        <span class="results-count">25 Directors Found</span>
+        <button class="filter-trigger" onclick="toggleModal()">Filters & Service Type</button>
     </div>
 
-    <div class="results-container">
-        <div class="director-card">
-            <div class="card-body">
-                <div class="header-row">
-                    <h2 class="director-name">Evergreen Independent</h2>
-                    <div class="rating">★ 4.9 <span style="color:var(--text-muted); font-size:0.6rem;">(120)</span></div>
+    <div class="container">
+        <div class="card">
+            <div class="card-main">
+                <div class="card-header">
+                    <h2 class="name">Oakwood & Sons</h2>
+                    <span class="score-badge">Score: 98/100</span>
                 </div>
-                <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 16px;">Vetted Independent Partner • 0.8 miles away</p>
-                <div class="service-features">
-                    <span class="feature-tag">Limousine Incl.</span>
-                    <span class="feature-tag">Chapel of Rest</span>
-                    <span class="feature-tag">24/7 Support</span>
+                <div class="meta-info">
+                    <span>★ 4.9</span>
+                    <span>• 0.4 miles away</span>
+                </div>
+                <div class="btn-group">
+                    <button class="btn btn-outline">View Details</button>
+                    <button class="btn btn-gold">Lock Price</button>
                 </div>
             </div>
-            <div class="price-footer">
+            <div class="price-strip">
                 <div>
-                    <p class="price-label">Fixed Quote</p>
-                    <p class="price-value"><span>£</span>2,850</p>
+                    <p class="price-label">Current Quote</p>
+                    <p class="amount"><span>£</span>2,450</p>
                 </div>
-                <button class="btn-quote" onclick="location.href='quote.html'">Lock Price</button>
-            </div>
-        </div>
-
-        <div class="director-card">
-            <div class="card-body">
-                <div class="header-row">
-                    <h2 class="director-name">Sanctuary Care</h2>
-                    <div class="rating">★ 5.0 <span style="color:var(--text-muted); font-size:0.6rem;">(84)</span></div>
-                </div>
-                <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 16px;">Family Owned Specialist • 1.2 miles away</p>
-                <div class="service-features">
-                    <span class="feature-tag">Eco-Coffin</span>
-                    <span class="feature-tag">Natural Burial</span>
-                    <span class="feature-tag">Private Viewing</span>
-                </div>
-            </div>
-            <div class="price-footer">
-                <div>
-                    <p class="price-label">Fixed Quote</p>
-                    <p class="price-value"><span>£</span>3,100</p>
-                </div>
-                <button class="btn-quote">Lock Price</button>
+                <p style="font-size: 0.6rem; color: var(--text-muted); text-align: right;">Fixed for 48h<br>Ref: #FM902</p>
             </div>
         </div>
     </div>
 
+    <div id="filterModal" class="modal">
+        <div class="modal-header">
+            <h2 style="font-size: 1.2rem;">Customise Your Quote</h2>
+            <button onclick="toggleModal()" style="background: none; border: none; color: var(--white); font-size: 1.5rem;">&times;</button>
+        </div>
+        
+        <div class="filter-group">
+            <span class="filter-label">Service Type</span>
+            <div class="filter-options">
+                <div class="opt selected">Standard Attended</div>
+                <div class="opt">Unattended</div>
+                <div class="opt">Natural Burial</div>
+                <div class="opt">Sea Burial</div>
+            </div>
+        </div>
+
+        <div class="filter-group">
+            <span class="filter-label">Faith & Culture</span>
+            <div class="filter-options">
+                <div class="opt">None / Secular</div>
+                <div class="opt">Christian</div>
+                <div class="opt">Muslim</div>
+                <div class="opt">Sikh / Hindu</div>
+            </div>
+        </div>
+
+        <button class="btn btn-gold" onclick="toggleModal()" style="margin-top: auto; padding: 20px;">Update Results</button>
+    </div>
+
+    <script>
+        function toggleModal() {
+            document.getElementById('filterModal').classList.toggle('active');
+        }
+    </script>
 </body>
 </html>
