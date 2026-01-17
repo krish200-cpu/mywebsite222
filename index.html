@@ -3,197 +3,125 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Funeral Match</title>
+    <title>Funeral Match Logo Concepts</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200;400;600&display=swap');
-        
+        /* Luxury Font Pairings */
+        @import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;1,6..96,400&family=Inter:wght@300;600&display=swap');
+
         :root {
             --gold: #C5A059;
-            --black: #1a1a1a;
-            --bg: #ffffff;
+            --charcoal: #1a1a1a;
         }
 
-        body { 
-            font-family: 'Montserrat', sans-serif; 
-            background-color: var(--bg);
-            color: var(--black);
+        body {
+            background-color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 100px;
+            min-height: 100vh;
             margin: 0;
-            -webkit-font-smoothing: antialiased;
+            padding: 50px 0;
         }
 
-        /* Small, Sleek Logo Hierarchy */
-        .brand-header {
-            padding: 4rem 0;
+        .logo-container {
             text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s ease;
         }
 
-        .f-text {
-            font-size: 0.65rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5em;
-            display: block;
-            margin-bottom: 2px;
+        .logo-container:hover {
+            transform: translateY(-5px);
         }
 
-        .m-text {
-            font-size: 1.1rem; /* Bigger but delicate */
-            font-weight: 200;
+        /* CONCEPT 1: THE INTERLOCK */
+        .mark-1 {
+            width: 40px;
+            height: 25px;
+            margin: 0 auto 15px;
+            position: relative;
+            border-left: 1px solid var(--gold);
+            border-right: 1px solid var(--gold);
+        }
+        .mark-1::before {
+            content: '';
+            position: absolute;
+            top: 50%; left: 0;
+            width: 100%; height: 1px;
+            background: var(--gold);
+            transform: rotate(15deg);
+        }
+
+        /* CONCEPT 2: THE HORIZON */
+        .horizon-line {
+            width: 60px;
+            height: 1px;
+            background: var(--gold);
+            margin: 12px auto;
+        }
+
+        /* TYPOGRAPHY STYLES */
+        .brand-name {
+            font-family: 'Bodoni Moda', serif;
+            font-size: 1.8rem;
+            letter-spacing: 0.05em;
+            color: var(--charcoal);
+            line-height: 1;
+        }
+
+        .brand-match {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 300;
             text-transform: uppercase;
             letter-spacing: 0.6em;
             color: var(--gold);
             display: block;
-            margin-right: -0.6em; /* Adjusts for letter spacing center */
+            margin-top: 8px;
+            margin-right: -0.6em; /* Optical centering */
         }
 
-        section {
-            padding: 6rem 10%;
-            max-width: 900px;
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        .h-thin {
-            font-size: 1.25rem;
-            font-weight: 200;
-            letter-spacing: 0.2em;
+        .label {
+            font-family: 'Inter', sans-serif;
+            font-size: 10px;
             text-transform: uppercase;
-            line-height: 2;
-            color: #666;
-        }
-
-        /* Simple Service List */
-        .service-list {
-            display: grid;
-            grid-template-cols: 1fr;
-            gap: 4rem;
-            margin-top: 8rem;
-            text-align: left;
-        }
-
-        .service-item {
-            border-left: 1px solid #eee;
-            padding-left: 2rem;
-        }
-
-        .s-num {
-            font-size: 0.6rem;
-            color: var(--gold);
-            font-weight: 600;
-            letter-spacing: 0.3em;
-            display: block;
-            margin-bottom: 1rem;
-        }
-
-        .s-title {
-            font-size: 0.9rem;
-            font-weight: 400;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            margin-bottom: 1rem;
-        }
-
-        .s-desc {
-            font-size: 0.8rem;
-            font-weight: 300;
-            color: #888;
-            line-height: 1.8;
-            max-width: 400px;
-        }
-
-        /* Minimal Form */
-        .form-area {
-            margin-top: 10rem;
-            padding-bottom: 10rem;
-        }
-
-        .minimal-input {
-            border: none;
-            border-bottom: 1px solid #eee;
-            padding: 1.5rem 0;
-            width: 100%;
-            max-width: 400px;
-            font-size: 0.85rem;
-            font-weight: 300;
-            letter-spacing: 0.1em;
-            text-align: center;
-            transition: border-color 0.5s;
-        }
-
-        .minimal-input:focus {
-            outline: none;
-            border-bottom-color: var(--gold);
-        }
-
-        .btn-luxury {
-            margin-top: 4rem;
-            font-size: 0.65rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.4em;
-            color: var(--black);
-            border: 1px solid #eee;
-            padding: 1.2rem 3rem;
-            transition: all 0.4s;
-        }
-
-        .btn-luxury:hover {
-            border-color: var(--gold);
-            color: var(--gold);
+            letter-spacing: 2px;
+            color: #ccc;
+            margin-bottom: 20px;
         }
     </style>
 </head>
 <body>
 
-    <header class="brand-header">
-        <span class="f-text">Funeral</span>
-        <span class="m-text">Match</span>
-    </header>
+    <div class="logo-container">
+        <p class="label">Concept 1: The Interlock</p>
+        <div class="mark-1"></div>
+        <div class="brand-name">
+            Funeral <span style="font-style: italic; font-weight: 400;">Match</span>
+        </div>
+        <span class="brand-match" style="color: #888;">Comparison Concierge</span>
+    </div>
 
-    <main>
-        <section>
-            <h1 class="h-thin">
-                Immediate assistance <br>
-                refined for the <span style="color:var(--black); font-weight:400;">modern era.</span>
-            </h1>
+    <div class="logo-container">
+        <p class="label">Concept 2: The Horizon</p>
+        <div class="brand-name" style="letter-spacing: 0.15em; text-transform: uppercase; font-size: 1.4rem;">
+            Funeral
+        </div>
+        <div class="horizon-line"></div>
+        <span class="brand-match">Match</span>
+    </div>
 
-            <div class="service-list">
-                <div class="service-item">
-                    <span class="s-num">01</span>
-                    <h3 class="s-title">Response</h3>
-                    <p class="s-desc">We manage the immediate legal and logistical requirements the moment a death occurs.</p>
-                </div>
-                <div class="service-item">
-                    <span class="s-num">02</span>
-                    <h3 class="s-title">Clarity</h3>
-                    <p class="s-desc">Detailed guidance through certification, providing a steady hand during the first hours.</p>
-                </div>
-                <div class="service-item">
-                    <span class="s-num">03</span>
-                    <h3 class="s-title">Selection</h3>
-                    <p class="s-desc">A curated match with funeral directors vetted for transparency and excellence.</p>
-                </div>
-            </div>
-        </section>
-
-        <section class="form-area">
-            <div class="space-y-12">
-                <input type="text" placeholder="POSTCODE" class="minimal-input">
-                <br>
-                <select class="minimal-input appearance-none">
-                    <option>DIRECT CREMATION</option>
-                    <option>TRADITIONAL BURIAL</option>
-                </select>
-                <br>
-                <button class="btn-luxury">Find Your Match</button>
-            </div>
-        </section>
-    </main>
-
-    <footer style="padding: 4rem; text-align: center; font-size: 0.5rem; letter-spacing: 0.5em; color: #ccc; text-transform: uppercase;">
-        The New Standard of Care
-    </footer>
+    <div class="logo-container">
+        <p class="label">Concept 3: The Modernist</p>
+        <div class="brand-name" style="font-size: 2.2rem;">
+            F<span style="color: var(--gold);">M</span>
+        </div>
+        <div style="font-family: 'Inter', sans-serif; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 5px; margin-top: 5px;">
+            Funeral Match
+        </div>
+    </div>
 
 </body>
 </html>
