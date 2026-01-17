@@ -2,160 +2,113 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Funeral Match | Professional Marketplace & Transparency Engine</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Funeral Match | Total Specialist v1.4</title>
     <style>
-        :root { --primary: #0a1118; --gold: #c5a059; --green: #059669; --red: #dc2626; --bg: #fcfcfc; --slate: #64748b; }
-        * { box-sizing: border-box; font-family: 'Inter', sans-serif; }
-        body { margin: 0; background: var(--bg); color: #1a1a1a; padding-bottom: 120px; }
+        :root { --primary: #0a1118; --gold: #c5a059; --green: #059669; --blue: #0369a1; --red: #dc2626; --bg: #fcfcfc; --slate: #64748b; }
+        * { box-sizing: border-box; font-family: 'Inter', -apple-system, sans-serif; }
+        body { margin: 0; background: var(--bg); color: #1a1a1a; padding-bottom: 100px; }
 
-        /* NAVIGATION & PORTAL TOGGLE */
         nav { background: white; padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; position: sticky; top: 0; z-index: 1000; }
-        .logo { font-weight: 900; font-size: 1.5rem; color: var(--primary); cursor: pointer; }
+        .logo { font-weight: 900; font-size: 1.3rem; color: var(--primary); }
         .logo span { color: var(--gold); }
-        .portal-btn { background: none; border: 1.5px solid #eee; padding: 8px 16px; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 0.8rem; }
 
-        /* MULTI-VIEW SYSTEM */
-        .view { display: none; max-width: 1000px; margin: 30px auto; padding: 0 20px; animation: fadeIn 0.3s ease; }
+        .view { display: none; max-width: 1000px; margin: 20px auto; padding: 0 15px; animation: fadeIn 0.3s ease; }
         .view.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* COMPONENT: CARDS & LISTS */
-        .fd-card { background: white; border: 1px solid #e2e8f0; border-radius: 16px; padding: 25px; margin-bottom: 20px; display: grid; grid-template-columns: 1fr 240px; gap: 20px; transition: 0.2s; position: relative; }
-        .fd-card.premium { border-color: var(--gold); background: #fffef9; box-shadow: 0 10px 30px rgba(197, 160, 89, 0.08); }
-        .t-score { display: inline-flex; align-items: center; gap: 6px; font-size: 0.7rem; font-weight: 800; padding: 4px 10px; border-radius: 50px; margin-bottom: 12px; cursor: help; }
-        .score-high { background: #dcfce7; color: #166534; }
-        .score-low { background: #fee2e2; color: #991b1b; }
+        /* SCROLLABLE SERVICE SELECTOR - Better for adding many options */
+        .service-scroll { 
+            display: flex; gap: 10px; overflow-x: auto; padding-bottom: 15px; 
+            scrollbar-width: none; -ms-overflow-style: none;
+        }
+        .service-scroll::-webkit-scrollbar { display: none; }
+        
+        .service-tab { 
+            flex: 0 0 160px; background: white; border: 1px solid #e2e8f0; padding: 15px; 
+            border-radius: 12px; text-align: center; cursor: pointer; transition: 0.2s; 
+        }
+        .service-tab.active { background: var(--primary); color: white; border-color: var(--primary); }
+        .service-tab b { display: block; font-size: 0.85rem; }
+        .service-tab span { font-size: 0.65rem; opacity: 0.8; }
 
-        /* BUTTONS */
-        .btn-care { background: var(--green); color: white; border: none; padding: 14px; width: 100%; border-radius: 8px; font-weight: 800; cursor: pointer; margin-top: 10px; }
-        .tab { padding: 10px 20px; background: white; border: 1px solid #eee; border-radius: 50px; cursor: pointer; font-size: 0.85rem; font-weight: 600; margin-right: 8px; }
-        .tab.active { background: var(--primary); color: white; border-color: var(--primary); }
+        /* THE CARDS */
+        .fd-card { background: white; border: 1px solid #e2e8f0; border-radius: 16px; padding: 20px; margin-bottom: 15px; display: flex; flex-direction: column; transition: 0.2s; }
+        @media (min-width: 768px) {
+            .fd-card { flex-direction: row; justify-content: space-between; }
+            .card-right { text-align: right; border-left: 1px solid #eee; padding-left: 25px; min-width: 240px; }
+        }
 
-        /* PARTNER DASHBOARD STYLES */
-        .dashboard-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 20px; }
-        .stat-box { background: white; border: 1px solid #eee; padding: 20px; border-radius: 12px; }
+        .status-pill { display: inline-flex; align-items: center; gap: 6px; font-size: 0.65rem; font-weight: 800; padding: 4px 10px; border-radius: 50px; margin-bottom: 10px; background: #f1f5f9; }
+        .btn-care { background: var(--green); color: white; border: none; padding: 14px; width: 100%; border-radius: 10px; font-weight: 800; cursor: pointer; margin-top: 10px; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
 <nav>
-    <div class="logo" onclick="showView('marketplaceView')">FUNERAL<span>MATCH</span></div>
-    <div class="nav-links">
-        <button class="portal-btn" onclick="showView('loginView')">Director Portal</button>
-    </div>
+    <div class="logo">FUNERAL<span>MATCH</span></div>
+    <div style="font-size: 0.7rem; font-weight: 800; color: var(--slate);">SS17 7QQ • MARITIME READY</div>
 </nav>
 
 <div id="marketplaceView" class="view active">
-    <h1 style="letter-spacing: -1px; margin-bottom: 10px;">Find & Fix Local Care</h1>
-    <p style="color:var(--slate); margin-bottom: 30px;">Direct comparison within 20 miles of <strong>SS17 7QQ</strong></p>
-
-    <div style="margin-bottom: 30px; display: flex; overflow-x: auto;">
-        <div class="tab active" onclick="setPathway('cremation', 950)">Direct Cremation</div>
-        <div class="tab" onclick="setPathway('attended', 1950)">Attended Service</div>
-        <div class="tab" onclick="setPathway('repatriation', 4500)">International Repatriation</div>
+    <h1>Bespoke Arrangements</h1>
+    
+    <div class="service-scroll">
+        <div class="service-tab active" onclick="setService('Direct Cremation', 950)"><b>Direct</b><span>Cremation</span></div>
+        <div class="service-tab" onclick="setService('Traditional Burial', 2200)"><b>Traditional</b><span>Cemetery Burial</span></div>
+        <div class="service-tab" onclick="setService('Burial at Sea', 3800)"><b>Sea Burial</b><span>MMO Licensed</span></div>
+        <div class="service-tab" onclick="setService('Woodland', 1850)"><b>Natural</b><span>Woodland Burial</span></div>
+        <div class="service-tab" onclick="setService('Repatriation', 4500)"><b>Global</b><span>Repatriation</span></div>
     </div>
 
-    <div id="marketplaceFeed">
-        </div>
-</div>
-
-<div id="loginView" class="view">
-    <div style="max-width: 400px; margin: 100px auto; background:white; padding:40px; border-radius:20px; border:1px solid #eee;">
-        <h2>Partner Login</h2>
-        <input type="email" value="partner@essex-funerals.co.uk" style="width:100%; padding:12px; margin: 10px 0; border:1px solid #ddd; border-radius:8px;">
-        <input type="password" value="********" style="width:100%; padding:12px; margin: 10px 0; border:1px solid #ddd; border-radius:8px;">
-        <button class="btn-care" style="background:var(--gold)" onclick="showView('dashboardView')">Access My Profile</button>
-    </div>
-</div>
-
-<div id="dashboardView" class="view">
-    <div style="background:white; padding:40px; border-radius:20px; border:1px solid #eee">
-        <div style="display:flex; justify-content:space-between; align-items:center">
-            <h1>Partner Dashboard</h1>
-            <button class="portal-btn" onclick="showView('marketplaceView')">Exit to Search</button>
-        </div>
-        <div class="dashboard-grid">
-            <div class="stat-box">
-                <label style="font-size:0.7rem; font-weight:800; color:var(--slate)">MY LIVE FEE</label>
-                <input type="number" id="dashPrice" value="950" style="font-size:1.5rem; border:none; width:100%; font-weight:800;" onchange="syncUpdate()">
-            </div>
-            <div class="stat-box">
-                <label style="font-size:0.7rem; font-weight:800; color:var(--slate)">TRANSPARENCY SCORE</label>
-                <div style="font-size:1.5rem; font-weight:800; color:var(--green)">100%</div>
-            </div>
-            <div class="stat-box">
-                <label style="font-size:0.7rem; font-weight:800; color:var(--slate)">SLOT STATUS</label>
-                <div style="font-size:1.1rem; font-weight:800; color:var(--gold)">PREMIUM PARTNER</div>
-            </div>
-        </div>
-        <p style="font-size:0.8rem; color:var(--slate); margin-top:20px;">*Updating your fee improves your transparency rating and keeps your quote "Guaranteed."</p>
-    </div>
+    <div id="marketplaceFeed"></div>
 </div>
 
 <script>
-    // COMBINED DATA ENGINE
     const directors = [
-        { id: 1, name: "D J Cotton & Sons", dist: "0.2 mi", tScore: 100, priceOffset: 0, isPremium: true, lastUpdate: "1h ago" },
-        { id: 2, name: "L E Brand & Sons", dist: "1.1 mi", tScore: 92, priceOffset: 50, isPremium: false, lastUpdate: "2d ago" },
-        { id: 3, name: "Generic Local Firm", dist: "3.5 mi", tScore: 45, priceOffset: -20, isPremium: false, lastUpdate: "Scraped Data" }
+        { id: 1, name: "D J Cotton & Sons", dist: "0.2 mi", tScore: 99, priceOffset: 0, isPremium: true, capabilities: ['Direct Cremation', 'Traditional Burial', 'Woodland'] },
+        { id: 2, name: "L E Brand & Sons", dist: "1.1 mi", tScore: 94, priceOffset: 120, isPremium: false, capabilities: ['Direct Cremation', 'Traditional Burial', 'Burial at Sea', 'Repatriation'] },
+        { id: 3, name: "Specialist Maritime Care", dist: "8.4 mi", tScore: 100, priceOffset: 450, isPremium: true, capabilities: ['Burial at Sea'] }
     ];
 
-    let currentPath = { label: 'Direct Cremation', base: 950 };
+    let currentService = { label: 'Direct Cremation', base: 950 };
 
-    function showView(viewId) {
-        document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-        document.getElementById(viewId).classList.add('active');
-        if(viewId === 'marketplaceView') renderMarketplace();
+    function renderMarketplace() {
+        const feed = document.getElementById('marketplaceFeed');
+        // Filter to only show directors capable of the selected service
+        const filtered = directors.filter(d => d.capabilities.includes(currentService.label));
+        
+        feed.innerHTML = filtered.map(d => `
+            <div class="fd-card">
+                <div class="card-left">
+                    <div class="status-pill" style="color:${d.tScore > 80 ? 'var(--green)' : 'var(--red)'}">
+                        ${d.tScore}% TRANSPARENCY RATING
+                    </div>
+                    <h2 style="margin:0">${d.name}</h2>
+                    <p style="color:var(--slate); font-size:0.85rem; margin:5px 0;">${d.dist} from SS17 7QQ</p>
+                    <div style="margin-top:10px; font-size:0.75rem;">
+                        <span style="color:var(--blue); font-weight:800;">✓ Verified for ${currentService.label}</span>
+                    </div>
+                </div>
+                <div class="card-right">
+                    <div style="font-size:0.7rem; font-weight:800; color:var(--slate); margin-top:10px;">FIXED TOTAL</div>
+                    <div style="font-size:1.8rem; font-weight:900;">£${(currentService.base + d.priceOffset).toLocaleString()}</div>
+                    <button class="btn-care" onclick="alert('Specialist ${currentService.label} Care Initiated.')">Initiate Care</button>
+                </div>
+            </div>
+        `).join('') || `<p style="text-align:center; padding:40px; color:var(--slate);">No directors found for this specialist service in the immediate SS17 area. Expanding search radius...</p>`;
     }
 
-    function setPathway(label, price) {
-        currentPath = { label, base: price };
-        document.querySelectorAll('.tab').forEach(t => {
-            t.classList.toggle('active', t.innerText === label);
+    function setService(label, base) {
+        currentService = { label, base };
+        document.querySelectorAll('.service-tab').forEach(t => {
+            t.classList.toggle('active', t.innerHTML.includes(label));
         });
         renderMarketplace();
     }
 
-    function renderMarketplace() {
-        const feed = document.getElementById('marketplaceFeed');
-        // SORT LOGIC: Premium first, then by Transparency
-        const sorted = [...directors].sort((a,b) => b.isPremium - a.isPremium || b.tScore - a.tScore);
-        
-        feed.innerHTML = sorted.map(d => `
-            <div class="fd-card ${d.isPremium ? 'premium' : ''}">
-                <div>
-                    <div class="t-score ${d.tScore > 80 ? 'score-high' : 'score-low'}" onclick="alert('Audit: This score is based on pricing frequency and fee completeness.')">
-                        ${d.tScore}% TRANSPARENCY RATING
-                    </div>
-                    <h2 style="margin:0">${d.name}</h2>
-                    <p style="color:var(--slate); font-size:0.8rem; margin:5px 0;">${d.dist} from SS17 7QQ • ${d.lastUpdate}</p>
-                    <div style="margin-top:15px; display:flex; gap:10px;">
-                        <span style="font-size:0.65rem; font-weight:800; color:var(--green)">✓ 24/7 COLLECTION</span>
-                        <span style="font-size:0.65rem; font-weight:800; color:var(--green)">✓ FIXED TOTAL</span>
-                    </div>
-                </div>
-                <div style="text-align:right; border-left:1px solid #eee; padding-left:20px; display:flex; flex-direction:column; justify-content:center;">
-                    <div style="font-size:0.7rem; font-weight:800; color:var(--slate)">GUARANTEED QUOTE</div>
-                    <div style="font-size:1.8rem; font-weight:900;">£${(currentPath.base + d.priceOffset).toLocaleString()}</div>
-                    <button class="btn-care" onclick="initiateCare('${d.name}')">Initiate Care</button>
-                </div>
-            </div>
-        `).join('');
-    }
-
-    function syncUpdate() {
-        const newPrice = document.getElementById('dashPrice').value;
-        directors[0].priceOffset = parseInt(newPrice) - 950;
-        alert("Live marketplace updated with your new fee.");
-    }
-
-    function initiateCare(name) {
-        alert("Handover to " + name + " initiated. Professional assistance will contact you in minutes.");
-    }
-
     renderMarketplace();
 </script>
-
 </body>
 </html>
