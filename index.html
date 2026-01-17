@@ -3,48 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Funeral Match | Welcome</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <title>Funeral Match | Entrance</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         :root { --primary: #0a1118; --accent: #c5a059; --slate: #64748b; }
         body { 
-            margin: 0; background: #ffffff; color: var(--primary); font-family: 'Inter', sans-serif;
+            margin: 0; padding: 0; font-family: 'Inter', sans-serif; 
             height: 100vh; display: flex; align-items: center; justify-content: center;
+            background: #ffffff;
         }
-        .entrance-card { text-align: center; max-width: 500px; width: 90%; }
-        h1 { font-size: 3.5rem; letter-spacing: -2px; margin-bottom: 15px; }
-        p { color: var(--slate); font-size: 1.2rem; margin-bottom: 40px; line-height: 1.5; }
+        .entrance { text-align: center; max-width: 550px; width: 90%; }
+        .logo { font-weight: 700; letter-spacing: 3px; color: var(--accent); margin-bottom: 30px; }
+        h1 { font-size: 3.2rem; line-height: 1; margin-bottom: 20px; letter-spacing: -2px; }
+        p { color: var(--slate); font-size: 1.2rem; margin-bottom: 40px; }
         
-        .form-group {
-            display: flex; background: #f1f5f9; padding: 8px; border-radius: 100px; border: 1px solid #e2e8f0;
+        .search-box {
+            display: flex; background: #f8fafc; border: 1px solid #e2e8f0; 
+            padding: 8px; border-radius: 100px;
         }
-        input { flex: 1; border: none; background: none; padding: 0 20px; font-size: 1.1rem; outline: none; }
-        button { background: var(--primary); color: white; border: none; padding: 16px 32px; border-radius: 100px; font-weight: 700; cursor: pointer; }
+        input { flex: 1; border: none; background: none; padding: 0 25px; font-size: 1.1rem; outline: none; }
+        button { background: var(--primary); color: white; border: none; padding: 16px 35px; border-radius: 100px; font-weight: 700; cursor: pointer; }
+        
+        @media (max-width: 500px) {
+            .search-box { flex-direction: column; background: none; border: none; padding: 0; }
+            input { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 15px; height: 60px; margin-bottom: 10px; text-align: center; }
+            button { width: 100%; height: 60px; border-radius: 15px; }
+        }
     </style>
 </head>
 <body>
 
-    <div class="entrance-card">
-        <div style="color:var(--accent); font-weight:700; letter-spacing:3px; margin-bottom:20px;">FUNERAL MATCH</div>
-        <h1>Welcome.</h1>
-        <p>Take your time. This is your starting point. When you are ready, enter a postcode to see local options.</p>
+    <div class="entrance">
+        <div class="logo">FUNERAL MATCH</div>
+        <h1>Support for the <br>next steps.</h1>
+        <p>Compare local funeral directors with total price transparency. Enter your postcode to begin.</p>
 
-        <form id="startForm" class="form-group">
-            <input type="text" id="pc" placeholder="Enter postcode" required autocomplete="off">
-            <button type="submit">Begin Search</button>
+        <form id="navForm" class="search-box">
+            <input type="text" id="postcode" placeholder="Enter postcode" required autocomplete="off">
+            <button type="submit">Begin</button>
         </form>
     </div>
 
     <script>
-        // CLEAN SLATE: This script has NO auto-run features.
-        // It only listens for the 'submit' event.
-        
-        document.getElementById('startForm').addEventListener('submit', function(e) {
+        document.getElementById('navForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            const val = document.getElementById('pc').value.trim();
+            const pc = document.getElementById('postcode').value.trim();
             
-            // WE USE A NEW FILENAME TO BREAK THE CACHE LOCK
-            window.location.href = "search-results.html?postcode=" + encodeURIComponent(val);
+            // This MUST match your filename in GitHub exactly
+            const targetFile = "search-results.html"; 
+            
+            window.location.href = targetFile + "?postcode=" + encodeURIComponent(pc);
         });
     </script>
 </body>
