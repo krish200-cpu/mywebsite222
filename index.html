@@ -20,12 +20,13 @@
             color: var(--charcoal);
             margin: 0;
             scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* Centering the Brand Header */
+        /* The Adjusted Logo Hierarchy */
         .brand-header {
             width: 100%;
-            padding: 2.5rem 0;
+            padding: 3rem 0;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -34,36 +35,39 @@
         }
 
         .funeral-text {
-            font-size: 0.9rem;
-            font-weight: 700;
+            font-size: 0.75rem; /* Sized down for elegance */
+            font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 0.5em;
-            margin-right: -0.5em;
+            letter-spacing: 0.6em;
+            margin-right: -0.6em;
+            color: var(--charcoal);
+            opacity: 0.8;
         }
 
         .match-text {
-            font-size: 0.7rem;
+            font-size: 1.4rem; /* Significantly bigger */
             font-weight: 300;
             text-transform: uppercase;
-            letter-spacing: 0.6em;
+            letter-spacing: 0.4em;
             color: var(--gold);
-            margin-top: 0.2rem;
-            margin-right: -0.6em;
+            margin-top: 0.1rem;
+            margin-right: -0.4em;
+            line-height: 1;
         }
 
         section {
-            min-height: 80vh;
+            min-height: 90vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            padding: 5rem 10%;
+            padding: 4rem 10%;
             text-align: center;
         }
 
         .fade-in {
             opacity: 0;
-            transform: translateY(20px);
-            transition: all 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+            transform: translateY(15px);
+            transition: all 1.4s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
 
         .fade-in.visible {
@@ -71,36 +75,56 @@
             transform: translateY(0);
         }
 
+        /* Precision Search Card */
         .service-card {
             background: #ffffff;
             border: 1px solid #eee;
-            padding: 3rem 2rem;
-            border-radius: 16px;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.03);
-            max-width: 500px;
+            padding: 3.5rem 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.02);
+            max-width: 520px;
             margin: 0 auto;
         }
 
         .input-underline {
             border: none;
             border-bottom: 1px solid #ddd;
-            padding: 1rem 0;
+            padding: 1.2rem 0;
             width: 100%;
             background: transparent;
-            font-size: 1rem;
-            transition: border-color 0.4s;
+            font-size: 1.1rem;
+            transition: all 0.4s ease;
             font-weight: 300;
         }
 
         .input-underline:focus {
             outline: none;
-            border-color: var(--gold);
+            border-bottom-color: var(--gold);
+            letter-spacing: 0.05em;
         }
 
-        /* High contrast section */
-        .dark-pillar {
+        .dark-section {
             background-color: var(--charcoal);
             color: #ffffff;
+        }
+
+        .btn-gold {
+            background: var(--charcoal);
+            color: white;
+            padding: 1.2rem;
+            border-radius: 50px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            margin-top: 2rem;
+        }
+
+        .btn-gold:hover {
+            background: var(--gold);
+            letter-spacing: 0.5em;
+            transform: translateY(-2px);
         }
     </style>
 </head>
@@ -114,39 +138,39 @@
     </header>
 
     <section>
-        <div class="fade-in js-scroll max-w-2xl mx-auto">
-            <h1 class="text-[0.65rem] tracking-[0.6em] uppercase text-gray-400 mb-8 font-bold">First Point of Contact</h1>
-            <h2 class="text-3xl md:text-4xl font-light mb-10 leading-snug">
-                Helping you navigate <br>the <span class="text-[#C5A059]">essential first steps.</span>
+        <div class="fade-in js-scroll max-w-3xl mx-auto">
+            <h1 class="text-[0.6rem] tracking-[0.7em] uppercase text-gray-400 mb-6 font-bold">Compassionate Agency</h1>
+            <h2 class="text-3xl md:text-5xl font-light mb-10 leading-tight text-gray-800">
+                Guiding you when the <br><span class="italic font-normal">unexpected occurs.</span>
             </h2>
-            <p class="text-lg text-gray-500 font-light mb-12 leading-relaxed">
-                If a death has just occurred, the path forward can feel overwhelming. We provide immediate clarity on legal requirements, logistics, and choices—standing by you from the very first moment.
+            <p class="text-lg text-gray-500 font-light mb-12 leading-relaxed max-w-xl mx-auto">
+                If a death has just occurred, you shouldn't have to navigate the path alone. We act as your primary liaison, coordinating immediate logistics and legal steps with absolute transparency.
             </p>
-            <div class="w-px h-16 bg-gray-200 mx-auto"></div>
+            <div class="w-px h-20 bg-gradient-to-b from-gray-200 to-transparent mx-auto"></div>
         </div>
     </section>
 
-    <section class="dark-pillar">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-16 fade-in js-scroll">
-            <div class="space-y-4">
-                <span class="text-[#C5A059] text-[0.6rem] font-bold tracking-widest uppercase">Immediate Action</span>
-                <h3 class="text-xl font-normal">Legal Guidance</h3>
+    <section class="dark-section">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-16 md:gap-8 fade-in js-scroll">
+            <div class="p-4">
+                <span class="text-[#C5A059] text-[0.6rem] font-bold tracking-widest uppercase mb-4 block">01. Immediate</span>
+                <h3 class="text-xl font-light mb-4 tracking-wide">First Response</h3>
                 <p class="text-gray-400 font-light text-sm leading-relaxed">
-                    Clear, step-by-step instructions on registration and certification, tailored to your specific situation.
+                    We initiate the immediate care of your loved one, removing the burden of logistics from the family instantly.
                 </p>
             </div>
-            <div class="space-y-4">
-                <span class="text-[#C5A059] text-[0.6rem] font-bold tracking-widest uppercase">Professional Care</span>
-                <h3 class="text-xl font-normal">Logistical Support</h3>
+            <div class="p-4">
+                <span class="text-[#C5A059] text-[0.6rem] font-bold tracking-widest uppercase mb-4 block">02. Essential</span>
+                <h3 class="text-xl font-light mb-4 tracking-wide">Legal Clarity</h3>
                 <p class="text-gray-400 font-light text-sm leading-relaxed">
-                    We coordinate the dignified transfer of your loved one into safe hands, ensuring peace of mind immediately.
+                    Step-by-step guidance through registration and certification, ensuring legal compliance with total ease.
                 </p>
             </div>
-            <div class="space-y-4">
-                <span class="text-[#C5A059] text-[0.6rem] font-bold tracking-widest uppercase">Future Clarity</span>
-                <h3 class="text-xl font-normal">Verified Choice</h3>
+            <div class="p-4">
+                <span class="text-[#C5A059] text-[0.6rem] font-bold tracking-widest uppercase mb-4 block">03. Final</span>
+                <h3 class="text-xl font-light mb-4 tracking-wide">Refined Choice</h3>
                 <p class="text-gray-400 font-light text-sm leading-relaxed">
-                    We connect you with directors who have been vetted for transparency, fairness, and modern standards.
+                    Once the immediate needs are met, we match you with verified directors based on your specific wishes and budget.
                 </p>
             </div>
         </div>
@@ -154,32 +178,32 @@
 
     <section>
         <div class="service-card fade-in js-scroll">
-            <h2 class="text-xl font-light mb-8 tracking-wide">Enter your location to begin</h2>
+            <h2 class="text-xl font-light mb-10 tracking-widest uppercase">Start Your Care</h2>
             
             <form action="search.html" class="space-y-12">
                 <div class="text-left">
-                    <label class="text-[0.55rem] uppercase tracking-widest text-gray-400 font-bold">Your Postcode</label>
-                    <input type="text" placeholder="e.g. SW1A" class="input-underline" required>
+                    <label class="text-[0.55rem] uppercase tracking-widest text-gray-400 font-bold">Location</label>
+                    <input type="text" placeholder="Enter Postcode" class="input-underline" required>
                 </div>
 
                 <div class="text-left">
-                    <label class="text-[0.55rem] uppercase tracking-widest text-gray-400 font-bold">Service Type</label>
+                    <label class="text-[0.55rem] uppercase tracking-widest text-gray-400 font-bold">Arrangement Type</label>
                     <select class="input-underline appearance-none cursor-pointer bg-transparent">
                         <option>Direct Cremation</option>
-                        <option>Traditional Burial</option>
-                        <option>Attended Service</option>
+                        <option>Full Funeral Service</option>
+                        <option>Natural Burial</option>
                     </select>
                 </div>
 
-                <button class="w-full bg-[#1C1C1C] text-white text-[0.65rem] font-bold tracking-[0.4em] uppercase py-5 hover:bg-[#C5A059] transition-all duration-700 rounded-full">
-                    View Local Options
+                <button class="w-full btn-gold">
+                    Find Your Match
                 </button>
             </form>
         </div>
     </section>
 
-    <footer class="py-12 text-center opacity-30">
-        <p class="text-[0.55rem] tracking-[0.4em] uppercase">Funeral Match — The New Standard of Care</p>
+    <footer class="py-16 text-center opacity-40">
+        <p class="text-[0.5rem] tracking-[0.6em] uppercase text-gray-400">Funeral Match — The New Standard of Care</p>
     </footer>
 
     <script>
