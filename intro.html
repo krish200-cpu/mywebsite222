@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome | Funeral Match</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap');
+        
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #0f172a; /* Deep slate blue-black */
+            overflow: hidden; 
+        }
+
+        /* Animation for the Statement */
+        .fade-in-text {
+            opacity: 0;
+            animation: fadeIn 1.5s ease-out forwards;
+            animation-delay: 0.8s;
+        }
+
+        /* Animation for the Logo */
+        .logo-appear {
+            opacity: 0;
+            transform: translateY(10px);
+            animation: appear 1s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes appear {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Transition to hide the splash */
+        .page-exit {
+            transition: transform 0.8s cubic-bezier(0.7, 0, 0.3, 1);
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen">
+
+    <div id="splash-container" class="text-center page-exit">
+        <div class="logo-appear flex items-center justify-center gap-2 mb-6">
+            <div class="w-10 h-10 bg-emerald-500 rounded-full flex items-center justify-center">
+                <div class="w-5 h-5 border-t-2 border-r-2 border-white rotate-45 transform translate-y-0.5 -translate-x-0.5"></div>
+            </div>
+            <span class="text-white text-3xl font-extrabold tracking-tighter">FUNERAL MATCH</span>
+        </div>
+
+        <h1 class="fade-in-text text-slate-400 text-xl md:text-2xl font-medium tracking-wide">
+            Clarity when you need it most.
+        </h1>
+
+        <div class="mt-12 w-48 h-0.5 bg-slate-800 mx-auto overflow-hidden">
+            <div id="progress-bar" class="h-full bg-emerald-500 w-0 transition-all duration-[3000ms] ease-out"></div>
+        </div>
+    </div>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            const progressBar = document.getElementById('progress-bar');
+            const splash = document.body;
+
+            // Start progress bar
+            setTimeout(() => {
+                progressBar.style.width = '100%';
+            }, 100);
+
+            // Transition to Home Page
+            setTimeout(() => {
+                // For this tester, we will fade out the body
+                splash.style.opacity = '0';
+                splash.style.transition = 'opacity 0.8s ease';
+                
+                setTimeout(() => {
+                    // In a real project, this would be: window.location.href = 'index.html';
+                    // For now, we will simulate the arrival at Home.
+                    alert("Transitioning to Funeral Match Home Page...");
+                    window.location.href = 'index.html';
+                }, 800);
+            }, 3200);
+        });
+    </script>
+</body>
+</html>
