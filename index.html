@@ -4,131 +4,104 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Funeral Match | Compassionate Clarity</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
-        :root { --black: #1A1A1B; --gold: #B39359; --white: #FFFFFF; --glass: rgba(255, 255, 255, 0.85); }
-        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
-        body { background: #FFF; font-family: 'Inter', sans-serif; color: var(--black); overflow-x: hidden; }
+        :root { --black: #1A1A1B; --gold: #B39359; --white: #FFFFFF; --bg-overlay: rgba(26, 26, 27, 0.4); }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #FFF; font-family: 'Inter', sans-serif; color: var(--black); }
 
-        /* Full Screen Hero */
+        /* Full Screen Hero with Improved Contrast */
         .hero { 
             height: 100vh; 
             width: 100%; 
-            background: linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.1)), url('https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=2000&q=80'); 
+            /* Using a more neutral, high-end abstract texture for stability */
+            background: linear-gradient(var(--bg-overlay), var(--bg-overlay)), 
+                        url('https://images.unsplash.com/photo-1507652313519-d453018275de?auto=format&fit=crop&w=2000&q=80'); 
             background-size: cover; 
             background-position: center;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
-            padding: 40px;
-            color: var(--white);
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            text-align: center;
         }
 
-        /* Nav / Logo Match */
-        nav { display: flex; justify-content: space-between; align-items: center; z-index: 10; }
-        .logo { font-size: 1.2rem; font-weight: 800; text-transform: uppercase; letter-spacing: 12px; color: var(--white); text-decoration: none; }
+        /* Logo Stability: High Contrast Header */
+        header { position: absolute; top: 0; width: 100%; padding: 40px; }
+        .logo { font-size: 1.1rem; font-weight: 800; text-transform: uppercase; letter-spacing: 12px; color: var(--white); text-decoration: none; text-shadow: 0 2px 10px rgba(0,0,0,0.3); }
         .logo span { color: var(--gold); }
 
-        /* Search Container (Glassmorphism) */
-        .search-container {
-            align-self: center;
-            background: var(--glass);
-            backdrop-filter: blur(15px);
-            padding: clamp(30px, 5vw, 60px);
-            width: 100%;
-            max-width: 800px;
-            border-radius: 2px;
-            color: var(--black);
-            box-shadow: 0 40px 100px rgba(0,0,0,0.2);
-            text-align: center;
-            animation: slideUp 1s ease-out;
-        }
-
-        h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.5rem, 6vw, 4.5rem); line-height: 1; margin-bottom: 20px; }
-        p.subtitle { font-size: 1.1rem; margin-bottom: 40px; color: #555; max-width: 500px; margin-left: auto; margin-right: auto; }
-
-        .search-group { display: flex; flex-direction: column; gap: 15px; }
-        @media (min-width: 600px) { .search-group { flex-direction: row; border-bottom: 2px solid #DDD; padding-bottom: 10px; } }
+        /* Simplified Hero Content */
+        .hero-content { width: 100%; max-width: 700px; color: var(--white); z-index: 2; }
+        h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.2rem, 5vw, 4rem); line-height: 1.1; margin-bottom: 24px; }
         
-        input { 
-            flex: 1; border: none; background: transparent; padding: 15px; 
-            font-size: 1.4rem; font-family: 'Playfair Display', serif; outline: none; 
-        }
-        .btn-search { 
-            background: var(--black); color: var(--white); border: none; 
-            padding: 20px 40px; border-radius: 40px; font-weight: 800; 
-            text-transform: uppercase; letter-spacing: 2px; cursor: pointer; transition: 0.4s;
-        }
-        .btn-search:hover { background: var(--gold); transform: scale(1.05); }
+        /* The Search Engine UI */
+        .search-container { background: var(--white); padding: 10px; border-radius: 50px; display: flex; align-items: center; margin-bottom: 30px; box-shadow: 0 20px 50px rgba(0,0,0,0.15); }
+        input { flex: 1; border: none; padding: 15px 25px; font-size: 1.1rem; font-family: 'Playfair Display', serif; outline: none; border-radius: 50px; }
+        .btn-search { background: var(--black); color: var(--white); border: none; padding: 15px 35px; border-radius: 50px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; transition: 0.3s; }
+        .btn-search:hover { background: var(--gold); }
 
-        /* Scroll Prompt */
-        .scroll-down { text-align: center; font-size: 0.7rem; letter-spacing: 4px; text-transform: uppercase; opacity: 0.7; }
+        /* Revenue Partnership: Pre-paid Plans */
+        .plan-partner { display: inline-flex; align-items: center; gap: 12px; background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); padding: 12px 24px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.2); text-decoration: none; color: var(--white); font-size: 0.85rem; transition: 0.3s; }
+        .plan-partner:hover { background: rgba(255,255,255,0.25); border-color: var(--gold); }
+        .dot { width: 8px; height: 8px; background: var(--gold); border-radius: 50%; }
 
-        /* About Section (The Information) */
-        .info-section { padding: 120px 10%; background: var(--white); display: grid; grid-template-columns: 1fr; gap: 80px; }
-        @media (min-width: 1024px) { .info-section { grid-template-columns: 1fr 1fr; } }
+        /* Minimal Information Section */
+        .trust-bar { padding: 60px 10%; background: #FFF; display: flex; justify-content: space-around; flex-wrap: wrap; gap: 30px; border-bottom: 1px solid #EEE; }
+        .trust-item { text-align: center; max-width: 250px; }
+        .trust-item h3 { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; color: var(--gold); margin-bottom: 10px; }
+        .trust-item p { font-size: 0.9rem; color: #666; line-height: 1.5; }
 
-        .info-content h2 { font-family: 'Playfair Display', serif; font-size: 3rem; margin-bottom: 30px; }
-        .info-content p { font-size: 1.1rem; line-height: 1.8; color: #444; margin-bottom: 20px; }
-
-        .feature-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        .feature-item { padding: 30px; border: 1px solid #EEE; transition: 0.3s; }
-        .feature-item:hover { border-color: var(--gold); }
-        .feature-item h4 { color: var(--gold); text-transform: uppercase; letter-spacing: 1px; font-size: 0.7rem; margin-bottom: 10px; }
-
-        @keyframes slideUp { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
+        footer { padding: 40px; text-align: center; background: #FFF; font-size: 0.7rem; color: #AAA; letter-spacing: 1px; }
+        footer a { color: #888; text-decoration: none; margin: 0 15px; }
+        footer a:hover { color: var(--gold); }
     </style>
 </head>
 <body>
 
+    <header>
+        <a href="#" class="logo">Funeral<span>Match</span></a>
+    </header>
+
     <section class="hero">
-        <nav>
-            <a href="#" class="logo">Funeral<span>Match</span></a>
-            <div style="font-size: 0.7rem; font-weight: 700; letter-spacing: 2px; border-bottom: 1px solid var(--gold);">PARTNER LOGIN</div>
-        </nav>
-
-        <div class="search-container">
-            <h1>Expert care, <br><em>instantly</em> compared.</h1>
-            <p class="subtitle">The UK's only automated quote engine for fixed-price funeral services. Total transparency when you need it most.</p>
+        <div class="hero-content">
+            <h1>Expert local care, <br>transparently priced.</h1>
             
-            <div class="search-group">
+            <div class="search-container">
                 <input type="text" placeholder="Enter your postcode...">
-                <button class="btn-search" onclick="location.href='#results'">Find Support</button>
+                <button class="btn-search" onclick="location.href='results.html'">Search</button>
             </div>
 
-            <div style="margin-top: 30px; font-size: 0.75rem; color: #888;">
-                <strong>Active in:</strong> London, Manchester, Birmingham & Bristol
-            </div>
-        </div>
-
-        <div class="scroll-down">Explore Our Standards ↓</div>
-    </section>
-
-    <section class="info-section">
-        <div class="info-content">
-            <h2>We believe in <br>dignity, not data.</h2>
-            <p>Funeral Match was founded to solve a critical problem: the lack of immediate pricing clarity during bereavement. We partner with the top 25 directors in every region to ensure you aren't just finding a service—you are finding a dedicated hand.</p>
-            <p>Our <strong>Price-Lock Guarantee</strong> means the quote you see today is the price the director honors tomorrow. No hidden fees, no negotiation.</p>
-        </div>
-        <div class="feature-grid">
-            <div class="feature-item">
-                <h4>01. Verification</h4>
-                <p style="font-size: 0.9rem;">Every director is vetted for facility quality and staff empathy.</p>
-            </div>
-            <div class="feature-item">
-                <h4>02. Accuracy</h4>
-                <p style="font-size: 0.9rem;">Real-time API links to ensure our Quote Machine is 100% accurate.</p>
-            </div>
-            <div class="feature-item">
-                <h4>03. Speed</h4>
-                <p style="font-size: 0.9rem;">From postcode to locked quote in under 120 seconds.</p>
-            </div>
-            <div class="feature-item">
-                <h4>04. Support</h4>
-                <p style="font-size: 0.9rem;">24/7 assistance for families needing immediate arrangements.</p>
-            </div>
+            <a href="#" class="plan-partner">
+                <span class="dot"></span>
+                <strong>Planning ahead?</strong> Explore our 5★ rated pre-paid funeral plans.
+            </a>
         </div>
     </section>
+
+    <div class="trust-bar">
+        <div class="trust-item">
+            <h3>Automated Quotes</h3>
+            <p>Instant pricing data from 25 local funeral directors.</p>
+        </div>
+        <div class="trust-item">
+            <h3>Price Locked</h3>
+            <p>Every quote generated is fixed and verified by our team.</p>
+        </div>
+        <div class="trust-item">
+            <h3>Verified Care</h3>
+            <p>Only licensed directors with vetted facilities are listed.</p>
+        </div>
+    </div>
+
+    <footer>
+        <a href="#">About Us</a>
+        <a href="#">Contact</a>
+        <a href="#">Legal & Privacy</a>
+        <a href="#" style="color: var(--black); font-weight: 800;">Partner Login</a>
+        <p style="margin-top: 20px;">© 2026 Funeral Match Ltd.</p>
+    </footer>
 
 </body>
 </html>
