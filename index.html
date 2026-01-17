@@ -2,104 +2,108 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Funeral Match | Welcome</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Funeral Match | Compassionate Comparison</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
     <style>
-        /* --- CSS STYLES --- */
+        /* --- CSS ARCHITECTURE --- */
         :root {
-            --primary: #0a1118;
-            --accent: #c5a059;
-            --text-main: #1d1d1f;
-            --text-secondary: #6e6e73;
-            --bg-gradient: radial-gradient(circle at 50% -20%, #ffffff 0%, #f5f5f7 100%);
-            --input-bg: rgba(255, 255, 255, 0.8);
-            --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            --primary: #0a1118;      /* Deep Midnight */
+            --accent: #c5a059;       /* Muted Gold */
+            --slate: #64748b;        /* Soft Gray */
+            --bg: #fcfcfd;           /* Off-White */
+            --glass: rgba(255, 255, 255, 0.85);
+            --ease: cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        body, html {
-            height: 100%;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--bg-gradient);
-            color: var(--text-main);
-            overflow: hidden;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        /* Hero Section Container */
-        .hero {
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            background-image: 
+                radial-gradient(at 0% 0%, hsla(210,100%,98%,1) 0, transparent 50%), 
+                radial-gradient(at 50% 0%, hsla(42,30%,95%,1) 0, transparent 50%);
+            color: var(--primary);
             height: 100vh;
             display: flex;
             flex-direction: column;
+            -webkit-font-smoothing: antialiased;
+            overflow: hidden; /* Prevents scroll during the intro animation */
+        }
+
+        /* --- NAVIGATION --- */
+        nav {
+            padding: 40px 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 10;
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 1.1rem;
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo-dot { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; }
+
+        /* --- HERO SECTION --- */
+        main {
+            flex: 1;
+            display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            padding: 0 6% 10vh 6%;
+        }
+
+        .hero-container {
+            max-width: 640px;
             text-align: center;
-        }
-
-        /* Branding */
-        .brand {
-            position: absolute;
-            top: 40px;
-            font-weight: 700;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            font-size: 0.85rem;
-            color: var(--accent);
-            animation: fadeInDown 1s ease forwards;
-        }
-
-        /* Typography */
-        .content-wrap {
-            max-width: 600px;
             opacity: 0;
-            transform: translateY(20px);
-            animation: fadeInUp 0.8s ease forwards 0.2s;
+            transform: translateY(30px);
+            animation: heroEntry 1.2s var(--ease) forwards;
         }
 
         h1 {
             font-size: clamp(2.5rem, 8vw, 4rem);
             font-weight: 700;
-            letter-spacing: -0.03em;
-            line-height: 1.1;
-            margin-bottom: 20px;
+            letter-spacing: -0.04em;
+            line-height: 0.95;
+            margin-bottom: 24px;
         }
 
-        p {
-            font-size: clamp(1.1rem, 3vw, 1.25rem);
-            color: var(--text-secondary);
-            line-height: 1.5;
-            margin-bottom: 40px;
+        .subtext {
+            font-size: clamp(1.1rem, 2vw, 1.25rem);
+            color: var(--slate);
+            line-height: 1.6;
+            margin-bottom: 48px;
             font-weight: 400;
         }
 
-        /* Form Styling */
-        .input-group {
-            position: relative;
-            background: var(--input-bg);
-            border: 1px solid rgba(0,0,0,0.1);
-            padding: 8px;
-            border-radius: 100px;
-            display: flex;
+        /* --- THE POSTCODE GATEWAY --- */
+        .search-wrap {
+            background: var(--glass);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-            transition: var(--transition-smooth);
-            max-width: 460px;
+            border: 1px solid rgba(0,0,0,0.06);
+            padding: 10px;
+            border-radius: 100px;
+            display: flex;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.04);
+            transition: var(--ease);
+            max-width: 500px;
             margin: 0 auto;
         }
 
-        .input-group:focus-within {
-            transform: translateY(-2px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+        .search-wrap:focus-within {
+            transform: translateY(-4px);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.08);
             border-color: var(--accent);
             background: #fff;
         }
@@ -108,203 +112,144 @@
             flex: 1;
             border: none;
             background: transparent;
-            padding: 15px 25px;
+            padding: 15px 30px;
             font-size: 1.1rem;
             font-weight: 500;
             outline: none;
-            color: var(--text-main);
+            color: var(--primary);
             width: 100%;
         }
 
-        input::placeholder {
-            color: #a1a1a6;
-            text-transform: none;
-        }
+        input::placeholder { color: #94a3b8; text-transform: none; }
+        input#postcode { text-transform: uppercase; }
 
-        /* Auto-capitalize postcode while typing */
-        input#postcode {
-            text-transform: uppercase;
-        }
-
-        .btn-submit {
+        .cta-button {
             background: var(--primary);
             color: #fff;
             border: none;
-            padding: 15px 30px;
+            padding: 16px 36px;
             border-radius: 100px;
             font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
-            transition: var(--transition-smooth);
-            white-space: nowrap;
+            transition: var(--ease);
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        .btn-submit:hover {
-            background: #000;
-            transform: scale(1.02);
-        }
+        .cta-button:hover { background: #000; transform: scale(1.02); }
 
-        .btn-submit:active {
-            transform: scale(0.98);
-        }
-
-        /* Loading & Success States */
-        .loader {
-            display: none;
-            width: 20px;
-            height: 20px;
-            border: 2px solid rgba(255,255,255,0.3);
-            border-radius: 50%;
-            border-top-color: #fff;
-            animation: spin 0.8s linear infinite;
-        }
-
-        /* Animations */
-        @keyframes fadeInUp {
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
+        /* --- MICRO-INTERACTION: SHAKE --- */
         @keyframes shake {
             0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-5px); }
-            75% { transform: translateX(5px); }
+            20%, 60% { transform: translateX(-6px); }
+            40%, 80% { transform: translateX(6px); }
+        }
+        .error { animation: shake 0.4s var(--ease); border-color: #ef4444; }
+
+        /* --- INTRO ANIMATIONS --- */
+        @keyframes heroEntry {
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        .error-shake {
-            animation: shake 0.4s ease;
-            border-color: #ff453a !important;
-        }
-
-        /* Mobile Optimization */
-        @media (max-width: 480px) {
-            .input-group {
+        /* --- MOBILE RESPONSIVENESS --- */
+        @media (max-width: 600px) {
+            nav { padding: 30px 6%; }
+            .search-wrap {
                 flex-direction: column;
-                border-radius: 20px;
                 background: transparent;
-                box-shadow: none;
                 border: none;
+                box-shadow: none;
                 padding: 0;
             }
-
             input {
                 background: #fff;
-                border: 1px solid rgba(0,0,0,0.1);
-                border-radius: 15px;
+                border: 1px solid #e2e8f0;
+                border-radius: 20px;
                 margin-bottom: 12px;
                 text-align: center;
-                padding: 20px;
+                height: 65px;
             }
-
-            .btn-submit {
+            .cta-button {
                 width: 100%;
-                padding: 20px;
-                border-radius: 15px;
+                height: 65px;
+                justify-content: center;
+                border-radius: 20px;
             }
-
-            .brand { top: 30px; }
-        }
-
-        /* Transition Screen Overlay */
-        #overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: white;
-            z-index: 9999;
-            transform: translateY(100%);
-            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        #overlay.active {
-            transform: translateY(0);
         }
     </style>
 </head>
 <body>
 
-    <div id="overlay"></div>
+    <nav>
+        <div class="logo">
+            <div class="logo-dot"></div>
+            FUNERAL MATCH
+        </div>
+        <div style="font-size: 0.8rem; font-weight: 600; color: var(--slate); letter-spacing: 1px;">DIRECTOR PORTAL</div>
+    </nav>
 
-    <section class="hero">
-        <div class="brand">Funeral Match</div>
+    <main>
+        <section class="hero-container">
+            <h1>Transparency <br>when it matters.</h1>
+            <p class="subtext">
+                Compare local funeral directors by price and verified service quality. 
+                Enter your postcode to see options in your area.
+            </p>
 
-        <div class="content-wrap">
-            <h1>Support for the <br>next steps.</h1>
-            <p>We help you find and compare local directors with total price transparency. Start by seeing who is near you.</p>
-
-            <form id="postcodeForm" class="input-group">
+            <div class="search-wrap" id="inputBox">
                 <input 
                     type="text" 
                     id="postcode" 
-                    placeholder="Enter postcode (e.g. SS17)" 
-                    maxlength="8" 
-                    autocomplete="postal-code"
-                    required
+                    placeholder="Enter your postcode (e.g. SS17)" 
+                    maxlength="8"
+                    spellcheck="false"
                 >
-                <button type="submit" class="btn-submit">
-                    <span class="btn-text">Begin search</span>
-                    <div class="loader" id="loader"></div>
+                <button class="cta-button" onclick="handleSubmission()">
+                    Continue
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
                 </button>
-            </form>
-        </div>
-    </section>
+            </div>
+        </section>
+    </main>
 
     <script>
-        document.getElementById('postcodeForm').addEventListener('submit', function(e) {
-            e.preventDefault();
+        /* --- JAVASCRIPT LOGIC --- */
 
+        function handleSubmission() {
             const input = document.getElementById('postcode');
-            const group = document.querySelector('.input-group');
-            const btnText = document.querySelector('.btn-text');
-            const loader = document.getElementById('loader');
-            const overlay = document.getElementById('overlay');
-            
-            // Basic UK Postcode regex for validation
-            const postcodeRegex = /^[A-Z]{1,2}[0-9][A-Z0-9]? ?[0-9][A-Z]{2}$/i;
-            const value = input.value.trim();
+            const box = document.getElementById('inputBox');
+            const val = input.value.trim().toUpperCase();
 
-            if (!postcodeRegex.test(value)) {
-                // Shake interaction for invalid input
-                group.classList.add('error-shake');
-                setTimeout(() => group.classList.remove('error-shake'), 400);
+            // 1. Basic Validation (UK Postcode Pattern)
+            const pcRegex = /^[A-Z]{1,2}[0-9][A-Z0-9]? ?[0-9][A-Z]{2}$/;
+            
+            if (!pcRegex.test(val)) {
+                // Trigger Micro-interaction
+                box.classList.add('error');
+                setTimeout(() => box.classList.remove('error'), 400);
                 return;
             }
 
-            // --- SUCCESS STATE / TRANSITION ---
+            // 2. Real World Progress: Save & Navigate
+            // We store the location so the next page knows what to "Gather"
+            localStorage.setItem('search_postcode', val);
             
-            // 1. Loading micro-interaction
-            btnText.style.display = 'none';
-            loader.style.display = 'block';
-            input.disabled = true;
+            // 3. Smooth Out-Animation
+            document.querySelector('.hero-container').style.opacity = '0';
+            document.querySelector('.hero-container').style.transform = 'translateY(-20px)';
+            document.querySelector('.hero-container').style.transition = 'all 0.5s var(--ease)';
 
-            // 2. Simulate API check / Local storage save
-            // Here you would normally fetch(api_url)
-            localStorage.setItem('userPostcode', value.toUpperCase());
-
+            // 4. Redirect to Page 2
             setTimeout(() => {
-                // 3. Smooth page transition
-                overlay.classList.add('active');
-                
-                // 4. Redirect after animation
-                setTimeout(() => {
-                    window.location.href = 'results.html'; 
-                }, 600);
-            }, 1000);
-        });
+                window.location.href = 'results.html';
+            }, 500);
+        }
 
-        // Focus interaction: Clear error if user starts typing again
-        document.getElementById('postcode').addEventListener('input', function() {
-            document.querySelector('.input-group').classList.remove('error-shake');
+        // Allow 'Enter' key submission
+        document.getElementById('postcode').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') handleSubmission();
         });
     </script>
 </body>
