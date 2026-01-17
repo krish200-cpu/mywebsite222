@@ -4,36 +4,44 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Results | Funeral Match</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root { --primary: #1a1c1e; --accent: #b39359; --bg: #fcfaf7; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: var(--bg); font-family: 'Inter', sans-serif; opacity: 0; animation: fadeIn 0.8s forwards; }
-        nav { background: #fff; padding: 15px 5%; display: flex; justify-content: space-between; border-bottom: 1px solid #eee; }
-        .logo-b { font-size: 1rem; text-transform: uppercase; letter-spacing: 3px; font-weight: 800; color: var(--accent); }
-        .chips { display: flex; gap: 10px; padding: 20px 5%; background: #fff; overflow-x: auto; border-bottom: 1px solid #eee; }
-        .chip { padding: 8px 15px; border-radius: 50px; border: 1px solid #e2ded0; background: none; font-size: 0.8rem; cursor: pointer; white-space: nowrap; }
-        .chip.active { background: var(--primary); color: #fff; }
-        .list { padding: 30px 5%; max-width: 900px; margin: 0 auto; }
-        .card { background: #fff; padding: 25px; border-radius: 12px; margin-bottom: 20px; display: flex; justify-content: space-between; box-shadow: 0 5px 15px rgba(0,0,0,0.02); opacity: 0; transform: translateY(20px); animation: reveal 0.6s forwards; }
-        .card:nth-child(1) { animation-delay: 0.1s; }
-        .card:nth-child(2) { animation-delay: 0.2s; }
-        @keyframes fadeIn { to { opacity: 1; } }
+        body { background: var(--bg); font-family: 'Inter', sans-serif; }
+        nav { background: #fff; padding: 20px 5%; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; }
+        .card-list { padding: 40px 5%; max-width: 900px; margin: 0 auto; }
+        .card { background: #fff; padding: 30px; border-radius: 20px; margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 10px 30px rgba(0,0,0,0.03); opacity: 0; transform: translateY(20px); animation: reveal 0.6s forwards; }
         @keyframes reveal { to { opacity: 1; transform: translateY(0); } }
-        .btn { background: var(--primary); color: #fff; border: none; padding: 12px 20px; border-radius: 8px; font-weight: 700; cursor: pointer; margin-top: 10px; width: 100%; }
-        #curtain { position: fixed; top:0; left:0; width:100%; height:100%; background:var(--bg); z-index:9999; opacity:0; visibility:hidden; transition: 0.5s; }
+        .price-badge { background: #fdf8ef; padding: 10px 20px; border-radius: 10px; text-align: right; }
+        .btn { background: var(--primary); color: #fff; border: none; padding: 12px 25px; border-radius: 8px; font-weight: 700; cursor: pointer; margin-top: 10px; }
+        #curtain { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 9999; opacity: 0; visibility: hidden; transition: 0.5s; }
     </style>
 </head>
 <body>
     <div id="curtain"></div>
-    <nav><div class="logo-b">Funeral Match</div></nav>
-    <div class="chips"><button class="chip active">All Services</button><button class="chip">Burial at Sea</button><button class="chip">Cremation</button></div>
-    <div class="list">
+    <nav><strong style="letter-spacing:2px; color:var(--accent)">FUNERAL MATCH</strong><span id="pcdisp" style="font-size:0.8rem">...</span></nav>
+    <div class="card-list">
         <div class="card">
-            <div><span style="color:var(--accent); font-size:0.7rem; font-weight:700">0.4 MILES</span><h2 style="font-size:1.1rem; margin:5px 0">Maritime Farewells</h2><p style="font-size:0.8rem; color:#64748b">Relational Care Experts</p></div>
-            <div style="text-align:right"><span style="font-size:0.6rem; color:#64748b">FROM</span><div style="font-size:1.3rem; font-weight:700">£2,800</div><button class="btn" onclick="profile()">View Details</button></div>
+            <div>
+                <span style="font-size:0.7rem; font-weight:800; color:var(--accent)">0.4 MILES AWAY</span>
+                <h2 style="margin:5px 0">Maritime Farewells</h2>
+                <p style="font-size:0.85rem; color:#64748b">Relational Care & Sea Burials</p>
+            </div>
+            <div class="price-badge">
+                <span style="font-size:0.6rem; font-weight:700">TOTAL PRICE</span>
+                <div style="font-size:1.5rem; font-weight:700">£2,800</div>
+                <button class="btn" onclick="view()">View Breakdown</button>
+            </div>
         </div>
     </div>
-    <script>function profile(){ document.getElementById('curtain').style.visibility='visible'; document.getElementById('curtain').style.opacity='1'; setTimeout(()=> window.location.href='director-profile.html', 500); }</script>
+    <script>
+        document.getElementById('pcdisp').innerText = new URLSearchParams(window.location.search).get('pc');
+        function view() {
+            document.getElementById('curtain').style.visibility='visible';
+            document.getElementById('curtain').style.opacity='1';
+            setTimeout(() => window.location.href='director-profile.html', 500);
+        }
+    </script>
 </body>
 </html>
