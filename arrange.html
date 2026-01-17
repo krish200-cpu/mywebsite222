@@ -1,124 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <title>Arrangement Studio</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        :root { --deep-slate: #121416; --card-bg: #1C1F22; --gold: #B39359; --white: #F4F4F4; --text-dim: #8A8F98; --border: rgba(255, 255, 255, 0.08); --red: #E63946; }
-        * { box-sizing: border-box; font-family: 'Inter', sans-serif; margin: 0; padding: 0; }
-        body { background: var(--deep-slate); color: var(--white); -webkit-font-smoothing: antialiased; }
-        
-        .emergency-bar { background: rgba(230, 57, 70, 0.15); border-bottom: 1px solid var(--red); padding: 12px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1001; backdrop-filter: blur(10px); }
-        .emergency-btn { background: var(--red); color: white; border: none; padding: 10px 18px; border-radius: 8px; font-weight: 800; font-size: 0.8rem; text-decoration: none; box-shadow: 0 0 15px rgba(230, 57, 70, 0.3); }
-        
-        .header { padding: 25px; text-align: center; border-bottom: 1px solid var(--border); background: var(--deep-slate); }
-        .progress-track { width: 100%; height: 5px; background: var(--border); margin: 15px 0; border-radius: 10px; overflow: hidden; }
-        .progress-fill { height: 100%; background: var(--gold); transition: 0.6s ease; width: 10%; }
-        
-        .container { max-width: 600px; margin: 0 auto; padding: 40px 20px 180px; }
-        h1 { font-family: 'Playfair Display', serif; font-size: 2rem; margin-bottom: 10px; text-align: center; }
-        .desc { color: var(--text-dim); text-align: center; margin-bottom: 35px; font-size: 0.9rem; line-height: 1.6; }
-
-        .card { background: var(--card-bg); border: 1px solid var(--border); padding: 22px; border-radius: 18px; cursor: pointer; display: flex; align-items: center; gap: 15px; margin-bottom: 15px; transition: 0.3s; }
-        .card.active { border-color: var(--gold); background: rgba(179, 147, 89, 0.1); transform: scale(1.02); }
-        .price { margin-left: auto; color: var(--gold); font-weight: 700; font-size: 1rem; }
-        
-        .input-box { width: 100%; background: #000; border: 1px dashed var(--gold); padding: 18px; border-radius: 12px; color: white; margin-top: 12px; outline: none; }
-        .qty-ctrl { display: flex; align-items: center; gap: 25px; margin-top: 15px; }
-        .q-btn { width: 45px; height: 45px; border-radius: 50%; border: 1px solid var(--gold); background: transparent; color: var(--gold); font-size: 1.5rem; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-
-        .footer { position: fixed; bottom: 0; width: 100%; background: rgba(18,20,22,0.98); padding: 25px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; backdrop-filter: blur(15px); }
-        .total-box { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--gold); }
-        .next-btn { background: var(--gold); color: #000; padding: 18px 40px; border-radius: 14px; font-weight: 800; border: none; cursor: pointer; font-size: 1rem; }
+        :root { --ds: #121416; --c: #1C1F22; --g: #B39359; --w: #F4F4F4; --r: #E63946; }
+        body { background: var(--ds); color: var(--w); font-family: sans-serif; margin: 0; }
+        .e-bar { background: rgba(230,57,70,0.1); border-bottom: 1px solid var(--r); padding: 10px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
+        .footer { position: fixed; bottom: 0; width: 100%; background: #121416; padding: 20px; border-top: 1px solid #333; display: flex; justify-content: space-between; align-items: center; }
+        .container { max-width: 600px; margin: 0 auto; padding: 40px 20px 150px; }
+        .card { background: var(--c); border: 1px solid #333; padding: 20px; border-radius: 12px; margin-bottom: 10px; cursor: pointer; display: flex; justify-content: space-between; }
+        .card.active { border-color: var(--g); background: rgba(179,147,89,0.1); }
+        .btn-next { background: var(--g); color: #000; padding: 15px 30px; border: none; border-radius: 8px; font-weight: 700; }
+        .input-box { width: 100%; background: #000; border: 1px dashed var(--g); padding: 12px; color: #fff; border-radius: 8px; margin-top: 10px; }
     </style>
 </head>
 <body>
-
-<div class="emergency-bar">
-    <div style="color: var(--red); font-size: 0.8rem; font-weight: 800; letter-spacing: 1px;">FIRST CALL / CRISIS SUPPORT</div>
-    <a href="tel:0800000000" class="emergency-btn">SPEAK TO US NOW</a>
+<div class="e-bar">
+    <span style="color:var(--r); font-weight:700; font-size:0.7rem;">FIRST CALL SUPPORT</span>
+    <a href="tel:0800000" style="background:var(--r); color:#fff; padding:5px 10px; text-decoration:none; border-radius:4px; font-size:0.7rem;">CALL NOW</a>
 </div>
-
-<div class="header">
-    <div id="stepInfo" style="font-size: 0.7rem; color: var(--gold); letter-spacing: 3px; font-weight: 600;">STEP 1 OF 10</div>
-    <div class="progress-track"><div class="progress-fill" id="prog"></div></div>
-</div>
-
 <div class="container" id="stage"></div>
-
 <div class="footer">
-    <div id="liveTotal" class="total-box">£0</div>
-    <button class="next-btn" onclick="next()">Continue</button>
+    <div id="liveTotal" style="font-size:1.5rem; color:var(--g);">£0</div>
+    <button class="btn-next" onclick="next()">Continue</button>
 </div>
-
 <script>
-    let cur = 1, base = 2500, choices = {};
+    let cur = 1, choices = {}, base = parseInt(new URLSearchParams(window.location.search).get('base')) || 2500;
     const steps = {
-        1: { t: "Committal Method", d: "How do you wish to say goodbye?", opts: [{ n: "Cremation", p: 0, s: 'c' }, { n: "Traditional Burial", p: 1500, s: 'b' }, { n: "Burial at Sea", p: 3200, s: 's' }] },
-        2: { t: "Attendance", d: "Select the level of presence.", opts: [{ n: "Direct (Unattended)", p: 0, s: 'd' }, { n: "Attended Service", p: 600, s: 'a' }] },
-        3: { t: "Coffins & Caskets", d: "A range of quality vessels.", opts: [{ n: "Oak Veneer (Standard)", p: 0 }, { n: "Eco-Willow Woven", p: 550 }, { n: "Solid Mahogany", p: 1200 }, { n: "MMO Specialist Sea Casket", p: 1450 }] },
-        4: { t: "Transport & Vehicles", d: "Standard hearse or bespoke request (Ferrari, Bus, etc).", type: "veh" },
-        5: { t: "Care & Preparation", d: "Select all that apply for the deceased.", type: "multi", opts: [{ n: "Full Embalming", p: 250 }, { n: "Private Viewing", p: 150 }, { n: "Dressing in Own Clothes", p: 50 }] },
-        6: { t: "The Service Layout", d: "Build your combined sequence.", type: "multi", opts: [{ n: "Service at Church Before", p: 350 }, { n: "Procession from Home", p: 150 }, { n: "Celebrant Led Service", p: 250 }] },
-        7: { t: "Orders of Service", d: "Bespoke stationery for the day.", type: "stat" },
-        8: { t: "Floral Tributes", d: "Select a curated package.", opts: [{ n: "No Flowers", p: 0 }, { n: "Small (Casket Spray)", p: 120 }, { n: "Medium (Full Tribute)", p: 280 }, { n: "Large (Luxury Display)", p: 450 }] },
-        9: { t: "Admin & Statutory Fees", d: "Mandatory third-party and legal fees.", type: "adm" },
-        10: { t: "Memorials & Tributes", d: "Select long-term memorial options.", type: "multi", opts: [{ n: "Polished Granite Stone", p: 1200 }, { n: "Teak Memorial Bench", p: 600 }, { n: "Ashes into Jewelry", p: 250 }, { n: "Other Request (POA)", p: 0 }] }
+        1: { t: "Method", d: "How do we say goodbye?", opts: [{ n: "Cremation", p: 0, s: 'c' }, { n: "Burial", p: 1500, s: 'b' }, { n: "Sea Burial", p: 3200, s: 's' }] },
+        2: { t: "Attendance", d: "Burials must be attended.", opts: [{ n: "Unattended", p: 0, s: 'd' }, { n: "Attended", p: 600, s: 'a' }] },
+        3: { t: "Coffins", d: "Select a vessel.", opts: [{ n: "Oak Veneer", p: 0 }, { n: "Willow", p: 550 }, { n: "Solid Mahogany", p: 1200 }, { n: "Sea Casket", p: 1450 }] },
+        4: { t: "Vehicles", type: "veh" },
+        5: { t: "Care", type: "multi", opts: [{ n: "Embalming", p: 250 }, { n: "Viewing", p: 150 }] },
+        6: { t: "Service", type: "multi", opts: [{ n: "Church", p: 350 }, { n: "Celebrant", p: 250 }] },
+        7: { t: "Stationery", type: "stat" },
+        8: { t: "Flowers", opts: [{ n: "Small", p: 120 }, { n: "Large", p: 450 }] },
+        9: { t: "Admin Fees", type: "adm" },
+        10: { t: "Memorials", type: "multi", opts: [{ n: "Stone", p: 1200 }, { n: "Bench", p: 600 }] }
     };
 
     function render() {
         const s = steps[cur];
-        const meth = choices[1]?.s;
-        if(cur===2 && (meth==='b' || meth==='s')) { choices[2] = {n:"Attended Service", p:600, s:'a'}; cur=3; render(); return; }
-        
-        document.getElementById('stepInfo').innerText = `STEP ${cur} OF 10`;
-        document.getElementById('prog').style.width = (cur*10) + '%';
-        let h = `<h1>${s.t}</h1><p class="desc">${s.d}</p>`;
-
-        if(cur===4 && choices[2]?.s==='d') { h += `<div class="card active">Private Ambulance<div class="price">Included</div></div>`; choices[4]={n:"Private Ambulance", p:0, l:0}; }
-        else if(s.type === 'veh') {
-            const l = choices[4]?.l || 0;
-            h += `<div class="card ${choices[4]?.n==='Standard'?'active':''}" onclick="setV('Standard Hearse',0)">Standard Hearse<div class="price">Included</div></div>
-                  <div class="card ${choices[4]?.b?'active':''}" onclick="setV('Bespoke Request',0,true)">Bespoke (Ferrari/Bus/etc)<div class="price">POA</div></div>
-                  ${choices[4]?.b? `<input class="input-box" placeholder="What vehicle would you like?" oninput="choices[4].req=this.value" value="${choices[4].req||''}">` : ''}
-                  <div class="card active" style="display:block">Limousines (+£250 each)<div class="qty-ctrl"><button class="q-btn" onclick="updL(-1)">-</button><span>${l}</span><button class="q-btn" onclick="updL(1)">+</button></div></div>`;
-        } else if(s.type === 'multi') {
-            if(!choices[cur]) choices[cur] = [];
-            h += s.opts.map(o => `<div class="card ${choices[cur].some(x=>x.n===o.n)?'active':''}" onclick="tglM('${o.n}',${o.p})">${o.n}<div class="price">+£${o.p}</div></div>`).join('');
+        if(cur===2 && (choices[1]?.s==='b' || choices[1]?.s==='s')) { choices[2]={n:"Attended", p:600, s:'a'}; cur=3; render(); return; }
+        let h = `<h1>${s.t}</h1>`;
+        if(s.type === 'veh') {
+            h += `<div class="card ${choices[4]?.n==='Standard'?'active':''}" onclick="setV('Standard',0)">Standard Hearse<span>Incl.</span></div>
+                  <div class="card ${choices[4]?.b?'active':''}" onclick="setV('Bespoke',0,true)">Bespoke (Ferrari, etc)<span>POA</span></div>
+                  ${choices[4]?.b? `<input class="input-box" placeholder="Vehicle type..." oninput="choices[4].req=this.value" value="${choices[4].req||''}">` : ''}`;
         } else if(s.type === 'stat') {
             const q = choices[7]?.q || 20;
-            h += `<div class="card active" style="flex-direction:column; padding:40px"><h2>${q} Copies</h2><div class="qty-ctrl"><button class="q-btn" onclick="updS(-10)">-</button><button class="q-btn" onclick="updS(10)">+</button></div><p style="margin-top:20px; color:var(--gold)">£${80+((q-20)/10*15)}</p></div>`;
+            h += `<div class="card active" style="text-align:center; display:block;"><h2>${q} Copies</h2><button onclick="updS(10)">+10</button><button onclick="updS(-10)">-10</button></div>`;
         } else if(s.type === 'adm') {
-            h += `<div class="card active">Professional Fee<div class="price">£1,200</div></div><div class="card active">Doctor Fees<div class="price">£164</div></div><div class="card active">Legal Admin<div class="price">£150</div></div>`;
-            choices[9] = {p:1514, n:"Admin & Statutory Fees"};
+            h += `<div class="card active">Third Party/Legal Fees<span>£1,514</span></div>`;
+            choices[9] = {n:"Admin", p:1514};
+        } else if(s.type === 'multi') {
+            if(!choices[cur]) choices[cur] = [];
+            h += s.opts.map(o => `<div class="card ${choices[cur].some(x=>x.n===o.n)?'active':''}" onclick="tglM('${o.n}',${o.p})">${o.n}<span>+£${o.p}</span></div>`).join('');
         } else {
-            h += s.opts.map(o => `<div class="card ${choices[cur]?.n===o.n?'active':''}" onclick="setS('${o.n}',${o.p},'${o.s||''}')">${o.n}<div class="price">${o.p>0?'+£'+o.p:'Incl.'}</div></div>`).join('');
+            h += s.opts.map(o => `<div class="card ${choices[cur]?.n===o.n?'active':''}" onclick="setS('${o.n}',${o.p},'${o.s||''}')">${o.n}<span>+£${o.p}</span></div>`).join('');
         }
         document.getElementById('stage').innerHTML = h;
         calc();
     }
-
     function setS(n,p,s) { choices[cur] = {n,p,s}; render(); }
     function tglM(n,p) { let a = choices[cur]; const i = a.findIndex(x=>x.n===n); if(i>-1) a.splice(i,1); else a.push({n,p}); render(); }
-    function setV(n,p,b=false) { choices[4] = {n,p,b,l:choices[4]?.l||0}; render(); }
-    function updL(v) { if(!choices[4]) setV('Standard Hearse',0); choices[4].l = Math.max(0, choices[4].l+v); render(); }
-    function updS(v) { const q = Math.min(250, Math.max(20, (choices[7]?.q||20)+v)); choices[7] = {n:q+' Copies', q, p:80+((q-20)/10*15)}; render(); }
-    
+    function setV(n,p,b=false) { choices[4] = {n,p,b}; render(); }
+    function updS(v) { let q = Math.max(20, (choices[7]?.q||20)+v); choices[7] = {n:q+' Copies', q, p:80+((q-20)/10*15)}; render(); }
     function calc() {
-        let extra = 0;
-        Object.keys(choices).forEach(k => {
-            if(Array.isArray(choices[k])) choices[k].forEach(v=>extra+=v.p);
-            else { extra+=choices[k].p||0; if(k==='4') extra+=(choices[k].l*250); }
-        });
-        document.getElementById('liveTotal').innerText = '£'+(base+extra).toLocaleString();
+        let x = 0;
+        Object.keys(choices).forEach(k => { if(Array.isArray(choices[k])) choices[k].forEach(v=>x+=v.p); else x+=choices[k].p||0; });
+        document.getElementById('liveTotal').innerText = '£'+(base+x).toLocaleString();
     }
-
-    function next() {
-        if(cur < 10) { cur++; render(); window.scrollTo(0,0); }
-        else { localStorage.setItem('f_data', JSON.stringify({base, choices})); window.location.href='review.html'; }
-    }
+    function next() { if(cur < 10) { cur++; render(); } else { localStorage.setItem('f_data', JSON.stringify({base, choices})); window.location.href='review.html'; } }
     render();
 </script>
 </body>
