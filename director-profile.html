@@ -1,22 +1,52 @@
-<section class="relational-profile">
-    <h3>Our Personal Approach</h3>
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
-        <div class="care-point">
-            <h5 style="font-size: 0.85rem; color: var(--primary); margin-bottom: 5px;">Relational Focus</h5>
-            <p style="font-size: 0.8rem; color: var(--text-soft);">Dedicated family liaison from first call to post-service support.</p>
-        </div>
-        <div class="care-point">
-            <h5 style="font-size: 0.85rem; color: var(--primary); margin-bottom: 5px;">Specialised Knowledge</h5>
-            <p style="font-size: 0.8rem; color: var(--text-soft);">Experts in maritime law and traditional sea-faring rituals.</p>
-        </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile | Funeral Match</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #1a1c1e; --accent: #b39359; --text-soft: #64748b; --bg: #fcfaf7; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: #fff; color: var(--primary); font-family: 'Inter', sans-serif; line-height: 1.6; }
+        .hero { background: var(--bg); padding: 80px 5% 40px; text-align: center; border-bottom: 1px solid #eee; }
+        .back { position: absolute; top: 20px; left: 5%; text-decoration: none; font-size: 0.7rem; font-weight: 700; color: var(--text-soft); text-transform: uppercase; }
+        .container { max-width: 800px; margin: 0 auto; padding: 60px 5%; }
+        h3 { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; color: var(--accent); margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+        .quote { font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.4rem; border-left: 3px solid var(--accent); padding-left: 20px; margin: 30px 0; }
+        .price-row { display: flex; justify-content: space-between; padding: 15px 0; border-bottom: 1px solid #f1f1f1; font-size: 0.95rem; }
+        .contact-bar { position: sticky; bottom: 0; background: var(--primary); color: #fff; padding: 20px 5%; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 -10px 30px rgba(0,0,0,0.1); }
+        .btn-inquire { background: var(--accent); color: var(--primary); border: none; padding: 12px 25px; border-radius: 6px; font-weight: 700; text-transform: uppercase; font-size: 0.8rem; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <a href="search-results.html" class="back">← Back to Results</a>
+    <div class="hero">
+        <span style="color:var(--accent); font-weight:700; font-size:0.75rem; text-transform:uppercase; letter-spacing:2px">Independent Director</span>
+        <h1 style="font-size:2.5rem; margin:10px 0">Maritime Farewells</h1>
+        <p style="color:var(--text-soft)">Est. 1984 • London Specialist</p>
     </div>
-</section>
-
-<style>
-    .relational-profile {
-        padding: 30px;
-        background: #fdfcfb;
-        border-radius: 12px;
-        border: 1px solid rgba(179, 147, 89, 0.1);
-    }
-</style>
+    <div class="container">
+        <section>
+            <h3>Our History</h3>
+            <p>Founded by the Sterling family, we provide unique ceremonies for those who shared a lifelong bond with the sea. We focus on relational care over corporate targets.</p>
+            <div class="quote">"We don't just arrange services; we honor journeys."</div>
+        </section>
+        <section style="margin-top:60px">
+            <h3>Price List</h3>
+            <div class="price-row"><span>Burial at Sea Specialist</span><strong>£3,100</strong></div>
+            <div class="price-row"><span>Unattended Cremation</span><strong>£1,200</strong></div>
+            <div class="price-row"><span>Traditional Burial</span><strong>£2,450</strong></div>
+        </section>
+        <section style="margin-top:60px">
+            <h3>Testimonials</h3>
+            <p style="font-style:italic; color:var(--text-soft)">"The team handled my father's sea burial with such grace. Transparent pricing and honest support."</p>
+            <span style="font-size:0.7rem; font-weight:700">— Sarah Jenkins</span>
+        </section>
+    </div>
+    <div class="contact-bar">
+        <div><p style="font-size:0.6rem; color:#94a3b8; text-transform:uppercase">Direct Phone</p><h4 style="color:var(--accent)">0800 123 4567</h4></div>
+        <button class="btn-inquire">Send Inquiry</button>
+    </div>
+</body>
+</html>
