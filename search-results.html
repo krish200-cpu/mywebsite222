@@ -2,202 +2,66 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Find Care | Funeral Match</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Results | Funeral Match</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --primary: #1a1c1e;
-            --accent: #b39359; 
-            --text-soft: #64748b;
-            --bg: #fcfaf7;
-            --card-bg: #ffffff;
-            --shadow: 0 10px 30px rgba(0,0,0,0.03);
-        }
-
+        :root { --primary: #1a1c1e; --accent: #b39359; --text-soft: #64748b; --bg: #fcfaf7; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background-color: var(--bg); color: var(--primary); font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
-
-        /* --- STICKY NAV --- */
-        nav {
-            position: sticky; top: 0; z-index: 1000;
-            background: var(--card-bg);
-            padding: 12px 5%;
-            display: flex; justify-content: space-between; align-items: center;
-            border-bottom: 1px solid rgba(0,0,0,0.05);
-        }
-
-        .logo-sm { text-decoration: none; display: flex; flex-direction: column; line-height: 1; }
-        .logo-sm .t { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 2px; color: var(--primary); font-weight: 500; }
+        body { background-color: var(--bg); color: var(--primary); font-family: 'Inter', sans-serif; }
+        nav { background: #fff; padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; position: sticky; top: 0; z-index: 10; }
+        .logo-sm .t { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 2px; color: var(--primary); display: block; }
         .logo-sm .b { font-size: 0.95rem; text-transform: uppercase; letter-spacing: 3px; font-weight: 800; color: var(--accent); }
-
-        .search-indicator { font-size: 0.75rem; font-weight: 700; color: var(--text-soft); display: flex; align-items: center; gap: 8px; }
-        .search-indicator span { color: var(--accent); }
-
-        /* --- ADVANCED FILTER BAR --- */
-        .filter-section {
-            background: var(--card-bg);
-            padding: 20px 5% 10px;
-            border-bottom: 1px solid #eee;
-        }
-
-        .filter-row { display: flex; flex-direction: column; gap: 15px; margin-bottom: 15px; }
         
-        .filter-label { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; color: var(--primary); margin-bottom: 8px; display: block; }
+        .filter-section { background: #fff; padding: 20px 5%; border-bottom: 1px solid #eee; }
+        .chip-container { display: flex; gap: 8px; overflow-x: auto; padding: 10px 0; scrollbar-width: none; }
+        .chip { padding: 8px 18px; border-radius: 50px; border: 1px solid #e2ded0; background: transparent; font-size: 0.8rem; font-weight: 500; cursor: pointer; white-space: nowrap; }
+        .chip.active { background: var(--primary); color: white; }
 
-        .chip-container { display: flex; gap: 8px; overflow-x: auto; white-space: nowrap; padding-bottom: 8px; scrollbar-width: none; }
-        .chip-container::-webkit-scrollbar { display: none; }
-
-        .chip {
-            padding: 8px 18px;
-            border-radius: 50px;
-            border: 1px solid #e2ded0;
-            background: transparent;
-            font-size: 0.8rem;
-            font-weight: 500;
-            color: var(--text-soft);
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .chip.active { background: var(--primary); color: white; border-color: var(--primary); }
-        .chip:hover:not(.active) { border-color: var(--accent); color: var(--accent); }
-
-        /* --- RESULTS --- */
-        .main-content { padding: 30px 5%; max-width: 1000px; margin: 0 auto; }
+        .container { padding: 30px 5%; max-width: 1000px; margin: 0 auto; }
+        .card { background: #fff; border-radius: 16px; padding: 24px; margin-bottom: 20px; display: flex; justify-content: space-between; box-shadow: 0 10px 30px rgba(0,0,0,0.03); }
+        .card-dist { font-size: 0.7rem; font-weight: 800; color: var(--accent); text-transform: uppercase; margin-bottom: 8px; display: block; }
+        .btn-view { background: var(--primary); color: white; border: none; padding: 12px 24px; border-radius: 8px; font-weight: 700; cursor: pointer; margin-top: 10px; width: 100%; }
         
-        .card {
-            background: var(--card-bg);
-            border-radius: 16px;
-            padding: 24px;
-            margin-bottom: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            box-shadow: var(--shadow);
-            border: 1px solid transparent;
-        }
-
-        .card:hover { border-color: var(--accent); transform: translateY(-4px); }
-
-        .card-main { flex: 1; }
-        .card-dist { font-size: 0.7rem; font-weight: 800; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; display: block; }
-        .card-name { font-size: 1.2rem; font-weight: 700; margin-bottom: 8px; letter-spacing: -0.02em; }
-        
-        .tag-row { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 12px; }
-        .tag { font-size: 0.65rem; padding: 4px 10px; background: #f8f9fa; border-radius: 4px; font-weight: 600; color: var(--text-soft); border: 1px solid #eee; }
-
-        .card-side { text-align: right; min-width: 140px; }
-        .price-label { font-size: 0.6rem; font-weight: 800; text-transform: uppercase; color: var(--text-soft); margin-bottom: 4px; display: block; }
-        .price-total { font-size: 1.4rem; font-weight: 700; color: var(--primary); margin-bottom: 12px; display: block; }
-
-        .btn-view {
-            width: 100%; padding: 12px; border-radius: 8px;
-            background: var(--primary); color: white; border: none;
-            font-size: 0.8rem; font-weight: 700; cursor: pointer; transition: 0.3s;
-        }
-        .btn-view:hover { background: #000; }
-
-        /* --- INTEGRATED REVENUE AD --- */
-        .revenue-strip {
-            background: var(--primary);
-            border-radius: 16px;
-            padding: 20px 24px;
-            margin-bottom: 20px;
-            display: flex; justify-content: space-between; align-items: center;
-            color: var(--bg);
-        }
-
-        @media (max-width: 650px) {
-            .card { flex-direction: column; }
-            .card-side { width: 100%; text-align: left; margin-top: 20px; padding-top: 20px; border-top: 1px solid #f1f5f9; }
-        }
+        .ad-strip { background: var(--primary); color: #fff; padding: 20px; border-radius: 16px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
     </style>
 </head>
 <body>
-
     <nav>
-        <a href="index.html" class="logo-sm">
-            <span class="t">Funeral</span>
-            <span class="b">Match</span>
-        </a>
-        <div class="search-indicator">Nearby <span>SS17 7AL</span></div>
+        <div class="logo-sm"><span class="t">Funeral</span><span class="b">Match</span></div>
+        <div style="font-size: 0.8rem; font-weight: 700; color: var(--text-soft)">Results near <span id="pc-val" style="color:var(--accent)">...</span></div>
     </nav>
-
     <div class="filter-section">
-        <div class="filter-row">
-            <div>
-                <span class="filter-label">Service Type</span>
-                <div class="chip-container">
-                    <button class="chip active">All Services</button>
-                    <button class="chip">Cremation</button>
-                    <button class="chip">Unattended Cremation</button>
-                    <button class="chip">Traditional Burial</button>
-                    <button class="chip">Burial at Sea</button>
-                    <button class="chip">Green/Eco Funeral</button>
-                </div>
-            </div>
-            <div>
-                <span class="filter-label">Specialised Care</span>
-                <div class="chip-container">
-                    <button class="chip">Multi-Faith</button>
-                    <button class="chip">LGBTQ+ Friendly</button>
-                    <button class="chip">Repatriation Specialist</button>
-                    <button class="chip">Grief Support Included</button>
-                </div>
-            </div>
+        <span style="font-size: 0.6rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px;">Filters</span>
+        <div class="chip-container">
+            <button class="chip active">All Services</button>
+            <button class="chip">Burial at Sea</button>
+            <button class="chip">Unattended Cremation</button>
+            <button class="chip">Traditional Burial</button>
+            <button class="chip">Relational Care</button>
         </div>
     </div>
-
-    <div class="main-content">
-        <div id="results">
-            <div class="card">
-                <div class="card-main">
-                    <span class="card-dist">0.4 miles away</span>
-                    <h2 class="card-name">A.W. Anderson Memorials</h2>
-                    <p style="font-size: 0.85rem; color: var(--text-soft);">Trusted local service with 40+ years experience.</p>
-                    <div class="tag-row">
-                        <span class="tag">Unattended Cremation</span>
-                        <span class="tag">Eco Friendly</span>
-                        <span class="tag">★ 4.9</span>
-                    </div>
-                </div>
-                <div class="card-side">
-                    <span class="price-label">Estimated From</span>
-                    <span class="price-total">£1,450</span>
-                    <button class="btn-view">View Details</button>
-                </div>
+    <div class="container">
+        <div class="card">
+            <div>
+                <span class="card-dist">0.4 miles away</span>
+                <h2 style="font-size:1.2rem; margin-bottom:5px">Maritime Farewells</h2>
+                <p style="font-size:0.85rem; color:var(--text-soft)">Specialists in unique sea ceremonies.</p>
             </div>
-
-            <div class="revenue-strip" onclick="location.href='mailto:ads@funeralmatch.com'">
-                <div>
-                    <span style="font-size: 0.6rem; font-weight: 800; color: var(--accent); letter-spacing: 1px; text-transform: uppercase;">Featured Partner</span>
-                    <h3 style="font-size: 1rem; margin-top: 4px;">Local Florist: Rose & Willow</h3>
-                    <p style="font-size: 0.75rem; color: #94a3b8;">Supporting families with gentle, timely arrangements.</p>
-                </div>
-                <div style="font-weight: 700; color: var(--accent); font-size: 0.8rem; border: 1px solid; padding: 8px 12px; border-radius: 4px;">Advertise Here</div>
-            </div>
-
-            <div class="card">
-                <div class="card-main">
-                    <span class="card-dist">1.2 miles away</span>
-                    <h2 class="card-name">Maritime Farewells</h2>
-                    <p style="font-size: 0.85rem; color: var(--text-soft);">Specialists in unique ceremonies and sea burials.</p>
-                    <div class="tag-row">
-                        <span class="tag">Burial at Sea</span>
-                        <span class="tag">Relational Care</span>
-                        <span class="tag">★ 5.0</span>
-                    </div>
-                </div>
-                <div class="card-side">
-                    <span class="price-label">Estimated From</span>
-                    <span class="price-total">£2,800</span>
-                    <button class="btn-view">View Details</button>
-                </div>
+            <div style="text-align:right">
+                <span style="font-size:0.6rem; font-weight:800; color:var(--text-soft)">FROM</span>
+                <div style="font-size:1.4rem; font-weight:700">£2,800</div>
+                <button class="btn-view" onclick="location.href='director-profile.html'">View Details</button>
             </div>
         </div>
+        <div class="ad-strip">
+            <div><span style="font-size:0.6rem; color:var(--accent); font-weight:800">PROMOTED</span><h3 style="font-size:0.9rem">Advertise your service here</h3></div>
+            <button style="background:var(--accent); border:none; padding:8px 15px; border-radius:4px; font-weight:700; font-size:0.7rem">ENQUIRE</button>
+        </div>
     </div>
-
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        document.getElementById('pc-val').innerText = urlParams.get('postcode') || 'Your Area';
+    </script>
 </body>
 </html>
