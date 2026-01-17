@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Results | Funeral Match</title>
+    <title>Find Care | Funeral Match</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -11,169 +11,193 @@
             --accent: #b39359; 
             --text-soft: #64748b;
             --bg: #fcfaf7;
-            --white: #ffffff;
+            --card-bg: #ffffff;
+            --shadow: 0 10px 30px rgba(0,0,0,0.03);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background-color: var(--bg); color: var(--primary); font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
 
-        /* --- STICKY HEADER --- */
-        header {
-            position: sticky; top: 0; z-index: 100;
-            background: var(--white);
-            padding: 15px 5%;
+        /* --- STICKY NAV --- */
+        nav {
+            position: sticky; top: 0; z-index: 1000;
+            background: var(--card-bg);
+            padding: 12px 5%;
             display: flex; justify-content: space-between; align-items: center;
             border-bottom: 1px solid rgba(0,0,0,0.05);
         }
 
-        .brand-sm { text-decoration: none; line-height: 1; }
-        .brand-sm .f { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 2px; color: var(--primary); }
-        .brand-sm .m { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 3px; font-weight: 800; color: var(--accent); }
+        .logo-sm { text-decoration: none; display: flex; flex-direction: column; line-height: 1; }
+        .logo-sm .t { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 2px; color: var(--primary); font-weight: 500; }
+        .logo-sm .b { font-size: 0.95rem; text-transform: uppercase; letter-spacing: 3px; font-weight: 800; color: var(--accent); }
 
-        /* --- SEARCH SUMMARY & FILTERS --- */
-        .results-bar {
-            background: var(--white);
-            padding: 20px 5%;
-            display: flex; flex-wrap: wrap; gap: 15px;
-            align-items: center; justify-content: space-between;
+        .search-indicator { font-size: 0.75rem; font-weight: 700; color: var(--text-soft); display: flex; align-items: center; gap: 8px; }
+        .search-indicator span { color: var(--accent); }
+
+        /* --- ADVANCED FILTER BAR --- */
+        .filter-section {
+            background: var(--card-bg);
+            padding: 20px 5% 10px;
+            border-bottom: 1px solid #eee;
         }
 
-        .postcode-badge { background: #f1f5f9; padding: 8px 16px; border-radius: 50px; font-size: 0.85rem; font-weight: 600; }
-
-        .filter-group { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 5px; }
-        select {
-            padding: 8px 15px; border-radius: 8px; border: 1px solid #e2ded0;
-            background: var(--white); font-size: 0.8rem; font-weight: 600; cursor: pointer;
-        }
-
-        /* --- RESULTS LIST --- */
-        .container { padding: 20px 5%; max-width: 1200px; margin: 0 auto; }
+        .filter-row { display: flex; flex-direction: column; gap: 15px; margin-bottom: 15px; }
         
-        .results-grid { display: grid; gap: 20px; }
+        .filter-label { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; color: var(--primary); margin-bottom: 8px; display: block; }
 
-        .director-card {
-            background: var(--white);
-            border-radius: 12px;
-            padding: 25px;
-            display: grid;
-            grid-template-columns: 1fr auto;
-            align-items: center;
-            border: 1px solid transparent;
+        .chip-container { display: flex; gap: 8px; overflow-x: auto; white-space: nowrap; padding-bottom: 8px; scrollbar-width: none; }
+        .chip-container::-webkit-scrollbar { display: none; }
+
+        .chip {
+            padding: 8px 18px;
+            border-radius: 50px;
+            border: 1px solid #e2ded0;
+            background: transparent;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--text-soft);
+            cursor: pointer;
             transition: 0.3s;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
         }
 
-        .director-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+        .chip.active { background: var(--primary); color: white; border-color: var(--primary); }
+        .chip:hover:not(.active) { border-color: var(--accent); color: var(--accent); }
 
-        .info h3 { font-size: 1.1rem; margin-bottom: 5px; letter-spacing: -0.02em; }
-        .info .dist { color: var(--accent); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; margin-bottom: 10px; display: block; }
-        .info .meta { color: var(--text-soft); font-size: 0.85rem; }
-
-        .price-box { text-align: right; }
-        .price-label { font-size: 0.65rem; text-transform: uppercase; color: var(--text-soft); font-weight: 700; }
-        .price-val { font-size: 1.3rem; font-weight: 700; color: var(--primary); display: block; }
+        /* --- RESULTS --- */
+        .main-content { padding: 30px 5%; max-width: 1000px; margin: 0 auto; }
         
-        .view-btn {
-            margin-top: 10px;
-            background: var(--primary); color: white;
-            padding: 10px 20px; border-radius: 6px; border: none;
-            font-size: 0.8rem; font-weight: 600; cursor: pointer;
+        .card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: var(--shadow);
+            border: 1px solid transparent;
         }
 
-        /* --- ADVERTISING SLOT (Integrated) --- */
-        .ad-row {
-            grid-column: 1 / -1;
+        .card:hover { border-color: var(--accent); transform: translateY(-4px); }
+
+        .card-main { flex: 1; }
+        .card-dist { font-size: 0.7rem; font-weight: 800; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; display: block; }
+        .card-name { font-size: 1.2rem; font-weight: 700; margin-bottom: 8px; letter-spacing: -0.02em; }
+        
+        .tag-row { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 12px; }
+        .tag { font-size: 0.65rem; padding: 4px 10px; background: #f8f9fa; border-radius: 4px; font-weight: 600; color: var(--text-soft); border: 1px solid #eee; }
+
+        .card-side { text-align: right; min-width: 140px; }
+        .price-label { font-size: 0.6rem; font-weight: 800; text-transform: uppercase; color: var(--text-soft); margin-bottom: 4px; display: block; }
+        .price-total { font-size: 1.4rem; font-weight: 700; color: var(--primary); margin-bottom: 12px; display: block; }
+
+        .btn-view {
+            width: 100%; padding: 12px; border-radius: 8px;
+            background: var(--primary); color: white; border: none;
+            font-size: 0.8rem; font-weight: 700; cursor: pointer; transition: 0.3s;
+        }
+        .btn-view:hover { background: #000; }
+
+        /* --- INTEGRATED REVENUE AD --- */
+        .revenue-strip {
             background: var(--primary);
-            color: var(--accent);
-            padding: 20px;
-            border-radius: 12px;
+            border-radius: 16px;
+            padding: 20px 24px;
+            margin-bottom: 20px;
             display: flex; justify-content: space-between; align-items: center;
-            margin: 10px 0;
+            color: var(--bg);
         }
 
-        @media (max-width: 600px) {
-            .director-card { grid-template-columns: 1fr; gap: 20px; }
-            .price-box { text-align: left; border-top: 1px solid #eee; padding-top: 15px; }
+        @media (max-width: 650px) {
+            .card { flex-direction: column; }
+            .card-side { width: 100%; text-align: left; margin-top: 20px; padding-top: 20px; border-top: 1px solid #f1f5f9; }
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <a href="index.html" class="brand-sm">
-            <div class="f">Funeral</div>
-            <div class="m">Match</div>
+    <nav>
+        <a href="index.html" class="logo-sm">
+            <span class="t">Funeral</span>
+            <span class="b">Match</span>
         </a>
-        <div class="postcode-badge" id="displayPostcode">Loading...</div>
-    </header>
+        <div class="search-indicator">Nearby <span>SS17 7AL</span></div>
+    </nav>
 
-    <div class="results-bar">
-        <div class="count"><strong id="resCount">0</strong> Directors found</div>
-        <div class="filter-group">
-            <select id="sortDist"><option>Closest First</option><option>Price: Low to High</option></select>
-            <select><option>Service Type</option><option>Cremation</option><option>Burial</option></select>
-            <select><option>Religion</option><option>Non-Religious</option><option>Christian</option></select>
+    <div class="filter-section">
+        <div class="filter-row">
+            <div>
+                <span class="filter-label">Service Type</span>
+                <div class="chip-container">
+                    <button class="chip active">All Services</button>
+                    <button class="chip">Cremation</button>
+                    <button class="chip">Unattended Cremation</button>
+                    <button class="chip">Traditional Burial</button>
+                    <button class="chip">Burial at Sea</button>
+                    <button class="chip">Green/Eco Funeral</button>
+                </div>
+            </div>
+            <div>
+                <span class="filter-label">Specialised Care</span>
+                <div class="chip-container">
+                    <button class="chip">Multi-Faith</button>
+                    <button class="chip">LGBTQ+ Friendly</button>
+                    <button class="chip">Repatriation Specialist</button>
+                    <button class="chip">Grief Support Included</button>
+                </div>
+            </div>
         </div>
     </div>
 
-    <div class="container">
-        <div class="results-grid" id="resultsList">
+    <div class="main-content">
+        <div id="results">
+            <div class="card">
+                <div class="card-main">
+                    <span class="card-dist">0.4 miles away</span>
+                    <h2 class="card-name">A.W. Anderson Memorials</h2>
+                    <p style="font-size: 0.85rem; color: var(--text-soft);">Trusted local service with 40+ years experience.</p>
+                    <div class="tag-row">
+                        <span class="tag">Unattended Cremation</span>
+                        <span class="tag">Eco Friendly</span>
+                        <span class="tag">★ 4.9</span>
+                    </div>
+                </div>
+                <div class="card-side">
+                    <span class="price-label">Estimated From</span>
+                    <span class="price-total">£1,450</span>
+                    <button class="btn-view">View Details</button>
+                </div>
             </div>
+
+            <div class="revenue-strip" onclick="location.href='mailto:ads@funeralmatch.com'">
+                <div>
+                    <span style="font-size: 0.6rem; font-weight: 800; color: var(--accent); letter-spacing: 1px; text-transform: uppercase;">Featured Partner</span>
+                    <h3 style="font-size: 1rem; margin-top: 4px;">Local Florist: Rose & Willow</h3>
+                    <p style="font-size: 0.75rem; color: #94a3b8;">Supporting families with gentle, timely arrangements.</p>
+                </div>
+                <div style="font-weight: 700; color: var(--accent); font-size: 0.8rem; border: 1px solid; padding: 8px 12px; border-radius: 4px;">Advertise Here</div>
+            </div>
+
+            <div class="card">
+                <div class="card-main">
+                    <span class="card-dist">1.2 miles away</span>
+                    <h2 class="card-name">Maritime Farewells</h2>
+                    <p style="font-size: 0.85rem; color: var(--text-soft);">Specialists in unique ceremonies and sea burials.</p>
+                    <div class="tag-row">
+                        <span class="tag">Burial at Sea</span>
+                        <span class="tag">Relational Care</span>
+                        <span class="tag">★ 5.0</span>
+                    </div>
+                </div>
+                <div class="card-side">
+                    <span class="price-label">Estimated From</span>
+                    <span class="price-total">£2,800</span>
+                    <button class="btn-view">View Details</button>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <script>
-        // 1. Get Postcode from URL
-        const params = new URLSearchParams(window.location.search);
-        const postcode = params.get('postcode') || "Unknown";
-        document.getElementById('displayPostcode').innerText = postcode;
-
-        // 2. Mock Data Scraper Logic (Simulating local results)
-        const mockDirectors = [
-            { name: "Willow & Grove", dist: 0.4, price: 1850, rating: 4.9, location: "High St" },
-            { name: "Sterling Funeral Care", dist: 1.2, price: 2100, rating: 4.8, location: "West Rd" },
-            { name: "Compassionate Journeys", dist: 1.8, price: 1600, rating: 4.7, location: "Central Ave" },
-            { name: "Evergreen Directors", dist: 2.5, price: 3200, rating: 5.0, location: "Oak Lane" }
-        ];
-
-        function renderResults(data) {
-            const list = document.getElementById('resultsList');
-            document.getElementById('resCount').innerText = data.length;
-            list.innerHTML = "";
-
-            data.forEach((dir, index) => {
-                // Insert an Ad after the 2nd result
-                if(index === 2) {
-                    list.innerHTML += `
-                        <div class="ad-row">
-                            <div>
-                                <small style="text-transform:uppercase; letter-spacing:1px; font-size:0.6rem">Partner Feature</small>
-                                <p style="font-weight:600">Local Florist: Blooms & Petals</p>
-                            </div>
-                            <button class="view-btn" style="background:var(--accent); color:var(--primary)">10% Off</button>
-                        </div>
-                    `;
-                }
-
-                list.innerHTML += `
-                    <div class="director-card">
-                        <div class="info">
-                            <span class="dist">${dir.dist} miles away</span>
-                            <h3>${dir.name}</h3>
-                            <p class="meta">Expert Service • ${dir.location}</p>
-                            <p class="meta" style="color:var(--accent)">★ ${dir.rating} (Verified Reviews)</p>
-                        </div>
-                        <div class="price-box">
-                            <span class="price-label">Estimated From</span>
-                            <span class="price-val">£${dir.price}</span>
-                            <button class="view-btn">View Details</button>
-                        </div>
-                    </div>
-                `;
-            });
-        }
-
-        // Initialize
-        renderResults(mockDirectors);
-    </script>
 </body>
 </html>
