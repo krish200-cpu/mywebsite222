@@ -3,25 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Curated Results | Funeral Match</title>
+    <title>Curated Selections | Funeral Match</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         :root { 
-            --deep-slate: #1A1C1E; /* Lighter than black, maintains depth */
-            --gunmetal: #232629;   /* Card background */
-            --gold: #B39359; 
-            --gold-glow: rgba(179, 147, 89, 0.15);
-            --white: #F4F4F4; 
-            --text-muted: #949BA4;
-            --border: rgba(255, 255, 255, 0.05);
+            --deep-slate: #141618; --gunmetal: #1E2124; --gold: #B39359; 
+            --white: #F4F4F4; --text-muted: #8A8F98; --border: rgba(255, 255, 255, 0.06);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
         body { background-color: var(--deep-slate); color: var(--white); -webkit-font-smoothing: antialiased; }
 
-        /* Transparent Header */
         nav {
-            padding: 24px; background: rgba(26, 28, 30, 0.9);
+            padding: 24px; background: rgba(20, 22, 24, 0.95);
             backdrop-filter: blur(20px); border-bottom: 1px solid var(--border);
             display: flex; justify-content: space-between; align-items: center;
             position: sticky; top: 0; z-index: 1000;
@@ -29,179 +23,158 @@
         .logo { font-size: 0.8rem; font-weight: 700; letter-spacing: 5px; text-transform: uppercase; color: var(--white); text-decoration: none; }
         .logo span { color: var(--gold); }
 
-        /* Filter Trigger Area */
-        .utility-bar { padding: 25px 24px 10px; display: flex; justify-content: space-between; align-items: center; }
-        .btn-filter { 
-            background: var(--gunmetal); border: 1px solid var(--gold); color: var(--gold);
-            padding: 12px 24px; border-radius: 50px; font-size: 0.65rem; font-weight: 600;
-            text-transform: uppercase; letter-spacing: 1px; cursor: pointer;
+        /* Sort & Filter Row */
+        .controls-container {
+            padding: 20px 24px; background: var(--deep-slate);
+            border-bottom: 1px solid var(--border);
         }
-
-        .container { max-width: 650px; margin: 0 auto; padding: 0 20px 140px; }
-
-        /* Sponsored Partner - Soft Luxury Halo */
-        .entry.sponsored { 
-            border: 1px solid var(--gold); 
-            background: linear-gradient(145deg, #2a2d31 0%, #232629 100%);
-            box-shadow: 0 0 30px var(--gold-glow);
+        .sort-label { font-size: 0.6rem; color: var(--gold); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; display: block; }
+        .sort-scroll {
+            display: flex; gap: 25px; overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none;
         }
-        .sponsored-label { color: var(--gold); font-size: 0.6rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 15px; display: block; }
+        .sort-scroll::-webkit-scrollbar { display: none; }
+        .sort-opt {
+            font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; 
+            letter-spacing: 1px; white-space: nowrap; cursor: pointer; padding-bottom: 8px;
+            border-bottom: 2px solid transparent; transition: 0.3s;
+        }
+        .sort-opt.active { color: var(--white); border-bottom: 2px solid var(--gold); font-weight: 600; }
 
-        /* Main Card Design */
+        .container { max-width: 650px; margin: 0 auto; padding: 30px 20px 140px; }
+
+        /* Luxury Result Card */
         .entry {
             background: var(--gunmetal); border-radius: 28px; margin-bottom: 24px;
-            padding: 35px; border: 1px solid var(--border); transition: transform 0.3s ease;
+            padding: 35px; border: 1px solid var(--border); transition: all 0.4s ease;
         }
+        .entry.sponsored { border: 1px solid var(--gold); background: linear-gradient(145deg, #25282c 0%, #1e2124 100%); }
+        .sponsored-tag { color: var(--gold); font-size: 0.55rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 15px; display: block; }
+
         .header-flex { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px; }
-        .d-name { font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 500; letter-spacing: -0.01em; }
+        .d-name { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 500; }
         
-        .score-box { text-align: right; border-left: 1px solid var(--border); padding-left: 15px; }
+        .score-pill { text-align: right; }
         .score-val { color: var(--gold); font-size: 1.2rem; font-weight: 600; display: block; }
-        .score-lbl { font-size: 0.5rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
 
-        .tag-row { display: flex; gap: 10px; margin-bottom: 25px; }
-        .feature-tag { font-size: 0.65rem; color: var(--text-muted); background: rgba(255,255,255,0.03); padding: 6px 14px; border-radius: 12px; border: 1px solid var(--border); }
+        .meta-row { display: flex; gap: 10px; margin-bottom: 25px; }
+        .tag { font-size: 0.65rem; color: var(--text-muted); background: rgba(255,255,255,0.03); padding: 6px 14px; border-radius: 12px; border: 1px solid var(--border); }
 
-        .card-footer { 
-            display: flex; justify-content: space-between; align-items: center; 
-            border-top: 1px solid var(--border); padding-top: 25px; margin-top: 10px;
-        }
-        .price-wrap p { font-size: 0.55rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 5px; }
+        .card-footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); padding-top: 25px; }
         .price-amt { font-family: 'Playfair Display', serif; font-size: 1.7rem; font-weight: 500; }
-        .price-amt span { color: var(--gold); margin-right: 2px; }
+        .price-amt span { color: var(--gold); font-size: 1rem; }
 
-        .btn-lock { 
-            background: var(--gold); color: #000; padding: 14px 30px; 
-            border-radius: 16px; border: none; font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
-        }
+        .btn-gold { background: var(--gold); color: #000; padding: 14px 28px; border-radius: 16px; border: none; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; cursor: pointer; }
 
-        /* LIVE QUOTE PILL - SUBTLE POP UP */
+        /* Subtle Floating Quote Pop-up */
         .floating-quote {
             position: fixed; bottom: 35px; left: 50%; transform: translateX(-50%);
-            background: rgba(35, 38, 41, 0.9); backdrop-filter: blur(15px);
+            background: rgba(30, 33, 36, 0.9); backdrop-filter: blur(15px);
             border: 1px solid var(--gold); padding: 14px 28px; border-radius: 50px;
-            display: flex; align-items: center; gap: 20px; box-shadow: 0 15px 40px rgba(0,0,0,0.4);
-            z-index: 2000;
+            display: flex; align-items: center; gap: 20px; z-index: 2000; box-shadow: 0 15px 40px rgba(0,0,0,0.4);
         }
         .pill-price { font-family: 'Playfair Display', serif; color: var(--gold); font-size: 1.2rem; }
-
-        /* ADVANCED FILTER DRAWER */
-        .drawer-overlay {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(5px);
-            z-index: 3000; display: none; align-items: flex-end;
-        }
-        .drawer-overlay.active { display: flex; }
-        .drawer-content {
-            background: var(--gunmetal); width: 100%; border-radius: 40px 40px 0 0;
-            padding: 40px 24px; border-top: 1px solid var(--gold);
-        }
-
-        .filter-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 30px; }
-        .opt-pill { 
-            background: var(--deep-slate); border: 1px solid var(--border); padding: 18px; border-radius: 20px;
-            color: var(--text-muted); font-size: 0.8rem; text-align: center; cursor: pointer;
-        }
-        .opt-pill.active { border-color: var(--gold); color: var(--gold); background: var(--gold-glow); }
     </style>
 </head>
 <body>
 
     <nav>
         <a href="index.html" class="logo">Funeral<span>Match</span></a>
-        <div style="font-size: 0.65rem; color: var(--gold); font-weight: 600; letter-spacing: 1px;">LONDON SW1A</div>
+        <div style="font-size: 0.65rem; color: var(--gold); font-weight: 600;">LONDON SW1A</div>
     </nav>
 
-    <div class="utility-bar">
-        <p style="font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px;">25 Results Nearby</p>
-        <button class="btn-filter" onclick="toggleFilters()">Refine Selection</button>
+    <div class="controls-container">
+        <span class="sort-label">Sort results by</span>
+        <div class="sort-scroll">
+            <div class="sort-opt active" onclick="resort('score', this)">Recommended</div>
+            <div class="sort-opt" onclick="resort('distance', this)">Proximity</div>
+            <div class="sort-opt" onclick="resort('price', this)">Fixed Price</div>
+            <div class="sort-opt" onclick="resort('facilities', this)">Facility Rating</div>
+        </div>
     </div>
 
     <div class="container" id="results">
         <div class="entry sponsored">
-            <span class="sponsored-label">Premier Partner</span>
+            <span class="sponsored-tag">Premier Partner</span>
             <div class="header-flex">
                 <h2 class="d-name">Belgrave & Beaumont</h2>
-                <div class="score-box">
+                <div class="score-pill">
                     <span class="score-val">99</span>
-                    <span class="score-lbl">Score</span>
+                    <span style="font-size:0.5rem; color:var(--text-muted); text-transform:uppercase;">Trust Score</span>
                 </div>
             </div>
-            <div class="tag-row">
-                <span class="feature-tag">Private Mortuary</span>
-                <span class="feature-tag">Mercedes Fleet</span>
-                <span class="feature-tag">Chapel of Rest</span>
+            <div class="meta-row">
+                <span class="tag">0.2 miles</span>
+                <span class="tag">Private Mortuary</span>
+                <span class="tag">Mercedes Fleet</span>
             </div>
             <div class="card-footer">
-                <div class="price-wrap">
-                    <p>Guaranteed Quote</p>
+                <div class="price-box">
+                    <p style="font-size: 0.55rem; color: var(--text-muted); text-transform: uppercase; margin-bottom:4px;">Direct Quote</p>
                     <div class="price-amt"><span>£</span>3,450</div>
                 </div>
-                <button class="btn-lock">Lock Price</button>
+                <button class="btn-gold">Lock Price</button>
             </div>
         </div>
-        </div>
+        <div id="dynamic-list"></div>
+    </div>
 
     <div class="floating-quote">
-        <span style="font-size: 0.6rem; text-transform: uppercase; letter-spacing: 1.5px; opacity: 0.8;">Live Automated Quote</span>
+        <span style="font-size: 0.6rem; text-transform: uppercase; letter-spacing: 1.5px; opacity: 0.8;">Automated Quote Benchmark</span>
         <div style="width: 1px; height: 15px; background: rgba(255,255,255,0.1);"></div>
         <span class="pill-price">£3,450</span>
     </div>
 
-    <div class="drawer-overlay" id="filterDrawer">
-        <div class="drawer-content">
-            <div style="width: 40px; height: 4px; background: var(--border); border-radius: 10px; margin: -20px auto 30px;"></div>
-            
-            <p style="font-size: 0.65rem; color: var(--gold); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px;">Service Arrangement</p>
-            <div class="filter-grid">
-                <div class="opt-pill active">Standard Attended</div>
-                <div class="opt-pill">Unattended</div>
-                <div class="opt-pill">Burial at Sea</div>
-                <div class="opt-pill">Natural Burial</div>
-            </div>
-
-            <p style="font-size: 0.65rem; color: var(--gold); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px;">Specialism</p>
-            <div class="filter-grid">
-                <div class="opt-pill active">None / Secular</div>
-                <div class="opt-pill">Christian</div>
-                <div class="opt-pill">Muslim</div>
-                <div class="opt-pill">Sikh / Hindu</div>
-            </div>
-
-            <button class="btn-lock" style="width: 100%; padding: 22px; border-radius: 20px; margin-top: 10px;" onclick="toggleFilters()">Apply Changes</button>
-        </div>
-    </div>
-
     <script>
-        function toggleFilters() {
-            document.getElementById('filterDrawer').classList.toggle('active');
+        const directors = [
+            { name: "Evergreen Care", distance: 0.8, price: 2950, score: 94, rating: 5 },
+            { name: "Sanctuary Independent", distance: 1.4, price: 3100, score: 96, rating: 4 },
+            { name: "Oakwood & Sons", distance: 0.5, price: 2800, score: 91, rating: 3 },
+            { name: "Westminster Tributes", distance: 2.1, price: 3900, score: 98, rating: 5 },
+            // Loop this to 24 results...
+        ];
+
+        function resort(criteria, el) {
+            document.querySelectorAll('.sort-opt').forEach(opt => opt.classList.remove('active'));
+            el.classList.add('active');
+            
+            let sorted = [...directors];
+            if(criteria === 'price') sorted.sort((a,b) => a.price - b.price);
+            if(criteria === 'distance') sorted.sort((a,b) => a.distance - b.distance);
+            if(criteria === 'score' || criteria === 'facilities') sorted.sort((a,b) => b.score - a.score);
+            
+            render(sorted);
         }
 
-        const container = document.getElementById('results');
-        const names = ["Evergreen Independent", "Sanctuary Care", "Oakwood & Sons", "Dignity Partners"];
-        for(let i=1; i<25; i++) {
-            container.innerHTML += `
-                <div class="entry">
-                    <div class="header-flex">
-                        <h2 class="d-name">${names[i%4]}</h2>
-                        <div class="score-box">
-                            <span class="score-val">${90 + (i%9)}</span>
-                            <span class="score-lbl">Score</span>
+        function render(list) {
+            const container = document.getElementById('dynamic-list');
+            container.innerHTML = '';
+            list.forEach(d => {
+                container.innerHTML += `
+                    <div class="entry">
+                        <div class="header-flex">
+                            <h2 class="d-name">${d.name}</h2>
+                            <div class="score-pill">
+                                <span class="score-val">${d.score}</span>
+                                <span style="font-size:0.5rem; color:var(--text-muted); text-transform:uppercase;">Score</span>
+                            </div>
+                        </div>
+                        <div class="meta-row">
+                            <span class="tag">${d.distance} miles away</span>
+                            <span class="tag">Vetted Provider</span>
+                        </div>
+                        <div class="card-footer">
+                            <div class="price-box">
+                                <p style="font-size: 0.55rem; color: var(--text-muted); text-transform: uppercase; margin-bottom:4px;">Fixed Quote</p>
+                                <div class="price-amt"><span>£</span>${d.price.toLocaleString()}</div>
+                            </div>
+                            <button class="btn-gold" style="background:transparent; border:1px solid var(--border); color:white;">View Details</button>
                         </div>
                     </div>
-                    <div class="tag-row">
-                        <span class="feature-tag">${(i * 0.4).toFixed(1)} miles away</span>
-                        <span class="feature-tag">Vetted Provider</span>
-                    </div>
-                    <div class="card-footer">
-                        <div class="price-wrap">
-                            <p>Estimated Quote</p>
-                            <div class="price-amt"><span>£</span>${(2600 + (i*60)).toLocaleString()}</div>
-                        </div>
-                        <button class="btn-lock" style="background:transparent; border:1px solid var(--border); color:white;">View Details</button>
-                    </div>
-                </div>
-            `;
+                `;
+            });
         }
+
+        render(directors);
     </script>
 </body>
 </html>
