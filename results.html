@@ -3,156 +3,191 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Personalised Care | Funeral Match</title>
+    <title>Professional Care Search | Funeral Match</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root { 
-            --midnight: #121416; --charcoal: #1C1E20; --gold: #B39359; 
-            --white: #FFFFFF; --text-muted: #8E959F; --border: rgba(255,255,255,0.08);
+            --midnight: #0F1113; --card-bg: #1A1D1F; --gold: #B39359; 
+            --white: #FFFFFF; --text-dim: #949BA4; --accent-bg: #232629;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-        body { background-color: var(--midnight); color: var(--white); padding-bottom: 100px; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background-color: var(--midnight); color: var(--white); overflow-x: hidden; }
 
-        /* Header Navigation */
+        /* Smooth Header */
         nav {
-            padding: 16px 24px;
-            background: rgba(18, 20, 22, 0.95);
-            backdrop-filter: blur(15px);
-            border-bottom: 1px solid var(--border);
+            padding: 16px 20px;
+            background: rgba(15, 17, 19, 0.9);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
             display: flex; justify-content: space-between; align-items: center;
             position: sticky; top: 0; z-index: 100;
         }
-        .mini-logo { font-size: 0.8rem; font-weight: 700; letter-spacing: 5px; text-transform: uppercase; color: var(--white); text-decoration: none; }
-        .mini-logo span { color: var(--gold); }
+        .logo { font-size: 0.75rem; font-weight: 800; letter-spacing: 5px; text-transform: uppercase; color: var(--white); text-decoration: none; }
+        .logo span { color: var(--gold); }
 
-        /* Action Bar */
-        .action-bar { padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; }
-        .results-count { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
-        .filter-trigger { 
-            background: var(--charcoal); border: 1px solid var(--gold); color: var(--gold);
-            padding: 8px 16px; border-radius: 4px; font-size: 0.7rem; font-weight: 600; text-transform: uppercase;
+        /* Refined Filter Trigger */
+        .utility-bar { padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; background: var(--midnight); }
+        .count { font-size: 0.7rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; }
+        .btn-filter { 
+            background: var(--accent-bg); border: 1px solid rgba(179, 147, 89, 0.3); color: var(--gold);
+            padding: 10px 18px; border-radius: 8px; font-size: 0.65rem; font-weight: 700; text-transform: uppercase;
         }
 
-        /* Director Cards */
-        .container { max-width: 600px; margin: 0 auto; padding: 0 16px; }
+        /* Results List Container */
+        .results-list { padding: 0 16px 100px; max-width: 600px; margin: 0 auto; }
         
-        .card {
-            background: var(--charcoal); border: 1px solid var(--border);
-            border-radius: 8px; margin-bottom: 16px; overflow: hidden;
+        .director-card {
+            background: var(--card-bg); border-radius: 12px; margin-bottom: 16px; 
+            border: 1px solid rgba(255,255,255,0.03); box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
 
-        .card-main { padding: 20px; }
-        .card-header { display: flex; justify-content: space-between; margin-bottom: 8px; }
-        .name { font-size: 1.1rem; font-weight: 600; letter-spacing: -0.5px; }
+        .card-top { padding: 20px; }
+        .card-flex { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 4px; }
+        .d-name { font-size: 1.05rem; font-weight: 600; letter-spacing: -0.2px; }
         
-        /* Transparency Score Badge */
-        .score-badge { 
-            font-size: 0.65rem; padding: 4px 8px; border-radius: 4px;
-            background: rgba(179, 147, 89, 0.1); color: var(--gold); border: 1px solid rgba(179, 147, 89, 0.3);
+        /* Transparency Score Ring */
+        .transparency-score { 
+            text-align: right; font-size: 0.6rem; color: var(--gold); font-weight: 700;
+            border-left: 1px solid rgba(255,255,255,0.1); padding-left: 12px;
         }
+        .score-val { font-size: 0.9rem; display: block; color: var(--white); }
 
-        .meta-info { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 16px; display: flex; gap: 10px; }
+        .d-meta { font-size: 0.75rem; color: var(--text-dim); margin-bottom: 18px; }
 
-        .price-strip {
-            background: rgba(0,0,0,0.2); padding: 16px 20px;
+        .btn-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .action-btn { 
+            padding: 14px; border-radius: 6px; font-size: 0.7rem; font-weight: 700; 
+            text-transform: uppercase; border: none; cursor: pointer; transition: 0.2s;
+        }
+        .btn-view { background: #2A2E32; color: var(--white); }
+        .btn-lock { background: var(--gold); color: #000; box-shadow: 0 4px 15px rgba(179,147,89,0.2); }
+
+        .pricing-strip {
+            background: rgba(0,0,0,0.2); padding: 14px 20px;
             display: flex; justify-content: space-between; align-items: center;
-            border-top: 1px solid var(--border);
+            border-top: 1px solid rgba(255,255,255,0.05); border-bottom-left-radius: 12px; border-bottom-right-radius: 12px;
         }
-        .price-label { font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; }
-        .amount { font-size: 1.3rem; font-weight: 700; }
-        .amount span { font-size: 0.9rem; color: var(--gold); }
+        .price-big { font-size: 1.2rem; font-weight: 700; }
+        .price-big span { color: var(--gold); font-size: 0.8rem; }
 
-        .btn-group { display: flex; gap: 10px; margin-top: 12px; }
-        .btn { flex: 1; padding: 12px; border-radius: 4px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; cursor: pointer; border: none; }
-        .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--white); }
-        .btn-gold { background: var(--gold); color: #000; }
-
-        /* Filter Pop-up (Modal) */
-        .modal {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.9);
-            z-index: 200; display: none; /* Toggle with JS */
-            flex-direction: column; padding: 40px 24px;
+        /* Interactive Filter Drawer */
+        #filterDrawer {
+            position: fixed; bottom: -100%; left: 0; width: 100%; height: 85vh;
+            background: var(--card-bg); z-index: 200; border-radius: 20px 20px 0 0;
+            padding: 30px 24px; transition: bottom 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 -10px 40px rgba(0,0,0,0.5);
         }
-        .modal.active { display: flex; }
-        .modal-header { margin-bottom: 30px; display: flex; justify-content: space-between; }
-        .filter-group { margin-bottom: 24px; }
-        .filter-label { font-size: 0.7rem; color: var(--gold); text-transform: uppercase; margin-bottom: 12px; display: block; }
-        .filter-options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .opt { background: var(--charcoal); padding: 12px; border-radius: 4px; font-size: 0.8rem; border: 1px solid var(--border); text-align: center; }
-        .opt.selected { border-color: var(--gold); color: var(--gold); }
+        #filterDrawer.active { bottom: 0; }
+        .drawer-handle { width: 40px; height: 4px; background: rgba(255,255,255,0.1); border-radius: 10px; margin: -10px auto 25px; }
+
+        .filter-section { margin-bottom: 28px; }
+        .section-title { font-size: 0.65rem; color: var(--gold); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 15px; display: block; }
+        .option-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+        
+        .pill { 
+            padding: 12px; border-radius: 8px; background: var(--accent-bg); border: 1px solid transparent;
+            font-size: 0.8rem; text-align: center; color: var(--text-dim); transition: 0.2s;
+        }
+        .pill.selected { border-color: var(--gold); color: var(--white); background: rgba(179,147,89,0.05); }
+
+        .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); display: none; z-index: 150; }
+        .overlay.active { display: block; }
     </style>
 </head>
 <body>
 
     <nav>
-        <a href="index.html" class="mini-logo">Funeral<span>Match</span></a>
-        <div class="score-badge">Local Priority</div>
+        <a href="index.html" class="logo">Funeral<span>Match</span></a>
+        <div style="font-size: 0.6rem; color: var(--text-dim);">POSTCODE: SW1A</div>
     </nav>
 
-    <div class="action-bar">
-        <span class="results-count">25 Directors Found</span>
-        <button class="filter-trigger" onclick="toggleModal()">Filters & Service Type</button>
+    <div class="utility-bar">
+        <span class="count">25 Directors Near You</span>
+        <button class="btn-filter" onclick="openFilters()">Adjust Service</button>
     </div>
 
-    <div class="container">
-        <div class="card">
-            <div class="card-main">
-                <div class="card-header">
-                    <h2 class="name">Oakwood & Sons</h2>
-                    <span class="score-badge">Score: 98/100</span>
-                </div>
-                <div class="meta-info">
-                    <span>★ 4.9</span>
-                    <span>• 0.4 miles away</span>
-                </div>
-                <div class="btn-group">
-                    <button class="btn btn-outline">View Details</button>
-                    <button class="btn btn-gold">Lock Price</button>
-                </div>
-            </div>
-            <div class="price-strip">
-                <div>
-                    <p class="price-label">Current Quote</p>
-                    <p class="amount"><span>£</span>2,450</p>
-                </div>
-                <p style="font-size: 0.6rem; color: var(--text-muted); text-align: right;">Fixed for 48h<br>Ref: #FM902</p>
-            </div>
+    <div class="results-list" id="resultsList">
         </div>
-    </div>
 
-    <div id="filterModal" class="modal">
-        <div class="modal-header">
-            <h2 style="font-size: 1.2rem;">Customise Your Quote</h2>
-            <button onclick="toggleModal()" style="background: none; border: none; color: var(--white); font-size: 1.5rem;">&times;</button>
-        </div>
+    <div class="overlay" id="overlay" onclick="closeFilters()"></div>
+
+    <div id="filterDrawer">
+        <div class="drawer-handle"></div>
+        <h2 style="margin-bottom: 20px; font-weight: 500;">Filter Requirements</h2>
         
-        <div class="filter-group">
-            <span class="filter-label">Service Type</span>
-            <div class="filter-options">
-                <div class="opt selected">Standard Attended</div>
-                <div class="opt">Unattended</div>
-                <div class="opt">Natural Burial</div>
-                <div class="opt">Sea Burial</div>
+        <div class="filter-section">
+            <span class="section-title">Service Type</span>
+            <div class="option-grid">
+                <div class="pill selected" onclick="togglePill(this)">Standard Attended</div>
+                <div class="pill" onclick="togglePill(this)">Unattended (Direct)</div>
+                <div class="pill" onclick="togglePill(this)">Memorial Service</div>
+                <div class="pill" onclick="togglePill(this)">Natural Burial</div>
+                <div class="pill" onclick="togglePill(this)">Sea Burial</div>
+                <div class="pill" onclick="togglePill(this)">Traditional Burial</div>
             </div>
         </div>
 
-        <div class="filter-group">
-            <span class="filter-label">Faith & Culture</span>
-            <div class="filter-options">
-                <div class="opt">None / Secular</div>
-                <div class="opt">Christian</div>
-                <div class="opt">Muslim</div>
-                <div class="opt">Sikh / Hindu</div>
+        <div class="filter-section">
+            <span class="section-title">Religious & Cultural Specialism</span>
+            <div class="option-grid">
+                <div class="pill" onclick="togglePill(this)">Secular</div>
+                <div class="pill" onclick="togglePill(this)">Muslim</div>
+                <div class="pill" onclick="togglePill(this)">Christian (All)</div>
+                <div class="pill" onclick="togglePill(this)">Hindu / Sikh</div>
+                <div class="pill" onclick="togglePill(this)">Jewish</div>
+                <div class="pill" onclick="togglePill(this)">Afro-Caribbean</div>
             </div>
         </div>
 
-        <button class="btn btn-gold" onclick="toggleModal()" style="margin-top: auto; padding: 20px;">Update Results</button>
+        <button class="action-btn btn-lock" onclick="closeFilters()" style="width: 100%; margin-top: 20px;">Apply & Update Prices</button>
     </div>
 
     <script>
-        function toggleModal() {
-            document.getElementById('filterModal').classList.toggle('active');
+        // Generate 25 results to show scale
+        const resultsList = document.getElementById('resultsList');
+        const names = ["Evergreen Independent", "Sanctuary Care", "Oakwood & Sons", "Dignity Partners", "Graceful Farewells"];
+        
+        for (let i = 1; i <= 25; i++) {
+            const name = names[i % names.length] + " " + (Math.floor(i/5) + 1);
+            const score = 90 + Math.floor(Math.random() * 10);
+            const price = 2200 + (i * 45);
+            
+            resultsList.innerHTML += `
+                <div class="director-card">
+                    <div class="card-top">
+                        <div class="card-flex">
+                            <h2 class="d-name">${name}</h2>
+                            <div class="transparency-score">
+                                <span class="score-val">${score}</span>SCORE
+                            </div>
+                        </div>
+                        <p class="d-meta">Vetted Professional • ${(i * 0.2).toFixed(1)} miles away</p>
+                        <div class="btn-row">
+                            <button class="action-btn btn-view">Details</button>
+                            <button class="action-btn btn-lock">Lock Price</button>
+                        </div>
+                    </div>
+                    <div class="pricing-strip">
+                        <p style="font-size: 0.65rem; color: var(--text-dim); text-transform: uppercase;">Guaranteed Quote</p>
+                        <p class="price-big"><span>£</span>${price.toLocaleString()}</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        function openFilters() {
+            document.getElementById('filterDrawer').classList.add('active');
+            document.getElementById('overlay').classList.add('active');
+        }
+
+        function closeFilters() {
+            document.getElementById('filterDrawer').classList.remove('active');
+            document.getElementById('overlay').classList.remove('active');
+        }
+
+        function togglePill(el) {
+            el.classList.toggle('selected');
         }
     </script>
 </body>
