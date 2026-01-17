@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Funeral Match | Compassionate Clarity</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <title>Funeral Match | Find Local Care</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        :root { --black: #1A1A1B; --gold: #B39359; --white: #FFFFFF; --bg-overlay: rgba(0, 0, 0, 0.35); }
+        :root { --black: #1A1A1B; --gold: #B39359; --white: #FFFFFF; --bg-tint: rgba(255, 255, 255, 0.5); }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: #F9F7F2; font-family: 'Inter', sans-serif; color: var(--black); }
+        body { background: #FDFDFB; font-family: 'Inter', sans-serif; color: var(--black); line-height: 1.6; }
 
-        /* Full Screen Hero - Forest Aesthetic */
+        /* Full Screen Hero - Modern Chapel Aesthetic */
         .hero { 
-            height: 100vh; 
+            height: 85vh; /* Reduced height to allow trust bar visibility */
             width: 100%; 
-            background: linear-gradient(var(--bg-overlay), var(--bg-overlay)), 
-                        url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=2000&q=80'); 
+            background: linear-gradient(var(--bg-tint), var(--bg-tint)), 
+                        url('https://images.unsplash.com/photo-1548625361-19500c658dc7?auto=format&fit=crop&w=2000&q=80'); 
             background-size: cover; 
             background-position: center;
             display: flex;
@@ -23,65 +23,66 @@
             align-items: center;
             justify-content: center;
             padding: 20px;
-            text-align: center;
         }
 
-        /* Logo Continuity & Legibility */
-        header { position: absolute; top: 0; width: 100%; padding: 40px; z-index: 10; }
-        .logo { font-size: 1.1rem; font-weight: 800; text-transform: uppercase; letter-spacing: 12px; color: var(--white); text-decoration: none; text-shadow: 0 2px 15px rgba(0,0,0,0.4); }
+        /* Fixed Branding */
+        header { position: absolute; top: 0; width: 100%; padding: 30px; text-align: center; }
+        .logo { font-size: 1rem; font-weight: 800; text-transform: uppercase; letter-spacing: 12px; color: var(--black); text-decoration: none; }
         .logo span { color: var(--gold); }
 
-        .hero-content { width: 100%; max-width: 800px; color: var(--white); z-index: 2; }
-        h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.2rem, 5vw, 3.8rem); line-height: 1.2; margin-bottom: 24px; }
+        .hero-content { width: 100%; max-width: 600px; text-align: center; }
+        h1 { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 400; margin-bottom: 25px; color: var(--black); }
         
-        /* Optimized Postcode Search Bar */
-        .search-container { 
+        /* Compact Postcode Module */
+        .search-engine { 
             background: var(--white); 
-            padding: 8px; 
-            border-radius: 50px; 
-            display: flex; 
+            padding: 6px; 
+            border-radius: 4px; 
+            display: inline-flex; 
             align-items: center; 
             margin: 0 auto 30px auto; 
-            max-width: 450px; /* Narrowed for Postcode ergonomics */
-            box-shadow: 0 20px 50px rgba(0,0,0,0.25); 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            border: 1px solid #EAEAEA;
         }
         input { 
-            flex: 1; border: none; padding: 12px 20px; 
-            font-size: 1rem; font-family: 'Inter', sans-serif; 
-            outline: none; border-radius: 50px; 
-            text-transform: uppercase; /* Postcodes usually uppercase */
-            letter-spacing: 2px;
+            border: none; padding: 12px 15px; 
+            font-size: 0.95rem; width: 180px; /* Specifically sized for postcode */
+            outline: none; letter-spacing: 2px;
+            font-family: 'Inter', sans-serif;
         }
         .btn-search { 
             background: var(--black); color: var(--white); border: none; 
-            padding: 14px 28px; border-radius: 50px; 
-            font-weight: 800; text-transform: uppercase; 
-            letter-spacing: 1px; cursor: pointer; transition: 0.3s; 
-            font-size: 0.75rem;
+            padding: 12px 24px; border-radius: 2px; 
+            font-weight: 600; text-transform: uppercase; 
+            letter-spacing: 1px; cursor: pointer; transition: 0.2s; 
+            font-size: 0.7rem;
         }
         .btn-search:hover { background: var(--gold); }
 
-        /* Plan Partner Slot */
-        .plan-partner { 
-            display: inline-flex; align-items: center; gap: 12px; 
-            background: rgba(255,255,255,0.1); backdrop-filter: blur(12px); 
-            padding: 10px 20px; border-radius: 4px; 
-            border: 1px solid rgba(255,255,255,0.2); 
-            text-decoration: none; color: var(--white); 
-            font-size: 0.8rem; transition: 0.3s; 
+        /* Partner Link */
+        .plan-link { font-size: 0.75rem; color: #666; text-decoration: none; border-bottom: 1px solid var(--gold); padding-bottom: 2px; transition: 0.3s; }
+        .plan-link:hover { color: var(--black); }
+
+        /* Corrected Grid Alignment for Trust Bar */
+        .trust-section { 
+            max-width: 1100px; 
+            margin: -40px auto 0; /* Pulls up slightly into the hero */
+            background: var(--white);
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+            gap: 2px; 
+            background-color: #EEE; /* Creates divider lines between items */
+            box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+            border-radius: 4px;
+            overflow: hidden;
         }
-        .plan-partner:hover { background: rgba(255,255,255,0.2); border-color: var(--gold); }
-        .dot { width: 6px; height: 6px; background: var(--gold); border-radius: 50%; }
+        .trust-item { background: var(--white); padding: 40px; text-align: left; }
+        .trust-item h3 { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 2px; color: var(--gold); margin-bottom: 12px; }
+        .trust-item p { font-size: 0.85rem; color: #777; line-height: 1.5; margin: 0; }
 
-        /* Trust Bar */
-        .trust-bar { padding: 50px 10%; background: #FFF; display: flex; justify-content: space-around; flex-wrap: wrap; gap: 30px; }
-        .trust-item { text-align: center; flex: 1; min-width: 200px; }
-        .trust-item h3 { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 2px; color: var(--gold); margin-bottom: 10px; }
-        .trust-item p { font-size: 0.85rem; color: #777; line-height: 1.5; }
-
-        footer { padding: 40px; text-align: center; background: #F9F7F2; font-size: 0.65rem; color: #AAA; letter-spacing: 1px; }
-        footer a { color: #888; text-decoration: none; margin: 0 15px; }
-        footer a:hover { color: var(--gold); }
+        footer { padding: 60px 20px; text-align: center; font-size: 0.65rem; color: #AAA; letter-spacing: 1px; }
+        footer a { color: #888; text-decoration: none; margin: 0 12px; }
+        footer a:hover { color: var(--black); }
     </style>
 </head>
 <body>
@@ -92,41 +93,40 @@
 
     <section class="hero">
         <div class="hero-content">
-            <h1>Verified local care, <br>transparently priced.</h1>
+            <h1>Clarity when you <br>need it most.</h1>
             
-            <div class="search-container">
-                <input type="text" placeholder="POSTCODE (e.g. SW1A 1AA)" maxlength="10">
+            <div class="search-engine">
+                <input type="text" placeholder="POSTCODE" maxlength="8">
                 <button class="btn-search" onclick="location.href='results.html'">Search</button>
             </div>
-
-            <a href="#" class="plan-partner">
-                <span class="dot"></span>
-                <strong>Thinking ahead?</strong> Discover 5★ rated pre-paid funeral plans.
-            </a>
+            <br>
+            <a href="#" class="plan-link">Pre-planning a funeral? Start here.</a>
         </div>
     </section>
 
-    <div class="trust-bar">
+    <div class="trust-section">
         <div class="trust-item">
-            <h3>Verified Quotes</h3>
-            <p>Direct pricing from your nearest funeral care specialists.</p>
+            <h3>Verified Care</h3>
+            <p>Direct pricing and facility audits from independent local specialists.</p>
         </div>
         <div class="trust-item">
-            <h3>Locked Pricing</h3>
-            <p>Every quote generated is fixed and guaranteed by our partners.</p>
+            <h3>Price Lock</h3>
+            <p>Every quote generated through our engine is fixed and guaranteed.</p>
         </div>
         <div class="trust-item">
-            <h3>Independent Care</h3>
-            <p>We only list vetted, high-quality directors in your region.</p>
+            <h3>Expert Guidance</h3>
+            <p>Dedicated support to help you navigate religious and cultural needs.</p>
         </div>
     </div>
 
     <footer>
-        <a href="#">About</a>
-        <a href="#">Support</a>
-        <a href="#">Terms</a>
-        <a href="#" style="color: var(--black); font-weight: 800;">Director Portal</a>
-        <p style="margin-top: 20px;">© 2026 Funeral Match Ltd.</p>
+        <div style="margin-bottom: 20px;">
+            <a href="#">Our Story</a>
+            <a href="#">Support</a>
+            <a href="#">Privacy</a>
+            <a href="#" style="color: var(--black); font-weight: 700;">Director Portal</a>
+        </div>
+        <p>© 2026 Funeral Match Ltd. Licensed Independent Aggregator.</p>
     </footer>
 
 </body>
