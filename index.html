@@ -3,219 +3,197 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Funeral Match | The New Standard of Care</title>
+    <title>Funeral Match</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200;400;600&display=swap');
         
         :root {
             --gold: #C5A059;
-            --charcoal: #1C1C1C;
-            --linen: #F8F5F2;
+            --black: #1a1a1a;
+            --bg: #ffffff;
         }
 
         body { 
             font-family: 'Montserrat', sans-serif; 
-            background-color: var(--linen);
-            color: var(--charcoal);
+            background-color: var(--bg);
+            color: var(--black);
             margin: 0;
-            scroll-behavior: smooth;
             -webkit-font-smoothing: antialiased;
         }
 
-        /* The Adjusted Logo Hierarchy */
+        /* Small, Sleek Logo Hierarchy */
         .brand-header {
-            width: 100%;
-            padding: 3rem 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            background: transparent;
-        }
-
-        .funeral-text {
-            font-size: 0.75rem; /* Sized down for elegance */
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.6em;
-            margin-right: -0.6em;
-            color: var(--charcoal);
-            opacity: 0.8;
-        }
-
-        .match-text {
-            font-size: 1.4rem; /* Significantly bigger */
-            font-weight: 300;
-            text-transform: uppercase;
-            letter-spacing: 0.4em;
-            color: var(--gold);
-            margin-top: 0.1rem;
-            margin-right: -0.4em;
-            line-height: 1;
-        }
-
-        section {
-            min-height: 90vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: 4rem 10%;
+            padding: 4rem 0;
             text-align: center;
         }
 
-        .fade-in {
-            opacity: 0;
-            transform: translateY(15px);
-            transition: all 1.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+        .f-text {
+            font-size: 0.65rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5em;
+            display: block;
+            margin-bottom: 2px;
         }
 
-        .fade-in.visible {
-            opacity: 1;
-            transform: translateY(0);
+        .m-text {
+            font-size: 1.1rem; /* Bigger but delicate */
+            font-weight: 200;
+            text-transform: uppercase;
+            letter-spacing: 0.6em;
+            color: var(--gold);
+            display: block;
+            margin-right: -0.6em; /* Adjusts for letter spacing center */
         }
 
-        /* Precision Search Card */
-        .service-card {
-            background: #ffffff;
-            border: 1px solid #eee;
-            padding: 3.5rem 2.5rem;
-            border-radius: 20px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.02);
-            max-width: 520px;
+        section {
+            padding: 6rem 10%;
+            max-width: 900px;
             margin: 0 auto;
+            text-align: center;
         }
 
-        .input-underline {
-            border: none;
-            border-bottom: 1px solid #ddd;
-            padding: 1.2rem 0;
-            width: 100%;
-            background: transparent;
-            font-size: 1.1rem;
-            transition: all 0.4s ease;
+        .h-thin {
+            font-size: 1.25rem;
+            font-weight: 200;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            line-height: 2;
+            color: #666;
+        }
+
+        /* Simple Service List */
+        .service-list {
+            display: grid;
+            grid-template-cols: 1fr;
+            gap: 4rem;
+            margin-top: 8rem;
+            text-align: left;
+        }
+
+        .service-item {
+            border-left: 1px solid #eee;
+            padding-left: 2rem;
+        }
+
+        .s-num {
+            font-size: 0.6rem;
+            color: var(--gold);
+            font-weight: 600;
+            letter-spacing: 0.3em;
+            display: block;
+            margin-bottom: 1rem;
+        }
+
+        .s-title {
+            font-size: 0.9rem;
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1rem;
+        }
+
+        .s-desc {
+            font-size: 0.8rem;
             font-weight: 300;
+            color: #888;
+            line-height: 1.8;
+            max-width: 400px;
         }
 
-        .input-underline:focus {
+        /* Minimal Form */
+        .form-area {
+            margin-top: 10rem;
+            padding-bottom: 10rem;
+        }
+
+        .minimal-input {
+            border: none;
+            border-bottom: 1px solid #eee;
+            padding: 1.5rem 0;
+            width: 100%;
+            max-width: 400px;
+            font-size: 0.85rem;
+            font-weight: 300;
+            letter-spacing: 0.1em;
+            text-align: center;
+            transition: border-color 0.5s;
+        }
+
+        .minimal-input:focus {
             outline: none;
             border-bottom-color: var(--gold);
-            letter-spacing: 0.05em;
         }
 
-        .dark-section {
-            background-color: var(--charcoal);
-            color: #ffffff;
-        }
-
-        .btn-gold {
-            background: var(--charcoal);
-            color: white;
-            padding: 1.2rem;
-            border-radius: 50px;
-            font-size: 0.7rem;
-            font-weight: 700;
-            letter-spacing: 0.4em;
+        .btn-luxury {
+            margin-top: 4rem;
+            font-size: 0.65rem;
+            font-weight: 600;
             text-transform: uppercase;
-            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-            margin-top: 2rem;
+            letter-spacing: 0.4em;
+            color: var(--black);
+            border: 1px solid #eee;
+            padding: 1.2rem 3rem;
+            transition: all 0.4s;
         }
 
-        .btn-gold:hover {
-            background: var(--gold);
-            letter-spacing: 0.5em;
-            transform: translateY(-2px);
+        .btn-luxury:hover {
+            border-color: var(--gold);
+            color: var(--gold);
         }
     </style>
 </head>
 <body>
 
     <header class="brand-header">
-        <div class="flex flex-col items-center">
-            <span class="funeral-text">Funeral</span>
-            <span class="match-text">Match</span>
-        </div>
+        <span class="f-text">Funeral</span>
+        <span class="m-text">Match</span>
     </header>
 
-    <section>
-        <div class="fade-in js-scroll max-w-3xl mx-auto">
-            <h1 class="text-[0.6rem] tracking-[0.7em] uppercase text-gray-400 mb-6 font-bold">Compassionate Agency</h1>
-            <h2 class="text-3xl md:text-5xl font-light mb-10 leading-tight text-gray-800">
-                Guiding you when the <br><span class="italic font-normal">unexpected occurs.</span>
-            </h2>
-            <p class="text-lg text-gray-500 font-light mb-12 leading-relaxed max-w-xl mx-auto">
-                If a death has just occurred, you shouldn't have to navigate the path alone. We act as your primary liaison, coordinating immediate logistics and legal steps with absolute transparency.
-            </p>
-            <div class="w-px h-20 bg-gradient-to-b from-gray-200 to-transparent mx-auto"></div>
-        </div>
-    </section>
+    <main>
+        <section>
+            <h1 class="h-thin">
+                Immediate assistance <br>
+                refined for the <span style="color:var(--black); font-weight:400;">modern era.</span>
+            </h1>
 
-    <section class="dark-section">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-16 md:gap-8 fade-in js-scroll">
-            <div class="p-4">
-                <span class="text-[#C5A059] text-[0.6rem] font-bold tracking-widest uppercase mb-4 block">01. Immediate</span>
-                <h3 class="text-xl font-light mb-4 tracking-wide">First Response</h3>
-                <p class="text-gray-400 font-light text-sm leading-relaxed">
-                    We initiate the immediate care of your loved one, removing the burden of logistics from the family instantly.
-                </p>
-            </div>
-            <div class="p-4">
-                <span class="text-[#C5A059] text-[0.6rem] font-bold tracking-widest uppercase mb-4 block">02. Essential</span>
-                <h3 class="text-xl font-light mb-4 tracking-wide">Legal Clarity</h3>
-                <p class="text-gray-400 font-light text-sm leading-relaxed">
-                    Step-by-step guidance through registration and certification, ensuring legal compliance with total ease.
-                </p>
-            </div>
-            <div class="p-4">
-                <span class="text-[#C5A059] text-[0.6rem] font-bold tracking-widest uppercase mb-4 block">03. Final</span>
-                <h3 class="text-xl font-light mb-4 tracking-wide">Refined Choice</h3>
-                <p class="text-gray-400 font-light text-sm leading-relaxed">
-                    Once the immediate needs are met, we match you with verified directors based on your specific wishes and budget.
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <section>
-        <div class="service-card fade-in js-scroll">
-            <h2 class="text-xl font-light mb-10 tracking-widest uppercase">Start Your Care</h2>
-            
-            <form action="search.html" class="space-y-12">
-                <div class="text-left">
-                    <label class="text-[0.55rem] uppercase tracking-widest text-gray-400 font-bold">Location</label>
-                    <input type="text" placeholder="Enter Postcode" class="input-underline" required>
+            <div class="service-list">
+                <div class="service-item">
+                    <span class="s-num">01</span>
+                    <h3 class="s-title">Response</h3>
+                    <p class="s-desc">We manage the immediate legal and logistical requirements the moment a death occurs.</p>
                 </div>
-
-                <div class="text-left">
-                    <label class="text-[0.55rem] uppercase tracking-widest text-gray-400 font-bold">Arrangement Type</label>
-                    <select class="input-underline appearance-none cursor-pointer bg-transparent">
-                        <option>Direct Cremation</option>
-                        <option>Full Funeral Service</option>
-                        <option>Natural Burial</option>
-                    </select>
+                <div class="service-item">
+                    <span class="s-num">02</span>
+                    <h3 class="s-title">Clarity</h3>
+                    <p class="s-desc">Detailed guidance through certification, providing a steady hand during the first hours.</p>
                 </div>
+                <div class="service-item">
+                    <span class="s-num">03</span>
+                    <h3 class="s-title">Selection</h3>
+                    <p class="s-desc">A curated match with funeral directors vetted for transparency and excellence.</p>
+                </div>
+            </div>
+        </section>
 
-                <button class="w-full btn-gold">
-                    Find Your Match
-                </button>
-            </form>
-        </div>
-    </section>
+        <section class="form-area">
+            <div class="space-y-12">
+                <input type="text" placeholder="POSTCODE" class="minimal-input">
+                <br>
+                <select class="minimal-input appearance-none">
+                    <option>DIRECT CREMATION</option>
+                    <option>TRADITIONAL BURIAL</option>
+                </select>
+                <br>
+                <button class="btn-luxury">Find Your Match</button>
+            </div>
+        </section>
+    </main>
 
-    <footer class="py-16 text-center opacity-40">
-        <p class="text-[0.5rem] tracking-[0.6em] uppercase text-gray-400">Funeral Match — The New Standard of Care</p>
+    <footer style="padding: 4rem; text-align: center; font-size: 0.5rem; letter-spacing: 0.5em; color: #ccc; text-transform: uppercase;">
+        The New Standard of Care
     </footer>
 
-    <script>
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, { threshold: 0.1 });
-
-        document.querySelectorAll('.js-scroll').forEach(el => observer.observe(el));
-    </script>
 </body>
 </html>
