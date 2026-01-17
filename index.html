@@ -2,218 +2,67 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Funeral Match | Compassionate Support</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Funeral Match | Find Support</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --primary: #1a1c1e;
-            --accent: #b39359; 
-            --text-soft: #64748b;
-            --bg: #fcfaf7;
-            --dynamic-padding: clamp(1.5rem, 6vw, 5rem);
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        :root { --primary: #1a1c1e; --accent: #b39359; --text-soft: #64748b; --bg: #fcfaf7; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--bg); color: var(--primary); font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
+        .wrapper { display: flex; flex-direction: column; min-height: 100vh; padding: clamp(1.5rem, 6vw, 5rem); max-width: 1400px; margin: 0 auto; }
         
-        body { 
-            background-color: var(--bg);
-            color: var(--primary);
-            font-family: 'Inter', sans-serif;
-            -webkit-font-smoothing: antialiased;
-            overflow-x: hidden;
-        }
-
-        .wrapper {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            padding: var(--dynamic-padding);
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        /* --- LOGO & LOGIN --- */
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 6vh;
-        }
-
-        .brand {
-            text-decoration: none;
-            display: flex;
-            flex-direction: column;
-            line-height: 1.1;
-        }
-
+        header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8vh; }
+        .brand { text-decoration: none; display: flex; flex-direction: column; line-height: 1.1; }
         .brand-top { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 4px; color: var(--primary); font-weight: 500; }
         .brand-bottom { font-size: 1.1rem; text-transform: uppercase; letter-spacing: 5px; font-weight: 800; color: var(--accent); }
+        .dir-login { font-size: 0.65rem; font-weight: 600; color: var(--text-soft); text-decoration: none; text-transform: uppercase; letter-spacing: 1px; padding: 8px 12px; border: 1px solid rgba(0,0,0,0.04); transition: 0.3s; }
+        .dir-login:hover { color: var(--accent); border-color: var(--accent); }
 
-        .dir-login {
-            font-size: 0.65rem;
-            font-weight: 600;
-            color: var(--text-soft);
-            text-decoration: none;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            padding: 8px 12px;
-            border: 1px solid rgba(0,0,0,0.04);
-            transition: 0.3s;
-        }
+        main { flex: 1; display: flex; flex-direction: column; justify-content: center; max-width: 800px; }
+        .sub-head { font-family: 'Playfair Display', serif; font-style: italic; color: var(--accent); font-size: 1.1rem; margin-bottom: 1.2rem; }
+        h1 { font-size: clamp(2.6rem, 8vw, 4.5rem); font-weight: 600; letter-spacing: -0.05em; line-height: 0.95; margin-bottom: 2rem; }
 
-        /* --- HERO --- */
-        main {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            max-width: 800px;
-        }
-
-        .sub-head {
-            font-family: 'Playfair Display', serif;
-            font-style: italic;
-            color: var(--accent);
-            font-size: 1.1rem;
-            margin-bottom: 1.2rem;
-        }
-
-        h1 {
-            font-size: clamp(2.6rem, 8vw, 4.5rem);
-            font-weight: 600;
-            letter-spacing: -0.05em;
-            line-height: 0.95;
-            margin-bottom: 2rem;
-        }
-
-        /* --- STACKED BIG BOX --- */
-        .search-module { width: 100%; max-width: 550px; margin-bottom: 3rem; }
-
+        .search-module { width: 100%; max-width: 550px; }
         .big-box { display: flex; flex-direction: column; gap: 12px; margin-bottom: 15px; }
+        input { width: 100%; height: 75px; background: #fff; border: 1px solid #e2ded0; border-radius: 12px; padding: 0 25px; font-size: 1.15rem; outline: none; }
+        .cta-btn { width: 100%; height: 75px; background: var(--primary); color: #fff; border: none; border-radius: 12px; font-size: 1.1rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; cursor: pointer; }
+        .loc-trigger { background: none; border: none; color: var(--accent); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; display: flex; align-items: center; gap: 8px; }
 
-        input {
-            width: 100%; height: 75px;
-            background: #fff; border: 1px solid #e2ded0; border-radius: 12px;
-            padding: 0 25px; font-size: 1.15rem; outline: none;
-        }
-
-        .cta-btn {
-            width: 100%; height: 75px;
-            background: var(--primary); color: #fff; border: none; border-radius: 12px;
-            font-size: 1.1rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px;
-            cursor: pointer;
-        }
-
-        .loc-trigger {
-            background: none; border: none; color: var(--accent);
-            font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
-            letter-spacing: 1px; cursor: pointer; display: flex; align-items: center; gap: 8px;
-        }
-
-        /* --- INTEGRATED ADVERTISING (REVENUE AREA) --- */
-        .featured-support {
-            margin-top: 2rem;
-            padding: 24px;
-            background: rgba(179, 147, 89, 0.05); /* Very subtle gold wash */
-            border-left: 3px solid var(--accent);
-            max-width: 550px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .featured-support:hover { background: rgba(179, 147, 89, 0.08); }
-
-        .ad-label {
-            font-size: 0.6rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: var(--accent);
-            font-weight: 700;
-            display: block;
-            margin-bottom: 8px;
-        }
-
+        .featured-support { margin-top: 3rem; padding: 24px; background: rgba(179, 147, 89, 0.05); border-left: 3px solid var(--accent); max-width: 550px; cursor: pointer; }
+        .ad-label { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 2px; color: var(--accent); font-weight: 700; display: block; margin-bottom: 8px; }
         .ad-title { font-size: 1rem; font-weight: 600; margin-bottom: 4px; }
         .ad-desc { font-size: 0.85rem; color: var(--text-soft); line-height: 1.4; }
 
-        /* --- FOOTER --- */
-        footer {
-            margin-top: 8vh; padding-top: 40px; border-top: 1px solid rgba(0,0,0,0.05);
-            display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 20px;
-        }
-
-        .f-nav { display: flex; gap: 30px; }
-        .f-nav a { text-decoration: none; color: var(--text-soft); font-size: 0.7rem; font-weight: 600; text-transform: uppercase; }
-
+        footer { margin-top: 8vh; padding-top: 40px; border-top: 1px solid rgba(0,0,0,0.05); display: flex; justify-content: space-between; font-size: 0.7rem; color: var(--text-soft); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+        footer a { text-decoration: none; color: var(--text-soft); margin-right: 20px; }
     </style>
 </head>
 <body>
-
     <div class="wrapper">
         <header>
-            <a href="#" class="brand">
-                <span class="brand-top">Funeral</span>
-                <span class="brand-bottom">Match</span>
-            </a>
+            <a href="index.html" class="brand"><span class="brand-top">Funeral</span><span class="brand-bottom">Match</span></a>
             <a href="#" class="dir-login">Director Login</a>
         </header>
-
         <main>
             <p class="sub-head">Compassionate clarity for the road ahead</p>
             <h1>Support for the <br>next steps.</h1>
-
             <div class="search-module">
-                <form id="go" class="big-box">
-                    <input type="text" id="pc" placeholder="Enter your postcode" required autocomplete="off">
+                <form action="search-results.html" method="GET" class="big-box">
+                    <input type="text" name="postcode" placeholder="Enter your postcode" required>
                     <button type="submit" class="cta-btn">See local options</button>
                 </form>
-                
-                <button type="button" class="loc-trigger" onclick="useLoc()">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
-                    Allow us to use your location
-                </button>
-
-                <div class="featured-support" onclick="window.location.href='mailto:ads@funeralmatch.com'">
+                <button type="button" class="loc-trigger">Allow us to use your location</button>
+                <div class="featured-support">
                     <span class="ad-label">Partner Feature</span>
                     <div class="ad-title">Pay to Advertise Here</div>
-                    <div class="ad-desc">Connect with families looking for support. This space is reserved for local partners and professional services.</div>
+                    <div class="ad-desc">Connect with local families. This space is reserved for trusted professional partners.</div>
                 </div>
             </div>
         </main>
-
         <footer>
-            <div class="f-nav">
-                <a href="#">About Us</a>
-                <a href="#">Our Standards</a>
-                <a href="#">Contact</a>
-            </div>
-            <p style="font-size: 0.65rem; color: #cbd5e1; font-weight: 600; letter-spacing: 1px;">© 2026 FUNERAL MATCH</p>
+            <div><a href="#">About Us</a><a href="#">Our Standards</a></div>
+            <p>© 2026 FUNERAL MATCH</p>
         </footer>
     </div>
-
-    <script>
-        document.getElementById('go').addEventListener('submit', function(e) {
-            e.preventDefault();
-            window.location.href = `search-results.html?postcode=${encodeURIComponent(document.getElementById('pc').value)}`;
-        });
-
-        function useLoc() {
-            if (navigator.geolocation) {
-                const btn = document.querySelector('.loc-trigger');
-                btn.innerText = "Accessing location...";
-                navigator.geolocation.getCurrentPosition((pos) => {
-                    document.getElementById('pc').value = "Detecting Area...";
-                    setTimeout(() => { 
-                        document.getElementById('pc').value = "SS17 7AL"; 
-                        btn.innerText = "Location Found";
-                    }, 800);
-                }, () => {
-                    btn.innerText = "Access denied";
-                });
-            }
-        }
-    </script>
 </body>
 </html>
