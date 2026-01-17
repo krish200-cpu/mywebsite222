@@ -3,116 +3,170 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Transparency | Funeral Comparison Marketplace</title>
+    <title>Funeral Match | Transparency & Choice</title>
     <style>
         :root {
             --primary: #1a2a3a;
             --gold: #b8860b;
             --green: #27ae60;
             --bg: #f4f7f6;
+            --white: #ffffff;
             --text: #111;
         }
 
         * { box-sizing: border-box; font-family: 'Inter', system-ui, -apple-system, sans-serif; }
-
         body { margin: 0; background: var(--bg); color: var(--text); line-height: 1.6; }
 
         /* HEADER */
-        header { background: white; padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 100; }
-        .logo { font-size: 1.5rem; font-weight: 800; color: var(--primary); letter-spacing: -1px; }
-        .fd-login { color: var(--gold); text-decoration: none; font-weight: 600; font-size: 0.85rem; border: 1.5px solid var(--gold); padding: 8px 18px; border-radius: 6px; }
+        header { background: var(--white); padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 100; }
+        .logo { font-size: 1.6rem; font-weight: 800; color: var(--primary); letter-spacing: -1.5px; text-transform: uppercase; }
+        .logo span { color: var(--gold); }
+        .fd-login { color: var(--gold); text-decoration: none; font-weight: 600; font-size: 0.85rem; border: 1.5px solid var(--gold); padding: 8px 18px; border-radius: 6px; transition: 0.3s; }
+        .fd-login:hover { background: var(--gold); color: white; }
 
         /* MAIN LAYOUT */
         .container { display: flex; max-width: 1200px; margin: 2rem auto; gap: 2rem; padding: 0 20px; }
         
-        /* FILTERS SIDEBAR */
-        .sidebar { width: 300px; flex-shrink: 0; }
-        .filter-card { background: white; padding: 24px; border-radius: 12px; position: sticky; top: 100px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
+        /* ENHANCED FILTERS SIDEBAR */
+        .sidebar { width: 320px; flex-shrink: 0; }
+        .filter-card { background: var(--white); padding: 24px; border-radius: 12px; position: sticky; top: 100px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); }
         
-        fieldset { border: none; padding: 0; margin: 0 0 20px 0; }
-        legend { font-weight: 700; margin-bottom: 15px; font-size: 0.9rem; text-transform: uppercase; color: #666; letter-spacing: 0.5px; }
+        fieldset { border: none; padding: 0; margin: 0 0 25px 0; }
+        legend { font-weight: 800; margin-bottom: 15px; font-size: 0.8rem; text-transform: uppercase; color: var(--gold); letter-spacing: 1px; }
 
-        .filter-label { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; cursor: pointer; font-size: 0.95rem; }
-        .btn-apply { background: var(--primary); color: white; border: none; padding: 12px 16px; border-radius: 6px; cursor: pointer; font-size: 14px; width: 100%; font-weight: 600; }
+        .filter-label { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; cursor: pointer; font-size: 0.9rem; font-weight: 500; color: #444; }
+        .filter-label:hover { color: var(--primary); }
+        input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--primary); }
+
+        .btn-apply { background: var(--primary); color: white; border: none; padding: 14px; border-radius: 8px; cursor: pointer; font-size: 14px; width: 100%; font-weight: 700; margin-top: 10px; transition: 0.2s; }
+        .btn-apply:hover { background: #2c3e50; }
 
         /* RESULTS AREA */
         .results-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
         .results { flex-grow: 1; }
-        
-        /* SORT DROPDOWN */
-        #sortPrice { padding: 8px 12px; border-radius: 6px; border: 1px solid #ddd; background: white; cursor: pointer; font-size: 0.9rem; }
+        #sortPrice { padding: 10px; border-radius: 8px; border: 1px solid #ddd; font-size: 0.9rem; outline: none; }
 
+        /* CARD DESIGN */
         .card { 
-            background: white; border-radius: 12px; padding: 25px; margin-bottom: 1.5rem; 
-            display: grid; grid-template-columns: 1fr 220px; gap: 20px;
-            border: 1px solid #e0e0e0; transition: all 0.3s ease;
+            background: var(--white); border-radius: 16px; padding: 30px; margin-bottom: 1.5rem; 
+            display: grid; grid-template-columns: 1fr 240px; gap: 25px;
+            border: 1px solid #eef0f2; transition: all 0.3s ease; position: relative;
         }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.07); }
         .card.hidden { display: none; }
         
-        .sponsored { border: 2px solid var(--gold); background: #fffdf5; }
-        .score-pill { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: bold; margin-bottom: 12px; background: #e8f5e9; color: #2e7d32; }
+        .sponsored { border: 2px solid var(--gold); background: #fffef9; }
+        .sponsored-tag { position: absolute; top: -12px; left: 25px; background: var(--gold); color: white; font-size: 0.65rem; padding: 4px 12px; border-radius: 4px; font-weight: 800; }
+
+        .score-box { display: inline-flex; align-items: center; gap: 6px; background: #e8f5e9; color: #2e7d32; padding: 5px 12px; border-radius: 30px; font-size: 0.75rem; font-weight: 700; margin-bottom: 15px; }
         
-        .tag { background: #f0f0f0; padding: 4px 10px; border-radius: 5px; font-size: 0.75rem; margin-right: 6px; color: #555; }
-        .price-box { text-align: right; border-left: 1px solid #eee; padding-left: 20px; display: flex; flex-direction: column; justify-content: center; }
-        .price-tag { font-size: 1.8rem; font-weight: 800; color: var(--primary); margin: 5px 0; }
+        .feature-tags { margin-top: 15px; display: flex; flex-wrap: wrap; gap: 8px; }
+        .tag { background: #f0f3f5; padding: 5px 12px; border-radius: 6px; font-size: 0.75rem; color: #555; font-weight: 600; }
+        .tag.blue { background: #e3f2fd; color: #1565c0; }
+
+        .price-column { text-align: right; border-left: 1px solid #eee; padding-left: 25px; display: flex; flex-direction: column; justify-content: center; }
+        .price-tag { font-size: 2.2rem; font-weight: 900; color: var(--primary); margin: 5px 0; }
+        .price-sub { font-size: 0.75rem; color: #888; margin-bottom: 15px; }
         
-        .btn-book { background: var(--green); color: white; border: none; width: 100%; padding: 12px; border-radius: 6px; font-weight: bold; cursor: pointer; }
+        .btn-book { background: var(--green); color: white; border: none; width: 100%; padding: 14px; border-radius: 8px; font-weight: 800; cursor: pointer; transition: 0.3s; }
+        .btn-book:hover { filter: brightness(1.1); }
     </style>
 </head>
 <body>
 
 <header>
-    <div class="logo">TRANSPARENCY</div>
-    <a href="#" class="fd-login">Director Portal</a>
+    <div class="logo">FUNERAL<span>MATCH</span></div>
+    <a href="#" class="fd-login">Director Login</a>
 </header>
 
 <div class="container">
     <aside class="sidebar">
-        <form id="serviceFilterForm" class="filter-card">
+        <form id="masterFilterForm" class="filter-card">
             <fieldset>
-                <legend>Service Type</legend>
-                <label class="filter-label"><input type="checkbox" name="serviceType" value="direct_cremation"> Direct Cremation</label>
-                <label class="filter-label"><input type="checkbox" name="serviceType" value="simple_attended_cremation"> Simple Attended</label>
-                <label class="filter-label"><input type="checkbox" name="serviceType" value="traditional_burial"> Traditional Burial</label>
-                <label class="filter-label"><input type="checkbox" name="serviceType" value="celebration_of_life"> Celebration of Life</label>
+                <legend>1. Service Type</legend>
+                <label class="filter-label"><input type="checkbox" name="type" value="direct_cremation"> Direct Cremation</label>
+                <label class="filter-label"><input type="checkbox" name="type" value="simple_attended"> Simple Attended</label>
+                <label class="filter-label"><input type="checkbox" name="type" value="traditional_burial"> Traditional Burial</label>
+                <label class="filter-label"><input type="checkbox" name="type" value="celebration"> Celebration of Life</label>
+                <label class="filter-label"><input type="checkbox" name="type" value="memorial"> Memorial Service</label>
+                <label class="filter-label"><input type="checkbox" name="type" value="sea_burial"> Burial at Sea</label>
             </fieldset>
-            <button type="submit" class="btn-apply">Apply Filters</button>
+
+            <fieldset>
+                <legend>2. The Experience</legend>
+                <label class="filter-label"><input type="checkbox" name="feature" value="limousine"> Limousine Required</label>
+                <label class="filter-label"><input type="checkbox" name="feature" value="celebrant"> Celebrant / Minister</label>
+                <label class="filter-label"><input type="checkbox" name="feature" value="catering"> Wake / Catering</label>
+                <label class="filter-label"><input type="checkbox" name="feature" value="viewing"> Private Viewing</label>
+            </fieldset>
+
+            <button type="submit" class="btn-apply">Match Services</button>
         </form>
     </aside>
 
     <main class="results">
         <div class="results-header">
-            <h2 id="result-count">2 Directors in Corringham</h2>
+            <h2 id="count-text">Local Directors in Corringham</h2>
             <select id="sortPrice">
-                <option value="default">Sort by: Recommended</option>
-                <option value="low">Price: Low to High</option>
-                <option value="high">Price: High to Low</option>
+                <option value="default">Sort: Recommended</option>
+                <option value="low">Price: Lowest first</option>
+                <option value="high">Price: Highest first</option>
             </select>
         </div>
 
         <div id="results-list">
-            <div class="card sponsored" data-type="celebration_of_life" data-price="2850">
+            <div class="card sponsored" data-type="celebration" data-price="2850">
+                <div class="sponsored-tag">FEATURED MATCH</div>
                 <div>
-                    <span class="score-pill">98% Transparency Score</span>
-                    <h2>Rosewood Memorials</h2>
-                    <p>0.8 miles away • Corringham</p>
-                    <div style="margin: 15px 0;"><span class="tag">Celebration of Life</span><span class="tag">Family Run</span></div>
+                    <div class="score-box"><span>✓</span> 98% Transparency Score</div>
+                    <h2 style="margin:0">Rosewood Independent Care</h2>
+                    <p style="color: #666; font-size: 0.9rem;">0.8 miles away • Corringham High St.</p>
+                    <div class="feature-tags">
+                        <span class="tag blue">Celebration of Life</span>
+                        <span class="tag">Family Run</span>
+                        <span class="tag">Limousine Incl.</span>
+                        <span class="tag">Eco-Coffin</span>
+                    </div>
                 </div>
-                <div class="price-box">
+                <div class="price-column">
+                    <div class="price-sub">ESTIMATED TOTAL</div>
                     <div class="price-tag">£2,850</div>
-                    <button class="btn-book">Book Now</button>
+                    <button class="btn-book">View Availability</button>
                 </div>
             </div>
 
-            <div class="card" data-type="simple_attended_cremation" data-price="2100">
+            <div class="card" data-type="sea_burial" data-price="3500">
                 <div>
-                    <span class="score-pill">91% Transparency Score</span>
-                    <h2>South Essex Funerals</h2>
-                    <p>1.2 miles away • Stanford-le-Hope</p>
-                    <div style="margin: 15px 0;"><span class="tag">Simple Attended</span><span class="tag">Fixed Price</span></div>
+                    <div class="score-box"><span>✓</span> 94% Transparency Score</div>
+                    <h2 style="margin:0">Coastal Heritage Funerals</h2>
+                    <p style="color: #666; font-size: 0.9rem;">4.5 miles away • Southend-on-Sea</p>
+                    <div class="feature-tags">
+                        <span class="tag blue">Burial at Sea</span>
+                        <span class="tag">Specialist Boat</span>
+                        <span class="tag">Certificate Incl.</span>
+                    </div>
                 </div>
-                <div class="price-box">
-                    <div class="price-tag">£2,100</div>
+                <div class="price-column">
+                    <div class="price-sub">ESTIMATED TOTAL</div>
+                    <div class="price-tag">£3,500</div>
+                    <button class="btn-book">View Availability</button>
+                </div>
+            </div>
+
+            <div class="card" data-type="direct_cremation" data-price="950">
+                <div>
+                    <div class="score-box"><span>✓</span> 91% Transparency Score</div>
+                    <h2 style="margin:0">Essex Direct Care</h2>
+                    <p style="color: #666; font-size: 0.9rem;">2.1 miles away • Stanford-le-Hope</p>
+                    <div class="feature-tags">
+                        <span class="tag blue">Direct Cremation</span>
+                        <span class="tag">24hr Collection</span>
+                        <span class="tag">Unattended</span>
+                    </div>
+                </div>
+                <div class="price-column">
+                    <div class="price-sub">FIXED FEE</div>
+                    <div class="price-tag">£950</div>
                     <button class="btn-book">Book Now</button>
                 </div>
             </div>
@@ -121,14 +175,13 @@
 </div>
 
 <script>
-    const form = document.getElementById("serviceFilterForm");
+    const form = document.getElementById("masterFilterForm");
     const sortSelect = document.getElementById("sortPrice");
     const resultsList = document.getElementById("results-list");
 
-    // FILTER LOGIC
     form.addEventListener("submit", function (e) {
         e.preventDefault();
-        const selectedTypes = Array.from(document.querySelectorAll('input[name="serviceType"]:checked')).map(i => i.value);
+        const selectedTypes = Array.from(document.querySelectorAll('input[name="type"]:checked')).map(i => i.value);
         const cards = document.querySelectorAll(".card");
         
         cards.forEach(card => {
@@ -137,20 +190,16 @@
         });
     });
 
-    // SORT LOGIC
     sortSelect.addEventListener("change", function() {
         const cards = Array.from(document.querySelectorAll(".card"));
-        const sortVal = this.value;
-
-        if (sortVal === "default") return;
+        if (this.value === "default") return;
 
         cards.sort((a, b) => {
             const priceA = parseInt(a.getAttribute("data-price"));
             const priceB = parseInt(b.getAttribute("data-price"));
-            return sortVal === "low" ? priceA - priceB : priceB - priceA;
+            return this.value === "low" ? priceA - priceB : priceB - priceA;
         });
 
-        // Re-append cards in new order
         cards.forEach(card => resultsList.appendChild(card));
     });
 </script>
