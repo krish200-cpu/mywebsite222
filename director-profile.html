@@ -10,40 +10,50 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background: #fff; font-family: 'Inter', sans-serif; line-height: 1.6; }
         .hero { background: var(--bg); padding: 80px 5%; text-align: center; }
-        .container { max-width: 800px; margin: 0 auto; padding: 60px 5%; padding-bottom: 150px; }
-        h3 { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; color: var(--accent); margin-bottom: 25px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+        .container { max-width: 800px; margin: 0 auto; padding: 60px 5% 150px; }
+        h3 { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; color: var(--accent); border-bottom: 1px solid #eee; padding-bottom: 10px; margin-bottom: 25px; }
         .item { display: flex; justify-content: space-between; padding: 18px 0; border-bottom: 1px dotted #e2ded0; font-size: 0.95rem; }
         .total-box { margin-top: 30px; background: var(--primary); color: #fff; padding: 30px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; }
         .quote { font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.5rem; margin: 40px 0; border-left: 3px solid var(--accent); padding-left: 25px; }
+        .partner-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
+        .partner-card { padding: 20px; background: var(--bg); border-radius: 12px; cursor: pointer; }
         .bottom-nav { position: fixed; bottom: 0; width: 100%; background: #fff; border-top: 1px solid #eee; padding: 20px 5%; display: flex; justify-content: space-between; align-items: center; }
         .cta-gold { background: var(--accent); color: var(--primary); border: none; padding: 15px 35px; border-radius: 8px; font-weight: 700; text-transform: uppercase; cursor: pointer; }
     </style>
 </head>
 <body>
     <div class="hero">
-        <h1 style="font-size:2.8rem; margin-bottom:10px">Maritime Farewells</h1>
-        <p style="color:var(--accent); font-weight:700; letter-spacing:2px">SPECIALIST RELATIONAL CARE</p>
+        <h1 style="font-size:2.8rem;">Maritime Farewells</h1>
+        <p style="color:var(--accent); font-weight:700; letter-spacing:2px; margin-top:10px;">EST. 1984</p>
     </div>
     <div class="container">
         <section>
-            <h3>Transparent Price Breakdown</h3>
-            <div class="item"><span>Professional Service Fee</span><strong>£1,200</strong></div>
-            <div class="item"><span>Collection & Care of Deceased</span><strong>£450</strong></div>
-            <div class="item"><span>Eco-Friendly Wicker Coffin</span><strong>£650</strong></div>
-            <div class="item"><span>Hearse & Attendants</span><strong>£500</strong></div>
-            <div class="total-box">
-                <span>Guaranteed Total Price</span>
-                <span style="font-size:2rem; font-weight:700; color:var(--accent)">£2,800</span>
-            </div>
+            <h3>Transparent Price List</h3>
+            <div class="item"><span>Professional Fees</span><strong>£1,200</strong></div>
+            <div class="item"><span>Coffin (Eco-Wicker)</span><strong>£650</strong></div>
+            <div class="item"><span>Hearse & Transport</span><strong>£950</strong></div>
+            <div class="total-box"><span>Guaranteed Total</span><span style="font-size:1.8rem; font-weight:700; color:var(--accent)">£2,800</span></div>
         </section>
         <section style="margin-top:60px">
-            <h3>Our Story</h3>
-            <div class="quote">"Because every life is a story worth telling with dignity."</div>
-            <p>For 40 years, we have specialized in ceremonies that reflect the individual's love for the coast and the sea. Independent and family-run.</p>
+            <div class="quote">"Honoring every life with dignified clarity."</div>
+        </section>
+        
+        <section style="margin-top: 60px; padding-top: 40px; border-top: 1px solid #eee;">
+            <h3>Care Beyond the Service</h3>
+            <div class="partner-grid">
+                <div class="partner-card">
+                    <span style="font-size: 0.6rem; font-weight: 800; color: var(--accent);">SUPPORT</span>
+                    <p style="font-size: 0.85rem; font-weight: 600; margin-top: 5px;">Bridge Counseling</p>
+                </div>
+                <div class="partner-card">
+                    <span style="font-size: 0.6rem; font-weight: 800; color: var(--accent);">LEGAL</span>
+                    <p style="font-size: 0.85rem; font-weight: 600; margin-top: 5px;">Sterling Estate Law</p>
+                </div>
+            </div>
         </section>
     </div>
     <div class="bottom-nav">
-        <div><p style="font-size:0.7rem; font-weight:700; color:#94a3b8">TALK TO A DIRECTOR</p><h4>0800 123 4567</h4></div>
+        <div><p style="font-size:0.7rem; color:#94a3b8">TALK TO A DIRECTOR</p><h4>0800 123 4567</h4></div>
         <button class="cta-gold">Start Connection</button>
     </div>
 </body>
