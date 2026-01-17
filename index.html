@@ -2,71 +2,273 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Funeral Match | Welcome</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Funeral Match | Professional Transparency</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
     <style>
-        :root { --primary: #0a1118; --accent: #c5a059; --bg: #ffffff; --slate: #64748b; --ease: cubic-bezier(0.16, 1, 0.3, 1); }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
-        
-        body { 
-            height: 100vh; display: flex; align-items: center; justify-content: center; 
-            background: radial-gradient(circle at top right, #fcfcfd, #f5f5f7);
+        :root {
+            --primary: #0a1118;
+            --accent: #c5a059;
+            --accent-hover: #b38f4d;
+            --slate: #64748b;
+            --bg: #ffffff;
+            --error: #ef4444;
+            --easing: cubic-bezier(0.16, 1, 0.3, 1);
+            --shadow-soft: 0 10px 30px rgba(0,0,0,0.04);
+            --shadow-focus: 0 20px 50px rgba(0,0,0,0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, system-ui, sans-serif;
+            background-color: var(--bg);
+            background-image: radial-gradient(at 0% 0%, hsla(210,100%,98%,1) 0, transparent 50%), 
+                              radial-gradient(at 100% 0%, hsla(42,30%,97%,1) 0, transparent 50%);
+            color: var(--primary);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            -webkit-font-smoothing: antialiased;
             overflow: hidden;
         }
 
-        .hero { max-width: 580px; width: 90%; text-align: center; animation: entry 1s var(--ease); }
-        
-        .brand { font-weight: 700; font-size: 0.8rem; letter-spacing: 3px; color: var(--accent); text-transform: uppercase; margin-bottom: 40px; }
-        h1 { font-size: clamp(2.5rem, 8vw, 3.8rem); letter-spacing: -0.04em; line-height: 1; margin-bottom: 24px; }
-        p { color: var(--slate); font-size: 1.2rem; line-height: 1.6; margin-bottom: 48px; }
-
-        .search-container {
-            background: white; padding: 10px; border-radius: 100px; display: flex;
-            border: 1px solid #e2e8f0; box-shadow: 0 20px 40px rgba(0,0,0,0.05);
-            transition: var(--ease);
+        /* --- CONTENT WRAPPER --- */
+        .content-container {
+            width: 90%;
+            max-width: 600px;
+            text-align: center;
+            z-index: 2;
         }
-        .search-container:focus-within { transform: translateY(-4px); border-color: var(--accent); box-shadow: 0 30px 60px rgba(0,0,0,0.1); }
 
-        input { flex: 1; border: none; padding: 0 30px; font-size: 1.1rem; font-weight: 500; outline: none; text-transform: uppercase; }
-        input::placeholder { text-transform: none; color: #94a3b8; }
-
-        button { 
-            background: var(--primary); color: white; border: none; padding: 18px 40px; 
-            border-radius: 100px; font-weight: 600; cursor: pointer; transition: 0.3s;
+        /* Branding Detail */
+        .logo-mark {
+            font-weight: 700;
+            font-size: 0.8rem;
+            letter-spacing: 0.3em;
+            color: var(--accent);
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+            display: block;
+            opacity: 0;
+            animation: fadeInDown 0.8s var(--easing) forwards;
         }
-        button:hover { background: #000; }
 
-        @keyframes entry { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        h1 {
+            font-size: clamp(2.2rem, 8vw, 3.8rem);
+            font-weight: 700;
+            letter-spacing: -0.04em;
+            line-height: 1.05;
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            animation: fadeInUp 0.8s var(--easing) forwards 0.2s;
+        }
 
+        p {
+            font-size: clamp(1.1rem, 2vw, 1.25rem);
+            color: var(--slate);
+            line-height: 1.6;
+            margin-bottom: 3rem;
+            opacity: 0;
+            animation: fadeInUp 0.8s var(--easing) forwards 0.3s;
+        }
+
+        /* --- THE INPUT INTERFACE --- */
+        .interactive-form {
+            position: relative;
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 100px;
+            padding: 8px;
+            display: flex;
+            align-items: center;
+            box-shadow: var(--shadow-soft);
+            transition: var(--easing);
+            opacity: 0;
+            animation: fadeInUp 0.8s var(--easing) forwards 0.4s;
+        }
+
+        .interactive-form:focus-within {
+            transform: translateY(-4px);
+            border-color: var(--accent);
+            box-shadow: var(--shadow-focus);
+        }
+
+        input {
+            flex: 1;
+            border: none;
+            background: none;
+            padding: 12px 28px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            outline: none;
+            color: var(--primary);
+            width: 100%;
+            text-transform: uppercase;
+        }
+
+        input::placeholder {
+            text-transform: none;
+            color: #94a3b8;
+            font-weight: 400;
+        }
+
+        button {
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            padding: 16px 36px;
+            border-radius: 100px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s var(--easing);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        button:hover {
+            background: #000;
+            padding-right: 44px;
+        }
+
+        button svg {
+            transition: transform 0.3s var(--easing);
+        }
+
+        button:hover svg {
+            transform: translateX(4px);
+        }
+
+        /* --- MICRO-DETAILS: ERROR & LOADING --- */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20% { transform: translateX(-6px); }
+            40% { transform: translateX(6px); }
+            60% { transform: translateX(-4px); }
+            80% { transform: translateX(4px); }
+        }
+
+        .shake-error {
+            animation: shake 0.5s var(--easing);
+            border-color: var(--error) !important;
+        }
+
+        /* --- KEYFRAMES --- */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- MOBILE OVERRIDES --- */
         @media (max-width: 500px) {
-            .search-container { flex-direction: column; border-radius: 20px; background: transparent; border: none; box-shadow: none; padding: 0; }
-            input { background: white; border: 1px solid #e2e8f0; border-radius: 15px; height: 65px; margin-bottom: 12px; text-align: center; }
-            button { border-radius: 15px; height: 65px; }
+            .interactive-form {
+                flex-direction: column;
+                background: transparent;
+                border: none;
+                box-shadow: none;
+                padding: 0;
+            }
+
+            input {
+                background: #fff;
+                border: 1px solid #e2e8f0;
+                border-radius: 16px;
+                height: 64px;
+                margin-bottom: 12px;
+                text-align: center;
+            }
+
+            button {
+                width: 100%;
+                height: 64px;
+                justify-content: center;
+                border-radius: 16px;
+            }
         }
     </style>
 </head>
 <body>
 
-<div class="hero">
-    <div class="brand">Funeral Match</div>
-    <h1>Transparency when it matters.</h1>
-    <p>Compare local funeral directors with 100% verified price transparency. Enter your postcode to begin.</p>
+    <main class="content-container">
+        <span class="logo-mark">Funeral Match</span>
+        
+        <h1>Transparency <br>when it matters.</h1>
+        
+        <p>A compassionate way to compare local funeral directors. <br>Enter your postcode to see verified options nearby.</p>
 
-    <form class="search-container" id="gatekeeper">
-        <input type="text" id="pc" placeholder="Enter postcode (e.g. SS17)" maxlength="8" required>
-        <button type="submit">Continue</button>
-    </form>
-</div>
+        <form class="interactive-form" id="postcodeForm" novalidate>
+            <input 
+                type="text" 
+                id="postcode" 
+                placeholder="Enter postcode (e.g. SS17)" 
+                maxlength="8"
+                autocomplete="postal-code"
+                autocorrect="off"
+                spellcheck="false"
+            >
+            <button type="submit">
+                Continue
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </button>
+        </form>
+    </main>
 
-<script>
-    document.getElementById('gatekeeper').addEventListener('submit', (e) => {
-        e.preventDefault();
-        const pc = document.getElementById('pc').value.trim();
-        // Redirect to results.html with the postcode in the URL
-        window.location.href = `results.html?postcode=${encodeURIComponent(pc)}`;
-    });
-</script>
+    <script>
+        const form = document.getElementById('postcodeForm');
+        const input = document.getElementById('postcode');
 
+        // Logic Detail 1: Automatic UK Postcode formatting
+        input.addEventListener('input', (e) => {
+            let val = e.target.value.toUpperCase().replace(/\s/g, '');
+            if (val.length > 3) {
+                // Inserts space in the correct UK format (e.g., SS17 7QQ)
+                val = val.slice(0, -3) + ' ' + val.slice(-3);
+            }
+            e.target.value = val;
+        });
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const rawValue = input.value.trim();
+            
+            // Logic Detail 2: Validation regex for UK postcodes
+            const pcPattern = /^[A-Z]{1,2}[0-9][A-Z0-9]? ?[0-9][A-Z]{2}$/i;
+
+            if (!pcPattern.test(rawValue)) {
+                form.classList.add('shake-error');
+                setTimeout(() => form.classList.remove('shake-error'), 500);
+                return;
+            }
+
+            // Logic Detail 3: Visual Exit Animation
+            document.querySelector('.content-container').style.opacity = '0';
+            document.querySelector('.content-container').style.transform = 'translateY(-20px)';
+            document.querySelector('.content-container').style.transition = 'all 0.6s var(--easing)';
+
+            // Logic Detail 4: Navigating to results.html (must exist in same folder)
+            setTimeout(() => {
+                window.location.href = `results.html?postcode=${encodeURIComponent(rawValue.toUpperCase())}`;
+            }, 500);
+        });
+    </script>
 </body>
 </html>
