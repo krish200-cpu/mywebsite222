@@ -8,61 +8,67 @@
     <style>
         :root { --primary: #1a1c1e; --accent: #b39359; --text-soft: #64748b; --bg: #fcfaf7; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background-color: var(--bg); color: var(--primary); font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
-        .wrapper { display: flex; flex-direction: column; min-height: 100vh; padding: clamp(1.5rem, 6vw, 5rem); max-width: 1400px; margin: 0 auto; }
+        body { background-color: var(--bg); color: var(--primary); font-family: 'Inter', sans-serif; overflow-x: hidden; }
         
+        /* Entrance Animation */
+        .wrapper { animation: fadeIn 1s ease-out; display: flex; flex-direction: column; min-height: 100vh; padding: clamp(1.5rem, 6vw, 5rem); max-width: 1400px; margin: 0 auto; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* Transition Overlay */
+        #loader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 9999; opacity: 0; visibility: hidden; transition: 0.5s ease-in-out; pointer-events: none; }
+
         header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8vh; }
         .brand { text-decoration: none; display: flex; flex-direction: column; line-height: 1.1; }
         .brand-top { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 4px; color: var(--primary); font-weight: 500; }
         .brand-bottom { font-size: 1.1rem; text-transform: uppercase; letter-spacing: 5px; font-weight: 800; color: var(--accent); }
-        .dir-login { font-size: 0.65rem; font-weight: 600; color: var(--text-soft); text-decoration: none; text-transform: uppercase; letter-spacing: 1px; padding: 8px 12px; border: 1px solid rgba(0,0,0,0.04); transition: 0.3s; }
-        .dir-login:hover { color: var(--accent); border-color: var(--accent); }
 
         main { flex: 1; display: flex; flex-direction: column; justify-content: center; max-width: 800px; }
-        .sub-head { font-family: 'Playfair Display', serif; font-style: italic; color: var(--accent); font-size: 1.1rem; margin-bottom: 1.2rem; }
         h1 { font-size: clamp(2.6rem, 8vw, 4.5rem); font-weight: 600; letter-spacing: -0.05em; line-height: 0.95; margin-bottom: 2rem; }
 
-        .search-module { width: 100%; max-width: 550px; }
-        .big-box { display: flex; flex-direction: column; gap: 12px; margin-bottom: 15px; }
-        input { width: 100%; height: 75px; background: #fff; border: 1px solid #e2ded0; border-radius: 12px; padding: 0 25px; font-size: 1.15rem; outline: none; }
-        .cta-btn { width: 100%; height: 75px; background: var(--primary); color: #fff; border: none; border-radius: 12px; font-size: 1.1rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; cursor: pointer; }
-        .loc-trigger { background: none; border: none; color: var(--accent); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; display: flex; align-items: center; gap: 8px; }
+        .big-box { display: flex; flex-direction: column; gap: 12px; margin-bottom: 15px; max-width: 550px; }
+        input { width: 100%; height: 75px; background: #fff; border: 1px solid #e2ded0; border-radius: 12px; padding: 0 25px; font-size: 1.15rem; outline: none; transition: 0.3s; }
+        input:focus { border-color: var(--accent); }
+        .cta-btn { width: 100%; height: 75px; background: var(--primary); color: #fff; border: none; border-radius: 12px; font-size: 1.1rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; cursor: pointer; transition: 0.3s; }
+        .cta-btn:hover { background: #000; transform: translateY(-2px); }
 
-        .featured-support { margin-top: 3rem; padding: 24px; background: rgba(179, 147, 89, 0.05); border-left: 3px solid var(--accent); max-width: 550px; cursor: pointer; }
-        .ad-label { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 2px; color: var(--accent); font-weight: 700; display: block; margin-bottom: 8px; }
-        .ad-title { font-size: 1rem; font-weight: 600; margin-bottom: 4px; }
-        .ad-desc { font-size: 0.85rem; color: var(--text-soft); line-height: 1.4; }
-
-        footer { margin-top: 8vh; padding-top: 40px; border-top: 1px solid rgba(0,0,0,0.05); display: flex; justify-content: space-between; font-size: 0.7rem; color: var(--text-soft); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
-        footer a { text-decoration: none; color: var(--text-soft); margin-right: 20px; }
+        .featured-support { margin-top: 3rem; padding: 24px; background: rgba(179, 147, 89, 0.05); border-left: 3px solid var(--accent); max-width: 550px; }
+        .ad-label { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 2px; color: var(--accent); font-weight: 800; display: block; margin-bottom: 8px; }
     </style>
 </head>
 <body>
+    <div id="loader"></div>
     <div class="wrapper">
         <header>
             <a href="index.html" class="brand"><span class="brand-top">Funeral</span><span class="brand-bottom">Match</span></a>
-            <a href="#" class="dir-login">Director Login</a>
+            <a href="#" style="font-size:0.6rem; color:var(--text-soft); text-decoration:none; text-transform:uppercase; letter-spacing:1px; font-weight:700;">Director Login</a>
         </header>
         <main>
-            <p class="sub-head">Compassionate clarity for the road ahead</p>
             <h1>Support for the <br>next steps.</h1>
-            <div class="search-module">
-                <form action="search-results.html" method="GET" class="big-box">
-                    <input type="text" name="postcode" placeholder="Enter your postcode" required>
+            <div class="big-box">
+                <form id="searchForm">
+                    <input type="text" id="pcInput" placeholder="Enter your postcode" required style="margin-bottom:12px">
                     <button type="submit" class="cta-btn">See local options</button>
                 </form>
-                <button type="button" class="loc-trigger">Allow us to use your location</button>
                 <div class="featured-support">
                     <span class="ad-label">Partner Feature</span>
-                    <div class="ad-title">Pay to Advertise Here</div>
-                    <div class="ad-desc">Connect with local families. This space is reserved for trusted professional partners.</div>
+                    <p style="font-weight:600; font-size:0.95rem">Pay to Advertise Here</p>
+                    <p style="font-size: 0.85rem; color: var(--text-soft);">Reach local families in their time of need.</p>
                 </div>
             </div>
         </main>
-        <footer>
-            <div><a href="#">About Us</a><a href="#">Our Standards</a></div>
-            <p>© 2026 FUNERAL MATCH</p>
-        </footer>
     </div>
+
+    <script>
+        document.getElementById('searchForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const pc = document.getElementById('pcInput').value;
+            const loader = document.getElementById('loader');
+            loader.style.visibility = 'visible';
+            loader.style.opacity = '1';
+            setTimeout(() => {
+                window.location.href = `search-results.html?postcode=${encodeURIComponent(pc)}`;
+            }, 600);
+        });
+    </script>
 </body>
 </html>
