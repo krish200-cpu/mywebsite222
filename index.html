@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Funeral Match | Compassionate Guidance</title>
+    <title>Funeral Match | The New Standard of Care</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600;700&display=swap');
         
         :root {
             --gold: #C5A059;
@@ -18,22 +18,52 @@
             font-family: 'Montserrat', sans-serif; 
             background-color: var(--linen);
             color: var(--charcoal);
+            margin: 0;
             scroll-behavior: smooth;
-            line-height: 1.6;
+        }
+
+        /* Centering the Brand Header */
+        .brand-header {
+            width: 100%;
+            padding: 2.5rem 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: transparent;
+        }
+
+        .funeral-text {
+            font-size: 0.9rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5em;
+            margin-right: -0.5em;
+        }
+
+        .match-text {
+            font-size: 0.7rem;
+            font-weight: 300;
+            text-transform: uppercase;
+            letter-spacing: 0.6em;
+            color: var(--gold);
+            margin-top: 0.2rem;
+            margin-right: -0.6em;
         }
 
         section {
-            min-height: 100vh;
+            min-height: 80vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            padding: 4rem 10%;
+            padding: 5rem 10%;
+            text-align: center;
         }
 
         .fade-in {
             opacity: 0;
             transform: translateY(20px);
-            transition: all 1s ease-out;
+            transition: all 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
 
         .fade-in.visible {
@@ -41,105 +71,118 @@
             transform: translateY(0);
         }
 
-        /* Responsive Search Card */
         .service-card {
             background: #ffffff;
-            border: 1px solid #e5e5e5;
-            padding: 2.5rem;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-            max-width: 550px;
-            width: 100%;
+            border: 1px solid #eee;
+            padding: 3rem 2rem;
+            border-radius: 16px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.03);
+            max-width: 500px;
+            margin: 0 auto;
         }
 
         .input-underline {
             border: none;
-            border-bottom: 2px solid #eee;
-            padding: 0.75rem 0;
+            border-bottom: 1px solid #ddd;
+            padding: 1rem 0;
             width: 100%;
             background: transparent;
-            font-size: 1.1rem;
+            font-size: 1rem;
             transition: border-color 0.4s;
+            font-weight: 300;
         }
 
         .input-underline:focus {
             outline: none;
             border-color: var(--gold);
         }
+
+        /* High contrast section */
+        .dark-pillar {
+            background-color: var(--charcoal);
+            color: #ffffff;
+        }
     </style>
 </head>
 <body>
 
-    <section class="text-center">
-        <div class="fade-in js-scroll">
-            <h1 class="text-[0.7rem] tracking-[0.6em] uppercase text-gray-500 mb-6 font-semibold">Immediate Support</h1>
-            <h2 class="text-3xl md:text-5xl font-light mb-8 tracking-tight leading-tight">
-                When you need a <span class="text-[#C5A059]">steady hand.</span>
+    <header class="brand-header">
+        <div class="flex flex-col items-center">
+            <span class="funeral-text">Funeral</span>
+            <span class="match-text">Match</span>
+        </div>
+    </header>
+
+    <section>
+        <div class="fade-in js-scroll max-w-2xl mx-auto">
+            <h1 class="text-[0.65rem] tracking-[0.6em] uppercase text-gray-400 mb-8 font-bold">First Point of Contact</h1>
+            <h2 class="text-3xl md:text-4xl font-light mb-10 leading-snug">
+                Helping you navigate <br>the <span class="text-[#C5A059]">essential first steps.</span>
             </h2>
-            <p class="max-w-xl mx-auto text-lg text-gray-600 font-light mb-12">
-                If a death has just occurred, we are here to simplify the first hours. We provide the clarity you need to move forward with dignity.
+            <p class="text-lg text-gray-500 font-light mb-12 leading-relaxed">
+                If a death has just occurred, the path forward can feel overwhelming. We provide immediate clarity on legal requirements, logistics, and choices—standing by you from the very first moment.
             </p>
-            <a href="#how-we-help" class="text-[0.65rem] font-bold tracking-[0.4em] uppercase border-b-2 border-[#C5A059] pb-2">
-                See how we assist
-            </a>
+            <div class="w-px h-16 bg-gray-200 mx-auto"></div>
         </div>
     </section>
 
-    <section id="how-we-help" class="bg-[#1C1C1C] text-white">
+    <section class="dark-pillar">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-16 fade-in js-scroll">
             <div class="space-y-4">
-                <span class="text-[#C5A059] text-sm font-bold tracking-widest uppercase">01. Legal Clarity</span>
-                <h3 class="text-xl font-medium">Navigating Paperwork</h3>
+                <span class="text-[#C5A059] text-[0.6rem] font-bold tracking-widest uppercase">Immediate Action</span>
+                <h3 class="text-xl font-normal">Legal Guidance</h3>
                 <p class="text-gray-400 font-light text-sm leading-relaxed">
-                    We guide you through the certification and registration process, ensuring no detail is overlooked during a difficult time.
+                    Clear, step-by-step instructions on registration and certification, tailored to your specific situation.
                 </p>
             </div>
             <div class="space-y-4">
-                <span class="text-[#C5A059] text-sm font-bold tracking-widest uppercase">02. Immediate Logistics</span>
-                <h3 class="text-xl font-medium">Bringing Them Home</h3>
+                <span class="text-[#C5A059] text-[0.6rem] font-bold tracking-widest uppercase">Professional Care</span>
+                <h3 class="text-xl font-normal">Logistical Support</h3>
                 <p class="text-gray-400 font-light text-sm leading-relaxed">
-                    We facilitate the immediate transfer of your loved one into the care of a verified, dignified professional.
+                    We coordinate the dignified transfer of your loved one into safe hands, ensuring peace of mind immediately.
                 </p>
             </div>
             <div class="space-y-4">
-                <span class="text-[#C5A059] text-sm font-bold tracking-widest uppercase">03. Honest Choice</span>
-                <h3 class="text-xl font-medium">Fairness by Default</h3>
+                <span class="text-[#C5A059] text-[0.6rem] font-bold tracking-widest uppercase">Future Clarity</span>
+                <h3 class="text-xl font-normal">Verified Choice</h3>
                 <p class="text-gray-400 font-light text-sm leading-relaxed">
-                    By showing you every cost upfront, we protect you from financial stress, allowing you to focus on saying goodbye.
+                    We connect you with directors who have been vetted for transparency, fairness, and modern standards.
                 </p>
             </div>
         </div>
     </section>
 
-    <section class="items-center">
+    <section>
         <div class="service-card fade-in js-scroll">
-            <h2 class="text-2xl font-light mb-2">Find Local Support</h2>
-            <p class="text-gray-400 text-sm mb-10 font-light italic">Enter your location to view verified directors near you.</p>
+            <h2 class="text-xl font-light mb-8 tracking-wide">Enter your location to begin</h2>
             
-            <form action="search.html" class="space-y-10">
+            <form action="search.html" class="space-y-12">
                 <div class="text-left">
-                    <label class="text-[0.6rem] uppercase tracking-widest text-gray-400 font-bold">Postcode</label>
-                    <input type="text" placeholder="e.g. SW1A" class="input-underline font-light" required>
+                    <label class="text-[0.55rem] uppercase tracking-widest text-gray-400 font-bold">Your Postcode</label>
+                    <input type="text" placeholder="e.g. SW1A" class="input-underline" required>
                 </div>
 
                 <div class="text-left">
-                    <label class="text-[0.6rem] uppercase tracking-widest text-gray-400 font-bold">Service Required</label>
-                    <select class="input-underline font-light appearance-none cursor-pointer">
-                        <option>Direct Cremation (Low Stress)</option>
+                    <label class="text-[0.55rem] uppercase tracking-widest text-gray-400 font-bold">Service Type</label>
+                    <select class="input-underline appearance-none cursor-pointer bg-transparent">
+                        <option>Direct Cremation</option>
                         <option>Traditional Burial</option>
-                        <option>Eco-Friendly Service</option>
+                        <option>Attended Service</option>
                     </select>
                 </div>
 
-                <button class="w-full bg-[#1C1C1C] text-white text-[0.7rem] font-bold tracking-[0.4em] uppercase py-6 hover:bg-[#C5A059] transition-all duration-500 rounded-lg">
-                    Compare Directors
+                <button class="w-full bg-[#1C1C1C] text-white text-[0.65rem] font-bold tracking-[0.4em] uppercase py-5 hover:bg-[#C5A059] transition-all duration-700 rounded-full">
+                    View Local Options
                 </button>
             </form>
         </div>
     </section>
 
+    <footer class="py-12 text-center opacity-30">
+        <p class="text-[0.55rem] tracking-[0.4em] uppercase">Funeral Match — The New Standard of Care</p>
+    </footer>
+
     <script>
-        // Intersection Observer for the "Service-First" reveals
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
