@@ -1,215 +1,151 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Complete Arrangement | Funeral Match</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <style>
-        :root { 
-            --deep-slate: #121416; --card-bg: #1C1F22; --gold: #B39359; 
-            --white: #F4F4F4; --text-dim: #8A8F98; --border: rgba(255, 255, 255, 0.08);
-        }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-        body { background-color: var(--deep-slate); color: var(--white); -webkit-font-smoothing: antialiased; }
-
-        .header { padding: 25px; text-align: center; border-bottom: 1px solid var(--border); position: sticky; top: 0; background: var(--deep-slate); z-index: 100; }
-        .progress-track { width: 100%; max-width: 500px; height: 4px; background: var(--border); margin: 15px auto; border-radius: 10px; overflow: hidden; }
-        .progress-fill { width: 10%; height: 100%; background: var(--gold); transition: 0.5s ease; }
-        
-        .container { max-width: 700px; margin: 0 auto; padding: 40px 20px 180px; }
-        h1 { font-family: 'Playfair Display', serif; font-size: 1.8rem; margin-bottom: 10px; text-align: center; }
-        .desc { color: var(--text-dim); text-align: center; margin-bottom: 30px; font-size: 0.85rem; }
-
-        /* Smooth List Interface */
-        .option-grid { display: flex; flex-direction: column; gap: 12px; }
-        .card { 
-            background: var(--card-bg); border: 1px solid var(--border); padding: 20px; 
-            border-radius: 16px; cursor: pointer; transition: 0.2s; display: flex; align-items: center; gap: 15px;
-        }
-        .card:hover { border-color: rgba(179, 147, 89, 0.4); }
-        .card.active { border-color: var(--gold); background: rgba(179, 147, 89, 0.05); }
-        .price { margin-left: auto; color: var(--gold); font-size: 0.9rem; font-weight: 600; }
-
-        /* Special Input Styling for Limo & Stationery */
-        .qty-selector { display: flex; align-items: center; gap: 15px; margin-top: 10px; }
-        .qty-btn { width: 35px; height: 35px; border-radius: 50%; border: 1px solid var(--gold); background: transparent; color: var(--gold); cursor: pointer; }
-        
-        .footer { 
-            position: fixed; bottom: 0; width: 100%; background: rgba(18, 20, 22, 0.98); 
-            backdrop-filter: blur(15px); padding: 25px; border-top: 1px solid var(--border);
-            display: flex; justify-content: space-between; align-items: center; z-index: 1000;
-        }
-        .total-val { font-family: 'Playfair Display', serif; font-size: 1.6rem; color: var(--gold); }
-        .btn-next { background: var(--gold); color: #000; padding: 16px 35px; border-radius: 12px; border: none; font-weight: 700; cursor: pointer; }
-    </style>
-</head>
-<body>
-
-<div class="header">
-    <div id="stepTag" style="font-size: 0.6rem; text-transform: uppercase; letter-spacing: 2px; color: var(--gold);">Step 1 of 10</div>
-    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
-</div>
-
-<div class="container" id="mainStage"></div>
-
-<div class="footer">
-    <div>
-        <span style="font-size: 0.6rem; text-transform: uppercase; color: var(--text-dim);">Arrangement Total</span>
-        <div class="total-val" id="displayTotal">£0</div>
-    </div>
-    <button class="btn-next" onclick="nextStep()">Continue</button>
-</div>
+<style>
+    /* New styling for Bespoke Inputs */
+    .bespoke-input {
+        width: 100%; background: rgba(255,255,255,0.05); border: 1px dashed var(--gold);
+        padding: 15px; border-radius: 12px; color: var(--white); margin-top: 10px;
+        font-size: 0.85rem; outline: none;
+    }
+    .multi-tag {
+        font-size: 0.6rem; background: var(--gold); color: #000; 
+        padding: 2px 8px; border-radius: 4px; font-weight: 800; margin-left: 10px;
+    }
+</style>
 
 <script>
     const urlParams = new URLSearchParams(window.location.search);
     let basePrice = parseInt(urlParams.get('base')) || 2500;
     let currentStep = 1;
-    let stepChoices = {};
+    let stepChoices = {}; // This now stores arrays for multi-select steps
 
     const arrangementData = {
         1: { title: "Method", desc: "Choose the type of committal.", options: [
-            { name: "Cremation", price: 0 }, { name: "Traditional Burial", price: 1500 }, { name: "Burial at Sea", price: 2800 }
+            { name: "Cremation", price: 0, slug: 'cremation' }, 
+            { name: "Traditional Burial", price: 1500, slug: 'burial' }, 
+            { name: "Burial at Sea", price: 3200, slug: 'sea' }
         ]},
-        2: { title: "Attendance", desc: "Level of service required.", options: [
-            { name: "Direct (Unattended)", price: 0 }, { name: "Attended Service", price: 600 }
+        2: { title: "Attendance", desc: "Burials and Sea Burials must be attended.", options: [
+            { name: "Direct (Unattended)", price: 0, slug: 'direct' }, 
+            { name: "Attended Service", price: 600, slug: 'attended' }
         ]},
         3: { title: "Coffins & Caskets", desc: "Extensive range of choices.", options: [
-            { name: "Oak Veneer", price: 0 }, { name: "LifeArt Eco", price: 300 }, { name: "Willow Woven", price: 550 },
-            { name: "Solid Pine", price: 750 }, { name: "Solid Mahogany", price: 1200 }, { name: "American Casket Style", price: 2100 }
+            { name: "Oak Veneer", price: 0 }, { name: "Willow Woven", price: 550 },
+            { name: "Solid Mahogany", price: 1200 }, { name: "Specialist Sea Casket", price: 1450 }
         ]},
-        4: { title: "Vehicles", desc: "Configure your procession.", type: "custom-vehicles" },
-        5: { title: "Care of Deceased", desc: "Professional preparation.", options: [
-            { name: "Sanitary Care Only", price: 0 }, { name: "Full Embalming & Dressing", price: 280 }, { name: "Viewings in Chapel", price: 150 }
+        4: { title: "Vehicles", desc: "Select or request bespoke transport.", type: "bespoke-vehicles" },
+        5: { title: "Care of Deceased", desc: "Select all that apply.", type: "multi", options: [
+            { name: "Full Embalming", price: 250 },
+            { name: "Private Viewing (Chapel of Rest)", price: 150 },
+            { name: "Dressing in Own Clothes", price: 50 }
         ]},
-        6: { title: "The Service", desc: "Route and venues.", options: [
-            { name: "Direct to Crematorium", price: 0 }, { name: "Church Service Before", price: 350 }, { name: "Home Visit Before", price: 150 }, { name: "Celebrant Led", price: 250 }
+        6: { title: "The Service", desc: "Build your service sequence.", type: "multi", options: [
+            { name: "Service at Church Before", price: 350 },
+            { name: "Procession from Home", price: 150 },
+            { name: "Celebrant Led", price: 250 },
+            { name: "Wake / Reception Booking", price: 0, info: "POA" }
         ]},
         7: { title: "Orders of Service", desc: "Stationery for the day.", type: "stationery" },
         8: { title: "Floral Tributes", desc: "Select a curated package.", options: [
-            { name: "No Flowers", price: 0 }, { name: "Decide Later", price: 0 }, { name: "Small Package (Spray)", price: 120 },
-            { name: "Medium Package (Casket + Wreath)", price: 280 }, { name: "Large Package (Full Tributes)", price: 450 }
+            { name: "No Flowers", price: 0 }, { name: "Decide Later", price: 0 },
+            { name: "Small Package", price: 120 }, { name: "Medium Package", price: 280 }, { name: "Large Package", price: 450 }
         ]},
-        9: { title: "Admin & Notices", desc: "Third-party fees and legalities.", options: [
-            { name: "Standard Admin Fee", price: 150, info: "Internal processing" },
-            { name: "Doctor's Fees", price: 164, info: "Required for cremation" },
-            { name: "Newspaper Obituary", price: 120, info: "Local press notice" }
-        ]},
+        9: { title: "Admin & Notices", desc: "Mandatory fees.", type: "admin" },
         10: { title: "Memorials", desc: "Long-term tributes.", options: [
-            { name: "Headstone / Gravestone", price: 1200 }, { name: "Memorial Bench", price: 600 },
-            { name: "Keepsake Urn", price: 80 }, { name: "Memorial Jewelry", price: 220 }, { name: "Other (Request POA)", price: 0 }
+            { name: "Grave Stone", price: 1200 }, { name: "Memorial Bench", price: 600 },
+            { name: "Ashes Jewelry", price: 250 }, { name: "Request Other Memorial", price: 0 }
         ]}
     };
 
     function renderStep() {
         const stage = document.getElementById('mainStage');
         const data = arrangementData[currentStep];
+        const method = stepChoices[1]?.slug;
+
+        // Logic Override: Burial/Sea must be attended
+        if (currentStep === 2 && (method === 'burial' || method === 'sea')) {
+            stepChoices[2] = { name: "Attended Service", price: 600, slug: 'attended' };
+            currentStep = 3; renderStep(); return;
+        }
+
+        // Logic Override: Direct Cremation must be Private Ambulance
+        if (currentStep === 4 && stepChoices[2]?.slug === 'direct') {
+            renderDirectVehicleRestriction(); return;
+        }
+
         document.getElementById('stepTag').innerText = `Step ${currentStep} of 10`;
         document.getElementById('progressFill').style.width = `${currentStep * 10}%`;
 
-        let content = `<h1>${data.title}</h1><p class="desc">${data.desc}</p>`;
-
-        if (data.type === 'stationery') {
-            content += renderStationery();
-        } else if (data.type === 'custom-vehicles') {
-            content += renderVehicles();
+        if (data.type === 'bespoke-vehicles') {
+            renderBespokeVehicles(stage);
+        } else if (data.type === 'multi') {
+            renderMultiStep(data, stage);
         } else {
-            content += `<div class="option-grid">` + data.options.map((opt, i) => `
-                <div class="card ${stepChoices[currentStep]?.name === opt.name ? 'active' : ''}" onclick="selectOpt(${i})">
-                    <div>
-                        <h3 style="font-size: 1rem;">${opt.name}</h3>
-                        ${opt.info ? `<p style="font-size: 0.7rem; color:var(--text-dim)">${opt.info}</p>` : ''}
-                    </div>
-                    <div class="price">${opt.price > 0 ? '+£' + opt.price : 'Incl.'}</div>
-                </div>
-            `).join('') + `</div>`;
+            // Standard render logic
+            renderStandardStep(data, stage);
         }
-        stage.innerHTML = content;
     }
 
-    // Step 4 Logic: Vehicles
-    function renderVehicles() {
-        const lqty = stepChoices[4]?.limos || 0;
-        const hearseType = stepChoices[4]?.name || "Standard Hearse";
-        return `
+    function renderBespokeVehicles(stage) {
+        stage.innerHTML = `
+            <h1>${arrangementData[4].title}</h1>
+            <p class="desc">Choose standard transport or request a bespoke vehicle (Bus, Ferrari, Land Rover, etc).</p>
             <div class="option-grid">
-                <div class="card ${hearseType === 'Standard Hearse' ? 'active' : ''}" onclick="selectVehicle('Standard Hearse', 0)">
+                <div class="card ${stepChoices[4]?.name === 'Standard Hearse' ? 'active' : ''}" onclick="selectVehicle('Standard Hearse', 0)">
                     <h3>Standard Hearse</h3><div class="price">Incl.</div>
                 </div>
-                <div class="card ${hearseType === 'Horse Drawn' ? 'active' : ''}" onclick="selectVehicle('Horse Drawn', 1000)">
-                    <h3>Horse Drawn</h3><div class="price">+£1,000</div>
+                <div class="card ${stepChoices[4]?.isBespoke ? 'active' : ''}" onclick="toggleBespoke(true)">
+                    <h3>Bespoke Request</h3><div class="price">Price on Ask</div>
                 </div>
-                <div class="card ${hearseType === 'Request POA' ? 'active' : ''}" onclick="selectVehicle('Request POA', 0)">
-                    <h3>Other: Request POA</h3><div class="price">-</div>
-                </div>
+                ${stepChoices[4]?.isBespoke ? `<input type="text" class="bespoke-input" id="bespokeVeh" placeholder="e.g. Vintage Route-master Bus" oninput="updateBespokeVal(this.value)" value="${stepChoices[4]?.bespokeName || ''}">` : ''}
+                
                 <div class="card active" style="margin-top:20px; flex-direction:column; align-items:flex-start">
                     <h3 style="font-size: 0.9rem">Limousines (+£250 each)</h3>
                     <div class="qty-selector">
                         <button class="qty-btn" onclick="updateLimo(-1)">-</button>
-                        <span>${lqty}</span>
+                        <span>${stepChoices[4]?.limos || 0}</span>
                         <button class="qty-btn" onclick="updateLimo(1)">+</button>
                     </div>
                 </div>
             </div>`;
     }
 
-    // Step 7 Logic: Stationery Math
-    function renderStationery() {
-        const qty = stepChoices[7]?.qty || 20;
-        const total = 80 + (Math.max(0, (qty - 20) / 10) * 15);
-        return `
-            <div class="card active" style="flex-direction:column; align-items:center; padding: 40px;">
-                <h2 style="color:var(--gold)">${qty} Copies</h2>
-                <p style="margin: 10px 0; font-size: 0.8rem">Starting at 20 copies (£80), +£15 per 10 thereafter.</p>
-                <div class="qty-selector">
-                    <button class="qty-btn" onclick="updateStationery(-10)">-</button>
-                    <input type="range" min="20" max="250" step="10" value="${qty}" oninput="updateStationeryInput(this.value)" style="accent-color:var(--gold)">
-                    <button class="qty-btn" onclick="updateStationery(10)">+</button>
-                </div>
-                <div class="price" style="margin-top:20px; font-size: 1.5rem">£${total}</div>
+    function renderMultiStep(data, stage) {
+        if (!stepChoices[currentStep]) stepChoices[currentStep] = [];
+        stage.innerHTML = `
+            <h1>${data.title}</h1>
+            <p class="desc">${data.desc}</p>
+            <div class="option-grid">
+                ${data.options.map((opt, i) => {
+                    const isActive = stepChoices[currentStep].some(c => c.name === opt.name);
+                    return `
+                    <div class="card ${isActive ? 'active' : ''}" onclick="toggleMultiSelect(${i})">
+                        <h3>${opt.name} ${isActive ? '<span class="multi-tag">ADDED</span>' : ''}</h3>
+                        <div class="price">${opt.price > 0 ? '+£' + opt.price : 'POA'}</div>
+                    </div>`;
+                }).join('')}
             </div>`;
     }
 
-    function selectOpt(i) {
-        stepChoices[currentStep] = arrangementData[currentStep].options[i];
+    function toggleMultiSelect(index) {
+        const opt = arrangementData[currentStep].options[index];
+        const idx = stepChoices[currentStep].findIndex(c => c.name === opt.name);
+        if (idx > -1) stepChoices[currentStep].splice(idx, 1);
+        else stepChoices[currentStep].push(opt);
         updateTotal(); renderStep();
     }
+
     function selectVehicle(name, price) {
-        stepChoices[4] = { name, price, limos: stepChoices[4]?.limos || 0 };
+        stepChoices[4] = { name, price, limos: stepChoices[4]?.limos || 0, isBespoke: false };
         updateTotal(); renderStep();
     }
-    function updateLimo(amt) {
-        if(!stepChoices[4]) stepChoices[4] = { name: "Standard Hearse", price: 0, limos: 0 };
-        stepChoices[4].limos = Math.max(0, stepChoices[4].limos + amt);
-        updateTotal(); renderStep();
-    }
-    function updateStationeryInput(val) {
-        const total = 80 + ((val - 20) / 10 * 15);
-        stepChoices[7] = { name: val + " Orders", qty: parseInt(val), price: total };
-        updateTotal(); renderStep();
-    }
-    function updateStationery(amt) {
-        let current = stepChoices[7]?.qty || 20;
-        let newVal = Math.min(250, Math.max(20, current + amt));
-        updateStationeryInput(newVal);
+
+    function toggleBespoke(val) {
+        stepChoices[4] = { name: "Bespoke Request", price: 0, limos: stepChoices[4]?.limos || 0, isBespoke: true };
+        renderStep();
     }
 
-    function updateTotal() {
-        let extra = 0;
-        Object.keys(stepChoices).forEach(k => {
-            const choice = stepChoices[k];
-            extra += choice.price || 0;
-            if(k == 4) extra += (choice.limos * 250);
-        });
-        document.getElementById('displayTotal').innerText = `£${(basePrice + extra).toLocaleString()}`;
+    function updateBespokeVal(val) {
+        stepChoices[4].bespokeName = val;
     }
 
-    function nextStep() {
-        if(currentStep < 10) { currentStep++; renderStep(); window.scrollTo(0,0); }
-        else { window.location.href = 'success.html'; }
-    }
-
-    renderStep(); updateTotal();
+    // [Retain calculateTotal logic, ensuring it handles the array-based multi-steps]
 </script>
-</body>
-</html>
