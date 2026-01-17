@@ -3,11 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Funeral Match Logo Concepts</title>
+    <title>Funeral Match - Logo Refinement</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Luxury Font Pairings */
-        @import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;1,6..96,400&family=Inter:wght@300;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400&family=Inter:wght@200;400&display=swap');
 
         :root {
             --gold: #C5A059;
@@ -17,110 +16,70 @@
         body {
             background-color: #ffffff;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 100px;
-            min-height: 100vh;
+            height: 100vh;
             margin: 0;
-            padding: 50px 0;
         }
 
-        .logo-container {
+        .logo-wrap {
             text-align: center;
-            cursor: pointer;
-            transition: transform 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        .logo-container:hover {
-            transform: translateY(-5px);
-        }
-
-        /* CONCEPT 1: THE INTERLOCK */
-        .mark-1 {
-            width: 40px;
-            height: 25px;
-            margin: 0 auto 15px;
-            position: relative;
-            border-left: 1px solid var(--gold);
-            border-right: 1px solid var(--gold);
-        }
-        .mark-1::before {
-            content: '';
-            position: absolute;
-            top: 50%; left: 0;
-            width: 100%; height: 1px;
-            background: var(--gold);
-            transform: rotate(15deg);
-        }
-
-        /* CONCEPT 2: THE HORIZON */
-        .horizon-line {
-            width: 60px;
-            height: 1px;
-            background: var(--gold);
-            margin: 12px auto;
-        }
-
-        /* TYPOGRAPHY STYLES */
-        .brand-name {
+        /* Small, sophisticated Serif */
+        .brand-funeral {
             font-family: 'Bodoni Moda', serif;
-            font-size: 1.8rem;
-            letter-spacing: 0.05em;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.8em;
             color: var(--charcoal);
-            line-height: 1;
+            margin-right: -0.8em; /* Optical alignment */
+            margin-bottom: 12px;
         }
 
+        /* The Horizon Line */
+        .horizon-line {
+            width: 80px;
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--gold), transparent);
+            margin: 10px 0;
+        }
+
+        /* Large, Modern, Luxury Sans */
         .brand-match {
             font-family: 'Inter', sans-serif;
-            font-size: 0.75rem;
-            font-weight: 300;
+            font-size: 2.8rem;
+            font-weight: 200;
             text-transform: uppercase;
-            letter-spacing: 0.6em;
+            letter-spacing: 0.4em;
             color: var(--gold);
-            display: block;
-            margin-top: 8px;
-            margin-right: -0.6em; /* Optical centering */
+            margin-right: -0.4em; /* Optical alignment */
+            line-height: 1.1;
         }
 
-        .label {
+        /* The Slogan */
+        .slogan {
             font-family: 'Inter', sans-serif;
-            font-size: 10px;
+            font-size: 0.6rem;
+            font-weight: 400;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            color: #ccc;
-            margin-bottom: 20px;
+            letter-spacing: 0.5em;
+            color: #a1a1a1;
+            margin-top: 25px;
+            margin-right: -0.5em;
         }
     </style>
 </head>
 <body>
 
-    <div class="logo-container">
-        <p class="label">Concept 1: The Interlock</p>
-        <div class="mark-1"></div>
-        <div class="brand-name">
-            Funeral <span style="font-style: italic; font-weight: 400;">Match</span>
-        </div>
-        <span class="brand-match" style="color: #888;">Comparison Concierge</span>
-    </div>
-
-    <div class="logo-container">
-        <p class="label">Concept 2: The Horizon</p>
-        <div class="brand-name" style="letter-spacing: 0.15em; text-transform: uppercase; font-size: 1.4rem;">
-            Funeral
-        </div>
+    <div class="logo-wrap">
+        <span class="brand-funeral">Funeral</span>
         <div class="horizon-line"></div>
         <span class="brand-match">Match</span>
-    </div>
-
-    <div class="logo-container">
-        <p class="label">Concept 3: The Modernist</p>
-        <div class="brand-name" style="font-size: 2.2rem;">
-            F<span style="color: var(--gold);">M</span>
-        </div>
-        <div style="font-family: 'Inter', sans-serif; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 5px; margin-top: 5px;">
-            Funeral Match
-        </div>
+        <p class="slogan">The New Standard of Care</p>
     </div>
 
 </body>
