@@ -3,48 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Find Support | Funeral Match</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
+    <title>Search | Funeral Match</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
-        :root { --primary: #1a1c1e; --accent: #b39359; --text-soft: #64748b; --bg: #fcfaf7; }
+        :root { --primary: #1a1c1e; --accent: #b39359; --bg: #fcfaf7; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background-color: var(--bg); color: var(--primary); font-family: 'Inter', sans-serif; animation: slideInFromTop 0.8s cubic-bezier(0.77, 0, 0.175, 1); }
-        @keyframes slideInFromTop { from { transform: translateY(-100%); } to { transform: translateY(0); } }
-        .wrapper { display: flex; flex-direction: column; min-height: 100vh; padding: 5%; max-width: 1400px; margin: 0 auto; }
-        header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8vh; }
-        .brand-logo { text-decoration: none; line-height: 1.1; display: flex; flex-direction: column; }
-        .brand-logo .t { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 4px; color: var(--primary); }
-        .brand-logo .b { font-size: 1.1rem; text-transform: uppercase; letter-spacing: 5px; font-weight: 800; color: var(--accent); }
-        main { max-width: 800px; margin-top: 5vh; }
-        .italic-sub { font-family: 'Playfair Display', serif; font-style: italic; color: var(--accent); margin-bottom: 1rem; }
-        h1 { font-size: clamp(2.5rem, 7vw, 4rem); font-weight: 600; line-height: 0.95; margin-bottom: 2rem; letter-spacing: -0.05em; }
-        .search-area { max-width: 500px; }
-        input { width: 100%; height: 70px; background: #fff; border: 1px solid #e2ded0; border-radius: 12px; padding: 0 20px; font-size: 1.1rem; margin-bottom: 12px; outline: none; }
-        .cta { width: 100%; height: 70px; background: var(--primary); color: #fff; border: none; border-radius: 12px; font-size: 1rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; cursor: pointer; transition: 0.3s; }
-        .cta:hover { background: #000; transform: translateY(-2px); }
-        .ad-spot { margin-top: 40px; padding: 20px; background: rgba(179,147,89,0.06); border-left: 3px solid var(--accent); cursor: pointer; }
-        #overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 9999; opacity: 0; visibility: hidden; transition: 0.5s; }
+        body { background: var(--bg); font-family: 'Inter', sans-serif; animation: slideDown 0.8s cubic-bezier(0.77, 0, 0.175, 1); }
+        @keyframes slideDown { from { transform: translateY(-100%); } to { transform: translateY(0); } }
+        .wrapper { padding: 5%; max-width: 1200px; margin: 0 auto; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; }
+        h1 { font-size: clamp(2.5rem, 8vw, 4.5rem); font-weight: 600; letter-spacing: -0.05em; margin-bottom: 2rem; }
+        .search-box { max-width: 550px; position: relative; }
+        input { width: 100%; height: 80px; border: 1px solid #e2ded0; border-radius: 16px; padding: 0 30px; font-size: 1.2rem; outline: none; box-shadow: 0 10px 40px rgba(0,0,0,0.02); }
+        .cta { width: 100%; height: 75px; background: var(--primary); color: #fff; border: none; border-radius: 12px; font-size: 1.1rem; font-weight: 700; text-transform: uppercase; margin-top: 15px; cursor: pointer; transition: 0.3s; }
+        .cta:hover { transform: translateY(-3px); background: #000; }
+        #overlay { position: fixed; top:0; left:0; width:100%; height:100%; background:var(--bg); z-index:9999; opacity:0; visibility:hidden; transition: 0.5s; }
     </style>
 </head>
 <body>
     <div id="overlay"></div>
     <div class="wrapper">
-        <header>
-            <a href="index.html" class="brand-logo"><span class="t">Funeral</span><span class="b">Match</span></a>
-        </header>
-        <main>
-            <p class="italic-sub">Compassionate clarity</p>
-            <h1>Support for the <br>next steps.</h1>
-            <div class="search-area">
-                <input type="text" id="pc" placeholder="Enter postcode">
-                <button class="cta" onclick="find()">See local options</button>
-                <div class="ad-spot">
-                    <span style="font-size:0.6rem; font-weight:800; color:var(--accent); text-transform:uppercase; letter-spacing:1px">Partner Feature</span>
-                    <p style="font-weight:600; margin:4px 0">Pay to Advertise Here</p>
-                </div>
-            </div>
-        </main>
+        <h1 id="headline">Where do you <br>need support?</h1>
+        <div class="search-box">
+            <input type="text" id="pc" placeholder="Enter your postcode">
+            <button class="cta" onclick="find()">See local options</button>
+        </div>
     </div>
-    <script>function find(){ document.getElementById('overlay').style.visibility='visible'; document.getElementById('overlay').style.opacity='1'; setTimeout(()=> window.location.href=`search-results.html?pc=${document.getElementById('pc').value}`, 500); }</script>
+    <script>
+        function find() {
+            document.getElementById('overlay').style.visibility='visible';
+            document.getElementById('overlay').style.opacity='1';
+            setTimeout(() => window.location.href=`search-results.html?pc=${document.getElementById('pc').value}`, 600);
+        }
+    </script>
 </body>
 </html>
