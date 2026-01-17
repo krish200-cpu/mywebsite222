@@ -2,139 +2,166 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Funeral Match | Empathetic Search</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Funeral Match | Professional Dispatch Portal</title>
     <style>
-        :root { --primary: #1a2a3a; --gold: #b8860b; --green: #27ae60; --bg: #fdfdfd; --slate: #64748b; }
+        :root { --primary: #0a0f16; --gold: #c5a059; --green: #059669; --bg: #ffffff; }
         * { box-sizing: border-box; font-family: 'Inter', system-ui, sans-serif; }
-        body { margin: 0; background: var(--bg); color: #1e293b; }
+        body { margin: 0; background: var(--bg); color: #1a1a1a; padding-bottom: 140px; }
 
         /* HEADER */
-        header { background: white; padding: 20px 5%; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f1f5f9; position: sticky; top: 0; z-index: 1000; }
-        .logo { font-weight: 900; font-size: 1.5rem; color: var(--primary); letter-spacing: -1.5px; }
+        header { background: white; padding: 25px 5%; display: flex; justify-content: space-between; border-bottom: 1px solid #eee; position: sticky; top: 0; z-index: 1000; }
+        .logo { font-weight: 900; font-size: 1.6rem; color: var(--primary); letter-spacing: -1px; text-decoration: none; }
         .logo span { color: var(--gold); }
 
-        /* STEPPED NAVIGATION (THE NEW FILTER) */
-        .filter-nav { background: white; border-bottom: 1px solid #f1f5f9; padding: 10px 5%; display: flex; gap: 20px; overflow-x: auto; white-space: nowrap; }
-        .nav-item { padding: 12px 20px; border-radius: 30px; border: 1px solid #e2e8f0; cursor: pointer; font-size: 0.9rem; font-weight: 600; color: var(--slate); transition: 0.2s; }
-        .nav-item.active { background: var(--primary); color: white; border-color: var(--primary); }
-        .nav-item:hover:not(.active) { background: #f8fafc; }
+        /* TAILORED WORKFLOW */
+        .workflow-container { max-width: 1000px; margin: 40px auto; padding: 0 25px; }
+        .section-label { font-size: 0.75rem; font-weight: 800; color: #64748b; text-transform: uppercase; margin-bottom: 20px; letter-spacing: 1.5px; display: block; }
+        
+        /* PHASE 1: CORE SERVICE */
+        .service-selector { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 40px; }
+        .srv-card { border: 1.5px solid #e2e8f0; padding: 25px; border-radius: 12px; cursor: pointer; transition: all 0.2s ease; position: relative; }
+        .srv-card:hover { border-color: var(--gold); }
+        .srv-card.selected { border-color: var(--primary); background: #f8fafc; }
+        .srv-card h3 { margin: 0 0 10px 0; font-size: 1rem; }
+        .srv-card p { margin: 0; font-size: 0.8rem; color: #64748b; line-height: 1.4; }
 
-        /* MAIN CONTENT */
-        .container { max-width: 900px; margin: 30px auto; padding: 0 20px; padding-bottom: 120px; }
-        .card { background: white; border-radius: 20px; padding: 30px; margin-bottom: 20px; border: 1px solid #f1f5f9; display: grid; grid-template-columns: 1fr 200px; gap: 20px; transition: 0.3s; }
-        .card:hover { border-color: var(--gold); box-shadow: 0 10px 30px rgba(0,0,0,0.04); }
+        /* PHASE 2: CONDITIONAL OPTIONS */
+        .options-panel { background: #f8fafc; border-radius: 20px; padding: 30px; margin-bottom: 40px; display: none; }
+        .options-panel.visible { display: block; animation: fadeInUp 0.4s ease; }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* INSTANT QUOTE BAR (MOBILE FIRST) */
-        .quote-bar { position: fixed; bottom: 0; left: 0; right: 0; background: var(--primary); color: white; padding: 20px 5%; display: flex; justify-content: space-between; align-items: center; z-index: 2000; box-shadow: 0 -10px 30px rgba(0,0,0,0.2); }
-        .quote-info h4 { margin: 0; font-size: 0.75rem; color: var(--gold); text-transform: uppercase; }
-        .quote-info p { margin: 5px 0 0 0; font-size: 1.4rem; font-weight: 800; }
-        .btn-main { background: var(--green); color: white; border: none; padding: 15px 30px; border-radius: 12px; font-weight: 800; cursor: pointer; }
+        .addon-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; }
+        .addon-item { background: white; border: 1px solid #e2e8f0; padding: 15px 20px; border-radius: 10px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem; font-weight: 500; }
+        .addon-item.active { border-color: var(--green); background: #ecfdf5; }
+        .addon-item span.price { color: #64748b; font-weight: 400; }
 
-        /* REPATRIATION SPECIAL UI */
-        .repatriation-badge { background: #fee2e2; color: #991b1b; padding: 4px 10px; border-radius: 4px; font-size: 0.7rem; font-weight: 700; display: inline-block; margin-bottom: 10px; }
+        /* RESULTS */
+        .director-result { border-top: 1px solid #eee; padding-top: 30px; }
+        .director-card { background: white; padding: 0; display: flex; justify-content: space-between; align-items: flex-start; }
+        .availability { display: inline-flex; align-items: center; gap: 6px; color: var(--green); font-size: 0.75rem; font-weight: 700; margin-bottom: 12px; }
+        .pulse { width: 8px; height: 8px; background: var(--green); border-radius: 50%; animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
 
-        @media (max-width: 700px) {
-            .card { grid-template-columns: 1fr; }
-            .quote-bar { flex-direction: column; gap: 15px; text-align: center; }
+        /* STICKY FOOTER */
+        .action-dock { position: fixed; bottom: 0; left: 0; right: 0; background: var(--primary); color: white; padding: 25px 5%; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 -10px 40px rgba(0,0,0,0.15); }
+        .guarantee-box h4 { margin: 0; font-size: 0.7rem; color: var(--gold); letter-spacing: 1px; text-transform: uppercase; }
+        .total-price { font-size: 2.2rem; font-weight: 800; letter-spacing: -1px; margin: 4px 0; }
+        .btn-dispatch { background: var(--green); color: white; border: none; padding: 18px 45px; border-radius: 8px; font-weight: 800; cursor: pointer; font-size: 1.1rem; }
+
+        @media (max-width: 650px) {
+            .action-dock { flex-direction: column; gap: 20px; text-align: center; padding: 20px; }
+            .total-price { font-size: 1.8rem; }
+            .btn-dispatch { width: 100%; }
         }
     </style>
 </head>
 <body>
 
 <header>
-    <div class="logo">FUNERAL<span>MATCH</span></div>
-    <div style="font-size: 0.8rem; font-weight: 700; color: var(--slate);">UK NATIONWIDE</div>
+    <a href="#" class="logo">FUNERAL<span>MATCH</span></a>
+    <div style="font-size: 0.8rem; font-weight: 700; color: var(--gold);">24/7 NATIONWIDE SERVICE</div>
 </header>
 
-<div class="filter-nav" id="typeFilters">
-    <div class="nav-item active" onclick="setSrv('all', this)">All Services</div>
-    <div class="nav-item" onclick="setSrv('direct_cremation', this)">Direct Cremation</div>
-    <div class="nav-item" onclick="setSrv('repatriation', this)">Repatriation</div>
-    <div class="nav-item" onclick="setSrv('sea_burial', this)">Sea Burial</div>
-    <div class="nav-item" onclick="setSrv('celebration', this)">Celebration of Life</div>
-</div>
-
-<div class="filter-nav" style="border-top:none; padding-top:0;">
-    <div style="font-size: 0.8rem; color: var(--slate); align-self:center; margin-right: 10px;">ADD-ONS:</div>
-    <div class="nav-item" id="btn-limo" onclick="toggleAddon('limo', 500)">+ Limousine (£500)</div>
-    <div class="nav-item" id="btn-view" onclick="toggleAddon('viewing', 400)">+ Viewing (£400)</div>
-</div>
-
-<div class="container" id="results">
+<div class="workflow-container">
+    <span class="section-label">1. Choose Service Path</span>
+    <div class="service-selector">
+        <div class="srv-card" onclick="updateService('cremation', 950, this)">
+            <h3>Direct Cremation</h3>
+            <p>Unattended cremation, providing a simple and dignified farewell.</p>
+        </div>
+        <div class="srv-card" onclick="updateService('repatriation', 4500, this)">
+            <h3>International Repatriation</h3>
+            <p>Specialist transport including all embassy documentation and flights.</p>
+        </div>
+        <div class="srv-card" onclick="updateService('burial', 2200, this)">
+            <h3>Traditional Burial</h3>
+            <p>A classic service with a local church or cemetery attendance.</p>
+        </div>
     </div>
 
-<div class="quote-bar">
-    <div class="quote-info">
-        <h4>Live Estimated Quote</h4>
-        <p id="totalQuote">£0</p>
+    <div id="optionsPanel" class="options-panel">
+        <span class="section-label">2. Personalise Requirements</span>
+        <div class="addon-list" id="addonList">
+            </div>
     </div>
-    <button class="btn-main" onclick="alert('Proceeding to lead capture...')">Compare Detailed Prices</button>
+
+    <div id="resultArea" class="director-result" style="display: none;">
+        <span class="section-label">3. Matched Professional Director</span>
+        <div class="director-card">
+            <div>
+                <div class="availability"><div class="pulse"></div> AVAILABLE FOR IMMEDIATE DISPATCH</div>
+                <h2 style="margin: 0; font-size: 1.5rem;">Verified Funeral Director</h2>
+                <p style="color: #64748b; margin: 8px 0;">Specialist in <span id="selectedServiceText">...</span></p>
+                <div style="background: #f1f5f9; padding: 10px 15px; border-radius: 6px; font-size: 0.85rem; margin-top: 15px; display: inline-block;">
+                    📍 Local to Corringham / Essex
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="action-dock">
+    <div class="guarantee-box">
+        <h4>Guaranteed Fixed Total</h4>
+        <div class="total-price" id="finalPrice">£0</div>
+        <div style="font-size: 0.75rem; opacity: 0.7;">No hidden fees. Inclusive of all selected items.</div>
+    </div>
+    <button class="btn-dispatch" onclick="dispatchDirector()">Arrange & Dispatch</button>
 </div>
 
 <script>
-    const db = [
-        { name: "Global Repatriation Experts", base: 4200, type: "repatriation", loc: "London", rating: 4.9, desc: "Specialists in international transit and documentation." },
-        { name: "Essex Direct Care", base: 950, type: "direct_cremation", loc: "Essex", rating: 4.5, desc: "Simple, dignified unattended cremation." },
-        { name: "Rosewood Independent", base: 1850, type: "celebration", loc: "Essex", rating: 4.8, desc: "A personalized service celebrating life." },
-        { name: "Thameside Sea Burials", base: 3100, type: "sea_burial", loc: "Southend", rating: 4.7, desc: "Environmentally friendly services at sea." }
-    ];
+    let currentSelection = { base: 0, addons: 0, label: '' };
 
-    let currentSrv = 'all';
-    let addons = { limo: 0, viewing: 0 };
+    const tailoredAddons = {
+        cremation: [ {l: "Private Family Viewing", p: 350}, {l: "Premium Oak Urn", p: 180} ],
+        repatriation: [ {l: "Embassy Legal Fees", p: 550}, {l: "Specialist Zinc Lining", p: 850}, {l: "Air Freight Charges", p: 1200} ],
+        burial: [ {l: "Limousine Transport", p: 500}, {l: "Grave Marker / Headstone", p: 400}, {l: "Celebrant Service", p: 250} ]
+    };
 
-    function setSrv(type, el) {
-        document.querySelectorAll('#typeFilters .nav-item').forEach(i => i.classList.remove('active'));
-        el.classList.add('active');
-        currentSrv = type;
-        render();
-    }
+    function updateService(type, price, element) {
+        // UI reset
+        document.querySelectorAll('.srv-card').forEach(c => c.classList.remove('selected'));
+        element.classList.add('selected');
 
-    function toggleAddon(id, price) {
-        const el = document.getElementById('btn-' + id);
-        if (addons[id] === 0) {
-            addons[id] = price;
-            el.classList.add('active');
-        } else {
-            addons[id] = 0;
-            el.classList.remove('active');
-        }
-        render();
-    }
+        currentSelection.base = price;
+        currentSelection.addons = 0;
+        currentSelection.label = element.querySelector('h3').innerText;
 
-    function render() {
-        const list = document.getElementById('results');
-        const addonTotal = Object.values(addons).reduce((a, b) => a + b, 0);
-        const filtered = db.filter(d => currentSrv === 'all' || d.type === currentSrv);
-        
+        // Reveal & Build Options
+        const panel = document.getElementById('optionsPanel');
+        const list = document.getElementById('addonList');
+        panel.classList.add('visible');
         list.innerHTML = '';
-        let lowestPrice = Infinity;
 
-        filtered.forEach(d => {
-            const final = d.base + addonTotal;
-            if (final < lowestPrice) lowestPrice = final;
-
+        tailoredAddons[type].forEach(item => {
             list.innerHTML += `
-                <div class="card">
-                    <div>
-                        ${d.type === 'repatriation' ? '<span class="repatriation-badge">INTERNATIONAL SPECIALIST</span>' : ''}
-                        <h2 style="margin:0">${d.name}</h2>
-                        <p style="color:var(--slate); margin:5px 0;">${d.loc} • ⭐ ${d.rating}</p>
-                        <p style="font-size:0.9rem; color:#444;">${d.desc}</p>
-                    </div>
-                    <div style="text-align:right; align-self:center;">
-                        <div style="font-size:0.7rem; font-weight:800; color:var(--gold);">PENNY-PERFECT PRICE</div>
-                        <div style="font-size:1.8rem; font-weight:900;">£${final.toLocaleString()}</div>
-                        <button style="background:var(--primary); color:white; border:none; padding:10px 15px; border-radius:8px; margin-top:10px; cursor:pointer; width:100%;">View Breakdown</button>
-                    </div>
+                <div class="addon-item" onclick="toggleAddon(this, ${item.p})">
+                    ${item.l} <span class="price">+£${item.p}</span>
                 </div>
             `;
         });
 
-        document.getElementById('totalQuote').innerText = lowestPrice === Infinity ? '£0' : 'From £' + lowestPrice.toLocaleString();
+        document.getElementById('resultArea').style.display = 'block';
+        document.getElementById('selectedServiceText').innerText = currentSelection.label;
+        refreshTotal();
     }
 
-    render();
+    function toggleAddon(el, price) {
+        el.classList.toggle('active');
+        currentSelection.addons += el.classList.contains('active') ? price : -price;
+        refreshTotal();
+    }
+
+    function refreshTotal() {
+        const total = currentSelection.base + currentSelection.addons;
+        document.getElementById('finalPrice').innerText = `£${total.toLocaleString()}`;
+    }
+
+    function dispatchDirector() {
+        if(currentSelection.base === 0) return alert("Please select a service type.");
+        alert("Immediate Dispatch sequence initiated. A specialist director will call your mobile within minutes.");
+    }
 </script>
 
 </body>
