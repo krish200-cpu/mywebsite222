@@ -3,75 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Curated Directors | Funeral Match</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <title>Bespoke Results | Funeral Match</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         :root { 
-            --midnight: #0A0B0C; --stone: #141618; --gold: #B39359; 
-            --white: #FFFFFF; --text-dim: #7A7E85; --border: rgba(255,255,255,0.08);
+            --bg-wash: #F8F9FA; --card-bg: #FFFFFF; --primary-text: #1A1D1F; 
+            --gold: #A68953; --slate: #64748B; --border: #E2E8F0;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-        body { background-color: var(--midnight); color: var(--white); -webkit-font-smoothing: antialiased; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background-color: var(--bg-wash); color: var(--primary-text); -webkit-font-smoothing: antialiased; }
 
-        /* Elegant Navigation */
+        /* Smooth Floating Header */
         nav {
-            padding: 30px 24px; text-align: center;
-            border-bottom: 1px solid var(--border);
-            background: var(--midnight);
+            padding: 20px 24px; background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px); border-bottom: 1px solid var(--border);
+            display: flex; justify-content: space-between; align-items: center;
+            position: sticky; top: 0; z-index: 1000;
         }
-        .logo { font-size: 0.85rem; font-weight: 700; letter-spacing: 8px; text-transform: uppercase; color: var(--white); text-decoration: none; }
+        .logo { font-size: 0.8rem; font-weight: 700; letter-spacing: 5px; text-transform: uppercase; color: var(--primary-text); text-decoration: none; }
         .logo span { color: var(--gold); }
 
-        /* Layout */
-        .container { max-width: 700px; margin: 0 auto; padding: 40px 20px 140px; }
-        
-        /* The Luxury Card */
+        /* Filter Trigger */
+        .search-meta { padding: 25px 24px 10px; display: flex; justify-content: space-between; align-items: center; }
+        .btn-filter { 
+            background: var(--card-bg); border: 1px solid var(--border); padding: 10px 20px;
+            border-radius: 40px; font-size: 0.7rem; font-weight: 600; text-transform: uppercase;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03); cursor: pointer;
+        }
+
+        .container { max-width: 650px; margin: 0 auto; padding: 0 20px 120px; }
+
+        /* Soft Entry Cards */
         .entry {
-            background: var(--stone); margin-bottom: 30px; border: 1px solid var(--border);
-            padding: 35px; transition: border-color 0.4s ease;
+            background: var(--card-bg); border-radius: 24px; margin-bottom: 24px;
+            padding: 30px; border: 1px solid var(--border); transition: transform 0.2s ease;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.02);
         }
-        .entry:hover { border-color: rgba(179, 147, 89, 0.3); }
+        .entry.sponsored { border: 2px solid var(--gold); background: linear-gradient(135deg, #ffffff 0%, #fffcf5 100%); }
+        .sponsored-tag { color: var(--gold); font-size: 0.6rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 12px; }
 
-        .entry-header { display: flex; justify-content: space-between; margin-bottom: 25px; }
-        .d-name { font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 400; letter-spacing: -0.02em; }
+        .header-flex { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px; }
+        .d-name { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: #111; letter-spacing: -0.01em; }
         
-        .score-circle { 
-            width: 45px; height: 45px; border: 1px solid var(--gold); border-radius: 50%;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
+        .score-pill { 
+            background: #F1F5F9; padding: 6px 12px; border-radius: 12px; text-align: center;
         }
-        .score-val { color: var(--gold); font-size: 0.9rem; font-weight: 600; }
-        .score-lbl { font-size: 0.45rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; }
+        .score-val { color: var(--gold); font-weight: 700; font-size: 0.9rem; }
 
-        .service-type { color: var(--gold); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; display: block; }
-        .desc { font-size: 0.85rem; color: var(--text-dim); line-height: 1.7; margin-bottom: 30px; font-weight: 300; }
+        .details-row { display: flex; gap: 15px; margin-bottom: 25px; }
+        .tag { font-size: 0.65rem; color: var(--slate); background: #F8FAFC; padding: 5px 12px; border-radius: 8px; font-weight: 500; }
 
-        .card-footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); padding-top: 25px; }
-        
-        .price-label { font-size: 0.6rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 5px; }
-        .price-amt { font-family: 'Playfair Display', serif; font-size: 1.7rem; }
-        .price-amt span { color: var(--gold); font-size: 1rem; }
+        .footer-action { 
+            display: flex; justify-content: space-between; align-items: center; 
+            border-top: 1px solid var(--border); padding-top: 25px;
+        }
+        .price-text { font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 600; }
+        .price-text span { color: var(--gold); margin-right: 2px; }
 
-        .btn-gold { background: var(--gold); color: #000; padding: 12px 28px; border: none; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; }
-        .btn-compare { background: transparent; border: 1px solid var(--border); color: var(--white); padding: 12px 20px; font-size: 0.7rem; text-transform: uppercase; cursor: pointer; }
+        .btn-lock { 
+            background: var(--primary-text); color: white; padding: 14px 28px; 
+            border-radius: 16px; border: none; font-size: 0.75rem; font-weight: 600; text-transform: uppercase;
+        }
 
-        /* SUBTLE FLOATING QUOTE POP-UP */
-        .quote-pill {
+        /* LIVE QUOTE PILL */
+        .live-quote-pill {
             position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
-            background: rgba(20, 22, 24, 0.85); backdrop-filter: blur(20px);
-            border: 1px solid var(--gold); padding: 12px 24px; border-radius: 100px;
-            display: flex; align-items: center; gap: 20px; z-index: 1100;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
-            cursor: pointer;
+            background: #1A1D1F; color: white; padding: 15px 30px; border-radius: 50px;
+            display: flex; align-items: center; gap: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            z-index: 2000;
         }
-        .pill-text { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-dim); }
-        .pill-price { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--gold); }
+        .pill-price { font-family: 'Playfair Display', serif; color: var(--gold); font-size: 1.2rem; }
 
-        /* Legal Footer */
-        footer { background: var(--stone); padding: 80px 24px; text-align: center; border-top: 1px solid var(--border); }
-        .footer-nav { display: flex; justify-content: center; gap: 30px; margin-bottom: 35px; }
-        .footer-nav a { color: var(--text-dim); text-decoration: none; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1.5px; }
-        .copyright { font-size: 0.6rem; color: #444; letter-spacing: 1px; }
+        /* OVERLAY FILTER POP */
+        .filter-pop {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.4); backdrop-filter: blur(8px);
+            z-index: 3000; display: none; align-items: flex-end;
+        }
+        .filter-pop.active { display: flex; }
+        .filter-content {
+            background: white; width: 100%; border-radius: 32px 32px 0 0;
+            padding: 40px 24px; animation: slideUp 0.4s ease;
+        }
+        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+
+        .filter-group { margin-bottom: 30px; }
+        .filter-label { font-size: 0.7rem; font-weight: 700; color: var(--slate); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px; display: block; }
+        .option-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .opt-btn { 
+            background: #F1F5F9; border: 1px solid transparent; padding: 15px; border-radius: 16px;
+            font-size: 0.85rem; font-weight: 500; cursor: pointer; text-align: center;
+        }
+        .opt-btn.active { border-color: var(--gold); background: #fffcf5; color: var(--gold); }
 
     </style>
 </head>
@@ -79,57 +102,96 @@
 
     <nav>
         <a href="index.html" class="logo">Funeral<span>Match</span></a>
+        <div style="font-size: 0.65rem; color: var(--slate); font-weight: 600;">LONDON SW1A</div>
     </nav>
 
-    <div class="container" id="results">
-        </div>
-
-    <div class="quote-pill" onclick="toggleComparison()">
-        <span class="pill-text">Live Benchmarking</span>
-        <div style="width: 1px; height: 15px; background: var(--border);"></div>
-        <span class="pill-price">£2,850.00</span>
+    <div class="search-meta">
+        <p style="font-size: 0.75rem; color: var(--slate);">25 Nearest Directors</p>
+        <button class="btn-filter" onclick="toggleFilters()">Advanced Filters</button>
     </div>
 
-    <footer>
-        <div class="footer-nav">
-            <a href="#">About</a> <a href="#">Compliance</a> <a href="#">Privacy</a>
-            <a href="#" style="color: var(--gold)">Director Portal</a>
+    <div class="container" id="results">
+        <div class="entry sponsored">
+            <span class="sponsored-tag">Premier Partner</span>
+            <div class="header-flex">
+                <h2 class="d-name">Belgrave & Beaumont</h2>
+                <div class="score-pill">
+                    <span class="score-val">99</span>
+                </div>
+            </div>
+            <div class="details-row">
+                <span class="tag">Private Mortuary</span>
+                <span class="tag">Mercedes Fleet</span>
+            </div>
+            <div class="footer-action">
+                <div class="price-box">
+                    <p style="font-size: 0.6rem; color: var(--slate); text-transform: uppercase;">Professional Quote</p>
+                    <p class="price-text"><span>£</span>3,450</p>
+                </div>
+                <button class="btn-lock">Lock Price</button>
+            </div>
         </div>
-        <p class="copyright">© 2026 FUNERAL MATCH LTD. AUTHORISED PARTNER NETWORK.</p>
-    </footer>
+        </div>
+
+    <div class="live-quote-pill">
+        <span style="font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1px; opacity: 0.7;">Live Automated Quote</span>
+        <div style="width: 1px; height: 15px; background: rgba(255,255,255,0.2);"></div>
+        <span class="pill-price">£3,450</span>
+    </div>
+
+    <div class="filter-pop" id="filterOverlay">
+        <div class="filter-content">
+            <div style="width: 40px; height: 4px; background: #E2E8F0; border-radius: 10px; margin: -20px auto 30px;"></div>
+            
+            <div class="filter-group">
+                <span class="filter-label">Service Type</span>
+                <div class="option-grid">
+                    <button class="opt-btn active">Standard Attended</button>
+                    <button class="opt-btn">Unattended</button>
+                    <button class="opt-btn">Burial at Sea</button>
+                    <button class="opt-btn">Natural Burial</button>
+                </div>
+            </div>
+
+            <div class="filter-group">
+                <span class="filter-label">Faith & Culture</span>
+                <div class="option-grid">
+                    <button class="opt-btn active">None / Secular</button>
+                    <button class="opt-btn">Christian</button>
+                    <button class="opt-btn">Muslim</button>
+                    <button class="opt-btn">Sikh / Hindu</button>
+                </div>
+            </div>
+
+            <button class="btn-lock" style="width: 100%; padding: 20px; font-size: 0.9rem;" onclick="toggleFilters()">Update Results</button>
+        </div>
+    </div>
 
     <script>
-        const data = [
-            { name: "Belgrave & Beaumont", type: "Standard Attended", score: 99, desc: "Bespoke Mayfair service including private mortuary care and Mercedes fleet. Vetted for highest clinical standards.", price: "2,850" },
-            { name: "Oceanic Tributes", type: "Burial at Sea", score: 96, desc: "Specialised maritime arrangements with dedicated vessels and coastal ceremony management.", price: "5,400" },
-            { name: "Heritage Green", type: "Natural Burial", score: 94, desc: "Eco-certified woodland burials with hand-crafted biodegradable caskets and natural markers.", price: "3,150" }
-        ];
+        function toggleFilters() {
+            document.getElementById('filterOverlay').classList.toggle('active');
+        }
 
+        // Generate the other 24 nearest results
         const container = document.getElementById('results');
-
-        // Populate to show the "25 nearest" gist
-        for(let i=0; i<25; i++) {
-            const item = data[i % data.length];
+        const names = ["Evergreen Independent", "Sanctuary Care", "Oakwood & Sons", "Dignity Partners"];
+        for(let i=1; i<25; i++) {
             container.innerHTML += `
                 <div class="entry">
-                    <span class="service-type">${item.type}</span>
-                    <div class="entry-header">
-                        <h2 class="d-name">${item.name}</h2>
-                        <div class="score-circle">
-                            <span class="score-val">${item.score}</span>
-                            <span class="score-lbl">Score</span>
-                        </div>
+                    <div class="header-flex">
+                        <h2 class="d-name">${names[i%4]} ${Math.floor(i/4 + 1)}</h2>
+                        <div class="score-pill"><span class="score-val">${90 + (i%9)}</span></div>
                     </div>
-                    <p class="desc">${item.desc}</p>
-                    <div class="card-footer">
+                    <div class="details-row">
+                        <span class="tag">Local Provider</span>
+                        <span class="tag">${(i * 0.3).toFixed(1)} miles away</span>
+                    </div>
+                    <div class="footer-action">
                         <div class="price-box">
-                            <p class="price-label">Guaranteed Quote</p>
-                            <p class="price-amt"><span>£</span>${item.price}</p>
+                            <p style="font-size: 0.6rem; color: var(--slate); text-transform: uppercase;">Estimated Quote</p>
+                            <p class="price-text"><span>£</span>${(2400 + (i*50)).toLocaleString()}</p>
                         </div>
-                        <div style="display:flex; gap:15px;">
-                            <button class="btn-compare">Compare</button>
-                            <button class="btn-gold">Lock Price</button>
-                        </div>
+                        <button class="btn-lock">Lock Price</button>
                     </div>
                 </div>
             `;
