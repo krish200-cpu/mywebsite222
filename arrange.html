@@ -13,55 +13,49 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
         body { background-color: var(--deep-slate); color: var(--white); -webkit-font-smoothing: antialiased; }
 
-        /* Header & Progress */
         .header { padding: 25px; text-align: center; border-bottom: 1px solid var(--border); position: sticky; top: 0; background: var(--deep-slate); z-index: 100; }
         .progress-track { width: 100%; max-width: 500px; height: 4px; background: var(--border); margin: 15px auto; border-radius: 10px; overflow: hidden; }
         .progress-fill { width: 10%; height: 100%; background: var(--gold); transition: 0.5s ease; }
-        .step-indicator { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 2px; color: var(--gold); }
+        
+        .container { max-width: 700px; margin: 0 auto; padding: 40px 20px 180px; }
+        h1 { font-family: 'Playfair Display', serif; font-size: 1.8rem; margin-bottom: 10px; text-align: center; }
+        .desc { color: var(--text-dim); text-align: center; margin-bottom: 30px; font-size: 0.85rem; }
 
-        .container { max-width: 700px; margin: 0 auto; padding: 40px 20px 180px; min-height: 70vh; }
-        .step-box { animation: fadeIn 0.4s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        h1 { font-family: 'Playfair Display', serif; font-size: 2rem; margin-bottom: 10px; text-align: center; }
-        .desc { color: var(--text-dim); text-align: center; margin-bottom: 35px; font-size: 0.9rem; }
-
-        /* Option Cards */
-        .option-grid { display: grid; grid-template-columns: 1fr; gap: 15px; }
+        /* Smooth List Interface */
+        .option-grid { display: flex; flex-direction: column; gap: 12px; }
         .card { 
-            background: var(--card-bg); border: 1px solid var(--border); padding: 25px; 
-            border-radius: 20px; cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 20px;
+            background: var(--card-bg); border: 1px solid var(--border); padding: 20px; 
+            border-radius: 16px; cursor: pointer; transition: 0.2s; display: flex; align-items: center; gap: 15px;
         }
         .card:hover { border-color: rgba(179, 147, 89, 0.4); }
         .card.active { border-color: var(--gold); background: rgba(179, 147, 89, 0.05); }
-        .price { margin-left: auto; color: var(--gold); font-weight: 600; }
+        .price { margin-left: auto; color: var(--gold); font-size: 0.9rem; font-weight: 600; }
 
-        /* Summary Footer */
+        /* Special Input Styling for Limo & Stationery */
+        .qty-selector { display: flex; align-items: center; gap: 15px; margin-top: 10px; }
+        .qty-btn { width: 35px; height: 35px; border-radius: 50%; border: 1px solid var(--gold); background: transparent; color: var(--gold); cursor: pointer; }
+        
         .footer { 
             position: fixed; bottom: 0; width: 100%; background: rgba(18, 20, 22, 0.98); 
             backdrop-filter: blur(15px); padding: 25px; border-top: 1px solid var(--border);
             display: flex; justify-content: space-between; align-items: center; z-index: 1000;
         }
-        .total-box { line-height: 1.2; }
-        .total-val { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--gold); }
-        .btn-next { background: var(--gold); color: #000; padding: 18px 40px; border-radius: 14px; border: none; font-weight: 700; cursor: pointer; }
-
-        .hidden { display: none; }
+        .total-val { font-family: 'Playfair Display', serif; font-size: 1.6rem; color: var(--gold); }
+        .btn-next { background: var(--gold); color: #000; padding: 16px 35px; border-radius: 12px; border: none; font-weight: 700; cursor: pointer; }
     </style>
 </head>
 <body>
 
 <div class="header">
-    <div class="step-indicator" id="stepTag">Step 1 of 10</div>
+    <div id="stepTag" style="font-size: 0.6rem; text-transform: uppercase; letter-spacing: 2px; color: var(--gold);">Step 1 of 10</div>
     <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
 </div>
 
-<div class="container" id="mainStage">
-    </div>
+<div class="container" id="mainStage"></div>
 
 <div class="footer">
-    <div class="total-box">
-        <span style="font-size: 0.6rem; text-transform: uppercase; color: var(--text-dim);">Est. Total</span>
+    <div>
+        <span style="font-size: 0.6rem; text-transform: uppercase; color: var(--text-dim);">Arrangement Total</span>
         <div class="total-val" id="displayTotal">£0</div>
     </div>
     <button class="btn-next" onclick="nextStep()">Continue</button>
@@ -71,98 +65,151 @@
     const urlParams = new URLSearchParams(window.location.search);
     let basePrice = parseInt(urlParams.get('base')) || 2500;
     let currentStep = 1;
-    let runningTotal = basePrice;
-    
-    const arrangement = {
-        1: { title: "Method", desc: "Burial or Cremation?", options: [
-            { name: "Cremation", price: 0 }, { name: "Burial", price: 1200 }
+    let stepChoices = {};
+
+    const arrangementData = {
+        1: { title: "Method", desc: "Choose the type of committal.", options: [
+            { name: "Cremation", price: 0 }, { name: "Traditional Burial", price: 1500 }, { name: "Burial at Sea", price: 2800 }
         ]},
-        2: { title: "Attendance", desc: "Type of service?", options: [
+        2: { title: "Attendance", desc: "Level of service required.", options: [
             { name: "Direct (Unattended)", price: 0 }, { name: "Attended Service", price: 600 }
         ]},
-        3: { title: "Coffins & Caskets", desc: "Select a vessel.", options: [
-            { name: "Basic Veneer", price: 0 }, { name: "Eco-Wicker", price: 450 }, { name: "Solid Oak", price: 950 }
+        3: { title: "Coffins & Caskets", desc: "Extensive range of choices.", options: [
+            { name: "Oak Veneer", price: 0 }, { name: "LifeArt Eco", price: 300 }, { name: "Willow Woven", price: 550 },
+            { name: "Solid Pine", price: 750 }, { name: "Solid Mahogany", price: 1200 }, { name: "American Casket Style", price: 2100 }
         ]},
-        4: { title: "Vehicles", desc: "Transport options.", options: [
-            { name: "Standard Hearse", price: 0 }, { name: "Hearse + 1 Limousine", price: 400 }, { name: "Horse Drawn", price: 1000 }
-        ]},
+        4: { title: "Vehicles", desc: "Configure your procession.", type: "custom-vehicles" },
         5: { title: "Care of Deceased", desc: "Professional preparation.", options: [
-            { name: "Basic Care", price: 0 }, { name: "Embalming & Dressing", price: 250 }
+            { name: "Sanitary Care Only", price: 0 }, { name: "Full Embalming & Dressing", price: 280 }, { name: "Viewings in Chapel", price: 150 }
         ]},
-        6: { title: "The Venue", desc: "Where will it be held?", options: [
-            { name: "Crematorium Chapel", price: 0 }, { name: "Church Service Before", price: 350 }, { name: "Home Visit/Service", price: 200 }
+        6: { title: "The Service", desc: "Route and venues.", options: [
+            { name: "Direct to Crematorium", price: 0 }, { name: "Church Service Before", price: 350 }, { name: "Home Visit Before", price: 150 }, { name: "Celebrant Led", price: 250 }
         ]},
-        7: { title: "Orders of Service", desc: "Stationery quantity.", options: [
-            { name: "None", price: 0 }, { name: "50 Copies (Classic)", price: 150 }, { name: "100 Copies (Premium)", price: 280 }
+        7: { title: "Orders of Service", desc: "Stationery for the day.", type: "stationery" },
+        8: { title: "Floral Tributes", desc: "Select a curated package.", options: [
+            { name: "No Flowers", price: 0 }, { name: "Decide Later", price: 0 }, { name: "Small Package (Spray)", price: 120 },
+            { name: "Medium Package (Casket + Wreath)", price: 280 }, { name: "Large Package (Full Tributes)", price: 450 }
         ]},
-        8: { title: "Floral Tributes", desc: "Flowers and wreaths.", options: [
-            { name: "Decide Later", price: 0 }, { name: "Casket Spray (Medium)", price: 180 }, { name: "Full Tribute", price: 350 }
+        9: { title: "Admin & Notices", desc: "Third-party fees and legalities.", options: [
+            { name: "Standard Admin Fee", price: 150, info: "Internal processing" },
+            { name: "Doctor's Fees", price: 164, info: "Required for cremation" },
+            { name: "Newspaper Obituary", price: 120, info: "Local press notice" }
         ]},
-        9: { title: "Admin & Notices", desc: "Legal and media fees.", options: [
-            { name: "Standard Processing", price: 150 }, { name: "Standard + Newspaper Notice", price: 300 }
-        ]},
-        10: { title: "Memorialization", desc: "After the service.", options: [
-            { name: "Standard Urn (Included)", price: 0 }, { name: "Decorative Keepsake Urn", price: 120 }, { name: "Jewellery Options", price: 250 }
+        10: { title: "Memorials", desc: "Long-term tributes.", options: [
+            { name: "Headstone / Gravestone", price: 1200 }, { name: "Memorial Bench", price: 600 },
+            { name: "Keepsake Urn", price: 80 }, { name: "Memorial Jewelry", price: 220 }, { name: "Other (Request POA)", price: 0 }
         ]}
     };
 
-    let stepChoices = {};
-
     function renderStep() {
         const stage = document.getElementById('mainStage');
-        const data = arrangement[currentStep];
-        
+        const data = arrangementData[currentStep];
         document.getElementById('stepTag').innerText = `Step ${currentStep} of 10`;
         document.getElementById('progressFill').style.width = `${currentStep * 10}%`;
 
-        let optionsHtml = data.options.map((opt, i) => `
-            <div class="card ${stepChoices[currentStep]?.name === opt.name ? 'active' : ''}" onclick="selectOpt(${i})">
-                <div class="details">
-                    <h3>${opt.name}</h3>
+        let content = `<h1>${data.title}</h1><p class="desc">${data.desc}</p>`;
+
+        if (data.type === 'stationery') {
+            content += renderStationery();
+        } else if (data.type === 'custom-vehicles') {
+            content += renderVehicles();
+        } else {
+            content += `<div class="option-grid">` + data.options.map((opt, i) => `
+                <div class="card ${stepChoices[currentStep]?.name === opt.name ? 'active' : ''}" onclick="selectOpt(${i})">
+                    <div>
+                        <h3 style="font-size: 1rem;">${opt.name}</h3>
+                        ${opt.info ? `<p style="font-size: 0.7rem; color:var(--text-dim)">${opt.info}</p>` : ''}
+                    </div>
+                    <div class="price">${opt.price > 0 ? '+£' + opt.price : 'Incl.'}</div>
                 </div>
-                <div class="price">${opt.price > 0 ? '+£' + opt.price : 'Included'}</div>
-            </div>
-        `).join('');
-
-        stage.innerHTML = `
-            <div class="step-box">
-                <h1>${data.title}</h1>
-                <p class="desc">${data.desc}</p>
-                <div class="option-grid">${optionsHtml}</div>
-            </div>
-        `;
+            `).join('') + `</div>`;
+        }
+        stage.innerHTML = content;
     }
 
-    function selectOpt(index) {
-        const data = arrangement[currentStep];
-        stepChoices[currentStep] = data.options[index];
-        calculateTotal();
-        renderStep();
+    // Step 4 Logic: Vehicles
+    function renderVehicles() {
+        const lqty = stepChoices[4]?.limos || 0;
+        const hearseType = stepChoices[4]?.name || "Standard Hearse";
+        return `
+            <div class="option-grid">
+                <div class="card ${hearseType === 'Standard Hearse' ? 'active' : ''}" onclick="selectVehicle('Standard Hearse', 0)">
+                    <h3>Standard Hearse</h3><div class="price">Incl.</div>
+                </div>
+                <div class="card ${hearseType === 'Horse Drawn' ? 'active' : ''}" onclick="selectVehicle('Horse Drawn', 1000)">
+                    <h3>Horse Drawn</h3><div class="price">+£1,000</div>
+                </div>
+                <div class="card ${hearseType === 'Request POA' ? 'active' : ''}" onclick="selectVehicle('Request POA', 0)">
+                    <h3>Other: Request POA</h3><div class="price">-</div>
+                </div>
+                <div class="card active" style="margin-top:20px; flex-direction:column; align-items:flex-start">
+                    <h3 style="font-size: 0.9rem">Limousines (+£250 each)</h3>
+                    <div class="qty-selector">
+                        <button class="qty-btn" onclick="updateLimo(-1)">-</button>
+                        <span>${lqty}</span>
+                        <button class="qty-btn" onclick="updateLimo(1)">+</button>
+                    </div>
+                </div>
+            </div>`;
     }
 
-    function calculateTotal() {
-        let addonSum = 0;
-        Object.values(stepChoices).forEach(choice => addonSum += choice.price);
-        runningTotal = basePrice + addonSum;
-        document.getElementById('displayTotal').innerText = `£${runningTotal.toLocaleString()}`;
+    // Step 7 Logic: Stationery Math
+    function renderStationery() {
+        const qty = stepChoices[7]?.qty || 20;
+        const total = 80 + (Math.max(0, (qty - 20) / 10) * 15);
+        return `
+            <div class="card active" style="flex-direction:column; align-items:center; padding: 40px;">
+                <h2 style="color:var(--gold)">${qty} Copies</h2>
+                <p style="margin: 10px 0; font-size: 0.8rem">Starting at 20 copies (£80), +£15 per 10 thereafter.</p>
+                <div class="qty-selector">
+                    <button class="qty-btn" onclick="updateStationery(-10)">-</button>
+                    <input type="range" min="20" max="250" step="10" value="${qty}" oninput="updateStationeryInput(this.value)" style="accent-color:var(--gold)">
+                    <button class="qty-btn" onclick="updateStationery(10)">+</button>
+                </div>
+                <div class="price" style="margin-top:20px; font-size: 1.5rem">£${total}</div>
+            </div>`;
+    }
+
+    function selectOpt(i) {
+        stepChoices[currentStep] = arrangementData[currentStep].options[i];
+        updateTotal(); renderStep();
+    }
+    function selectVehicle(name, price) {
+        stepChoices[4] = { name, price, limos: stepChoices[4]?.limos || 0 };
+        updateTotal(); renderStep();
+    }
+    function updateLimo(amt) {
+        if(!stepChoices[4]) stepChoices[4] = { name: "Standard Hearse", price: 0, limos: 0 };
+        stepChoices[4].limos = Math.max(0, stepChoices[4].limos + amt);
+        updateTotal(); renderStep();
+    }
+    function updateStationeryInput(val) {
+        const total = 80 + ((val - 20) / 10 * 15);
+        stepChoices[7] = { name: val + " Orders", qty: parseInt(val), price: total };
+        updateTotal(); renderStep();
+    }
+    function updateStationery(amt) {
+        let current = stepChoices[7]?.qty || 20;
+        let newVal = Math.min(250, Math.max(20, current + amt));
+        updateStationeryInput(newVal);
+    }
+
+    function updateTotal() {
+        let extra = 0;
+        Object.keys(stepChoices).forEach(k => {
+            const choice = stepChoices[k];
+            extra += choice.price || 0;
+            if(k == 4) extra += (choice.limos * 250);
+        });
+        document.getElementById('displayTotal').innerText = `£${(basePrice + extra).toLocaleString()}`;
     }
 
     function nextStep() {
-        if (!stepChoices[currentStep]) {
-            alert("Please select an option to continue.");
-            return;
-        }
-        if (currentStep < 10) {
-            currentStep++;
-            renderStep();
-            window.scrollTo(0,0);
-        } else {
-            window.location.href = 'success.html';
-        }
+        if(currentStep < 10) { currentStep++; renderStep(); window.scrollTo(0,0); }
+        else { window.location.href = 'success.html'; }
     }
 
-    renderStep();
-    calculateTotal();
+    renderStep(); updateTotal();
 </script>
 </body>
 </html>
