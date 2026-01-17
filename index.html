@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Funeral Match | Compassionate Support</title>
+    <title>Funeral Match | Find Support</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -33,58 +33,58 @@
             margin: 0 auto;
         }
 
-        /* --- STACKED BRANDING & LOGIN --- */
+        /* --- STACKED BRANDING & REFINED LOGIN --- */
         header {
             display: flex;
             justify-content: space-between;
-            align-items: flex-start; /* Aligns with the top of the stacked logo */
-            margin-bottom: 5rem;
+            align-items: center; 
+            margin-bottom: clamp(3rem, 10vh, 6rem);
         }
 
         .brand-stack {
             display: flex;
             flex-direction: column;
-            line-height: 1;
+            line-height: 0.8;
             text-transform: uppercase;
-            letter-spacing: 2px;
         }
 
         .brand-top {
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             font-weight: 500;
             color: var(--text-soft);
-            margin-bottom: 4px;
+            letter-spacing: 4px;
+            margin-bottom: 6px;
         }
 
         .brand-bottom {
-            font-size: 1.1rem;
+            font-size: 1.4rem;
             font-weight: 700;
             color: var(--primary);
-            letter-spacing: 4px;
-            /* Making "MATCH" slightly larger and more prominent */
-            border-top: 1px solid var(--accent);
-            padding-top: 4px;
+            letter-spacing: 6px;
         }
 
-        .login-link {
-            font-size: 0.7rem;
-            font-weight: 700;
+        /* Refined Login Button */
+        .login-btn {
+            background: var(--primary);
             color: var(--accent);
+            font-size: 0.65rem;
+            font-weight: 700;
             text-decoration: none;
             text-transform: uppercase;
-            letter-spacing: 1.5px;
-            padding: 8px 16px;
-            border: 1px solid #f1f5f9;
-            border-radius: 50px;
-            transition: all 0.3s ease;
+            letter-spacing: 1.2px;
+            padding: 10px 18px;
+            border-radius: 4px;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
 
-        .login-link:hover {
-            background: #fafafa;
-            border-color: var(--accent);
+        .login-btn:hover {
+            transform: translateY(-1px);
+            background: #000;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.15);
         }
 
-        /* --- HERO SECTION --- */
+        /* --- HERO CONTENT --- */
         main {
             flex: 1;
             display: flex;
@@ -93,15 +93,16 @@
         }
 
         .content-group {
-            max-width: 750px;
+            max-width: 800px;
         }
 
         h1 {
-            font-size: clamp(2.5rem, 8vw, 4.2rem);
+            font-size: clamp(2.6rem, 8vw, 4.5rem);
             font-weight: 600;
             letter-spacing: -0.05em;
             line-height: 0.95;
             margin-bottom: 1.5rem;
+            color: #111;
         }
 
         .description {
@@ -110,26 +111,26 @@
             line-height: 1.6;
             margin-bottom: 3.5rem;
             font-weight: 300;
-            max-width: 600px;
+            max-width: 620px;
         }
 
-        /* --- INTERACTIVE FORM --- */
-        .search-module {
+        /* --- SEARCH INTERFACE --- */
+        .search-wrap {
             width: 100%;
             max-width: 600px;
         }
 
-        .form-label {
-            font-size: 0.8rem;
+        .form-hint {
+            font-size: 0.75rem;
             font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
             color: var(--accent);
             margin-bottom: 15px;
             display: block;
         }
 
-        .input-container {
+        .input-group {
             display: flex;
             flex-direction: column;
             gap: 12px;
@@ -137,78 +138,71 @@
 
         input {
             width: 100%;
-            height: 70px;
-            border: 1px solid #e2e8f0;
-            border-radius: 20px;
-            padding: 0 30px;
+            height: 72px;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 0 28px;
             font-size: 1.15rem;
             outline: none;
             background: #fff;
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: all 0.4s ease;
         }
 
         input:focus {
             border-color: var(--accent);
-            box-shadow: 0 15px 30px rgba(197, 160, 89, 0.08);
+            box-shadow: 0 10px 25px rgba(197, 160, 89, 0.05);
         }
 
-        button {
+        button.search-btn {
             width: 100%;
-            height: 70px;
+            height: 72px;
             background: var(--primary);
             color: white;
             border: none;
-            border-radius: 20px;
+            border-radius: 12px;
             font-size: 1.1rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
         }
 
-        button:hover {
+        button.search-btn:hover {
             background: #000;
-            transform: translateY(-2px);
         }
 
-        /* --- REASSURANCE FOOTER --- */
+        /* --- TRUST PILLARS --- */
         .trust-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             gap: 3rem;
             margin-top: 6rem;
             padding-top: 3rem;
-            border-top: 1px solid #f1f5f9;
+            border-top: 1px solid #f3f4f6;
         }
 
         .trust-card h3 {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: var(--accent);
             text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 10px;
+            letter-spacing: 2px;
+            margin-bottom: 12px;
         }
 
         .trust-card p {
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             color: var(--text-soft);
             line-height: 1.5;
+            font-weight: 400;
         }
 
-        /* ADAPTIVE LAYOUT FOR LARGER SCREENS */
+        /* --- DEVICE SPECIFIC AUTOMATION --- */
         @media (min-width: 850px) {
-            .input-container {
+            .input-group {
                 flex-direction: row;
-                background: #fff;
-                border: 1px solid #e2e8f0;
-                border-radius: 100px;
-                padding: 10px;
-                gap: 0;
+                gap: 12px;
             }
-            input { border: none; height: 50px; }
-            button { width: auto; height: 50px; padding: 0 50px; border-radius: 100px; }
-            .input-container:focus-within {
-                border-color: var(--accent);
-            }
+            input { width: 65%; }
+            button.search-btn { width: 35%; }
         }
     </style>
 </head>
@@ -220,19 +214,19 @@
                 <span class="brand-top">Funeral</span>
                 <span class="brand-bottom">Match</span>
             </div>
-            <a href="#" class="login-link">Funeral Directors Login</a>
+            <a href="#" class="login-btn">Director Login</a>
         </header>
 
         <main>
             <div class="content-group">
                 <h1>Gentle guidance <br>when it matters.</h1>
                 <p class="description">
-                    Navigate your local options with clarity. We help you compare trusted funeral directors with verified, transparent pricing.
+                    We help you navigate a difficult time with clarity. Compare verified local funeral directors based on service and transparent pricing.
                 </p>
 
-                <div class="search-module">
-                    <span class="form-label">Find support near you</span>
-                    <form id="actionForm" class="input-container">
+                <div class="search-wrap">
+                    <span class="form-hint">Find local care</span>
+                    <form id="mainAction" class="input-group">
                         <input 
                             type="text" 
                             id="pc" 
@@ -240,7 +234,7 @@
                             required 
                             autocomplete="off"
                         >
-                        <button type="submit">See local options</button>
+                        <button type="submit" class="search-btn">See options</button>
                     </form>
                 </div>
             </div>
@@ -248,22 +242,22 @@
             <div class="trust-grid">
                 <div class="trust-card">
                     <h3>Transparent</h3>
-                    <p>Clear pricing comparisons with no hidden administration fees.</p>
+                    <p>Verified pricing data with no hidden service or administration fees.</p>
                 </div>
                 <div class="trust-card">
                     <h3>Verified</h3>
-                    <p>Every director is checked for quality of service and care.</p>
+                    <p>Every provider is independently vetted for quality of care and service.</p>
                 </div>
                 <div class="trust-card">
-                    <h3>Independent</h3>
-                    <p>We provide neutral guidance to help you make the right choice.</p>
+                    <h3>Compassionate</h3>
+                    <p>Our tools are designed to provide neutral, pressure-free support.</p>
                 </div>
             </div>
         </main>
     </div>
 
     <script>
-        document.getElementById('actionForm').addEventListener('submit', function(e) {
+        document.getElementById('mainAction').addEventListener('submit', function(e) {
             e.preventDefault();
             const val = document.getElementById('pc').value.trim();
             window.location.href = `search-results.html?postcode=${encodeURIComponent(val)}`;
