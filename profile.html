@@ -2,58 +2,114 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quote Machine | Funeral Match</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;600;800&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Provider Profile | Funeral Match</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
-        :root { --black: #1A1A1B; --gold: #B39359; --stone: #F9F7F2; }
-        * { margin:0; padding:0; box-sizing:border-box; }
-        body { background: #FFF; font-family: 'Inter', sans-serif; }
-        .profile-wrapper { display: flex; flex-direction: column; min-height: 100vh; }
-        @media (min-width: 1024px) { .profile-wrapper { flex-direction: row; } }
-        .info-side { flex: 1; padding: 40px 5%; overflow-y: auto; }
-        .quote-machine { width: 100%; background: var(--stone); padding: 40px; border-left: 1px solid #EEE; }
-        @media (min-width: 1024px) { .quote-machine { width: 420px; position: sticky; top: 0; height: 100vh; } }
-        .total-card { background: var(--black); color: #FFF; padding: 30px; border-radius: 4px; text-align: center; margin-top: 40px; }
-        .btn-secure { background: var(--gold); color: #FFF; border: none; padding: 18px; width: 100%; border-radius: 4px; font-weight: 800; text-transform: uppercase; cursor: pointer; margin-top: 20px; }
-        .item { display: flex; justify-content: space-between; padding: 15px 0; border-bottom: 1px solid #E5E1D8; font-size: 0.9rem; }
-        @media (max-width: 1024px) { .mobile-bar { position: fixed; bottom: 0; width: 100%; background: var(--black); color: #FFF; padding: 15px 25px; display: flex; justify-content: space-between; align-items: center; z-index: 100; } }
-        @media (min-width: 1025px) { .mobile-bar { display: none; } }
+        :root { 
+            --deep-slate: #121416; --card-bg: #1C1F22; --gold: #B39359; 
+            --white: #F4F4F4; --text-dim: #8A8F98; --border: rgba(255, 255, 255, 0.08);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background-color: var(--deep-slate); color: var(--white); -webkit-font-smoothing: antialiased; }
+
+        nav {
+            padding: 20px 24px; background: rgba(18, 20, 22, 0.95);
+            backdrop-filter: blur(20px); border-bottom: 1px solid var(--border);
+            display: flex; justify-content: space-between; align-items: center;
+            position: sticky; top: 0;
+        }
+        .logo { font-size: 0.8rem; font-weight: 700; letter-spacing: 5px; text-transform: uppercase; color: var(--white); text-decoration: none; }
+        .logo span { color: var(--gold); }
+
+        .container { max-width: 600px; margin: 40px auto; padding: 0 20px 120px; }
+
+        /* Profile Hero */
+        .profile-hero { text-align: center; margin-bottom: 40px; animation: fadeIn 0.6s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .trust-badge {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: rgba(179, 147, 89, 0.1); border: 1px solid var(--gold);
+            padding: 6px 16px; border-radius: 50px; color: var(--gold);
+            font-size: 0.65rem; font-weight: 700; text-transform: uppercase; margin-bottom: 20px;
+        }
+
+        /* Facility Grid */
+        .section-label { font-size: 0.65rem; color: var(--gold); text-transform: uppercase; letter-spacing: 2px; margin: 30px 0 15px; display: block; }
+        .facility-card {
+            background: var(--card-bg); border-radius: 24px; border: 1px solid var(--border);
+            padding: 25px; display: grid; grid-template-columns: 1fr 1fr; gap: 15px;
+        }
+        .facility-item { font-size: 0.85rem; color: var(--white); display: flex; align-items: center; gap: 10px; }
+        .facility-item span { color: var(--gold); font-size: 1.1rem; }
+
+        /* Bottom Action Bar */
+        .action-bar {
+            position: fixed; bottom: 0; left: 0; right: 0;
+            background: rgba(18, 20, 22, 0.95); backdrop-filter: blur(20px);
+            border-top: 1px solid var(--border); padding: 20px 24px;
+            display: flex; justify-content: space-between; align-items: center;
+        }
     </style>
 </head>
 <body>
-    <div class="profile-wrapper">
-        <main class="info-side">
-            <h1 style="font-family:'Playfair Display'; font-size: 2.5rem;">Sterling & Sons Heritage</h1>
-            <p style="color:var(--gold); font-weight: 700; font-size: 0.8rem; letter-spacing: 1px;">VERIFIED FIXED-PRICE PARTNER</p>
-            <div style="width: 100%; height: 350px; background: #EAE7E0; margin: 30px 0;"></div> <p style="line-height: 1.8; color: #555;">Founded in 1924, Sterling & Sons offers comprehensive, culturally sensitive care with onsite mortuary and viewing facilities.</p>
-        </main>
-        <aside class="quote-machine">
-            <h3 style="font-family:'Playfair Display'; margin-bottom: 20px;">Automatic Quote Machine</h3>
-            <div class="item"><span>Professional Fees</span><strong>£1,450</strong></div>
-            <div class="item"><span>Eco-Wicker Coffin</span><input type="checkbox" checked onchange="calc()"> +£600</div>
-            <div class="item"><span>Traditional Hearse</span><input type="checkbox" onchange="calc()"> +£350</div>
-            <div class="total-card">
-                <span style="font-size:0.6rem; color:var(--gold); letter-spacing:2px;">PRICE LOCK REF: FM-7721</span>
-                <h2 id="total" style="font-family:'Playfair Display'; font-size: 2.2rem; margin-top: 5px;">£2,050</h2>
-                <button class="btn-secure" onclick="alert('Price Locked. Redirecting to Lead Confirmation.')">Secure Price</button>
-            </div>
-        </aside>
+
+    <nav>
+        <a href="results.html" class="logo">Funeral<span>Match</span></a>
+        <a href="results.html" style="color: var(--text-dim); text-decoration: none; font-size: 0.7rem; text-transform: uppercase;">Back</a>
+    </nav>
+
+    <div class="container" id="profileContent">
+        </div>
+
+    <div class="action-bar">
+        <div>
+            <span style="font-size: 0.6rem; color: var(--text-dim); text-transform: uppercase;">Starting from</span>
+            <div id="bottomPrice" style="font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--gold);">£--</div>
+        </div>
+        <button onclick="history.back()" style="background: var(--gold); border: none; padding: 16px 32px; border-radius: 14px; font-weight: 700; text-transform: uppercase; font-size: 0.7rem; cursor: pointer;">Secure Quote</button>
     </div>
-    <div class="mobile-bar">
-        <div><span style="font-size:0.6rem; color:var(--gold)">ESTIMATE</span><div id="m-total" style="font-size:1.3rem; font-weight:800;">£2,050</div></div>
-        <button style="background:var(--gold); border:none; color:#FFF; padding:12px 20px; border-radius:40px; font-weight:700; font-size:0.7rem;">LOCK PRICE</button>
-    </div>
+
     <script>
-        function calc() {
-            let t = 1450;
-            const c = document.querySelectorAll('input[type="checkbox"]');
-            if(c[0].checked) t += 600;
-            if(c[1].checked) t += 350;
-            const res = '£' + t.toLocaleString();
-            document.getElementById('total').innerText = res;
-            document.getElementById('m-total').innerText = res;
+        // DATA BASELINE (Synchronized with results.html)
+        const directors = [
+            { id: 1, name: "Belgrave & Beaumont", base: 3450, score: 99, tags: ['Private Mortuary', 'Mercedes Fleet', 'Chapel of Rest', 'Eco-Option'] },
+            { id: 2, name: "Westminster Partners", base: 2800, score: 96, tags: ['Family Led', 'Local Chapel', '24/7 Support'] },
+            { id: 3, name: "St. James Independent", base: 2650, score: 91, tags: ['Vetted Provider', 'Rapid Response', 'Simple Fleet'] }
+        ];
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = parseInt(urlParams.get('id')) || 1;
+        const fd = directors.find(d => d.id === id);
+
+        function renderProfile() {
+            const container = document.getElementById('profileContent');
+            document.getElementById('bottomPrice').innerText = `£${fd.base.toLocaleString()}`;
+
+            container.innerHTML = `
+                <div class="profile-hero">
+                    <div class="trust-badge">Verified Trust Score: ${fd.score}/100</div>
+                    <h1 style="font-family: 'Playfair Display', serif; font-size: 2.2rem; margin-bottom: 10px;">${fd.name}</h1>
+                    <p style="color: var(--text-dim); font-size: 0.9rem;">Providing exceptional care and traditional values.</p>
+                </div>
+
+                <span class="section-label">Included Facilities</span>
+                <div class="facility-card">
+                    ${fd.tags.map(tag => `
+                        <div class="facility-item"><span>•</span> ${tag}</div>
+                    `).join('')}
+                </div>
+
+                <span class="section-label">Professional Bio</span>
+                <div style="background: var(--card-bg); border-radius: 24px; border: 1px solid var(--border); padding: 25px; line-height: 1.6; color: var(--text-dim); font-size: 0.9rem;">
+                    Located in the heart of the community, ${fd.name} has built a reputation for dignity and transparency. Their facilities are independently vetted to meet our 2026 excellence standards.
+                </div>
+            `;
         }
+
+        renderProfile();
     </script>
 </body>
 </html>
