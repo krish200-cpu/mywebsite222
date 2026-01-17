@@ -6,16 +6,16 @@
     <title>Funeral Match | Find Local Care</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        :root { --black: #1A1A1B; --gold: #B39359; --white: #FFFFFF; --bg-tint: rgba(255, 255, 255, 0.5); }
+        :root { --black: #1A1A1B; --gold: #B39359; --white: #FFFFFF; --bg-overlay: rgba(255, 255, 255, 0.45); }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background: #FDFDFB; font-family: 'Inter', sans-serif; color: var(--black); line-height: 1.6; }
 
-        /* Full Screen Hero - Modern Chapel Aesthetic */
+        /* Full Screen Hero - Modern Sanctuary Aesthetic */
         .hero { 
-            height: 85vh; /* Reduced height to allow trust bar visibility */
+            height: 90vh; 
             width: 100%; 
-            background: linear-gradient(var(--bg-tint), var(--bg-tint)), 
-                        url('https://images.unsplash.com/photo-1548625361-19500c658dc7?auto=format&fit=crop&w=2000&q=80'); 
+            background: linear-gradient(var(--bg-overlay), var(--bg-overlay)), 
+                        url('https://images.unsplash.com/photo-1498330177096-689e3fb901ca?auto=format&fit=crop&w=2000&q=80'); 
             background-size: cover; 
             background-position: center;
             display: flex;
@@ -25,63 +25,64 @@
             padding: 20px;
         }
 
-        /* Fixed Branding */
-        header { position: absolute; top: 0; width: 100%; padding: 30px; text-align: center; }
+        /* Branding Anchor */
+        header { position: absolute; top: 0; width: 100%; padding: 40px; text-align: center; z-index: 10; }
         .logo { font-size: 1rem; font-weight: 800; text-transform: uppercase; letter-spacing: 12px; color: var(--black); text-decoration: none; }
         .logo span { color: var(--gold); }
 
-        .hero-content { width: 100%; max-width: 600px; text-align: center; }
-        h1 { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 400; margin-bottom: 25px; color: var(--black); }
+        .hero-content { width: 100%; max-width: 600px; text-align: center; z-index: 2; }
+        h1 { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 400; margin-bottom: 30px; color: var(--black); letter-spacing: -0.5px; }
         
-        /* Compact Postcode Module */
-        .search-engine { 
+        /* The Compact Search Module */
+        .search-module { 
             background: var(--white); 
-            padding: 6px; 
-            border-radius: 4px; 
+            padding: 5px; 
+            border-radius: 2px; 
             display: inline-flex; 
             align-items: center; 
-            margin: 0 auto 30px auto; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-            border: 1px solid #EAEAEA;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.06);
+            border: 1px solid rgba(0,0,0,0.05);
+            margin-bottom: 35px;
         }
         input { 
             border: none; padding: 12px 15px; 
-            font-size: 0.95rem; width: 180px; /* Specifically sized for postcode */
+            font-size: 0.9rem; width: 160px; /* Precise Postcode sizing */
             outline: none; letter-spacing: 2px;
             font-family: 'Inter', sans-serif;
+            text-align: center;
         }
         .btn-search { 
             background: var(--black); color: var(--white); border: none; 
-            padding: 12px 24px; border-radius: 2px; 
+            padding: 12px 25px; border-radius: 2px; 
             font-weight: 600; text-transform: uppercase; 
-            letter-spacing: 1px; cursor: pointer; transition: 0.2s; 
-            font-size: 0.7rem;
+            letter-spacing: 1px; cursor: pointer; transition: 0.3s; 
+            font-size: 0.65rem;
         }
         .btn-search:hover { background: var(--gold); }
 
-        /* Partner Link */
-        .plan-link { font-size: 0.75rem; color: #666; text-decoration: none; border-bottom: 1px solid var(--gold); padding-bottom: 2px; transition: 0.3s; }
-        .plan-link:hover { color: var(--black); }
+        /* Partnership Link */
+        .partnership { font-size: 0.7rem; color: #777; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 8px; transition: 0.3s; }
+        .partnership:hover { color: var(--black); }
+        .partnership strong { color: var(--gold); text-transform: uppercase; letter-spacing: 1px; }
 
-        /* Corrected Grid Alignment for Trust Bar */
-        .trust-section { 
-            max-width: 1100px; 
-            margin: -40px auto 0; /* Pulls up slightly into the hero */
+        /* Aligned Trust Grid */
+        .trust-grid { 
+            max-width: 1200px; 
+            margin: -60px auto 0; 
             background: var(--white);
             display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
-            gap: 2px; 
-            background-color: #EEE; /* Creates divider lines between items */
-            box-shadow: 0 20px 40px rgba(0,0,0,0.05);
-            border-radius: 4px;
-            overflow: hidden;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+            box-shadow: 0 30px 60px rgba(0,0,0,0.04);
+            position: relative;
+            z-index: 5;
         }
-        .trust-item { background: var(--white); padding: 40px; text-align: left; }
-        .trust-item h3 { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 2px; color: var(--gold); margin-bottom: 12px; }
-        .trust-item p { font-size: 0.85rem; color: #777; line-height: 1.5; margin: 0; }
+        .trust-item { padding: 50px 40px; border-right: 1px solid #F0F0F0; border-bottom: 1px solid #F0F0F0; }
+        .trust-item:last-child { border-right: none; }
+        .trust-item h3 { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 3px; color: var(--gold); margin-bottom: 15px; }
+        .trust-item p { font-size: 0.85rem; color: #666; line-height: 1.6; }
 
-        footer { padding: 60px 20px; text-align: center; font-size: 0.65rem; color: #AAA; letter-spacing: 1px; }
-        footer a { color: #888; text-decoration: none; margin: 0 12px; }
+        footer { padding: 80px 20px; text-align: center; font-size: 0.65rem; color: #AAA; letter-spacing: 1px; }
+        footer a { color: #888; text-decoration: none; margin: 0 15px; }
         footer a:hover { color: var(--black); }
     </style>
 </head>
@@ -93,40 +94,42 @@
 
     <section class="hero">
         <div class="hero-content">
-            <h1>Clarity when you <br>need it most.</h1>
+            <h1>Transparency in a <br>time of need.</h1>
             
-            <div class="search-engine">
+            <div class="search-module">
                 <input type="text" placeholder="POSTCODE" maxlength="8">
                 <button class="btn-search" onclick="location.href='results.html'">Search</button>
             </div>
-            <br>
-            <a href="#" class="plan-link">Pre-planning a funeral? Start here.</a>
+            
+            <a href="#" class="partnership">
+                <strong>Pre-Paid Plans</strong> Explore 5★ rated funeral cover.
+            </a>
         </div>
     </section>
 
-    <div class="trust-section">
+    <div class="trust-grid">
         <div class="trust-item">
-            <h3>Verified Care</h3>
-            <p>Direct pricing and facility audits from independent local specialists.</p>
+            <h3>Verified Partners</h3>
+            <p>Every director on our platform undergoes a rigorous facility and service audit.</p>
         </div>
         <div class="trust-item">
-            <h3>Price Lock</h3>
-            <p>Every quote generated through our engine is fixed and guaranteed.</p>
+            <h3>Fixed Pricing</h3>
+            <p>Our automated engine generates locked quotes that are contractually guaranteed.</p>
         </div>
         <div class="trust-item">
-            <h3>Expert Guidance</h3>
-            <p>Dedicated support to help you navigate religious and cultural needs.</p>
+            <h3>Bespoke Care</h3>
+            <p>Filtering by faith, tradition, and cultural requirements is integrated as standard.</p>
         </div>
     </div>
 
     <footer>
-        <div style="margin-bottom: 20px;">
-            <a href="#">Our Story</a>
-            <a href="#">Support</a>
-            <a href="#">Privacy</a>
-            <a href="#" style="color: var(--black); font-weight: 700;">Director Portal</a>
+        <div style="margin-bottom: 30px;">
+            <a href="#">About</a>
+            <a href="#">Help Center</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#" style="color: var(--black); font-weight: 700;">Director Access</a>
         </div>
-        <p>© 2026 Funeral Match Ltd. Licensed Independent Aggregator.</p>
+        <p>© 2026 Funeral Match Ltd. Clarity in Every Journey.</p>
     </footer>
 
 </body>
