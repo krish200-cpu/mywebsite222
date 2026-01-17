@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Selection Confirmed | Funeral Match</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root { 
+            --deep-slate: #121416; --card-bg: #1C1F22; --gold: #B39359; 
+            --white: #F4F4F4; --text-dim: #8A8F98; --border: rgba(255, 255, 255, 0.08);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background-color: var(--deep-slate); color: var(--white); -webkit-font-smoothing: antialiased; display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; }
+
+        .success-card {
+            background: var(--card-bg); border-radius: 28px; width: 100%; max-width: 500px;
+            padding: 50px 30px; border: 1px solid var(--border); text-align: center;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .check-icon {
+            width: 70px; height: 70px; border: 1px solid var(--gold); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; margin: 0 auto 30px;
+            color: var(--gold); font-size: 1.5rem; background: rgba(179, 147, 89, 0.05);
+        }
+
+        h1 { font-family: 'Playfair Display', serif; font-size: 2rem; margin-bottom: 15px; font-weight: 500; }
+        p { color: var(--text-dim); font-size: 0.95rem; line-height: 1.6; margin-bottom: 40px; }
+
+        .ref-box {
+            background: rgba(255,255,255,0.03); border: 1px solid var(--border);
+            padding: 20px; border-radius: 20px; margin-bottom: 40px;
+        }
+        .ref-label { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 2px; color: var(--gold); margin-bottom: 10px; display: block; }
+        .ref-id { font-family: 'Inter', sans-serif; font-weight: 600; font-size: 1.3rem; letter-spacing: 1px; }
+
+        .timeline { text-align: left; margin-bottom: 40px; }
+        .step { display: flex; gap: 15px; margin-bottom: 20px; }
+        .step-dot { width: 8px; height: 8px; background: var(--gold); border-radius: 50%; margin-top: 6px; flex-shrink: 0; }
+        .step-text { font-size: 0.85rem; color: var(--text-dim); }
+        .step-text span { color: var(--white); display: block; font-weight: 600; margin-bottom: 3px; }
+
+        .btn-home {
+            background: transparent; color: var(--white); border: 1px solid var(--border);
+            padding: 18px 40px; border-radius: 15px; font-size: 0.75rem; text-transform: uppercase;
+            font-weight: 700; cursor: pointer; text-decoration: none; display: inline-block; transition: 0.3s;
+        }
+        .btn-home:hover { border-color: var(--gold); color: var(--gold); }
+    </style>
+</head>
+<body>
+
+    <div class="success-card">
+        <div class="check-icon">✓</div>
+        <h1>Selection Secured</h1>
+        <p>Your arrangement details have been transmitted directly to the Director. They will contact you shortly to finalize the next steps.</p>
+
+        <div class="ref-box">
+            <span class="ref-label">Reference ID</span>
+            <span class="ref-id" id="displayID">FM-XXXX-XXXX</span>
+        </div>
+
+        <div class="timeline">
+            <div class="step">
+                <div class="step-dot"></div>
+                <div class="step-text">
+                    <span>Transmission Successful</span>
+                    Director notified of your preferred configuration.
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-dot" style="opacity: 0.3;"></div>
+                <div class="step-text">
+                    <span>Director Outreach</span>
+                    Expect a call within 2–4 business hours.
+                </div>
+            </div>
+        </div>
+
+        <a href="index.html" class="btn-home">Return to Search</a>
+    </div>
+
+    <script>
+        // Generate a clean ID for the session
+        const randomID = "FM-" + Math.random().toString(36).substr(2, 4).toUpperCase() + "-" + Math.random().toString(36).substr(2, 4).toUpperCase();
+        document.getElementById('displayID').innerText = randomID;
+    </script>
+</body>
+</html>
