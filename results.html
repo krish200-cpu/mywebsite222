@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Arrange Online | Funeral Match</title>
+    <title>Curated Results | Funeral Match</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         :root { 
@@ -15,7 +15,6 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
         body { background-color: var(--deep-slate); color: var(--white); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
 
-        /* Navigation */
         nav {
             padding: 20px 24px; background: rgba(18, 20, 22, 0.95);
             backdrop-filter: blur(20px); border-bottom: 1px solid var(--border);
@@ -27,7 +26,7 @@
 
         .container { max-width: 650px; margin: 0 auto; padding: 20px 20px 140px; }
 
-        /* Main Result Cards */
+        /* Entry Cards */
         .entry {
             background: var(--card-bg); border-radius: 28px; margin-bottom: 20px;
             padding: 30px; border: 1px solid var(--border);
@@ -52,7 +51,7 @@
         .btn-lock { background: var(--gold); color: #000; padding: 12px 24px; border-radius: 14px; border: none; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; cursor: pointer; }
         .btn-details { background: transparent; color: var(--white); border: 1px solid var(--border); padding: 12px 24px; border-radius: 14px; font-size: 0.7rem; text-transform: uppercase; cursor: pointer; }
 
-        /* Arrangement Engine (Glass Overlays) */
+        /* Sort Overlay Styles */
         .glass-overlay {
             position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(15px);
             z-index: 2000; display: none; align-items: flex-end;
@@ -61,30 +60,25 @@
         .config-card {
             background: rgba(28, 31, 34, 0.98); border-top: 1px solid var(--gold);
             width: 100%; border-radius: 40px 40px 0 0; padding: 40px 24px;
-            max-height: 90vh; overflow-y: auto; animation: slideUp 0.4s ease; position: relative;
+            animation: slideUp 0.4s ease; position: relative;
         }
         @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
 
         .btn-close {
             position: absolute; top: 25px; right: 25px; width: 32px; height: 32px; border-radius: 50%;
             background: rgba(255,255,255,0.05); border: 1px solid var(--border); color: var(--white);
-            display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 2100;
+            display: flex; align-items: center; justify-content: center; cursor: pointer;
         }
 
-        .filter-group { margin-bottom: 30px; }
-        .group-label { font-size: 0.65rem; color: var(--gold); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; display: block; }
-        .pill-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .pill { background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 15px; border-radius: 18px; font-size: 0.75rem; text-align: center; cursor: pointer; color: var(--text-dim); transition: 0.3s; }
+        .pill-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
+        .pill { background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 15px; border-radius: 18px; font-size: 0.75rem; text-align: center; cursor: pointer; color: var(--text-dim); }
         .pill.active { border-color: var(--gold); color: var(--gold); background: var(--gold-glow); }
 
-        input { width: 100%; background: var(--deep-slate); border: 1px solid var(--border); padding: 18px; border-radius: 15px; color: white; margin-bottom: 12px; font-size: 0.9rem; outline: none; }
-
-        /* Floating Quote Machine */
+        /* Floating Benchmark */
         .quote-machine {
             position: fixed; bottom: 35px; left: 50%; transform: translateX(-50%);
             background: var(--card-bg); border: 1px solid var(--gold); padding: 14px 28px;
             border-radius: 50px; display: flex; align-items: center; gap: 20px; z-index: 1500;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
         .pill-price { font-family: 'Playfair Display', serif; color: var(--gold); font-size: 1.2rem; }
     </style>
@@ -93,72 +87,26 @@
 
     <nav>
         <a href="index.html" class="logo">Funeral<span>Match</span></a>
-        <button class="btn-lock" style="padding: 8px 16px; font-size: 0.6rem;" onclick="toggleConfig()">Arrange Online</button>
+        <button class="btn-lock" style="padding: 8px 16px; font-size: 0.6rem;" onclick="window.location.href='arrange.html'">Arrange Online</button>
     </nav>
 
     <div class="container" id="resultsList"></div>
 
     <div class="quote-machine">
-        <span style="font-size: 0.6rem; text-transform: uppercase; letter-spacing: 1.5px;">Custom Arrangement</span>
+        <span style="font-size: 0.6rem; text-transform: uppercase; letter-spacing: 1.5px;">Market Benchmark</span>
         <div style="width: 1px; height: 15px; background: var(--border);"></div>
-        <span id="globalPrice" class="pill-price">£0</span>
+        <span id="globalPrice" class="pill-price">£3,450</span>
     </div>
 
-    <div class="glass-overlay" id="configOverlay">
+    <div class="glass-overlay" id="sortOverlay">
         <div class="config-card">
-            <button class="btn-close" onclick="toggleConfig()">✕</button>
-            <div style="width: 40px; height: 4px; background: var(--border); border-radius: 10px; margin: -20px auto 30px;"></div>
-            
-            <div class="filter-group">
-                <span class="group-label">1. Coffin Selection</span>
-                <div class="pill-grid">
-                    <div class="pill active" onclick="updateCoffin('Veneer', 0, this)">Standard Veneer (+£0)</div>
-                    <div class="pill" onclick="updateCoffin('Eco', 350, this)">Eco-Wicker (+£350)</div>
-                    <div class="pill" onclick="updateCoffin('Solid', 850, this)">Solid Oak (+£850)</div>
-                    <div class="pill" onclick="updateCoffin('Premium', 1250, this)">Gold Leaf (+£1,250)</div>
-                </div>
+            <button class="btn-close" onclick="toggleSort()">✕</button>
+            <span style="font-size: 0.65rem; color: var(--gold); text-transform: uppercase; letter-spacing: 2px;">Sort Selection</span>
+            <div class="pill-grid">
+                <div class="pill active" onclick="setSort('score', this)">Recommended</div>
+                <div class="pill" onclick="setSort('price', this)">Fixed Price</div>
             </div>
-
-            <div class="filter-group">
-                <span class="group-label">2. Logistics & Services</span>
-                <div class="pill-grid">
-                    <div class="pill" onclick="toggleAddon('limo', 450, this)">+ Limousine</div>
-                    <div class="pill" onclick="toggleAddon('celebrant', 250, this)">+ Celebrant</div>
-                    <div class="pill" onclick="toggleAddon('viewing', 150, this)">+ Chapel Viewing</div>
-                    <div class="pill" onclick="toggleAddon('flowers', 200, this)">+ Floral Tributes</div>
-                </div>
-            </div>
-
-            <div class="filter-group">
-                <span class="group-label">Sort Results By</span>
-                <div class="pill-grid">
-                    <div class="pill active" onclick="setSort('score', this)">Recommended</div>
-                    <div class="pill" onclick="setSort('price', this)">Fixed Price</div>
-                </div>
-            </div>
-
-            <button class="btn-lock" style="width:100%; padding:20px; border-radius: 20px;" onclick="toggleConfig()">Update Arrangement</button>
-        </div>
-    </div>
-
-    <div class="glass-overlay" id="reviewDrawer">
-        <div class="config-card">
-            <button class="btn-close" onclick="closeReview()">✕</button>
-            <div style="width: 40px; height: 4px; background: var(--border); border-radius: 10px; margin: -20px auto 30px;"></div>
-            <h2 style="font-family: 'Playfair Display', serif; font-size: 1.8rem; margin-bottom: 5px;">Secure Arrangement</h2>
-            <div style="background: rgba(255,255,255,0.03); border-radius: 20px; padding: 20px; margin: 20px 0; border: 1px solid var(--border);">
-                <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-                    <span id="summaryName" style="font-weight: 600;">-</span>
-                    <span id="summaryTotal" style="color: var(--gold); font-weight: 600;">£0</span>
-                </div>
-                <div id="summaryAddons" style="font-size: 0.7rem; color: var(--text-dim); line-height: 1.6;"></div>
-            </div>
-            <div class="filter-group">
-                <span class="group-label">Contact Details for Handoff</span>
-                <input type="text" placeholder="Full Name">
-                <input type="email" placeholder="Email Address">
-            </div>
-            <button class="btn-lock" style="width: 100%; padding: 22px; border-radius: 20px;" onclick="completeHandoff()">Lock Price & Arrange</button>
+            <button class="btn-lock" style="width:100%; padding:20px; border-radius: 20px; margin-top:20px;" onclick="toggleSort()">Apply Sort</button>
         </div>
     </div>
 
@@ -169,27 +117,9 @@
             { id: 3, name: "St. James Independent", base: 2650, score: 91, sponsored: false, tags: ['Vetted Provider', 'Rapid Response'] }
         ];
 
-        let addons = 0;
-        let coffinPrice = 0;
-        let selectedCoffin = "Standard Veneer";
         let activeSort = 'score';
 
-        function toggleConfig() { document.getElementById('configOverlay').classList.toggle('active'); }
-        function closeReview() { document.getElementById('reviewDrawer').classList.remove('active'); }
-
-        function toggleAddon(type, price, el) {
-            el.classList.toggle('active');
-            addons = el.classList.contains('active') ? addons + price : addons - price;
-            render();
-        }
-
-        function updateCoffin(type, price, el) {
-            coffinPrice = price;
-            selectedCoffin = type;
-            el.parentElement.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
-            el.classList.add('active');
-            render();
-        }
+        function toggleSort() { document.getElementById('sortOverlay').classList.toggle('active'); }
 
         function setSort(s, el) {
             activeSort = s;
@@ -197,22 +127,6 @@
             el.classList.add('active');
             render();
         }
-
-        function lockPrice(id) {
-            const fd = directors.find(d => d.id === id);
-            const total = fd.base + addons + coffinPrice;
-            document.getElementById('summaryName').innerText = fd.name;
-            document.getElementById('summaryTotal').innerText = `£${total.toLocaleString()}`;
-            
-            const details = [`Coffin: ${selectedCoffin}`];
-            document.querySelectorAll('#configOverlay .pill.active').forEach(p => { 
-                if(p.innerText.includes('+')) details.push(p.innerText); 
-            });
-            document.getElementById('summaryAddons').innerHTML = details.join('<br>');
-            document.getElementById('reviewDrawer').classList.add('active');
-        }
-
-        function completeHandoff() { window.location.href = 'success.html'; }
 
         function render() {
             const list = document.getElementById('resultsList');
@@ -223,7 +137,6 @@
 
             list.innerHTML = '';
             sorted.forEach(d => {
-                const total = d.base + addons + coffinPrice;
                 list.innerHTML += `
                     <div class="entry ${d.sponsored ? 'sponsored' : ''}">
                         ${d.sponsored ? '<span class="sponsored-tag">Premier Partner</span>' : ''}
@@ -233,15 +146,15 @@
                         </div>
                         <div class="tag-row">${d.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
                         <div class="card-footer">
-                            <div class="price-val"><span>£</span>${total.toLocaleString()}</div>
+                            <div class="price-val"><span>£</span>${d.base.toLocaleString()}</div>
                             <div class="btn-group">
                                 <button class="btn-details" onclick="window.location.href='profile.html?id=${d.id}'">Details</button>
-                                <button class="btn-lock" onclick="lockPrice(${d.id})">${d.sponsored ? 'Arrange' : 'Lock'}</button>
+                                <button class="btn-lock" onclick="window.location.href='arrange.html?id=${d.id}&base=${d.base}'">Arrange Now</button>
                             </div>
                         </div>
                     </div>`;
             });
-            document.getElementById('globalPrice').innerText = `£${(sorted[0].base + addons + coffinPrice).toLocaleString()}`;
+            document.getElementById('globalPrice').innerText = `£${sorted[0].base.toLocaleString()}`;
         }
         render();
     </script>
