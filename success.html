@@ -1,21 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Arrangement Received</title>
     <style>
-        body { background: #121416; color: #F4F4F4; font-family: sans-serif; text-align: center; padding-top: 100px; }
-        .check { font-size: 5rem; color: #B39359; }
-        .card { max-width: 400px; margin: 0 auto; padding: 20px; }
+        body { background: #121416; color: #F4F4F4; font-family: sans-serif; text-align: center; padding-top: 20vh; }
+        .ref { margin-top: 20px; color: #B39359; font-weight: 700; border: 1px dashed #B39359; display: inline-block; padding: 10px 20px; }
     </style>
 </head>
 <body>
-    <div class="card">
-        <div class="check">✓</div>
-        <h1>Received</h1>
-        <p style="color: #8A8F98;">Your bespoke arrangement manifest has been sent to our Director. We will call you within 2 hours to finalize logistics.</p>
-        <p style="margin-top: 40px; font-weight: 700;">Reference: #FM-${Math.floor(Math.random()*9000)+1000}</p>
-    </div>
+    <div style="font-size: 4rem; color: #B39359;">✓</div>
+    <h1>Arrangement Received</h1>
+    <p>Our Director will call you within 2 hours to finalize logistics.</p>
+    <div class="ref">REF: FM-${Math.floor(Math.random()*9000)+1000}</div>
 </body>
 </html>
