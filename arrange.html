@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Arrangement Studio | Funeral Match</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root { 
+            --deep-slate: #121416; --card-bg: #1C1F22; --gold: #B39359; 
+            --white: #F4F4F4; --text-dim: #8A8F98; --border: rgba(255, 255, 255, 0.08);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background-color: var(--deep-slate); color: var(--white); -webkit-font-smoothing: antialiased; }
+
+        /* Progress Header */
+        .header { padding: 30px 24px; text-align: center; border-bottom: 1px solid var(--border); sticky; top: 0; background: var(--deep-slate); z-index: 100; }
+        .progress-track { width: 100%; max-width: 400px; height: 2px; background: var(--border); margin: 20px auto; position: relative; }
+        .progress-fill { width: 33%; height: 100%; background: var(--gold); transition: 0.5s; }
+
+        .container { max-width: 800px; margin: 0 auto; padding: 40px 20px 140px; }
+
+        /* Selection Studio */
+        .step-title { font-family: 'Playfair Display', serif; font-size: 2rem; margin-bottom: 10px; text-align: center; }
+        .step-desc { color: var(--text-dim); text-align: center; margin-bottom: 40px; font-size: 0.9rem; }
+
+        .selection-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
+        
+        .option-card {
+            background: var(--card-bg); border: 1px solid var(--border); border-radius: 28px;
+            padding: 20px; cursor: pointer; transition: 0.3s; position: relative;
+            display: flex; align-items: center; gap: 20px;
+        }
+        .option-card:hover { border-color: var(--gold); }
+        .option-card.active { border-color: var(--gold); background: rgba(179, 147, 89, 0.05); }
+
+        .img-placeholder { 
+            width: 100px; height: 100px; background: #2a2d30; border-radius: 18px; 
+            display: flex; align-items: center; justify-content: center; overflow: hidden;
+        }
+
+        .details h3 { font-size: 1.1rem; margin-bottom: 4px; }
+        .details p { font-size: 0.8rem; color: var(--text-dim); }
+        .price-tag { margin-left: auto; color: var(--gold); font-weight: 600; font-size: 1rem; }
+
+        /* Footer Receipt */
+        .studio-footer {
+            position: fixed; bottom: 0; left: 0; right: 0;
+            background: rgba(18, 20, 22, 0.98); backdrop-filter: blur(20px);
+            padding: 25px 24px; border-top: 1px solid var(--gold);
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .total-label { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 2px; color: var(--text-dim); }
+        .total-amount { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--gold); }
+        
+        .btn-next { background: var(--gold); color: #000; padding: 18px 40px; border-radius: 16px; border: none; font-weight: 700; text-transform: uppercase; font-size: 0.8rem; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <div style="font-size: 0.7rem; letter-spacing: 3px; text-transform: uppercase;">Arrangement Studio</div>
+        <div class="progress-track"><div class="progress-fill" id="progressBar"></div></div>
+    </div>
+
+    <div class="container">
+        <div id="stepContent">
+            <h1 class="step-title">Select a Coffin</h1>
+            <p class="step-desc">Choose a vessel that reflects their personality and your preferences.</p>
+
+            <div class="selection-grid">
+                <div class="option-card active" onclick="selectOption(this, 0, 'Standard Veneer')">
+                    <div class="img-placeholder">🪑</div>
+                    <div class="details">
+                        <h3>Oak Veneer</h3>
+                        <p>Traditional polished finish with brass-effect handles.</p>
+                    </div>
+                    <div class="price-tag">+£0</div>
+                </div>
+
+                <div class="option-card" onclick="selectOption(this, 450, 'Wicker Eco')">
+                    <div class="img-placeholder">🌾</div>
+                    <div class="details">
+                        <h3>Hand-Woven Wicker</h3>
+                        <p>Natural, biodegradable materials for an eco-friendly choice.</p>
+                    </div>
+                    <div class="price-tag">+£450</div>
+                </div>
+
+                <div class="option-card" onclick="selectOption(this, 1200, 'Solid Mahogany')">
+                    <div class="img-placeholder">🪵</div>
+                    <div class="details">
+                        <h3>Solid Mahogany</h3>
+                        <p>Superior craftsmanship with premium satin interior lining.</p>
+                    </div>
+                    <div class="price-tag">+£1,200</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="studio-footer">
+        <div>
+            <div class="total-label">Current Estimate</div>
+            <div class="total-amount" id="footerPrice">£3,450</div>
+        </div>
+        <button class="btn-next" onclick="nextStep()">Continue</button>
+    </div>
+
+    <script>
+        let basePrice = 3450;
+        let selectedAddon = 0;
+        let currentStep = 1;
+
+        function selectOption(el, price, name) {
+            document.querySelectorAll('.option-card').forEach(card => card.classList.remove('active'));
+            el.classList.add('active');
+            selectedAddon = price;
+            updateTotal();
+        }
+
+        function updateTotal() {
+            const total = basePrice + selectedAddon;
+            document.getElementById('footerPrice').innerText = `£${total.toLocaleString()}`;
+        }
+
+        function nextStep() {
+            if(currentStep === 1) {
+                // Move to transport selection
+                document.getElementById('progressBar').style.width = '66%';
+                // Logic to swap content...
+                alert("Proceeding to Transport & Service selection...");
+                currentStep = 2;
+            } else {
+                window.location.href = 'results.html';
+            }
+        }
+    </script>
+</body>
+</html>
