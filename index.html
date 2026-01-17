@@ -1,55 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
-    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Funeral Match | Stable Home</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <title>Funeral Match | Welcome</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <style>
         :root { --primary: #0a1118; --accent: #c5a059; --slate: #64748b; }
         body { 
-            margin: 0; padding: 0; font-family: 'Inter', sans-serif; 
+            margin: 0; background: #ffffff; color: var(--primary); font-family: 'Inter', sans-serif;
             height: 100vh; display: flex; align-items: center; justify-content: center;
-            background: #ffffff;
         }
-        .container { text-align: center; max-width: 500px; width: 90%; }
-        h1 { font-size: 3rem; margin-bottom: 10px; letter-spacing: -2px; }
-        p { color: var(--slate); margin-bottom: 30px; font-size: 1.1rem; }
+        .entrance-card { text-align: center; max-width: 500px; width: 90%; }
+        h1 { font-size: 3.5rem; letter-spacing: -2px; margin-bottom: 15px; }
+        p { color: var(--slate); font-size: 1.2rem; margin-bottom: 40px; line-height: 1.5; }
         
-        .input-box {
-            background: #f1f5f9; border-radius: 100px; padding: 10px;
-            display: flex; border: 1px solid #e2e8f0;
+        .form-group {
+            display: flex; background: #f1f5f9; padding: 8px; border-radius: 100px; border: 1px solid #e2e8f0;
         }
-        input { flex: 1; border: none; background: none; padding: 0 20px; font-size: 1rem; outline: none; text-transform: uppercase; }
-        button { background: var(--primary); color: white; border: none; padding: 15px 30px; border-radius: 100px; font-weight: 700; cursor: pointer; }
+        input { flex: 1; border: none; background: none; padding: 0 20px; font-size: 1.1rem; outline: none; }
+        button { background: var(--primary); color: white; border: none; padding: 16px 32px; border-radius: 100px; font-weight: 700; cursor: pointer; }
     </style>
 </head>
 <body>
 
-    <div class="container">
+    <div class="entrance-card">
         <div style="color:var(--accent); font-weight:700; letter-spacing:3px; margin-bottom:20px;">FUNERAL MATCH</div>
         <h1>Welcome.</h1>
-        <p>This is your stable front page. We won't move until you are ready.</p>
+        <p>Take your time. This is your starting point. When you are ready, enter a postcode to see local options.</p>
 
-        <form id="mainForm" class="input-box">
-            <input type="text" id="pc" placeholder="Enter Postcode" required>
-            <button type="submit">Begin</button>
+        <form id="startForm" class="form-group">
+            <input type="text" id="pc" placeholder="Enter postcode" required autocomplete="off">
+            <button type="submit">Begin Search</button>
         </form>
     </div>
 
     <script>
-        // FORCED STOP: This kills any previous redirect loops
-        window.stop(); 
+        // CLEAN SLATE: This script has NO auto-run features.
+        // It only listens for the 'submit' event.
         
-        document.getElementById('mainForm').addEventListener('submit', function(e) {
+        document.getElementById('startForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const val = document.getElementById('pc').value.trim();
-            // This is the ONLY place a redirect happens
-            window.location.href = "results.html?postcode=" + encodeURIComponent(val);
+            
+            // WE USE A NEW FILENAME TO BREAK THE CACHE LOCK
+            window.location.href = "search-results.html?postcode=" + encodeURIComponent(val);
         });
     </script>
 </body>
