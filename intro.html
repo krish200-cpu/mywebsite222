@@ -3,120 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Funeral Match | Future of Funerals</title>
+    <title>Funeral Match</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
         
         :root {
-            --gold: #D4AF37; /* Premium Gold */
-            --black: #000000;
-            --white: #ffffff;
+            --champagne-gold: #C5A059;
+            --soft-black: #1a1a1a;
         }
 
         body { 
             font-family: 'Inter', sans-serif; 
-            background-color: var(--white);
+            background-color: #ffffff;
             margin: 0;
             overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-h-screen;
         }
 
-        /* Logo Styling */
-        .brand-funeral {
-            color: var(--black);
-            font-weight: 900;
-            letter-spacing: -0.05em;
-            line-height: 0.9;
-            font-size: 3.5rem;
-            display: block;
-        }
-
-        .brand-match {
-            color: var(--gold);
-            font-weight: 900;
-            letter-spacing: -0.02em;
-            /* Sized slightly bigger as requested */
-            font-size: 3.8rem; 
-            display: block;
-            margin-top: -5px;
-        }
-
-        /* Animations */
-        .reveal-container {
+        /* Refined Typography */
+        .logo-container {
+            text-align: center;
             opacity: 0;
-            animation: fadeInScale 1s ease-out forwards;
+            animation: softFadeIn 2s ease-out forwards;
         }
 
-        @keyframes fadeInScale {
-            from { opacity: 0; transform: scale(0.98); }
-            to { opacity: 1; transform: scale(1); }
+        .funeral-text {
+            color: var(--soft-black);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            font-size: 1.75rem;
+            display: block;
+            line-height: 1;
         }
 
-        .statement {
+        .match-text {
+            color: var(--champagne-gold);
+            font-weight: 300;
+            text-transform: uppercase;
+            letter-spacing: 0.25em;
+            /* Sized slightly bigger but lighter weight for luxury feel */
+            font-size: 2rem; 
+            display: block;
+            margin-top: 0.25rem;
+        }
+
+        .tagline {
+            margin-top: 3rem;
+            color: #999;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.4em;
             opacity: 0;
-            animation: fadeIn 1s ease-out forwards;
-            animation-delay: 1.2s;
+            animation: softFadeIn 1.5s ease-out forwards;
+            animation-delay: 1s;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        @keyframes softFadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Smooth Transition Layer */
-        #transition-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--black);
-            transform: translateY(100%);
-            z-index: 100;
+        /* Final transition to index */
+        .fade-out-page {
+            animation: fadeOutToWhite 1s ease-in forwards;
         }
 
-        .slide-up {
-            animation: slideUpTransition 1s cubic-bezier(0.7, 0, 0.3, 1) forwards;
-        }
-
-        @keyframes slideUpTransition {
-            0% { transform: translateY(100%); }
-            100% { transform: translateY(-100%); }
+        @keyframes fadeOutToWhite {
+            from { opacity: 1; }
+            to { opacity: 0; }
         }
     </style>
 </head>
-<body class="flex flex-col items-center justify-center min-h-screen">
+<body>
 
-    <div id="content-wrapper" class="text-center">
-        <div class="reveal-container mb-8">
-            <span class="brand-funeral uppercase">Funeral</span>
-            <span class="brand-match uppercase">Match</span>
+    <div id="wrapper" class="logo-container">
+        <div>
+            <span class="funeral-text">Funeral</span>
+            <span class="match-text">Match</span>
         </div>
-
-        <h1 class="statement text-slate-400 text-sm tracking-[0.3em] uppercase font-light">
-            Defining the Future of Clarity
-        </h1>
+        <p class="tagline">The Future of Transparency</p>
     </div>
 
-    <div id="transition-overlay"></div>
-
     <script>
-        window.addEventListener('DOMContentLoaded', () => {
-            const overlay = document.getElementById('transition-overlay');
-            const wrapper = document.getElementById('content-wrapper');
-
-            // Start the transition after 3 seconds
+        window.addEventListener('load', () => {
+            // Wait 3.5 seconds total for a luxurious, unhurried pace
             setTimeout(() => {
-                overlay.classList.add('slide-up');
+                document.getElementById('wrapper').classList.add('fade-out-page');
                 
-                // Slightly before the curtain finishes, we switch the background 
-                // to prepare for the landing page
                 setTimeout(() => {
-                    // Logic to redirect to the actual landing page
                     window.location.href = 'index.html';
-                }, 600); 
-
-            }, 3000);
+                }, 1000); // Wait for fade animation to finish
+            }, 3500);
         });
     </script>
 </body>
