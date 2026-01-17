@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Local Results | Funeral Match</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root { --black: #1a1c1e; --gold: #b39359; --bg: #fcfaf7; --border: #e2ded0; --text-soft: #64748b; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: var(--bg); font-family: 'Inter', sans-serif; height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px; }
+        .page-frame { width: 100%; max-width: 1300px; height: 90vh; border: 1px solid var(--border); background: #fff; display: flex; flex-direction: column; border-radius: 4px; overflow: hidden; }
+        header { padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--bg); }
+        .logo { font-size: 1rem; font-weight: 800; text-transform: uppercase; letter-spacing: 5px; text-decoration: none; }
+        .logo .f { color: var(--black); }
+        .logo .m { color: var(--gold); }
+        .layout { display: grid; grid-template-columns: 280px 1fr; flex: 1; overflow: hidden; }
+        .sidebar { padding: 30px; border-right: 1px solid var(--bg); overflow-y: auto; background: var(--bg); }
+        .filter-group { margin-bottom: 25px; }
+        .filter-label { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; display: block; }
+        .results-container { padding: 30px 40px; overflow-y: auto; }
+        .fd-card { border: 1px solid var(--border); border-radius: 12px; padding: 25px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; transition: 0.3s; background: #fff; }
+        .fd-card:hover { border-color: var(--gold); }
+        .ad-card { background: var(--black); color: #fff; border: none; }
+        .view-btn { background: var(--black); color: #fff; padding: 10px 20px; border-radius: 6px; font-weight: 700; cursor: pointer; font-size: 0.7rem; border:none; }
+        #overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 1000; visibility: hidden; opacity: 0; transition: 0.6s; }
+    </style>
+</head>
+<body>
+    <div id="overlay"></div>
+    <div class="page-frame">
+        <header>
+            <a href="index.html" class="logo"><span class="f">Funeral</span><span class="m">Match</span></a>
+            <div style="font-size:0.75rem;">Results for: <strong id="pc-disp">...</strong></div>
+        </header>
+        <div class="layout">
+            <aside class="sidebar">
+                <div class="filter-group"><span class="filter-label">Sort</span><label><input type="radio" name="s" checked> Distance</label><br><label><input type="radio" name="s"> Price</label></div>
+                <div class="filter-group"><span class="filter-label">Type</span><label><input type="checkbox"> Cremation</label><br><label><input type="checkbox"> Sea Burial</label></div>
+                <div class="filter-group"><span class="filter-label">Specialisms</span><label><input type="checkbox"> Eco-Green</label><br><label><input type="checkbox"> Religious: Catholic</label><br><label><input type="checkbox"> Cultural</label></div>
+            </aside>
+            <main class="results-container">
+                <h2 style="margin-bottom: 20px;">25 Directors Found</h2>
+                <div class="fd-card ad-card">
+                    <div><span style="font-size:0.6rem; color:var(--gold);">LOCAL PARTNER</span><h3>Rose & Willow Florists</h3><p style="font-size:0.8rem; color:#94a3b8;">Sustainable floral tributes.</p></div>
+                    <button class="view-btn" style="background:var(--gold)">Visit Store</button>
+                </div>
+                <div class="fd-card">
+                    <div><span style="font-size:0.6rem; color:var(--text-soft);">0.4 MILES</span><h3>Sterling & Sons</h3><p style="font-size:0.8rem; color:var(--gold)">Eco & Religious Care</p></div>
+                    <div style="text-align:right"><span style="font-size:0.6rem;">TOTAL ESTIMATE</span><div style="font-size:1.4rem; font-weight:800;">£2,100</div><button class="view-btn" onclick="profile()">Details</button></div>
+                </div>
+            </main>
+        </div>
+    </div>
+    <script>
+        document.getElementById('pc-disp').innerText = new URLSearchParams(window.location.search).get('pc') || 'Nearby';
+        function profile() {
+            document.getElementById('overlay').style.visibility = 'visible';
+            document.getElementById('overlay').style.opacity = '1';
+            setTimeout(() => { window.location.href = 'director-profile.html'; }, 600);
+        }
+    </script>
+</body>
+</html>
