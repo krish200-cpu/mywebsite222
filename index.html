@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Funeral Match | Compassionate Support</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary: #1a1c1e;
@@ -19,9 +19,8 @@
         body { 
             background-color: var(--bg);
             color: var(--primary);
-            font-family: 'Inter', -apple-system, sans-serif;
+            font-family: 'Inter', sans-serif;
             -webkit-font-smoothing: antialiased;
-            overflow-x: hidden;
         }
 
         .viewport-wrapper {
@@ -30,36 +29,62 @@
             min-height: 100vh;
             min-height: 100dvh;
             padding: var(--dynamic-padding);
-            max-width: 1200px;
+            max-width: 1300px;
             margin: 0 auto;
         }
 
-        /* --- TOP SECTION: LOGO & STATUS --- */
+        /* --- STACKED BRANDING & LOGIN --- */
         header {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            margin-bottom: 4rem;
+            align-items: flex-start; /* Aligns with the top of the stacked logo */
+            margin-bottom: 5rem;
         }
 
-        .logo {
-            font-weight: 600;
-            font-size: 0.8rem;
-            letter-spacing: 3px;
+        .brand-stack {
+            display: flex;
+            flex-direction: column;
+            line-height: 1;
             text-transform: uppercase;
+            letter-spacing: 2px;
         }
 
-        .status-pill {
+        .brand-top {
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: var(--text-soft);
+            margin-bottom: 4px;
+        }
+
+        .brand-bottom {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary);
+            letter-spacing: 4px;
+            /* Making "MATCH" slightly larger and more prominent */
+            border-top: 1px solid var(--accent);
+            padding-top: 4px;
+        }
+
+        .login-link {
             font-size: 0.7rem;
             font-weight: 700;
             color: var(--accent);
-            border: 1px solid #eee;
-            padding: 6px 14px;
-            border-radius: 50px;
+            text-decoration: none;
             text-transform: uppercase;
+            letter-spacing: 1.5px;
+            padding: 8px 16px;
+            border: 1px solid #f1f5f9;
+            border-radius: 50px;
+            transition: all 0.3s ease;
         }
 
-        /* --- MAIN SECTION: HIERARCHY --- */
+        .login-link:hover {
+            background: #fafafa;
+            border-color: var(--accent);
+        }
+
+        /* --- HERO SECTION --- */
         main {
             flex: 1;
             display: flex;
@@ -68,22 +93,14 @@
         }
 
         .content-group {
-            max-width: 680px;
-        }
-
-        .pre-title {
-            color: var(--accent);
-            font-weight: 600;
-            font-size: 0.9rem;
-            margin-bottom: 1rem;
-            display: block;
+            max-width: 750px;
         }
 
         h1 {
-            font-size: clamp(2.4rem, 8vw, 4rem);
+            font-size: clamp(2.5rem, 8vw, 4.2rem);
             font-weight: 600;
             letter-spacing: -0.05em;
-            line-height: 1;
+            line-height: 0.95;
             margin-bottom: 1.5rem;
         }
 
@@ -91,26 +108,28 @@
             font-size: clamp(1.1rem, 2.5vw, 1.4rem);
             color: var(--text-soft);
             line-height: 1.6;
-            margin-bottom: 3rem;
+            margin-bottom: 3.5rem;
             font-weight: 300;
+            max-width: 600px;
         }
 
         /* --- INTERACTIVE FORM --- */
         .search-module {
-            position: relative;
             width: 100%;
-            max-width: 580px;
+            max-width: 600px;
         }
 
-        .search-prompt {
-            font-size: 0.85rem;
+        .form-label {
+            font-size: 0.8rem;
             font-weight: 600;
-            margin-bottom: 12px;
-            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--accent);
+            margin-bottom: 15px;
             display: block;
         }
 
-        .form-area {
+        .input-container {
             display: flex;
             flex-direction: column;
             gap: 12px;
@@ -118,26 +137,24 @@
 
         input {
             width: 100%;
-            height: 68px;
+            height: 70px;
             border: 1px solid #e2e8f0;
             border-radius: 20px;
-            padding: 0 28px;
-            font-size: 1.1rem;
-            font-weight: 500;
+            padding: 0 30px;
+            font-size: 1.15rem;
             outline: none;
-            background: #fcfcfd;
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            background: #fff;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         input:focus {
             border-color: var(--accent);
-            background: #ffffff;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.04);
+            box-shadow: 0 15px 30px rgba(197, 160, 89, 0.08);
         }
 
         button {
             width: 100%;
-            height: 68px;
+            height: 70px;
             background: var(--primary);
             color: white;
             border: none;
@@ -153,40 +170,45 @@
             transform: translateY(-2px);
         }
 
-        /* --- INFORMATION GRID --- */
-        .info-grid {
+        /* --- REASSURANCE FOOTER --- */
+        .trust-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2rem;
-            margin-top: 5rem;
+            gap: 3rem;
+            margin-top: 6rem;
             padding-top: 3rem;
             border-top: 1px solid #f1f5f9;
         }
 
-        .info-card h3 {
-            font-size: 0.9rem;
-            margin-bottom: 8px;
-            font-weight: 600;
+        .trust-card h3 {
+            font-size: 0.85rem;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
         }
 
-        .info-card p {
-            font-size: 0.85rem;
+        .trust-card p {
+            font-size: 0.9rem;
             color: var(--text-soft);
             line-height: 1.5;
         }
 
-        /* --- RESPONSIVE ADAPTATION --- */
+        /* ADAPTIVE LAYOUT FOR LARGER SCREENS */
         @media (min-width: 850px) {
-            .form-area {
+            .input-container {
                 flex-direction: row;
-                background: #fcfcfd;
+                background: #fff;
                 border: 1px solid #e2e8f0;
                 border-radius: 100px;
                 padding: 10px;
                 gap: 0;
             }
-            input { border: none; background: transparent; height: 50px; }
-            button { width: auto; height: 50px; padding: 0 45px; border-radius: 100px; }
+            input { border: none; height: 50px; }
+            button { width: auto; height: 50px; padding: 0 50px; border-radius: 100px; }
+            .input-container:focus-within {
+                border-color: var(--accent);
+            }
         }
     </style>
 </head>
@@ -194,25 +216,27 @@
 
     <div class="viewport-wrapper">
         <header>
-            <div class="logo">Funeral Match</div>
-            <div class="status-pill">Fully Transparent</div>
+            <div class="brand-stack">
+                <span class="brand-top">Funeral</span>
+                <span class="brand-bottom">Match</span>
+            </div>
+            <a href="#" class="login-link">Funeral Directors Login</a>
         </header>
 
         <main>
             <div class="content-group">
-                <span class="pre-title">Supporting you through the journey</span>
-                <h1>Gentle guidance when you need it most.</h1>
+                <h1>Gentle guidance <br>when it matters.</h1>
                 <p class="description">
-                    We bring clarity to a difficult time by helping you compare local funeral directors based on service, verified pricing, and compassionate care.
+                    Navigate your local options with clarity. We help you compare trusted funeral directors with verified, transparent pricing.
                 </p>
 
                 <div class="search-module">
-                    <label for="pc" class="search-prompt">Where can we help you find support?</label>
-                    <form id="interactionForm" class="form-area">
+                    <span class="form-label">Find support near you</span>
+                    <form id="actionForm" class="input-container">
                         <input 
                             type="text" 
                             id="pc" 
-                            placeholder="Enter your postcode" 
+                            placeholder="Enter postcode" 
                             required 
                             autocomplete="off"
                         >
@@ -221,25 +245,25 @@
                 </div>
             </div>
 
-            <div class="info-grid">
-                <div class="info-card">
-                    <h3>Verified Pricing</h3>
-                    <p>Direct comparisons with no hidden costs or unexpected fees.</p>
+            <div class="trust-grid">
+                <div class="trust-card">
+                    <h3>Transparent</h3>
+                    <p>Clear pricing comparisons with no hidden administration fees.</p>
                 </div>
-                <div class="info-card">
-                    <h3>Local Expertise</h3>
-                    <p>Connected to 25+ trusted directors in your immediate area.</p>
+                <div class="trust-card">
+                    <h3>Verified</h3>
+                    <p>Every director is checked for quality of service and care.</p>
                 </div>
-                <div class="info-card">
-                    <h3>No Commitment</h3>
-                    <p>Browse options at your own pace without any pressure to book.</p>
+                <div class="trust-card">
+                    <h3>Independent</h3>
+                    <p>We provide neutral guidance to help you make the right choice.</p>
                 </div>
             </div>
         </main>
     </div>
 
     <script>
-        document.getElementById('interactionForm').addEventListener('submit', function(e) {
+        document.getElementById('actionForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const val = document.getElementById('pc').value.trim();
             window.location.href = `search-results.html?postcode=${encodeURIComponent(val)}`;
