@@ -9,11 +9,40 @@
         :root { 
             --deep-slate: #121416; --card-bg: #1C1F22; --gold: #B39359; 
             --white: #F4F4F4; --text-dim: #8A8F98; --border: rgba(255, 255, 255, 0.08);
+            --emergency-red: #E63946;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
         body { background-color: var(--deep-slate); color: var(--white); -webkit-font-smoothing: antialiased; }
 
-        .header { padding: 25px; text-align: center; border-bottom: 1px solid var(--border); position: sticky; top: 0; background: var(--deep-slate); z-index: 100; }
+        /* Emergency Support Button */
+        .emergency-bar {
+            background: rgba(230, 57, 70, 0.1);
+            border-bottom: 1px solid var(--emergency-red);
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1001;
+            backdrop-filter: blur(10px);
+        }
+        .emergency-text { font-size: 0.75rem; font-weight: 600; color: var(--emergency-red); display: flex; align-items: center; gap: 8px; }
+        .pulse { 
+            width: 8px; height: 8px; background: var(--emergency-red); border-radius: 50%; 
+            box-shadow: 0 0 0 var(--emergency-red); animation: pulse 2s infinite; 
+        }
+        @keyframes pulse { 
+            0% { box-shadow: 0 0 0 0 rgba(230, 57, 70, 0.7); } 
+            70% { box-shadow: 0 0 0 10px rgba(230, 57, 70, 0); } 
+            100% { box-shadow: 0 0 0 0 rgba(230, 57, 70, 0); } 
+        }
+        .btn-emergency { 
+            background: var(--emergency-red); color: white; border: none; padding: 6px 12px; 
+            border-radius: 6px; font-size: 0.7rem; font-weight: 700; cursor: pointer; text-decoration: none;
+        }
+
+        .header { padding: 25px; text-align: center; border-bottom: 1px solid var(--border); position: sticky; top: 45px; background: var(--deep-slate); z-index: 100; }
         .progress-track { width: 100%; max-width: 500px; height: 4px; background: var(--border); margin: 15px auto; border-radius: 10px; overflow: hidden; }
         .progress-fill { height: 100%; background: var(--gold); transition: 0.5s ease; width: 10%; }
         
@@ -40,6 +69,11 @@
     </style>
 </head>
 <body>
+
+<div class="emergency-bar">
+    <div class="emergency-text"><div class="pulse"></div> Immediate Support Needed?</div>
+    <a href="tel:0800123456" class="btn-emergency">START FIRST CALL</a>
+</div>
 
 <div class="header">
     <div id="stepTag" style="font-size: 0.6rem; text-transform: uppercase; letter-spacing: 2px; color: var(--gold);">Step 1 of 10</div>
