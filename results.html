@@ -1,30 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Service Matches</title>
-    <style>
-        body { background: #121416; color: #F4F4F4; font-family: sans-serif; padding: 20px; }
-        .match-card { background: #1C1F22; border: 1px solid #B39359; padding: 25px; border-radius: 15px; max-width: 500px; margin: 20px auto; display: flex; justify-content: space-between; align-items: center; }
-        .btn-small { background: #B39359; color: #000; padding: 10px 20px; border-radius: 5px; text-decoration: none; font-weight: 700; font-size: 0.8rem; }
-    </style>
-</head>
-<body>
-    <div style="text-align:center; padding: 40px 0;">
-        <h2 id="matchTitle">Matching Services...</h2>
-        <p style="color: #8A8F98;">Based on your location and requirements.</p>
+<body class="bg-slate-50">
+    <div class="max-w-5xl mx-auto p-6">
+        <div class="flex justify-between items-end mb-8">
+            <h2 class="text-2xl font-black">Top Results for "Chicago"</h2>
+            <p class="text-sm text-slate-400">Showing 1-12 of 45</p>
+        </div>
+        
+        <div class="space-y-6">
+            <div class="bg-white border-2 border-amber-300 rounded-3xl p-8 flex flex-col md:flex-row gap-6 relative shadow-xl hover:shadow-2xl transition-all">
+                <div class="absolute top-0 right-10 bg-amber-300 text-amber-900 px-4 py-1 rounded-b-xl text-[10px] font-black uppercase">Most Reliable</div>
+                <div class="w-full md:w-48 h-32 bg-slate-100 rounded-xl overflow-hidden">
+                    <img src="https://via.placeholder.com/200x150" alt="Sponsor" class="object-cover w-full h-full">
+                </div>
+                <div class="flex-1">
+                    <h3 class="text-xl font-bold">Elite Response Team</h3>
+                    <div class="flex items-center text-amber-500 text-sm mb-3">★★★★★ <span class="ml-2 text-slate-400">(482 reviews)</span></div>
+                    <p class="text-slate-600 text-sm">Full arrangement coverage with 24/7 first call support. Licensed specialists for all paperwork.</p>
+                </div>
+                <div class="md:text-right flex flex-col justify-between">
+                    <div class="text-3xl font-black">$1,450</div>
+                    <a href="review.html" class="bg-slate-900 text-white px-8 py-3 rounded-xl font-bold hover:bg-slate-800 transition">Book Now</a>
+                </div>
+            </div>
+
+            <div class="bg-white border border-slate-200 rounded-3xl p-8 flex flex-col md:flex-row gap-6 hover:border-indigo-200 transition">
+                <div class="w-full md:w-48 h-32 bg-slate-100 rounded-xl"></div>
+                <div class="flex-1 text-slate-900">
+                    <h3 class="text-xl font-bold">City First Call</h3>
+                    <div class="flex items-center text-slate-300 text-sm mb-3">★★★★☆ <span class="ml-2 text-slate-400">(120 reviews)</span></div>
+                    <p class="text-slate-600 text-sm">Reliable local service focusing on core first call needs.</p>
+                </div>
+                <div class="md:text-right flex flex-col justify-between">
+                    <div class="text-3xl font-black text-slate-900">$1,100</div>
+                    <a href="review.html" class="border border-slate-300 text-slate-600 px-8 py-3 rounded-xl font-bold hover:bg-slate-50 transition">Details</a>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="match-card">
-        <div><h3>Direct Cremation</h3><p>Starting at £1,200</p></div>
-        <a href="arrange.html?base=1200" class="btn-small">Select</a>
-    </div>
-    <div class="match-card">
-        <div><h3>Bespoke Burial</h3><p>Starting at £2,500</p></div>
-        <a href="arrange.html?base=2500" class="btn-small">Select</a>
-    </div>
-    <script>
-        const p = JSON.parse(localStorage.getItem('userProfile'));
-        if(p) document.getElementById('matchTitle').innerText = `Matches for ${p.name}`;
-    </script>
 </body>
-</html>
