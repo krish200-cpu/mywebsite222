@@ -6,140 +6,155 @@
     <title>Funeral Match | The New Standard of Care</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;500;600&display=swap');
         
         :root {
-            --champagne-gold: #C5A059;
-            --soft-white: #F4F4F2; /* Sophisticated off-white/grey */
-            --deep-black: #111111;
+            --gold: #C5A059;
+            --graphite: #1a1a1a;
+            --white: #ffffff;
         }
 
         body { 
             font-family: 'Montserrat', sans-serif; 
-            background-color: var(--soft-white);
-            color: var(--deep-black);
-            margin: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            padding: 20px;
+            background-color: var(--white);
+            color: var(--graphite);
+            scroll-behavior: smooth;
         }
 
-        /* The Centered Module - The core of the device capability */
-        .search-module {
-            width: 100%;
-            max-width: 450px; /* Perfect for mobile, sleek on desktop */
-            background: #ffffff;
-            border-radius: 24px;
-            padding: 40px 30px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.04);
+        /* Full Screen Sectioning */
+        section {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 0 10%;
             text-align: center;
         }
 
-        .logo-small {
-            margin-bottom: 30px;
+        .fade-in-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
 
-        .input-group {
-            margin-bottom: 20px;
-            text-align: left;
+        .visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
-        .label-text {
-            font-size: 0.65rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: #888;
-            margin-left: 4px;
-            margin-bottom: 8px;
-            display: block;
-        }
-
-        .sleek-input {
-            width: 100%;
-            padding: 16px;
-            background: #f9f9f9;
-            border: 1px solid #eee;
-            border-radius: 12px;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-        }
-
-        .sleek-input:focus {
-            outline: none;
-            border-color: var(--champagne-gold);
+        /* The Search Card */
+        .search-container {
             background: #fff;
-            box-shadow: 0 0 0 4px rgba(197, 160, 89, 0.1);
-        }
-
-        .btn-primary {
+            border: 1px solid #f0f0f0;
+            padding: 3rem;
+            border-radius: 2px; /* Sharp, architectural edges for luxury */
+            box-shadow: 0 30px 60px rgba(0,0,0,0.03);
             width: 100%;
-            padding: 18px;
-            background: var(--deep-black);
-            color: #fff;
-            border-radius: 12px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.2em;
-            font-size: 0.8rem;
-            margin-top: 10px;
-            transition: all 0.3s ease;
+            max-width: 600px;
         }
 
-        .btn-primary:hover {
-            background: var(--champagne-gold);
-            transform: translateY(-2px);
+        .line-input {
+            border: none;
+            border-bottom: 1px solid #e0e0e0;
+            padding: 1rem 0;
+            width: 100%;
+            font-weight: 300;
+            background: transparent;
+            transition: border-color 0.6s;
         }
 
-        /* Subtle animations */
-        .animate-up {
-            animation: slideUp 0.8s ease-out forwards;
-        }
-
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        .line-input:focus {
+            outline: none;
+            border-color: var(--gold);
         }
     </style>
 </head>
 <body>
 
-    <div class="search-module animate-up">
-        <div class="logo-small flex flex-col items-center">
-            <span class="text-lg font-bold tracking-[0.3em] uppercase leading-none">Funeral</span>
-            <span class="text-sm font-light tracking-[0.4em] uppercase text-[#C5A059] mt-1">Match</span>
+    <section>
+        <div class="space-y-6">
+            <div class="flex flex-col items-center">
+                <span class="text-xs tracking-[0.8em] uppercase text-gray-400 mb-4">Established in clarity</span>
+                <h1 class="text-4xl md:text-5xl font-extralight tracking-tight leading-tight">
+                    Funeral <span class="text-[#C5A059]">Match</span>
+                </h1>
+            </div>
+            <p class="text-[0.6rem] tracking-[0.5em] uppercase text-gray-300 pt-12">Scroll to discover</p>
         </div>
+    </section>
 
-        <h1 class="text-xl font-light text-gray-800 mb-8 leading-tight">
-            The future of <br><span class="font-medium text-black">funeral transparency.</span>
-        </h1>
+    <section class="bg-gray-50/50">
+        <div class="max-w-2xl fade-in-on-scroll js-scroll">
+            <h2 class="text-[0.65rem] font-semibold tracking-[0.4em] uppercase text-[#C5A059] mb-8">01. Transparency</h2>
+            <p class="text-2xl md:text-3xl font-extralight leading-relaxed text-gray-700">
+                Traditional funeral planning is clouded by hidden costs. We brought <span class="font-normal text-black underline decoration-[#C5A059] underline-offset-8">absolute honesty</span> to the industry.
+            </p>
+        </div>
+    </section>
 
-        <form action="search.html" method="GET">
-            <div class="input-group">
-                <span class="label-text">Where</span>
-                <input type="text" name="postcode" placeholder="Enter Postcode" class="sleek-input" required>
-            </div>
+    <section>
+        <div class="max-w-2xl fade-in-on-scroll js-scroll">
+            <h2 class="text-[0.65rem] font-semibold tracking-[0.4em] uppercase text-[#C5A059] mb-8">02. Curated Match</h2>
+            <p class="text-2xl md:text-3xl font-extralight leading-relaxed text-gray-700">
+                Not every director makes the cut. We only match you with providers who uphold the <span class="font-normal text-black">New Standard of Care.</span>
+            </p>
+        </div>
+    </section>
 
-            <div class="input-group">
-                <span class="label-text">Service Type</span>
-                <select name="type" class="sleek-input appearance-none bg-no-repeat bg-right" style="background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2210%22%20height%3D%226%22%20viewBox%3D%220%200%2010%206%22%20fill%3D%22none%22%20xmlns%3D%220%200%2010%206%22%3E%3Cpath%20d%3D%22M1%201L5%205L9%201%22%20stroke%3D%22%23888%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22/%3E%3C/svg%3E'); background-position: calc(100% - 15px) 50%;">
-                    <option value="direct">Direct Cremation</option>
-                    <option value="burial">Full Service Burial</option>
-                    <option value="eco">Eco-Friendly Care</option>
-                </select>
-            </div>
+    <section id="search-section" class="bg-white">
+        <div class="search-container fade-in-on-scroll js-scroll">
+            <h2 class="text-xl font-light mb-12 tracking-wide">Find a local partner</h2>
+            
+            <form action="search.html" class="space-y-12">
+                <div class="text-left">
+                    <label class="text-[0.6rem] uppercase tracking-widest text-gray-400">Postcode</label>
+                    <input type="text" placeholder="e.g. SW1A" class="line-input text-lg">
+                </div>
 
-            <button type="submit" class="btn-primary">
-                View Local Prices
-            </button>
-        </form>
+                <div class="text-left">
+                    <label class="text-[0.6rem] uppercase tracking-widest text-gray-400">Service Required</label>
+                    <select class="line-input text-lg appearance-none cursor-pointer">
+                        <option>Direct Cremation</option>
+                        <option>Traditional Burial</option>
+                        <option>Eco-Friendly</option>
+                    </select>
+                </div>
 
-        <p class="mt-8 text-[10px] uppercase tracking-widest text-gray-400 font-medium">
-            The New Standard of Care
-        </p>
-    </div>
+                <button class="w-full bg-black text-white text-[0.7rem] font-bold tracking-[0.4em] uppercase py-6 hover:bg-[#C5A059] transition-all duration-700 mt-8">
+                    Enter Comparison
+                </button>
+            </form>
+        </div>
+    </section>
 
+    <script>
+        // Simple Intersection Observer for Luxury Fades
+        const scrollElements = document.querySelectorAll(".js-scroll");
+
+        const elementInView = (el, dividend = 1) => {
+            const elementTop = el.getBoundingClientRect().top;
+            return (elementTop <= (window.innerHeight || document.documentElement.clientHeight) / dividend);
+        };
+
+        const displayScrollElement = (element) => {
+            element.classList.add("visible");
+        };
+
+        const handleScrollAnimation = () => {
+            scrollElements.forEach((el) => {
+                if (elementInView(el, 1.25)) {
+                    displayScrollElement(el);
+                }
+            });
+        };
+
+        window.addEventListener("scroll", () => { 
+            handleScrollAnimation();
+        });
+
+        // Initialize first section
+        handleScrollAnimation();
+    </script>
 </body>
 </html>
