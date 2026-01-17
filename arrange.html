@@ -69,13 +69,13 @@
         1: { title: "Method", desc: "Choose the type of committal.", options: [{ name: "Cremation", price: 0, slug: 'cremation' }, { name: "Traditional Burial", price: 1500, slug: 'burial' }, { name: "Burial at Sea", price: 3200, slug: 'sea' }] },
         2: { title: "Attendance", desc: "Burials and Sea Burials must be attended.", options: [{ name: "Direct (Unattended)", price: 0, slug: 'direct' }, { name: "Attended Service", price: 600, slug: 'attended' }] },
         3: { title: "Coffins & Caskets", desc: "Extensive range of choices.", options: [{ name: "Oak Veneer", price: 0 }, { name: "Willow Woven", price: 550 }, { name: "Solid Mahogany", price: 1200 }, { name: "Specialist Sea Casket", price: 1450 }] },
-        4: { title: "Vehicles", desc: "Configure your procession or request bespoke transport.", type: "vehicles" },
+        4: { title: "Vehicles", desc: "Standard hearse or bespoke request (Ferrari, Bus, Land Rover).", type: "vehicles" },
         5: { title: "Care of Deceased", desc: "Select all that apply for the care and preparation.", type: "multi", options: [{ name: "Full Embalming", price: 250 }, { name: "Private Viewing", price: 150 }, { name: "Dressing in Own Clothes", price: 50 }] },
-        6: { title: "The Service", desc: "Build your service sequence.", type: "multi", options: [{ name: "Service at Church Before", price: 350 }, { name: "Procession from Home", price: 150 }, { name: "Celebrant Led", price: 250 }, { name: "Wake / Reception", price: 0 }] },
-        7: { title: "Orders of Service", desc: "Quantity-based stationery.", type: "stationery" },
-        8: { title: "Floral Tributes", desc: "Curated floral packages.", options: [{ name: "No Flowers", price: 0 }, { name: "Small Package", price: 120 }, { name: "Medium Package", price: 280 }, { name: "Large Package", price: 450 }] },
-        9: { title: "Admin & Notices", desc: "Mandatory fees.", type: "admin" },
-        10: { title: "Memorials", desc: "Select memorial options.", type: "multi", options: [{ name: "Grave Stone", price: 1200 }, { name: "Memorial Bench", price: 600 }, { name: "Ashes Jewelry", price: 250 }, { name: "Keepsake Urn", price: 85 }] }
+        6: { title: "The Service", desc: "Build your combined service sequence.", type: "multi", options: [{ name: "Service at Church Before", price: 350 }, { name: "Procession from Home", price: 150 }, { name: "Celebrant Led", price: 250 }, { name: "Wake / Reception", price: 0 }] },
+        7: { title: "Orders of Service", desc: "Stationery starting at 20 copies (£80).", type: "stationery" },
+        8: { title: "Floral Tributes", desc: "Select a curated package deal.", options: [{ name: "No Flowers", price: 0 }, { name: "Small Package", price: 120 }, { name: "Medium Package", price: 280 }, { name: "Large Package", price: 450 }] },
+        9: { title: "Admin & Notices", desc: "Mandatory third-party and legal fees.", type: "admin" },
+        10: { title: "Memorials", desc: "Select all long-term tribute options.", type: "multi", options: [{ name: "Grave Stone", price: 1200 }, { name: "Memorial Bench", price: 600 }, { name: "Ashes Jewelry", price: 250 }, { name: "Keepsake Urn", price: 85 }, { name: "Other (POA)", price: 0 }] }
     };
 
     function renderStep() {
@@ -83,7 +83,6 @@
         const data = arrangementData[currentStep];
         const method = stepChoices[1]?.slug;
 
-        // Auto-skip Attendance for Burial/Sea
         if (currentStep === 2 && (method === 'burial' || method === 'sea')) {
             stepChoices[2] = { name: "Attended Service", price: 600, slug: 'attended' };
             currentStep = 3; renderStep(); return;
@@ -129,7 +128,7 @@
                 <div class="card active"><h3>Doctor's Fees</h3><div class="price">£164</div></div>
                 <div class="card active"><h3>Legal Admin</h3><div class="price">£150</div></div>
             </div>`;
-            stepChoices[9] = { price: 1514 }; 
+            stepChoices[9] = { price: 1514, name: "Admin & Legal Fees" }; 
         } else {
             html += `<div class="option-grid">` + data.options.map(opt => `
                 <div class="card ${stepChoices[currentStep]?.name===opt.name?'active':''}" onclick="setSingle('${opt.name}', ${opt.price}, '${opt.slug||''}')">
@@ -169,8 +168,12 @@
     }
 
     function nextStep() {
-        if(currentStep < 10) { currentStep++; renderStep(); window.scrollTo(0,0); }
-        else { window.location.href = 'success.html'; }
+        if(currentStep < 10) { 
+            currentStep++; renderStep(); window.scrollTo(0,0); 
+        } else { 
+            localStorage.setItem('funeralArrangement', JSON.stringify({ basePrice, steps: stepChoices }));
+            window.location.href = 'review.html'; 
+        }
     }
     function prevStep() { if(currentStep > 1) { currentStep--; renderStep(); } }
 
