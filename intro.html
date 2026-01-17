@@ -43,22 +43,22 @@
             line-height: 1;
             margin-right: -0.6em;
             opacity: 0;
-            animation: fluidReveal 2.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            /* Slowed down to 3.5s for the 5s total window */
+            animation: fluidReveal 3.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
         }
 
         .match-text {
             font-family: 'Montserrat', sans-serif;
-            color: var(--gold);
+            color: var(--champagne-gold);
             font-size: clamp(1.5rem, 4.5vw, 2.4rem);
             font-weight: 200;
             text-transform: uppercase;
             letter-spacing: 0.8em;
             margin-right: -0.8em;
             margin-top: 1rem;
-            color: var(--champagne-gold);
             opacity: 0;
-            animation: fluidReveal 2.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-            animation-delay: 0.3s;
+            animation: fluidReveal 3.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            animation-delay: 0.5s;
         }
 
         .slogan {
@@ -67,19 +67,20 @@
             font-size: 0.65rem;
             text-transform: uppercase;
             letter-spacing: 0.5em;
-            margin-top: 3.5rem;
+            margin-top: 4rem;
             margin-right: -0.5em;
             opacity: 0;
-            animation: fadeInSlogan 2s ease-out forwards;
-            animation-delay: 1.8s;
+            animation: fadeInSlogan 2.5s ease-out forwards;
+            /* Delayed until the logo is fully settled */
+            animation-delay: 2.5s;
         }
 
         @keyframes fluidReveal {
             from { 
                 opacity: 0; 
-                letter-spacing: 1.2em; 
-                filter: blur(8px);
-                transform: scale(1.02);
+                letter-spacing: 1.5em; 
+                filter: blur(12px);
+                transform: scale(1.03);
             }
             to { 
                 opacity: 1; 
@@ -90,13 +91,14 @@
         }
 
         @keyframes fadeInSlogan {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
+        /* Standardized luxury exit transition */
         .page-transition-out {
             opacity: 0;
-            transition: opacity 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: opacity 1.8s cubic-bezier(0.4, 0, 0.2, 1);
         }
     </style>
 </head>
@@ -110,14 +112,14 @@
 
     <script>
         window.addEventListener('load', () => {
-            // Unhurried luxury pace
+            // Extended to 5s total (5000ms) for a deep landing thought
             setTimeout(() => {
                 document.getElementById('canvas').classList.add('page-transition-out');
                 
                 setTimeout(() => {
                     window.location.href = 'index.html';
-                }, 1500);
-            }, 3800);
+                }, 1800); // Slower cross-dissolve to the next page
+            }, 5000);
         });
     </script>
 </body>
