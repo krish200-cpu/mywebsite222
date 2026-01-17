@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Funeral Match | Local Support</title>
+    <title>Funeral Match | Compassionate Comparison</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -11,7 +11,8 @@
             --accent: #c5a059;
             --slate: #64748b;
             --bg: #ffffff;
-            --soft-gray: #f9fafb;
+            --soft-gray: #f8fafc;
+            --border: #e2e8f0;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
@@ -21,173 +22,175 @@
             color: var(--primary);
             line-height: 1.6;
             -webkit-font-smoothing: antialiased;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
-        /* --- THE LAYOUT --- */
-        .wrapper {
-            min-height: 100vh;
+        /* Header / Logo Space */
+        nav {
+            padding: 40px 6%;
+            width: 100%;
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 0.85rem;
+            letter-spacing: 4px;
+            color: var(--accent);
+            text-transform: uppercase;
+        }
+
+        /* Main Welcome Area */
+        main {
+            flex: 1;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 40px 20px;
-            max-width: 800px;
+            padding: 0 20px 80px 20px;
+            max-width: 900px;
             margin: 0 auto;
-        }
-
-        /* --- BRANDING --- */
-        .logo {
-            font-weight: 700;
-            font-size: 0.9rem;
-            letter-spacing: 3px;
-            color: var(--accent);
-            text-transform: uppercase;
-            margin-bottom: 60px;
-        }
-
-        /* --- THE BREATHER (INFO SECTION) --- */
-        .intro-section {
             text-align: center;
-            margin-bottom: 50px;
         }
 
         h1 {
-            font-size: clamp(2.5rem, 7vw, 3.5rem);
+            font-size: clamp(2.5rem, 8vw, 4rem);
             font-weight: 700;
-            letter-spacing: -0.04em;
-            line-height: 1.1;
+            letter-spacing: -0.05em;
+            line-height: 1;
             margin-bottom: 24px;
-        }
-
-        .description {
-            font-size: 1.25rem;
-            color: var(--slate);
-            max-width: 600px;
-            margin: 0 auto 40px auto;
-        }
-
-        /* --- THE ACTION (POSTCODE PROMPT) --- */
-        .action-card {
-            background: var(--soft-gray);
-            border: 1px solid #e5e7eb;
-            border-radius: 24px;
-            padding: 40px;
-            width: 100%;
-            max-width: 500px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-        }
-
-        .action-card h2 {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 20px;
             color: var(--primary);
         }
 
-        .input-group {
-            display: flex;
-            background: #fff;
-            border: 1px solid #d1d5db;
-            border-radius: 100px;
-            padding: 6px;
-            transition: 0.3s ease;
+        .intro-text {
+            font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+            color: var(--slate);
+            max-width: 650px;
+            margin: 0 auto 50px auto;
+            font-weight: 400;
         }
 
-        .input-group:focus-within {
+        /* Postcode Interface */
+        .search-area {
+            width: 100%;
+            max-width: 540px;
+            background: var(--soft-gray);
+            padding: 40px;
+            border-radius: 32px;
+            border: 1px solid var(--border);
+        }
+
+        .search-area h2 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--slate);
+        }
+
+        .input-bar {
+            display: flex;
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            padding: 8px;
+            transition: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .input-bar:focus-within {
             border-color: var(--accent);
-            box-shadow: 0 0 0 4px rgba(197, 160, 89, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.05);
         }
 
         input {
             flex: 1;
             border: none;
-            padding: 12px 24px;
-            font-size: 1rem;
+            padding: 0 25px;
+            font-size: 1.1rem;
             font-weight: 600;
             outline: none;
             text-transform: uppercase;
-            width: 100%;
         }
 
-        input::placeholder { text-transform: none; color: #9ca3af; font-weight: 400; }
+        input::placeholder { text-transform: none; color: #cbd5e1; font-weight: 400; }
 
-        button {
+        .btn-continue {
             background: var(--primary);
             color: white;
             border: none;
-            padding: 14px 30px;
+            padding: 16px 35px;
             border-radius: 100px;
             font-weight: 700;
+            font-size: 1rem;
             cursor: pointer;
             transition: 0.2s;
         }
 
-        button:hover { background: #000; }
+        .btn-continue:hover { background: #000; }
 
-        /* --- TRUST SIGNALS --- */
-        .features {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
+        /* Trust Badges */
+        .trust-row {
+            display: flex;
+            gap: 40px;
             margin-top: 60px;
-            width: 100%;
+            opacity: 0.5;
         }
 
-        .feature-item {
-            text-align: center;
-        }
-
-        .feature-item span {
-            display: block;
-            font-size: 0.75rem;
-            font-weight: 700;
-            color: var(--slate);
+        .badge {
+            font-size: 0.7rem;
+            font-weight: 800;
+            letter-spacing: 1.5px;
             text-transform: uppercase;
-            letter-spacing: 1px;
         }
 
-        /* MOBILE FIXES */
+        /* Mobile Adjustments */
         @media (max-width: 600px) {
-            .input-group { flex-direction: column; border-radius: 16px; background: none; border: none; padding: 0; }
-            input { background: #fff; border: 1px solid #d1d5db; border-radius: 12px; margin-bottom: 12px; height: 60px; text-align: center; }
-            button { width: 100%; height: 60px; border-radius: 12px; }
-            .features { grid-template-columns: 1fr; gap: 15px; }
+            .input-bar { flex-direction: column; background: none; border: none; padding: 0; }
+            input { background: #fff; border: 1px solid var(--border); border-radius: 16px; height: 65px; margin-bottom: 12px; text-align: center; }
+            .btn-continue { width: 100%; height: 65px; border-radius: 16px; }
+            .trust-row { flex-direction: column; gap: 15px; }
         }
     </style>
 </head>
 <body>
 
-    <div class="wrapper">
+    <nav>
         <div class="logo">Funeral Match</div>
+    </nav>
 
-        <section class="intro-section">
-            <h1>Expert guidance, <br>locally found.</h1>
-            <p class="description">
-                Taking care of the details when you need it most. We help you compare funeral directors nearby with 100% price transparency.
-            </p>
+    <main>
+        <h1>A calm way to find <br>the right care.</h1>
+        <p class="intro-text">
+            Compare local funeral directors by price, service, and verified reviews. We provide the information you need to make an informed choice with confidence.
+        </p>
+
+        <section class="search-area">
+            <h2>Find directors in your area</h2>
+            <form id="gateForm" class="input-bar">
+                <input type="text" id="pc" placeholder="Enter your postcode" maxlength="8" required autocomplete="off">
+                <button type="submit" class="btn-continue">Check availability</button>
+            </form>
         </section>
 
-        <div class="action-card">
-            <h2>Where do you need support?</h2>
-            <form id="startForm" class="input-group">
-                <input type="text" id="postcode" placeholder="Enter postcode" maxlength="8" required>
-                <button type="submit">See Directors</button>
-            </form>
+        <div class="trust-row">
+            <div class="badge">Verified Pricing</div>
+            <div class="badge">Local Support</div>
+            <div class="badge">No Commitment</div>
         </div>
-
-        <div class="features">
-            <div class="feature-item"><span>Verified Care</span></div>
-            <div class="feature-item"><span>No Hidden Fees</span></div>
-            <div class="feature-item"><span>Local Experts</span></div>
-        </div>
-    </div>
+    </main>
 
     <script>
-        document.getElementById('startForm').addEventListener('submit', function(e) {
+        // CLEAN NAVIGATION LOGIC
+        // This script ONLY runs when the button is pushed. 
+        // No auto-redirects, no memory checks.
+        
+        document.getElementById('gateForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            const pc = document.getElementById('postcode').value.trim();
-            // This now physically navigates to the second page
-            window.location.href = `results.html?postcode=${encodeURIComponent(pc)}`;
+            const postcode = document.getElementById('pc').value.trim();
+            
+            // Standard multi-page navigation
+            window.location.href = `results.html?postcode=${encodeURIComponent(postcode)}`;
         });
     </script>
 </body>
