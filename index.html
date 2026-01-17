@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Funeral Match | Professional Funeral Aggregator</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <title>Funeral Match | Compassionate Clarity</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        :root { --black: #1A1A1B; --gold: #B39359; --white: #FFFFFF; --overlay: rgba(255, 255, 255, 0.4); }
+        :root { --black: #1A1A1B; --gold: #B39359; --white: #FFFFFF; --overlay: rgba(255, 255, 255, 0.35); }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: #FDFDFB; font-family: 'Inter', sans-serif; color: var(--black); }
-
-        /* Full Screen Hero - Modern Chapel Aesthetic */
+        
+        /* The Hero - Guaranteed Modern Chapel Background */
         .hero { 
             height: 90vh; 
             width: 100%; 
-            background: linear-gradient(var(--overlay), var(--overlay)), 
-                        url('https://images.unsplash.com/photo-1601342833072-35756eb91040?auto=format&fit=crop&w=2000&q=80'); 
+            background-color: #EAE7E0; /* High-end limestone fallback */
+            background-image: linear-gradient(var(--overlay), var(--overlay)), 
+                              url('https://images.unsplash.com/photo-1548625361-19500c658dc7?q=80&w=2000&auto=format&fit=crop'); 
             background-size: cover; 
             background-position: center;
             display: flex;
@@ -25,23 +25,23 @@
             padding: 20px;
         }
 
-        /* Top Navigation / Logo Match */
+        /* Logo & Header */
         header { position: absolute; top: 0; width: 100%; padding: 40px; text-align: center; }
-        .logo { font-size: 1rem; font-weight: 800; text-transform: uppercase; letter-spacing: 12px; color: var(--black); text-decoration: none; }
+        .logo { font-size: 1.1rem; font-weight: 800; text-transform: uppercase; letter-spacing: 12px; color: var(--black); text-decoration: none; }
         .logo span { color: var(--gold); }
 
         .hero-content { width: 100%; max-width: 600px; text-align: center; }
         h1 { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 400; margin-bottom: 25px; color: var(--black); letter-spacing: -0.5px; }
         
-        /* Ultra-Compact Search Module */
+        /* Precision Postcode Module */
         .search-container { 
             background: var(--white); 
-            padding: 4px; 
+            padding: 5px; 
             border-radius: 2px; 
             display: inline-flex; 
             align-items: center; 
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-            border: 1px solid rgba(0,0,0,0.08);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            border: 1px solid rgba(0,0,0,0.05);
             margin-bottom: 30px;
         }
         input { 
@@ -54,17 +54,16 @@
         }
         .btn-search { 
             background: var(--black); color: var(--white); border: none; 
-            padding: 10px 20px; border-radius: 1px; 
+            padding: 11px 22px; border-radius: 1px; 
             font-weight: 600; text-transform: uppercase; 
             letter-spacing: 1px; cursor: pointer; transition: 0.3s; 
             font-size: 0.65rem;
         }
         .btn-search:hover { background: var(--gold); }
 
-        /* Funeral Plan Slot */
-        .plan-anchor { font-size: 0.7rem; color: #777; text-decoration: none; border-bottom: 1px solid var(--gold); padding-bottom: 3px; }
+        .plan-link { font-size: 0.7rem; color: #666; text-decoration: none; border-bottom: 1px solid var(--gold); padding-bottom: 2px; }
 
-        /* Trust Grid - Precise Alignment */
+        /* Trust Grid - Perfect Symmetry */
         .trust-grid { 
             max-width: 1200px; 
             margin: -60px auto 0; 
@@ -73,13 +72,14 @@
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
             box-shadow: 0 30px 60px rgba(0,0,0,0.05);
             position: relative;
+            z-index: 5;
         }
         .trust-item { padding: 50px 40px; border-right: 1px solid #F5F5F5; }
         .trust-item:last-child { border-right: none; }
         .trust-item h3 { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 3px; color: var(--gold); margin-bottom: 12px; }
-        .trust-item p { font-size: 0.85rem; color: #666; line-height: 1.6; }
+        .trust-item p { font-size: 0.85rem; color: #777; line-height: 1.6; }
 
-        footer { padding: 80px 20px; text-align: center; font-size: 0.65rem; color: #AAA; letter-spacing: 1px; }
+        footer { padding: 80px 20px; text-align: center; font-size: 0.65rem; color: #AAA; letter-spacing: 1px; background: #FDFDFB; }
         footer a { color: #888; text-decoration: none; margin: 0 15px; }
         footer a:hover { color: var(--black); }
     </style>
@@ -92,38 +92,38 @@
 
     <section class="hero">
         <div class="hero-content">
-            <h1>Expert care, <br>transparently priced.</h1>
+            <h1>Transparency in a <br>time of need.</h1>
             
             <div class="search-container">
                 <input type="text" placeholder="POSTCODE" maxlength="8">
                 <button class="btn-search" onclick="location.href='results.html'">Search</button>
             </div>
             <br>
-            <a href="#" class="plan-anchor">Pre-planning a funeral? Explore our plans.</a>
+            <a href="#" class="plan-link">Planning ahead? Explore our funeral plans.</a>
         </div>
     </section>
 
     <div class="trust-grid">
         <div class="trust-item">
-            <h3>Vetted Care</h3>
-            <p>Every funeral director on our platform is hand-selected and independently verified.</p>
+            <h3>Verified Support</h3>
+            <p>Direct pricing and service audits from independent local specialists.</p>
         </div>
         <div class="trust-item">
-            <h3>Fixed Pricing</h3>
-            <p>Our automated quote machine provides a guaranteed price and reference ID instantly.</p>
+            <h3>Price Lock</h3>
+            <p>Quotes generated are fixed and contractually guaranteed by our partners.</p>
         </div>
         <div class="trust-item">
-            <h3>Global Support</h3>
-            <p>Specialized filtering for all religious, cultural, and personal service requirements.</p>
+            <h3>Custom Care</h3>
+            <p>Integrated filters for all religious, cultural, and personal traditions.</p>
         </div>
     </div>
 
     <footer>
         <div style="margin-bottom: 25px;">
-            <a href="#">About Us</a>
+            <a href="#">Our Story</a>
             <a href="#">Support</a>
-            <a href="#">Terms & Privacy</a>
-            <a href="#" style="color: var(--black); font-weight: 700;">Director Portal</a>
+            <a href="#">Legal</a>
+            <a href="#" style="color: var(--black); font-weight: 700;">Director Login</a>
         </div>
         <p>© 2026 Funeral Match. Dedicated to Clarity.</p>
     </footer>
