@@ -2,24 +2,19 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Funeral Match</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;800&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Funeral Match | Welcome</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,400&family=Inter:wght@300;800&display=swap" rel="stylesheet">
     <style>
-        :root { --black: #1a1c1e; --gold: #b39359; --bg: #fcfaf7; }
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body { background: var(--bg); height: 100vh; display: flex; justify-content: center; align-items: center; overflow: hidden; font-family: 'Inter', sans-serif; }
+        :root { --black: #1A1A1B; --gold: #B39359; --bg: #F9F7F2; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: var(--bg); height: 100vh; display: flex; justify-content: center; align-items: center; overflow: hidden; font-family: 'Inter', sans-serif; cursor: crosshair; }
         
-        #cursor-light { position: fixed; width: 400px; height: 400px; background: radial-gradient(circle, rgba(179,147,89,0.12) 0%, rgba(252,250,247,0) 70%); border-radius: 50%; pointer-events: none; transform: translate(-50%, -50%); z-index: 1; display: none; }
-        @media (min-width: 768px) { #cursor-light { display: block; } }
-
-        .content { text-align: center; z-index: 2; padding: 20px; width: 100%; }
-        .logo { font-size: clamp(1.5rem, 8vw, 2.2rem); font-weight: 800; text-transform: uppercase; letter-spacing: clamp(6px, 3vw, 12px); margin-bottom: 20px; opacity: 0; animation: fadeIn 1.5s forwards; }
-        .logo .f { color: var(--black); }
-        .logo .m { color: var(--gold); }
-        .slogan { font-family: 'Playfair Display', serif; font-style: italic; font-size: clamp(1.1rem, 4vw, 1.4rem); color: var(--black); opacity: 0; animation: fadeIn 1.5s 0.8s forwards; }
+        .logo { font-size: clamp(1.2rem, 5vw, 2rem); font-weight: 800; text-transform: uppercase; letter-spacing: 12px; opacity: 0; animation: fadeIn 1.5s forwards; }
+        .logo span { color: var(--gold); }
+        .slogan { font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.2rem; color: #666; margin-top: 20px; opacity: 0; animation: fadeIn 1.5s 0.8s forwards; }
         
-        .loader-track { width: 80px; height: 1px; background: rgba(0,0,0,0.1); margin: 40px auto; overflow: hidden; }
+        .loader-track { width: 60px; height: 1px; background: rgba(0,0,0,0.1); margin: 40px auto; overflow: hidden; }
         .loader-fill { width: 100%; height: 100%; background: var(--gold); transform: translateX(-100%); animation: load 3s linear forwards; }
         
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
@@ -28,19 +23,13 @@
     </style>
 </head>
 <body>
-    <div id="cursor-light"></div>
     <div id="wipe"></div>
     <div class="content" onclick="transitionNow()">
-        <div class="logo"><span class="f">Funeral</span><span class="m">Match</span></div>
+        <div class="logo">Funeral<span>Match</span></div>
         <p class="slogan">Clarity in a time of need.</p>
         <div class="loader-track"><div class="loader-fill"></div></div>
     </div>
     <script>
-        document.addEventListener('mousemove', (e) => {
-            const light = document.getElementById('cursor-light');
-            light.style.left = e.clientX + 'px';
-            light.style.top = e.clientY + 'px';
-        });
         function transitionNow() { 
             document.getElementById('wipe').style.transform = 'translateY(0)'; 
             setTimeout(() => { window.location.href = 'index.html'; }, 600); 
