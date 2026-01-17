@@ -1,67 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Results | Funeral Match</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root { --primary: #1a1c1e; --accent: #b39359; --text-soft: #64748b; --bg: #fcfaf7; }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background-color: var(--bg); color: var(--primary); font-family: 'Inter', sans-serif; }
-        nav { background: #fff; padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; position: sticky; top: 0; z-index: 10; }
-        .logo-sm .t { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 2px; color: var(--primary); display: block; }
-        .logo-sm .b { font-size: 0.95rem; text-transform: uppercase; letter-spacing: 3px; font-weight: 800; color: var(--accent); }
-        
-        .filter-section { background: #fff; padding: 20px 5%; border-bottom: 1px solid #eee; }
-        .chip-container { display: flex; gap: 8px; overflow-x: auto; padding: 10px 0; scrollbar-width: none; }
-        .chip { padding: 8px 18px; border-radius: 50px; border: 1px solid #e2ded0; background: transparent; font-size: 0.8rem; font-weight: 500; cursor: pointer; white-space: nowrap; }
-        .chip.active { background: var(--primary); color: white; }
+<div id="page-transition" style="
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+    background: #fcfaf7; z-index: 9999; visibility: hidden; opacity: 0;
+    transition: opacity 0.6s ease-in-out; pointer-events: none;">
+</div>
 
-        .container { padding: 30px 5%; max-width: 1000px; margin: 0 auto; }
-        .card { background: #fff; border-radius: 16px; padding: 24px; margin-bottom: 20px; display: flex; justify-content: space-between; box-shadow: 0 10px 30px rgba(0,0,0,0.03); }
-        .card-dist { font-size: 0.7rem; font-weight: 800; color: var(--accent); text-transform: uppercase; margin-bottom: 8px; display: block; }
-        .btn-view { background: var(--primary); color: white; border: none; padding: 12px 24px; border-radius: 8px; font-weight: 700; cursor: pointer; margin-top: 10px; width: 100%; }
+<script>
+    function triggerTransition(url) {
+        const overlay = document.getElementById('page-transition');
+        overlay.style.visibility = 'visible';
+        overlay.style.opacity = '1';
         
-        .ad-strip { background: var(--primary); color: #fff; padding: 20px; border-radius: 16px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
-    </style>
-</head>
-<body>
-    <nav>
-        <div class="logo-sm"><span class="t">Funeral</span><span class="b">Match</span></div>
-        <div style="font-size: 0.8rem; font-weight: 700; color: var(--text-soft)">Results near <span id="pc-val" style="color:var(--accent)">...</span></div>
-    </nav>
-    <div class="filter-section">
-        <span style="font-size: 0.6rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px;">Filters</span>
-        <div class="chip-container">
-            <button class="chip active">All Services</button>
-            <button class="chip">Burial at Sea</button>
-            <button class="chip">Unattended Cremation</button>
-            <button class="chip">Traditional Burial</button>
-            <button class="chip">Relational Care</button>
-        </div>
-    </div>
-    <div class="container">
-        <div class="card">
-            <div>
-                <span class="card-dist">0.4 miles away</span>
-                <h2 style="font-size:1.2rem; margin-bottom:5px">Maritime Farewells</h2>
-                <p style="font-size:0.85rem; color:var(--text-soft)">Specialists in unique sea ceremonies.</p>
-            </div>
-            <div style="text-align:right">
-                <span style="font-size:0.6rem; font-weight:800; color:var(--text-soft)">FROM</span>
-                <div style="font-size:1.4rem; font-weight:700">£2,800</div>
-                <button class="btn-view" onclick="location.href='director-profile.html'">View Details</button>
-            </div>
-        </div>
-        <div class="ad-strip">
-            <div><span style="font-size:0.6rem; color:var(--accent); font-weight:800">PROMOTED</span><h3 style="font-size:0.9rem">Advertise your service here</h3></div>
-            <button style="background:var(--accent); border:none; padding:8px 15px; border-radius:4px; font-weight:700; font-size:0.7rem">ENQUIRE</button>
-        </div>
-    </div>
-    <script>
-        const urlParams = new URLSearchParams(window.location.search);
-        document.getElementById('pc-val').innerText = urlParams.get('postcode') || 'Your Area';
-    </script>
-</body>
-</html>
+        // Wait for the fade-in to complete before switching pages
+        setTimeout(() => {
+            window.location.href = url;
+        }, 600);
+    }
+
+    // Update your button click in the render loop to use this function:
+    // <button class="btn-view" onclick="triggerTransition('director-profile.html')">View Details</button>
+</script>
