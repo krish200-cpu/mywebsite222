@@ -3,164 +3,181 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Funeral Match | Professional Dispatch Portal</title>
+    <title>Funeral Match | SS17 Dispatch Portal</title>
     <style>
-        :root { --primary: #0a0f16; --gold: #c5a059; --green: #059669; --bg: #ffffff; }
+        :root { --primary: #0a0f16; --gold: #c5a059; --green: #059669; --bg: #ffffff; --slate: #64748b; }
         * { box-sizing: border-box; font-family: 'Inter', system-ui, sans-serif; }
-        body { margin: 0; background: var(--bg); color: #1a1a1a; padding-bottom: 140px; }
+        body { margin: 0; background: var(--bg); color: #1a1a1a; padding-bottom: 160px; }
 
-        /* HEADER */
         header { background: white; padding: 25px 5%; display: flex; justify-content: space-between; border-bottom: 1px solid #eee; position: sticky; top: 0; z-index: 1000; }
         .logo { font-weight: 900; font-size: 1.6rem; color: var(--primary); letter-spacing: -1px; text-decoration: none; }
         .logo span { color: var(--gold); }
 
-        /* TAILORED WORKFLOW */
-        .workflow-container { max-width: 1000px; margin: 40px auto; padding: 0 25px; }
-        .section-label { font-size: 0.75rem; font-weight: 800; color: #64748b; text-transform: uppercase; margin-bottom: 20px; letter-spacing: 1.5px; display: block; }
+        .container { max-width: 1100px; margin: 40px auto; padding: 0 25px; }
+        .section-label { font-size: 0.75rem; font-weight: 800; color: var(--slate); text-transform: uppercase; margin-bottom: 20px; letter-spacing: 1.5px; display: block; }
         
-        /* PHASE 1: CORE SERVICE */
-        .service-selector { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 40px; }
-        .srv-card { border: 1.5px solid #e2e8f0; padding: 25px; border-radius: 12px; cursor: pointer; transition: all 0.2s ease; position: relative; }
-        .srv-card:hover { border-color: var(--gold); }
-        .srv-card.selected { border-color: var(--primary); background: #f8fafc; }
-        .srv-card h3 { margin: 0 0 10px 0; font-size: 1rem; }
-        .srv-card p { margin: 0; font-size: 0.8rem; color: #64748b; line-height: 1.4; }
+        /* 1. PATHWAY SELECTOR */
+        .pathway-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 40px; }
+        .path-card { border: 1.5px solid #e2e8f0; padding: 25px; border-radius: 12px; cursor: pointer; transition: 0.3s; }
+        .path-card.active { border-color: var(--primary); background: #f8fafc; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        .path-card h3 { margin: 0 0 8px 0; font-size: 1rem; }
+        .path-card p { margin: 0; font-size: 0.8rem; color: var(--slate); line-height: 1.4; }
 
-        /* PHASE 2: CONDITIONAL OPTIONS */
-        .options-panel { background: #f8fafc; border-radius: 20px; padding: 30px; margin-bottom: 40px; display: none; }
+        /* 2. DYNAMIC OPTIONS */
+        .options-panel { background: #f8fafc; border-radius: 20px; padding: 30px; margin-bottom: 40px; display: none; border: 1px solid #e2e8f0; }
         .options-panel.visible { display: block; animation: fadeInUp 0.4s ease; }
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
-        .addon-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; }
-        .addon-item { background: white; border: 1px solid #e2e8f0; padding: 15px 20px; border-radius: 10px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem; font-weight: 500; }
+        .addon-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 12px; }
+        .addon-item { background: white; border: 1px solid #e2e8f0; padding: 15px 20px; border-radius: 10px; cursor: pointer; display: flex; justify-content: space-between; font-size: 0.9rem; font-weight: 500; }
         .addon-item.active { border-color: var(--green); background: #ecfdf5; }
-        .addon-item span.price { color: #64748b; font-weight: 400; }
 
-        /* RESULTS */
-        .director-result { border-top: 1px solid #eee; padding-top: 30px; }
-        .director-card { background: white; padding: 0; display: flex; justify-content: space-between; align-items: flex-start; }
-        .availability { display: inline-flex; align-items: center; gap: 6px; color: var(--green); font-size: 0.75rem; font-weight: 700; margin-bottom: 12px; }
-        .pulse { width: 8px; height: 8px; background: var(--green); border-radius: 50%; animation: pulse 2s infinite; }
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
+        /* 3. LOCAL DIRECTOR RESULTS */
+        .director-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
+        .director-card { border: 1px solid #e2e8f0; border-radius: 16px; padding: 25px; display: flex; justify-content: space-between; align-items: center; }
+        .pulse-box { display: flex; align-items: center; gap: 8px; color: var(--green); font-size: 0.7rem; font-weight: 800; margin-bottom: 10px; }
+        .pulse { width: 8px; height: 8px; background: var(--green); border-radius: 50%; animation: blink 2s infinite; }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
 
-        /* STICKY FOOTER */
-        .action-dock { position: fixed; bottom: 0; left: 0; right: 0; background: var(--primary); color: white; padding: 25px 5%; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 -10px 40px rgba(0,0,0,0.15); }
-        .guarantee-box h4 { margin: 0; font-size: 0.7rem; color: var(--gold); letter-spacing: 1px; text-transform: uppercase; }
-        .total-price { font-size: 2.2rem; font-weight: 800; letter-spacing: -1px; margin: 4px 0; }
+        /* NEXT STEPS ROADMAP */
+        .roadmap { margin-top: 40px; background: #fffbeb; border: 1px solid #fef3c7; padding: 25px; border-radius: 12px; }
+        .roadmap h4 { margin: 0 0 15px 0; font-size: 0.9rem; color: #92400e; }
+        .step-list { font-size: 0.85rem; color: #92400e; padding-left: 20px; }
+        .step-list li { margin-bottom: 8px; }
+
+        /* STICKY ACTION BAR */
+        .action-bar { position: fixed; bottom: 0; left: 0; right: 0; background: var(--primary); color: white; padding: 25px 5%; display: flex; justify-content: space-between; align-items: center; z-index: 2000; }
+        .price-wrap h4 { margin: 0; font-size: 0.7rem; color: var(--gold); text-transform: uppercase; }
+        .price-total { font-size: 2.2rem; font-weight: 800; margin: 4px 0; }
         .btn-dispatch { background: var(--green); color: white; border: none; padding: 18px 45px; border-radius: 8px; font-weight: 800; cursor: pointer; font-size: 1.1rem; }
 
-        @media (max-width: 650px) {
-            .action-dock { flex-direction: column; gap: 20px; text-align: center; padding: 20px; }
-            .total-price { font-size: 1.8rem; }
-            .btn-dispatch { width: 100%; }
-        }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @media (max-width: 750px) { .action-bar { flex-direction: column; gap: 20px; text-align: center; } .director-card { flex-direction: column; text-align: center; } }
     </style>
 </head>
 <body>
 
 <header>
-    <a href="#" class="logo">FUNERAL<span>MATCH</span></a>
-    <div style="font-size: 0.8rem; font-weight: 700; color: var(--gold);">24/7 NATIONWIDE SERVICE</div>
+    <div class="logo">FUNERAL<span>MATCH</span></div>
+    <div style="font-size: 0.8rem; font-weight: 700;">📍 SS17 7QQ | 20mi RADIUS</div>
 </header>
 
-<div class="workflow-container">
-    <span class="section-label">1. Choose Service Path</span>
-    <div class="service-selector">
-        <div class="srv-card" onclick="updateService('cremation', 950, this)">
+<div class="container">
+    <span class="section-label">1. Select Arrangement Pathway</span>
+    <div class="pathway-grid">
+        <div class="path-card" onclick="updatePath('cremation', 950, this)">
             <h3>Direct Cremation</h3>
-            <p>Unattended cremation, providing a simple and dignified farewell.</p>
+            <p>Simple unattended cremation. No service held.</p>
         </div>
-        <div class="srv-card" onclick="updateService('repatriation', 4500, this)">
-            <h3>International Repatriation</h3>
-            <p>Specialist transport including all embassy documentation and flights.</p>
+        <div class="path-card" onclick="updatePath('repatriation', 4500, this)">
+            <h3>Repatriation</h3>
+            <p>International logistics, flights, and embassy paperwork.</p>
         </div>
-        <div class="srv-card" onclick="updateService('burial', 2200, this)">
-            <h3>Traditional Burial</h3>
-            <p>A classic service with a local church or cemetery attendance.</p>
+        <div class="path-card" onclick="updatePath('attended', 1950, this)">
+            <h3>Attended Service</h3>
+            <p>Traditional local ceremony with family & friends.</p>
         </div>
     </div>
 
     <div id="optionsPanel" class="options-panel">
-        <span class="section-label">2. Personalise Requirements</span>
-        <div class="addon-list" id="addonList">
-            </div>
-    </div>
-
-    <div id="resultArea" class="director-result" style="display: none;">
-        <span class="section-label">3. Matched Professional Director</span>
-        <div class="director-card">
-            <div>
-                <div class="availability"><div class="pulse"></div> AVAILABLE FOR IMMEDIATE DISPATCH</div>
-                <h2 style="margin: 0; font-size: 1.5rem;">Verified Funeral Director</h2>
-                <p style="color: #64748b; margin: 8px 0;">Specialist in <span id="selectedServiceText">...</span></p>
-                <div style="background: #f1f5f9; padding: 10px 15px; border-radius: 6px; font-size: 0.85rem; margin-top: 15px; display: inline-block;">
-                    📍 Local to Corringham / Essex
-                </div>
-            </div>
+        <span class="section-label">2. Personalise Selection</span>
+        <div class="addon-grid" id="addonList"></div>
+        
+        <div class="roadmap" id="roadmap">
+            <h4>Next Steps After Dispatch:</h4>
+            <ul class="step-list" id="stepList">
+                <li>Select a pathway to see the immediate action plan.</li>
+            </ul>
         </div>
     </div>
+
+    <span class="section-label">3. Verified Local Dispatch Directors</span>
+    <div class="director-grid" id="directorList">
+        </div>
 </div>
 
-<div class="action-dock">
-    <div class="guarantee-box">
+<div class="action-bar">
+    <div class="price-wrap">
         <h4>Guaranteed Fixed Total</h4>
-        <div class="total-price" id="finalPrice">£0</div>
-        <div style="font-size: 0.75rem; opacity: 0.7;">No hidden fees. Inclusive of all selected items.</div>
+        <div class="price-total" id="finalTotal">£0</div>
+        <div style="font-size: 0.75rem; opacity: 0.6;">Fully Inclusive. No Hidden Costs.</div>
     </div>
-    <button class="btn-dispatch" onclick="dispatchDirector()">Arrange & Dispatch</button>
+    <button class="btn-dispatch" onclick="triggerDispatch()">Arrange & Dispatch</button>
 </div>
 
 <script>
-    let currentSelection = { base: 0, addons: 0, label: '' };
+    const directors = [
+        { name: "D J Cotton & Sons", dist: "0.2 miles", rating: 4.9, types: ['cremation', 'attended'] },
+        { name: "L E Brand & Sons", dist: "1.1 miles", rating: 4.8, types: ['cremation', 'attended', 'repatriation'] },
+        { name: "F.E.J. Green & Sons", dist: "4.5 miles", rating: 4.7, types: ['cremation', 'attended', 'repatriation'] }
+    ];
 
-    const tailoredAddons = {
-        cremation: [ {l: "Private Family Viewing", p: 350}, {l: "Premium Oak Urn", p: 180} ],
-        repatriation: [ {l: "Embassy Legal Fees", p: 550}, {l: "Specialist Zinc Lining", p: 850}, {l: "Air Freight Charges", p: 1200} ],
-        burial: [ {l: "Limousine Transport", p: 500}, {l: "Grave Marker / Headstone", p: 400}, {l: "Celebrant Service", p: 250} ]
+    const addons = {
+        cremation: [{l: "Private Viewing", p: 300}, {l: "Premium Urn", p: 150}],
+        repatriation: [{l: "Embassy Legal Prep", p: 600}, {l: "Air Freight", p: 1400}, {l: "Zinc Lining", p: 800}],
+        attended: [{l: "Limousine", p: 500}, {l: "Celebrant", p: 250}, {l: "Floral Tribute", p: 150}]
     };
 
-    function updateService(type, price, element) {
-        // UI reset
-        document.querySelectorAll('.srv-card').forEach(c => c.classList.remove('selected'));
-        element.classList.add('selected');
+    const roadmaps = {
+        cremation: ["Collection within 2 hours", "Cremation date set within 24 hours", "Ashes returned personally"],
+        repatriation: ["Immediate collection", "Passport & Embassy docs secured", "Flight booking confirmed < 12hrs"],
+        attended: ["Collection within 2 hours", "Venue & Minister booked", "Viewing room prepared"]
+    };
 
-        currentSelection.base = price;
-        currentSelection.addons = 0;
-        currentSelection.label = element.querySelector('h3').innerText;
+    let selection = { base: 0, add: 0, type: '' };
 
-        // Reveal & Build Options
+    function updatePath(type, price, el) {
+        document.querySelectorAll('.path-card').forEach(c => c.classList.remove('active'));
+        el.classList.add('active');
+        
+        selection.base = price;
+        selection.add = 0;
+        selection.type = type;
+
+        // Update Options
         const panel = document.getElementById('optionsPanel');
         const list = document.getElementById('addonList');
         panel.classList.add('visible');
         list.innerHTML = '';
-
-        tailoredAddons[type].forEach(item => {
-            list.innerHTML += `
-                <div class="addon-item" onclick="toggleAddon(this, ${item.p})">
-                    ${item.l} <span class="price">+£${item.p}</span>
-                </div>
-            `;
+        addons[type].forEach(a => {
+            list.innerHTML += `<div class="addon-item" onclick="toggleAddon(this, ${a.p})">${a.l} <span>+£${a.p}</span></div>`;
         });
 
-        document.getElementById('resultArea').style.display = 'block';
-        document.getElementById('selectedServiceText').innerText = currentSelection.label;
-        refreshTotal();
+        // Update Roadmap
+        const rList = document.getElementById('stepList');
+        rList.innerHTML = roadmaps[type].map(s => `<li>${s}</li>`).join('');
+
+        // Filter Directors
+        renderDirectors(type);
+        calc();
     }
 
-    function toggleAddon(el, price) {
+    function toggleAddon(el, p) {
         el.classList.toggle('active');
-        currentSelection.addons += el.classList.contains('active') ? price : -price;
-        refreshTotal();
+        selection.add += el.classList.contains('active') ? p : -p;
+        calc();
     }
 
-    function refreshTotal() {
-        const total = currentSelection.base + currentSelection.addons;
-        document.getElementById('finalPrice').innerText = `£${total.toLocaleString()}`;
+    function renderDirectors(type) {
+        const dList = document.getElementById('directorList');
+        const filtered = directors.filter(d => d.types.includes(type));
+        dList.innerHTML = filtered.map(d => `
+            <div class="director-card">
+                <div>
+                    <div class="pulse-box"><div class="pulse"></div> READY FOR IMMEDIATE DISPATCH</div>
+                    <h3 style="margin:0">${d.name}</h3>
+                    <p style="font-size:0.8rem; color:#64748b; margin:5px 0;">${d.dist} away • ⭐ ${d.rating} Verified Rating</p>
+                </div>
+                <button style="background:none; border:1.5px solid #eee; padding:10px 20px; border-radius:8px; font-weight:700; cursor:pointer;">View Profile</button>
+            </div>
+        `).join('');
     }
 
-    function dispatchDirector() {
-        if(currentSelection.base === 0) return alert("Please select a service type.");
-        alert("Immediate Dispatch sequence initiated. A specialist director will call your mobile within minutes.");
+    function calc() {
+        document.getElementById('finalTotal').innerText = `£${(selection.base + selection.add).toLocaleString()}`;
+    }
+
+    function triggerDispatch() {
+        if(!selection.type) return alert("Please select a pathway.");
+        alert("CRITICAL DISPATCH INITIATED. A specialist from " + directors[0].name + " is being alerted to your request now.");
     }
 </script>
 
