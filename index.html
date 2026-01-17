@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Funeral Match - Logo Refinement</title>
+    <title>Funeral Match - Luxury Logo</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400&family=Inter:wght@200;400&display=swap');
@@ -11,6 +11,7 @@
         :root {
             --gold: #C5A059;
             --charcoal: #1a1a1a;
+            --light-grey: #a1a1a1;
         }
 
         body {
@@ -20,62 +21,64 @@
             justify-content: center;
             height: 100vh;
             margin: 0;
+            -webkit-font-smoothing: antialiased;
         }
 
-        .logo-wrap {
-            text-align: center;
+        .logo-container {
             display: flex;
             flex-direction: column;
             align-items: center;
+            text-align: center;
         }
 
-        /* Small, sophisticated Serif */
+        /* Line 1: Traditional & Refined */
         .brand-funeral {
             font-family: 'Bodoni Moda', serif;
-            font-size: 0.9rem;
+            font-size: 1rem;
             text-transform: uppercase;
-            letter-spacing: 0.8em;
+            letter-spacing: 0.7em;
             color: var(--charcoal);
-            margin-right: -0.8em; /* Optical alignment */
-            margin-bottom: 12px;
+            margin-right: -0.7em; /* Precise centering */
+            line-height: 1;
         }
 
-        /* The Horizon Line */
+        /* The Separator: Minimalist Precision */
         .horizon-line {
-            width: 80px;
+            width: 100px;
             height: 1px;
-            background: linear-gradient(to right, transparent, var(--gold), transparent);
-            margin: 10px 0;
+            background: var(--gold);
+            margin: 18px 0;
+            opacity: 0.6;
         }
 
-        /* Large, Modern, Luxury Sans */
+        /* Line 2: Modern & Leading (Slightly larger) */
         .brand-match {
             font-family: 'Inter', sans-serif;
-            font-size: 2.8rem;
+            font-size: 1.45rem; /* Balanced hierarchy */
             font-weight: 200;
             text-transform: uppercase;
-            letter-spacing: 0.4em;
+            letter-spacing: 0.5em;
             color: var(--gold);
-            margin-right: -0.4em; /* Optical alignment */
-            line-height: 1.1;
+            margin-right: -0.5em;
+            line-height: 1;
         }
 
-        /* The Slogan */
+        /* The Slogan: The Foundation */
         .slogan {
             font-family: 'Inter', sans-serif;
-            font-size: 0.6rem;
+            font-size: 0.55rem;
             font-weight: 400;
             text-transform: uppercase;
-            letter-spacing: 0.5em;
-            color: #a1a1a1;
-            margin-top: 25px;
-            margin-right: -0.5em;
+            letter-spacing: 0.6em;
+            color: var(--light-grey);
+            margin-top: 35px;
+            margin-right: -0.6em;
         }
     </style>
 </head>
 <body>
 
-    <div class="logo-wrap">
+    <div class="logo-container">
         <span class="brand-funeral">Funeral</span>
         <div class="horizon-line"></div>
         <span class="brand-match">Match</span>
