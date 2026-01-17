@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Funeral Match | Compassionate Comparison</title>
+    <title>Funeral Match | Find Local Support</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary: #1a1c1e;
-            --accent: #b39359; /* Muted professional gold */
+            --accent: #b39359; /* Solid Muted Gold */
             --text-soft: #64748b;
-            --bg: #fcfaf7; /* Warm white/alabaster */
+            --bg: #fcfaf7;
             --dynamic-padding: clamp(1.5rem, 6vw, 5rem);
         }
 
@@ -24,12 +24,12 @@
             line-height: 1.6;
         }
 
-        /* --- SUBTLE BACKGROUND DESIGN --- */
+        /* --- SUBTLE TEXTURE --- */
         body::before {
             content: "";
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background-image: radial-gradient(circle at 90% 10%, rgba(179, 147, 89, 0.03) 0%, transparent 40%);
+            background-image: radial-gradient(circle at 2% 2%, rgba(179, 147, 89, 0.04) 0%, transparent 40%);
             pointer-events: none;
             z-index: -1;
         }
@@ -43,7 +43,7 @@
             margin: 0 auto;
         }
 
-        /* --- REFINED HEADER --- */
+        /* --- REFINED LOGO & LOGIN --- */
         header {
             display: flex;
             justify-content: space-between;
@@ -51,119 +51,109 @@
             margin-bottom: 8vh;
         }
 
-        .brand-logo {
+        .brand-link {
+            text-decoration: none;
             display: flex;
             flex-direction: column;
-            text-decoration: none;
+            line-height: 1;
         }
 
         .brand-funeral {
-            font-size: 0.65rem;
+            font-size: 0.8rem;
             text-transform: uppercase;
-            letter-spacing: 5px;
-            color: var(--text-soft);
-            margin-bottom: 2px;
+            letter-spacing: 4px;
+            color: var(--primary);
             font-weight: 500;
+            margin-bottom: 2px;
         }
 
         .brand-match {
-            font-size: 1.3rem;
+            font-size: 1.1rem; /* Only slightly larger than funeral */
             text-transform: uppercase;
-            letter-spacing: 7px;
+            letter-spacing: 5px;
             font-weight: 800;
-            color: var(--primary);
+            color: var(--accent); /* Whole word is now gold */
         }
 
-        .brand-match span {
-            color: var(--accent); /* Subtle color in the logo */
-        }
-
-        .director-login {
+        .login-ghost {
             font-size: 0.65rem;
             font-weight: 600;
             color: var(--text-soft);
             text-decoration: none;
             text-transform: uppercase;
             letter-spacing: 1.5px;
-            padding: 8px 16px;
-            border: 1px solid rgba(0,0,0,0.05);
-            border-radius: 2px;
-            transition: all 0.4s ease;
+            padding: 10px 20px;
+            border: 1px solid rgba(0,0,0,0.06);
+            border-radius: 4px;
+            transition: all 0.3s ease;
         }
 
-        .director-login:hover {
-            color: var(--primary);
+        .login-ghost:hover {
             border-color: var(--accent);
+            color: var(--primary);
             background: #fff;
         }
 
-        /* --- MAIN SECTION --- */
+        /* --- MAIN CONTENT --- */
         main {
             flex: 1;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            max-width: 850px;
+            max-width: 900px;
         }
 
-        .tagline {
+        .italic-lead {
             font-family: 'Playfair Display', serif;
             font-style: italic;
             color: var(--accent);
-            font-size: 1.1rem;
-            margin-bottom: 1.5rem;
-            display: block;
+            font-size: 1.15rem;
+            margin-bottom: 1rem;
         }
 
         h1 {
-            font-size: clamp(2.8rem, 8vw, 4.8rem);
+            font-size: clamp(2.8rem, 8vw, 4.5rem);
             font-weight: 600;
             letter-spacing: -0.05em;
-            line-height: 0.9;
+            line-height: 0.95;
             margin-bottom: 2rem;
-            color: var(--primary);
         }
 
-        .intro {
-            font-size: clamp(1.1rem, 2.2vw, 1.4rem);
+        .intro-p {
+            font-size: clamp(1.1rem, 2vw, 1.35rem);
             color: var(--text-soft);
-            font-weight: 300;
+            max-width: 580px;
             margin-bottom: 4rem;
-            max-width: 600px;
+            font-weight: 300;
         }
 
-        /* --- SEARCH & LOCATION --- */
-        .search-container {
-            width: 100%;
-            max-width: 600px;
-        }
+        /* --- SEARCH BOX --- */
+        .search-area { width: 100%; max-width: 650px; }
 
-        .input-row {
+        .search-group {
             display: flex;
             flex-direction: column;
-            gap: 15px;
-            margin-bottom: 20px;
+            background: #fff;
+            border: 1px solid #e2ded0;
+            margin-bottom: 15px;
+            transition: 0.3s;
         }
 
         input {
-            width: 100%;
+            flex: 1;
             height: 70px;
-            border: 1px solid #e2ded0;
-            background: #fff;
+            border: none;
             padding: 0 25px;
             font-size: 1.1rem;
             outline: none;
-            transition: border 0.3s;
         }
 
-        input:focus { border-color: var(--accent); }
-
-        .search-btn {
-            width: 100%;
+        .find-btn {
             height: 70px;
             background: var(--primary);
-            color: #fff;
+            color: white;
             border: none;
+            padding: 0 40px;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 2px;
@@ -171,9 +161,9 @@
             transition: 0.3s;
         }
 
-        .search-btn:hover { background: #000; letter-spacing: 3px; }
+        .find-btn:hover { background: #000; }
 
-        .location-trigger {
+        .location-btn {
             background: none;
             border: none;
             color: var(--accent);
@@ -185,44 +175,37 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            padding: 5px 0;
         }
 
-        /* --- FOOTER / LINKS --- */
+        /* --- FOOTER --- */
         footer {
-            margin-top: 10vh;
+            margin-top: 8vh;
             padding-top: 40px;
             border-top: 1px solid rgba(0,0,0,0.05);
             display: flex;
             flex-wrap: wrap;
             justify-content: space-between;
-            align-items: flex-end;
-            gap: 30px;
+            gap: 20px;
         }
 
-        .footer-nav {
-            display: flex;
-            gap: 30px;
-        }
-
-        .footer-nav a {
+        .footer-links { display: flex; gap: 30px; }
+        .footer-links a {
             text-decoration: none;
             color: var(--text-soft);
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 1px;
         }
 
-        .footer-nav a:hover { color: var(--accent); }
+        .footer-links a:hover { color: var(--accent); }
 
-        .copy { font-size: 0.7rem; color: #cbd5e1; }
-
-        /* DESKTOP TWEAKS */
-        @media (min-width: 800px) {
-            .input-row { flex-direction: row; gap: 0; border: 1px solid #e2ded0; background: #fff; padding: 5px; }
-            input { border: none; }
-            .search-btn { width: 220px; height: 60px; }
+        /* DESKTOP UI AUTOMATION */
+        @media (min-width: 768px) {
+            .search-group { flex-direction: row; padding: 6px; }
+            .find-btn { width: auto; }
+            input { height: 60px; }
+            .find-btn { height: 60px; }
         }
     </style>
 </head>
@@ -230,62 +213,60 @@
 
     <div class="wrapper">
         <header>
-            <a href="/" class="brand-logo">
+            <a href="#" class="brand-link">
                 <span class="brand-funeral">Funeral</span>
-                <span class="brand-match">Mat<span>c</span>h</span>
+                <span class="brand-match">Match</span>
             </a>
-            <a href="#" class="director-login">Director Login</a>
+            <a href="#" class="login-ghost">Director Login</a>
         </header>
 
         <main>
-            <span class="tagline">Providing clarity in quiet moments</span>
-            <h1>A simpler way <br>to find care.</h1>
-            <p class="intro">
-                Compare local funeral directors with total price transparency and verified service standards.
+            <p class="italic-lead">Compassionate clarity for families</p>
+            <h1>Support for the <br>next steps.</h1>
+            <p class="intro-p">
+                We simplify the process of finding a local funeral director, offering total price transparency and verified standards of care.
             </p>
 
-            <div class="search-container">
-                <form id="searchForm" class="input-row">
-                    <input type="text" id="postcode" placeholder="Enter your postcode" required autocomplete="off">
-                    <button type="submit" class="search-btn">Find Support</button>
+            <div class="search-area">
+                <form id="pForm" class="search-group">
+                    <input type="text" id="post" placeholder="Enter postcode" required autocomplete="off">
+                    <button type="submit" class="find-btn">Find Support</button>
                 </form>
                 
-                <button type="button" class="location-trigger" onclick="getLocation()">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+                <button type="button" class="location-btn" onclick="askLocation()">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
                     Use my current location
                 </button>
             </div>
         </main>
 
         <footer>
-            <nav class="footer-nav">
+            <div class="footer-links">
                 <a href="#">About Us</a>
-                <a href="#">Our Process</a>
-                <a href="#">Transparency Report</a>
+                <a href="#">Our Standards</a>
+                <a href="#">FAQ</a>
                 <a href="#">Contact</a>
-            </nav>
-            <span class="copy">© 2026 Funeral Match. All rights reserved.</span>
+            </div>
+            <p style="font-size: 0.7rem; color: #cbd5e1;">© 2026 Funeral Match</p>
         </footer>
     </div>
 
     <script>
-        document.getElementById('searchForm').addEventListener('submit', function(e) {
+        document.getElementById('pForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            const val = document.getElementById('postcode').value.trim();
+            const val = document.getElementById('post').value.trim();
             window.location.href = `search-results.html?postcode=${encodeURIComponent(val)}`;
         });
 
-        function getLocation() {
+        function askLocation() {
             if (navigator.geolocation) {
-                const btn = document.querySelector('.location-trigger');
-                btn.innerText = "Finding you...";
+                const btn = document.querySelector('.location-btn');
+                btn.innerText = "Accessing location...";
                 navigator.geolocation.getCurrentPosition((pos) => {
-                    // In a real app, you would reverse-geocode this. 
-                    // For now, we simulate a found location.
-                    document.getElementById('postcode').value = "Detected Location";
-                    btn.innerText = "Location Found";
+                    document.getElementById('post').value = "Nearby Location";
+                    btn.innerText = "Location active";
                 }, () => {
-                    btn.innerText = "Location access denied";
+                    btn.innerText = "Location unavailable";
                 });
             }
         }
