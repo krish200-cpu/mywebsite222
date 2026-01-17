@@ -2,182 +2,168 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Funeral Match | Compassionate Clarity</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         :root { 
-            --midnight: #1E2022; 
-            --charcoal: #2A2D30;
+            --midnight: #121416; 
+            --charcoal: #1C1E20;
             --gold: #B39359; 
-            --gold-light: #D4AF37;
             --white: #FFFFFF; 
-            --text-muted: #9BA3AF;
+            --text-muted: #8E959F;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         
         body { 
             background-color: var(--midnight);
-            /* Subtle geometric watermark background */
-            background-image: radial-gradient(circle at 2px 2px, rgba(255,255,255,0.02) 1px, transparent 0);
-            background-size: 40px 40px;
+            /* Subtle texture overlay to gap the infill */
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
             font-family: 'Inter', sans-serif; 
             color: var(--white); 
-            -webkit-font-smoothing: antialiased;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
-            min-height: 100vh;
         }
 
-        .hero-container {
+        /* Fluid Container for Mobile and Desktop */
+        .wrapper {
             flex: 1;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            align-items: center;
-            padding: 40px 24px;
-            max-width: 650px;
+            padding: 0 24px;
+            max-width: 600px;
             margin: 0 auto;
-            text-align: center;
         }
 
-        /* Branding Match */
-        header { margin-bottom: 60px; }
+        /* Branding */
+        header { text-align: center; margin-bottom: clamp(40px, 8vh, 60px); }
         .logo { 
-            font-size: 1.1rem; 
-            font-weight: 800; 
+            font-size: 0.85rem; 
+            font-weight: 700; 
             text-transform: uppercase; 
-            letter-spacing: 10px; 
+            letter-spacing: 8px; 
             color: var(--white); 
             text-decoration: none; 
         }
         .logo span { color: var(--gold); }
 
-        /* Typography */
+        /* Typography Scaled for Device */
         h1 {
-            font-family: 'Inter', sans-serif;
-            font-size: clamp(2rem, 8vw, 3rem);
+            font-size: clamp(2.2rem, 10vw, 3rem);
             font-weight: 600;
             line-height: 1.1;
-            margin-bottom: 24px;
-            letter-spacing: -1px;
+            margin-bottom: 20px;
+            letter-spacing: -0.04em;
+            text-align: center;
         }
 
         .description {
             color: var(--text-muted);
-            font-size: 1.1rem;
+            font-size: clamp(1rem, 4vw, 1.15rem);
             line-height: 1.6;
-            margin-bottom: 48px;
+            margin-bottom: 40px;
+            text-align: center;
             font-weight: 300;
         }
 
-        /* Unified Search Bubble */
+        /* Unified Search Bubble - Mobile Optimized */
         .search-pill {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: var(--charcoal);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             padding: 6px;
-            border-radius: 50px;
+            border-radius: 100px;
             display: flex;
+            align-items: center;
             width: 100%;
-            max-width: 480px;
-            margin-bottom: 24px;
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .search-pill:focus-within {
             border-color: var(--gold);
-            box-shadow: 0 0 20px rgba(179, 147, 89, 0.15);
+            box-shadow: 0 0 25px rgba(179, 147, 89, 0.1);
         }
 
         .search-pill input {
             flex: 1;
             background: transparent;
             border: none;
-            padding: 0 24px;
+            padding: 0 16px;
             color: var(--white);
-            font-size: 1rem;
+            font-size: 16px; /* Prevents iOS auto-zoom */
             outline: none;
-            letter-spacing: 1px;
+            width: 100%;
         }
 
         .search-pill input::placeholder {
-            color: #555;
+            color: #5A5E63;
             text-transform: uppercase;
-            font-size: 0.8rem;
-            letter-spacing: 2px;
+            font-size: 0.75rem;
+            letter-spacing: 1.5px;
         }
 
         .btn-search {
-            background: linear-gradient(135deg, var(--gold), var(--gold-light));
-            color: #1A1A1B;
+            background: var(--gold);
+            color: #000;
             border: none;
-            padding: 14px 32px;
-            border-radius: 40px;
+            height: 48px;
+            padding: 0 28px;
+            border-radius: 100px;
             font-weight: 700;
             text-transform: uppercase;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             letter-spacing: 1px;
             cursor: pointer;
-            transition: transform 0.2s ease;
+            white-space: nowrap;
         }
 
-        .btn-search:hover {
-            transform: scale(1.02);
-        }
-
-        /* Funeral Plan Partner Slot */
-        .partner-slot {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            font-size: 0.9rem;
+        /* Funeral Plan Partner - Subtly Integrated */
+        .partner-area {
+            margin-top: 24px;
+            text-align: center;
+            font-size: 0.85rem;
             color: var(--text-muted);
         }
 
-        .partner-slot a {
-            color: var(--white);
-            font-weight: 500;
+        .partner-area a {
+            color: var(--gold);
             text-decoration: none;
-            border-bottom: 1px solid var(--gold);
-            padding-bottom: 2px;
+            font-weight: 600;
+            margin-left: 4px;
         }
 
-        .dot { width: 6px; height: 6px; background: var(--gold); border-radius: 50%; }
-
         /* Footer Alignment */
-        .footer-dark {
-            background: rgba(0,0,0,0.2);
-            padding: 60px 24px;
+        footer {
+            padding: 40px 24px;
+            background: rgba(0,0,0,0.3);
             border-top: 1px solid rgba(255,255,255,0.05);
             text-align: center;
         }
 
-        .legal-row {
+        .footer-nav {
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
-            gap: 24px;
-            margin-bottom: 24px;
+            gap: 20px;
+            margin-bottom: 20px;
         }
 
-        .legal-row a {
-            font-size: 0.75rem;
+        .footer-nav a {
+            font-size: 0.7rem;
             color: var(--text-muted);
             text-decoration: none;
             text-transform: uppercase;
             letter-spacing: 1px;
-            transition: color 0.2s;
         }
 
-        .legal-row a:hover { color: var(--gold); }
+        .director-access { color: var(--gold) !important; font-weight: 600; }
 
-        .director-link { color: var(--gold) !important; font-weight: 600; }
-
-        .copyright {
-            font-size: 0.65rem;
-            color: #4B5563;
+        .legal-text {
+            font-size: 0.6rem;
+            color: #434950;
+            text-transform: uppercase;
             letter-spacing: 1px;
         }
 
@@ -185,36 +171,35 @@
 </head>
 <body>
 
-    <div class="hero-container">
+    <div class="wrapper">
         <header>
             <a href="#" class="logo">Funeral<span>Match</span></a>
         </header>
         
-        <h1>Compassionate support, transparently.</h1>
+        <h1>Compassionate support, <br>transparently.</h1>
         
         <p class="description">
-            Find vetted local funeral directors and compare fixed-price quotes instantly, ensuring clarity in your time of need.
+            Find vetted funeral directors and compare fixed-price quotes instantly.
         </p>
 
         <div class="search-pill">
-            <input type="text" placeholder="Enter Postcode">
+            <input type="text" inputmode="text" placeholder="Postcode" autocomplete="postal-code">
             <button class="btn-search" onclick="location.href='results.html'">Search</button>
         </div>
 
-        <div class="partner-slot">
-            <span class="dot"></span>
+        <div class="partner-area">
             Thinking ahead? <a href="#">Explore pre-paid plans</a>
         </div>
     </div>
 
-    <footer class="footer-dark">
-        <div class="legal-row">
+    <footer>
+        <div class="footer-nav">
             <a href="#">About</a>
             <a href="#">Privacy</a>
             <a href="#">Terms</a>
-            <a href="#" class="director-link">Director Portal</a>
+            <a href="#" class="director-access">Director Portal</a>
         </div>
-        <p class="copyright">© 2026 FUNERAL MATCH LTD. ALL RIGHTS RESERVED.</p>
+        <p class="legal-text">© 2026 FUNERAL MATCH LTD. ALL RIGHTS RESERVED.</p>
     </footer>
 
 </body>
