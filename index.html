@@ -2,189 +2,241 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Funeral Match | Compare Nationwide</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Funeral Match | The Complete Experience</title>
     <style>
-        :root {
-            --primary: #1a2a3a;
-            --gold: #b8860b;
-            --green: #27ae60;
-            --bg: #f8fafc;
-            --white: #ffffff;
-        }
-
+        :root { --primary: #1a2a3a; --gold: #b8860b; --green: #27ae60; --bg: #f8fafc; --white: #ffffff; }
         * { box-sizing: border-box; font-family: 'Inter', system-ui, sans-serif; }
-        body { margin: 0; background: var(--bg); color: #111; overflow-x: hidden; }
-
-        /* --- NATIONWIDE SEARCH HERO --- */
-        .hero { background: var(--primary); padding: 60px 20px; text-align: center; color: white; }
-        .hero h1 { margin-bottom: 25px; font-size: 2rem; letter-spacing: -1px; }
-        .search-bar { 
-            display: flex; max-width: 700px; margin: 0 auto; background: white; 
-            padding: 8px; border-radius: 50px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        }
-        .search-bar input { 
-            flex: 1; border: none; padding: 15px 25px; border-radius: 50px; 
-            font-size: 1rem; outline: none; color: #333;
-        }
-        .search-bar button { 
-            background: var(--gold); color: white; border: none; padding: 0 30px; 
-            border-radius: 50px; font-weight: 700; cursor: pointer; transition: 0.3s;
-        }
-        .search-bar button:hover { background: #966d09; }
-
-        /* --- APP LAYOUT --- */
-        .app-container { display: flex; max-width: 1200px; margin: -30px auto 40px; gap: 2rem; padding: 0 20px; position: relative; z-index: 10; }
+        body { margin: 0; background: var(--bg); color: #111; }
         
-        /* Sidebar (Desktop Only) */
-        .sidebar { width: 300px; flex-shrink: 0; display: block; }
-        .filter-card { background: white; padding: 25px; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); position: sticky; top: 20px; }
-        
-        /* Results Section */
-        .results { flex: 1; }
-        .sort-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding: 0 10px; }
-        
-        /* CARD DESIGN (Responsive Grid to Stack) */
-        .card { 
-            background: white; border-radius: 16px; padding: 25px; margin-bottom: 1.5rem; 
-            display: grid; grid-template-columns: 1fr 220px; gap: 20px; border: 1px solid #eef0f2;
-            transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        .card:hover { transform: scale(1.02); box-shadow: 0 20px 40px rgba(0,0,0,0.05); }
-        .card.hidden { display: none; }
+        /* NAVIGATION */
+        header { background: white; padding: 15px 5%; display: flex; justify-content: space-between; border-bottom: 1px solid #eee; position: sticky; top: 0; z-index: 100; }
+        .logo { font-weight: 900; font-size: 1.4rem; color: var(--primary); letter-spacing: -1.5px; cursor: pointer; }
+        .logo span { color: var(--gold); }
 
-        /* --- CARD ELEMENTS --- */
-        .tag-group { margin: 15px 0; display: flex; flex-wrap: wrap; gap: 5px; }
-        .tag { background: #f0f3f5; padding: 5px 10px; border-radius: 6px; font-size: 0.7rem; font-weight: 600; color: #555; }
-        .tag.premium { background: #fff8e1; color: #b8860b; border: 1px solid #ffe082; }
-        
-        .price-section { border-left: 1px solid #eee; padding-left: 20px; text-align: right; display: flex; flex-direction: column; justify-content: center; }
-        .price-val { font-size: 2rem; font-weight: 900; color: var(--primary); margin: 5px 0; }
-        .btn-action { background: var(--green); color: white; border: none; padding: 12px; border-radius: 8px; font-weight: 800; cursor: pointer; }
+        /* VIEW SYSTEM */
+        .view { display: none; padding: 20px; max-width: 1100px; margin: 0 auto; animation: fadeIn 0.4s ease; }
+        .view.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* --- MOBILE ADAPTATION --- */
+        /* HERO & SEARCH */
+        .hero { text-align: center; padding: 60px 20px; background: var(--primary); color: white; border-radius: 0 0 30px 30px; margin-bottom: 40px; }
+        .search-wrap { display: flex; max-width: 600px; margin: 25px auto; background: white; padding: 8px; border-radius: 50px; }
+        .search-wrap input { flex: 1; border: none; padding: 12px 20px; outline: none; border-radius: 50px; font-size: 1rem; }
+        .btn-gold { background: var(--gold); color: white; border: none; padding: 12px 25px; border-radius: 50px; font-weight: 700; cursor: pointer; }
+
+        /* MULTI-COLUMN APP CONTENT */
+        .app-grid { display: grid; grid-template-columns: 300px 1fr; gap: 30px; margin-top: -60px; }
+        .filter-panel { background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); height: fit-content; position: sticky; top: 100px; }
+        
+        /* CARDS */
+        .card { background: white; border-radius: 16px; padding: 25px; margin-bottom: 20px; display: grid; grid-template-columns: 1fr 240px; gap: 20px; border: 1px solid #eef0f2; box-shadow: 0 4px 12px rgba(0,0,0,0.03); }
+        .price-zone { border-left: 1px solid #eee; padding-left: 25px; text-align: right; display: flex; flex-direction: column; justify-content: center; }
+        .total-price { font-size: 2.2rem; font-weight: 900; color: var(--primary); margin: 5px 0; }
+        
+        /* FORM VIEW */
+        .form-card { background: white; max-width: 600px; margin: 40px auto; padding: 40px; border-radius: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; font-weight: 700; font-size: 0.9rem; color: var(--primary); }
+        input[type="text"], input[type="email"], input[type="tel"] { width: 100%; padding: 14px; border: 1px solid #ddd; border-radius: 8px; outline: none; }
+        
+        .success-msg { text-align: center; padding: 60px 20px; }
+
         @media (max-width: 850px) {
-            .app-container { flex-direction: column; margin-top: 10px; }
-            .sidebar { display: none; }
+            .app-grid { grid-template-columns: 1fr; margin-top: 0; }
             .card { grid-template-columns: 1fr; }
-            .price-section { border-left: none; border-top: 1px solid #eee; padding-top: 20px; text-align: left; }
-            .hero h1 { font-size: 1.5rem; }
+            .price-zone { border-left: none; border-top: 1px solid #eee; padding: 20px 0 0 0; text-align: left; }
         }
-
-        /* --- FILTER DRAWER (Mobile Only) --- */
-        .mobile-filter-btn { 
-            display: none; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); 
-            z-index: 100; background: var(--primary); color: white; padding: 15px 30px; 
-            border-radius: 50px; font-weight: 700; box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-        }
-        @media (max-width: 850px) { .mobile-filter-btn { display: block; } }
     </style>
 </head>
 <body>
 
-<div class="hero">
-    <div class="logo" style="font-size: 1.8rem; font-weight: 900; margin-bottom: 10px;">FUNERAL<span>MATCH</span></div>
-    <h1>Find & Compare Local Services</h1>
-    <div class="search-bar">
-        <input type="text" id="postcodeSearch" placeholder="Enter Postcode or City (e.g. London, Essex)">
-        <button onclick="performSearch()">Search</button>
+<header>
+    <div class="logo" onclick="showView('searchView')">FUNERAL<span>MATCH</span></div>
+    <div id="navStatus" style="font-size: 0.8rem; font-weight: 700; color: var(--green);">● SYSTEM LIVE</div>
+</header>
+
+<div id="searchView" class="view active">
+    <div class="hero">
+        <h1>Nationwide Funeral Transparency</h1>
+        <p>Instant quotes for Burial, Cremation, and Repatriation</p>
+        <div class="search-wrap">
+            <input type="text" id="locInput" placeholder="Enter City or Postcode (e.g. London, Essex)">
+            <button class="btn-gold" onclick="performSearch()">Find Matches</button>
+        </div>
+    </div>
+
+    <div class="app-grid">
+        <aside class="filter-panel">
+            <h4 style="margin-top:0; color: var(--gold); font-size: 0.8rem; letter-spacing: 1px;">SERVICE TYPE</h4>
+            <div id="serviceFilters">
+                </div>
+            
+            <h4 style="margin-top:30px; color: var(--gold); font-size: 0.8rem; letter-spacing: 1px;">PENNY-PERFECT ADD-ONS</h4>
+            <div id="addonFilters">
+                </div>
+        </aside>
+
+        <main id="resultsList">
+            </main>
     </div>
 </div>
 
-<div class="app-container">
-    <aside class="sidebar">
-        <div class="filter-card">
-            <h3 style="font-size: 0.8rem; letter-spacing: 1px; color: var(--gold); margin-top: 0;">FILTER BY SERVICE</h3>
-            <div id="filterList">
-                </div>
-            <button class="btn-action" style="background: var(--primary); margin-top: 20px;" onclick="applyFilters()">Apply Match</button>
-        </div>
-    </aside>
-
-    <main class="results">
-        <div class="sort-header">
-            <span id="match-text">Showing 2 matches near you</span>
-            <select style="border: none; background: transparent; font-weight: 700;" onchange="sortData(this.value)">
-                <option value="low">Price: Low to High</option>
-                <option value="high">Price: High to Low</option>
-            </select>
-        </div>
-
-        <div id="results-list">
+<div id="bookingView" class="view">
+    <div class="form-card">
+        <button onclick="showView('searchView')" style="background:none; border:none; color: var(--gold); cursor:pointer; font-weight:700; margin-bottom:20px;">← Back to Results</button>
+        <h2 id="bookingTitle">Secure Your Quote</h2>
+        <p style="color: #666; margin-bottom: 30px;">Enter your details below to lock in this price and receive a full breakdown via email.</p>
+        
+        <div id="quoteSummary" style="background: var(--bg); padding: 20px; border-radius: 10px; margin-bottom: 30px;">
             </div>
-    </main>
+
+        <form onsubmit="submitLead(event)">
+            <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" required placeholder="e.g. John Smith">
+            </div>
+            <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" required placeholder="john@example.com">
+            </div>
+            <div class="form-group">
+                <label>Phone Number</label>
+                <input type="tel" required placeholder="07123 456 789">
+            </div>
+            <button type="submit" class="btn-gold" style="width: 100%; padding: 18px; font-size: 1rem; background: var(--green);">Confirm & Send to Director</button>
+        </form>
+    </div>
 </div>
 
-<button class="mobile-filter-btn" onclick="toggleMobileFilters()">Filter & Sort</button>
+<div id="successView" class="view">
+    <div class="success-msg">
+        <div style="font-size: 4rem; margin-bottom: 20px;">✅</div>
+        <h1>Quote Secured</h1>
+        <p>The Funeral Director has been notified. A copy of your penny-perfect quote has been sent to your email.</p>
+        <button class="btn-gold" onclick="showView('searchView')" style="margin-top: 30px;">Return to Home</button>
+    </div>
+</div>
 
 <script>
-    // 1. The Scraped/Aggregated Data (Your Database)
+    // 1. DATA CONFIGURATION
     const directors = [
-        { name: "Rosewood Independent", price: 2850, type: "celebration", location: "Corringham", rating: 4.9, tags: ["Family Run", "Celebration of Life"] },
-        { name: "Essex Direct Care", price: 950, type: "direct_cremation", location: "Stanford", rating: 4.5, tags: ["Unattended", "Fixed Fee"] },
-        { name: "Coastal Memorials", price: 3500, type: "sea_burial", location: "Southend", rating: 4.8, tags: ["Specialist", "Sea Burial"] },
-        { name: "City & Central", price: 1800, type: "simple_attended", location: "London", rating: 4.2, tags: ["Central", "Simple Attended"] }
+        { id: 1, name: "Rosewood Independent", base: 1800, type: "celebration", loc: "Essex", rating: 4.9 },
+        { id: 2, name: "Global Repatriation Experts", base: 4500, type: "repatriation", loc: "London", rating: 4.7 },
+        { id: 3, name: "Essex Direct Care", base: 950, type: "direct_cremation", loc: "Essex", rating: 4.5 },
+        { id: 4, name: "City & Central Funerals", base: 2100, type: "simple_attended", loc: "London", rating: 4.3 },
+        { id: 5, name: "Coastal Memorials", base: 3200, type: "sea_burial", loc: "Southend", rating: 4.8 }
     ];
 
-    const types = {
-        direct_cremation: "Direct Cremation",
-        simple_attended: "Simple Attended",
-        traditional_burial: "Traditional Burial",
-        celebration: "Celebration of Life",
-        memorial: "Memorial Service",
-        sea_burial: "Burial at Sea"
-    };
+    const services = [
+        { id: 'direct_cremation', label: 'Direct Cremation' },
+        { id: 'simple_attended', label: 'Simple Attended' },
+        { id: 'repatriation', label: 'Repatriation' },
+        { id: 'sea_burial', label: 'Burial at Sea' },
+        { id: 'celebration', label: 'Celebration of Life' }
+    ];
 
-    // 2. Initialize Filters
-    const list = document.getElementById('filterList');
-    Object.entries(types).forEach(([key, label]) => {
-        list.innerHTML += `<label style="display:block; margin-bottom:10px; font-size:0.9rem; cursor:pointer;">
-            <input type="checkbox" class="type-filter" value="${key}"> ${label}
-        </label>`;
-    });
+    const addons = [
+        { id: 'limo', label: 'Limousine', price: 500 },
+        { id: 'celebrant', label: 'Celebrant', price: 250 },
+        { id: 'viewing', label: 'Private Viewing', price: 350 }
+    ];
 
-    // 3. Render Cards Logic
-    function renderResults(data) {
-        const container = document.getElementById('results-list');
-        container.innerHTML = '';
-        document.getElementById('match-text').innerText = `${data.length} matches found`;
+    let selectedDirector = null;
 
-        data.forEach(fd => {
+    // 2. INITIALIZATION
+    function init() {
+        const sFilter = document.getElementById('serviceFilters');
+        services.forEach(s => {
+            sFilter.innerHTML += `
+                <label style="display:flex; align-items:center; gap:10px; margin-bottom:12px; cursor:pointer;">
+                    <input type="checkbox" class="srv-check" value="${s.id}" onchange="renderResults()"> ${s.label}
+                </label>`;
+        });
+
+        const aFilter = document.getElementById('addonFilters');
+        addons.forEach(a => {
+            aFilter.innerHTML += `
+                <label style="display:flex; align-items:center; gap:10px; margin-bottom:12px; cursor:pointer;">
+                    <input type="checkbox" class="add-check" value="${a.price}" data-name="${a.label}" onchange="renderResults()"> ${a.label} (+£${a.price})
+                </label>`;
+        });
+
+        renderResults();
+    }
+
+    // 3. VIEW SWITCHER
+    function showView(viewId) {
+        document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+        document.getElementById(viewId).classList.add('active');
+        window.scrollTo(0,0);
+    }
+
+    // 4. CALCULATION & RENDERING
+    function renderResults() {
+        const container = document.getElementById('resultsList');
+        const activeSrvs = Array.from(document.querySelectorAll('.srv-check:checked')).map(c => c.value);
+        const addonPrice = Array.from(document.querySelectorAll('.add-check:checked')).reduce((sum, c) => sum + parseInt(c.value), 0);
+        
+        const filtered = directors.filter(d => activeSrvs.length === 0 || activeSrvs.includes(d.type));
+        
+        container.innerHTML = filtered.length ? '' : '<div style="padding:40px; text-align:center; background:white; border-radius:20px;">No directors found for these criteria.</div>';
+        
+        filtered.forEach(d => {
+            const total = d.base + addonPrice;
             container.innerHTML += `
-                <div class="card" data-price="${fd.price}">
+                <div class="card">
                     <div>
-                        <div style="background: #e8f5e9; color: #2e7d32; display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 700;">TRANSPARENT ✓</div>
-                        <h2 style="margin: 10px 0 5px 0;">${fd.name}</h2>
-                        <p style="color: #666; font-size: 0.85rem; margin: 0;">${fd.location} • ⭐ ${fd.rating}</p>
-                        <div class="tag-group">
-                            ${fd.tags.map(t => `<span class="tag">${t}</span>`).join('')}
+                        <div style="color: var(--green); font-weight:800; font-size:0.7rem; margin-bottom:10px;">✓ INSTANT QUOTE VERIFIED</div>
+                        <h2 style="margin:0">${d.name}</h2>
+                        <p style="color:#666; font-size:0.9rem;">${d.loc} • ⭐ ${d.rating}</p>
+                        <div style="margin-top:10px;">
+                            <span style="background:#f0f3f5; padding:5px 10px; border-radius:6px; font-size:0.75rem; font-weight:700; color:#555;">${d.type.replace('_',' ').toUpperCase()}</span>
                         </div>
                     </div>
-                    <div class="price-section">
-                        <div style="font-size: 0.7rem; color: #888;">ESTIMATED TOTAL</div>
-                        <div class="price-val">£${fd.price.toLocaleString()}</div>
-                        <button class="btn-action">Book Now</button>
+                    <div class="price-zone">
+                        <div style="font-size:0.7rem; color:#888; font-weight:700;">PENNY-PERFECT TOTAL</div>
+                        <div class="total-price">£${total.toLocaleString()}</div>
+                        <button class="btn-gold" style="background:var(--green); width:100%;" onclick="startBooking(${d.id}, ${total})">Lock In Price</button>
                     </div>
                 </div>
             `;
         });
     }
 
-    // 4. Filter & Search Action
-    function applyFilters() {
-        const checked = Array.from(document.querySelectorAll('.type-filter:checked')).map(c => c.value);
-        const filtered = checked.length > 0 ? directors.filter(d => checked.includes(d.type)) : directors;
-        renderResults(filtered);
-    }
-
     function performSearch() {
-        const query = document.getElementById('postcodeSearch').value.toLowerCase();
-        const filtered = directors.filter(d => d.location.toLowerCase().includes(query) || d.name.toLowerCase().includes(query));
-        renderResults(filtered);
+        const val = document.getElementById('locInput').value.toLowerCase();
+        const filtered = directors.filter(d => d.loc.toLowerCase().includes(val) || d.name.toLowerCase().includes(val));
+        // Manual override for search demo
+        const container = document.getElementById('resultsList');
+        container.innerHTML = '';
+        filtered.forEach(d => {
+             container.innerHTML += `<div class="card"><div><h2>${d.name}</h2><p>${d.loc}</p></div><div class="price-zone"><div class="total-price">£${d.base}</div><button class="btn-gold" style="background:var(--green)" onclick="startBooking(${d.id}, ${d.base})">Lock In Price</button></div></div>`;
+        });
     }
 
-    // Initial Load
-    renderResults(directors);
+    // 5. LEAD CAPTURE LOGIC
+    function startBooking(id, total) {
+        selectedDirector = directors.find(d => d.id === id);
+        document.getElementById('bookingTitle').innerText = `Quote for ${selectedDirector.name}`;
+        document.getElementById('quoteSummary').innerHTML = `
+            <div style="display:flex; justify-content:space-between; font-weight:700;">
+                <span>Total Quote</span>
+                <span style="color: var(--green); font-size:1.4rem;">£${total.toLocaleString()}</span>
+            </div>
+            <div style="font-size:0.8rem; color:#666; margin-top:5px;">Includes Service: ${selectedDirector.type.replace('_',' ')}</div>
+        `;
+        showView('bookingView');
+    }
+
+    function submitLead(e) {
+        e.preventDefault();
+        // In a real app, you'd fetch() to a server here.
+        showView('successView');
+    }
+
+    init();
 </script>
+
 </body>
 </html>
