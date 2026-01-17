@@ -1,34 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Funeral Match | Welcome</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,400&family=Inter:wght@300;800&display=swap" rel="stylesheet">
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introduction</title>
     <style>
-        :root { --black: #1A1A1B; --gold: #B39359; --bg: #F9F7F2; }
-        body { background: var(--bg); height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; overflow: hidden; font-family: 'Inter', sans-serif; margin: 0; }
-        .logo { font-size: clamp(1.2rem, 5vw, 2rem); font-weight: 800; text-transform: uppercase; letter-spacing: 12px; opacity: 0; animation: fadeIn 1.5s forwards; }
-        .logo span { color: var(--gold); }
-        .slogan { font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.1rem; color: #777; margin-top: 15px; opacity: 0; animation: fadeIn 1.5s 0.8s forwards; }
-        .loader-track { width: 40px; height: 1px; background: rgba(0,0,0,0.1); margin-top: 40px; overflow: hidden; }
-        .loader-fill { width: 100%; height: 100%; background: var(--gold); transform: translateX(-100%); animation: load 2.5s linear forwards; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes load { to { transform: translateX(0); } }
-        #curtain { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--black); transform: translateY(100%); transition: transform 0.8s cubic-bezier(0.7, 0, 0.3, 1); z-index: 100; }
+        body { background: #121416; color: #F4F4F4; font-family: sans-serif; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; }
+        .card { max-width: 400px; padding: 40px; text-align: center; }
+        .btn { background: #B39359; color: #000; padding: 15px 40px; border-radius: 30px; text-decoration: none; font-weight: 700; display: inline-block; margin-top: 20px; }
     </style>
 </head>
-<body onclick="exit()">
-    <div id="curtain"></div>
-    <div class="logo">Funeral<span>Match</span></div>
-    <p class="slogan">Clarity in a time of need.</p>
-    <div class="loader-track"><div class="loader-fill"></div></div>
-    <script>
-        function exit() { 
-            document.getElementById('curtain').style.transform = 'translateY(0)'; 
-            setTimeout(() => { window.location.href = 'index.html'; }, 800); 
-        }
-        setTimeout(exit, 3000);
-    </script>
+<body>
+    <div class="card">
+        <h1>Welcome.</h1>
+        <p style="color: #8A8F98; line-height: 1.6;">We will now ask a few questions to understand the profile of the person we are caring for. This helps us tailor the arrangement to their life.</p>
+        <a href="profile.html" class="btn">Begin Profile</a>
+    </div>
 </body>
 </html>
