@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Funeral Match | Transparency & Choice</title>
+    <title>Funeral Match | Compare Nationwide</title>
     <style>
         :root {
             --primary: #1a2a3a;
@@ -11,168 +11,180 @@
             --green: #27ae60;
             --bg: #f8fafc;
             --white: #ffffff;
-            --text: #111;
         }
 
-        * { box-sizing: border-box; font-family: 'Inter', system-ui, -apple-system, sans-serif; }
-        body { margin: 0; background: var(--bg); color: var(--text); line-height: 1.6; overflow-x: hidden; }
+        * { box-sizing: border-box; font-family: 'Inter', system-ui, sans-serif; }
+        body { margin: 0; background: var(--bg); color: #111; overflow-x: hidden; }
 
-        /* --- AUTOMATED LAYOUT LOGIC --- */
-        .app-container { display: flex; max-width: 1200px; margin: 0 auto; gap: 2rem; padding: 20px; }
+        /* --- NATIONWIDE SEARCH HERO --- */
+        .hero { background: var(--primary); padding: 60px 20px; text-align: center; color: white; }
+        .hero h1 { margin-bottom: 25px; font-size: 2rem; letter-spacing: -1px; }
+        .search-bar { 
+            display: flex; max-width: 700px; margin: 0 auto; background: white; 
+            padding: 8px; border-radius: 50px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .search-bar input { 
+            flex: 1; border: none; padding: 15px 25px; border-radius: 50px; 
+            font-size: 1rem; outline: none; color: #333;
+        }
+        .search-bar button { 
+            background: var(--gold); color: white; border: none; padding: 0 30px; 
+            border-radius: 50px; font-weight: 700; cursor: pointer; transition: 0.3s;
+        }
+        .search-bar button:hover { background: #966d09; }
+
+        /* --- APP LAYOUT --- */
+        .app-container { display: flex; max-width: 1200px; margin: -30px auto 40px; gap: 2rem; padding: 0 20px; position: relative; z-index: 10; }
         
-        /* Sidebar: Visible on Desktop, Hidden on Mobile */
+        /* Sidebar (Desktop Only) */
         .sidebar { width: 300px; flex-shrink: 0; display: block; }
+        .filter-card { background: white; padding: 25px; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); position: sticky; top: 20px; }
         
-        /* Mobile Filter Bar: Hidden on Desktop, Visible on Mobile */
-        .mobile-action-bar { display: none; background: white; padding: 12px 20px; position: sticky; top: 70px; z-index: 90; border-bottom: 1px solid #eee; justify-content: space-between; align-items: center; }
-
-        /* --- HEADER --- */
-        header { background: var(--white); padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 100; }
-        .logo { font-size: 1.5rem; font-weight: 800; color: var(--primary); letter-spacing: -1.5px; }
-        .logo span { color: var(--gold); }
-
-        /* --- CARD DESIGN --- */
-        .results { flex-grow: 1; }
+        /* Results Section */
+        .results { flex: 1; }
+        .sort-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding: 0 10px; }
+        
+        /* CARD DESIGN (Responsive Grid to Stack) */
         .card { 
-            background: var(--white); border-radius: 16px; padding: 25px; margin-bottom: 1.5rem; 
-            display: grid; grid-template-columns: 1fr 220px; gap: 20px; border: 1px solid #eef0f2; transition: 0.3s;
+            background: white; border-radius: 16px; padding: 25px; margin-bottom: 1.5rem; 
+            display: grid; grid-template-columns: 1fr 220px; gap: 20px; border: 1px solid #eef0f2;
+            transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        .sponsored { border: 2px solid var(--gold); background: #fffef9; }
-        .score-pill { display: inline-flex; align-items: center; background: #e8f5e9; color: #2e7d32; padding: 4px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 700; margin-bottom: 10px; }
-        .tag { background: #f0f3f5; padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; color: #555; margin-right: 5px; }
+        .card:hover { transform: scale(1.02); box-shadow: 0 20px 40px rgba(0,0,0,0.05); }
+        .card.hidden { display: none; }
 
-        .price-column { text-align: right; border-left: 1px solid #eee; padding-left: 20px; display: flex; flex-direction: column; justify-content: center; }
-        .price-tag { font-size: 1.8rem; font-weight: 800; color: var(--primary); margin: 5px 0; }
-        .btn-book { background: var(--green); color: white; border: none; padding: 12px; border-radius: 8px; font-weight: 700; cursor: pointer; width: 100%; }
+        /* --- CARD ELEMENTS --- */
+        .tag-group { margin: 15px 0; display: flex; flex-wrap: wrap; gap: 5px; }
+        .tag { background: #f0f3f5; padding: 5px 10px; border-radius: 6px; font-size: 0.7rem; font-weight: 600; color: #555; }
+        .tag.premium { background: #fff8e1; color: #b8860b; border: 1px solid #ffe082; }
+        
+        .price-section { border-left: 1px solid #eee; padding-left: 20px; text-align: right; display: flex; flex-direction: column; justify-content: center; }
+        .price-val { font-size: 2rem; font-weight: 900; color: var(--primary); margin: 5px 0; }
+        .btn-action { background: var(--green); color: white; border: none; padding: 12px; border-radius: 8px; font-weight: 800; cursor: pointer; }
 
-        /* --- MOBILE DRAWER --- */
-        .filter-drawer { position: fixed; bottom: 0; left: 0; right: 0; background: white; z-index: 200; padding: 30px 20px; border-radius: 20px 20px 0 0; transform: translateY(100%); transition: 0.3s; box-shadow: 0 -10px 30px rgba(0,0,0,0.2); }
-        .drawer-active .filter-drawer { transform: translateY(0); }
-        .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 199; display: none; }
-        .drawer-active .overlay { display: block; }
-
-        /* --- MEDIA QUERIES: THE AUTOMATION --- */
+        /* --- MOBILE ADAPTATION --- */
         @media (max-width: 850px) {
-            .app-container { flex-direction: column; padding: 10px; }
-            .sidebar { display: none; } /* Hide desktop sidebar */
-            .mobile-action-bar { display: flex; } /* Show mobile trigger */
-            
-            .card { grid-template-columns: 1fr; padding: 20px; } /* Stack card content */
-            .price-column { border-left: none; border-top: 1px solid #eee; padding-left: 0; padding-top: 20px; text-align: left; }
-            .price-tag { font-size: 2rem; }
-            
-            header { padding: 15px 20px; }
-            .logo { font-size: 1.2rem; }
+            .app-container { flex-direction: column; margin-top: 10px; }
+            .sidebar { display: none; }
+            .card { grid-template-columns: 1fr; }
+            .price-section { border-left: none; border-top: 1px solid #eee; padding-top: 20px; text-align: left; }
+            .hero h1 { font-size: 1.5rem; }
         }
 
-        .filter-label { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; font-size: 0.95rem; cursor: pointer; }
-        input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--primary); }
+        /* --- FILTER DRAWER (Mobile Only) --- */
+        .mobile-filter-btn { 
+            display: none; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); 
+            z-index: 100; background: var(--primary); color: white; padding: 15px 30px; 
+            border-radius: 50px; font-weight: 700; box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+        @media (max-width: 850px) { .mobile-filter-btn { display: block; } }
     </style>
 </head>
 <body>
 
-<header>
-    <div class="logo">FUNERAL<span>MATCH</span></div>
-    <div style="font-size: 0.75rem; color: var(--gold); font-weight: 700; cursor: pointer;">DIRECTOR LOGIN</div>
-</header>
-
-<div class="mobile-action-bar">
-    <span style="font-weight: 600; font-size: 0.9rem;">Essex Results</span>
-    <button onclick="toggleFilters()" style="background: var(--primary); color: white; border: none; padding: 8px 16px; border-radius: 20px; font-size: 0.8rem;">Filter & Sort</button>
+<div class="hero">
+    <div class="logo" style="font-size: 1.8rem; font-weight: 900; margin-bottom: 10px;">FUNERAL<span>MATCH</span></div>
+    <h1>Find & Compare Local Services</h1>
+    <div class="search-bar">
+        <input type="text" id="postcodeSearch" placeholder="Enter Postcode or City (e.g. London, Essex)">
+        <button onclick="performSearch()">Search</button>
+    </div>
 </div>
 
 <div class="app-container">
     <aside class="sidebar">
-        <div style="background: white; padding: 25px; border-radius: 12px; position: sticky; top: 100px;">
-            <h3 style="margin-top:0; font-size: 0.9rem; color: var(--gold); letter-spacing: 1px;">SERVICE TYPE</h3>
-            <div id="desktopFilters">
+        <div class="filter-card">
+            <h3 style="font-size: 0.8rem; letter-spacing: 1px; color: var(--gold); margin-top: 0;">FILTER BY SERVICE</h3>
+            <div id="filterList">
                 </div>
+            <button class="btn-action" style="background: var(--primary); margin-top: 20px;" onclick="applyFilters()">Apply Match</button>
         </div>
     </aside>
 
-    <main class="results" id="results-list">
-        <div class="card sponsored" data-type="celebration" data-price="2850">
-            <div>
-                <div class="score-pill">✓ 98% Transparency</div>
-                <h2 style="margin:0">Rosewood Independent</h2>
-                <p style="color: #666; font-size: 0.85rem; margin: 5px 0;">0.8 miles away • Corringham</p>
-                <div style="margin: 10px 0;"><span class="tag">Celebration of Life</span><span class="tag">Family Run</span></div>
-            </div>
-            <div class="price-column">
-                <div style="font-size: 0.7rem; color: #888;">ESTIMATED TOTAL</div>
-                <div class="price-tag">£2,850</div>
-                <button class="btn-book">View Profile</button>
-            </div>
+    <main class="results">
+        <div class="sort-header">
+            <span id="match-text">Showing 2 matches near you</span>
+            <select style="border: none; background: transparent; font-weight: 700;" onchange="sortData(this.value)">
+                <option value="low">Price: Low to High</option>
+                <option value="high">Price: High to Low</option>
+            </select>
         </div>
 
-        <div class="card" data-type="direct_cremation" data-price="950">
-            <div>
-                <div class="score-pill">✓ 91% Transparency</div>
-                <h2 style="margin:0">Essex Direct Care</h2>
-                <p style="color: #666; font-size: 0.85rem; margin: 5px 0;">2.1 miles away • Stanford</p>
-                <div style="margin: 10px 0;"><span class="tag">Direct Cremation</span><span class="tag">Unattended</span></div>
+        <div id="results-list">
             </div>
-            <div class="price-column">
-                <div style="font-size: 0.7rem; color: #888;">FIXED FEE</div>
-                <div class="price-tag">£950</div>
-                <button class="btn-book">Book Now</button>
-            </div>
-        </div>
     </main>
 </div>
 
-<div class="overlay" onclick="toggleFilters()"></div>
-<div class="filter-drawer" id="mobileDrawer">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-        <h2 style="margin:0">Filter Services</h2>
-        <span onclick="toggleFilters()" style="font-size: 1.5rem; cursor: pointer;">&times;</span>
-    </div>
-    <div id="mobileFilters"></div>
-    <button class="btn-book" onclick="toggleFilters()" style="margin-top: 20px;">Show Matches</button>
-</div>
+<button class="mobile-filter-btn" onclick="toggleMobileFilters()">Filter & Sort</button>
 
 <script>
-    // 1. Shared Filter List
-    const serviceTypes = [
-        { val: 'direct_cremation', label: 'Direct Cremation' },
-        { val: 'simple_attended', label: 'Simple Attended' },
-        { val: 'traditional_burial', label: 'Traditional Burial' },
-        { val: 'celebration', label: 'Celebration of Life' },
-        { val: 'memorial', label: 'Memorial Service' },
-        { val: 'sea_burial', label: 'Burial at Sea' }
+    // 1. The Scraped/Aggregated Data (Your Database)
+    const directors = [
+        { name: "Rosewood Independent", price: 2850, type: "celebration", location: "Corringham", rating: 4.9, tags: ["Family Run", "Celebration of Life"] },
+        { name: "Essex Direct Care", price: 950, type: "direct_cremation", location: "Stanford", rating: 4.5, tags: ["Unattended", "Fixed Fee"] },
+        { name: "Coastal Memorials", price: 3500, type: "sea_burial", location: "Southend", rating: 4.8, tags: ["Specialist", "Sea Burial"] },
+        { name: "City & Central", price: 1800, type: "simple_attended", location: "London", rating: 4.2, tags: ["Central", "Simple Attended"] }
     ];
 
-    // 2. Inject Filters into both Desktop and Mobile containers
-    function injectFilters(containerId) {
-        const container = document.getElementById(containerId);
-        serviceTypes.forEach(type => {
-            const label = document.createElement('label');
-            label.className = 'filter-label';
-            label.innerHTML = `<input type="checkbox" name="type" value="${type.val}" onchange="runFilters()"> ${type.label}`;
-            container.appendChild(label);
+    const types = {
+        direct_cremation: "Direct Cremation",
+        simple_attended: "Simple Attended",
+        traditional_burial: "Traditional Burial",
+        celebration: "Celebration of Life",
+        memorial: "Memorial Service",
+        sea_burial: "Burial at Sea"
+    };
+
+    // 2. Initialize Filters
+    const list = document.getElementById('filterList');
+    Object.entries(types).forEach(([key, label]) => {
+        list.innerHTML += `<label style="display:block; margin-bottom:10px; font-size:0.9rem; cursor:pointer;">
+            <input type="checkbox" class="type-filter" value="${key}"> ${label}
+        </label>`;
+    });
+
+    // 3. Render Cards Logic
+    function renderResults(data) {
+        const container = document.getElementById('results-list');
+        container.innerHTML = '';
+        document.getElementById('match-text').innerText = `${data.length} matches found`;
+
+        data.forEach(fd => {
+            container.innerHTML += `
+                <div class="card" data-price="${fd.price}">
+                    <div>
+                        <div style="background: #e8f5e9; color: #2e7d32; display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 700;">TRANSPARENT ✓</div>
+                        <h2 style="margin: 10px 0 5px 0;">${fd.name}</h2>
+                        <p style="color: #666; font-size: 0.85rem; margin: 0;">${fd.location} • ⭐ ${fd.rating}</p>
+                        <div class="tag-group">
+                            ${fd.tags.map(t => `<span class="tag">${t}</span>`).join('')}
+                        </div>
+                    </div>
+                    <div class="price-section">
+                        <div style="font-size: 0.7rem; color: #888;">ESTIMATED TOTAL</div>
+                        <div class="price-val">£${fd.price.toLocaleString()}</div>
+                        <button class="btn-action">Book Now</button>
+                    </div>
+                </div>
+            `;
         });
     }
 
-    injectFilters('desktopFilters');
-    injectFilters('mobileFilters');
-
-    // 3. Automation Logic
-    function runFilters() {
-        const checked = Array.from(document.querySelectorAll('input[name="type"]:checked')).map(i => i.value);
-        const cards = document.querySelectorAll('.card');
-        cards.forEach(card => {
-            const type = card.dataset.type;
-            card.style.display = (checked.length === 0 || checked.includes(type)) ? (window.innerWidth <= 850 ? 'block' : 'grid') : 'none';
-        });
+    // 4. Filter & Search Action
+    function applyFilters() {
+        const checked = Array.from(document.querySelectorAll('.type-filter:checked')).map(c => c.value);
+        const filtered = checked.length > 0 ? directors.filter(d => checked.includes(d.type)) : directors;
+        renderResults(filtered);
     }
 
-    function toggleFilters() {
-        document.body.classList.toggle('drawer-active');
+    function performSearch() {
+        const query = document.getElementById('postcodeSearch').value.toLowerCase();
+        const filtered = directors.filter(d => d.location.toLowerCase().includes(query) || d.name.toLowerCase().includes(query));
+        renderResults(filtered);
     }
 
-    // Adjust layout on resize
-    window.addEventListener('resize', runFilters);
+    // Initial Load
+    renderResults(directors);
 </script>
-
 </body>
 </html>
