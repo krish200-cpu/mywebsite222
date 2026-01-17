@@ -2,62 +2,180 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Search Results | Funeral Match</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400&family=Inter:wght@300;600;800&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Compare Support | Funeral Match</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
-        :root { --black: #1A1A1B; --gold: #B39359; --stone: #F4F1EA; }
-        * { margin:0; padding:0; box-sizing:border-box; }
-        body { background: var(--stone); font-family: 'Inter', sans-serif; }
-        header { background: #FFF; padding: 15px 5%; border-bottom: 1px solid #EEE; position: sticky; top:0; z-index:100; display: flex; justify-content: space-between; }
-        .wrapper { max-width: 1300px; margin: 30px auto; display: grid; gap: 30px; padding: 0 20px; }
-        @media (min-width: 1024px) { .wrapper { grid-template-columns: 280px 1fr; } }
-        .sidebar { background: #FFF; padding: 25px; border-radius: 4px; border: 1px solid #EEE; height: fit-content; }
-        .f-title { font-size: 0.65rem; font-weight: 800; color: var(--gold); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px; display: block; }
-        .result-card { background: #FFF; padding: 30px; border: 1px solid #EEE; margin-bottom: 15px; display: flex; flex-direction: column; gap: 20px; }
-        @media (min-width: 768px) { .result-card { flex-direction: row; justify-content: space-between; align-items: center; } }
-        .featured { border-left: 4px solid var(--gold); background: #FFFCF7; }
-        .price { font-family: 'Playfair Display'; font-size: 1.8rem; font-weight: 700; }
-        .btn-view { background: var(--black); color: #FFF; padding: 12px 25px; border-radius: 40px; border: none; font-weight: 700; text-transform: uppercase; font-size: 0.65rem; cursor: pointer; }
-        select { width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #EEE; font-size: 0.8rem; }
+        :root { 
+            --midnight: #121416; 
+            --charcoal: #1C1E20;
+            --gold: #B39359; 
+            --white: #FFFFFF; 
+            --text-muted: #8E959F;
+            --glass: rgba(255, 255, 255, 0.03);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        
+        body { 
+            background-color: var(--midnight);
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+            font-family: 'Inter', sans-serif; 
+            color: var(--white); 
+            padding-bottom: 40px;
+        }
+
+        /* Results Header */
+        nav {
+            padding: 20px 24px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            background: rgba(18, 20, 22, 0.9);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+        }
+
+        .mini-logo { font-size: 0.7rem; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; color: var(--white); text-decoration: none; }
+        .mini-logo span { color: var(--gold); }
+
+        .location-tag { font-size: 0.7rem; color: var(--gold); text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+
+        /* Filter Bar */
+        .filter-scroll {
+            display: flex;
+            gap: 12px;
+            padding: 16px 24px;
+            overflow-x: auto;
+            white-space: nowrap;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .filter-scroll::-webkit-scrollbar { display: none; }
+
+        .chip {
+            padding: 8px 16px;
+            border-radius: 20px;
+            background: var(--charcoal);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        .chip.active { border-color: var(--gold); color: var(--gold); background: rgba(179, 147, 89, 0.05); }
+
+        /* Director Card */
+        .results-container { padding: 0 20px; max-width: 600px; margin: 0 auto; }
+        
+        .director-card {
+            background: var(--charcoal);
+            border-radius: 12px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: transform 0.2s;
+        }
+
+        .card-body { padding: 20px; }
+
+        .header-row { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
+        
+        .director-name { font-size: 1.1rem; font-weight: 600; letter-spacing: -0.5px; }
+        .rating { color: var(--gold); font-size: 0.75rem; display: flex; align-items: center; gap: 4px; }
+
+        .service-features { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+        .feature-tag { font-size: 0.65rem; color: var(--text-muted); background: rgba(255,255,255,0.03); padding: 4px 8px; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+
+        .price-footer {
+            background: rgba(0,0,0,0.2);
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .price-label { font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
+        .price-value { font-size: 1.25rem; font-weight: 700; color: var(--white); }
+        .price-value span { color: var(--gold); font-size: 0.9rem; margin-right: 2px; }
+
+        .btn-quote {
+            background: var(--gold);
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
     </style>
 </head>
 <body>
-    <header>
-        <div style="font-weight: 800; letter-spacing: 4px;">Funeral<span>Match</span></div>
-        <div style="font-size: 0.7rem; font-weight: 600;">LONDON SW1 • 25 RESULTS</div>
-    </header>
-    <div class="wrapper">
-        <aside class="sidebar">
-            <span class="f-title">Sort & Filter</span>
-            <select><option>Sort by Distance</option><option>Sort by Price</option></select>
-            <select><option>Any Faith</option><option>Catholic</option><option>Secular</option></select>
-            <select><option>Standard Cremation</option><option>Natural Burial</option></select>
-        </aside>
-        <main>
-            <div class="result-card featured">
-                <div>
-                    <span style="font-size:0.6rem; font-weight:800; color:var(--gold);">RECOMMENDED</span>
-                    <h2 style="font-family:'Playfair Display'; margin:5px 0;">Sterling & Sons Heritage</h2>
-                    <p style="font-size: 0.85rem; color: #666;">Faith-led care with private chapels.</p>
-                </div>
-                <div style="text-align: right;">
-                    <div class="price">£2,100</div>
-                    <button class="btn-view" onclick="location.href='profile.html'">Customize Quote</button>
-                </div>
-            </div>
-            <div class="result-card">
-                <div>
-                    <span style="font-size:0.6rem; color: #AAA;">0.4 MILES AWAY</span>
-                    <h2 style="font-family:'Playfair Display'; margin:5px 0;">Westminster Memorial</h2>
-                    <p style="font-size: 0.85rem; color: #666;">Affordable, dignified essentials.</p>
-                </div>
-                <div style="text-align: right;">
-                    <div class="price">£1,850</div>
-                    <button class="btn-view" onclick="location.href='profile.html'">Customize Quote</button>
-                </div>
-            </div>
-        </main>
+
+    <nav>
+        <a href="index.html" class="mini-logo">Funeral<span>Match</span></a>
+        <div class="location-tag">Results for: SW1A</div>
+    </nav>
+
+    <div class="filter-scroll">
+        <div class="chip active">Traditional</div>
+        <div class="chip">Eco-Friendly</div>
+        <div class="chip">Direct Cremation</div>
+        <div class="chip">Religious</div>
+        <div class="chip">Multicultural</div>
     </div>
+
+    <div class="results-container">
+        <div class="director-card">
+            <div class="card-body">
+                <div class="header-row">
+                    <h2 class="director-name">Evergreen Independent</h2>
+                    <div class="rating">★ 4.9 <span style="color:var(--text-muted); font-size:0.6rem;">(120)</span></div>
+                </div>
+                <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 16px;">Vetted Independent Partner • 0.8 miles away</p>
+                <div class="service-features">
+                    <span class="feature-tag">Limousine Incl.</span>
+                    <span class="feature-tag">Chapel of Rest</span>
+                    <span class="feature-tag">24/7 Support</span>
+                </div>
+            </div>
+            <div class="price-footer">
+                <div>
+                    <p class="price-label">Fixed Quote</p>
+                    <p class="price-value"><span>£</span>2,850</p>
+                </div>
+                <button class="btn-quote" onclick="location.href='quote.html'">Lock Price</button>
+            </div>
+        </div>
+
+        <div class="director-card">
+            <div class="card-body">
+                <div class="header-row">
+                    <h2 class="director-name">Sanctuary Care</h2>
+                    <div class="rating">★ 5.0 <span style="color:var(--text-muted); font-size:0.6rem;">(84)</span></div>
+                </div>
+                <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 16px;">Family Owned Specialist • 1.2 miles away</p>
+                <div class="service-features">
+                    <span class="feature-tag">Eco-Coffin</span>
+                    <span class="feature-tag">Natural Burial</span>
+                    <span class="feature-tag">Private Viewing</span>
+                </div>
+            </div>
+            <div class="price-footer">
+                <div>
+                    <p class="price-label">Fixed Quote</p>
+                    <p class="price-value"><span>£</span>3,100</p>
+                </div>
+                <button class="btn-quote">Lock Price</button>
+            </div>
+        </div>
+    </div>
+
 </body>
 </html>
