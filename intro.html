@@ -3,89 +3,104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome | Funeral Match</title>
+    <title>Funeral Match</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap');
+        /* Using Montserrat for a modern, architectural sans-serif feel */
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200;500&display=swap');
         
+        :root {
+            --champagne-gold: #C5A059;
+            --deep-graphite: #1a1a1a;
+        }
+
         body { 
-            font-family: 'Inter', sans-serif; 
-            background-color: #0f172a; /* Deep slate blue-black */
-            overflow: hidden; 
+            margin: 0;
+            background-color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+            /* Smoothest font rendering available */
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
-        /* Animation for the Statement */
-        .fade-in-text {
+        .brand-container {
+            text-align: center;
+            /* The "Process": Centering to device capability */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .funeral-text {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--deep-graphite);
+            font-size: clamp(1.5rem, 5vw, 2.5rem);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.6em; /* Extremely wide for luxury impact */
+            line-height: 1;
+            margin-right: -0.6em; /* Offsetting last letter spacing for perfect center */
             opacity: 0;
-            animation: fadeIn 1.5s ease-out forwards;
-            animation-delay: 0.8s;
+            animation: fluidReveal 2.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
         }
 
-        /* Animation for the Logo */
-        .logo-appear {
+        .match-text {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--champagne-gold);
+            font-size: clamp(1.6rem, 5.5vw, 2.7rem);
+            font-weight: 200;
+            text-transform: uppercase;
+            letter-spacing: 0.8em;
+            margin-right: -0.8em;
+            margin-top: 1.2rem;
             opacity: 0;
-            transform: translateY(10px);
-            animation: appear 1s ease-out forwards;
+            animation: fluidReveal 2.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            animation-delay: 0.4s;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        @keyframes fluidReveal {
+            from { 
+                opacity: 0; 
+                letter-spacing: 1.2em; /* Starts wide and "settles" into place */
+                filter: blur(10px);
+            }
+            to { 
+                opacity: 1; 
+                letter-spacing: 0.6em; 
+                filter: blur(0);
+            }
         }
 
-        @keyframes appear {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Transition to hide the splash */
-        .page-exit {
-            transition: transform 0.8s cubic-bezier(0.7, 0, 0.3, 1);
+        /* Standardized smooth page transition */
+        .fade-out-page {
+            opacity: 0;
+            transition: opacity 1.2s ease-in-out;
         }
     </style>
 </head>
-<body class="flex items-center justify-center min-h-screen">
+<body>
 
-    <div id="splash-container" class="text-center page-exit">
-        <div class="logo-appear flex items-center justify-center gap-2 mb-6">
-            <div class="w-10 h-10 bg-emerald-500 rounded-full flex items-center justify-center">
-                <div class="w-5 h-5 border-t-2 border-r-2 border-white rotate-45 transform translate-y-0.5 -translate-x-0.5"></div>
-            </div>
-            <span class="text-white text-3xl font-extrabold tracking-tighter">FUNERAL MATCH</span>
-        </div>
-
-        <h1 class="fade-in-text text-slate-400 text-xl md:text-2xl font-medium tracking-wide">
-            Clarity when you need it most.
-        </h1>
-
-        <div class="mt-12 w-48 h-0.5 bg-slate-800 mx-auto overflow-hidden">
-            <div id="progress-bar" class="h-full bg-emerald-500 w-0 transition-all duration-[3000ms] ease-out"></div>
-        </div>
+    <div id="main-wrapper" class="brand-container">
+        <span class="funeral-text">Funeral</span>
+        <span class="match-text">Match</span>
     </div>
 
     <script>
-        window.addEventListener('DOMContentLoaded', () => {
-            const progressBar = document.getElementById('progress-bar');
-            const splash = document.body;
-
-            // Start progress bar
+        window.addEventListener('load', () => {
+            // Unhurried luxury timing
             setTimeout(() => {
-                progressBar.style.width = '100%';
-            }, 100);
-
-            // Transition to Home Page
-            setTimeout(() => {
-                // For this tester, we will fade out the body
-                splash.style.opacity = '0';
-                splash.style.transition = 'opacity 0.8s ease';
+                document.getElementById('main-wrapper').classList.add('fade-out-page');
                 
                 setTimeout(() => {
-                    // In a real project, this would be: window.location.href = 'index.html';
-                    // For now, we will simulate the arrival at Home.
-                    alert("Transitioning to Funeral Match Home Page...");
                     window.location.href = 'index.html';
-                }, 800);
-            }, 3200);
+                }, 1200);
+            }, 3000);
         });
     </script>
 </body>
