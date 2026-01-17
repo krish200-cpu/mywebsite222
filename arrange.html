@@ -1,79 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-    <title>Arrangement Studio</title>
-    <style>
-        :root { --ds: #121416; --c: #1C1F22; --g: #B39359; --w: #F4F4F4; --r: #E63946; }
-        body { background: var(--ds); color: var(--w); font-family: sans-serif; margin: 0; }
-        .e-bar { background: rgba(230,57,70,0.1); border-bottom: 1px solid var(--r); padding: 10px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
-        .footer { position: fixed; bottom: 0; width: 100%; background: #121416; padding: 20px; border-top: 1px solid #333; display: flex; justify-content: space-between; align-items: center; }
-        .container { max-width: 600px; margin: 0 auto; padding: 40px 20px 150px; }
-        .card { background: var(--c); border: 1px solid #333; padding: 20px; border-radius: 12px; margin-bottom: 10px; cursor: pointer; display: flex; justify-content: space-between; }
-        .card.active { border-color: var(--g); background: rgba(179,147,89,0.1); }
-        .btn-next { background: var(--g); color: #000; padding: 15px 30px; border: none; border-radius: 8px; font-weight: 700; }
-        .input-box { width: 100%; background: #000; border: 1px dashed var(--g); padding: 12px; color: #fff; border-radius: 8px; margin-top: 10px; }
-    </style>
-</head>
-<body>
-<div class="e-bar">
-    <span style="color:var(--r); font-weight:700; font-size:0.7rem;">FIRST CALL SUPPORT</span>
-    <a href="tel:0800000" style="background:var(--r); color:#fff; padding:5px 10px; text-decoration:none; border-radius:4px; font-size:0.7rem;">CALL NOW</a>
-</div>
-<div class="container" id="stage"></div>
-<div class="footer">
-    <div id="liveTotal" style="font-size:1.5rem; color:var(--g);">£0</div>
-    <button class="btn-next" onclick="next()">Continue</button>
-</div>
-<script>
-    let cur = 1, choices = {}, base = parseInt(new URLSearchParams(window.location.search).get('base')) || 2500;
-    const steps = {
-        1: { t: "Method", d: "How do we say goodbye?", opts: [{ n: "Cremation", p: 0, s: 'c' }, { n: "Burial", p: 1500, s: 'b' }, { n: "Sea Burial", p: 3200, s: 's' }] },
-        2: { t: "Attendance", d: "Burials must be attended.", opts: [{ n: "Unattended", p: 0, s: 'd' }, { n: "Attended", p: 600, s: 'a' }] },
-        3: { t: "Coffins", d: "Select a vessel.", opts: [{ n: "Oak Veneer", p: 0 }, { n: "Willow", p: 550 }, { n: "Solid Mahogany", p: 1200 }, { n: "Sea Casket", p: 1450 }] },
-        4: { t: "Vehicles", type: "veh" },
-        5: { t: "Care", type: "multi", opts: [{ n: "Embalming", p: 250 }, { n: "Viewing", p: 150 }] },
-        6: { t: "Service", type: "multi", opts: [{ n: "Church", p: 350 }, { n: "Celebrant", p: 250 }] },
-        7: { t: "Stationery", type: "stat" },
-        8: { t: "Flowers", opts: [{ n: "Small", p: 120 }, { n: "Large", p: 450 }] },
-        9: { t: "Admin Fees", type: "adm" },
-        10: { t: "Memorials", type: "multi", opts: [{ n: "Stone", p: 1200 }, { n: "Bench", p: 600 }] }
-    };
-
-    function render() {
-        const s = steps[cur];
-        if(cur===2 && (choices[1]?.s==='b' || choices[1]?.s==='s')) { choices[2]={n:"Attended", p:600, s:'a'}; cur=3; render(); return; }
-        let h = `<h1>${s.t}</h1>`;
-        if(s.type === 'veh') {
-            h += `<div class="card ${choices[4]?.n==='Standard'?'active':''}" onclick="setV('Standard',0)">Standard Hearse<span>Incl.</span></div>
-                  <div class="card ${choices[4]?.b?'active':''}" onclick="setV('Bespoke',0,true)">Bespoke (Ferrari, etc)<span>POA</span></div>
-                  ${choices[4]?.b? `<input class="input-box" placeholder="Vehicle type..." oninput="choices[4].req=this.value" value="${choices[4].req||''}">` : ''}`;
-        } else if(s.type === 'stat') {
-            const q = choices[7]?.q || 20;
-            h += `<div class="card active" style="text-align:center; display:block;"><h2>${q} Copies</h2><button onclick="updS(10)">+10</button><button onclick="updS(-10)">-10</button></div>`;
-        } else if(s.type === 'adm') {
-            h += `<div class="card active">Third Party/Legal Fees<span>£1,514</span></div>`;
-            choices[9] = {n:"Admin", p:1514};
-        } else if(s.type === 'multi') {
-            if(!choices[cur]) choices[cur] = [];
-            h += s.opts.map(o => `<div class="card ${choices[cur].some(x=>x.n===o.n)?'active':''}" onclick="tglM('${o.n}',${o.p})">${o.n}<span>+£${o.p}</span></div>`).join('');
-        } else {
-            h += s.opts.map(o => `<div class="card ${choices[cur]?.n===o.n?'active':''}" onclick="setS('${o.n}',${o.p},'${o.s||''}')">${o.n}<span>+£${o.p}</span></div>`).join('');
-        }
-        document.getElementById('stage').innerHTML = h;
-        calc();
-    }
-    function setS(n,p,s) { choices[cur] = {n,p,s}; render(); }
-    function tglM(n,p) { let a = choices[cur]; const i = a.findIndex(x=>x.n===n); if(i>-1) a.splice(i,1); else a.push({n,p}); render(); }
-    function setV(n,p,b=false) { choices[4] = {n,p,b}; render(); }
-    function updS(v) { let q = Math.max(20, (choices[7]?.q||20)+v); choices[7] = {n:q+' Copies', q, p:80+((q-20)/10*15)}; render(); }
-    function calc() {
-        let x = 0;
-        Object.keys(choices).forEach(k => { if(Array.isArray(choices[k])) choices[k].forEach(v=>x+=v.p); else x+=choices[k].p||0; });
-        document.getElementById('liveTotal').innerText = '£'+(base+x).toLocaleString();
-    }
-    function next() { if(cur < 10) { cur++; render(); } else { localStorage.setItem('f_data', JSON.stringify({base, choices})); window.location.href='review.html'; } }
-    render();
-</script>
+<body class="bg-slate-50">
+    <div class="max-w-3xl mx-auto p-6 py-12">
+        <h2 class="text-2xl font-bold mb-6">Arrangement Checklist</h2>
+        <div class="space-y-4">
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 flex justify-between items-center group cursor-pointer hover:border-indigo-400 transition">
+                <div>
+                    <h3 class="font-bold">Transportation Logistics</h3>
+                    <p class="text-sm text-slate-500">Coordination of transit to facility.</p>
+                </div>
+                <div class="w-6 h-6 rounded-full border border-slate-300 group-hover:bg-indigo-500"></div>
+            </div>
+            <div class="bg-indigo-900 p-6 rounded-2xl text-white flex justify-between items-center shadow-lg">
+                <div>
+                    <div class="text-[10px] text-indigo-300 uppercase mb-1">Recommended Partner</div>
+                    <h3 class="font-bold">Concierge Arrangement Suite</h3>
+                    <p class="text-sm text-indigo-200">Handle everything via one specialist.</p>
+                </div>
+                <button class="bg-white text-indigo-900 px-4 py-2 rounded-lg font-bold">Select</button>
+            </div>
+        </div>
+        <a href="results.html" class="block mt-8 text-center text-slate-500 font-medium">Skip to Comparison →</a>
+    </div>
 </body>
-</html>
