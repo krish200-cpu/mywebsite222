@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Funeral Match | Find Local Care</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <title>Funeral Match | Professional Funeral Aggregator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        :root { --black: #1A1A1B; --gold: #B39359; --white: #FFFFFF; --bg-overlay: rgba(255, 255, 255, 0.45); }
+        :root { --black: #1A1A1B; --gold: #B39359; --white: #FFFFFF; --overlay: rgba(255, 255, 255, 0.4); }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: #FDFDFB; font-family: 'Inter', sans-serif; color: var(--black); line-height: 1.6; }
+        body { background: #FDFDFB; font-family: 'Inter', sans-serif; color: var(--black); }
 
-        /* Full Screen Hero - Modern Sanctuary Aesthetic */
+        /* Full Screen Hero - Modern Chapel Aesthetic */
         .hero { 
             height: 90vh; 
             width: 100%; 
-            background: linear-gradient(var(--bg-overlay), var(--bg-overlay)), 
-                        url('https://images.unsplash.com/photo-1498330177096-689e3fb901ca?auto=format&fit=crop&w=2000&q=80'); 
+            background: linear-gradient(var(--overlay), var(--overlay)), 
+                        url('https://images.unsplash.com/photo-1601342833072-35756eb91040?auto=format&fit=crop&w=2000&q=80'); 
             background-size: cover; 
             background-position: center;
             display: flex;
@@ -25,60 +25,58 @@
             padding: 20px;
         }
 
-        /* Branding Anchor */
-        header { position: absolute; top: 0; width: 100%; padding: 40px; text-align: center; z-index: 10; }
+        /* Top Navigation / Logo Match */
+        header { position: absolute; top: 0; width: 100%; padding: 40px; text-align: center; }
         .logo { font-size: 1rem; font-weight: 800; text-transform: uppercase; letter-spacing: 12px; color: var(--black); text-decoration: none; }
         .logo span { color: var(--gold); }
 
-        .hero-content { width: 100%; max-width: 600px; text-align: center; z-index: 2; }
-        h1 { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 400; margin-bottom: 30px; color: var(--black); letter-spacing: -0.5px; }
+        .hero-content { width: 100%; max-width: 600px; text-align: center; }
+        h1 { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 400; margin-bottom: 25px; color: var(--black); letter-spacing: -0.5px; }
         
-        /* The Compact Search Module */
-        .search-module { 
+        /* Ultra-Compact Search Module */
+        .search-container { 
             background: var(--white); 
-            padding: 5px; 
+            padding: 4px; 
             border-radius: 2px; 
             display: inline-flex; 
             align-items: center; 
-            box-shadow: 0 15px 35px rgba(0,0,0,0.06);
-            border: 1px solid rgba(0,0,0,0.05);
-            margin-bottom: 35px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            border: 1px solid rgba(0,0,0,0.08);
+            margin-bottom: 30px;
         }
         input { 
-            border: none; padding: 12px 15px; 
-            font-size: 0.9rem; width: 160px; /* Precise Postcode sizing */
+            border: none; padding: 10px 15px; 
+            font-size: 0.9rem; width: 150px; 
             outline: none; letter-spacing: 2px;
             font-family: 'Inter', sans-serif;
             text-align: center;
+            text-transform: uppercase;
         }
         .btn-search { 
             background: var(--black); color: var(--white); border: none; 
-            padding: 12px 25px; border-radius: 2px; 
+            padding: 10px 20px; border-radius: 1px; 
             font-weight: 600; text-transform: uppercase; 
             letter-spacing: 1px; cursor: pointer; transition: 0.3s; 
             font-size: 0.65rem;
         }
         .btn-search:hover { background: var(--gold); }
 
-        /* Partnership Link */
-        .partnership { font-size: 0.7rem; color: #777; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 8px; transition: 0.3s; }
-        .partnership:hover { color: var(--black); }
-        .partnership strong { color: var(--gold); text-transform: uppercase; letter-spacing: 1px; }
+        /* Funeral Plan Slot */
+        .plan-anchor { font-size: 0.7rem; color: #777; text-decoration: none; border-bottom: 1px solid var(--gold); padding-bottom: 3px; }
 
-        /* Aligned Trust Grid */
+        /* Trust Grid - Precise Alignment */
         .trust-grid { 
             max-width: 1200px; 
             margin: -60px auto 0; 
             background: var(--white);
             display: grid; 
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
-            box-shadow: 0 30px 60px rgba(0,0,0,0.04);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.05);
             position: relative;
-            z-index: 5;
         }
-        .trust-item { padding: 50px 40px; border-right: 1px solid #F0F0F0; border-bottom: 1px solid #F0F0F0; }
+        .trust-item { padding: 50px 40px; border-right: 1px solid #F5F5F5; }
         .trust-item:last-child { border-right: none; }
-        .trust-item h3 { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 3px; color: var(--gold); margin-bottom: 15px; }
+        .trust-item h3 { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 3px; color: var(--gold); margin-bottom: 12px; }
         .trust-item p { font-size: 0.85rem; color: #666; line-height: 1.6; }
 
         footer { padding: 80px 20px; text-align: center; font-size: 0.65rem; color: #AAA; letter-spacing: 1px; }
@@ -94,42 +92,40 @@
 
     <section class="hero">
         <div class="hero-content">
-            <h1>Transparency in a <br>time of need.</h1>
+            <h1>Expert care, <br>transparently priced.</h1>
             
-            <div class="search-module">
+            <div class="search-container">
                 <input type="text" placeholder="POSTCODE" maxlength="8">
                 <button class="btn-search" onclick="location.href='results.html'">Search</button>
             </div>
-            
-            <a href="#" class="partnership">
-                <strong>Pre-Paid Plans</strong> Explore 5★ rated funeral cover.
-            </a>
+            <br>
+            <a href="#" class="plan-anchor">Pre-planning a funeral? Explore our plans.</a>
         </div>
     </section>
 
     <div class="trust-grid">
         <div class="trust-item">
-            <h3>Verified Partners</h3>
-            <p>Every director on our platform undergoes a rigorous facility and service audit.</p>
+            <h3>Vetted Care</h3>
+            <p>Every funeral director on our platform is hand-selected and independently verified.</p>
         </div>
         <div class="trust-item">
             <h3>Fixed Pricing</h3>
-            <p>Our automated engine generates locked quotes that are contractually guaranteed.</p>
+            <p>Our automated quote machine provides a guaranteed price and reference ID instantly.</p>
         </div>
         <div class="trust-item">
-            <h3>Bespoke Care</h3>
-            <p>Filtering by faith, tradition, and cultural requirements is integrated as standard.</p>
+            <h3>Global Support</h3>
+            <p>Specialized filtering for all religious, cultural, and personal service requirements.</p>
         </div>
     </div>
 
     <footer>
-        <div style="margin-bottom: 30px;">
-            <a href="#">About</a>
-            <a href="#">Help Center</a>
-            <a href="#">Privacy Policy</a>
-            <a href="#" style="color: var(--black); font-weight: 700;">Director Access</a>
+        <div style="margin-bottom: 25px;">
+            <a href="#">About Us</a>
+            <a href="#">Support</a>
+            <a href="#">Terms & Privacy</a>
+            <a href="#" style="color: var(--black); font-weight: 700;">Director Portal</a>
         </div>
-        <p>© 2026 Funeral Match Ltd. Clarity in Every Journey.</p>
+        <p>© 2026 Funeral Match. Dedicated to Clarity.</p>
     </footer>
 
 </body>
