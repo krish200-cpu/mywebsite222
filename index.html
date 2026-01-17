@@ -3,68 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Funeral Match | The New Standard of Care</title>
+    <title>Funeral Match | Compassionate Guidance</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;500;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&display=swap');
         
         :root {
             --gold: #C5A059;
-            --graphite: #1a1a1a;
-            --white: #ffffff;
+            --charcoal: #1C1C1C;
+            --linen: #F8F5F2;
         }
 
         body { 
             font-family: 'Montserrat', sans-serif; 
-            background-color: var(--white);
-            color: var(--graphite);
+            background-color: var(--linen);
+            color: var(--charcoal);
             scroll-behavior: smooth;
+            line-height: 1.6;
         }
 
-        /* Full Screen Sectioning */
         section {
-            height: 100vh;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            align-items: center;
-            padding: 0 10%;
-            text-align: center;
+            padding: 4rem 10%;
         }
 
-        .fade-in-on-scroll {
+        .fade-in {
             opacity: 0;
-            transform: translateY(30px);
-            transition: all 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+            transform: translateY(20px);
+            transition: all 1s ease-out;
         }
 
-        .visible {
+        .fade-in.visible {
             opacity: 1;
             transform: translateY(0);
         }
 
-        /* The Search Card */
-        .search-container {
-            background: #fff;
-            border: 1px solid #f0f0f0;
-            padding: 3rem;
-            border-radius: 2px; /* Sharp, architectural edges for luxury */
-            box-shadow: 0 30px 60px rgba(0,0,0,0.03);
+        /* Responsive Search Card */
+        .service-card {
+            background: #ffffff;
+            border: 1px solid #e5e5e5;
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            max-width: 550px;
             width: 100%;
-            max-width: 600px;
         }
 
-        .line-input {
+        .input-underline {
             border: none;
-            border-bottom: 1px solid #e0e0e0;
-            padding: 1rem 0;
+            border-bottom: 2px solid #eee;
+            padding: 0.75rem 0;
             width: 100%;
-            font-weight: 300;
             background: transparent;
-            transition: border-color 0.6s;
+            font-size: 1.1rem;
+            transition: border-color 0.4s;
         }
 
-        .line-input:focus {
+        .input-underline:focus {
             outline: none;
             border-color: var(--gold);
         }
@@ -72,89 +70,85 @@
 </head>
 <body>
 
-    <section>
-        <div class="space-y-6">
-            <div class="flex flex-col items-center">
-                <span class="text-xs tracking-[0.8em] uppercase text-gray-400 mb-4">Established in clarity</span>
-                <h1 class="text-4xl md:text-5xl font-extralight tracking-tight leading-tight">
-                    Funeral <span class="text-[#C5A059]">Match</span>
-                </h1>
+    <section class="text-center">
+        <div class="fade-in js-scroll">
+            <h1 class="text-[0.7rem] tracking-[0.6em] uppercase text-gray-500 mb-6 font-semibold">Immediate Support</h1>
+            <h2 class="text-3xl md:text-5xl font-light mb-8 tracking-tight leading-tight">
+                When you need a <span class="text-[#C5A059]">steady hand.</span>
+            </h2>
+            <p class="max-w-xl mx-auto text-lg text-gray-600 font-light mb-12">
+                If a death has just occurred, we are here to simplify the first hours. We provide the clarity you need to move forward with dignity.
+            </p>
+            <a href="#how-we-help" class="text-[0.65rem] font-bold tracking-[0.4em] uppercase border-b-2 border-[#C5A059] pb-2">
+                See how we assist
+            </a>
+        </div>
+    </section>
+
+    <section id="how-we-help" class="bg-[#1C1C1C] text-white">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-16 fade-in js-scroll">
+            <div class="space-y-4">
+                <span class="text-[#C5A059] text-sm font-bold tracking-widest uppercase">01. Legal Clarity</span>
+                <h3 class="text-xl font-medium">Navigating Paperwork</h3>
+                <p class="text-gray-400 font-light text-sm leading-relaxed">
+                    We guide you through the certification and registration process, ensuring no detail is overlooked during a difficult time.
+                </p>
             </div>
-            <p class="text-[0.6rem] tracking-[0.5em] uppercase text-gray-300 pt-12">Scroll to discover</p>
+            <div class="space-y-4">
+                <span class="text-[#C5A059] text-sm font-bold tracking-widest uppercase">02. Immediate Logistics</span>
+                <h3 class="text-xl font-medium">Bringing Them Home</h3>
+                <p class="text-gray-400 font-light text-sm leading-relaxed">
+                    We facilitate the immediate transfer of your loved one into the care of a verified, dignified professional.
+                </p>
+            </div>
+            <div class="space-y-4">
+                <span class="text-[#C5A059] text-sm font-bold tracking-widest uppercase">03. Honest Choice</span>
+                <h3 class="text-xl font-medium">Fairness by Default</h3>
+                <p class="text-gray-400 font-light text-sm leading-relaxed">
+                    By showing you every cost upfront, we protect you from financial stress, allowing you to focus on saying goodbye.
+                </p>
+            </div>
         </div>
     </section>
 
-    <section class="bg-gray-50/50">
-        <div class="max-w-2xl fade-in-on-scroll js-scroll">
-            <h2 class="text-[0.65rem] font-semibold tracking-[0.4em] uppercase text-[#C5A059] mb-8">01. Transparency</h2>
-            <p class="text-2xl md:text-3xl font-extralight leading-relaxed text-gray-700">
-                Traditional funeral planning is clouded by hidden costs. We brought <span class="font-normal text-black underline decoration-[#C5A059] underline-offset-8">absolute honesty</span> to the industry.
-            </p>
-        </div>
-    </section>
-
-    <section>
-        <div class="max-w-2xl fade-in-on-scroll js-scroll">
-            <h2 class="text-[0.65rem] font-semibold tracking-[0.4em] uppercase text-[#C5A059] mb-8">02. Curated Match</h2>
-            <p class="text-2xl md:text-3xl font-extralight leading-relaxed text-gray-700">
-                Not every director makes the cut. We only match you with providers who uphold the <span class="font-normal text-black">New Standard of Care.</span>
-            </p>
-        </div>
-    </section>
-
-    <section id="search-section" class="bg-white">
-        <div class="search-container fade-in-on-scroll js-scroll">
-            <h2 class="text-xl font-light mb-12 tracking-wide">Find a local partner</h2>
+    <section class="items-center">
+        <div class="service-card fade-in js-scroll">
+            <h2 class="text-2xl font-light mb-2">Find Local Support</h2>
+            <p class="text-gray-400 text-sm mb-10 font-light italic">Enter your location to view verified directors near you.</p>
             
-            <form action="search.html" class="space-y-12">
+            <form action="search.html" class="space-y-10">
                 <div class="text-left">
-                    <label class="text-[0.6rem] uppercase tracking-widest text-gray-400">Postcode</label>
-                    <input type="text" placeholder="e.g. SW1A" class="line-input text-lg">
+                    <label class="text-[0.6rem] uppercase tracking-widest text-gray-400 font-bold">Postcode</label>
+                    <input type="text" placeholder="e.g. SW1A" class="input-underline font-light" required>
                 </div>
 
                 <div class="text-left">
-                    <label class="text-[0.6rem] uppercase tracking-widest text-gray-400">Service Required</label>
-                    <select class="line-input text-lg appearance-none cursor-pointer">
-                        <option>Direct Cremation</option>
+                    <label class="text-[0.6rem] uppercase tracking-widest text-gray-400 font-bold">Service Required</label>
+                    <select class="input-underline font-light appearance-none cursor-pointer">
+                        <option>Direct Cremation (Low Stress)</option>
                         <option>Traditional Burial</option>
-                        <option>Eco-Friendly</option>
+                        <option>Eco-Friendly Service</option>
                     </select>
                 </div>
 
-                <button class="w-full bg-black text-white text-[0.7rem] font-bold tracking-[0.4em] uppercase py-6 hover:bg-[#C5A059] transition-all duration-700 mt-8">
-                    Enter Comparison
+                <button class="w-full bg-[#1C1C1C] text-white text-[0.7rem] font-bold tracking-[0.4em] uppercase py-6 hover:bg-[#C5A059] transition-all duration-500 rounded-lg">
+                    Compare Directors
                 </button>
             </form>
         </div>
     </section>
 
     <script>
-        // Simple Intersection Observer for Luxury Fades
-        const scrollElements = document.querySelectorAll(".js-scroll");
-
-        const elementInView = (el, dividend = 1) => {
-            const elementTop = el.getBoundingClientRect().top;
-            return (elementTop <= (window.innerHeight || document.documentElement.clientHeight) / dividend);
-        };
-
-        const displayScrollElement = (element) => {
-            element.classList.add("visible");
-        };
-
-        const handleScrollAnimation = () => {
-            scrollElements.forEach((el) => {
-                if (elementInView(el, 1.25)) {
-                    displayScrollElement(el);
+        // Intersection Observer for the "Service-First" reveals
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
                 }
             });
-        };
+        }, { threshold: 0.1 });
 
-        window.addEventListener("scroll", () => { 
-            handleScrollAnimation();
-        });
-
-        // Initialize first section
-        handleScrollAnimation();
+        document.querySelectorAll('.js-scroll').forEach(el => observer.observe(el));
     </script>
 </body>
 </html>
