@@ -13,8 +13,9 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-        body { background-color: var(--deep-slate); color: var(--white); -webkit-font-smoothing: antialiased; }
+        body { background-color: var(--deep-slate); color: var(--white); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
 
+        /* Smooth Navigation */
         nav {
             padding: 20px 24px; background: rgba(18, 20, 22, 0.95);
             backdrop-filter: blur(20px); border-bottom: 1px solid var(--border);
@@ -26,7 +27,7 @@
 
         .container { max-width: 650px; margin: 0 auto; padding: 20px 20px 140px; }
 
-        /* Premier Partner & Standard Card Architecture */
+        /* Result Cards (28px Organic) */
         .entry {
             background: var(--card-bg); border-radius: 28px; margin-bottom: 20px;
             padding: 30px; border: 1px solid var(--border);
@@ -47,17 +48,18 @@
         .price-val { font-family: 'Playfair Display', serif; font-size: 1.6rem; }
         .price-val span { color: var(--gold); margin-right: 2px; }
 
-        .btn-lock { background: var(--gold); color: #000; padding: 12px 24px; border-radius: 14px; border: none; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; cursor: pointer; }
+        .btn-lock { background: var(--gold); color: #000; padding: 12px 24px; border-radius: 14px; border: none; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; cursor: pointer; transition: 0.2s; }
+        .btn-lock:hover { opacity: 0.9; transform: translateY(-1px); }
         .btn-details { background: transparent; color: var(--white); border: 1px solid var(--border); padding: 12px 24px; border-radius: 14px; font-size: 0.7rem; text-transform: uppercase; cursor: pointer; }
 
-        /* Unified Glass Configurator Overlay */
+        /* Unified Glass Overlays */
         .glass-overlay {
             position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(15px);
             z-index: 2000; display: none; align-items: flex-end;
         }
         .glass-overlay.active { display: flex; }
         .config-card {
-            background: rgba(28, 31, 34, 0.95); border-top: 1px solid var(--gold);
+            background: rgba(28, 31, 34, 0.98); border-top: 1px solid var(--gold);
             width: 100%; border-radius: 40px 40px 0 0; padding: 40px 24px;
             animation: slideUp 0.4s ease;
         }
@@ -68,6 +70,9 @@
         .pill-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
         .pill { background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 15px; border-radius: 18px; font-size: 0.75rem; text-align: center; cursor: pointer; color: var(--text-dim); }
         .pill.active { border-color: var(--gold); color: var(--gold); background: var(--gold-glow); }
+
+        input { width: 100%; background: var(--deep-slate); border: 1px solid var(--border); padding: 18px; border-radius: 15px; color: white; margin-bottom: 12px; font-size: 0.9rem; outline: none; }
+        input:focus { border-color: var(--gold); }
 
         /* Quote Machine Floating Pill */
         .quote-machine {
@@ -88,13 +93,14 @@
     <div class="container" id="resultsList"></div>
 
     <div class="quote-machine">
-        <span style="font-size: 0.6rem; text-transform: uppercase; letter-spacing: 1.5px;">Live Quote Benchmarking</span>
+        <span style="font-size: 0.6rem; text-transform: uppercase; letter-spacing: 1.5px;">Live Benchmarked Quote</span>
         <div style="width: 1px; height: 15px; background: var(--border);"></div>
         <span id="globalPrice" class="pill-price">£3,450</span>
     </div>
 
     <div class="glass-overlay" id="configOverlay">
         <div class="config-card">
+            <div style="width: 40px; height: 4px; background: var(--border); border-radius: 10px; margin: -20px auto 30px;"></div>
             <div class="filter-group">
                 <span class="group-label">Sort results</span>
                 <div class="pill-grid">
@@ -113,15 +119,41 @@
         </div>
     </div>
 
+    <div class="glass-overlay" id="reviewDrawer">
+        <div class="config-card">
+            <div style="width: 40px; height: 4px; background: var(--border); border-radius: 10px; margin: -20px auto 30px;"></div>
+            <h2 style="font-family: 'Playfair Display', serif; font-size: 1.8rem; margin-bottom: 5px;">Review Selection</h2>
+            <p style="color: var(--text-dim); font-size: 0.8rem; margin-bottom: 30px;">Secure your locked price with the director.</p>
+
+            <div style="background: rgba(255,255,255,0.03); border-radius: 20px; padding: 20px; margin-bottom: 30px; border: 1px solid var(--border);">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                    <span id="summaryName" style="font-weight: 600;">-</span>
+                    <span id="summaryTotal" style="color: var(--gold); font-weight: 600;">£0</span>
+                </div>
+                <div id="summaryAddons" style="font-size: 0.7rem; color: var(--text-dim); line-height: 1.6;"></div>
+            </div>
+
+            <div class="filter-group">
+                <span class="group-label">Handoff Contact Details</span>
+                <input type="text" placeholder="Full Name">
+                <input type="email" placeholder="Email Address">
+            </div>
+            <button class="btn-lock" style="width: 100%; padding: 22px; border-radius: 20px;" onclick="completeHandoff()">Confirm & Send</button>
+        </div>
+    </div>
+
     <script>
         const directors = [
             { id: 1, name: "Belgrave & Beaumont", base: 3450, score: 99, sponsored: true, tags: ['Private Mortuary', 'Mercedes Fleet', 'Chapel of Rest'] },
             { id: 2, name: "Westminster Partners", base: 2800, score: 96, sponsored: false, tags: ['Family Led', 'Local Chapel'] },
-            { id: 3, name: "St. James Independent", base: 2650, score: 91, sponsored: false, tags: ['Vetted Provider', 'Rapid Response'] }
+            { id: 3, name: "St. James Independent", base: 2650, score: 91, sponsored: false, tags: ['Vetted Provider', 'Rapid Response'] },
+            { id: 4, name: "Chelsea Memorials", base: 3900, score: 95, sponsored: false, tags: ['Bespoke Fleet', 'Repatriation'] }
+            // Logic expands to 25+ results in production
         ];
 
         let addons = 0;
         let activeSort = 'score';
+        let selectedDirector = null;
 
         function toggleConfig() { document.getElementById('configOverlay').classList.toggle('active'); }
 
@@ -136,6 +168,23 @@
             el.parentElement.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
             el.classList.add('active');
             render();
+        }
+
+        function lockPrice(id) {
+            selectedDirector = directors.find(d => d.id === id);
+            document.getElementById('summaryName').innerText = selectedDirector.name;
+            document.getElementById('summaryTotal').innerText = `£${(selectedDirector.base + addons).toLocaleString()}`;
+            
+            const addonList = [];
+            document.querySelectorAll('.filter-group .pill.active').forEach(p => addonList.push(p.innerText));
+            document.getElementById('summaryAddons').innerHTML = addonList.length > 0 ? addonList.join('<br>') : "Standard Arrangement";
+            
+            document.getElementById('reviewDrawer').classList.add('active');
+        }
+
+        function completeHandoff() {
+            alert("Selection sent to Director. Reference ID: " + Math.random().toString(36).substr(2, 9).toUpperCase());
+            window.location.reload(); 
         }
 
         function render() {
@@ -159,7 +208,7 @@
                         <div class="tag-row">${d.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
                         <div class="card-footer">
                             <div class="price-val"><span>£</span>${total.toLocaleString()}</div>
-                            <button class="${d.sponsored ? 'btn-lock' : 'btn-details'}">${d.sponsored ? 'Lock Price' : 'Details'}</button>
+                            <button class="${d.sponsored ? 'btn-lock' : 'btn-details'}" onclick="lockPrice(${d.id})">${d.sponsored ? 'Lock Price' : 'Details'}</button>
                         </div>
                     </div>`;
             });
