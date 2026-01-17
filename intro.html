@@ -3,101 +3,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Funeral Match</title>
+    <title>Welcome | Funeral Match</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Loading Playfair Display (Serif) and Inter (Sans) */
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@900&family=Inter:wght@300;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap');
         
-        :root {
-            --gold: #C5A059;
-            --black: #000000;
-        }
-
         body { 
-            margin: 0;
-            background-color: #ffffff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh; /* Centered to device */
-            width: 100vw;
-            overflow: hidden;
-            -webkit-font-smoothing: antialiased;
+            font-family: 'Inter', sans-serif; 
+            background-color: #0f172a; /* Deep slate blue-black */
+            overflow: hidden; 
         }
 
-        .brand-box {
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+        /* Animation for the Statement */
+        .fade-in-text {
+            opacity: 0;
+            animation: fadeIn 1.5s ease-out forwards;
+            animation-delay: 0.8s;
         }
 
-        /* Authorized, Bold Statement Font */
-        .funeral-text {
-            font-family: 'Playfair Display', serif;
-            color: var(--black);
-            font-size: clamp(3rem, 10vw, 5rem); /* Responsive sizing */
-            font-weight: 900;
-            text-transform: uppercase;
-            line-height: 0.8;
-            letter-spacing: -0.02em;
+        /* Animation for the Logo */
+        .logo-appear {
             opacity: 0;
             transform: translateY(10px);
-            animation: luxuryFadeIn 1.2s ease-out forwards;
+            animation: appear 1s ease-out forwards;
         }
 
-        /* Elegant, Spaced Modern Font */
-        .match-text {
-            font-family: 'Inter', sans-serif;
-            color: var(--gold);
-            font-size: clamp(3.2rem, 11vw, 5.4rem); /* Slightly bigger as requested */
-            font-weight: 300;
-            text-transform: uppercase;
-            letter-spacing: 0.3em; /* Luxury spacing */
-            line-height: 1;
-            margin-top: 0.5rem;
-            opacity: 0;
-            transform: translateY(10px);
-            animation: luxuryFadeIn 1.2s ease-out forwards;
-            animation-delay: 0.6s;
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
-        @keyframes luxuryFadeIn {
-            to { 
-                opacity: 1; 
-                transform: translateY(0); 
-            }
+        @keyframes appear {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Seamless transition out */
-        .exit-transition {
-            animation: fadeOutToWhite 0.8s ease-in forwards;
-        }
-
-        @keyframes fadeOutToWhite {
-            to { opacity: 0; }
+        /* Transition to hide the splash */
+        .page-exit {
+            transition: transform 0.8s cubic-bezier(0.7, 0, 0.3, 1);
         }
     </style>
 </head>
-<body>
+<body class="flex items-center justify-center min-h-screen">
 
-    <div id="container" class="brand-box">
-        <span class="funeral-text">Funeral</span>
-        <span class="match-text">Match</span>
+    <div id="splash-container" class="text-center page-exit">
+        <div class="logo-appear flex items-center justify-center gap-2 mb-6">
+            <div class="w-10 h-10 bg-emerald-500 rounded-full flex items-center justify-center">
+                <div class="w-5 h-5 border-t-2 border-r-2 border-white rotate-45 transform translate-y-0.5 -translate-x-0.5"></div>
+            </div>
+            <span class="text-white text-3xl font-extrabold tracking-tighter">FUNERAL MATCH</span>
+        </div>
+
+        <h1 class="fade-in-text text-slate-400 text-xl md:text-2xl font-medium tracking-wide">
+            Clarity when you need it most.
+        </h1>
+
+        <div class="mt-12 w-48 h-0.5 bg-slate-800 mx-auto overflow-hidden">
+            <div id="progress-bar" class="h-full bg-emerald-500 w-0 transition-all duration-[3000ms] ease-out"></div>
+        </div>
     </div>
 
     <script>
-        window.addEventListener('load', () => {
-            // Unhurried 3.5s timing for high-end feel
+        window.addEventListener('DOMContentLoaded', () => {
+            const progressBar = document.getElementById('progress-bar');
+            const splash = document.body;
+
+            // Start progress bar
             setTimeout(() => {
-                document.getElementById('container').classList.add('exit-transition');
+                progressBar.style.width = '100%';
+            }, 100);
+
+            // Transition to Home Page
+            setTimeout(() => {
+                // For this tester, we will fade out the body
+                splash.style.opacity = '0';
+                splash.style.transition = 'opacity 0.8s ease';
                 
                 setTimeout(() => {
-                    // Moving to the next page
+                    // In a real project, this would be: window.location.href = 'index.html';
+                    // For now, we will simulate the arrival at Home.
+                    alert("Transitioning to Funeral Match Home Page...");
                     window.location.href = 'index.html';
                 }, 800);
-            }, 3500);
+            }, 3200);
         });
     </script>
 </body>
