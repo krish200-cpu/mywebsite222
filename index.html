@@ -3,45 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FuneralMatch | The New Standard</title>
+    <title>FuneralMatch | The New Standard of Care</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;6..96,600&family=Inter:wght@300;400;500&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;6..96,600&family=Inter:wght@300;400;500;600&display=swap');
         
         :root { 
             --gold: #C5A059; 
-            --deep-bg: #121212; 
-            --box-light: #FDFDFB; /* The light box color */
+            --bg-light: #F9F8F6; /* Soft Linen/Cream background */
+            --box-dark: #1A1A1A; /* Deep Charcoal box */
         }
         
         body { 
             font-family: 'Inter', sans-serif; 
-            background-color: var(--deep-bg);
-            background-image: radial-gradient(circle at 50% 0%, #1A1A1A 0%, #121212 80%);
-            color: #121212; /* Text inside boxes will be dark */
+            background-color: var(--bg-light);
+            /* Subtle paper texture to maintain high-end feel */
+            background-image: url('https://www.transparenttextures.com/patterns/natural-paper.png');
+            color: #1A1A1A;
             overflow-x: hidden;
         }
 
         .serif { font-family: 'Bodoni Moda', serif; }
 
-        /* Static Logo (Top Left) */
+        /* Left-Aligned Balanced Logo (Static) */
         header { padding: 4rem 10%; }
         .logo-wrap { display: flex; flex-direction: column; width: 160px; }
-        .brand-text { font-family: 'Bodoni Moda', serif; text-transform: uppercase; font-size: 1.1rem; letter-spacing: 0.35em; line-height: 1.1; font-weight: 600; color: white; }
+        .brand-text { font-family: 'Bodoni Moda', serif; text-transform: uppercase; font-size: 1.1rem; letter-spacing: 0.35em; line-height: 1.1; font-weight: 600; color: #1A1A1A; }
         .logo-line { width: 100%; height: 1.5px; background: var(--gold); margin: 8px 0; }
         .brand-match { color: var(--gold); letter-spacing: 0.72em; margin-right: -0.72em; }
 
-        /* The Light Box: Gentle Landing UI */
-        .light-box {
-            background-color: var(--box-light);
+        /* The Dark Box: Gentle Landing UI */
+        .dark-box {
+            background-color: var(--box-dark);
             padding: 5rem;
-            border-radius: 4px; /* Professional sharp-soft hybrid */
+            border-radius: 2px; /* Sharp professional edges */
             max-width: 850px;
             width: 100%;
-            box-shadow: 0 40px 100px rgba(0,0,0,0.5);
-            border-left: 6px solid var(--gold); /* Brand anchor */
+            box-shadow: 0 50px 100px rgba(0,0,0,0.15);
+            color: #FFFFFF;
+            position: relative;
+        }
+
+        .dark-box::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background-color: var(--gold);
         }
 
         section {
@@ -53,34 +65,35 @@
             padding-left: 10%;
         }
 
-        .hero-h1 { font-size: clamp(2.5rem, 5vw, 4.5rem); line-height: 1.1; margin-bottom: 2rem; color: #121212; }
-        .hero-p { font-size: 1.2rem; font-weight: 400; color: #444; max-width: 550px; line-height: 1.7; }
+        .hero-h1 { font-size: clamp(2.5rem, 5vw, 4.5rem); line-height: 1.1; margin-bottom: 2.5rem; }
+        .hero-p { font-size: 1.25rem; font-weight: 300; color: #BCBCBC; max-width: 550px; line-height: 1.7; }
 
-        /* Inquiry Drawer Refinement */
+        /* Inquiry Drawer (The "W" Collection) - Maintains Dark Theme */
         #inquiry-drawer {
             position: fixed;
             top: 0;
             right: 0;
             height: 100vh;
             width: 450px;
-            background: var(--box-light);
+            background: var(--box-dark);
             border-left: 1px solid var(--gold);
             z-index: 2000;
             transform: translateX(100%);
             transition: transform 1s cubic-bezier(0.16, 1, 0.3, 1);
             padding: 4rem;
-            color: #121212;
+            color: #FFFFFF;
         }
         #inquiry-drawer.active { transform: translateX(0); }
 
         .form-input {
             background: transparent;
-            border-bottom: 2px solid #EAEAEA;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
             width: 100%;
             padding: 1.2rem 0;
-            color: #121212;
+            color: white;
             outline: none;
             transition: border-color 0.3s;
+            font-size: 0.9rem;
         }
         .form-input:focus { border-color: var(--gold); }
     </style>
@@ -96,25 +109,25 @@
     </header>
 
     <section>
-        <div class="light-box" data-aos="fade-up" data-aos-duration="1200" data-aos-easing="ease-out-back">
-            <p class="text-[10px] uppercase tracking-[0.5em] text-stone-400 mb-8 font-bold">Introduction</p>
-            <h1 class="serif hero-h1">The new standard <br>of <span class="italic text-stone-500">care.</span></h1>
-            <p class="hero-p">Welcome to FuneralMatch. We provide an independent framework designed to bring clarity and dignity to the planning process.</p>
+        <div class="dark-box" data-aos="fade-up" data-aos-duration="1200" data-aos-easing="ease-out-back">
+            <p class="text-[10px] uppercase tracking-[0.5em] text-stone-500 mb-8 font-bold">Introduction</p>
+            <h1 class="serif hero-h1 italic">Defining <br><span class="not-italic">a new standard.</span></h1>
+            <p class="hero-p">FuneralMatch is a bridge between family necessity and professional care, providing a vetted framework for the UK's funeral industry.</p>
         </div>
     </section>
 
     <section>
-        <div class="light-box" data-aos="fade-up" data-aos-duration="1200" data-aos-easing="ease-out-back">
-            <h2 class="text-[10px] uppercase tracking-[0.5em] text-stone-400 mb-8 font-bold">Our Philosophy</h2>
-            <p class="serif text-4xl leading-tight mb-8">We curate the best, <br>so you can expect the <span class="gold underline decoration-amber-600/20">highest service.</span></p>
-            <p class="hero-p text-base">Our vetting process ensures every director in our suite adheres to strict pricing transparency and ethical conduct.</p>
+        <div class="dark-box" data-aos="fade-up" data-aos-duration="1200" data-aos-easing="ease-out-back">
+            <h2 class="text-[10px] uppercase tracking-[0.5em] text-stone-500 mb-8 font-bold">Our Mandate</h2>
+            <p class="serif text-4xl leading-tight mb-8">Independence is our <br><span class="gold underline decoration-amber-600/30">greatest asset.</span></p>
+            <p class="hero-p text-base">We operate as an objective middleman, ensuring that every director in our suite meets our rigorous standards of transparency.</p>
         </div>
     </section>
 
     <section>
-        <div class="light-box" data-aos="fade-up" data-aos-duration="1200">
-            <h2 class="serif text-4xl mb-12">Identify the right <br>match for your family.</h2>
-            <button class="bg-black text-white px-14 py-5 text-xs font-bold uppercase tracking-[0.3em] hover:bg-stone-800 transition-all shadow-xl">
+        <div class="dark-box" data-aos="fade-up" data-aos-duration="1200">
+            <h2 class="serif text-4xl mb-12">Identify the support <br>your family requires.</h2>
+            <button class="bg-white text-black px-14 py-5 text-xs font-bold uppercase tracking-[0.3em] hover:bg-stone-200 transition-all shadow-xl">
                 Enter Comparison Suite
             </button>
         </div>
@@ -122,36 +135,36 @@
 
     <div id="inquiry-drawer">
         <div class="flex justify-between items-center mb-16">
-            <span class="serif text-xs uppercase tracking-widest font-bold">Immediate Inquiry</span>
-            <button onclick="toggleDrawer()" class="text-stone-300 hover:text-black text-4xl font-light leading-none">&times;</button>
+            <span class="serif text-xs uppercase tracking-widest font-bold gold">Immediate Inquiry</span>
+            <button onclick="toggleDrawer()" class="text-stone-500 hover:text-white text-4xl font-light leading-none">&times;</button>
         </div>
         
         <form class="space-y-10">
             <div>
-                <p class="text-[10px] uppercase tracking-widest text-stone-400 font-bold mb-2">Who is the correspondent?</p>
-                <input type="text" placeholder="Your Full Name" class="form-input">
+                <p class="text-[10px] uppercase tracking-widest text-stone-500 font-bold mb-2">Name of Correspondent</p>
+                <input type="text" placeholder="Full Name" class="form-input">
             </div>
             <div>
-                <p class="text-[10px] uppercase tracking-widest text-stone-400 font-bold mb-2">Where is support required?</p>
-                <input type="text" placeholder="Location or Postcode" class="form-input">
+                <p class="text-[10px] uppercase tracking-widest text-stone-500 font-bold mb-2">Location of Requirement</p>
+                <input type="text" placeholder="Postcode or City" class="form-input">
             </div>
             <div>
-                <p class="text-[10px] uppercase tracking-widest text-stone-400 font-bold mb-2">When is care needed?</p>
+                <p class="text-[10px] uppercase tracking-widest text-stone-500 font-bold mb-2">Time of Passing</p>
                 <select class="form-input bg-transparent">
-                    <option>Immediate (Within 24hrs)</option>
-                    <option>Expected shortly</option>
-                    <option>Pre-planning advice</option>
+                    <option class="bg-stone-900">Immediate Need (Today)</option>
+                    <option class="bg-stone-900">Passing Expected Shortly</option>
+                    <option class="bg-stone-900">Pre-planning / Inquiry</option>
                 </select>
             </div>
             <div class="pt-8">
-                <button class="w-full bg-black text-white py-5 font-bold uppercase tracking-widest text-[11px] hover:bg-stone-800 transition-all">
-                    Request Priority Callback
+                <button class="w-full bg-[#C5A059] text-black py-5 font-bold uppercase tracking-widest text-[11px] hover:bg-white transition-all">
+                    Request Priority Connection
                 </button>
             </div>
         </form>
     </div>
 
-    <button onclick="toggleDrawer()" class="fixed bottom-10 right-10 bg-white text-black px-10 py-5 rounded-sm text-[10px] font-bold uppercase tracking-[0.4em] z-[100] shadow-2xl border-b-4 border-amber-500">
+    <button onclick="toggleDrawer()" class="fixed bottom-10 right-10 bg-black text-white px-10 py-5 rounded-sm text-[10px] font-bold uppercase tracking-[0.4em] z-[100] shadow-2xl border-b-4 border-amber-600">
         Urgent Support
     </button>
 
@@ -162,7 +175,7 @@
             document.getElementById('inquiry-drawer').classList.toggle('active');
         }
 
-        // Auto-trigger drawer after 1.2s for soft-launch test
+        // Auto-trigger drawer after 1.2s
         window.addEventListener('load', () => {
             setTimeout(() => {
                 document.getElementById('inquiry-drawer').classList.add('active');
