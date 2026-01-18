@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Wish Registry | FuneralMatch Advocacy</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@1,400;1,700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        :root { --gold: #C5A059; --black: #1a1a1a; --soft-bg: #F8F7F5; }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        body { font-family: 'Inter', sans-serif; background: var(--soft-bg); color: var(--black); }
+        .serif { font-family: 'Bodoni Moda', serif; }
+        
+        /* LOGO CONSISTENCY */
+        .logo-nav { position: absolute; top: 2rem; left: 5%; z-index: 1000; }
+        .logo-wrap { display: flex; flex-direction: column; align-items: flex-start; }
+        .brand-text { font-family: 'Bodoni Moda', serif; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.4em; }
+        .brand-gold { color: var(--gold); letter-spacing: 0.7em; }
+        .logo-line { width: 35px; height: 1px; background: var(--gold); margin: 6px 0; }
+
+        .wish-card { background: white; border-radius: 2.5rem; padding: 3rem; border: 1px solid #EEE; margin-bottom: 2rem; }
+        .step-pill { background: #000; color: white; padding: 4px 12px; border-radius: 9999px; font-size: 9px; font-weight: 800; text-transform: uppercase; margin-bottom: 1.5rem; display: inline-block; }
+        .input-underline { width: 100%; border: none; border-bottom: 1px solid #EEE; padding: 1rem 0; outline: none; font-size: 1.1rem; background: transparent; transition: 0.3s; }
+        .input-underline:focus { border-color: var(--gold); }
+    </style>
+</head>
+<body class="pt-32 pb-24 px-8">
+
+    <nav class="logo-nav">
+        <div class="logo-wrap">
+            <span class="brand-text">Funeral</span>
+            <div class="logo-line"></div>
+            <span class="brand-text brand-gold">Match</span>
+        </div>
+    </nav>
+
+    <main class="max-w-4xl mx-auto">
+        
+        <header class="text-center mb-20" data-aos="fade-up">
+            <h1 class="serif italic text-6xl mb-6">Record your story.</h1>
+            <p class="text-stone-400 uppercase tracking-[0.4em] text-[10px] font-bold">Non-Financial Letter of Wishes // Secure Registry</p>
+        </header>
+
+        <form action="https://formspree.io/f/mvzzkjeq" method="POST">
+            
+            <section class="wish-card" data-aos="fade-up">
+                <span class="step-pill">Phase 01</span>
+                <h2 class="serif italic text-3xl mb-8">Atmosphere & Tone</h2>
+                <div class="space-y-8">
+                    <div>
+                        <label class="text-[10px] font-bold uppercase tracking-widest text-stone-400">The "Song" of your life</label>
+                        <input type="text" name="music_preference" class="input-underline" placeholder="e.g. 'My Way' - Frank Sinatra">
+                    </div>
+                    <div>
+                        <label class="text-[10px] font-bold uppercase tracking-widest text-stone-400">Atmosphere</label>
+                        <select name="tone" class="input-underline">
+                            <option value="traditional">Traditional & Solemn</option>
+                            <option value="celebration">A Celebration of Life</option>
+                            <option value="minimalist">Simple & Private</option>
+                        </select>
+                    </div>
+                </div>
+            </section>
+
+            <section class="wish-card" data-aos="fade-up">
+                <span class="step-pill">Phase 02</span>
+                <h2 class="serif italic text-3xl mb-8">Resting Place</h2>
+                <div class="space-y-8">
+                    <div class="flex gap-8 items-center">
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="radio" name="disposal" value="cremation" class="accent-[#C5A059]"> <span class="text-sm">Cremation</span>
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="radio" name="disposal" value="burial" class="accent-[#C5A059]"> <span class="text-sm">Burial</span>
+                        </label>
+                    </div>
+                    <div>
+                        <label class="text-[10px] font-bold uppercase tracking-widest text-stone-400">Specific Requests (e.g. Woodland, scattering location)</label>
+                        <textarea name="location_details" class="input-underline h-24" placeholder="Share your vision..."></textarea>
+                    </div>
+                </div>
+            </section>
+
+            <section class="wish-card" data-aos="fade-up">
+                <span class="step-pill">Phase 03</span>
+                <h2 class="serif italic text-3xl mb-8">Secure the File</h2>
+                <p class="text-xs text-stone-400 mb-8 leading-relaxed">By registering your wishes, we will store this encrypted file and provide you with a unique ID to share with your next of kin. No payment required.</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <input type="text" name="user_name" placeholder="Your Name" class="input-underline" required>
+                    <input type="email" name="user_email" placeholder="Email Address" class="input-underline" required>
+                </div>
+                
+                <button type="submit" class="w-full mt-12 bg-black text-white py-5 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-[#C5A059] transition-all shadow-xl">Register My Wishes</button>
+                <p class="text-[9px] text-center text-stone-400 mt-6 tracking-widest">RELAY TAG: 2917681399450303860 // NON-FINANCIAL REGISTRY</p>
+            </section>
+
+        </form>
+
+    </main>
+
+    <script>
+        AOS.init({ duration: 1000, once: true });
+    </script>
+</body>
+</html>
