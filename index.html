@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>FuneralMatch | The Revolution of Care</title>
+    <title>FuneralMatch | The New Standard of Care</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,ital,wght@6..96,0,400;6..96,0,700&family=Outfit:wght@200;300;400;600;800&display=swap" rel="stylesheet">
@@ -11,11 +11,6 @@
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
     <style>
-        /* ==========================================================================
-           MASTER ARCHITECTURE: THE CHAPEL MONOLITH (V10.0)
-           Goal: Absolute Viability, High-End Modernism, Zero Corners
-           ========================================================================== */
-
         :root {
             --gold: #C5A059;
             --black: #000000;
@@ -75,11 +70,9 @@
             text-align: right;
             background: var(--glass-bg);
             backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
             padding: 1rem 1.5rem;
             border-radius: 2rem;
             border: 1px solid var(--glass-border);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
         }
         .motto-text { color: #333; font-size: 0.9rem; font-weight: 300; line-height: 1.4; }
         .motto-gold-line { width: 35px; height: 1.2px; background: var(--gold); margin: 8px 0 0 auto; }
@@ -108,12 +101,6 @@
             display: flex; align-items: center;
             box-shadow: 0 40px 100px rgba(0,0,0,0.1);
             margin-bottom: 3rem;
-        }
-
-        @media (max-width: 640px) {
-            .search-container { flex-direction: column; border-radius: 2.5rem; padding: 1.2rem; }
-            .search-input { width: 100%; text-align: center; margin-bottom: 1rem; }
-            .search-btn { width: 100%; }
         }
 
         .search-input { flex: 1; border: none; outline: none; padding: 0 2rem; font-size: 1.1rem; background: transparent; color: #111; }
@@ -146,8 +133,6 @@
             border-radius: var(--radius-box);
             border: 1px solid var(--glass-border);
             text-align: center;
-            transition: var(--ease-cinematic) 0.8s;
-            display: flex; flex-direction: column; justify-content: space-between;
         }
 
         /* PREMIUM FUNERAL PLAN PROMINENCE */
@@ -158,25 +143,10 @@
             transform: scale(1.05);
             z-index: 50;
         }
-        .partner-spotlight:hover { transform: scale(1.08) translateY(-5px); }
 
         .tag { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5em; color: var(--gold); font-weight: 800; margin-bottom: 1.5rem; display: block; }
         .h2-pill { font-size: 2.5rem; line-height: 1; margin-bottom: 1.5rem; color: var(--black); }
         .p-pill { font-size: 1rem; font-weight: 300; color: #444; line-height: 1.7; }
-
-        /* 4. EMERGENCY SYSTEM (SOFT PULSE) */
-        #soft-support {
-            position: fixed; bottom: 3rem; right: 3rem;
-            background: white; padding: 1.2rem 2.2rem;
-            border-radius: var(--radius-pill);
-            box-shadow: 0 25px 60px rgba(0,0,0,0.15);
-            display: flex; align-items: center; gap: 15px;
-            z-index: 2000; transform: translateY(200%);
-            transition: var(--ease-cinematic) 1.2s;
-            border: 1px solid var(--gold);
-        }
-        #soft-support.active { transform: translateY(0); }
-        .dismiss-x { font-size: 1.4rem; color: #CCC; cursor: pointer; border-left: 1px solid #EEE; padding-left: 12px; line-height: 1; }
     </style>
 </head>
 <body>
@@ -211,47 +181,28 @@
         </div>
 
         <div class="benefits-grid">
-            
             <div class="benefit-pill" data-aos="fade-up" data-aos-delay="500">
                 <span class="tag">Independence</span>
-                <h2 class="serif h2-pill italic">Unbiased <br>Advocacy.</h2>
-                <p class="p-pill">We represent your family, not the director. Our comparison platform ensures unbiased merit and service transparency.</p>
+                <h2 class="serif h2-pill italic">Vetted <br>Merit.</h2>
+                <p class="p-pill">Our comparison engine represents your family. We audit every director to ensure service over profit.</p>
             </div>
 
             <div class="benefit-pill partner-spotlight" data-aos="fade-up" data-aos-delay="600">
                 <span class="tag">Secure The Future</span>
                 <h2 class="serif h2-pill italic">Funeral <br>Planning.</h2>
-                <p class="p-pill">Lock in today's security. Discover vetted partners to guarantee long-term peace of mind and fixed costs for tomorrow.</p>
+                <p class="p-pill">Lock in today's rates for tomorrow's peace of mind. Discover our premier vetted planning partners.</p>
             </div>
 
             <div class="benefit-pill" data-aos="fade-up" data-aos-delay="700">
-                <span class="tag">Transparency</span>
-                <h2 class="serif h2-pill italic">Direct <br>Pricing.</h2>
-                <p class="p-pill">Zero hidden fees. Access high-quality care through a fixed-cost, modernized framework built for families first.</p>
+                <span class="tag">Standard</span>
+                <h2 class="serif h2-pill italic">Transparent <br>Costs.</h2>
+                <p class="p-pill">Dismantling opaque fee cultures. Access high-quality care through a fixed-cost framework.</p>
             </div>
-
         </div>
     </main>
 
-    <div id="soft-support">
-        <div class="flex items-center gap-4 cursor-pointer" onclick="alert('Priority Consultation Triggered')">
-            <span class="relative flex h-2 w-2">
-                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
-                <span class="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
-            </span>
-            <span class="text-[10px] font-bold uppercase tracking-widest text-stone-700">Immediate Help?</span>
-        </div>
-        <span class="dismiss-x" onclick="this.parentElement.style.display='none'">&times;</span>
-    </div>
-
     <script>
         AOS.init({ duration: 1500, once: true, offset: 100 });
-
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                document.getElementById('soft-support').classList.add('active');
-            }, 2500);
-        });
     </script>
 </body>
 </html>
