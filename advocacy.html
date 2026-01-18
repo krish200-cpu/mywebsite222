@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Family Advocacy | FuneralMatch Transparency</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@1,400;1,700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        :root { --gold: #C5A059; --black: #1a1a1a; --soft-bg: #F8F7F5; }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        body { font-family: 'Inter', sans-serif; background: var(--soft-bg); color: var(--black); }
+        .serif { font-family: 'Bodoni Moda', serif; }
+        
+        /* LOGO ARCHITECTURE */
+        .logo-nav { position: absolute; top: 2rem; left: 5%; z-index: 1000; }
+        .logo-wrap { display: flex; flex-direction: column; align-items: flex-start; }
+        .brand-text { font-family: 'Bodoni Moda', serif; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.4em; }
+        .brand-gold { color: var(--gold); letter-spacing: 0.7em; }
+        .logo-line { width: 35px; height: 1px; background: var(--gold); margin: 6px 0; }
+
+        .advocacy-card { background: white; border-radius: 3rem; padding: 3rem; border: 1px solid #EEE; transition: 0.4s; }
+        .data-visual { background: #FFFDF9; border: 1px dashed var(--gold); border-radius: 2rem; padding: 2rem; }
+        .comparison-bar { height: 8px; border-radius: 4px; background: #EEE; overflow: hidden; margin: 10px 0; }
+        .bar-fill { height: 100%; background: var(--gold); transition: 1s cubic-bezier(0.16, 1, 0.3, 1); }
+    </style>
+</head>
+<body class="pt-32 pb-24 px-8">
+
+    <nav class="logo-nav">
+        <div class="logo-wrap">
+            <span class="brand-text">Funeral</span>
+            <div class="logo-line"></div>
+            <span class="brand-text brand-gold">Match</span>
+        </div>
+    </nav>
+
+    <main class="max-w-6xl mx-auto">
+        
+        <header class="mb-20" data-aos="fade-up">
+            <p class="text-[10px] uppercase tracking-[0.4em] text-stone-400 font-bold mb-4">Independent Advocacy Group</p>
+            <h1 class="serif italic text-6xl mb-6">Transparency <br><span class="text-stone-400">over profit.</span></h1>
+            <p class="max-w-xl text-stone-500 text-sm leading-relaxed">Most families overpay by £1,200 when they don't compare. We provide the data the industry doesn't want you to see.</p>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            <div class="advocacy-card lg:col-span-2" data-aos="fade-right">
+                <h2 class="serif italic text-3xl mb-8">National Price Watch</h2>
+                <div class="space-y-10">
+                    <div>
+                        <div class="flex justify-between text-[10px] font-bold uppercase tracking-widest mb-2">
+                            <span>National Average (Corporate)</span>
+                            <span class="text-stone-400">£4,250</span>
+                        </div>
+                        <div class="comparison-bar"><div class="bar-fill w-full"></div></div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between text-[10px] font-bold uppercase tracking-widest mb-2">
+                            <span class="text-[#C5A059]">FuneralMatch Vetted Average</span>
+                            <span class="text-[#C5A059]">£2,850</span>
+                        </div>
+                        <div class="comparison-bar"><div class="bar-fill w-[62%]"></div></div>
+                    </div>
+                </div>
+                <p class="mt-12 text-xs text-stone-400 italic">*Based on independent audit data across 1,200+ partners. We remove directors who fail to meet our fair-pricing framework.</p>
+            </div>
+
+            <div class="advocacy-card" data-aos="fade-left">
+                <h3 class="serif italic text-2xl mb-6">The Jargon Buster</h3>
+                <div class="space-y-6">
+                    <div>
+                        <h4 class="text-xs font-bold uppercase mb-1">Disbursements</h4>
+                        <p class="text-[11px] text-stone-500">Third-party costs (crematorium, flowers, church). These should always be charged at cost with zero mark-up.</p>
+                    </div>
+                    <div>
+                        <h4 class="text-xs font-bold uppercase mb-1">Professional Fees</h4>
+                        <p class="text-[11px] text-stone-500">The director's labor, mortuary care, and logistics. This is where most hidden costs are buried.</p>
+                    </div>
+                    <button class="w-full py-4 mt-6 border border-stone-100 rounded-full text-[9px] font-bold uppercase tracking-widest hover:bg-black hover:text-white transition-all">Download Full Guide</button>
+                </div>
+            </div>
+        </div>
+
+        <section class="mt-24 p-16 rounded-[3.5rem] bg-white border border-stone-50 overflow-hidden relative" data-aos="fade-up">
+            <div class="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-16">
+                <div>
+                    <h3 class="serif italic text-3xl mb-6">Know who you are booking.</h3>
+                    <p class="text-sm text-stone-500 leading-relaxed mb-8">Did you know many "local" family names are actually owned by large national conglomerates? We only allow <strong>true independents</strong> on our platform. Directors who own their business and are directly accountable to you, not shareholders.</p>
+                </div>
+                <div class="flex flex-col justify-center">
+                    <div class="p-8 border-2 border-dashed border-[#C5A059] rounded-3xl">
+                        <p class="serif italic text-xl text-center">"Independence is the only guarantee of merit-based care."</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        AOS.init({ duration: 1000, once: true });
+    </script>
+</body>
+</html>
