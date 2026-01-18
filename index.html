@@ -3,19 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>FuneralMatch | Trusted Independent Comparison</title>
+    <title>FuneralMatch | The Revolution of Care</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,ital,wght@6..96,0,400;6..96,0,700&family=Outfit:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,ital,wght@6..96,0,400;6..96,0,700&family=Outfit:wght@200;300;400;600;800&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
     <style>
-        /* ==========================================================================
-           MONOLITHIC CSS: THE REVOLUTION (v11.0)
-           Engineered for High-Detail, persistence, and 100% Device Fluidity.
-           ========================================================================== */
-
         :root {
             --gold: #C5A059;
             --black: #000000;
@@ -24,7 +19,7 @@
             --glass-border: rgba(255, 255, 255, 0.6);
             --radius-pill: 9999px;
             --radius-box: 3.5rem;
-            --transition-cinematic: all 1.2s cubic-bezier(0.19, 1, 0.22, 1);
+            --ease-cinematic: cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
@@ -37,12 +32,12 @@
             min-height: 100vh;
         }
 
-        /* 1. PERSISTENT CHAPEL BACKGROUND (DIGNITY STYLE) */
-        .persistent-bg {
+        /* PERSISTENT BACKGROUND - LOCKED TO CHAPEL VIEW */
+        .persistent-sanctuary {
             position: fixed;
             inset: 0;
             z-index: -1;
-            background: linear-gradient(rgba(255,255,255,0.4), rgba(255,255,255,0.5)), 
+            background: linear-gradient(rgba(255,255,255,0.3), rgba(255,255,255,0.4)), 
                         url('https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2560&auto=format&fit=crop');
             background-size: cover;
             background-position: center;
@@ -50,121 +45,130 @@
 
         .serif { font-family: 'Bodoni Moda', serif; }
 
-        /* 2. HEADER: LEFT-ALIGNED LOGO (COMPACT) */
+        /* 1. STUCK HEADER (NO WHITE BAR) */
         header {
-            position: fixed; top: 0; left: 0; width: 100%;
-            padding: clamp(1.5rem, 4vw, 3rem) 8%;
-            display: flex; justify-content: flex-start;
+            position: absolute; /* Stuck at top, doesn't follow scroll */
+            top: 0; left: 0; width: 100%;
+            padding: 3rem 8%;
+            display: flex;
+            justify-content: flex-start;
             z-index: 100;
+            background: transparent;
         }
 
-        .logo-wrap { display: flex; flex-direction: column; width: 140px; text-align: left; }
-        .brand-funeral { font-family: 'Bodoni Moda', serif; text-transform: uppercase; font-size: 1rem; letter-spacing: 0.35em; line-height: 1.1; font-weight: 800; color: var(--black); }
-        .logo-divider { width: 100%; height: 1.5px; background: var(--gold); margin: 5px 0; }
-        .brand-match { font-family: 'Bodoni Moda', serif; text-transform: uppercase; font-size: 1rem; letter-spacing: 0.65em; font-weight: 700; color: var(--gold); margin-right: -0.65em; }
+        .logo-wrap { 
+            display: flex; 
+            flex-direction: column; 
+            width: 130px; 
+            text-align: left;
+            background: rgba(255,255,255,0.8); /* Background only behind logo for clarity */
+            padding: 1rem;
+            border-radius: 1.5rem;
+            backdrop-filter: blur(10px);
+        }
+        
+        .brand-funeral { font-family: 'Bodoni Moda', serif; text-transform: uppercase; font-size: 0.9rem; letter-spacing: 0.35em; line-height: 1.1; font-weight: 800; color: var(--black); }
+        .logo-divider { width: 100%; height: 1.2px; background: var(--gold); margin: 4px 0; }
+        .brand-match { font-family: 'Bodoni Moda', serif; text-transform: uppercase; font-size: 0.9rem; letter-spacing: 0.65em; font-weight: 700; color: var(--gold); margin-right: -0.65em; }
 
-        /* 3. CENTER COMMAND ENGINE */
+        /* 2. CENTRE COMMAND */
         main {
-            min-height: 100vh;
-            display: flex; flex-direction: column;
-            justify-content: center; align-items: center;
-            padding: 15vh 8% 10rem 8%;
+            padding: 12rem 8% 5rem 8%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .hero-title {
-            font-size: clamp(2.5rem, 6vw, 5rem);
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
             line-height: 1;
             margin-bottom: 3rem;
             text-align: center;
             color: var(--black);
         }
 
-        /* DEVICE SENSITIVE SEARCH PILL */
+        /* INTEGRATED SEARCH STADIUM */
         .search-stadium {
             width: 100%; max-width: 800px;
             background: white;
-            padding: 0.6rem;
+            padding: 0.5rem;
             border-radius: var(--radius-pill);
             display: flex; align-items: center;
             box-shadow: 0 40px 100px rgba(0,0,0,0.12);
             margin-bottom: 2rem;
-            transition: var(--transition-cinematic);
         }
 
-        @media (max-width: 640px) {
-            .search-stadium { flex-direction: column; border-radius: 2.5rem; padding: 1.5rem; }
-            .search-input { width: 100%; text-align: center; margin-bottom: 1.2rem; }
-            .search-btn { width: 100%; }
+        .search-input { flex: 1; border: none; outline: none; padding: 0 2rem; font-size: 1.1rem; background: transparent; }
+        .search-btn { background: #000; color: white; padding: 1.2rem 3rem; border-radius: var(--radius-pill); font-weight: 700; text-transform: uppercase; letter-spacing: 0.25em; font-size: 0.7rem; }
+
+        /* TRUST MARK */
+        .trust-mark {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5em;
+            font-weight: 800;
+            color: var(--gold);
+            margin-bottom: 6rem;
         }
 
-        .search-input { flex: 1; border: none; outline: none; padding: 0 2.5rem; font-size: 1.15rem; background: transparent; color: #111; }
-        .search-btn { background: #000; color: white; padding: 1.25rem 3.5rem; border-radius: var(--radius-pill); font-weight: 700; text-transform: uppercase; letter-spacing: 0.25em; font-size: 0.75rem; cursor: pointer; }
-
-        .search-valid {
+        /* 3. DIGNITY FUNERAL PLANS - PROMINENT FEATURE */
+        .dignity-feature {
+            width: 100vw;
             background: var(--black);
             color: white;
-            padding: 0.6rem 2rem;
-            border-radius: var(--radius-pill);
-            font-size: 0.7rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.4em;
-            margin-bottom: 10vh;
+            padding: 5rem 8%;
+            margin-bottom: 8rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
         }
 
-        /* 4. EXPANDED BENEFIT GRID & PROFICIENT PARTNER SPOTLIGHT */
-        .grid-layout {
+        .dignity-h2 { font-size: 3rem; margin-bottom: 1.5rem; }
+        .dignity-btn { background: var(--gold); color: black; padding: 1.2rem 4rem; border-radius: var(--radius-pill); font-weight: 800; text-transform: uppercase; letter-spacing: 0.2em; font-size: 0.8rem; margin-top: 2rem; }
+
+        /* 4. BENEFICIAL NEEDS GRID */
+        .needs-grid {
             display: grid;
-            grid-template-cols: repeat(auto-fit, minmax(320px, 1fr));
+            grid-template-cols: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2.5rem;
             width: 100%; max-width: 1400px;
         }
 
-        .benefit-card {
+        .need-card {
             background: var(--glass-bg);
-            backdrop-filter: blur(30px);
+            backdrop-filter: blur(25px);
             padding: 4rem 2.5rem;
             border-radius: var(--radius-box);
             border: 1px solid var(--glass-border);
             text-align: center;
-            transition: var(--transition-cinematic);
         }
 
-        /* FUNERAL PLAN: HIGH PROFICIENCY VISIBILITY */
-        .partner-spotlight {
+        .need-tag { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.4em; color: var(--gold); font-weight: 800; margin-bottom: 1.5rem; display: block; }
+        .need-h3 { font-size: 2.2rem; margin-bottom: 1.2rem; line-height: 1; }
+        .need-p { font-size: 1rem; color: #444; line-height: 1.6; font-weight: 300; }
+
+        /* 5. BOTTOM BANNER */
+        footer {
             background: white;
-            border: 3px solid var(--gold);
-            box-shadow: 0 40px 100px rgba(197, 160, 89, 0.3);
-            transform: scale(1.05);
-            z-index: 50;
+            padding: 5rem 8%;
+            border-top: 1px solid #EEE;
+            display: grid;
+            grid-template-cols: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+            width: 100%;
         }
-        .partner-spotlight:hover { transform: scale(1.08) translateY(-5px); }
 
-        .tag { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.55em; color: var(--gold); font-weight: 800; margin-bottom: 1.5rem; display: block; }
-        .h2-card { font-size: 2.6rem; line-height: 1.1; margin-bottom: 1.5rem; color: var(--black); }
-        .p-card { font-size: 1.05rem; font-weight: 300; color: #333; line-height: 1.7; }
-
-        /* 5. EMERGENCY PULSE (2.5s DELAY) */
-        #soft-support {
-            position: fixed; bottom: 3rem; right: 3rem;
-            background: white; padding: 1.1rem 2.2rem;
-            border-radius: var(--radius-pill);
-            box-shadow: 0 25px 60px rgba(0,0,0,0.15);
-            display: flex; align-items: center; gap: 15px;
-            z-index: 2000; transform: translateY(200%);
-            transition: var(--transition-cinematic);
-            border: 1px solid var(--gold);
-        }
-        #soft-support.active { transform: translateY(0); }
-        .close-x { font-size: 1.5rem; color: #CCC; cursor: pointer; border-left: 1px solid #EEE; padding-left: 12px; line-height: 1; }
+        .footer-link { display: block; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.2em; color: #888; margin-bottom: 1rem; text-decoration: none; font-weight: 600; }
+        .footer-link:hover { color: var(--gold); }
     </style>
 </head>
-<body class="antialiased">
+<body>
 
-    <div class="persistent-bg"></div>
+    <div class="persistent-sanctuary"></div>
 
     <header>
-        <div class="logo-wrap" data-aos="fade-right">
+        <div class="logo-wrap">
             <span class="brand-funeral">Funeral</span>
             <div class="logo-divider"></div>
             <span class="brand-match">Match</span>
@@ -172,79 +176,69 @@
     </header>
 
     <main>
-        <div class="text-center" data-aos="fade-up">
+        <div data-aos="fade-up">
             <h1 class="serif hero-title italic">Clarity in <br><span class="not-italic text-stone-500">every step.</span></h1>
         </div>
 
-        <div class="search-stadium" data-aos="zoom-in" data-aos-delay="300">
+        <div class="search-stadium" data-aos="zoom-in">
             <input type="text" placeholder="Enter Postcode..." class="search-input">
-            <button class="search-btn">Begin Match</button>
+            <button class="search-btn">Begin</button>
         </div>
-
-        <div class="search-valid" data-aos="fade-up" data-aos-delay="400">
+        
+        <div class="trust-mark" data-aos="fade-in">
             1,200+ Vetted Directors Nationwide
         </div>
 
-        <div class="grid-layout">
-            
-            <div class="benefit-card" data-aos="fade-up">
-                <span class="tag">Who We Are</span>
-                <h2 class="serif h2-card italic">Independent <br>Advocacy.</h2>
-                <p class="p-card">We represent your family, not the director. Our comparison engine ensures results based on verified service quality, not profit margins.</p>
+        <div class="dignity-feature" data-aos="fade-up">
+            <span class="need-tag">Secure The Future</span>
+            <h2 class="serif dignity-h2 italic">Dignity Funeral Plans.</h2>
+            <p class="max-w-2xl text-stone-400 font-light">Lock in today's funeral costs and protect your family from future price increases. We partner exclusively with vetted Dignity providers to ensure the highest standard of planning.</p>
+            <button class="dignity-btn">View Plans</button>
+        </div>
+
+        <div class="needs-grid">
+            <div class="need-card" data-aos="fade-up">
+                <span class="need-tag">Independence</span>
+                <h3 class="serif need-h3 italic">Why We <br>Matter.</h3>
+                <p class="need-p">We are the objective middleman. We represent the family, not the director, ensuring you receive service based on merit and transparency.</p>
             </div>
 
-            <div class="benefit-card partner-spotlight" data-aos="fade-up" data-aos-delay="200">
-                <span class="tag">Secure The Future</span>
-                <h2 class="serif h2-card italic">Funeral <br>Planning.</h2>
-                <p class="p-card">Lock in today's security. Discover vetted partners to guarantee long-term peace of mind and fixed costs for tomorrow.</p>
+            <div class="need-card" data-aos="fade-up" data-aos-delay="100">
+                <span class="need-tag">The Standard</span>
+                <h3 class="serif need-h3 italic">Transparent <br>Directorship.</h3>
+                <p class="need-p">Dismantling the opaque pricing of the past. Access high-quality care through a fixed-cost framework designed for 2026.</p>
             </div>
 
-            <div class="benefit-card" data-aos="fade-up" data-aos-delay="400">
-                <span class="tag">What We Do</span>
-                <h2 class="serif h2-card italic">Transparent <br>Directorship.</h2>
-                <p class="p-card">Zero hidden fees. Access high-quality care through a fixed-cost, modernized framework built for families first.</p>
+            <div class="need-card" data-aos="fade-up" data-aos-delay="200">
+                <span class="need-tag">Modernism</span>
+                <h3 class="serif need-h3 italic">Digital <br>Dignity.</h3>
+                <p class="need-p">The industry is aging; we are the revolution. Compare, book, and manage arrangements with 21st-century efficiency.</p>
             </div>
-
-            <div class="benefit-card" data-aos="fade-up">
-                <span class="tag">Why We Matter</span>
-                <h2 class="serif h2-card italic">Verified <br>Dignity.</h2>
-                <p class="p-card">Every director is audited for professional conduct and facility standards. We perform the due diligence so you don't have to.</p>
-            </div>
-
-            <div class="benefit-card" data-aos="fade-up" data-aos-delay="200">
-                <span class="tag">Modernism</span>
-                <h2 class="serif h2-card italic">Digital <br>Efficiency.</h2>
-                <p class="p-card">The funeral industry is aging; we are the evolution. Use 21st-century tools to manage a dignified tribute seamlessly.</p>
-            </div>
-
-            <div class="benefit-card" data-aos="fade-up" data-aos-delay="400">
-                <span class="tag">The Goal</span>
-                <h2 class="serif h2-card italic">Complete <br>Control.</h2>
-                <p class="p-card">Ultimately, we return power to the family. Make informed decisions that ensure a true reflection of the life lived.</p>
-            </div>
-
         </div>
     </main>
 
-    <div id="soft-support">
-        <div class="flex items-center gap-4 cursor-pointer" onclick="alert('Priority Consultation Triggered')">
-            <span class="relative flex h-2 w-2">
-                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
-                <span class="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
-            </span>
-            <span class="text-[10px] font-bold uppercase tracking-widest text-stone-700">Immediate Help?</span>
+    <footer>
+        <div>
+            <p class="text-[10px] font-bold uppercase tracking-[0.4em] mb-8">Navigation</p>
+            <a href="#" class="footer-link">About Us</a>
+            <a href="#" class="footer-link">Find a Director</a>
+            <a href="#" class="footer-link">Contact</a>
         </div>
-        <span class="close-x" onclick="this.parentElement.style.display='none'">&times;</span>
-    </div>
+        <div>
+            <p class="text-[10px] font-bold uppercase tracking-[0.4em] mb-8">Legal</p>
+            <a href="#" class="footer-link">Privacy Policy</a>
+            <a href="#" class="footer-link">Terms of Service</a>
+            <a href="#" class="footer-link">Cookie Policy</a>
+        </div>
+        <div>
+            <p class="text-[10px] font-bold uppercase tracking-[0.4em] mb-8">Industry</p>
+            <a href="#" class="footer-link">Directors Login</a>
+            <p class="text-[9px] text-stone-400 italic">FuneralMatch &copy; 2026</p>
+        </div>
+    </footer>
 
     <script>
-        AOS.init({ duration: 1500, once: true, offset: 100 });
-
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                document.getElementById('soft-support').classList.add('active');
-            }, 2500);
-        });
+        AOS.init({ duration: 1500, once: true });
     </script>
 </body>
 </html>
