@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <title>Global Repatriation | FuneralMatch</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@1,400;1,700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --gold: #C5A059; --soft-bg: #F8F7F5; }
+        body { font-family: 'Inter', sans-serif; background: var(--soft-bg); }
+        .serif { font-family: 'Bodoni Moda', serif; }
+        .flag-icon { font-size: 2rem; opacity: 0.5; }
+    </style>
+</head>
+<body class="py-24 px-8">
+
+    <main class="max-w-4xl mx-auto">
+        <header class="mb-16">
+            <h1 class="serif italic text-5xl mb-6">Bringing them home.</h1>
+            <p class="text-stone-500 text-sm max-w-xl leading-loose">International repatriation is complex. We manage the consulate paperwork, flight logistics, and customs clearance to bring your loved one home safely, from anywhere in the world.</p>
+        </header>
+
+        <section class="bg-white rounded-[3rem] p-12 md:p-16 border border-stone-200 shadow-xl">
+            <h2 class="serif italic text-2xl mb-8">Repatriation Calculator</h2>
+            
+            <form action="https://formspree.io/f/mvzzkjeq" method="POST" class="space-y-8">
+                <input type="hidden" name="_subject" value="URGENT REPATRIATION QUOTE">
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <label class="text-[10px] font-bold uppercase tracking-widest text-stone-400 mb-2 block">Current Location (From)</label>
+                        <select name="country_from" class="w-full p-4 bg-stone-50 rounded-xl border-none text-sm font-bold">
+                            <option>Spain</option>
+                            <option>France</option>
+                            <option>United States</option>
+                            <option>India</option>
+                            <option>Caribbean</option>
+                            <option>Other (Worldwide)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="text-[10px] font-bold uppercase tracking-widest text-stone-400 mb-2 block">Destination (To)</label>
+                        <select name="country_to" class="w-full p-4 bg-stone-50 rounded-xl border-none text-sm font-bold">
+                            <option>United Kingdom</option>
+                            <option>Ireland</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="p-6 bg-[#FFFDF9] border border-[#C5A059] rounded-2xl flex items-start gap-4">
+                    <div class="text-[#C5A059] text-xl">✈️</div>
+                    <div>
+                        <h4 class="font-bold text-sm mb-1">Flight Logistics Included</h4>
+                        <p class="text-[10px] text-stone-500">Our partners handle the 'Zinc-Lined Coffin' requirements and airway bill clearance automatically.</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <input type="text" name="family_name" placeholder="Contact Name" class="w-full p-4 bg-stone-50 rounded-xl border-none" required>
+                    <input type="tel" name="phone" placeholder="Emergency Phone" class="w-full p-4 bg-stone-50 rounded-xl border-none" required>
+                </div>
+
+                <button type="submit" class="w-full py-5 bg-black text-white rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-[#C5A059] transition-all">Get Repatriation Quote</button>
+            </form>
+        </section>
+    </main>
+</body>
+</html>
