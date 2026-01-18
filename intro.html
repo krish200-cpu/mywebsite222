@@ -34,79 +34,86 @@
             width: 100%;
         }
 
-        /* Line 1: Centered via Negative Margin */
+        /* The Float Effect: Slow, Smooth Deceleration */
         .brand-funeral {
             font-family: 'Bodoni Moda', serif;
-            font-size: 1.2rem;
+            font-size: 1.25rem;
             text-transform: uppercase;
             letter-spacing: 0.8em;
             color: var(--charcoal);
-            margin-right: -0.8em; /* THE FIX: offsets the spacing of the last letter */
+            margin-right: -0.8em; /* Perfect Centering */
             opacity: 0;
-            animation: luxuryEntrance 4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            /* Long 5s animation with a "Slow-In" curve */
+            animation: cinematicFloat 5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
         }
 
         .logo-divider {
             width: 0px;
             height: 1px;
             background-color: var(--gold);
-            margin: 24px 0;
+            margin: 28px 0;
             opacity: 0;
-            animation: lineDraw 3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-            animation-delay: 1.5s;
+            animation: lineExpand 4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+            animation-delay: 1.8s;
         }
 
-        /* Line 2: Perfect Optical Alignment */
         .brand-match {
-            font-size: 1.2rem; 
+            font-size: 1.25rem; 
             font-weight: 300;
             text-transform: uppercase;
             letter-spacing: 0.8em;
             color: var(--gold);
-            margin-right: -0.8em; /* THE FIX: offsets the spacing of the last letter */
+            margin-right: -0.8em; /* Perfect Centering */
             opacity: 0;
-            animation: luxuryEntrance 4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            /* Staggered start, same silky float */
+            animation: cinematicFloat 5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
             animation-delay: 0.8s;
         }
 
         .slogan-reveal {
-            margin-top: 5rem;
+            margin-top: 5.5rem;
             font-size: 0.6rem;
             font-weight: 300;
             text-transform: uppercase;
-            letter-spacing: 0.6em;
+            letter-spacing: 0.7em;
             color: #b5b5b5;
-            margin-right: -0.6em;
+            margin-right: -0.7em;
             opacity: 0;
-            animation: sloganFade 3s ease-out forwards;
-            animation-delay: 4.8s;
+            animation: sloganFade 3.5s ease-out forwards;
+            animation-delay: 5.5s;
         }
 
-        @keyframes luxuryEntrance {
+        @keyframes cinematicFloat {
             0% {
                 opacity: 0;
-                filter: blur(10px);
-                transform: scale(1.08);
+                filter: blur(15px);
+                transform: translateY(25px) scale(0.98);
+                letter-spacing: 1.5em; /* Words start wide and "breathe" in */
+            }
+            30% {
+                opacity: 0.3;
             }
             100% {
                 opacity: 1;
                 filter: blur(0);
-                transform: scale(1);
+                transform: translateY(0) scale(1);
+                letter-spacing: 0.8em;
             }
         }
 
-        @keyframes lineDraw {
+        @keyframes lineExpand {
             0% { width: 0; opacity: 0; }
-            100% { width: 80px; opacity: 0.6; }
+            100% { width: 100px; opacity: 0.5; }
         }
 
         @keyframes sloganFade {
-            to { opacity: 1; }
+            0% { opacity: 0; transform: translateY(10px); }
+            100% { opacity: 1; transform: translateY(0); }
         }
 
         .exit-clean {
             opacity: 0;
-            transition: opacity 1.8s ease-in-out;
+            transition: opacity 2s cubic-bezier(0.45, 0, 0.55, 1);
         }
     </style>
 </head>
@@ -121,12 +128,13 @@
 
     <script>
         window.addEventListener('load', () => {
+            // Extended timing to allow for the very slow, graceful landing
             setTimeout(() => {
                 document.getElementById('intro-container').classList.add('exit-clean');
                 setTimeout(() => {
                     window.location.href = 'index.html';
-                }, 1800);
-            }, 8500); 
+                }, 2000);
+            }, 9500); 
         });
     </script>
 </body>
