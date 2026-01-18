@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Contact & Emergency Support | FuneralMatch</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@1,400;1,700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        :root { --gold: #C5A059; --black: #1a1a1a; --soft-bg: #F8F7F5; }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--soft-bg); color: var(--black); }
+        .serif { font-family: 'Bodoni Moda', serif; }
+        
+        .contact-card { background: white; border-radius: 3rem; padding: 4rem; border: 1px solid #EEE; box-shadow: 0 40px 100px rgba(0,0,0,0.03); }
+        .input-pill { width: 100%; padding: 1.2rem 2rem; border-radius: 9999px; border: 1px solid #EEE; outline: none; transition: 0.3s; margin-top: 0.5rem; }
+        .input-pill:focus { border-color: var(--gold); }
+        
+        .emergency-banner { background: #000; color: #fff; padding: 3rem; border-radius: 2.5rem; margin-bottom: 4rem; }
+        .btn-gold { background: var(--gold); color: white; padding: 1.2rem 3rem; border-radius: 9999px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.2em; font-size: 0.75rem; border: none; cursor: pointer; transition: 0.4s; }
+        .btn-gold:hover { transform: scale(1.05); box-shadow: 0 20px 40px rgba(197, 160, 89, 0.3); }
+    </style>
+</head>
+<body class="py-24 px-8">
+
+    <main class="max-w-5xl mx-auto">
+        
+        <header class="text-center mb-24" data-aos="fade-up">
+            <h1 class="serif italic text-6xl mb-8">How can we support?</h1>
+            <p class="text-stone-400 uppercase tracking-[0.4em] text-[10px] font-bold">24/7 Support & Partnership Inquiry</p>
+        </header>
+
+        <section class="emergency-banner flex flex-col md:flex-row items-center justify-between gap-8" data-aos="zoom-in">
+            <div class="max-w-xl text-center md:text-left">
+                <div class="flex items-center gap-3 mb-4 justify-center md:justify-start">
+                    <div style="width: 10px; height: 10px; background: #FFB800; border-radius: 50%; animation: pulse 2s infinite;"></div>
+                    <span class="text-[10px] uppercase font-bold tracking-widest text-amber-400">Immediate Need</span>
+                </div>
+                <h2 class="serif italic text-3xl mb-2">A death has occurred.</h2>
+                <p class="text-stone-400 text-sm">Please do not fill out the general form. Use our priority emergency relay for immediate collection and care dispatch.</p>
+            </div>
+            <button class="btn-gold" onclick="window.location.href='#priority-form'">Priority Dispatch</button>
+        </section>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+            
+            <div class="lg:col-span-1 space-y-12" data-aos="fade-right">
+                <div>
+                    <h3 class="serif italic text-2xl mb-4">Direct Contact</h3>
+                    <p class="text-sm text-stone-500 leading-loose">
+                        <strong>Email:</strong> panchalkrish47@gmail.com<br>
+                        <strong>Ref ID:</strong> 2917681399450303860<br>
+                        <strong>Availability:</strong> 24 Hours / 7 Days
+                    </p>
+                </div>
+                <div>
+                    <h3 class="serif italic text-2xl mb-4">Partnership</h3>
+                    <p class="text-sm text-stone-500 leading-loose">
+                        Directors seeking vetting or marketing upgrades should select 'Director Portal' in the inquiry dropdown.
+                    </p>
+                </div>
+            </div>
+
+            <div class="lg:col-span-2" data-aos="fade-left">
+                <section class="contact-card" id="priority-form">
+                    <form action="https://formspree.io/f/mvzzkjeq" method="POST">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                            <div>
+                                <label class="text-[10px] uppercase font-bold tracking-widest text-stone-400 ml-4">Your Name</label>
+                                <input type="text" name="name" class="input-pill" required>
+                            </div>
+                            <div>
+                                <label class="text-[10px] uppercase font-bold tracking-widest text-stone-400 ml-4">Phone Number</label>
+                                <input type="tel" name="phone" class="input-pill" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-8">
+                            <label class="text-[10px] uppercase font-bold tracking-widest text-stone-400 ml-4">Reason for Inquiry</label>
+                            <select name="subject" class="input-pill" required>
+                                <option value="immediate">Immediate Assistance Needed</option>
+                                <option value="general">General Platform Question</option>
+                                <option value="partnership">Director Vetting / Partnership</option>
+                                <option value="dignity">Funeral Plan Inquiry</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-12">
+                            <label class="text-[10px] uppercase font-bold tracking-widest text-stone-400 ml-4">Message / Situation</label>
+                            <textarea name="message" class="input-pill h-32 pt-4" placeholder="How can our team best assist you?"></textarea>
+                        </div>
+
+                        <div class="text-right">
+                            <button type="submit" class="btn-gold">Send Message</button>
+                        </div>
+                    </form>
+                </section>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        AOS.init({ duration: 1000, once: true });
+    </script>
+</body>
+</html>
