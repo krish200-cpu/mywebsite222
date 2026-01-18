@@ -3,110 +3,217 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FuneralMatch | The New Standard</title>
+    <meta name="description" content="FuneralMatch: The New Age Standard for Vetted Funeral Care.">
+    <title>FuneralMatch | The Revolution of Care</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,ital,wght@6..96,0,400;6..96,0,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,ital,wght@6..96,0,400;6..96,0,600;6..96,1,400&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
     <style>
+        /* MASTER CSS ARCHITECTURE: NO CORNERS REVOLUTION
+           Primary Palette: Linen (#F4F1EE), Black (#111111), Gold (#C5A059)
+        */
         :root {
-            --gold: #C5A059;
-            --black: #141414;
-            --bg-linen: #F5F3F1;
-            --radius-pill: 9999px;
-            --radius-box: 2.5rem;
+            --brand-gold: #C5A059;
+            --brand-black: #111111;
+            --brand-linen: #F4F1EE;
+            --radius-stadium: 9999px;
+            --radius-capsule: 4rem;
+            --transition-ultra: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
         }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-linen);
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--brand-linen);
             background-image: url("https://www.transparenttextures.com/patterns/linen.png");
-            color: var(--black);
+            color: var(--brand-black);
             overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
+            scroll-behavior: smooth;
         }
 
         .serif { font-family: 'Bodoni Moda', serif; }
 
-        /* HEADER: STATIC TOP LEFT */
-        header { padding: 3rem 8%; }
-        .logo-wrap { display: flex; flex-direction: column; width: 140px; }
-        .brand-text { font-family: 'Bodoni Moda', serif; text-transform: uppercase; font-size: 1rem; letter-spacing: 0.35em; line-height: 1.1; font-weight: 600; }
-        .logo-line { width: 100%; height: 1.5px; background: var(--gold); margin: 6px 0; }
-        .brand-match { color: var(--gold); letter-spacing: 0.72em; margin-right: -0.72em; }
-
-        /* SECTION NARRATIVE */
-        section {
-            min-height: 100vh;
-            padding: 0 10% 5rem 10%;
+        /* LOGO ARCHITECTURE: STATIC TOP LEFT */
+        .site-header {
+            padding: 4rem 10%;
+            width: 100%;
             display: flex;
-            flex-direction: column;
-            justify-content: center;
+            justify-content: flex-start;
+            z-index: 100;
         }
 
-        .hero-title { font-size: clamp(2.5rem, 6vw, 5rem); line-height: 1.1; margin-bottom: 2rem; }
-        .sub-text { font-size: 1.25rem; font-weight: 300; color: #666; max-width: 600px; }
-
-        /* FLUID SEARCH ENGINE - DEVICE SENSITIVE */
-        .search-engine-wrap {
-            width: 100%;
-            max-width: 800px;
-            background: white;
-            border-radius: var(--radius-pill);
-            padding: 0.5rem;
+        .logo-container {
             display: flex;
-            flex-direction: row; /* Default Desktop */
+            flex-direction: column;
+            width: 160px;
+            cursor: pointer;
+        }
+
+        .brand-h1 {
+            font-family: 'Bodoni Moda', serif;
+            text-transform: uppercase;
+            font-size: 1.15rem;
+            letter-spacing: 0.35em;
+            line-height: 1.1;
+            font-weight: 600;
+        }
+
+        .gold-divider {
+            width: 100%;
+            height: 1.5px;
+            background: var(--brand-gold);
+            margin: 8px 0;
+        }
+
+        .match-label {
+            color: var(--brand-gold);
+            letter-spacing: 0.72em;
+            margin-right: -0.72em;
+        }
+
+        /* NARRATIVE SECTIONING: HIGH-PAGE TRANSITION */
+        section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start; /* Lands High on Page */
+            padding: 10vh 10% 0 10%;
+            position: relative;
+        }
+
+        /* FLUID SEARCH ENGINE: DEVICE-SENSITIVE COMMAND CENTER */
+        .search-command {
+            max-width: 850px;
+            width: 100%;
+            background: #FFFFFF;
+            padding: 0.75rem;
+            border-radius: var(--radius-stadium);
+            display: flex;
             align-items: center;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.04);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.03);
             border: 1px solid rgba(0,0,0,0.05);
-            transition: all 0.4s ease;
+            transition: var(--transition-ultra);
+            margin-bottom: 5vh;
         }
 
         @media (max-width: 640px) {
-            .search-engine-wrap {
+            .search-command {
                 flex-direction: column;
-                border-radius: 2rem;
+                border-radius: 2.5rem;
                 padding: 1.5rem;
             }
-            .search-input { width: 100%; text-align: center; margin-bottom: 1rem; }
-            .search-btn { width: 100%; }
+            .search-input { text-align: center; margin-bottom: 1rem; font-size: 1rem; }
+            .search-trigger { width: 100%; }
         }
 
-        .search-input { flex: 1; border: none; outline: none; padding: 0 1.5rem; font-size: 1.1rem; background: transparent; }
-        .search-btn { 
-            background: var(--black); color: white; 
-            padding: 1.25rem 3rem; border-radius: var(--radius-pill); 
-            font-weight: 600; text-transform: uppercase; letter-spacing: 0.2em; font-size: 0.75rem; 
-            transition: 0.3s;
+        .search-pill:focus-within {
+            border-color: var(--brand-gold);
+            box-shadow: 0 40px 80px rgba(197, 160, 89, 0.15);
         }
 
-        /* STAGE 1: SOFT POPUP (Bottom Corner) */
+        .search-input {
+            flex: 1;
+            border: none;
+            outline: none;
+            padding: 0 2rem;
+            font-size: 1.2rem;
+            background: transparent;
+            font-weight: 300;
+        }
+
+        .search-trigger {
+            background: var(--brand-black);
+            color: white;
+            padding: 1.25rem 3.5rem;
+            border-radius: var(--radius-stadium);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.25em;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .search-trigger:hover { background: #333; transform: scale(1.02); }
+
+        /* REVOLUTION CAPSULES: MICRO-INFORMATION */
+        .info-capsule {
+            background-color: var(--brand-black);
+            padding: 4.5rem;
+            border-radius: var(--radius-capsule);
+            color: #FFFFFF;
+            width: 100%;
+            max-width: 800px;
+            margin-bottom: 6rem;
+            box-shadow: 0 40px 100px rgba(0,0,0,0.18);
+            border-left: 10px solid var(--brand-gold);
+            position: relative;
+        }
+
+        .capsule-tag {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5em;
+            color: var(--brand-gold);
+            font-weight: 700;
+            margin-bottom: 2rem;
+            display: block;
+        }
+
+        .capsule-h2 { font-size: clamp(2.5rem, 5vw, 4rem); line-height: 1; margin-bottom: 1.5rem; }
+        .capsule-p { font-size: 1.15rem; font-weight: 300; color: #BCBCBC; line-height: 1.8; max-width: 550px; }
+
+        /* TWO-STAGE EMERGENCY CONCIERGE */
         #soft-hook {
             position: fixed;
-            bottom: 2rem; right: 2rem;
-            background: white;
-            padding: 1rem 1.5rem;
-            border-radius: var(--radius-pill);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            bottom: 3rem; right: 3rem;
+            background: #FFFFFF;
+            padding: 1.2rem 2rem;
+            border-radius: var(--radius-stadium);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 15px;
             cursor: pointer;
             z-index: 4000;
-            transform: translateY(150%);
-            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-            border: 1px solid rgba(197, 160, 89, 0.2);
+            transform: translateY(200%);
+            transition: var(--transition-ultra);
+            border: 1px solid rgba(197, 160, 89, 0.3);
         }
-        #soft-hook.visible { transform: translateY(0); }
+        #soft-hook.active { transform: translateY(0); }
 
-        /* STAGE 2: FULL MODAL */
-        #full-modal-overlay {
+        .pulse-dot {
+            width: 10px; height: 10px;
+            background: #FFB800;
+            border-radius: 50%;
+            position: relative;
+        }
+        .pulse-dot::after {
+            content: ''; position: absolute; inset: 0;
+            background: #FFB800; border-radius: 50%;
+            animation: pulse-ring 2s infinite;
+        }
+
+        @keyframes pulse-ring { 
+            0% { transform: scale(1); opacity: 0.7; }
+            100% { transform: scale(3); opacity: 0; }
+        }
+
+        /* CONSULTATION MODAL: THE FULL "W" CAPTURE */
+        #consult-overlay {
             position: fixed;
             inset: 0;
             background: rgba(0,0,0,0.4);
-            backdrop-filter: blur(15px);
+            backdrop-filter: blur(20px);
             z-index: 5000;
             display: none;
             align-items: center;
@@ -114,119 +221,193 @@
             opacity: 0;
             transition: opacity 0.5s ease;
         }
-        #full-modal-overlay.active { display: flex; opacity: 1; }
+        #consult-overlay.active { display: flex; opacity: 1; }
 
-        .modal-content {
-            background: white;
-            width: 450px;
+        .modal-card {
+            background: #FFFFFF;
+            width: 500px;
             max-width: 90vw;
-            border-radius: 3rem;
-            padding: 4rem;
+            border-radius: 3.5rem;
+            padding: 4.5rem;
             position: relative;
+            transform: scale(0.9);
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
+        #consult-overlay.active .modal-card { transform: scale(1); }
 
-        .close-x { position: absolute; top: 2rem; right: 2rem; font-size: 1.5rem; cursor: pointer; color: #AAA; }
-
-        .input-stadium {
-            width: 100%; padding: 1.2rem 2rem; 
-            border-radius: var(--radius-pill);
-            border: 1px solid #EEE; margin-bottom: 1.5rem;
-            outline: none; font-size: 1rem;
+        .close-trigger {
+            position: absolute;
+            top: 2.5rem; right: 2.5rem;
+            font-size: 2rem; color: #DDD;
+            cursor: pointer;
+            transition: 0.3s;
         }
+        .close-trigger:hover { color: var(--brand-black); }
+
+        .field-group { margin-bottom: 2rem; }
+        .field-label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.3em; color: var(--brand-gold); font-weight: 700; margin-bottom: 1rem; display: block; }
+        .field-control { width: 100%; padding: 1.25rem 2.5rem; border-radius: var(--radius-stadium); border: 1px solid #EEE; outline: none; transition: 0.3s; font-size: 1rem; }
+        .field-control:focus { border-color: var(--brand-gold); background: #FAFAFA; }
+
+        .priority-btn {
+            width: 100%; background: var(--brand-black); color: white;
+            padding: 1.5rem; border-radius: var(--radius-stadium);
+            font-weight: 700; text-transform: uppercase; letter-spacing: 0.25em; font-size: 0.75rem;
+            margin-top: 2rem; transition: 0.4s;
+        }
+        .priority-btn:hover { background: var(--brand-gold); color: var(--brand-black); }
     </style>
 </head>
 <body class="antialiased">
 
-    <header>
-        <div class="logo-wrap">
-            <span class="brand-text">Funeral</span>
-            <div class="logo-line"></div>
-            <span class="brand-text brand-match">Match</span>
+    <header class="site-header">
+        <div class="logo-container">
+            <span class="brand-h1">Funeral</span>
+            <div class="gold-divider"></div>
+            <span class="brand-h1 match-label">Match</span>
         </div>
     </header>
 
-    <section data-aos="fade-in">
-        <h1 class="serif hero-title">The new standard <br><span class="italic text-stone-400">of care.</span></h1>
-        <p class="sub-text">Welcome to FuneralMatch. We provide an independent, modern framework designed to bring clarity and dignity to funeral planning.</p>
+    <section>
+        <div class="mb-12" data-aos="fade-down" data-aos-duration="1500">
+            <h1 class="serif text-4xl md:text-6xl mb-6 italic">Clarity, <span class="not-italic">redefined.</span></h1>
+            <p class="text-stone-500 font-light text-xl max-w-2xl leading-relaxed">
+                Welcome to the revolution. We provide an independent, vetted framework designed to bring total transparency to funeral care.
+            </p>
+        </div>
+
+        <div class="search-command" data-aos="fade-up" data-aos-delay="300">
+            <input type="text" placeholder="Enter Postcode for Vetted Matches..." class="search-input">
+            <button class="search-trigger">Compare</button>
+        </div>
     </section>
 
     <section>
-        <div data-aos="fade-up">
-            <h2 class="serif text-4xl mb-6">Built for the <br>next generation.</h2>
-            <p class="sub-text mb-12">We dismantle the old-age complexities of the industry, offering a transparent bridge between families and vetted professionals.</p>
-            <div class="flex gap-10">
-                <div class="text-xs uppercase tracking-widest font-bold text-stone-400">— Vetted Merit</div>
-                <div class="text-xs uppercase tracking-widest font-bold text-stone-400">— Total Transparency</div>
-            </div>
+        <div class="info-capsule" data-aos="fade-up">
+            <span class="capsule-tag">The Advocate</span>
+            <h2 class="serif capsule-h2 italic">Independent <br><span class="not-italic">Middleman.</span></h2>
+            <p class="capsule-p">
+                FuneralMatch is not a provider. We are your dedicated representative, ensuring every funeral home in our suite prioritizes your family over their own bottom line.
+            </p>
         </div>
     </section>
 
-    <section id="search-destination">
-        <div class="mb-12" data-aos="fade-up">
-            <h2 class="serif text-4xl italic mb-4">Identify your match.</h2>
-            <p class="text-stone-400 text-sm uppercase tracking-widest">Compare vetted directors in your area</p>
-        </div>
-        
-        <div class="search-engine-wrap" data-aos="zoom-in">
-            <input type="text" placeholder="Enter Postcode..." class="search-input">
-            <button class="search-btn">Begin Comparison</button>
+    <section>
+        <div class="info-capsule" data-aos="fade-up">
+            <span class="capsule-tag">The Framework</span>
+            <h2 class="serif capsule-h2 italic">Transparent <br><span class="not-italic">Directorship.</span></h2>
+            <p class="capsule-p">
+                We've dismantled the opaque pricing of the past. Our modern framework standardizes service reporting so you can compare costs with absolute clarity.
+            </p>
         </div>
     </section>
 
-    <div id="soft-hook" onclick="openFullModal()">
-        <span class="relative flex h-2 w-2">
-            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
-            <span class="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
-        </span>
-        <span class="text-xs font-bold uppercase tracking-widest text-stone-700">Immediate help required?</span>
+    <section>
+        <div class="info-capsule" data-aos="fade-up">
+            <span class="capsule-tag">The Security</span>
+            <h2 class="serif capsule-h2 italic">Audited <br><span class="not-italic">Merit.</span></h2>
+            <p class="capsule-p">
+                Every director is vetted for pricing transparency and professional conduct. We perform the due diligence so you can focus on what truly matters.
+            </p>
+        </div>
+    </section>
+
+    <section>
+        <div class="info-capsule" data-aos="fade-up">
+            <span class="capsule-tag">The Revolution</span>
+            <h2 class="serif capsule-h2 italic">New Age <br><span class="not-italic">Standards.</span></h2>
+            <p class="capsule-p">
+                The funeral industry is aging; we are the evolution. Our digital-first suite provides the 21st-century tools needed for dignified, efficient planning.
+            </p>
+        </div>
+    </section>
+
+    <div id="soft-hook" onclick="openConsultation()">
+        <div class="pulse-dot"></div>
+        <span class="text-[10px] font-bold uppercase tracking-[0.3em] text-stone-700">Immediate help required?</span>
     </div>
 
-    <div id="full-modal-overlay" onclick="closeOnOverlay(event)">
-        <div class="modal-content">
-            <span class="close-x" onclick="closeFullModal()">&times;</span>
-            <div class="mb-10">
-                <h3 class="serif text-2xl italic mb-1">Immediate Support</h3>
-                <p class="text-[9px] uppercase tracking-widest text-stone-400 font-bold">A dedicated consultant is available.</p>
+    <div id="consult-overlay" onclick="handleOverlayClick(event)">
+        <div class="modal-card">
+            <span class="close-trigger" onclick="closeConsultation()">&times;</span>
+            <div class="mb-12">
+                <h3 class="serif text-3xl italic mb-2">Urgent Assistance</h3>
+                <p class="text-[10px] uppercase tracking-widest text-stone-400 font-bold">A dedicated consultant is ready to assist.</p>
             </div>
-            <form class="space-y-4">
-                <input type="text" placeholder="Full Name" class="input-stadium">
-                <input type="text" placeholder="Location" class="input-stadium">
-                <select class="input-stadium bg-white">
-                    <option>Urgency Status</option>
-                    <option>Death has occurred</option>
-                    <option>Expected shortly</option>
-                </select>
-                <button type="button" class="w-full bg-black text-white py-5 rounded-full font-bold uppercase tracking-widest text-[11px] shadow-xl hover:bg-stone-800 transition-all">
-                    Request Priority Callback
-                </button>
+            
+            <form onsubmit="handleFormSubmit(event)">
+                <div class="field-group">
+                    <label class="field-label">Full Name of Correspondent</label>
+                    <input type="text" class="field-control" placeholder="Johnathan Doe" required>
+                </div>
+                <div class="field-group">
+                    <label class="field-label">Primary Contact Number</label>
+                    <input type="tel" class="field-control" placeholder="07123 456789" required>
+                </div>
+                <div class="field-group">
+                    <label class="field-label">Location of Requirement</label>
+                    <input type="text" class="field-control" placeholder="Postcode or City" required>
+                </div>
+                <div class="field-group">
+                    <label class="field-label">Urgency Status</label>
+                    <select class="field-control bg-white">
+                        <option value="immediate">Immediate Need (Death Occurred)</option>
+                        <option value="expected">Passing Expected Shortly</option>
+                        <option value="planning">Pre-Planning Inquiry</option>
+                    </select>
+                </div>
+                <button type="submit" class="priority-btn">Request Priority Callback</button>
             </form>
         </div>
     </div>
 
     <script>
-        AOS.init({ duration: 1000, once: true });
+        // AOS INITIALIZATION (SMOOTH REVEAL)
+        AOS.init({
+            duration: 1200,
+            easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
+            once: true,
+            offset: 100
+        });
 
-        // Phase 1: Soft Hook (2.5s Delay)
+        // SOFT HOOK DELAY (2.5 Seconds)
         window.addEventListener('load', () => {
             setTimeout(() => {
-                document.getElementById('soft-hook').classList.add('visible');
+                document.getElementById('soft-hook').classList.add('active');
             }, 2500);
         });
 
-        // Phase 2: Open Full Modal
-        function openFullModal() {
-            document.getElementById('full-modal-overlay').classList.add('active');
-            document.getElementById('soft-hook').classList.remove('visible');
+        // MODAL MANAGEMENT
+        function openConsultation() {
+            const overlay = document.getElementById('consult-overlay');
+            overlay.style.display = 'flex';
+            setTimeout(() => overlay.classList.add('active'), 10);
+            document.getElementById('soft-hook').classList.remove('active');
         }
 
-        function closeFullModal() {
-            document.getElementById('full-modal-overlay').classList.remove('active');
-            document.getElementById('soft-hook').classList.add('visible');
+        function closeConsultation() {
+            const overlay = document.getElementById('consult-overlay');
+            overlay.classList.remove('active');
+            setTimeout(() => {
+                overlay.style.display = 'none';
+                document.getElementById('soft-hook').classList.add('active');
+            }, 600);
         }
 
-        function closeOnOverlay(e) {
-            if (e.target === document.getElementById('full-modal-overlay')) closeFullModal();
+        function handleOverlayClick(e) {
+            if (e.target.id === 'consult-overlay') closeConsultation();
         }
+
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            alert('Lead Captured. Your priority consultant will call shortly.');
+            closeConsultation();
+        }
+
+        // ACCESSIBILITY: ESCAPE KEY
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeConsultation();
+        });
     </script>
 </body>
 </html>
