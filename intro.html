@@ -6,11 +6,11 @@
     <title>Funeral Match</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,300&family=Inter:wght@300&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400&family=Inter:wght@200;400;500&display=swap');
         
         :root {
             --gold: #C5A059;
-            --charcoal: #1c1c1c;
+            --black: #1a1a1a;
         }
 
         body { 
@@ -31,84 +31,91 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            width: 100%;
         }
 
-        /* The Float Effect: Slow, Smooth Deceleration */
+        /* Line 1: Traditional Serif with Soft Float */
         .brand-funeral {
             font-family: 'Bodoni Moda', serif;
-            font-size: 1.25rem;
+            font-size: 1.2rem;
             text-transform: uppercase;
-            letter-spacing: 0.8em;
-            color: var(--charcoal);
-            margin-right: -0.8em; /* Perfect Centering */
+            letter-spacing: 0.5em;
+            color: var(--black);
+            margin-right: -0.5em; /* Optical centering */
             opacity: 0;
-            /* Long 5s animation with a "Slow-In" curve */
-            animation: cinematicFloat 5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+            /* Long duration with a 'Silk Settle' curve */
+            animation: cinematicFloat 4.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
         }
 
+        /* The Gold Divider: Expanding gently from center */
         .logo-divider {
-            width: 0px;
+            width: 0;
             height: 1px;
             background-color: var(--gold);
-            margin: 28px 0;
+            margin: 18px 0;
             opacity: 0;
-            animation: lineExpand 4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-            animation-delay: 1.8s;
+            animation: lineExpand 3s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+            animation-delay: 1.5s;
         }
 
+        /* Line 2: Modern Sans with Staggered Soft Float */
         .brand-match {
-            font-size: 1.25rem; 
-            font-weight: 300;
+            font-size: 1.2rem; 
+            font-weight: 200;
             text-transform: uppercase;
-            letter-spacing: 0.8em;
+            letter-spacing: 0.82em; 
             color: var(--gold);
-            margin-right: -0.8em; /* Perfect Centering */
+            margin-right: -0.82em; /* Optical centering */
             opacity: 0;
-            /* Staggered start, same silky float */
-            animation: cinematicFloat 5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-            animation-delay: 0.8s;
+            animation: cinematicFloat 4.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+            animation-delay: 0.6s; /* Subtle lag for a flowing feel */
         }
 
+        /* The Slogan: Rising like a whisper */
         .slogan-reveal {
-            margin-top: 5.5rem;
-            font-size: 0.6rem;
-            font-weight: 300;
+            margin-top: 5rem;
+            font-size: 0.65rem;
+            font-weight: 500;
             text-transform: uppercase;
             letter-spacing: 0.7em;
-            color: #b5b5b5;
+            color: #888;
             margin-right: -0.7em;
             opacity: 0;
-            animation: sloganFade 3.5s ease-out forwards;
-            animation-delay: 5.5s;
+            animation: sloganRise 3s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+            animation-delay: 5s; 
         }
 
+        /* The Core "Soft Landing" Animation */
         @keyframes cinematicFloat {
             0% {
                 opacity: 0;
-                filter: blur(15px);
-                transform: translateY(25px) scale(0.98);
-                letter-spacing: 1.5em; /* Words start wide and "breathe" in */
-            }
-            30% {
-                opacity: 0.3;
+                filter: blur(12px);
+                transform: translateY(20px) scale(0.99);
+                letter-spacing: 1.2em; /* Starts 'airy' and settles into place */
             }
             100% {
                 opacity: 1;
                 filter: blur(0);
                 transform: translateY(0) scale(1);
-                letter-spacing: 0.8em;
+                /* Matches the static letter-spacing values above */
             }
         }
 
         @keyframes lineExpand {
             0% { width: 0; opacity: 0; }
-            100% { width: 100px; opacity: 0.5; }
+            100% { width: 60px; opacity: 0.6; }
         }
 
-        @keyframes sloganFade {
-            0% { opacity: 0; transform: translateY(10px); }
-            100% { opacity: 1; transform: translateY(0); }
+        @keyframes sloganRise {
+            0% {
+                opacity: 0;
+                transform: translateY(15px);
+                filter: blur(4px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+                filter: blur(0);
+            }
         }
 
         .exit-clean {
@@ -128,13 +135,14 @@
 
     <script>
         window.addEventListener('load', () => {
-            // Extended timing to allow for the very slow, graceful landing
+            // Timed to allow the full cinematic float to settle before exiting
             setTimeout(() => {
                 document.getElementById('intro-container').classList.add('exit-clean');
+                
                 setTimeout(() => {
                     window.location.href = 'index.html';
-                }, 2000);
-            }, 9500); 
+                }, 2000); // 2s transition for a luxury feel
+            }, 9000); 
         });
     </script>
 </body>
