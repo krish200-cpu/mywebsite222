@@ -6,7 +6,7 @@
     <title>Funeral Match</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400&family=Inter:wght@200;400;500&display=swap');
         
         :root {
             --gold: #C5A059;
@@ -22,7 +22,7 @@
             height: 100vh;
             width: 100vw;
             overflow: hidden;
-            font-family: 'Montserrat', sans-serif;
+            font-family: 'Inter', sans-serif;
             -webkit-font-smoothing: antialiased;
         }
 
@@ -33,53 +33,77 @@
             align-items: center;
         }
 
-        /* Small & Authoritative */
+        /* Harmonic Stacked Logo Style */
         .funeral-brand {
-            font-size: 0.7rem;
-            font-weight: 600;
+            font-family: 'Bodoni Moda', serif;
+            font-size: 1.1rem;
             text-transform: uppercase;
-            letter-spacing: 0.8em;
+            letter-spacing: 0.6em;
             color: var(--black);
-            margin-right: -0.8em; /* Centers precisely */
+            margin-right: -0.6em;
             opacity: 0;
             animation: fadeInSettling 3s ease-out forwards;
         }
 
-        /* Large, Ethereal, Leading */
+        .logo-divider {
+            width: 40px;
+            height: 1px;
+            background-color: var(--gold);
+            margin: 15px 0;
+            opacity: 0;
+            animation: pureFade 2s ease-out forwards;
+            animation-delay: 1s;
+        }
+
         .match-brand {
-            font-size: 2.2rem; 
+            font-size: 1.1rem; 
             font-weight: 200;
             text-transform: uppercase;
-            letter-spacing: 0.5em;
+            letter-spacing: 0.85em;
             color: var(--gold);
-            margin-top: 0.4rem;
-            margin-right: -0.5em;
+            margin-right: -0.85em;
             opacity: 0;
-            animation: fadeInSettling 4s ease-out forwards;
+            animation: fadeInSettling 3.5s ease-out forwards;
             animation-delay: 0.5s;
         }
 
+        /* Enhanced Slogan Landing */
         .slogan-reveal {
-            margin-top: 4rem;
-            font-size: 0.55rem;
-            font-weight: 400;
+            margin-top: 4.5rem;
+            font-size: 0.65rem; /* Slightly larger */
+            font-weight: 500; /* Increased weight for presence */
             text-transform: uppercase;
-            letter-spacing: 0.6em;
-            color: #ccc;
+            letter-spacing: 0.7em;
+            color: #888; /* Darkened for better contrast */
             opacity: 0;
-            animation: pureFade 2s ease-out forwards;
-            animation-delay: 3s;
+            animation: sloganLanding 2.5s ease-out forwards;
+            animation-delay: 4s; /* Starts after brand settles */
         }
 
         @keyframes fadeInSettling {
             from { 
                 opacity: 0; 
                 letter-spacing: 1.2em; 
-                filter: blur(5px);
+                filter: blur(8px);
+                transform: translateY(5px);
             }
             to { 
                 opacity: 1; 
-                letter-spacing: 0.5em; 
+                letter-spacing: inherit; 
+                filter: blur(0);
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes sloganLanding {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+                filter: blur(4px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
                 filter: blur(0);
             }
         }
@@ -88,7 +112,6 @@
             to { opacity: 1; }
         }
 
-        /* Seamless white-to-white transition */
         .exit-clean {
             opacity: 0;
             transition: opacity 1.5s ease-in-out;
@@ -99,21 +122,21 @@
 
     <div id="intro-container" class="logo-wrap">
         <span class="funeral-brand">Funeral</span>
-        <span class="match-brand">Match</span>
+        <div class="logo-divider"></div>
+        <span class="brand-match">Match</span>
         <p class="slogan-reveal">The New Standard of Care</p>
     </div>
 
     <script>
         window.addEventListener('load', () => {
-            // 5-second landing thought
+            // Extended to 6 seconds to allow the slogan to "land" and be read
             setTimeout(() => {
                 document.getElementById('intro-container').classList.add('exit-clean');
                 
                 setTimeout(() => {
-                    // This will lead to your landing page
                     window.location.href = 'index.html';
                 }, 1500);
-            }, 5000);
+            }, 6000); 
         });
     </script>
 </body>
