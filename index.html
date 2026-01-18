@@ -6,192 +6,211 @@
     <title>Funeral Match | The New Standard of Care</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400&family=Inter:wght@200;300;400;500&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400&family=Inter:wght@300;400;500&display=swap');
 
         :root {
             --gold: #C5A059;
-            --black: #1a1a1a;
-            --soft-grey: #fcfcfc;
+            --charcoal: #1a1a1a;
+            --soft-cream: #F9F8F6;
+            --white: #ffffff;
         }
 
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #ffffff;
-            color: var(--black);
+            background-color: var(--white);
+            color: var(--charcoal);
             margin: 0;
-            opacity: 0;
-            animation: pageFadeIn 1.5s ease-out forwards;
             -webkit-font-smoothing: antialiased;
         }
 
-        @keyframes pageFadeIn { to { opacity: 1; } }
-
-        /* --- THE UNIFIED SERIF LOGO --- */
-        .header-logo {
+        /* --- THE SOFT PEBBLE BANNER/HEADER --- */
+        .header-banner {
+            max-width: 1200px;
+            margin: 20px auto;
+            background: var(--soft-cream);
+            border-radius: 100px; /* Perfectly round "bubble" edges */
+            padding: 10px 35px;
             display: flex;
-            flex-direction: column;
             align-items: center;
-            padding: 60px 0 40px;
+            justify-content: space-between;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.03);
         }
 
-        .brand-text {
-            font-family: 'Bodoni Moda', serif;
-            font-size: 1.1rem;
-            text-transform: uppercase;
-            line-height: 1;
+        .brand-wrap {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.1;
         }
 
         .brand-funeral {
-            color: var(--black);
-            letter-spacing: 0.5em;
-            margin-right: -0.5em;
-        }
-
-        .logo-divider {
-            width: 45px;
-            height: 1px;
-            background-color: var(--gold);
-            margin: 15px 0;
+            font-family: 'Bodoni Moda', serif;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
         }
 
         .brand-match {
-            color: var(--gold);
-            letter-spacing: 0.82em;
-            margin-right: -0.82em;
-        }
-
-        /* --- CONCIERGE SEARCH --- */
-        .hero-section {
-            max-width: 650px;
-            margin: 60px auto 100px;
-            text-align: center;
-            padding: 0 20px;
-        }
-
-        .luxury-subtitle {
             font-family: 'Bodoni Moda', serif;
-            font-style: italic;
-            font-size: 1.3rem;
-            color: #888;
-            margin-bottom: 50px;
-            font-weight: 400;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.52em;
+            color: var(--gold);
         }
 
-        .search-wrap {
+        /* --- INTEGRATED SEARCH (RIGHT SIDE) --- */
+        .search-bubble {
+            background: var(--white);
+            border-radius: 50px;
+            padding: 5px 5px 5px 20px;
             display: flex;
-            border-bottom: 1px solid #e0e0e0;
-            margin-bottom: 20px;
-            transition: border-color 0.5s;
-        }
-
-        .search-wrap:focus-within {
-            border-color: var(--gold);
+            align-items: center;
+            width: 350px;
         }
 
         .search-input {
-            flex: 1;
-            padding: 15px 0;
             border: none;
             outline: none;
-            font-size: 0.8rem;
-            letter-spacing: 0.2em;
+            flex: 1;
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
             text-transform: uppercase;
-            background: transparent;
+            color: var(--charcoal);
         }
 
         .search-btn {
-            padding: 0 10px;
+            background: var(--gold);
+            color: white;
+            border-radius: 40px;
+            padding: 8px 20px;
             font-size: 0.65rem;
-            letter-spacing: 0.3em;
             text-transform: uppercase;
-            color: var(--gold);
-            font-weight: 500;
+            letter-spacing: 0.1em;
+            transition: opacity 0.3s;
         }
 
-        /* --- THE DISTINCT REMINDER (VALUE PROPS) --- */
-        .reminder-section {
-            background-color: var(--soft-grey);
-            padding: 120px 20px;
-        }
-
-        .section-label {
-            display: block;
-            text-align: center;
-            font-size: 0.6rem;
-            letter-spacing: 0.5em;
-            text-transform: uppercase;
-            color: var(--gold);
-            margin-bottom: 60px;
-        }
-
-        .grid-container {
-            max-width: 1100px;
-            margin: 0 auto;
+        /* --- ADVERT & LEAD CARDS --- */
+        .feature-grid {
+            max-width: 1200px;
+            margin: 60px auto;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 80px;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            padding: 0 20px;
         }
 
-        .pillar h3 {
+        .lead-card {
+            background: var(--soft-cream);
+            border-radius: 50px; /* Bubble aesthetic */
+            padding: 60px;
+            text-align: center;
+            transition: transform 0.4s ease;
+            cursor: pointer;
+        }
+
+        .lead-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .lead-card h3 {
             font-family: 'Bodoni Moda', serif;
-            font-size: 1.25rem;
-            margin-bottom: 20px;
-            letter-spacing: 0.02em;
-            color: var(--black);
+            font-size: 1.8rem;
+            margin-bottom: 15px;
         }
 
-        .pillar p {
-            font-size: 0.85rem;
-            line-height: 1.8;
-            color: #666;
-            font-weight: 300;
+        .lead-card p {
+            font-size: 0.9rem;
+            color: #777;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        /* --- DIGNITY ADVERT BANNER --- */
+        .dignity-ad {
+            max-width: 1200px;
+            margin: 0 auto 60px;
+            background: linear-gradient(135deg, #1a1a1a 0%, #333 100%);
+            border-radius: 50px;
+            padding: 40px;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .ad-content h4 {
+            font-size: 0.7rem;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 10px;
+        }
+
+        .ad-content p {
+            font-family: 'Bodoni Moda', serif;
+            font-size: 1.4rem;
+            letter-spacing: 0.05em;
+        }
+
+        .ad-link {
+            border: 1px solid var(--gold);
+            padding: 12px 30px;
+            border-radius: 40px;
+            font-size: 0.7rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--gold);
+            transition: all 0.3s;
+        }
+
+        .ad-link:hover {
+            background: var(--gold);
+            color: white;
         }
     </style>
 </head>
 <body>
 
-    <header class="header-logo">
-        <span class="brand-text brand-funeral">Funeral</span>
-        <div class="logo-divider"></div>
-        <span class="brand-text brand-match">Match</span>
+    <header class="header-banner">
+        <div class="brand-wrap">
+            <span class="brand-funeral">Funeral</span>
+            <span class="brand-match">Match</span>
+        </div>
+
+        <div class="search-bubble">
+            <input type="text" class="search-input" placeholder="Enter Postcode...">
+            <button class="search-btn">Search</button>
+        </div>
     </header>
 
     <main>
-        <section class="hero-section">
-            <h2 class="luxury-subtitle">Clarity in a time of uncertainty.</h2>
-            
-            <div class="search-wrap">
-                <input type="text" class="search-input" placeholder="ENTER YOUR POSTCODE" aria-label="Location search">
-                <button class="search-btn">Begin Search</button>
+        <section class="feature-grid">
+            <div class="lead-card">
+                <h3>Arrange Online</h3>
+                <p>A unique, guided experience to arrange every detail of a funeral from the comfort of your home.</p>
+                <button class="text-[0.65rem] uppercase tracking-widest border-b border-black pb-1">Begin Arrangement</button>
             </div>
-            <p class="text-[0.55rem] uppercase tracking-[0.4em] text-gray-400 mt-6">The New Standard of Care</p>
+
+            <div class="lead-card">
+                <h3>Immediate Care</h3>
+                <p>If a death has just occurred, speak with our digital concierge to initiate the collection and care immediately.</p>
+                <button class="text-[0.65rem] uppercase tracking-widest border-b border-black pb-1">Make First Call</button>
+            </div>
         </section>
 
-        <section class="reminder-section">
-            <span class="section-label">Our Service Commitment</span>
-            
-            <div class="grid-container">
-                <div class="pillar">
-                    <h3>Independent Advocacy</h3>
-                    <p>We are not a funeral director. We act as your private advocate, providing unbiased data and transparent comparisons to ensure your choice is based on merit, not marketing.</p>
+        <section class="px-5">
+            <div class="dignity-ad">
+                <div class="ad-content">
+                    <h4>Partner Spotlight</h4>
+                    <p>Secure tomorrow with a Dignity Funeral Plan.</p>
                 </div>
-                
-                <div class="pillar">
-                    <h3>Price Integrity</h3>
-                    <p>Funeral costs are often opaque. Our platform breaks down every fee line-by-line, protecting your family from hidden costs and ensuring financial peace of mind.</p>
-                </div>
-
-                <div class="pillar">
-                    <h3>Vetted Excellence</h3>
-                    <p>Every provider on our platform is evaluated against our rigorous 'Standard of Care.' We only facilitate introductions to those who demonstrate exceptional dignity.</p>
-                </div>
+                <a href="#" class="ad-link">View Plans</a>
             </div>
         </section>
     </main>
 
-    <footer class="py-20 text-center">
-        <p class="text-[9px] uppercase tracking-[0.5em] text-gray-300">
-            &copy; 2026 Funeral Match &bull; Luxury Comparison Concierge
+    <footer class="py-12 text-center">
+        <p class="text-[9px] uppercase tracking-[0.4em] text-gray-400">
+            &copy; 2026 Funeral Match &bull; Luxury Digital Care
         </p>
     </footer>
 
