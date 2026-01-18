@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Director Portal | FuneralMatch</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@1,400;1,700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root { --gold: #C5A059; --black: #1a1a1a; }
+        body { font-family: 'Inter', sans-serif; background-color: #F8F7F5; color: var(--black); }
+        .serif { font-family: 'Bodoni Moda', serif; }
+        .glass-card { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px); border: 1px solid rgba(0,0,0,0.05); border-radius: 2rem; }
+        .status-pill { padding: 4px 12px; border-radius: 9999px; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <header class="max-w-7xl mx-auto flex justify-between items-center mb-12">
+        <div class="flex flex-col">
+            <span class="serif text-xl uppercase tracking-widest font-bold">Funeral <span class="text-[#C5A059]">Match</span></span>
+            <span class="text-[10px] uppercase tracking-[0.3em] text-stone-400">Director Command Centre</span>
+        </div>
+        <div class="flex items-center gap-6">
+            <div class="text-right hidden md:block">
+                <p class="text-xs font-bold uppercase">Premier Funeral Care Ltd</p>
+                <p class="text-[10px] text-stone-400">ID: 2917681399450303860</p>
+            </div>
+            <div class="w-10 h-10 bg-stone-200 rounded-full"></div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto">
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+            <div class="glass-card p-8">
+                <p class="text-[10px] uppercase tracking-widest text-stone-500 mb-2">New Leads Available</p>
+                <h3 class="serif italic text-4xl">14</h3>
+            </div>
+            <div class="glass-card p-8">
+                <p class="text-[10px] uppercase tracking-widest text-stone-500 mb-2">Your Active Matches</p>
+                <h3 class="serif italic text-4xl">06</h3>
+            </div>
+            <div class="glass-card p-8 border-[#C5A059]">
+                <p class="text-[10px] uppercase tracking-widest text-[#C5A059] mb-2">Pending Invoices</p>
+                <h3 class="serif italic text-4xl text-[#C5A059]">£420.00</h3>
+            </div>
+        </div>
+
+        <div class="glass-card overflow-hidden">
+            <div class="p-8 border-b border-stone-100 flex justify-between items-center">
+                <h2 class="serif italic text-2xl">Incoming Priority Leads</h2>
+                <button class="text-[10px] font-bold uppercase tracking-widest text-[#C5A059]">Refresh Feed</button>
+            </div>
+            
+            <div class="overflow-x-auto">
+                <table class="w-full text-left">
+                    <thead class="bg-stone-50 text-[10px] uppercase tracking-widest text-stone-500">
+                        <tr>
+                            <th class="p-6">Date</th>
+                            <th class="p-6">Situation</th>
+                            <th class="p-6">Postcode</th>
+                            <th class="p-6">Reporter</th>
+                            <th class="p-6 text-right">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-stone-100">
+                        <tr>
+                            <td class="p-6 text-sm">18 Jan, 17:15</td>
+                            <td class="p-6"><span class="status-pill bg-amber-100 text-amber-700">Immediate Need</span></td>
+                            <td class="p-6 text-sm font-semibold">SW1A 1AA</td>
+                            <td class="p-6 text-sm">J. Smith (Son)</td>
+                            <td class="p-6 text-right"><button class="bg-black text-white px-6 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-[#C5A059] transition-colors">Claim Lead</button></td>
+                        </tr>
+                        <tr>
+                            <td class="p-6 text-sm">18 Jan, 16:40</td>
+                            <td class="p-6"><span class="status-pill bg-blue-100 text-blue-700">Pre-Planning</span></td>
+                            <td class="p-6 text-sm font-semibold">NW1 6XE</td>
+                            <td class="p-6 text-sm">A. Jones (Executor)</td>
+                            <td class="p-6 text-right"><button class="bg-black text-white px-6 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-[#C5A059] transition-colors">Claim Lead</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+</body>
+</html>
