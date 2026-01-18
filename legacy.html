@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Planning Vault | FuneralMatch</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@1,400;1,700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root { --gold: #C5A059; --black: #1a1a1a; --soft-bg: #F8F7F5; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--soft-bg); color: var(--black); }
+        .serif { font-family: 'Bodoni Moda', serif; }
+        .vault-card { background: white; border-radius: 2.5rem; border: 1px solid #EEE; overflow: hidden; }
+        .progress-circle { width: 45px; height: 45px; border: 3px solid #F0F0F0; border-top-color: var(--gold); border-radius: 50%; }
+    </style>
+</head>
+<body class="py-12 px-6">
+
+    <main class="max-w-5xl mx-auto">
+        
+        <header class="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
+            <div>
+                <span class="text-[10px] uppercase font-bold tracking-[0.3em] text-stone-400">Secure Family Access</span>
+                <h1 class="serif italic text-5xl mt-2">Your Planning Vault</h1>
+            </div>
+            <div class="flex gap-3">
+                <button class="px-6 py-3 border border-stone-200 rounded-full text-[10px] font-bold uppercase tracking-widest">Share with Family</button>
+                <button class="px-6 py-3 bg-black text-white rounded-full text-[10px] font-bold uppercase tracking-widest">Sign Out</button>
+            </div>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            <div class="lg:col-span-2 space-y-8">
+                <section class="vault-card p-10">
+                    <div class="flex justify-between items-start mb-8">
+                        <div>
+                            <h2 class="serif italic text-2xl mb-1">Current Arrangement</h2>
+                            <p class="text-xs text-stone-400 font-medium">Draft started: Jan 18, 2026</p>
+                        </div>
+                        <div class="progress-circle flex items-center justify-center">
+                            <span class="text-[10px] font-bold">60%</span>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4 mb-10">
+                        <div class="flex justify-between p-4 bg-stone-50 rounded-xl text-sm">
+                            <span class="text-stone-400">Service Type</span>
+                            <span class="font-bold">Attended Cremation</span>
+                        </div>
+                        <div class="flex justify-between p-4 bg-stone-50 rounded-xl text-sm">
+                            <span class="text-stone-400">Add-ons</span>
+                            <span class="font-bold">Limousine (x1), Premium Floristry</span>
+                        </div>
+                    </div>
+
+                    <button class="w-full py-4 bg-[#C5A059] text-white rounded-full text-[10px] font-bold uppercase tracking-widest hover:opacity-90 transition-all">Resume Arrangement</button>
+                </section>
+
+                <section class="vault-card p-10">
+                    <h3 class="serif italic text-xl mb-6">Shortlisted Directors</h3>
+                    <div class="flex items-center justify-between p-6 border border-stone-100 rounded-2xl">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 bg-stone-100 rounded-full"></div>
+                            <div>
+                                <h4 class="text-sm font-bold">Premier Funeral Care</h4>
+                                <p class="text-[10px] text-[#C5A059] font-bold uppercase">9.8 Merit Score</p>
+                            </div>
+                        </div>
+                        <button class="text-[10px] font-bold uppercase border-b border-black">View Details</button>
+                    </div>
+                </section>
+            </div>
+
+            <aside class="space-y-6">
+                <div class="bg-black text-white p-10 rounded-[2.5rem] relative overflow-hidden">
+                    <p class="text-[9px] font-bold text-[#C5A059] uppercase tracking-widest mb-4">Protect This Price</p>
+                    <h4 class="serif italic text-2xl mb-6 leading-tight">Convert this draft into a fixed-price Dignity Plan.</h4>
+                    <p class="text-xs text-stone-400 mb-8">Inflation-proof your arrangement and save your family from future financial burden.</p>
+                    <button class="w-full py-4 bg-white text-black rounded-full text-[10px] font-bold uppercase tracking-widest">Get Quote</button>
+                </div>
+
+                <div class="bg-white p-10 rounded-[2.5rem] border border-stone-200">
+                    <h4 class="serif italic text-xl mb-6">Vault Security</h4>
+                    <p class="text-xs text-stone-500 leading-relaxed">Your planning data is encrypted. We only share details with your chosen director once you authorize a 'Priority Dispatch'.</p>
+                </div>
+            </aside>
+        </div>
+
+    </main>
+
+</body>
+</html>
