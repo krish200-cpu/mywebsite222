@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="FuneralMatch: The New Age Standard for Vetted Funeral Care.">
     <title>FuneralMatch | The Revolution of Care</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
@@ -12,23 +11,13 @@
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
     <style>
-        /* MASTER CSS ARCHITECTURE: NO CORNERS REVOLUTION
-           Primary Palette: Linen (#F4F1EE), Black (#111111), Gold (#C5A059)
-        */
         :root {
             --brand-gold: #C5A059;
             --brand-black: #111111;
             --brand-linen: #F4F1EE;
-            --radius-stadium: 9999px;
-            --radius-capsule: 4rem;
-            --transition-ultra: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-font-smoothing: antialiased;
+            --radius-pill: 9999px;
+            --radius-capsule: 3.5rem;
+            --transition-smooth: all 1s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         body {
@@ -37,377 +26,206 @@
             background-image: url("https://www.transparenttextures.com/patterns/linen.png");
             color: var(--brand-black);
             overflow-x: hidden;
-            scroll-behavior: smooth;
         }
 
         .serif { font-family: 'Bodoni Moda', serif; }
 
-        /* LOGO ARCHITECTURE: STATIC TOP LEFT */
-        .site-header {
-            padding: 4rem 10%;
+        /* HEADER: TOP LEFT */
+        .site-header { padding: 3rem 10%; width: 100%; position: absolute; z-index: 50; }
+        .logo-wrap { display: flex; flex-direction: column; width: 140px; }
+        .brand-h1 { font-family: 'Bodoni Moda', serif; text-transform: uppercase; font-size: 1rem; letter-spacing: 0.35em; line-height: 1.1; font-weight: 600; color: white; mix-blend-mode: difference; }
+        .gold-line { width: 100%; height: 1.5px; background: var(--brand-gold); margin: 6px 0; }
+        .match-gold { color: var(--brand-gold); letter-spacing: 0.72em; margin-right: -0.72em; }
+
+        /* THE CINEMATIC SEARCH: "THE SPEAKING ENGINE" */
+        .hero-visual {
+            height: 80vh;
             width: 100%;
+            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=2560&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
             display: flex;
-            justify-content: flex-start;
-            z-index: 100;
+            align-items: center;
+            justify-content: center;
+            padding: 0 10%;
+            border-bottom-left-radius: 4rem;
+            border-bottom-right-radius: 4rem;
         }
 
-        .logo-container {
-            display: flex;
-            flex-direction: column;
-            width: 160px;
-            cursor: pointer;
-        }
-
-        .brand-h1 {
-            font-family: 'Bodoni Moda', serif;
-            text-transform: uppercase;
-            font-size: 1.15rem;
-            letter-spacing: 0.35em;
-            line-height: 1.1;
-            font-weight: 600;
-        }
-
-        .gold-divider {
+        .search-sanctuary {
+            max-width: 800px;
             width: 100%;
-            height: 1.5px;
-            background: var(--brand-gold);
-            margin: 8px 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 0.7rem;
+            border-radius: var(--radius-pill);
+            display: flex;
+            align-items: center;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.2);
         }
 
-        .match-label {
-            color: var(--brand-gold);
-            letter-spacing: 0.72em;
-            margin-right: -0.72em;
+        .search-input { flex: 1; border: none; outline: none; padding: 0 2rem; font-size: 1.1rem; background: transparent; }
+        .search-btn { background: var(--brand-black); color: white; padding: 1.25rem 3.5rem; border-radius: var(--radius-pill); font-weight: 700; text-transform: uppercase; letter-spacing: 0.2em; font-size: 0.7rem; }
+
+        /* THE INCENTIVE: PROGRESS THREAD */
+        .progress-thread {
+            position: absolute;
+            left: 50%;
+            top: 85vh;
+            width: 1.5px;
+            height: calc(100% - 100vh);
+            background: linear-gradient(to bottom, var(--brand-gold), transparent);
+            z-index: -1;
         }
 
-        /* NARRATIVE SECTIONING: HIGH-PAGE TRANSITION */
+        /* NARRATIVE BOXES */
         section {
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            justify-content: flex-start; /* Lands High on Page */
-            padding: 10vh 10% 0 10%;
-            position: relative;
+            justify-content: flex-start;
+            padding: 15vh 15% 0 15%;
         }
 
-        /* FLUID SEARCH ENGINE: DEVICE-SENSITIVE COMMAND CENTER */
-        .search-command {
-            max-width: 850px;
-            width: 100%;
-            background: #FFFFFF;
-            padding: 0.75rem;
-            border-radius: var(--radius-stadium);
-            display: flex;
-            align-items: center;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.03);
-            border: 1px solid rgba(0,0,0,0.05);
-            transition: var(--transition-ultra);
-            margin-bottom: 5vh;
-        }
-
-        @media (max-width: 640px) {
-            .search-command {
-                flex-direction: column;
-                border-radius: 2.5rem;
-                padding: 1.5rem;
-            }
-            .search-input { text-align: center; margin-bottom: 1rem; font-size: 1rem; }
-            .search-trigger { width: 100%; }
-        }
-
-        .search-pill:focus-within {
-            border-color: var(--brand-gold);
-            box-shadow: 0 40px 80px rgba(197, 160, 89, 0.15);
-        }
-
-        .search-input {
-            flex: 1;
-            border: none;
-            outline: none;
-            padding: 0 2rem;
-            font-size: 1.2rem;
-            background: transparent;
-            font-weight: 300;
-        }
-
-        .search-trigger {
+        .info-card {
             background: var(--brand-black);
-            color: white;
-            padding: 1.25rem 3.5rem;
-            border-radius: var(--radius-stadium);
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.25em;
-            font-size: 0.75rem;
-            cursor: pointer;
-            transition: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .search-trigger:hover { background: #333; transform: scale(1.02); }
-
-        /* REVOLUTION CAPSULES: MICRO-INFORMATION */
-        .info-capsule {
-            background-color: var(--brand-black);
-            padding: 4.5rem;
+            padding: 4rem;
             border-radius: var(--radius-capsule);
-            color: #FFFFFF;
+            color: white;
+            max-width: 700px;
             width: 100%;
-            max-width: 800px;
-            margin-bottom: 6rem;
-            box-shadow: 0 40px 100px rgba(0,0,0,0.18);
-            border-left: 10px solid var(--brand-gold);
+            box-shadow: 0 40px 80px rgba(0,0,0,0.1);
+            border: 1px solid rgba(197, 160, 89, 0.2);
             position: relative;
         }
 
-        .capsule-tag {
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5em;
-            color: var(--brand-gold);
-            font-weight: 700;
-            margin-bottom: 2rem;
-            display: block;
-        }
+        .card-tag { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.4em; color: var(--brand-gold); font-weight: 700; margin-bottom: 1.5rem; display: block; }
+        .card-h2 { font-size: 2.5rem; line-height: 1.1; margin-bottom: 1.5rem; }
+        .card-p { font-size: 1.1rem; font-weight: 300; color: #BCBCBC; line-height: 1.7; }
 
-        .capsule-h2 { font-size: clamp(2.5rem, 5vw, 4rem); line-height: 1; margin-bottom: 1.5rem; }
-        .capsule-p { font-size: 1.15rem; font-weight: 300; color: #BCBCBC; line-height: 1.8; max-width: 550px; }
-
-        /* TWO-STAGE EMERGENCY CONCIERGE */
-        #soft-hook {
+        /* TWO-STAGE EMERGENCY (2.5s Delay) */
+        #soft-support {
             position: fixed;
-            bottom: 3rem; right: 3rem;
-            background: #FFFFFF;
-            padding: 1.2rem 2rem;
-            border-radius: var(--radius-stadium);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+            bottom: 2rem; right: 2rem;
+            background: white;
+            padding: 1rem 1.5rem;
+            border-radius: var(--radius-pill);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
             display: flex;
             align-items: center;
-            gap: 15px;
-            cursor: pointer;
-            z-index: 4000;
+            gap: 12px;
+            z-index: 1000;
             transform: translateY(200%);
-            transition: var(--transition-ultra);
+            transition: var(--transition-smooth);
+            cursor: pointer;
             border: 1px solid rgba(197, 160, 89, 0.3);
         }
-        #soft-hook.active { transform: translateY(0); }
+        #soft-support.active { transform: translateY(0); }
 
-        .pulse-dot {
-            width: 10px; height: 10px;
-            background: #FFB800;
-            border-radius: 50%;
-            position: relative;
+        #full-modal {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(20px);
+            display: none; align-items: center; justify-content: center; z-index: 2000; padding: 20px;
         }
-        .pulse-dot::after {
-            content: ''; position: absolute; inset: 0;
-            background: #FFB800; border-radius: 50%;
-            animation: pulse-ring 2s infinite;
+        .modal-box {
+            background: white; padding: 4rem; border-radius: 3rem; width: 100%; max-width: 480px; position: relative;
         }
-
-        @keyframes pulse-ring { 
-            0% { transform: scale(1); opacity: 0.7; }
-            100% { transform: scale(3); opacity: 0; }
-        }
-
-        /* CONSULTATION MODAL: THE FULL "W" CAPTURE */
-        #consult-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.4);
-            backdrop-filter: blur(20px);
-            z-index: 5000;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transition: opacity 0.5s ease;
-        }
-        #consult-overlay.active { display: flex; opacity: 1; }
-
-        .modal-card {
-            background: #FFFFFF;
-            width: 500px;
-            max-width: 90vw;
-            border-radius: 3.5rem;
-            padding: 4.5rem;
-            position: relative;
-            transform: scale(0.9);
-            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        #consult-overlay.active .modal-card { transform: scale(1); }
-
-        .close-trigger {
-            position: absolute;
-            top: 2.5rem; right: 2.5rem;
-            font-size: 2rem; color: #DDD;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-        .close-trigger:hover { color: var(--brand-black); }
-
-        .field-group { margin-bottom: 2rem; }
-        .field-label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.3em; color: var(--brand-gold); font-weight: 700; margin-bottom: 1rem; display: block; }
-        .field-control { width: 100%; padding: 1.25rem 2.5rem; border-radius: var(--radius-stadium); border: 1px solid #EEE; outline: none; transition: 0.3s; font-size: 1rem; }
-        .field-control:focus { border-color: var(--brand-gold); background: #FAFAFA; }
-
-        .priority-btn {
-            width: 100%; background: var(--brand-black); color: white;
-            padding: 1.5rem; border-radius: var(--radius-stadium);
-            font-weight: 700; text-transform: uppercase; letter-spacing: 0.25em; font-size: 0.75rem;
-            margin-top: 2rem; transition: 0.4s;
-        }
-        .priority-btn:hover { background: var(--brand-gold); color: var(--brand-black); }
     </style>
 </head>
 <body class="antialiased">
 
     <header class="site-header">
-        <div class="logo-container">
+        <div class="logo-wrap">
             <span class="brand-h1">Funeral</span>
-            <div class="gold-divider"></div>
-            <span class="brand-h1 match-label">Match</span>
+            <div class="gold-line"></div>
+            <span class="brand-h1 match-gold">Match</span>
         </div>
     </header>
 
-    <section>
-        <div class="mb-12" data-aos="fade-down" data-aos-duration="1500">
-            <h1 class="serif text-4xl md:text-6xl mb-6 italic">Clarity, <span class="not-italic">redefined.</span></h1>
-            <p class="text-stone-500 font-light text-xl max-w-2xl leading-relaxed">
-                Welcome to the revolution. We provide an independent, vetted framework designed to bring total transparency to funeral care.
-            </p>
+    <div class="hero-visual">
+        <div class="w-full max-w-4xl text-center">
+            <h2 class="serif text-white text-5xl italic mb-12" data-aos="fade-in">Clarity begins here.</h2>
+            <div class="search-sanctuary" data-aos="zoom-in" data-aos-delay="300">
+                <input type="text" placeholder="Enter Postcode for Vetted Comparison..." class="search-input">
+                <button class="search-btn">Search</button>
+            </div>
+            <p class="text-white/60 text-xs uppercase tracking-[0.4em] mt-10" data-aos="fade-up" data-aos-delay="600">Scroll to explore our standard</p>
         </div>
-
-        <div class="search-command" data-aos="fade-up" data-aos-delay="300">
-            <input type="text" placeholder="Enter Postcode for Vetted Matches..." class="search-input">
-            <button class="search-trigger">Compare</button>
-        </div>
-    </section>
-
-    <section>
-        <div class="info-capsule" data-aos="fade-up">
-            <span class="capsule-tag">The Advocate</span>
-            <h2 class="serif capsule-h2 italic">Independent <br><span class="not-italic">Middleman.</span></h2>
-            <p class="capsule-p">
-                FuneralMatch is not a provider. We are your dedicated representative, ensuring every funeral home in our suite prioritizes your family over their own bottom line.
-            </p>
-        </div>
-    </section>
-
-    <section>
-        <div class="info-capsule" data-aos="fade-up">
-            <span class="capsule-tag">The Framework</span>
-            <h2 class="serif capsule-h2 italic">Transparent <br><span class="not-italic">Directorship.</span></h2>
-            <p class="capsule-p">
-                We've dismantled the opaque pricing of the past. Our modern framework standardizes service reporting so you can compare costs with absolute clarity.
-            </p>
-        </div>
-    </section>
-
-    <section>
-        <div class="info-capsule" data-aos="fade-up">
-            <span class="capsule-tag">The Security</span>
-            <h2 class="serif capsule-h2 italic">Audited <br><span class="not-italic">Merit.</span></h2>
-            <p class="capsule-p">
-                Every director is vetted for pricing transparency and professional conduct. We perform the due diligence so you can focus on what truly matters.
-            </p>
-        </div>
-    </section>
-
-    <section>
-        <div class="info-capsule" data-aos="fade-up">
-            <span class="capsule-tag">The Revolution</span>
-            <h2 class="serif capsule-h2 italic">New Age <br><span class="not-italic">Standards.</span></h2>
-            <p class="capsule-p">
-                The funeral industry is aging; we are the evolution. Our digital-first suite provides the 21st-century tools needed for dignified, efficient planning.
-            </p>
-        </div>
-    </section>
-
-    <div id="soft-hook" onclick="openConsultation()">
-        <div class="pulse-dot"></div>
-        <span class="text-[10px] font-bold uppercase tracking-[0.3em] text-stone-700">Immediate help required?</span>
     </div>
 
-    <div id="consult-overlay" onclick="handleOverlayClick(event)">
-        <div class="modal-card">
-            <span class="close-trigger" onclick="closeConsultation()">&times;</span>
-            <div class="mb-12">
-                <h3 class="serif text-3xl italic mb-2">Urgent Assistance</h3>
-                <p class="text-[10px] uppercase tracking-widest text-stone-400 font-bold">A dedicated consultant is ready to assist.</p>
-            </div>
-            
-            <form onsubmit="handleFormSubmit(event)">
-                <div class="field-group">
-                    <label class="field-label">Full Name of Correspondent</label>
-                    <input type="text" class="field-control" placeholder="Johnathan Doe" required>
-                </div>
-                <div class="field-group">
-                    <label class="field-label">Primary Contact Number</label>
-                    <input type="tel" class="field-control" placeholder="07123 456789" required>
-                </div>
-                <div class="field-group">
-                    <label class="field-label">Location of Requirement</label>
-                    <input type="text" class="field-control" placeholder="Postcode or City" required>
-                </div>
-                <div class="field-group">
-                    <label class="field-label">Urgency Status</label>
-                    <select class="field-control bg-white">
-                        <option value="immediate">Immediate Need (Death Occurred)</option>
-                        <option value="expected">Passing Expected Shortly</option>
-                        <option value="planning">Pre-Planning Inquiry</option>
-                    </select>
-                </div>
-                <button type="submit" class="priority-btn">Request Priority Callback</button>
+    <div class="progress-thread"></div>
+
+    <section>
+        <div class="info-card" data-aos="fade-up">
+            <span class="card-tag">The Identity</span>
+            <h2 class="serif card-h2 italic">Independent <br><span class="not-italic">Middleman.</span></h2>
+            <p class="card-p">We represent your family, not the director. As a revolutionary middleman, we audit every provider to ensure unbiased merit.</p>
+        </div>
+    </section>
+
+    <section>
+        <div class="info-card" data-aos="fade-up">
+            <span class="card-tag">The Mandate</span>
+            <h2 class="serif card-h2 italic text-stone-100">Transparent <br><span class="not-italic gold">Pricing.</span></h2>
+            <p class="card-p">We've dismantled hidden fee cultures. Compare vetted funeral directors through a standardized, fixed-cost framework.</p>
+        </div>
+    </section>
+
+    <section>
+        <div class="info-card" data-aos="fade-up">
+            <span class="card-tag">The Quality</span>
+            <h2 class="serif card-h2 italic">Verified <br><span class="not-italic text-stone-300">Dignity.</span></h2>
+            <p class="card-p">Every partner in our network is audited for professional conduct and facility standards, returning control to you.</p>
+        </div>
+    </section>
+
+    <section>
+        <div class="info-card" data-aos="fade-up">
+            <span class="card-tag">The Innovation</span>
+            <h2 class="serif card-h2 italic">New Age <br><span class="not-italic">Modernism.</span></h2>
+            <p class="card-p">Industry traditionalism meets digital-first efficiency. We provide the 21st-century tools required for a dignified tribute.</p>
+        </div>
+    </section>
+
+    <section>
+        <div class="info-card" data-aos="fade-up">
+            <span class="card-tag">The Outcome</span>
+            <h2 class="serif card-h2 italic">Total <br><span class="not-italic text-stone-400">Security.</span></h2>
+            <p class="card-p">Make informed decisions with confidence. Our standard ensures the final farewell is a true reflection of the life lived.</p>
+        </div>
+    </section>
+
+    <div id="soft-support" onclick="openFullSupport()">
+        <span class="relative flex h-2 w-2">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
+        </span>
+        <span class="text-[10px] font-bold uppercase tracking-widest">Help Required?</span>
+    </div>
+
+    <div id="full-modal" onclick="handleOverlay(event)">
+        <div class="modal-box">
+            <h3 class="serif text-3xl italic mb-8">Urgent Support</h3>
+            <form class="space-y-6">
+                <input type="text" placeholder="Full Name" class="w-full p-4 border rounded-full outline-none focus:border-gold">
+                <input type="text" placeholder="Location" class="w-full p-4 border rounded-full outline-none focus:border-gold">
+                <select class="w-full p-4 border rounded-full outline-none bg-white">
+                    <option>Death has occurred</option>
+                    <option>Expected shortly</option>
+                </select>
+                <button class="w-full bg-black text-white py-4 rounded-full font-bold uppercase tracking-widest text-xs">Request Call</button>
             </form>
         </div>
     </div>
 
     <script>
-        // AOS INITIALIZATION (SMOOTH REVEAL)
-        AOS.init({
-            duration: 1200,
-            easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
-            once: true,
-            offset: 100
-        });
+        AOS.init({ duration: 1200, once: true, offset: 150 });
 
-        // SOFT HOOK DELAY (2.5 Seconds)
         window.addEventListener('load', () => {
-            setTimeout(() => {
-                document.getElementById('soft-hook').classList.add('active');
-            }, 2500);
+            setTimeout(() => { document.getElementById('soft-support').classList.add('active'); }, 2500);
         });
 
-        // MODAL MANAGEMENT
-        function openConsultation() {
-            const overlay = document.getElementById('consult-overlay');
-            overlay.style.display = 'flex';
-            setTimeout(() => overlay.classList.add('active'), 10);
-            document.getElementById('soft-hook').classList.remove('active');
-        }
-
-        function closeConsultation() {
-            const overlay = document.getElementById('consult-overlay');
-            overlay.classList.remove('active');
-            setTimeout(() => {
-                overlay.style.display = 'none';
-                document.getElementById('soft-hook').classList.add('active');
-            }, 600);
-        }
-
-        function handleOverlayClick(e) {
-            if (e.target.id === 'consult-overlay') closeConsultation();
-        }
-
-        function handleFormSubmit(e) {
-            e.preventDefault();
-            alert('Lead Captured. Your priority consultant will call shortly.');
-            closeConsultation();
-        }
-
-        // ACCESSIBILITY: ESCAPE KEY
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') closeConsultation();
-        });
+        function openFullSupport() { document.getElementById('full-modal').style.display = 'flex'; }
+        function handleOverlay(e) { if(e.target.id === 'full-modal') e.target.style.display = 'none'; }
     </script>
 </body>
 </html>
