@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <title>Digital Arrangement | FuneralMatch</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@1,400;1,700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root { --gold: #C5A059; --black: #1a1a1a; --soft-bg: #F8F7F5; }
+        body { font-family: 'Inter', sans-serif; background: var(--soft-bg); color: var(--black); }
+        .serif { font-family: 'Bodoni Moda', serif; }
+        .config-card { background: white; border-radius: 2rem; padding: 2.5rem; border: 1px solid #EEE; transition: 0.3s; cursor: pointer; }
+        .config-card.selected { border: 2px solid var(--gold); background: #FFFDF9; }
+        .price-chip { background: #F0EDE8; padding: 4px 10px; border-radius: 9999px; font-size: 10px; font-weight: 800; }
+        .sticky-summary { position: sticky; top: 2rem; background: var(--black); color: white; border-radius: 2.5rem; padding: 2.5rem; }
+    </style>
+</head>
+<body class="p-8 md:p-16">
+
+    <main class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-12">
+        
+        <div class="lg:col-span-2 space-y-12">
+            <header>
+                <h1 class="serif italic text-5xl mb-4">Arrange with Clarity.</h1>
+                <p class="text-stone-400 uppercase tracking-widest text-[10px] font-bold">Step 1: Core Service Selection</p>
+            </header>
+
+            <section>
+                <h3 class="serif text-2xl mb-6">Service Type</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="config-card selected">
+                        <div class="flex justify-between mb-4">
+                            <span class="price-chip">FROM £1,200</span>
+                            <span class="text-green-600 text-[10px] font-bold">POPULAR</span>
+                        </div>
+                        <h4 class="font-bold mb-2">Attended Cremation</h4>
+                        <p class="text-xs text-stone-500">A full service at the chapel with family and friends present.</p>
+                    </div>
+                    <div class="config-card">
+                        <div class="flex justify-between mb-4">
+                            <span class="price-chip">FROM £850</span>
+                        </div>
+                        <h4 class="font-bold mb-2">Direct Cremation</h4>
+                        <p class="text-xs text-stone-500">An unattended, dignified cremation without a formal service.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h3 class="serif text-2xl mb-6">Enhanced Tributes (Optional)</h3>
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between p-6 bg-white rounded-2xl border border-stone-100">
+                        <div class="flex items-center gap-4">
+                            <input type="checkbox" class="w-5 h-5 accent-[#C5A059]">
+                            <div>
+                                <h5 class="text-sm font-bold">Limousine Transport (7-Seater)</h5>
+                                <p class="text-[10px] text-stone-400">Professional chauffeur service for the family.</p>
+                            </div>
+                        </div>
+                        <span class="text-sm font-bold text-[#C5A059]">+£250</span>
+                    </div>
+
+                    <div class="flex items-center justify-between p-6 bg-white rounded-2xl border border-stone-100">
+                        <div class="flex items-center gap-4">
+                            <input type="checkbox" class="w-5 h-5 accent-[#C5A059]">
+                            <div>
+                                <h5 class="text-sm font-bold">Premium Floral Arrangement</h5>
+                                <p class="text-[10px] text-stone-400">Vetted floristry partner package.</p>
+                            </div>
+                        </div>
+                        <span class="text-sm font-bold text-[#C5A059]">+£180</span>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <aside class="lg:col-span-1">
+            <div class="sticky-summary">
+                <h3 class="serif italic text-2xl mb-8">Arrangement Summary</h3>
+                <div class="space-y-4 mb-8 border-b border-stone-800 pb-8">
+                    <div class="flex justify-between text-xs">
+                        <span class="text-stone-400">Base Service</span>
+                        <span>£1,200</span>
+                    </div>
+                    <div class="flex justify-between text-xs">
+                        <span class="text-stone-400">Add-ons Selected</span>
+                        <span class="text-[#C5A059]">£0</span>
+                    </div>
+                </div>
+                <div class="flex justify-between items-baseline mb-8">
+                    <span class="text-xs uppercase font-bold tracking-widest text-stone-500">Estimated Total</span>
+                    <span class="text-3xl serif italic text-[#C5A059]">£1,200</span>
+                </div>
+                
+                <form action="https://formspree.io/f/mvzzkjeq" method="POST">
+                    <input type="hidden" name="_subject" value="PREMIUM ARRANGEMENT LEAD">
+                    <p class="text-[9px] text-stone-500 mb-6 leading-relaxed">By clicking 'Submit Arrangement', your selected director will be notified of your full requirements for immediate review.</p>
+                    <button type="submit" class="w-full bg-[#C5A059] py-4 rounded-full text-[10px] font-bold uppercase tracking-widest">Submit Arrangement</button>
+                </form>
+            </div>
+        </aside>
+
+    </main>
+
+</body>
+</html>
