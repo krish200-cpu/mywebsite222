@@ -3,29 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FuneralMatch | The New Standard of Care</title>
+    <title>FuneralMatch | The New Standard</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,ital,wght@6..96,0,400;6..96,0,600;6..96,1,400&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,ital,wght@6..96,0,400;6..96,0,600&family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
     <style>
-        /* ARCHITECTURAL CSS OVERRIDE 
-           Design: New Age Modernism
-           Theme: Soft-Grain Linen & Dark Capsule Flow
-        */
         :root {
             --gold: #C5A059;
-            --black: #111111;
-            --bg-linen: #F2F0ED;
-            --box-shadow: 0 40px 100px rgba(0,0,0,0.12);
-            --transition-smooth: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-            --radius-stadium: 9999px;
-            --radius-capsule: 4rem;
+            --black: #141414;
+            --bg-linen: #F5F3F1;
+            --radius-pill: 9999px;
+            --radius-box: 3rem;
         }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Outfit', sans-serif;
@@ -33,302 +25,200 @@
             background-image: url("https://www.transparenttextures.com/patterns/linen.png");
             color: var(--black);
             overflow-x: hidden;
-            scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
         }
 
         .serif { font-family: 'Bodoni Moda', serif; }
 
-        /* BRANDING: STATIC TOP-LEFT */
-        .site-branding {
-            padding: 4rem 10%;
-            display: flex;
-            justify-content: flex-start;
-        }
+        /* HEADER: TOP LEFT STATIC */
+        header { padding: 3rem 8%; }
+        .logo-wrap { display: flex; flex-direction: column; width: 140px; }
+        .brand-text { font-family: 'Bodoni Moda', serif; text-transform: uppercase; font-size: 1rem; letter-spacing: 0.35em; line-height: 1.1; font-weight: 600; }
+        .logo-line { width: 100%; height: 1.5px; background: var(--gold); margin: 6px 0; }
+        .brand-match { color: var(--gold); letter-spacing: 0.72em; margin-right: -0.72em; }
 
-        .logo-box {
-            display: flex;
-            flex-direction: column;
-            width: 160px;
-        }
-
-        .brand-h1 {
-            font-family: 'Bodoni Moda', serif;
-            text-transform: uppercase;
-            font-size: 1.15rem;
-            letter-spacing: 0.35em;
-            line-height: 1.1;
-            font-weight: 600;
-        }
-
-        .divider-gold {
-            width: 100%;
-            height: 1.5px;
-            background: var(--gold);
-            margin: 8px 0;
-        }
-
-        .match-span {
-            color: var(--gold);
-            letter-spacing: 0.72em;
-            margin-right: -0.72em;
-        }
-
-        /* SEARCH SANCTUARY: DEVICE OPTIMIZED */
-        .search-container {
-            padding: 0 10% 8rem 10%;
-        }
-
+        /* SEARCH SANCTUARY */
         .search-pill {
-            max-width: 800px;
+            max-width: 700px;
             width: 100%;
-            background: #FFFFFF;
-            padding: 0.8rem;
-            border-radius: var(--radius-stadium);
+            background: white;
+            border-radius: var(--radius-pill);
             display: flex;
             align-items: center;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.03);
+            padding: 0.6rem;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.03);
             border: 1px solid rgba(0,0,0,0.05);
-            transition: var(--transition-smooth);
+            margin: 2rem 0 6rem 0;
+            transition: all 0.5s ease;
         }
+        .search-pill:focus-within { border-color: var(--gold); box-shadow: 0 20px 45px rgba(197, 160, 89, 0.1); }
+        .search-input { flex: 1; border: none; outline: none; padding: 0 1.5rem; font-size: 1rem; background: transparent; }
+        .search-btn { background: var(--black); color: white; padding: 1rem 2.5rem; border-radius: var(--radius-pill); font-weight: 600; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; }
 
-        .search-pill:focus-within {
-            border-color: var(--gold);
-            box-shadow: 0 30px 60px rgba(197, 160, 89, 0.15);
-            transform: scale(1.02);
-        }
-
-        .search-field {
-            flex: 1;
-            border: none;
-            outline: none;
-            padding: 0 2rem;
-            font-size: 1.1rem;
-            background: transparent;
-            font-weight: 300;
-        }
-
-        .search-trigger {
-            background: var(--black);
+        /* MICRO-INFO BOXES: HIGHER ON PAGE */
+        .micro-box {
+            background-color: var(--black);
+            padding: 3rem;
+            border-radius: var(--radius-box);
             color: white;
-            padding: 1.2rem 3rem;
-            border-radius: var(--radius-stadium);
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.25em;
-            font-size: 0.7rem;
-            transition: 0.4s;
-        }
-
-        .search-trigger:hover { background: #333; }
-
-        /* NARRATIVE CAPSULE FLOW 
-           Focus: 5 Key Boxes with Micro-Paragraphs
-        */
-        .narrative-flow { padding: 0 10% 10rem 10%; }
-
-        .capsule {
-            background: var(--black);
-            padding: 5rem;
-            border-radius: var(--radius-capsule);
-            color: white;
-            max-width: 900px;
             width: 100%;
-            margin-bottom: 8rem;
-            box-shadow: var(--box-shadow);
-            border-left: 8px solid var(--gold);
-            position: relative;
+            max-width: 650px;
+            margin-bottom: 4rem;
+            border-left: 6px solid var(--gold);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.15);
         }
 
-        /* The Hero Box (Box 1) - Standout Treatment */
-        .capsule-hero {
-            background: linear-gradient(145deg, #111 0%, #1a1a1a 100%);
-            border-left: 12px solid var(--gold);
+        section {
+            padding: 0 8% 10% 8%;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
         }
 
-        .capsule-tag {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5em;
-            color: var(--gold);
-            font-weight: 700;
-            margin-bottom: 2rem;
-            display: block;
-        }
+        .box-h2 { font-size: 2.25rem; line-height: 1.1; margin-bottom: 1rem; }
+        .box-p { font-size: 1rem; font-weight: 300; color: #BCBCBC; line-height: 1.6; }
 
-        .capsule-h2 { font-size: 3.5rem; line-height: 1; margin-bottom: 1.5rem; }
-        .capsule-p { font-size: 1.2rem; font-weight: 300; color: #BCBCBC; line-height: 1.8; max-width: 600px; }
-
-        /* EMERGENCY CONCIERGE MODAL */
-        #emergency-modal {
+        /* REDEFINED EMERGENCY MODAL: FADE & BLUR */
+        #emergency-overlay {
             position: fixed;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -45%);
-            width: 500px;
-            max-width: 90vw;
-            background: white;
-            border-radius: 3.5rem;
-            padding: 4rem;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(12px);
             z-index: 5000;
-            box-shadow: 0 50px 100px rgba(0,0,0,0.4);
             display: none;
+            align-items: center;
+            justify-content: center;
             opacity: 0;
-            transition: all 0.6s ease;
+            transition: opacity 0.5s ease;
         }
 
-        #emergency-modal.show {
-            display: block;
-            opacity: 1;
-            transform: translate(-50%, -50%);
+        #emergency-modal {
+            background: white;
+            width: 480px;
+            max-width: 90vw;
+            border-radius: 3rem;
+            padding: 3.5rem;
+            position: relative;
+            transform: scale(0.9);
+            transition: transform 0.4s ease;
         }
 
-        .modal-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.6);
-            backdrop-filter: blur(10px);
-            z-index: 4000;
-            display: none;
-        }
+        #emergency-overlay.active { display: flex; opacity: 1; }
+        #emergency-overlay.active #emergency-modal { transform: scale(1); }
 
-        .form-group { margin-bottom: 2rem; }
-        .form-label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.3em; color: var(--gold); font-weight: 700; margin-bottom: 1rem; display: block; }
-        .form-control { width: 100%; padding: 1.2rem 2rem; border-radius: var(--radius-stadium); border: 1px solid #EEE; outline: none; transition: 0.3s; font-size: 1rem; }
-        .form-control:focus { border-color: var(--gold); background: #FAFAFA; }
-
-        /* RESPONSIVE LOGIC */
-        @media (max-width: 768px) {
-            .capsule { padding: 3rem 2rem; border-radius: 3rem; }
-            .capsule-h2 { font-size: 2.25rem; }
-            .search-pill { flex-direction: column; border-radius: 2.5rem; }
-            .search-trigger { width: 100%; margin-top: 1rem; }
-            .site-branding { padding: 3rem 5%; }
+        .close-btn {
+            position: absolute;
+            top: 2rem; right: 2rem;
+            font-size: 1.5rem; color: #CCC;
+            cursor: pointer;
+            transition: 0.3s;
         }
+        .close-btn:hover { color: var(--black); }
+
+        .input-pill {
+            width: 100%; padding: 1rem 1.5rem; 
+            border-radius: var(--radius-pill);
+            border: 1px solid #EEE; margin-bottom: 1.5rem;
+            outline: none; font-size: 0.9rem;
+        }
+        .input-pill:focus { border-color: var(--gold); }
     </style>
 </head>
-<body>
+<body class="antialiased">
 
-    <header class="site-branding">
-        <div class="logo-box">
-            <span class="brand-h1">Funeral</span>
-            <div class="divider-gold"></div>
-            <span class="brand-h1 match-span">Match</span>
+    <header>
+        <div class="logo-wrap">
+            <span class="brand-text">Funeral</span>
+            <div class="logo-line"></div>
+            <span class="brand-text brand-match">Match</span>
         </div>
     </header>
 
-    <main>
-        <section class="search-container" data-aos="fade-down" data-aos-duration="1000">
-            <div class="mb-10">
-                <h2 class="serif text-4xl italic mb-2">Begin with clarity.</h2>
-                <p class="text-stone-400 font-light">Locate vetted funeral care tailored to your requirements.</p>
-            </div>
-            <div class="search-pill">
-                <input type="text" placeholder="Enter Postcode or Location..." class="search-field">
-                <button class="search-trigger">Compare</button>
-            </div>
-        </section>
-
-        <div class="narrative-flow">
-            
-            <article class="capsule capsule-hero" data-aos="fade-up">
-                <span class="capsule-tag">The Anchor</span>
-                <h2 class="serif capsule-h2 italic">The Independent <br>Advocate.</h2>
-                <p class="capsule-p">
-                    FuneralMatch is not a provider, but your independent partner. We act as a bridge between family necessity and professional excellence, ensuring you receive unbiased comparisons based on verified merit.
-                </p>
-            </article>
-
-            <article class="capsule" data-aos="fade-up">
-                <span class="capsule-tag">The Framework</span>
-                <h2 class="serif capsule-h2 italic">Transparent <br>Directorship.</h2>
-                <p class="capsule-p">
-                    We've dismantled the outdated "opaque" pricing models of the past. Our framework allows you to evaluate funeral directors by fixed-cost packages, stripping away the complexity of hidden fees.
-                </p>
-            </article>
-
-            <article class="capsule" data-aos="fade-up">
-                <span class="capsule-tag">The Security</span>
-                <h2 class="serif capsule-h2 italic">Verified <br>Dignity.</h2>
-                <p class="capsule-p">
-                    Every funeral home within our network undergoes a rigorous vetting process. We audit for pricing transparency, facility quality, and professional conduct, so you don't have to.
-                </p>
-            </article>
-
-            <article class="capsule" data-aos="fade-up">
-                <span class="capsule-tag">The Evolution</span>
-                <h2 class="serif capsule-h2 italic">New Age <br>Modernism.</h2>
-                <p class="capsule-p">
-                    The industry is aging; we are the revolution. Our digital-first approach provides the modern tools necessary to manage arrangements with 21st-century efficiency and respect.
-                </p>
-            </article>
-
-            <article class="capsule" data-aos="fade-up">
-                <span class="capsule-tag">The Result</span>
-                <h2 class="serif capsule-h2 italic">Absolute <br>Control.</h2>
-                <p class="capsule-p">
-                    Ultimately, we return the power to the family. By providing the data you need to make an informed choice, we ensure the final tribute is a true reflection of the life lived.
-                </p>
-            </article>
-
+    <section>
+        <div class="search-pill" data-aos="fade-up">
+            <input type="text" placeholder="Compare by Postcode..." class="search-input">
+            <button class="search-btn">Search</button>
         </div>
-    </main>
 
-    <div class="modal-overlay" id="overlay"></div>
-    <div id="emergency-modal">
-        <div class="mb-10 text-center">
-            <h3 class="serif text-3xl italic gold mb-2">Urgent Assistance</h3>
-            <p class="text-stone-400 text-sm uppercase tracking-widest">We are here to support you now.</p>
+        <div class="micro-box" data-aos="fade-up">
+            <span class="text-[9px] uppercase tracking-[0.4em] text-stone-500 font-bold mb-4 block">The Revolution</span>
+            <h2 class="serif box-h2 italic">The Independent <br><span class="not-italic">Advocate.</span></h2>
+            <p class="box-p">We are a dedicated middleman service, ensuring you find vetted funeral directors with absolute transparency.</p>
         </div>
-        <form class="space-y-6">
-            <div class="form-group">
-                <label class="form-label">Full Name of Correspondent</label>
-                <input type="text" class="form-control" placeholder="Johnathan Doe" required>
-            </div>
-            <div class="form-group">
-                <label class="form-label">Primary Contact Number</label>
-                <input type="tel" class="form-control" placeholder="07123 456789" required>
-            </div>
-            <div class="form-group">
-                <label class="form-label">Location of Requirement</label>
-                <input type="text" class="form-control" placeholder="City or Postcode" required>
-            </div>
-            <div class="form-group">
-                <label class="form-label">Urgency Status</label>
-                <select class="form-control bg-white">
-                    <option value="immediate">Death has occurred (Immediate Help)</option>
-                    <option value="expected">Expected imminently</option>
-                    <option value="inquiry">Pre-planning inquiry</option>
-                </select>
-            </div>
-            <button type="button" class="w-full bg-black text-white py-5 rounded-full font-bold uppercase tracking-widest text-xs hover:bg-stone-800 transition-all">
-                Request Priority Connection
+
+        <div class="micro-box" data-aos="fade-up">
+            <span class="text-[9px] uppercase tracking-[0.4em] text-stone-500 font-bold mb-4 block">Pricing</span>
+            <h2 class="serif box-h2 italic text-stone-100">Vetted <br><span class="not-italic gold">Comparisons.</span></h2>
+            <p class="box-p">Dismantling the old age of hidden fees. Compare local costs through our modernized, fixed-rate framework.</p>
+        </div>
+
+        <div class="micro-box" data-aos="fade-up">
+            <span class="text-[9px] uppercase tracking-[0.4em] text-stone-500 font-bold mb-4 block">Standards</span>
+            <h2 class="serif box-h2 italic">Verified <br><span class="not-italic text-stone-300">Dignity.</span></h2>
+            <p class="box-p">Every director in our suite is audited for professional conduct and facility quality, prioritizing your family's peace of mind.</p>
+        </div>
+
+        <div class="micro-box" data-aos="fade-up">
+            <span class="text-[9px] uppercase tracking-[0.4em] text-stone-500 font-bold mb-4 block">Efficiency</span>
+            <h2 class="serif box-h2 italic">New Age <br><span class="not-italic">Efficiency.</span></h2>
+            <p class="box-p">A 21st-century approach to an aging industry. Manage arrangements with streamlined, digital-first tools.</p>
+        </div>
+
+        <div class="micro-box" data-aos="fade-up">
+            <span class="text-[9px] uppercase tracking-[0.4em] text-stone-500 font-bold mb-4 block">Our Vision</span>
+            <h2 class="serif box-h2 italic">Complete <br><span class="not-italic text-stone-400">Control.</span></h2>
+            <p class="box-p">Empowering families to make informed decisions, ensuring the final tribute reflects the life lived, not the director's bottom line.</p>
+        </div>
+
+        <div class="mt-10" data-aos="zoom-in">
+            <button onclick="toggleModal()" class="bg-white border border-stone-200 px-12 py-5 rounded-full text-[10px] font-bold uppercase tracking-[0.4em] shadow-lg hover:border-amber-500 transition-all">
+                Immediate Help Required
             </button>
-        </form>
+        </div>
+    </section>
+
+    <div id="emergency-overlay" onclick="closeOnOverlay(event)">
+        <div id="emergency-modal">
+            <span class="close-btn" onclick="toggleModal()">&times;</span>
+            <div class="mb-10">
+                <h3 class="serif text-2xl italic mb-1">Immediate Support</h3>
+                <p class="text-[9px] uppercase tracking-widest text-stone-400 font-bold">We are here to support you.</p>
+            </div>
+            <form class="space-y-4">
+                <input type="text" placeholder="Full Name" class="input-pill">
+                <input type="text" placeholder="Location" class="input-pill">
+                <select class="input-pill bg-white">
+                    <option>Urgency Status</option>
+                    <option>Death has occurred</option>
+                    <option>Expected shortly</option>
+                    <option>Inquiry only</option>
+                </select>
+                <button type="button" class="w-full bg-black text-white py-5 rounded-full font-bold uppercase tracking-widest text-[11px] shadow-xl">
+                    Request Priority Call
+                </button>
+            </form>
+        </div>
     </div>
 
     <script>
-        // AOS Initialization
-        AOS.init({
-            duration: 1200,
-            easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
-            once: true,
-            offset: 100
-        });
+        AOS.init({ duration: 800, once: true, offset: 50 });
 
-        // Emergency Modal Logic (2.5s Delay)
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                const overlay = document.getElementById('overlay');
-                const modal = document.getElementById('emergency-modal');
-                
-                overlay.style.display = 'block';
-                modal.classList.add('show');
-            }, 2500);
-        });
+        function toggleModal() {
+            const overlay = document.getElementById('emergency-overlay');
+            overlay.classList.toggle('active');
+        }
 
-        // Close Modal on Overlay Click
-        document.getElementById('overlay').addEventListener('click', () => {
-            document.getElementById('overlay').style.display = 'none';
-            document.getElementById('emergency-modal').classList.remove('show');
+        function closeOnOverlay(e) {
+            if (e.target === document.getElementById('emergency-overlay')) {
+                toggleModal();
+            }
+        }
+
+        // Return function: ESC key to close
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && document.getElementById('emergency-overlay').classList.contains('active')) {
+                toggleModal();
+            }
         });
     </script>
 </body>
