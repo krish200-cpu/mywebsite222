@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Vetting Standards | The FuneralMatch Audit</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@1,400;1,700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        :root { --gold: #C5A059; --black: #1a1a1a; --soft-bg: #F8F7F5; }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--soft-bg); color: var(--black); }
+        .serif { font-family: 'Bodoni Moda', serif; }
+        
+        .standard-card { background: white; border-radius: 2.5rem; padding: 3.5rem; border: 1px solid #EEE; transition: 0.4s; }
+        .standard-card:hover { border-color: var(--gold); transform: translateY(-5px); }
+        .audit-tag { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.2em; color: var(--gold); font-weight: 800; margin-bottom: 1rem; display: block; }
+    </style>
+</head>
+<body class="py-24 px-8">
+
+    <main class="max-w-6xl mx-auto">
+        <header class="text-center mb-32" data-aos="fade-up">
+            <h1 class="serif italic text-6xl mb-8">The Gold Standard.</h1>
+            <p class="text-stone-400 uppercase tracking-[0.4em] text-[10px] font-bold">Comprehensive Vetting & Audit Framework</p>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            
+            <section class="standard-card" data-aos="fade-up">
+                <span class="audit-tag">Protocol 01</span>
+                <h2 class="serif italic text-3xl mb-6">Mortuary & Care Facilities</h2>
+                <p class="text-stone-600 leading-relaxed text-sm">Every director must undergo a physical inspection of their back-of-house facilities. We audit refrigeration capacity, clinical cleanliness, and the dignified handling of remains. Sub-standard facilities are immediately delisted.</p>
+            </section>
+
+            <section class="standard-card" data-aos="fade-up" data-aos-delay="100">
+                <span class="audit-tag">Protocol 02</span>
+                <h2 class="serif italic text-3xl mb-6">Pricing Transparency</h2>
+                <p class="text-stone-600 leading-relaxed text-sm">We enforce a strict "No Hidden Fees" policy. Directors must provide a standardized price list for comparison. Discrepancies between quoted and final prices lead to an automatic compliance strike.</p>
+            </section>
+
+            <section class="standard-card" data-aos="fade-up" data-aos-delay="200">
+                <span class="audit-tag">Protocol 03</span>
+                <h2 class="serif italic text-3xl mb-6">Professional Conduct</h2>
+                <p class="text-stone-600 leading-relaxed text-sm">Vetting extends to the front line. We review staff training certifications, years of experience, and historical family feedback. Our "Service Merit" score is a reflection of real-world performance.</p>
+            </section>
+
+            <section class="standard-card" data-aos="fade-up" data-aos-delay="300">
+                <span class="audit-tag">Protocol 04</span>
+                <h2 class="serif italic text-3xl mb-6">Independence & Ethics</h2>
+                <p class="text-stone-600 leading-relaxed text-sm">To protect the family’s interest, we prioritize independent firms. We verify that firms are not incentivized by corporate quotas, ensuring advice is given solely in the best interest of the family.</p>
+            </section>
+
+        </div>
+
+        <div class="mt-24 p-16 rounded-[3rem] bg-black text-white text-center" data-aos="zoom-in">
+            <h3 class="serif italic text-3xl mb-6">Are you a director who meets these standards?</h3>
+            <p class="text-stone-400 mb-10 max-w-xl mx-auto text-sm">Join the 1,200+ firms who have already verified their quality. Start your application today.</p>
+            <button class="bg-[#C5A059] text-white px-10 py-4 rounded-full text-[10px] font-bold uppercase tracking-widest">Apply for Network Entry</button>
+        </div>
+
+    </main>
+
+    <script>
+        AOS.init({ duration: 1000, once: true });
+    </script>
+</body>
+</html>
