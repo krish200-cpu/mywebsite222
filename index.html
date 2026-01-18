@@ -6,160 +6,189 @@
     <title>Funeral Match | The New Standard of Care</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400&family=Inter:wght@200;300;400&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;1,6..96,400&family=Inter:wght@200;300;400;500;600&display=swap');
 
         :root {
             --gold: #C5A059;
             --charcoal: #1a1a1a;
-            --soft-white: #fafafa;
+            --off-white: #fcfcfc;
         }
 
         body {
             font-family: 'Inter', sans-serif;
             background-color: #ffffff;
             color: var(--charcoal);
+            margin: 0;
             opacity: 0;
             animation: pageFadeIn 1.5s ease-out forwards;
+            -webkit-font-smoothing: antialiased;
         }
 
-        @keyframes pageFadeIn {
-            to { opacity: 1; }
-        }
+        @keyframes pageFadeIn { to { opacity: 1; } }
 
-        /* --- LUXURY LOGO REFINEMENT --- */
-        .logo-wrap {
+        /* --- LOGO: ARCHITECTURAL BALANCE --- */
+        .logo-container {
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 40px 0;
+            padding: 80px 0 40px;
         }
 
         .brand-funeral {
             font-family: 'Bodoni Moda', serif;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             text-transform: uppercase;
-            letter-spacing: 0.6em;
-            margin-right: -0.6em;
+            letter-spacing: 0.5em;
+            margin-right: -0.5em;
+            color: var(--charcoal);
         }
 
-        .horizon-line {
-            width: 40px;
+        .logo-divider {
+            width: 50px;
             height: 1px;
-            background: var(--gold);
-            margin: 12px 0;
+            background-color: var(--gold);
+            margin: 18px 0;
         }
 
         .brand-match {
-            font-size: 0.85rem; /* Made significantly smaller per your request */
-            font-weight: 300;
+            font-size: 1.2rem;
+            font-weight: 200;
             text-transform: uppercase;
-            letter-spacing: 0.8em;
+            letter-spacing: 0.82em; 
+            margin-right: -0.82em;
             color: var(--gold);
-            margin-right: -0.8em;
         }
 
-        /* --- SEARCH COMPONENT --- */
-        .search-container {
+        /* --- SEARCH: CONCIERGE STYLE --- */
+        .search-section {
             max-width: 600px;
-            margin: 60px auto;
-            position: relative;
+            margin: 0 auto 100px;
+            text-align: center;
+        }
+
+        .subtitle-intro {
+            font-family: 'Bodoni Moda', serif;
+            font-style: italic;
+            font-size: 1.4rem;
+            color: #888;
+            margin-bottom: 40px;
+            font-weight: 400;
+        }
+
+        .search-wrapper {
+            display: flex;
+            border-bottom: 1px solid #e0e0e0;
+            margin-top: 20px;
+            transition: border-color 0.4s;
+        }
+
+        .search-wrapper:focus-within {
+            border-color: var(--gold);
         }
 
         .search-input {
-            width: 100%;
-            padding: 20px 30px;
-            border: 1px solid #e5e5e5;
-            border-radius: 0; /* Luxury sharp edges */
-            font-size: 1rem;
-            letter-spacing: 0.1em;
+            flex: 1;
+            padding: 15px 0;
+            border: none;
             outline: none;
-            transition: all 0.4s ease;
-        }
-
-        .search-input:focus {
-            border-color: var(--gold);
-            box-shadow: 0 10px 30px rgba(197, 160, 89, 0.05);
+            font-size: 0.85rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
         }
 
         .search-btn {
-            position: absolute;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: var(--charcoal);
-            color: white;
-            padding: 10px 25px;
-            text-transform: uppercase;
+            padding: 0 10px;
             font-size: 0.7rem;
-            letter-spacing: 0.2em;
-            transition: background 0.3s;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--gold);
+            font-weight: 600;
         }
 
-        .search-btn:hover {
-            background: var(--gold);
+        /* --- THE DISTINCT REMINDER (WHY US) --- */
+        .value-proposition {
+            background-color: var(--off-white);
+            padding: 100px 20px;
+            text-align: center;
         }
 
-        /* --- CATEGORY CARDS --- */
-        .card {
-            border: 1px solid #f0f0f0;
-            transition: all 0.5s ease;
-            cursor: pointer;
+        .section-label {
+            font-size: 0.6rem;
+            letter-spacing: 0.5em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 25px;
+            display: block;
         }
 
-        .card:hover {
-            border-color: var(--gold);
-            transform: translateY(-5px);
+        .value-grid {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-cols: 1fr;
+            gap: 60px;
+        }
+
+        @media (min-width: 768px) {
+            .value-grid { grid-template-cols: repeat(3, 1fr); }
+        }
+
+        .value-item h3 {
+            font-family: 'Bodoni Moda', serif;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            letter-spacing: 0.05em;
+        }
+
+        .value-item p {
+            font-size: 0.85rem;
+            line-height: 1.8;
+            color: #666;
+            font-weight: 300;
         }
     </style>
 </head>
-<body class="bg-white">
+<body>
 
-    <header class="logo-wrap">
+    <header class="logo-container">
         <span class="brand-funeral">Funeral</span>
-        <div class="horizon-line"></div>
+        <div class="logo-divider"></div>
         <span class="brand-match">Match</span>
     </header>
 
-    <main class="px-6">
-        <section class="text-center mt-20">
-            <h1 class="font-light text-3xl md:text-4xl tracking-tight text-gray-900 mb-4">
-                Refining the Search for Care
-            </h1>
-            <p class="text-gray-400 font-light tracking-wide text-sm mb-12">
-                The New Standard of Care
-            </p>
-
-            <div class="search-container">
-                <form action="search.html" method="GET">
-                    <input type="text" class="search-input" placeholder="ENTER POSTCODE..." required>
-                    <button type="submit" class="search-btn">Find</button>
-                </form>
+    <main>
+        <section class="search-section px-6">
+            <h2 class="subtitle-intro">Navigating the difficult, with clarity.</h2>
+            <h1 class="text-[0.65rem] uppercase tracking-[0.6em] text-gray-400 mb-12">The New Standard of Care</h1>
+            
+            <div class="search-wrapper">
+                <input type="text" class="search-input" placeholder="Enter Postcode" aria-label="Location search">
+                <button class="search-btn">Begin</button>
             </div>
         </section>
 
-        <section class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 mt-24 mb-32">
-            <div class="card p-10 text-center">
-                <h3 class="font-medium uppercase tracking-widest text-xs mb-4 text-gray-500">Traditional</h3>
-                <p class="font-light text-sm text-gray-600 mb-6 leading-relaxed">A complete ceremony with viewing and full service arrangements.</p>
-                <span class="text-[10px] text-gold tracking-widest uppercase border-b border-gold pb-1">Explore Options</span>
-            </div>
-
-            <div class="card p-10 text-center">
-                <h3 class="font-medium uppercase tracking-widest text-xs mb-4 text-gray-500">Direct</h3>
-                <p class="font-light text-sm text-gray-600 mb-6 leading-relaxed">A dignified, simple cremation without a formal ceremony.</p>
-                <span class="text-[10px] text-gold tracking-widest uppercase border-b border-gold pb-1">Explore Options</span>
-            </div>
-
-            <div class="card p-10 text-center">
-                <h3 class="font-medium uppercase tracking-widest text-xs mb-4 text-gray-500">Compare</h3>
-                <p class="font-light text-sm text-gray-600 mb-6 leading-relaxed">Side-by-side breakdowns of local funeral directors and fees.</p>
-                <span class="text-[10px] text-gold tracking-widest uppercase border-b border-gold pb-1">Start Comparing</span>
+        <section class="value-proposition">
+            <span class="section-label">Why Funeral Match</span>
+            
+            <div class="value-grid">
+                <div class="value-item">
+                    <h3>Unbiased Comparison</h3>
+                    <p>We are not a funeral director. We are an independent platform providing transparent data to help you make an informed choice.</p>
+                </div>
+                <div class="value-item">
+                    <h3>Price Protection</h3>
+                    <p>Eliminate hidden fees. Our comparison tool breaks down costs line-by-line so there are no surprises during a time of grief.</p>
+                </div>
+                <div class="value-item">
+                    <h3>Curated Standards</h3>
+                    <p>Every provider on our platform is vetted against "The New Standard of Care," ensuring dignity and professionalism.</p>
+                </div>
             </div>
         </section>
     </main>
 
-    <footer class="text-center py-12 border-t border-gray-50">
-        <p class="text-[10px] text-gray-300 uppercase tracking-widest">&copy; 2026 Funeral Match</p>
+    <footer class="py-20 text-center">
+        <p class="text-[10px] uppercase tracking-[0.5em] text-gray-300">&copy; 2026 Funeral Match &bull; All Rights Reserved</p>
     </footer>
 
 </body>
