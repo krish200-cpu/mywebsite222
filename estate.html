@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estate Transition | FuneralMatch</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@1,400;1,700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        :root { --gold: #C5A059; --black: #1a1a1a; --soft-bg: #F8F7F5; }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        body { font-family: 'Inter', sans-serif; background: var(--soft-bg); color: var(--black); }
+        .serif { font-family: 'Bodoni Moda', serif; }
+        
+        .transition-card { background: white; border-radius: 2.5rem; padding: 3.5rem; border: 1px solid #EEE; position: relative; }
+        .benefit-tag { font-size: 0.65rem; font-weight: 800; color: var(--gold); text-transform: uppercase; letter-spacing: 0.2em; display: block; margin-bottom: 1rem; }
+        
+        .input-field { width: 100%; padding: 1.2rem; border-radius: 1rem; border: 1px solid #EEE; outline: none; background: #fafafa; }
+    </style>
+</head>
+<body class="py-24 px-8">
+
+    <main class="max-w-6xl mx-auto">
+        
+        <header class="text-center mb-24" data-aos="fade-up">
+            <h1 class="serif italic text-6xl mb-8">Graceful Transitions.</h1>
+            <p class="text-stone-400 uppercase tracking-[0.4em] text-[10px] font-bold">Property, Estate & Asset Management</p>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-24">
+            
+            <div class="transition-card" data-aos="fade-right">
+                <span class="benefit-tag">Logistics</span>
+                <h2 class="serif italic text-3xl mb-6">Sensitive Home <br>Clearance.</h2>
+                <p class="text-sm text-stone-500 leading-relaxed mb-8">Managing the physical contents of a home requires dignity. Our vetted partners handle complete clearances, item donation to chosen charities, and responsible recycling of non-reusable materials.</p>
+                <ul class="text-[11px] font-bold uppercase tracking-widest text-stone-400 space-y-3">
+                    <li>✓ Deep Cleaning & Sanitisation</li>
+                    <li>✓ Charity Donation Logistics</li>
+                    <li>✓ Document Recovery & Shredding</li>
+                </ul>
+            </div>
+
+            <div class="transition-card border-stone-900 bg-stone-900 text-white" data-aos="fade-left">
+                <span class="benefit-tag text-white opacity-60">Revenue Generation</span>
+                <h2 class="serif italic text-3xl mb-6">Valuation & <br>Estate Sales.</h2>
+                <p class="text-sm text-stone-400 leading-relaxed mb-8">Offset the costs of the funeral by identifying high-value assets. We connect you with specialist auctioneers for antiques, vehicles, and fine art to ensure the estate receives maximum value.</p>
+                <ul class="text-[11px] font-bold uppercase tracking-widest text-stone-700 space-y-3">
+                    <li class="text-stone-300">✓ Professional Appraisal Services</li>
+                    <li class="text-stone-300">✓ Vehicle Disposal & Sale</li>
+                    <li class="text-stone-300">✓ Auction House Direct Entry</li>
+                </ul>
+            </div>
+
+        </div>
+
+        <section class="bg-white rounded-[3rem] p-12 md:p-20 shadow-xl relative" data-aos="fade-up">
+            <div class="max-w-2xl mx-auto text-center">
+                <h3 class="serif italic text-3xl mb-4">Request a Transition Audit</h3>
+                <p class="text-sm text-stone-500 mb-12">Our concierge team will review the estate requirements and connect you with the appropriate vetted partners.</p>
+                
+                <form action="https://formspree.io/f/mvzzkjeq" method="POST" class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <input type="text" name="name" placeholder="Contact Name" class="input-field" required>
+                        <input type="tel" name="phone" placeholder="Phone Number" class="input-field" required>
+                    </div>
+                    <select name="service_type" class="input-field">
+                        <option value="clearance">Full Home Clearance</option>
+                        <option value="valuation">Asset Valuation (Antiques/Cars)</option>
+                        <option value="legal">Probate & Legal Transition</option>
+                    </select>
+                    <textarea name="notes" placeholder="Any specific requirements? (e.g. Size of property)" class="input-field h-32"></textarea>
+                    
+                    <button type="submit" class="w-full bg-[#C5A059] text-white py-5 rounded-full text-[10px] font-bold uppercase tracking-widest mt-8">Request Vetted Partners</button>
+                    <p class="text-[9px] text-stone-400 mt-6 italic">Relay Tag: 2917681399450303860 // Estate Transition Dept.</p>
+                </form>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        AOS.init({ duration: 1000, once: true });
+    </script>
+</body>
+</html>
