@@ -3,104 +3,123 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FuneralMatch | Find the Right Care</title>
+    <title>FuneralMatch | Excellence in Planning</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&family=Source+Sans+Pro:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        body { 
-            background-color: #F7F5F2; /* Calm, warm neutral */
-            font-family: 'Source Sans Pro', sans-serif;
-            color: #2C3E50;
-        }
-        h1, h2 { font-family: 'Playfair Display', serif; }
-        .smooth-shadow { shadow-sm: 0 1px 3px rgba(0,0,0,0.05); }
-        input, select { font-size: 18px !important; } /* Accessibility: Prevent zoom on iOS */
+        body { font-family: 'Montserrat', sans-serif; background-color: #ffffff; color: #000000; }
+        h1, h2, .logo-text { font-family: 'Bodoni Moda', serif; }
+        .gold-text { color: #C5A059; }
+        .gold-bg { background-color: #C5A059; }
+        .gold-border { border-color: #C5A059; }
+        .line-divider { height: 1px; width: 60px; background-color: #C5A059; margin: 4px 0; }
+        .form-shadow { box-shadow: 0 10px 40px rgba(0,0,0,0.04); }
     </style>
 </head>
 <body class="antialiased">
 
-    <div class="bg-stone-800 text-stone-200 py-2.5 text-center text-xs md:text-sm px-4">
-        Need help with a Will or Probate? <a href="#" class="text-amber-300 font-semibold underline ml-1">View our trusted legal partners</a>
-    </div>
-
-    <nav class="max-w-6xl mx-auto px-6 py-6 flex justify-between items-center">
-        <div class="text-2xl font-bold tracking-tight text-stone-900">
-            Funeral<span class="text-amber-800">Match</span>
+    <nav class="max-w-7xl mx-auto px-8 py-10 flex justify-between items-center">
+        <div class="flex flex-col items-start leading-none uppercase tracking-[0.2em]">
+            <span class="text-xl font-bold text-black">Funeral</span>
+            <div class="line-divider"></div>
+            <span class="text-sm font-semibold gold-text">Match</span>
         </div>
-        <a href="tel:0800123456" class="bg-white border border-stone-300 px-4 py-2 rounded-full text-sm font-semibold hover:bg-stone-50 transition">
-            Call for Advice: 0800 123 456
-        </a>
+        
+        <div class="hidden md:flex gap-12 text-[11px] uppercase tracking-widest font-semibold">
+            <a href="#how" class="hover:gold-text transition">Our Process</a>
+            <a href="#plans" class="hover:gold-text transition">Funeral Plans</a>
+            <a href="tel:0800123456" class="gold-text border-b gold-border pb-1">Speak with a Consultant</a>
+        </div>
     </nav>
 
-    <header class="max-w-4xl mx-auto px-6 py-12 md:py-20 text-center">
-        <h1 class="text-4xl md:text-6xl mb-6 text-stone-900 leading-tight">
-            Matching families with <br>the right funeral care.
-        </h1>
-        <p class="text-xl text-stone-600 font-light leading-relaxed max-w-2xl mx-auto">
-            Take a moment. Tell us what you need, and we will match you with local directors who prioritize compassion and transparency.
-        </p>
-    </header>
+    <section class="max-w-7xl mx-auto px-8 py-16 grid lg:grid-cols-12 gap-16 items-start">
+        <div class="lg:col-span-7">
+            <h1 class="text-5xl md:text-7xl leading-[1.1] mb-8">
+                Providing Clarity <br>In Times of <span class="italic">Necessity.</span>
+            </h1>
+            <p class="text-lg text-stone-500 leading-relaxed max-w-xl mb-12">
+                FuneralMatch is a dedicated resource designed to guide families through the complexities of funeral arrangements. We provide the information you need to make an informed choice.
+            </p>
+            
+            <div class="grid grid-cols-2 gap-8 pt-8 border-t border-stone-100">
+                <div>
+                    <h3 class="font-bold text-xs uppercase tracking-widest mb-2">Verified Care</h3>
+                    <p class="text-sm text-stone-400">Every director in our network is vetted for service excellence and pricing transparency.</p>
+                </div>
+                <div>
+                    <h3 class="font-bold text-xs uppercase tracking-widest mb-2">Tailored Options</h3>
+                    <p class="text-sm text-stone-400">Whether you require traditional burial or modern cremation, we match you to the right specialist.</p>
+                </div>
+            </div>
+        </div>
 
-    <section class="max-w-2xl mx-auto px-6 pb-24">
-        <div class="bg-white p-8 md:p-12 rounded-3xl shadow-sm border border-stone-200">
-            <h2 class="text-2xl mb-8 text-center">Start your inquiry</h2>
+        <div class="lg:col-span-5 bg-white border border-stone-100 p-10 form-shadow">
+            <h2 class="text-2xl mb-2 italic">Begin an Inquiry</h2>
+            <p class="text-xs text-stone-400 uppercase tracking-widest mb-8">Receive a personalized plan</p>
+            
             <form class="space-y-6">
-                <div class="space-y-2">
-                    <label class="block text-sm font-bold text-stone-500 uppercase">What type of service are you considering?</label>
-                    <select class="w-full p-4 bg-stone-50 rounded-xl border border-stone-200 focus:ring-2 focus:ring-stone-400 outline-none">
-                        <option>Direct Cremation (Simple)</option>
-                        <option>Attended Funeral Service</option>
-                        <option>Burial & Graveside Service</option>
-                        <option>Not sure / Need advice</option>
+                <div>
+                    <label class="block text-[10px] font-bold uppercase tracking-widest mb-2">Service Requirement</label>
+                    <select class="w-full border-b border-stone-200 py-3 focus:border-black outline-none bg-transparent appearance-none rounded-none">
+                        <option>Immediate Assistance Required</option>
+                        <option>Pre-Planning Advice</option>
+                        <option>Direct Cremation</option>
                     </select>
                 </div>
-
-                <div class="space-y-2">
-                    <label class="block text-sm font-bold text-stone-500 uppercase">Where is the service required?</label>
-                    <input type="text" placeholder="Enter Postcode" class="w-full p-4 bg-stone-50 rounded-xl border border-stone-200 focus:ring-2 focus:ring-stone-400 outline-none">
+                <div>
+                    <label class="block text-[10px] font-bold uppercase tracking-widest mb-2">Location</label>
+                    <input type="text" placeholder="Postcode" class="w-full border-b border-stone-200 py-3 focus:border-black outline-none rounded-none">
                 </div>
-
                 <div class="pt-4">
-                    <button class="w-full bg-stone-900 text-white py-5 rounded-2xl text-xl font-bold hover:bg-stone-800 transition shadow-lg">
-                        Find My Match
+                    <button class="w-full bg-black text-white py-5 uppercase text-xs tracking-[0.3em] font-bold hover:bg-stone-800 transition">
+                        Connect with Directors
                     </button>
-                    <p class="text-center text-xs text-stone-400 mt-4">
-                        Free service. No obligation. Your data is handled with strict confidentiality.
-                    </p>
                 </div>
+                <p class="text-[9px] text-center text-stone-400 uppercase leading-loose">
+                    Your inquiry is confidential & non-binding.
+                </p>
             </form>
         </div>
     </section>
 
-    <section class="border-t border-stone-200 bg-white py-20">
-        <div class="max-w-6xl mx-auto px-6">
-            <div class="grid md:grid-cols-2 gap-16 items-center">
-                <div>
-                    <h2 class="text-3xl mb-6">Planning ahead?</h2>
-                    <p class="text-lg text-stone-600 mb-8 leading-relaxed">
-                        Download our "Grief & Logistics" guide, created in partnership with **SafeStep Insurance**. It’s designed to help you navigate the first 48 hours.
-                    </p>
-                    <a href="#" class="text-amber-800 font-bold border-b-2 border-amber-800 pb-1 hover:text-amber-900 transition">
-                        Download the Free Guide (PDF)
-                    </a>
-                </div>
-                <div class="grid grid-cols-2 gap-4">
-                    <div class="h-32 bg-stone-50 rounded-2xl border border-stone-100 flex items-center justify-center grayscale opacity-60">Partner A</div>
-                    <div class="h-32 bg-stone-50 rounded-2xl border border-stone-100 flex items-center justify-center grayscale opacity-60">Partner B</div>
-                    <div class="h-32 bg-stone-50 rounded-2xl border border-stone-100 flex items-center justify-center grayscale opacity-60">Partner C</div>
-                    <div class="h-32 bg-stone-50 rounded-2xl border border-stone-100 flex items-center justify-center grayscale opacity-60">Partner D</div>
-                </div>
+    <section id="plans" class="max-w-7xl mx-auto px-8 py-24 border-t border-stone-100">
+        <div class="mb-16">
+            <h2 class="text-4xl">Available Tiers of Care</h2>
+        </div>
+        <div class="grid md:grid-cols-3 gap-12">
+            <div class="space-y-4">
+                <div class="h-[1px] w-full bg-stone-200"></div>
+                <h4 class="text-lg font-bold italic">Essential Care</h4>
+                <p class="text-sm text-stone-500 leading-relaxed">Focuses on a dignified cremation service without a formal gathering, ensuring affordability without compromising respect.</p>
+            </div>
+            <div class="space-y-4">
+                <div class="h-[1px] w-full gold-bg"></div>
+                <h4 class="text-lg font-bold italic gold-text">The Traditional Match</h4>
+                <p class="text-sm text-stone-500 leading-relaxed">A full-service arrangement including chapel use, viewing, and a dedicated coordinator to manage all logistics.</p>
+            </div>
+            <div class="space-y-4">
+                <div class="h-[1px] w-full bg-stone-200"></div>
+                <h4 class="text-lg font-bold italic">Custom Commemoration</h4>
+                <p class="text-sm text-stone-500 leading-relaxed">Bespoke services for families wishing to celebrate a life through unique venues, themes, and personalized tributes.</p>
             </div>
         </div>
     </section>
 
-    <footer class="bg-stone-50 py-12">
-        <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8">
-            <div class="text-xl font-bold text-stone-400">FuneralMatch</div>
-            <div class="flex gap-8 text-sm text-stone-500">
-                <a href="#" class="hover:text-stone-800">About Us</a>
-                <a href="#" class="hover:text-stone-800">For Funeral Directors</a>
-                <a href="#" class="hover:text-stone-800">Contact</a>
+    <footer class="bg-stone-50 py-20 mt-20">
+        <div class="max-w-7xl mx-auto px-8 grid md:grid-cols-2 gap-12 items-center">
+            <div>
+                <p class="text-xs font-bold uppercase tracking-widest mb-4">Partner Resource</p>
+                <p class="text-stone-500 text-sm">FuneralMatch works alongside leading **Legal Aid Partners** to assist with probate and estate management.</p>
+            </div>
+            <div class="flex md:justify-end gap-12">
+                <div class="text-right">
+                    <p class="text-[10px] font-bold uppercase tracking-widest text-stone-400">For Professionals</p>
+                    <a href="#" class="text-sm border-b border-black">Director Login</a>
+                </div>
+                <div class="text-right">
+                    <p class="text-[10px] font-bold uppercase tracking-widest text-stone-400">Assistance</p>
+                    <a href="#" class="text-sm border-b border-black">Privacy Policy</a>
+                </div>
             </div>
         </div>
     </footer>
