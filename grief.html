@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wellbeing Concierge | FuneralMatch</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@1,400;1,700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        :root { --gold: #C5A059; --black: #1a1a1a; --soft-bg: #F8F7F5; }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        body { font-family: 'Inter', sans-serif; background: var(--soft-bg); color: var(--black); }
+        .serif { font-family: 'Bodoni Moda', serif; }
+        
+        /* LOGO ARCHITECTURE (consistent across skeleton) */
+        .logo-nav { position: fixed; top: 2rem; left: 5%; z-index: 1000; }
+        .logo-wrap { display: flex; flex-direction: column; align-items: flex-start; }
+        .brand-text { font-family: 'Bodoni Moda', serif; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.4em; }
+        .brand-gold { color: var(--gold); letter-spacing: 0.7em; }
+        .logo-line { width: 35px; height: 1px; background: var(--gold); margin: 6px 0; }
+
+        .wellness-card { background: white; border-radius: 3rem; padding: 4rem; border: 1px solid #EEE; position: relative; overflow: hidden; }
+        .therapy-pill { display: inline-block; padding: 6px 15px; background: #F4F2EE; border-radius: 9999px; font-size: 10px; font-weight: 800; color: #888; text-transform: uppercase; margin-bottom: 1.5rem; }
+        
+        .cta-button { background: var(--black); color: white; padding: 1.2rem 2.5rem; border-radius: 9999px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.2em; transition: 0.4s; }
+        .cta-button:hover { background: var(--gold); transform: translateY(-3px); }
+    </style>
+</head>
+<body class="pt-32 pb-24 px-8">
+
+    <nav class="logo-nav">
+        <div class="logo-wrap">
+            <span class="brand-text">Funeral</span>
+            <div class="logo-line"></div>
+            <span class="brand-text brand-gold">Match</span>
+        </div>
+    </nav>
+
+    <main class="max-w-6xl mx-auto">
+        
+        <header class="text-center mb-24" data-aos="fade-up">
+            <h1 class="serif italic text-6xl mb-6">Holding the Space.</h1>
+            <p class="text-stone-400 uppercase tracking-[0.4em] text-[10px] font-bold">Comprehensive Bereavement & Mental Health Concierge</p>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-24">
+            
+            <div class="wellness-card lg:col-span-2" data-aos="fade-right">
+                <span class="therapy-pill">Priority Matching</span>
+                <h2 class="serif italic text-4xl mb-6">Specialist Grief Counselling</h2>
+                <p class="text-stone-500 text-sm leading-relaxed mb-10 max-w-lg">Don't navigate this alone. We have audited the UK's leading bereavement specialists. From private 1-on-1 sessions to specialized child-loss support, we match you with the practitioner who understands your specific journey.</p>
+                <button class="cta-button">Find a Vetted Practitioner</button>
+                
+                <div class="absolute -bottom-10 -right-10 opacity-5 serif italic text-[15rem]">Care</div>
+            </div>
+
+            <div class="wellness-card bg-stone-900 text-white border-none" data-aos="fade-left">
+                <span class="therapy-pill bg-stone-800 text-stone-400 border-none">Physical Care</span>
+                <h2 class="serif italic text-3xl mb-6">The Resilience <br>Collection</h2>
+                <p class="text-stone-400 text-xs mb-8">Curated wellness items including therapeutic candles, journals, and botanical teas designed for the first 30 days of loss.</p>
+                <button class="cta-button bg-[#C5A059]">Shop the Collection</button>
+            </div>
+        </div>
+
+        <section class="p-16 rounded-[3.5rem] bg-white border border-stone-100 flex flex-col md:flex-row items-center gap-12" data-aos="fade-up">
+            <div class="flex-1">
+                <h3 class="serif italic text-3xl mb-4">Are you an Employer?</h3>
+                <p class="text-sm text-stone-500 leading-relaxed">Implement a **Dignified Return-to-Work** policy. We provide corporate training and outsourced bereavement support for your team members.</p>
+            </div>
+            <form action="https://formspree.io/f/mvzzkjeq" method="POST">
+                <input type="hidden" name="_subject" value="B2B CORPORATE WELLNESS INQUIRY">
+                <button type="submit" class="cta-button">Corporate Vetting</button>
+            </form>
+        </section>
+
+    </main>
+
+    <script>
+        AOS.init({ duration: 1000, once: true });
+    </script>
+</body>
+</html>
