@@ -2,89 +2,198 @@
 <html lang="en-GB">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Director Portal | FuneralMatch</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Director Command | FuneralMatch</title>
+
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@1,400;1,700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@1,400;1,700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
     <style>
-        :root { --gold: #C5A059; --black: #1a1a1a; }
-        body { font-family: 'Inter', sans-serif; background-color: #F8F7F5; color: var(--black); }
+        :root {
+            --gold: #C5A059;
+            --black: #1a1a1a;
+            --soft-bg: #F8F7F5;
+            --glass: rgba(255, 255, 255, 0.9);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--soft-bg); color: var(--black); }
         .serif { font-family: 'Bodoni Moda', serif; }
-        .glass-card { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px); border: 1px solid rgba(0,0,0,0.05); border-radius: 2rem; }
-        .status-pill { padding: 4px 12px; border-radius: 9999px; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; }
+        
+        /* Sidebar Logic for Desktop */
+        .sidebar { height: 100vh; width: 280px; position: fixed; left: 0; top: 0; background: white; border-right: 1px solid #EEE; padding: 3rem 2rem; z-index: 100; }
+        .main-content { margin-left: 280px; padding: 4rem; min-height: 100vh; }
+
+        @media (max-width: 1024px) {
+            .sidebar { display: none; }
+            .main-content { margin-left: 0; padding: 2rem 1.5rem; }
+        }
+
+        .nav-item { display: flex; align-items: center; gap: 1rem; padding: 1rem; border-radius: 1rem; color: #888; transition: 0.3s; cursor: pointer; margin-bottom: 0.5rem; font-size: 0.85rem; font-weight: 500; }
+        .nav-item.active { background: var(--soft-bg); color: var(--black); font-weight: 700; }
+        .nav-item:hover { color: var(--black); background: var(--soft-bg); }
+
+        .stat-card { background: white; padding: 2.5rem; border-radius: 2rem; border: 1px solid #F0F0F0; transition: 0.4s; }
+        .stat-card:hover { border-color: var(--gold); transform: translateY(-5px); }
+
+        .lead-row { transition: 0.3s; }
+        .lead-row:hover { background: #fafafa; }
+        
+        .btn-gold { background: var(--gold); color: white; padding: 0.8rem 1.5rem; border-radius: 9999px; font-size: 0.65rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; transition: 0.3s; }
+        .btn-gold:hover { opacity: 0.9; transform: scale(1.05); }
     </style>
 </head>
-<body class="p-4 md:p-8">
+<body>
 
-    <header class="max-w-7xl mx-auto flex justify-between items-center mb-12">
-        <div class="flex flex-col">
-            <span class="serif text-xl uppercase tracking-widest font-bold">Funeral <span class="text-[#C5A059]">Match</span></span>
-            <span class="text-[10px] uppercase tracking-[0.3em] text-stone-400">Director Command Centre</span>
+    <aside class="sidebar">
+        <div class="mb-16">
+            <h1 class="serif text-xl font-bold uppercase tracking-widest">Funeral <span class="text-[#C5A059]">Match</span></h1>
+            <p class="text-[9px] uppercase tracking-[0.4em] text-stone-400 mt-2">Director Command</p>
         </div>
-        <div class="flex items-center gap-6">
-            <div class="text-right hidden md:block">
-                <p class="text-xs font-bold uppercase">Premier Funeral Care Ltd</p>
-                <p class="text-[10px] text-stone-400">ID: 2917681399450303860</p>
+
+        <nav>
+            <div class="nav-item active">
+                <span>Dashboard</span>
             </div>
-            <div class="w-10 h-10 bg-stone-200 rounded-full"></div>
-        </div>
-    </header>
+            <div class="nav-item">
+                <span>Live Marketplace</span>
+            </div>
+            <div class="nav-item">
+                <span>Active Matches</span>
+            </div>
+            <div class="nav-item">
+                <span>Revenue & Billing</span>
+            </div>
+            <div class="nav-item">
+                <span>Firm Profile</span>
+            </div>
+        </nav>
 
-    <main class="max-w-7xl mx-auto">
+        <div class="absolute bottom-12 left-8 right-8">
+            <div class="p-4 bg-stone-50 rounded-2xl">
+                <p class="text-[10px] font-bold uppercase mb-1">Account Health</p>
+                <div class="w-full bg-stone-200 h-1 rounded-full overflow-hidden">
+                    <div class="bg-green-500 h-full w-[92%]"></div>
+                </div>
+                <p class="text-[9px] text-stone-400 mt-2">92% Compliance Rating</p>
+            </div>
+        </div>
+    </aside>
+
+    <main class="main-content">
         
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-            <div class="glass-card p-8">
-                <p class="text-[10px] uppercase tracking-widest text-stone-500 mb-2">New Leads Available</p>
-                <h3 class="serif italic text-4xl">14</h3>
+        <header class="flex justify-between items-start mb-16">
+            <div data-aos="fade-right">
+                <h2 class="serif italic text-4xl mb-2">Welcome, Premier Care</h2>
+                <p class="text-xs text-stone-400 font-medium">Relay Active: panchalkrish47@gmail.com</p>
             </div>
-            <div class="glass-card p-8">
-                <p class="text-[10px] uppercase tracking-widest text-stone-500 mb-2">Your Active Matches</p>
-                <h3 class="serif italic text-4xl">06</h3>
+            <div class="flex gap-4" data-aos="fade-left">
+                <button class="px-6 py-3 bg-white border border-stone-200 rounded-full text-[10px] font-bold uppercase tracking-widest">Support Hub</button>
+                <div class="w-12 h-12 bg-stone-200 rounded-full border-4 border-white shadow-sm"></div>
             </div>
-            <div class="glass-card p-8 border-[#C5A059]">
-                <p class="text-[10px] uppercase tracking-widest text-[#C5A059] mb-2">Pending Invoices</p>
-                <h3 class="serif italic text-4xl text-[#C5A059]">£420.00</h3>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
+            <div class="stat-card" data-aos="fade-up">
+                <p class="text-[10px] uppercase tracking-widest text-stone-400 mb-4">Marketplace Leads</p>
+                <div class="flex items-baseline gap-2">
+                    <span class="serif text-4xl italic">24</span>
+                    <span class="text-[10px] text-green-500 font-bold">+12%</span>
+                </div>
+            </div>
+            <div class="stat-card" data-aos="fade-up" data-aos-delay="100">
+                <p class="text-[10px] uppercase tracking-widest text-stone-400 mb-4">Conversion Rate</p>
+                <div class="flex items-baseline gap-2">
+                    <span class="serif text-4xl italic">18%</span>
+                </div>
+            </div>
+            <div class="stat-card" data-aos="fade-up" data-aos-delay="200">
+                <p class="text-[10px] uppercase tracking-widest text-stone-400 mb-4">Total Revenue</p>
+                <div class="flex items-baseline gap-2">
+                    <span class="serif text-4xl italic">£8.4k</span>
+                </div>
+            </div>
+            <div class="stat-card border-[#C5A059]" data-aos="fade-up" data-aos-delay="300">
+                <p class="text-[10px] uppercase tracking-widest text-[#C5A059] mb-4">Unclaimed Urgent</p>
+                <div class="flex items-baseline gap-2">
+                    <span class="serif text-4xl italic text-[#C5A059]">03</span>
+                </div>
             </div>
         </div>
 
-        <div class="glass-card overflow-hidden">
-            <div class="p-8 border-b border-stone-100 flex justify-between items-center">
-                <h2 class="serif italic text-2xl">Incoming Priority Leads</h2>
-                <button class="text-[10px] font-bold uppercase tracking-widest text-[#C5A059]">Refresh Feed</button>
+        <section class="bg-white rounded-[2.5rem] border border-stone-100 shadow-sm overflow-hidden" data-aos="fade-up">
+            <div class="p-10 border-b border-stone-50 flex justify-between items-center">
+                <div>
+                    <h3 class="serif italic text-2xl">Verified Lead Marketplace</h3>
+                    <p class="text-[10px] uppercase tracking-widest text-stone-400 mt-1">Real-time inquiries from your service area</p>
+                </div>
+                <div class="flex gap-2">
+                    <input type="text" placeholder="Filter by Postcode" class="bg-stone-50 border-none rounded-full px-6 py-2 text-xs outline-none">
+                </div>
             </div>
-            
+
             <div class="overflow-x-auto">
                 <table class="w-full text-left">
-                    <thead class="bg-stone-50 text-[10px] uppercase tracking-widest text-stone-500">
+                    <thead class="bg-stone-50/50 text-[9px] uppercase tracking-[0.2em] text-stone-500">
                         <tr>
-                            <th class="p-6">Date</th>
-                            <th class="p-6">Situation</th>
-                            <th class="p-6">Postcode</th>
-                            <th class="p-6">Reporter</th>
-                            <th class="p-6 text-right">Action</th>
+                            <th class="p-8">Timestamp</th>
+                            <th class="p-8">Case Type</th>
+                            <th class="p-8">Location</th>
+                            <th class="p-8">Inquirer</th>
+                            <th class="p-8">Status</th>
+                            <th class="p-8 text-right">Acquisition</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-stone-100">
-                        <tr>
-                            <td class="p-6 text-sm">18 Jan, 17:15</td>
-                            <td class="p-6"><span class="status-pill bg-amber-100 text-amber-700">Immediate Need</span></td>
-                            <td class="p-6 text-sm font-semibold">SW1A 1AA</td>
-                            <td class="p-6 text-sm">J. Smith (Son)</td>
-                            <td class="p-6 text-right"><button class="bg-black text-white px-6 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-[#C5A059] transition-colors">Claim Lead</button></td>
+                    <tbody class="divide-y divide-stone-50">
+                        <tr class="lead-row">
+                            <td class="p-8 text-xs font-medium">Today, 18:42</td>
+                            <td class="p-8">
+                                <span class="bg-amber-50 text-amber-700 text-[9px] font-bold px-3 py-1 rounded-full uppercase tracking-tighter">Immediate Need</span>
+                            </td>
+                            <td class="p-8 text-xs font-bold">SW1A 1AA</td>
+                            <td class="p-8 text-xs">M. Chambers <span class="text-stone-300 ml-1">(Daughter)</span></td>
+                            <td class="p-8">
+                                <div class="flex items-center gap-2">
+                                    <div class="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></div>
+                                    <span class="text-[10px] font-bold text-stone-400 uppercase tracking-widest">Active</span>
+                                </div>
+                            </td>
+                            <td class="p-8 text-right">
+                                <button class="btn-gold">Claim Lead for £45</button>
+                            </td>
                         </tr>
-                        <tr>
-                            <td class="p-6 text-sm">18 Jan, 16:40</td>
-                            <td class="p-6"><span class="status-pill bg-blue-100 text-blue-700">Pre-Planning</span></td>
-                            <td class="p-6 text-sm font-semibold">NW1 6XE</td>
-                            <td class="p-6 text-sm">A. Jones (Executor)</td>
-                            <td class="p-6 text-right"><button class="bg-black text-white px-6 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-[#C5A059] transition-colors">Claim Lead</button></td>
+                        <tr class="lead-row">
+                            <td class="p-8 text-xs font-medium">Today, 17:15</td>
+                            <td class="p-8">
+                                <span class="bg-blue-50 text-blue-700 text-[9px] font-bold px-3 py-1 rounded-full uppercase tracking-tighter">Pre-Planning</span>
+                            </td>
+                            <td class="p-8 text-xs font-bold">NW1 6XE</td>
+                            <td class="p-8 text-xs">P. Harrison <span class="text-stone-300 ml-1">(Self)</span></td>
+                            <td class="p-8">
+                                <div class="flex items-center gap-2">
+                                    <div class="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></div>
+                                    <span class="text-[10px] font-bold text-stone-400 uppercase tracking-widest">Active</span>
+                                </div>
+                            </td>
+                            <td class="p-8 text-right">
+                                <button class="btn-gold">Claim Lead for £20</button>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-        </div>
+            
+            <div class="p-8 bg-stone-50/30 text-center">
+                <p class="text-[10px] text-stone-400 uppercase tracking-widest">Director ID: 2917681399450303860 | Logged in as Premier Care</p>
+            </div>
+        </section>
+
     </main>
 
+    <script>
+        AOS.init({ duration: 1000, once: true });
+    </script>
 </body>
 </html>
