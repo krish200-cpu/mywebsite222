@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The First 48 Hours | Immediate Guidance</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@1,400;1,700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        :root { --gold: #C5A059; --black: #1a1a1a; --soft-bg: #F8F7F5; }
+        body { font-family: 'Inter', sans-serif; background: var(--soft-bg); color: var(--black); }
+        .serif { font-family: 'Bodoni Moda', serif; }
+        
+        .checklist-card { background: white; border-radius: 2rem; padding: 2rem; border: 1px solid #EEE; transition: 0.3s; margin-bottom: 1rem; cursor: pointer; display: flex; align-items: flex-start; gap: 1.5rem; }
+        .checklist-card:hover { border-color: var(--gold); transform: translateX(10px); }
+        .checklist-card.completed { background: #F9FAFB; opacity: 0.6; }
+        .checklist-card.completed .check-circle { background: var(--gold); border-color: var(--gold); }
+        .checklist-card.completed h3 { text-decoration: line-through; color: #9CA3AF; }
+
+        .check-circle { min-width: 24px; height: 24px; border: 2px solid #E5E7EB; border-radius: 50%; margin-top: 4px; transition: 0.3s; position: relative; }
+        .check-circle::after { content: '✓'; position: absolute; top: -2px; left: 5px; color: white; font-size: 14px; opacity: 0; }
+        .checklist-card.completed .check-circle::after { opacity: 1; }
+
+        .progress-bar-bg { width: 100%; height: 6px; background: #E5E7EB; border-radius: 99px; overflow: hidden; }
+        .progress-fill { height: 100%; background: var(--gold); width: 0%; transition: 1s cubic-bezier(0.16, 1, 0.3, 1); }
+    </style>
+</head>
+<body class="py-24 px-8">
+
+    <main class="max-w-4xl mx-auto">
+        
+        <header class="mb-16" data-aos="fade-up">
+            <span class="text-[10px] uppercase font-bold tracking-[0.4em] text-stone-400">Immediate Guidance</span>
+            <h1 class="serif italic text-6xl mt-4 mb-6">Breathe. <br>Take it one step at a time.</h1>
+            <p class="max-w-xl text-stone-500 text-sm leading-relaxed">The first few days can feel overwhelming. We have broken down the legal and logistical requirements into a simple list. You do not need to do everything today.</p>
+        </header>
+
+        <div class="sticky top-8 bg-white/90 backdrop-blur-md p-6 rounded-2xl border border-stone-100 shadow-xl z-50 mb-12" data-aos="fade-down">
+            <div class="flex justify-between items-end mb-2">
+                <span class="text-[10px] uppercase font-bold tracking-widest text-stone-400">Your Progress</span>
+                <span class="text-xl serif italic font-bold text-[#C5A059]" id="progress-text">0%</span>
+            </div>
+            <div class="progress-bar-bg">
+                <div class="progress-fill" id="progress-bar"></div>
+            </div>
+        </div>
+
+        <div class="mb-16">
+            <h2 class="serif italic text-3xl mb-6 pl-4 border-l-2 border-[#C5A059]">Phase 1: The First 24 Hours</h2>
+            
+            <div class="checklist-card" onclick="toggleTask(this)">
+                <div class="check-circle"></div>
+                <div>
+                    <h3 class="font-bold text-lg mb-1">Verify Life Extinct (VLE)</h3>
+                    <p class="text-xs text-stone-500 leading-relaxed">If at home, call the GP or 111. If at a hospital/care home, the staff will handle this automatically.</p>
+                </div>
+            </div>
+
+            <div class="checklist-card" onclick="toggleTask(this)">
+                <div class="check-circle"></div>
+                <div>
+                    <h3 class="font-bold text-lg mb-1">Notify Close Family</h3>
+                    <p class="text-xs text-stone-500 leading-relaxed">Inform immediate next of kin. Do not worry about wider announcements yet.</p>
+                </div>
+            </div>
+
+            <div class="checklist-card" onclick="toggleTask(this)">
+                <div class="check-circle"></div>
+                <div>
+                    <h3 class="font-bold text-lg mb-1">Locate the Will</h3>
+                    <p class="text-xs text-stone-500 leading-relaxed">Check for any specific funeral wishes or pre-paid plans before making arrangements.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-16">
+            <h2 class="serif italic text-3xl mb-6 pl-4 border-l-2 border-stone-200">Phase 2: Legal Formalities</h2>
+            
+            <div class="checklist-card" onclick="toggleTask(this)">
+                <div class="check-circle"></div>
+                <div>
+                    <h3 class="font-bold text-lg mb-1">Collect Medical Certificate</h3>
+                    <p class="text-xs text-stone-500 leading-relaxed">Obtain the Medical Certificate of Cause of Death (MCCD) from the doctor or bereavement office.</p>
+                </div>
+            </div>
+
+            <div class="checklist-card" onclick="toggleTask(this)">
+                <div class="check-circle"></div>
+                <div>
+                    <h3 class="font-bold text-lg mb-1">Book Registrar Appointment</h3>
+                    <p class="text-xs text-stone-500 leading-relaxed">You must register the death within 5 days. Book an appointment at the local Register Office.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-32">
+            <h2 class="serif italic text-3xl mb-6 pl-4 border-l-2 border-black">Phase 3: Appointment of Care</h2>
+            
+            <div class="checklist-card border-[#C5A059]" onclick="window.location.href='/search'">
+                <div class="min-w-[24px] h-[24px] bg-[#C5A059] rounded-full flex items-center justify-center text-white text-[10px]">➜</div>
+                <div>
+                    <h3 class="font-bold text-lg mb-1">Find a Vetted Director</h3>
+                    <p class="text-xs text-stone-500 leading-relaxed">Use FuneralMatch to find an independent director to collect your loved one. Compare merit and price.</p>
+                </div>
+            </div>
+        </div>
+
+        <section class="bg-black text-white p-12 rounded-[2.5rem] text-center" data-aos="zoom-in">
+            <h3 class="serif italic text-2xl mb-4">Need this in print?</h3>
+            <p class="text-stone-400 text-sm mb-8">Download our comprehensive "First Steps" guide to keep with your documents.</p>
+            <button class="bg-[#C5A059] text-white px-8 py-4 rounded-full text-[10px] font-bold uppercase tracking-widest">Download PDF Guide</button>
+        </section>
+
+    </main>
+
+    <script>
+        AOS.init({ duration: 1000, once: true });
+
+        function toggleTask(element) {
+            element.classList.toggle('completed');
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const total = document.querySelectorAll('.checklist-card').length - 1; // Exclude the link card
+            const completed = document.querySelectorAll('.checklist-card.completed').length;
+            const percentage = Math.round((completed / total) * 100);
+            
+            document.getElementById('progress-bar').style.width = percentage + '%';
+            document.getElementById('progress-text').innerText = percentage + '%';
+        }
+    </script>
+</body>
+</html>
