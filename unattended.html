@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <title>Simple Farewell | Direct Cremation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@1,400;1,700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --gold: #C5A059; --soft-bg: #F8F7F5; }
+        body { font-family: 'Inter', sans-serif; background: var(--soft-bg); }
+        .serif { font-family: 'Bodoni Moda', serif; }
+        .simple-card { background: white; border-radius: 2rem; padding: 3rem; border: 1px solid #eee; text-align: center; transition: 0.3s; }
+        .simple-card:hover { border-color: var(--gold); transform: translateY(-5px); }
+    </style>
+</head>
+<body class="py-24 px-8">
+
+    <main class="max-w-5xl mx-auto">
+        <header class="text-center mb-20">
+            <span class="text-[10px] uppercase font-bold tracking-[0.4em] text-stone-400">The Simple Option</span>
+            <h1 class="serif italic text-6xl mt-4 mb-6">Direct Cremation.</h1>
+            <p class="max-w-lg mx-auto text-stone-500 text-sm">A dignified cremation without a ceremony. Ashes returned to you personally. The lowest cost, highest dignity solution.</p>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+            <div class="simple-card">
+                <h3 class="serif text-2xl mb-2">Essential</h3>
+                <p class="text-3xl font-bold text-[#C5A059] mb-6">£995</p>
+                <ul class="text-[10px] uppercase font-bold text-stone-400 space-y-3 mb-8 text-left pl-8">
+                    <li>✓ Collection from Hospital</li>
+                    <li>✓ Standard Coffin</li>
+                    <li>✓ Ashes Scattered at Garden</li>
+                </ul>
+                <button class="w-full py-3 bg-stone-100 rounded-full text-[10px] font-bold uppercase">Select Essential</button>
+            </div>
+
+            <div class="simple-card border-[#C5A059] relative shadow-xl">
+                <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#C5A059] text-white px-4 py-1 rounded-full text-[9px] font-bold uppercase">Most Chosen</div>
+                <h3 class="serif text-2xl mb-2">Return</h3>
+                <p class="text-3xl font-bold text-[#C5A059] mb-6">£1,250</p>
+                <ul class="text-[10px] uppercase font-bold text-stone-500 space-y-3 mb-8 text-left pl-8">
+                    <li>✓ Collection from Anywhere</li>
+                    <li>✓ Doctor's Fees Included</li>
+                    <li>✓ Ashes Hand-Delivered</li>
+                </ul>
+                <button class="w-full py-3 bg-black text-white rounded-full text-[10px] font-bold uppercase">Select Return</button>
+            </div>
+
+            <div class="simple-card">
+                <h3 class="serif text-2xl mb-2">Freedom</h3>
+                <p class="text-3xl font-bold text-[#C5A059] mb-6">£1,600</p>
+                <ul class="text-[10px] uppercase font-bold text-stone-400 space-y-3 mb-8 text-left pl-8">
+                    <li>✓ Pick Your Date</li>
+                    <li>✓ Witness the Committal</li>
+                    <li>✓ Premium Urn Included</li>
+                </ul>
+                <button class="w-full py-3 bg-stone-100 rounded-full text-[10px] font-bold uppercase">Select Freedom</button>
+            </div>
+        </div>
+
+        <div class="text-center">
+            <p class="text-xs text-stone-400 mb-4">Looking for a full service instead?</p>
+            <a href="#" class="text-[10px] font-bold uppercase border-b border-black">Go to Main Search</a>
+        </div>
+    </main>
+</body>
+</html>
