@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Profile Customisation | FuneralMatch Director</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@1,400;1,700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        :root { --gold: #C5A059; --black: #1a1a1a; --soft-bg: #F8F7F5; }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--soft-bg); color: var(--black); }
+        .serif { font-family: 'Bodoni Moda', serif; }
+        
+        .sidebar { height: 100vh; width: 280px; position: fixed; left: 0; top: 0; background: white; border-right: 1px solid #EEE; padding: 3rem 2rem; z-index: 100; }
+        .main-content { margin-left: 280px; padding: 4rem; min-height: 100vh; }
+
+        @media (max-width: 1024px) {
+            .sidebar { display: none; }
+            .main-content { margin-left: 0; padding: 2rem 1.5rem; }
+        }
+
+        .editor-card { background: white; border-radius: 2rem; border: 1px solid #F0F0F0; padding: 2.5rem; margin-bottom: 2rem; }
+        .input-pill { width: 100%; padding: 1rem 1.5rem; border-radius: 1rem; border: 1px solid #EEE; outline: none; margin-top: 0.5rem; }
+        
+        /* UPSELL CARDS */
+        .tier-card { border: 2px solid #F0F0F0; border-radius: 2rem; padding: 2rem; transition: 0.4s; position: relative; cursor: pointer; }
+        .tier-card.active { border-color: var(--gold); background: #FFFDF9; }
+        .tier-card:hover { transform: translateY(-5px); border-color: var(--gold); }
+        .price-tag { font-size: 1.5rem; font-weight: 800; color: var(--gold); margin: 1rem 0; }
+    </style>
+</head>
+<body>
+
+    <aside class="sidebar">
+        <div class="mb-16">
+            <h1 class="serif text-xl font-bold uppercase tracking-widest">Funeral <span class="text-[#C5A059]">Match</span></h1>
+            <p class="text-[9px] uppercase tracking-[0.4em] text-stone-400 mt-2">Director Command</p>
+        </div>
+        <nav class="space-y-2">
+            <div class="p-3 text-stone-400 text-sm hover:text-black transition-colors cursor-pointer">Dashboard</div>
+            <div class="p-3 text-black font-bold bg-stone-50 rounded-xl cursor-pointer">Edit Profile Page</div>
+            <div class="p-3 text-stone-400 text-sm hover:text-black transition-colors cursor-pointer">Marketing Hub</div>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <header class="mb-12">
+            <h2 class="serif italic text-4xl mb-2">Customise Your Presence</h2>
+            <p class="text-stone-400 text-sm">Control how 12,000+ monthly families see your firm.</p>
+        </header>
+
+        <div class="grid grid-cols-1 xl:grid-cols-3 gap-8">
+            
+            <div class="xl:col-span-2 space-y-8">
+                <section class="editor-card" data-aos="fade-up">
+                    <h3 class="serif text-xl mb-6">Basic Firm Information</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="text-[10px] font-bold uppercase tracking-widest text-stone-400">Display Name</label>
+                            <input type="text" class="input-pill" value="Premier Funeral Care">
+                        </div>
+                        <div>
+                            <label class="text-[10px] font-bold uppercase tracking-widest text-stone-400">Fixed Fee Start Price</label>
+                            <input type="text" class="input-pill" value="£1,850">
+                        </div>
+                    </div>
+                    <div class="mt-6">
+                        <label class="text-[10px] font-bold uppercase tracking-widest text-stone-400">Firm Biography</label>
+                        <textarea class="input-pill h-32 pt-4">Vetted for facility standards and pricing transparency...</textarea>
+                    </div>
+                </section>
+
+                <section class="editor-card" data-aos="fade-up">
+                    <h3 class="serif text-xl mb-6">Visual Identity</h3>
+                    <div class="flex items-center gap-8">
+                        <div class="w-24 h-24 bg-stone-100 rounded-2xl flex items-center justify-center border-2 border-dashed border-stone-200">
+                            <span class="text-[10px] uppercase font-bold text-stone-400">Logo</span>
+                        </div>
+                        <button class="bg-black text-white px-6 py-2 rounded-full text-[10px] font-bold uppercase">Upload New File</button>
+                    </div>
+                </section>
+            </div>
+
+            <div class="space-y-6">
+                <h3 class="serif text-2xl italic mb-4">Boost Exposure</h3>
+                
+                <div class="tier-card active" data-aos="fade-left">
+                    <span class="bg-amber-100 text-amber-700 text-[9px] font-bold px-3 py-1 rounded-full uppercase absolute -top-3 right-8">Active</span>
+                    <h4 class="font-bold text-sm uppercase tracking-widest">Basic Listing</h4>
+                    <p class="text-xs text-stone-400 mt-2">Standard placement in search results. Contact details redacted until lead is claimed.</p>
+                    <p class="price-tag">Included</p>
+                </div>
+
+                <div class="tier-card border-stone-200" data-aos="fade-left" data-aos-delay="100">
+                    <h4 class="font-bold text-sm uppercase tracking-widest">Pro Placement</h4>
+                    <p class="text-xs text-stone-400 mt-2">Highlighted gold border, "Vetted" badge, and 2x more visibility in local searches.</p>
+                    <p class="price-tag">£149<span class="text-xs font-normal text-stone-400">/mo</span></p>
+                    <button class="w-full py-3 bg-black text-white rounded-full text-[10px] font-bold uppercase mt-4">Upgrade to Pro</button>
+                </div>
+
+                <div class="tier-card border-stone-200" data-aos="fade-left" data-aos-delay="200">
+                    <h4 class="font-bold text-sm uppercase tracking-widest">Market Dominance</h4>
+                    <p class="text-xs text-stone-400 mt-2">Top 3 placement guaranteed, professional photography session, and homepage featured status.</p>
+                    <p class="price-tag">£399<span class="text-xs font-normal text-stone-400">/mo</span></p>
+                    <button class="w-full py-3 border-2 border-black text-black rounded-full text-[10px] font-bold uppercase mt-4">Contact for Elite</button>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        AOS.init({ duration: 1000, once: true });
+    </script>
+</body>
+</html>
