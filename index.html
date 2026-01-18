@@ -3,428 +3,308 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="description" content="FuneralMatch: The New Standard of Care. Independent, Vetted, and Transparent Funeral Comparison.">
-    <title>FuneralMatch | The Revolution of Care</title>
+    <title>FuneralMatch | Independent Standard of Care</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,ital,wght@6..96,0,400;6..96,0,500;6..96,0,600;6..96,1,400&family=Outfit:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,ital,wght@6..96,0,400;6..96,0,600&family=Outfit:wght@200;300;400;600;800&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
     <style>
         /* ==========================================================================
-           MASTER CSS ARCHITECTURE: THE REVOLUTION (v5.0)
-           Engineered for Monolithic Performance and Absolute Device Fluidity.
-           ==========================================================================
-        */
+           MASTER CSS: THE PERSISTENT SANCTUARY (v6.0)
+           Engineered for 100% Viewport Transparency & Smooth Narrative Flow
+           ========================================================================== */
 
         :root {
-            /* Palette Architecture */
-            --brand-gold: #C5A059;
-            --brand-gold-soft: rgba(197, 160, 89, 0.2);
-            --brand-gold-glow: rgba(197, 160, 89, 0.1);
-            --brand-black: #0A0A0A;
-            --brand-white: #FFFFFF;
-            --brand-linen: #F8F7F4;
-            
-            /* Geometry (No-Corner Mandate) */
+            --gold: #C5A059;
+            --white: #FFFFFF;
+            --glass-bg: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.15);
             --radius-pill: 9999px;
-            --radius-capsule: 4rem;
-            --radius-modal: 3.5rem;
-
-            /* Animation Physics */
-            --ease-cinematic: cubic-bezier(0.19, 1, 0.22, 1);
-            --ease-snap: cubic-bezier(0.16, 1, 0.3, 1);
-            --transition-slow: 1.2s;
+            --radius-capsule: 3.5rem;
+            --ease-cinematic: cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        /* 1. GLOBAL NORMALIZATION 
-           Optimizing for 4K Desktops down to 320px Mobile screens.
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+
+        /* 1. PERSISTENT BACKGROUND ENGINE 
+           Locks the Chapel visual throughout navigation.
         */
-        *, *::before, *::after {
-            margin: 0; padding: 0; box-sizing: border-box;
-            outline: none; -webkit-tap-highlight-color: transparent;
-        }
-
-        html, body {
-            height: 100%; width: 100%;
-            background-color: var(--brand-black);
-            scroll-behavior: smooth;
-        }
-
         body {
             font-family: 'Outfit', sans-serif;
-            color: var(--brand-white);
+            background-color: #121212;
+            color: var(--white);
             overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
+            min-height: 200vh; /* Ensures scroll room for narrative */
+        }
+
+        .sanctuary-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.5)), 
+                        url('https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2560&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            z-index: -1; /* Keeps background behind all elements */
         }
 
         .serif { font-family: 'Bodoni Moda', serif; }
 
-        /* 2. CINEMATIC BACKGROUND ENGINE 
-           Modern Chapel Aesthetic Layering.
-        */
-        .viewport-sanctuary {
-            position: fixed;
-            inset: 0;
-            z-index: -1;
-            /* High-Fidelity Modern Minimalist Interior */
-            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.5)), 
-                        url('https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2070&auto=format&fit=crop');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            transition: transform 2s var(--ease-cinematic);
-        }
-
-        /* 3. BRANDING & MOTTO (TOP-LEVEL) 
-           Filling the Top-Right Gap.
-        */
-        .site-header {
-            width: 100%;
+        /* 2. HEADER & GAP FILLER MOTTO */
+        header {
+            position: fixed; top: 0; left: 0; width: 100%;
             padding: clamp(2rem, 5vw, 4rem) 8%;
-            display: flex;
-            justify-content: space-between;
+            display: flex; justify-content: space-between;
             align-items: flex-start;
-            position: absolute;
-            top: 0; left: 0;
             z-index: 100;
         }
 
         @media (max-width: 1024px) {
-            .site-header { flex-direction: column; align-items: center; gap: 2.5rem; }
-            .motto-capsule { text-align: center !important; margin: 0 auto; }
+            header { flex-direction: column; align-items: center; gap: 2rem; padding: 2rem; }
+            .motto-hallmark { text-align: center !important; margin: 0 auto; }
             .motto-line { margin: 10px auto 0 auto !important; }
         }
 
-        .logo-box { display: flex; flex-direction: column; width: clamp(140px, 18vw, 170px); }
-        .brand-text { font-family: 'Bodoni Moda', serif; text-transform: uppercase; font-size: clamp(0.9rem, 1.2vw, 1.1rem); letter-spacing: 0.35em; line-height: 1.1; font-weight: 600; color: white; }
-        .gold-divider { width: 100%; height: 1.5px; background: var(--brand-gold); margin: 6px 0; }
-        .brand-match-label { color: var(--brand-gold); letter-spacing: 0.72em; margin-right: -0.72em; }
+        .logo-box { display: flex; flex-direction: column; width: clamp(140px, 18vw, 160px); }
+        .brand-text { font-family: 'Bodoni Moda', serif; text-transform: uppercase; font-size: 1rem; letter-spacing: 0.35em; line-height: 1.1; font-weight: 600; color: white; }
+        .logo-line { width: 100%; height: 1.5px; background: var(--gold); margin: 6px 0; }
+        .brand-match { color: var(--gold); letter-spacing: 0.72em; margin-right: -0.72em; }
 
-        .motto-capsule {
+        .motto-hallmark {
             max-width: 320px;
             text-align: right;
-            background: rgba(255, 255, 255, 0.08);
+            background: var(--glass-bg);
             backdrop-filter: blur(20px);
             padding: 1.5rem 2rem;
-            border-radius: 2.5rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            border-radius: 2rem;
+            border: 1px solid var(--glass-border);
         }
+        .motto-text { color: white; font-size: 0.95rem; font-weight: 200; line-height: 1.5; }
+        .motto-line { width: 40px; height: 1px; background: var(--gold); margin: 12px 0 0 auto; }
 
-        .motto-content { color: white; font-size: 1rem; font-weight: 300; line-height: 1.5; }
-        .motto-line { width: 40px; height: 1px; background: var(--brand-gold); margin: 12px 0 0 auto; }
+        /* 3. NARRATIVE LAYERS (TRANSLUCENT) */
+        main { position: relative; z-index: 10; width: 100%; }
 
-        /* 4. MAIN NAVIGATION & SEARCH COMMAND
-           Redefining the Center of the Viewport.
-        */
-        .main-container {
+        .narrative-frame {
             min-height: 100vh;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 0 8%;
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            padding: 0 10%;
         }
 
-        .hero-statement {
-            text-align: center;
-            margin-bottom: 4rem;
-        }
-
-        .hero-title {
-            font-size: clamp(2.5rem, 8vw, 6rem);
-            line-height: 1.05;
-            margin-bottom: 2rem;
-        }
-
-        /* DYNAMIC SEARCH STADIUM */
-        .search-command-unit {
-            width: 100%;
-            max-width: 850px;
+        /* 4. THE COMMAND CENTRE (REDEFINED) */
+        .search-stadium {
+            width: 100%; max-width: 850px;
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(30px);
             padding: 0.75rem;
             border-radius: var(--radius-pill);
-            display: flex;
-            align-items: center;
-            box-shadow: 0 40px 120px rgba(0,0,0,0.4);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            transition: var(--transition-slow) var(--ease-cinematic);
+            display: flex; align-items: center;
+            box-shadow: 0 40px 100px rgba(0,0,0,0.3);
+            margin-bottom: 5vh;
+            transition: var(--ease-cinematic) 0.8s;
         }
 
-        @media (max-width: 768px) {
-            .search-command-unit { flex-direction: column; border-radius: 2.5rem; padding: 1.5rem; }
-            .search-input { width: 100%; text-align: center; margin-bottom: 1.5rem; }
-            .search-btn { width: 100%; padding: 1.4rem; }
+        @media (max-width: 640px) {
+            .search-stadium { flex-direction: column; border-radius: 2.5rem; padding: 1.5rem; }
+            .search-input { text-align: center; margin-bottom: 1rem; width: 100%; }
+            .search-btn { width: 100%; }
         }
 
-        .search-input { flex: 1; border: none; background: transparent; padding: 0 2.5rem; font-size: 1.2rem; color: #111; font-weight: 300; }
-        .search-btn { background: #000; color: white; padding: 1.25rem 4rem; border-radius: var(--radius-pill); font-weight: 700; text-transform: uppercase; letter-spacing: 0.25em; font-size: 0.75rem; transition: 0.4s; }
-        .search-btn:hover { background: #222; transform: scale(1.02); }
+        .search-input { flex: 1; border: none; outline: none; padding: 0 2rem; font-size: 1.15rem; background: transparent; color: #111; }
+        .search-btn { background: #000; color: white; padding: 1.25rem 3.5rem; border-radius: var(--radius-pill); font-weight: 700; text-transform: uppercase; letter-spacing: 0.25em; font-size: 0.75rem; transition: 0.4s; }
 
-        /* 5. THE MICRO-INFORMATION REVENUE GRID
-           5 Specific, Logical Boxes including Partner Streams.
-        */
-        .revenue-grid {
+        /* 5. MODERN REVOLUTION CAPSULES (GLASS-DRIVEN) */
+        .grid-container {
             display: grid;
-            grid-template-cols: repeat(5, 1fr);
-            gap: 1.5rem;
-            width: 100%;
-            max-width: 1400px;
-            margin-top: 5rem;
+            grid-template-cols: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            width: 100%; max-width: 1400px;
+            margin-top: 4rem;
         }
 
-        @media (max-width: 1280px) { .revenue-grid { grid-template-cols: repeat(3, 1fr); } }
-        @media (max-width: 768px) { .revenue-grid { grid-template-cols: repeat(2, 1fr); } }
-        @media (max-width: 480px) { .revenue-grid { grid-template-cols: 1fr; } }
-
-        .info-module {
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 2.5rem 2rem;
-            border-radius: 3rem;
+        .glass-capsule {
+            background: var(--glass-bg);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            padding: 3.5rem 2.5rem;
+            border-radius: var(--radius-capsule);
+            border: 1px solid var(--glass-border);
             text-align: center;
-            transition: var(--ease-snap) 0.5s;
+            transition: var(--ease-cinematic) 0.8s;
             cursor: pointer;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
         }
 
-        .info-module:hover {
-            background: rgba(255, 255, 255, 0.15);
-            border-color: var(--brand-gold);
+        .glass-capsule:hover {
+            background: rgba(255,255,255,0.12);
+            border-color: var(--gold);
             transform: translateY(-10px);
-            box-shadow: 0 30px 60px rgba(197, 160, 89, 0.15);
         }
 
-        .module-tag { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.4em; color: var(--brand-gold); font-weight: 800; margin-bottom: 1rem; display: block; }
-        .module-title { font-size: clamp(1.1rem, 1.5vw, 1.4rem); font-weight: 400; color: white; line-height: 1.2; }
+        .glass-capsule.partner { border: 1.5px dashed var(--gold); }
 
-        /* SPECIAL REVENUE MODULE: FUNERAL PLANS */
-        .module-partner {
-            border: 1.5px dashed var(--brand-gold);
-            background: rgba(197, 160, 89, 0.05);
-        }
+        .tag { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.45em; color: var(--gold); font-weight: 800; margin-bottom: 1.25rem; display: block; }
+        .h2-modern { font-size: 2.2rem; line-height: 1.1; margin-bottom: 1rem; }
+        .p-modern { font-size: 0.95rem; font-weight: 300; color: #DDD; line-height: 1.7; }
 
-        /* 6. DUAL-STAGE EMERGENCY CONCIERGE
-           Stage 1: Soft Small Pop-up (Bottom Corner)
-           Stage 2: Full Blurred Backdrop Consultation
-        */
-        #emergency-soft-hook {
-            position: fixed;
-            bottom: 3rem; right: 3rem;
-            background: white;
-            padding: 1.25rem 2.2rem;
+        /* 6. EMERGENCY SYSTEM (SOFT-TO-FULL) */
+        #soft-support {
+            position: fixed; bottom: 3rem; right: 3rem;
+            background: white; padding: 1.2rem 2rem;
             border-radius: var(--radius-pill);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            z-index: 4000;
-            transform: translateY(250%);
-            transition: var(--transition-slow) var(--ease-cinematic);
-            cursor: pointer;
-            border: 1px solid var(--brand-gold-soft);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+            display: flex; align-items: center; gap: 15px;
+            z-index: 4000; transform: translateY(200%);
+            transition: var(--ease-cinematic) 1.2s;
+            border: 1px solid var(--gold);
         }
-        #emergency-soft-hook.active { transform: translateY(0); }
 
-        .pulse-core { width: 10px; height: 10px; background: #FFB800; border-radius: 50%; position: relative; }
-        .pulse-core::after { content: ''; position: absolute; inset: -5px; border-radius: 50%; border: 2px solid #FFB800; animation: hook-pulse 2s infinite; }
-        @keyframes hook-pulse { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(3.5); opacity: 0; } }
+        #soft-support.active { transform: translateY(0); }
+        .close-trigger { padding-left: 10px; border-left: 1px solid #EEE; color: #AAA; font-size: 1.2rem; cursor: pointer; transition: 0.3s; }
+        .close-trigger:hover { color: #000; }
 
-        /* THE FULL CONCIERGE OVERLAY */
-        #concierge-overlay {
-            position: fixed; inset: 0;
-            background: rgba(0,0,0,0.4);
+        /* 7. FOOTER BANNER (GLASS) */
+        footer {
+            background: rgba(0,0,0,0.3);
             backdrop-filter: blur(30px);
-            z-index: 5000;
-            display: none;
-            align-items: center; justify-content: center;
-            opacity: 0; transition: opacity 0.6s ease;
-            padding: 2rem;
-        }
-        #concierge-overlay.visible { display: flex; opacity: 1; }
-
-        .concierge-modal {
-            background: white;
-            width: 500px; max-width: 100%;
-            border-radius: 3.5rem;
-            padding: 4.5rem;
-            position: relative;
-            box-shadow: 0 100px 150px rgba(0,0,0,0.5);
-            transform: scale(0.9); transition: 0.5s var(--ease-cinematic);
-        }
-        #concierge-overlay.visible .concierge-modal { transform: scale(1); }
-
-        .modal-exit { position: absolute; top: 2.5rem; right: 2.5rem; font-size: 2rem; cursor: pointer; color: #DDD; transition: 0.3s; }
-        .modal-exit:hover { color: #000; }
-
-        .stadium-input { width: 100%; padding: 1.25rem 2rem; border-radius: var(--radius-pill); border: 1px solid #EEE; margin-bottom: 2rem; font-size: 1rem; outline: none; transition: 0.3s; }
-        .stadium-input:focus { border-color: var(--brand-gold); }
-
-        .priority-trigger { width: 100%; background: #000; color: white; padding: 1.5rem; border-radius: var(--radius-pill); font-weight: 800; text-transform: uppercase; letter-spacing: 0.3em; font-size: 0.75rem; transition: 0.4s; }
-
-        /* 7. FOOTER BANNER ARCHITECTURE */
-        .footer-banner {
-            background: rgba(10, 10, 10, 0.8);
-            backdrop-filter: blur(15px);
-            padding: 6rem 10%;
-            width: 100%;
+            padding: 6rem 8%;
             display: grid;
-            grid-template-cols: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-cols: repeat(auto-fit, minmax(200px, 1fr));
             gap: 4rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-            margin-top: 20vh;
+            border-top: 1px solid var(--glass-border);
+            margin-top: 10vh;
         }
 
-        .footer-group h4 { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.4em; color: var(--brand-gold); font-weight: 800; margin-bottom: 2rem; }
-        .footer-link { display: block; font-size: 0.95rem; font-weight: 300; color: #AAA; text-decoration: none; margin-bottom: 1rem; transition: 0.3s; }
+        .footer-group h4 { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.4em; color: var(--gold); font-weight: 800; margin-bottom: 2rem; }
+        .footer-link { display: block; font-size: 0.9rem; font-weight: 300; color: #BBB; text-decoration: none; margin-bottom: 1rem; transition: 0.3s; }
         .footer-link:hover { color: white; transform: translateX(5px); }
-        .portal-btn { background: white; color: black; padding: 0.9rem 2.2rem; border-radius: var(--radius-pill); font-weight: 700; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.2em; display: inline-block; margin-top: 1rem; }
-
+        .login-btn { background: white; color: black; padding: 0.9rem 2.5rem; border-radius: var(--radius-pill); font-weight: 800; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.25em; display: inline-block; }
     </style>
 </head>
-<body class="antialiased">
+<body>
 
-    <div class="viewport-sanctuary"></div>
+    <div class="sanctuary-bg"></div>
 
-    <header class="site-header">
-        <div class="logo-box">
+    <header>
+        <div class="logo-box" data-aos="fade-right">
             <span class="brand-text">Funeral</span>
-            <div class="gold-divider"></div>
-            <span class="brand-text brand-match-label">Match</span>
+            <div class="logo-line"></div>
+            <span class="brand-text brand-match">Match</span>
         </div>
 
-        <div class="motto-capsule" data-aos="fade-left">
-            <p class="motto-content serif italic">Because you don’t have to figure this out alone.</p>
+        <div class="motto-hallmark" data-aos="fade-left">
+            <p class="motto-text serif italic">Because you don’t have to figure this out alone.</p>
             <div class="motto-line"></div>
         </div>
     </header>
 
-    <main class="main-container">
-        <div class="hero-statement" data-aos="fade-up">
-            <h1 class="serif hero-title italic">Absolute clarity, <br><span class="not-italic text-stone-300">redefined.</span></h1>
-            <p class="text-white/40 text-xs uppercase tracking-[0.6em]">Search 1,200+ Vetted Directors Nationwide</p>
-        </div>
-
-        <div class="search-command-unit" data-aos="zoom-in" data-aos-delay="300">
-            <input type="text" placeholder="Enter Postcode to Compare..." class="search-input">
-            <button class="search-btn">Begin</button>
-        </div>
-
-        <div class="revenue-grid">
-            
-            <div class="info-module" data-aos="fade-up" data-aos-delay="400">
-                <span class="module-tag">Identity</span>
-                <p class="module-title serif italic">Independent <br>Advocacy</p>
+    <main>
+        <section class="narrative-frame">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h1 class="serif h2-modern italic text-5xl md:text-7xl mb-4">Clarity in <br><span class="not-italic text-stone-300">every step.</span></h1>
+                <p class="text-white/40 text-xs uppercase tracking-[0.6em]">Search 1,200+ Vetted Directors Nationwide</p>
             </div>
 
-            <div class="info-module" data-aos="fade-up" data-aos-delay="500">
-                <span class="module-tag">Standard</span>
-                <p class="module-title serif italic">Vetted <br>Merit</p>
+            <div class="search-stadium" data-aos="zoom-in" data-aos-delay="300">
+                <input type="text" placeholder="Enter Postcode..." class="search-input">
+                <button class="search-btn">Begin</button>
             </div>
+        </section>
 
-            <div class="info-module module-partner" data-aos="fade-up" data-aos-delay="600">
-                <span class="module-tag">Secure</span>
-                <p class="module-title serif italic">Funeral <br>Planning</p>
+        <section class="narrative-frame">
+            <div class="grid-container">
+                
+                <div class="glass-capsule" data-aos="fade-up">
+                    <span class="tag">The Identity</span>
+                    <h2 class="serif h2-modern italic">Independent <br>Advocacy</h2>
+                    <p class="p-modern">We represent the family, not the director. Our comparison engine ensures results based on verified merit, not profit.</p>
+                </div>
+
+                <div class="glass-capsule partner" data-aos="fade-up" data-aos-delay="100">
+                    <span class="tag">Secure The Future</span>
+                    <h2 class="serif h2-modern italic">Funeral <br>Planning</h2>
+                    <p class="p-modern italic">Lock in today's prices for tomorrow's security. Discover our vetted funeral plan partners for long-term peace of mind.</p>
+                </div>
+
+                <div class="glass-capsule" data-aos="fade-up" data-aos-delay="200">
+                    <span class="tag">Standard</span>
+                    <h2 class="serif h2-modern italic">Transparent <br>Pricing</h2>
+                    <p class="p-modern">Dismantling the opaque fee cultures of the past. Compare vetted funeral directors through a fixed-cost framework.</p>
+                </div>
+
             </div>
+        </section>
 
-            <div class="info-module" data-aos="fade-up" data-aos-delay="700">
-                <span class="module-tag">Pricing</span>
-                <p class="module-title serif italic">Transparent <br>Costs</p>
+        <section class="narrative-frame">
+            <div class="grid-container">
+                <div class="glass-capsule" data-aos="fade-up">
+                    <span class="tag">Security</span>
+                    <h2 class="serif h2-modern italic">Audited <br>Merit</h2>
+                    <p class="p-modern">Every partner in our network is audited for professional conduct and facility standards, returning control to you.</p>
+                </div>
+                <div class="glass-capsule" data-aos="fade-up" data-aos-delay="100">
+                    <span class="tag">Revolution</span>
+                    <h2 class="serif h2-modern italic">Digital <br>Dignity</h2>
+                    <p class="p-modern">Traditionalism meets 21st-century efficiency. We provide the modern tools required for a dignified, seamless comparison.</p>
+                </div>
             </div>
-
-            <div class="info-module" data-aos="fade-up" data-aos-delay="800">
-                <span class="module-tag">The Vision</span>
-                <p class="module-title serif italic">New Age <br>Modernism</p>
-            </div>
-
-        </div>
+        </section>
     </main>
 
-    <footer class="footer-banner">
+    <footer>
         <div class="footer-group">
-            <h4>The Platform</h4>
+            <h4>Platform</h4>
             <a href="#" class="footer-link">How it Works</a>
-            <a href="#" class="footer-link">Our Standards</a>
-            <a href="#" class="footer-link">Pricing Transparency</a>
+            <a href="#" class="footer-link">Independent Vetting</a>
+            <a href="#" class="footer-link">Privacy Policy</a>
         </div>
         <div class="footer-group">
             <h4>Support</h4>
             <a href="#" class="footer-link">Contact Us</a>
             <a href="#" class="footer-link">Emergency Help</a>
-            <a href="#" class="footer-link">Privacy Policy</a>
+            <a href="#" class="footer-link">Terms of Service</a>
         </div>
         <div class="footer-group">
-            <h4>Professional</h4>
-            <a href="#" class="portal-btn">Directors Portal</a>
+            <h4>Industry</h4>
+            <a href="#" class="login-btn">Directors Login</a>
             <p class="mt-8 text-[10px] text-stone-500 uppercase tracking-widest leading-relaxed">
-                The new standard of <br>independent funeral comparison.
+                The New Age Standard in <br>Modern Funeral Comparison.
             </p>
         </div>
     </footer>
 
-    <div id="emergency-soft-hook" onclick="toggleConcierge()">
-        <div class="pulse-core"></div>
-        <span class="text-[10px] font-bold uppercase tracking-widest text-stone-800">Immediate help?</span>
-    </div>
-
-    <div id="concierge-overlay" onclick="handleOutsideClick(event)">
-        <div class="concierge-modal">
-            <span class="modal-exit" onclick="toggleConcierge()">&times;</span>
-            <div class="mb-12">
-                <h3 class="serif text-3xl italic mb-2">Urgent Support</h3>
-                <p class="text-[9px] uppercase tracking-widest text-stone-400 font-bold">A dedicated consultant is ready to assist.</p>
-            </div>
-            <form onsubmit="event.preventDefault(); alert('Lead Captured'); toggleConcierge();">
-                <input type="text" placeholder="Full Name" class="stadium-input" required>
-                <input type="text" placeholder="Location (Postcode)" class="stadium-input" required>
-                <select class="stadium-input bg-white">
-                    <option>Death has occurred</option>
-                    <option>Expected imminently</option>
-                    <option>Pre-planning inquiry</option>
-                </select>
-                <button type="submit" class="priority-trigger">Request Priority Callback</button>
-            </form>
+    <div id="soft-support">
+        <div class="flex items-center gap-4 cursor-pointer" onclick="alert('Full Consultation Modal Triggered')">
+            <span class="relative flex h-2 w-2">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
+            </span>
+            <span class="text-[10px] font-bold uppercase tracking-widest text-stone-700">Immediate Help?</span>
         </div>
+        <span class="close-trigger" onclick="dismissSupport(event)">&times;</span>
     </div>
 
     <script>
-        // AOS INITIALIZATION (SMOOTH CINEMATIC)
-        AOS.init({
-            duration: 1500,
-            easing: 'cubic-bezier(0.19, 1, 0.22, 1)',
-            once: true,
-            offset: 100
-        });
+        // AOS Initialization with Smooth Cinematic settings
+        AOS.init({ duration: 1500, once: true, offset: 100 });
 
-        // SOFT-HOOK AUTOMATION (2.5s DELAY)
+        // Phase 1: Soft Hook (2.5s Delay)
         window.addEventListener('load', () => {
             setTimeout(() => {
-                document.getElementById('emergency-soft-hook').classList.add('active');
+                const hook = document.getElementById('soft-support');
+                if (!localStorage.getItem('supportDismissed')) {
+                    hook.classList.add('active');
+                }
             }, 2500);
         });
 
-        // CONCIERGE MANAGEMENT
-        function toggleConcierge() {
-            const overlay = document.getElementById('concierge-overlay');
-            overlay.classList.toggle('visible');
-            document.body.style.overflow = overlay.classList.contains('visible') ? 'hidden' : 'auto';
+        function dismissSupport(e) {
+            e.stopPropagation();
+            document.getElementById('soft-support').classList.remove('active');
+            localStorage.setItem('supportDismissed', 'true');
         }
-
-        function handleOutsideClick(e) {
-            if (e.target.id === 'concierge-overlay') toggleConcierge();
-        }
-
-        // Accessibility: Escape Key to Close
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                const overlay = document.getElementById('concierge-overlay');
-                if (overlay.classList.contains('visible')) toggleConcierge();
-            }
-        });
     </script>
 </body>
 </html>
