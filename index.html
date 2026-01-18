@@ -12,88 +12,75 @@
         
         :root { 
             --gold: #C5A059; 
-            --deep-bg: #141414; /* Soft dark undertone */
-            --glass: rgba(255, 255, 255, 0.03);
+            --deep-bg: #121212; 
+            --box-light: #FDFDFB; /* The light box color */
         }
         
         body { 
             font-family: 'Inter', sans-serif; 
             background-color: var(--deep-bg);
-            /* Subtle radial glow to prevent "flat" black */
-            background-image: radial-gradient(circle at 50% -20%, #222 0%, #141414 70%);
-            color: #FFFFFF;
+            background-image: radial-gradient(circle at 50% 0%, #1A1A1A 0%, #121212 80%);
+            color: #121212; /* Text inside boxes will be dark */
             overflow-x: hidden;
         }
 
         .serif { font-family: 'Bodoni Moda', serif; }
 
-        /* Static Logo (Sticks to top, doesn't follow scroll) */
-        header {
-            padding: 4rem 10%;
-            display: flex;
-            justify-content: flex-start;
-        }
-        .logo-wrap {
-            display: flex;
-            flex-direction: column;
-            width: 160px;
-        }
+        /* Static Logo (Top Left) */
+        header { padding: 4rem 10%; }
+        .logo-wrap { display: flex; flex-direction: column; width: 160px; }
         .brand-text { font-family: 'Bodoni Moda', serif; text-transform: uppercase; font-size: 1.1rem; letter-spacing: 0.35em; line-height: 1.1; font-weight: 600; color: white; }
-        .logo-line { width: 100%; height: 1px; background: var(--gold); margin: 8px 0; }
+        .logo-line { width: 100%; height: 1.5px; background: var(--gold); margin: 8px 0; }
         .brand-match { color: var(--gold); letter-spacing: 0.72em; margin-right: -0.72em; }
 
-        /* The Framing: Dark Luxury Outlines */
-        .frame-container {
-            border: 1px solid rgba(197, 160, 89, 0.2); /* Gold-tinted dark border */
+        /* The Light Box: Gentle Landing UI */
+        .light-box {
+            background-color: var(--box-light);
             padding: 5rem;
-            background: var(--glass);
-            backdrop-filter: blur(10px);
-            max-width: 900px;
+            border-radius: 4px; /* Professional sharp-soft hybrid */
+            max-width: 850px;
             width: 100%;
-            transition: border-color 0.5s ease;
+            box-shadow: 0 40px 100px rgba(0,0,0,0.5);
+            border-left: 6px solid var(--gold); /* Brand anchor */
         }
-        .frame-container:hover { border-color: var(--gold); }
 
         section {
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
-            padding-top: 15vh; /* Content sits high on page */
+            padding-top: 20vh; /* High of page landing */
             padding-left: 10%;
         }
 
-        .hero-h1 { font-size: clamp(2.5rem, 6vw, 5rem); line-height: 1; margin-bottom: 2.5rem; }
-        .hero-p { font-size: 1.25rem; font-weight: 300; color: #A0A0A0; max-width: 550px; line-height: 1.6; }
+        .hero-h1 { font-size: clamp(2.5rem, 5vw, 4.5rem); line-height: 1.1; margin-bottom: 2rem; color: #121212; }
+        .hero-p { font-size: 1.2rem; font-weight: 400; color: #444; max-width: 550px; line-height: 1.7; }
 
-        /* The Redefined Inquiry Sidebar (Drawer) */
+        /* Inquiry Drawer Refinement */
         #inquiry-drawer {
             position: fixed;
             top: 0;
             right: 0;
             height: 100vh;
             width: 450px;
-            background: #1A1A1A;
+            background: var(--box-light);
             border-left: 1px solid var(--gold);
             z-index: 2000;
             transform: translateX(100%);
-            transition: transform 0.8s cubic-bezier(0.7, 0, 0.3, 1);
+            transition: transform 1s cubic-bezier(0.16, 1, 0.3, 1);
             padding: 4rem;
-            display: flex;
-            flex-direction: column;
-            box-shadow: -20px 0 60px rgba(0,0,0,0.5);
+            color: #121212;
         }
         #inquiry-drawer.active { transform: translateX(0); }
 
         .form-input {
             background: transparent;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            border-bottom: 2px solid #EAEAEA;
             width: 100%;
-            padding: 1rem 0;
-            color: white;
+            padding: 1.2rem 0;
+            color: #121212;
             outline: none;
             transition: border-color 0.3s;
-            font-size: 0.9rem;
         }
         .form-input:focus { border-color: var(--gold); }
     </style>
@@ -109,77 +96,77 @@
     </header>
 
     <section>
-        <div class="frame-container" data-aos="fade-up">
-            <p class="text-[10px] uppercase tracking-[0.5em] text-stone-500 mb-8 font-semibold">The New Standard of Care</p>
-            <h1 class="serif hero-h1">Quiet <br><span class="italic text-stone-400">efficiency.</span></h1>
-            <p class="hero-p">A dedicated middleman service providing a seamless bridge to the UK's most trusted funeral directors.</p>
+        <div class="light-box" data-aos="fade-up" data-aos-duration="1200" data-aos-easing="ease-out-back">
+            <p class="text-[10px] uppercase tracking-[0.5em] text-stone-400 mb-8 font-bold">Introduction</p>
+            <h1 class="serif hero-h1">The new standard <br>of <span class="italic text-stone-500">care.</span></h1>
+            <p class="hero-p">Welcome to FuneralMatch. We provide an independent framework designed to bring clarity and dignity to the planning process.</p>
         </div>
     </section>
 
     <section>
-        <div class="frame-container" data-aos="fade-up">
-            <h2 class="text-[10px] uppercase tracking-[0.5em] text-stone-500 mb-8 font-semibold">Our Process</h2>
-            <p class="serif text-4xl leading-tight mb-8">We standardize the comparison, <br>so you can prioritize the <span class="text-white underline decoration-amber-600/30">tribute.</span></p>
-            <p class="hero-p text-sm">Every director in our network is audited for pricing transparency and professional conduct.</p>
+        <div class="light-box" data-aos="fade-up" data-aos-duration="1200" data-aos-easing="ease-out-back">
+            <h2 class="text-[10px] uppercase tracking-[0.5em] text-stone-400 mb-8 font-bold">Our Philosophy</h2>
+            <p class="serif text-4xl leading-tight mb-8">We curate the best, <br>so you can expect the <span class="gold underline decoration-amber-600/20">highest service.</span></p>
+            <p class="hero-p text-base">Our vetting process ensures every director in our suite adheres to strict pricing transparency and ethical conduct.</p>
         </div>
     </section>
 
     <section>
-        <div class="frame-container border-white/20" data-aos="fade-up">
-            <h2 class="serif text-4xl mb-12">Move forward with <br>confidence.</h2>
-            <button class="border border-amber-600/50 text-amber-500 px-14 py-5 text-xs font-bold uppercase tracking-[0.3em] hover:bg-amber-600 hover:text-white transition-all">
-                Access Comparison Suite
+        <div class="light-box" data-aos="fade-up" data-aos-duration="1200">
+            <h2 class="serif text-4xl mb-12">Identify the right <br>match for your family.</h2>
+            <button class="bg-black text-white px-14 py-5 text-xs font-bold uppercase tracking-[0.3em] hover:bg-stone-800 transition-all shadow-xl">
+                Enter Comparison Suite
             </button>
         </div>
     </section>
 
     <div id="inquiry-drawer">
         <div class="flex justify-between items-center mb-16">
-            <span class="serif text-sm uppercase tracking-widest gold">Immediate Support</span>
-            <button onclick="toggleDrawer()" class="text-stone-500 hover:text-white text-3xl font-light">&times;</button>
+            <span class="serif text-xs uppercase tracking-widest font-bold">Immediate Inquiry</span>
+            <button onclick="toggleDrawer()" class="text-stone-300 hover:text-black text-4xl font-light leading-none">&times;</button>
         </div>
         
         <form class="space-y-10">
             <div>
-                <p class="text-[10px] uppercase tracking-widest text-stone-500 mb-2">Who is this for?</p>
-                <input type="text" placeholder="Name of Correspondent" class="form-input">
+                <p class="text-[10px] uppercase tracking-widest text-stone-400 font-bold mb-2">Who is the correspondent?</p>
+                <input type="text" placeholder="Your Full Name" class="form-input">
             </div>
             <div>
-                <p class="text-[10px] uppercase tracking-widest text-stone-500 mb-2">Where is support needed?</p>
-                <input type="text" placeholder="Postcode or City" class="form-input">
+                <p class="text-[10px] uppercase tracking-widest text-stone-400 font-bold mb-2">Where is support required?</p>
+                <input type="text" placeholder="Location or Postcode" class="form-input">
             </div>
             <div>
-                <p class="text-[10px] uppercase tracking-widest text-stone-500 mb-2">When is care required?</p>
+                <p class="text-[10px] uppercase tracking-widest text-stone-400 font-bold mb-2">When is care needed?</p>
                 <select class="form-input bg-transparent">
-                    <option class="bg-stone-900">Immediate (Within 24hrs)</option>
-                    <option class="bg-stone-900">Expected imminently</option>
-                    <option class="bg-stone-900">Pre-planning inquiry</option>
+                    <option>Immediate (Within 24hrs)</option>
+                    <option>Expected shortly</option>
+                    <option>Pre-planning advice</option>
                 </select>
             </div>
             <div class="pt-8">
-                <button class="w-full bg-[#C5A059] text-black py-5 font-bold uppercase tracking-widest text-[11px] hover:bg-white transition-all">
-                    Request Priority Connection
+                <button class="w-full bg-black text-white py-5 font-bold uppercase tracking-widest text-[11px] hover:bg-stone-800 transition-all">
+                    Request Priority Callback
                 </button>
             </div>
         </form>
     </div>
 
-    <button onclick="toggleDrawer()" class="fixed bottom-10 right-10 bg-white text-black px-8 py-4 rounded-sm text-[10px] font-bold uppercase tracking-[0.3em] z-[100] shadow-2xl">
-        Urgent Inquiry
+    <button onclick="toggleDrawer()" class="fixed bottom-10 right-10 bg-white text-black px-10 py-5 rounded-sm text-[10px] font-bold uppercase tracking-[0.4em] z-[100] shadow-2xl border-b-4 border-amber-500">
+        Urgent Support
     </button>
 
     <script>
-        AOS.init({ duration: 1200, once: false });
+        AOS.init({ once: false });
 
         function toggleDrawer() {
             document.getElementById('inquiry-drawer').classList.toggle('active');
         }
 
-        // Auto-trigger drawer after 1.5s
+        // Auto-trigger drawer after 1.2s for soft-launch test
         window.addEventListener('load', () => {
             setTimeout(() => {
                 document.getElementById('inquiry-drawer').classList.add('active');
-            }, 1500);
+            }, 1200);
         });
     </script>
 </body>
