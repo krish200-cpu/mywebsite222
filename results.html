@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Director Results | FuneralMatch</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@1,400;1,700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --gold: #C5A059;
+            --black: #1a1a1a;
+            --soft-bg: #F8F7F5;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--soft-bg); color: var(--black); }
+        .serif { font-family: 'Bodoni Moda', serif; }
+
+        /* FIXED NAV LOGO */
+        .nav-logo { position: fixed; top: 2rem; left: 8%; z-index: 500; }
+
+        /* CARD AESTHETIC */
+        .director-card { background: white; border-radius: 2.5rem; border: 1px solid #EEE; overflow: hidden; transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
+        .director-card:hover { transform: translateY(-10px); border-color: var(--gold); box-shadow: 0 30px 60px rgba(0,0,0,0.05); }
+
+        .merit-badge { background: #FDFCF0; color: #847524; padding: 4px 12px; border-radius: 9999px; font-size: 0.65rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; }
+        
+        .btn-black { background: black; color: white; padding: 1rem 2rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.2em; transition: 0.3s; }
+        .btn-black:hover { background: var(--gold); }
+    </style>
+</head>
+<body class="pt-32">
+
+    <div class="nav-logo">
+        <div class="flex flex-col items-start">
+            <span class="serif text-xs font-bold uppercase tracking-[0.4em] mb-1">Funeral</span>
+            <div style="width: 30px; height: 1px; background: var(--gold); margin-bottom: 4px;"></div>
+            <span class="serif text-xs font-bold text-[#C5A059] uppercase tracking-[0.7em]">Match</span>
+        </div>
+    </div>
+
+    <main class="max-w-7xl mx-auto px-8 pb-24">
+        
+        <header class="mb-16" data-aos="fade-up">
+            <p class="text-[10px] uppercase tracking-widest text-stone-400 font-bold mb-4">Vetted Independent Results</p>
+            <h2 class="serif italic text-5xl">Directors in your area.</h2>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            
+            <div class="director-card" data-aos="fade-up">
+                <div class="h-48 bg-stone-100 overflow-hidden relative">
+                    <img src="https://images.unsplash.com/photo-1517457373958-b7bdd4587205?q=80&w=2669&auto=format&fit=crop" class="w-full h-full object-cover grayscale" alt="Funeral Facility">
+                    <div class="absolute top-6 right-6">
+                        <span class="merit-badge">9.8 Compliance</span>
+                    </div>
+                </div>
+                <div class="p-10">
+                    <p class="text-[10px] uppercase tracking-widest text-stone-400 mb-2">Independent Director</p>
+                    <h3 class="serif text-2xl mb-4">Premier Funeral Care</h3>
+                    <p class="text-sm text-stone-500 leading-relaxed mb-8">Vetted for facility standards, pricing transparency, and modern service options.</p>
+                    
+                    <div class="flex flex-col gap-4 border-t border-stone-50 pt-8">
+                        <div class="flex justify-between text-xs font-bold">
+                            <span>Service Merit</span>
+                            <span class="text-[#C5A059]">Excellent</span>
+                        </div>
+                        <div class="flex justify-between text-xs font-bold">
+                            <span>Fixed Fees</span>
+                            <span>From £1,850</span>
+                        </div>
+                    </div>
+                    
+                    <button class="btn-black w-full mt-10">Request Vetted Quote</button>
+                </div>
+            </div>
+
+            <div class="director-card" data-aos="fade-up" data-aos-delay="100">
+                <div class="h-48 bg-stone-100 overflow-hidden relative">
+                    <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?q=80&w=2670&auto=format&fit=crop" class="w-full h-full object-cover grayscale" alt="Funeral Facility">
+                    <div class="absolute top-6 right-6">
+                        <span class="merit-badge">9.4 Compliance</span>
+                    </div>
+                </div>
+                <div class="p-10">
+                    <p class="text-[10px] uppercase tracking-widest text-stone-400 mb-2">Independent Director</p>
+                    <h3 class="serif text-2xl mb-4">Sterling & Sons</h3>
+                    <p class="text-sm text-stone-500 leading-relaxed mb-8">Specializing in traditional tributes with high attention to family care and heritage.</p>
+                    
+                    <div class="flex flex-col gap-4 border-t border-stone-50 pt-8">
+                        <div class="flex justify-between text-xs font-bold">
+                            <span>Service Merit</span>
+                            <span class="text-[#C5A059]">Premium</span>
+                        </div>
+                        <div class="flex justify-between text-xs font-bold">
+                            <span>Fixed Fees</span>
+                            <span>From £2,100</span>
+                        </div>
+                    </div>
+                    
+                    <button class="btn-black w-full mt-10">Request Vetted Quote</button>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="mt-24 p-12 rounded-[3rem] border-2 border-dashed border-[#C5A059] bg-white flex flex-col md:flex-row items-center justify-between gap-8" data-aos="zoom-in">
+            <div class="max-w-xl text-center md:text-left">
+                <p class="text-[10px] uppercase tracking-widest text-[#C5A059] font-bold mb-4">Strategic Partnership</p>
+                <h4 class="serif italic text-3xl mb-2">Looking for a Funeral Plan?</h4>
+                <p class="text-sm text-stone-500">Secure today's prices through our vetted partner, <strong>Dignity Funeral Plans</strong>. Total peace of mind, nationwide.</p>
+            </div>
+            <button class="btn-black">Explore Plans</button>
+        </div>
+
+    </main>
+
+    <script>
+        AOS.init({ duration: 1000, once: true });
+    </script>
+</body>
+</html>
