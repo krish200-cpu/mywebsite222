@@ -2,230 +2,744 @@
 <html lang="en-GB">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FuneralMatch | The Revolution of Care</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="author" content="FuneralMatch Global">
+    <meta name="theme-color" content="#F7F5F2">
+    <title>FuneralMatch | The New Standard of Care | Independent Comparison</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,ital,wght@6..96,0,400;6..96,0,600;6..96,1,400&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,ital,wght@6..96,0,400;6..96,0,500;6..96,0,600;6..96,0,700;6..96,1,400&family=Outfit:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
     <style>
+        /* ==========================================================================
+           MASTER CSS ARCHITECTURE: NO CORNERS REVOLUTION (v3.0)
+           Project: FuneralMatch Monolith
+           
+           Color Theory:
+           - Linen (#F7F5F2): Representing traditional stationery and purity.
+           - Charcoal (#0F0F0F): Representing modern authority and weight.
+           - Gold (#C5A059): Representing the "Standard of Care" and guidance.
+           ==========================================================================
+        */
+
         :root {
+            /* Palette */
             --brand-gold: #C5A059;
-            --brand-black: #111111;
-            --brand-linen: #F4F1EE;
+            --brand-gold-soft: rgba(197, 160, 89, 0.4);
+            --brand-gold-glow: rgba(197, 160, 89, 0.15);
+            --brand-black: #0F0F0F;
+            --brand-black-muted: #1A1A1A;
+            --brand-linen: #F7F5F2;
+            --brand-white: #FFFFFF;
+            
+            /* Typography Scales */
+            --font-main: 'Outfit', sans-serif;
+            --font-serif: 'Bodoni Moda', serif;
+
+            /* Revolutionary Geometry (No Corners) */
             --radius-pill: 9999px;
-            --radius-capsule: 3.5rem;
-            --transition-smooth: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+            --radius-capsule: 5rem;
+            --radius-modal: 4.5rem;
+
+            /* Transition Curves */
+            --ease-luxury: cubic-bezier(0.16, 1, 0.3, 1);
+            --ease-cinematic: cubic-bezier(0.19, 1, 0.22, 1);
+            --time-standard: 0.6s;
+            --time-slow: 1.2s;
+        }
+
+        /* 1. RESET & NORMALIZATION
+           Extensive reset to ensure zero variation across modern engines.
+        */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            outline: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html, body {
+            height: 100%;
+            width: 100%;
+            background-color: var(--brand-linen);
+            scroll-behavior: smooth;
         }
 
         body {
-            font-family: 'Outfit', sans-serif;
-            background-color: var(--brand-linen);
-            background-image: url("https://www.transparenttextures.com/patterns/linen.png");
+            font-family: var(--font-main);
             color: var(--brand-black);
             overflow-x: hidden;
+            /* Premium Paper Grain Texture */
+            background-image: url("https://www.transparenttextures.com/patterns/natural-paper.png");
+            background-attachment: fixed;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
-        .serif { font-family: 'Bodoni Moda', serif; }
+        .serif { font-family: var(--font-serif); }
 
-        /* HEADER: TOP LEFT */
-        .site-header { padding: 3rem 10%; width: 100%; position: absolute; z-index: 50; }
-        .logo-wrap { display: flex; flex-direction: column; width: 140px; }
-        .brand-h1 { font-family: 'Bodoni Moda', serif; text-transform: uppercase; font-size: 1rem; letter-spacing: 0.35em; line-height: 1.1; font-weight: 600; color: white; mix-blend-mode: difference; }
-        .gold-line { width: 100%; height: 1.5px; background: var(--brand-gold); margin: 6px 0; }
-        .match-gold { color: var(--brand-gold); letter-spacing: 0.72em; margin-right: -0.72em; }
-
-        /* THE CINEMATIC SEARCH: "THE SPEAKING ENGINE" */
-        .hero-visual {
-            height: 80vh;
+        /* 2. BRANDING HIERARCHY
+           Fixed top-left static branding to anchor the user's focus.
+        */
+        .site-header {
             width: 100%;
-            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=2560&auto=format&fit=crop');
-            background-size: cover;
-            background-position: center;
+            padding: 4rem 10% 2rem 10%;
             display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0 10%;
-            border-bottom-left-radius: 4rem;
-            border-bottom-right-radius: 4rem;
+            justify-content: flex-start;
+            position: relative;
+            z-index: 50;
         }
 
-        .search-sanctuary {
-            max-width: 800px;
+        .logo-wrap {
+            display: flex;
+            flex-direction: column;
+            width: clamp(150px, 25vw, 200px);
+            transition: var(--time-standard) var(--ease-luxury);
+            cursor: pointer;
+        }
+
+        .logo-wrap:hover {
+            transform: translateY(-2px);
+            opacity: 0.8;
+        }
+
+        .brand-h1 {
+            font-family: var(--font-serif);
+            text-transform: uppercase;
+            font-size: clamp(1rem, 2.5vw, 1.3rem);
+            letter-spacing: 0.45em;
+            line-height: 1;
+            font-weight: 600;
+        }
+
+        .logo-divider {
             width: 100%;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 0.7rem;
+            height: 1.5px;
+            background: var(--brand-gold);
+            margin: 10px 0;
+        }
+
+        .brand-match-text {
+            color: var(--brand-gold);
+            letter-spacing: 0.85em;
+            margin-right: -0.85em; /* Optical alignment */
+        }
+
+        /* 3. THE SANCTUARY SEARCH ENGINE
+           A device-adaptive command center designed for emotional comfort.
+        */
+        .search-area {
+            width: 100%;
+            padding: 2vh 10% 15vh 10%;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .hero-intro {
+            margin-bottom: 5rem;
+            max-width: 900px;
+        }
+
+        .hero-title {
+            font-size: clamp(2.5rem, 8vw, 6rem);
+            line-height: 1.05;
+            margin-bottom: 2.5rem;
+        }
+
+        .hero-desc {
+            font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+            font-weight: 300;
+            color: #6B6B6B;
+            line-height: 1.6;
+            max-width: 700px;
+        }
+
+        .search-container-fluid {
+            width: 100%;
+            max-width: 900px;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
             border-radius: var(--radius-pill);
+            padding: 0.85rem;
             display: flex;
+            flex-direction: row;
             align-items: center;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.2);
+            box-shadow: 0 40px 80px rgba(0,0,0,0.04);
+            border: 1px solid rgba(0,0,0,0.06);
+            transition: var(--time-slow) var(--ease-cinematic);
         }
 
-        .search-input { flex: 1; border: none; outline: none; padding: 0 2rem; font-size: 1.1rem; background: transparent; }
-        .search-btn { background: var(--brand-black); color: white; padding: 1.25rem 3.5rem; border-radius: var(--radius-pill); font-weight: 700; text-transform: uppercase; letter-spacing: 0.2em; font-size: 0.7rem; }
-
-        /* THE INCENTIVE: PROGRESS THREAD */
-        .progress-thread {
-            position: absolute;
-            left: 50%;
-            top: 85vh;
-            width: 1.5px;
-            height: calc(100% - 100vh);
-            background: linear-gradient(to bottom, var(--brand-gold), transparent);
-            z-index: -1;
+        /* Mobile Adaptation for Search */
+        @media (max-width: 768px) {
+            .search-container-fluid {
+                flex-direction: column;
+                border-radius: 3rem;
+                padding: 1.5rem;
+                margin-top: 2rem;
+            }
+            .search-input-field {
+                text-align: center;
+                margin-bottom: 1.5rem;
+                width: 100%;
+                font-size: 1.1rem;
+            }
+            .search-submit-btn {
+                width: 100%;
+                padding: 1.5rem;
+            }
+            .search-area { padding-bottom: 8rem; }
         }
 
-        /* NARRATIVE BOXES */
-        section {
+        .search-container-fluid:focus-within {
+            border-color: var(--brand-gold);
+            box-shadow: 0 60px 120px var(--brand-gold-glow);
+            transform: translateY(-5px);
+        }
+
+        .search-input-field {
+            flex: 1;
+            border: none;
+            background: transparent;
+            padding: 0 2.5rem;
+            font-size: 1.25rem;
+            font-weight: 300;
+            color: var(--brand-black);
+            font-family: var(--font-main);
+        }
+
+        .search-input-field::placeholder {
+            color: #CCC;
+        }
+
+        .search-submit-btn {
+            background: var(--brand-black);
+            color: var(--brand-white);
+            padding: 1.4rem 4rem;
+            border-radius: var(--radius-pill);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+            font-size: 0.75rem;
+            transition: 0.4s var(--ease-luxury);
+            cursor: pointer;
+            border: none;
+        }
+
+        .search-submit-btn:hover {
+            background: #2D2D2D;
+            transform: scale(1.03);
+            letter-spacing: 0.35em;
+        }
+
+        /* 4. NARRATIVE FRAME ENGINE
+           Engineered for sequential high-page landing (top 15% of viewport).
+        */
+        .narrative-frame-section {
             min-height: 100vh;
+            width: 100%;
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
-            padding: 15vh 15% 0 15%;
-        }
-
-        .info-card {
-            background: var(--brand-black);
-            padding: 4rem;
-            border-radius: var(--radius-capsule);
-            color: white;
-            max-width: 700px;
-            width: 100%;
-            box-shadow: 0 40px 80px rgba(0,0,0,0.1);
-            border: 1px solid rgba(197, 160, 89, 0.2);
+            padding-top: 15vh; /* Standardized Landing Height */
+            padding-left: 10%;
+            padding-right: 10%;
             position: relative;
         }
 
-        .card-tag { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.4em; color: var(--brand-gold); font-weight: 700; margin-bottom: 1.5rem; display: block; }
-        .card-h2 { font-size: 2.5rem; line-height: 1.1; margin-bottom: 1.5rem; }
-        .card-p { font-size: 1.1rem; font-weight: 300; color: #BCBCBC; line-height: 1.7; }
+        @media (max-width: 1024px) {
+            .narrative-frame-section { padding-left: 5%; padding-right: 5%; padding-top: 10vh; }
+        }
 
-        /* TWO-STAGE EMERGENCY (2.5s Delay) */
-        #soft-support {
+        .capsule-content {
+            background-color: var(--brand-black);
+            color: var(--brand-white);
+            padding: clamp(3rem, 10vw, 6rem);
+            border-radius: var(--radius-capsule);
+            width: 100%;
+            max-width: 950px;
+            position: relative;
+            box-shadow: 0 80px 160px rgba(0,0,0,0.25);
+            border: 1px solid rgba(197, 160, 89, 0.12);
+            transition: var(--time-slow) var(--ease-cinematic);
+        }
+
+        /* Narrative Indicator (The Side-Mark) */
+        .capsule-content::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 20%;
+            height: 60%;
+            width: 15px;
+            background: linear-gradient(to bottom, var(--brand-gold), #8A6D3B);
+            border-radius: 0 100px 100px 0;
+            box-shadow: 10px 0 20px rgba(0,0,0,0.3);
+        }
+
+        .capsule-meta {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.6em;
+            color: var(--brand-gold);
+            font-weight: 800;
+            margin-bottom: 3rem;
+            display: block;
+        }
+
+        .capsule-heading {
+            font-size: clamp(2.5rem, 7vw, 5.5rem);
+            line-height: 1;
+            margin-bottom: 2.5rem;
+            font-weight: 500;
+        }
+
+        .capsule-body {
+            font-size: clamp(1.15rem, 2.2vw, 1.45rem);
+            font-weight: 300;
+            color: #D1D1D1;
+            line-height: 1.8;
+            max-width: 700px;
+        }
+
+        /* Progress Incentive: The Golden Thread */
+        .scroll-thread-track {
+            position: absolute;
+            left: 10%;
+            top: 100vh;
+            width: 2px;
+            height: 600vh; /* Scaled for 7 Sections */
+            background: linear-gradient(to bottom, 
+                var(--brand-gold) 0%, 
+                var(--brand-gold-soft) 50%, 
+                transparent 100%);
+            z-index: -1;
+            opacity: 0.25;
+        }
+
+        /* 5. TWO-STAGE EMERGENCY CONCIERGE
+           Stage 1: The Pulse Hook (Soft Engagement)
+           Stage 2: The Multi-Step Consultation Modal
+        */
+        .support-pulse-hook {
             position: fixed;
-            bottom: 2rem; right: 2rem;
-            background: white;
-            padding: 1rem 1.5rem;
+            bottom: 4rem;
+            right: 4rem;
+            background: var(--brand-white);
+            padding: 1.4rem 2.2rem;
             border-radius: var(--radius-pill);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            box-shadow: 0 25px 60px rgba(0,0,0,0.12);
             display: flex;
             align-items: center;
-            gap: 12px;
-            z-index: 1000;
-            transform: translateY(200%);
-            transition: var(--transition-smooth);
+            gap: 18px;
+            z-index: 4000;
             cursor: pointer;
-            border: 1px solid rgba(197, 160, 89, 0.3);
+            transform: translateY(250%);
+            transition: var(--time-slow) var(--ease-cinematic);
+            border: 1px solid var(--brand-gold-soft);
         }
-        #soft-support.active { transform: translateY(0); }
 
-        #full-modal {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(20px);
-            display: none; align-items: center; justify-content: center; z-index: 2000; padding: 20px;
+        @media (max-width: 768px) {
+            .support-pulse-hook {
+                bottom: 2.5rem;
+                right: 2.5rem;
+                padding: 1.1rem 1.8rem;
+            }
         }
-        .modal-box {
-            background: white; padding: 4rem; border-radius: 3rem; width: 100%; max-width: 480px; position: relative;
+
+        .support-pulse-hook.active {
+            transform: translateY(0);
         }
+
+        .pulse-indicator {
+            width: 12px;
+            height: 12px;
+            background: #FFB800;
+            border-radius: 50%;
+            position: relative;
+        }
+
+        .pulse-indicator::after {
+            content: '';
+            position: absolute;
+            inset: -6px;
+            border-radius: 50%;
+            border: 2px solid #FFB800;
+            animation: support-pulse-ring 2.2s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+        }
+
+        @keyframes support-pulse-ring {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(3.5); opacity: 0; }
+        }
+
+        .pulse-text {
+            font-size: 0.7rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.4em;
+            color: #333;
+        }
+
+        /* Consultation Overlay & Modal */
+        .modal-blur-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 15, 15, 0.4);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            z-index: 5000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.7s ease;
+        }
+
+        .modal-blur-overlay.visible {
+            display: flex;
+            opacity: 1;
+        }
+
+        .consultation-modal-card {
+            background: var(--brand-white);
+            width: 550px;
+            max-width: 95vw;
+            border-radius: var(--radius-modal);
+            padding: 5rem;
+            position: relative;
+            transform: translateY(40px) scale(0.95);
+            transition: var(--time-slow) var(--ease-cinematic);
+            box-shadow: 0 120px 200px rgba(0,0,0,0.45);
+        }
+
+        .modal-blur-overlay.visible .consultation-modal-card {
+            transform: translateY(0) scale(1);
+        }
+
+        .modal-exit-trigger {
+            position: absolute;
+            top: 3rem;
+            right: 3rem;
+            font-size: 2.8rem;
+            font-weight: 200;
+            color: #DDD;
+            cursor: pointer;
+            line-height: 0.5;
+            transition: 0.4s var(--ease-luxury);
+        }
+
+        .modal-exit-trigger:hover {
+            color: var(--brand-black);
+            transform: rotate(90deg);
+        }
+
+        .form-section-label {
+            display: block;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.45em;
+            color: var(--brand-gold);
+            font-weight: 800;
+            margin-bottom: 1.25rem;
+        }
+
+        .form-pill-input {
+            width: 100%;
+            background: #F9F9F9;
+            border: 1px solid #EDEDED;
+            padding: 1.4rem 2.5rem;
+            border-radius: var(--radius-pill);
+            margin-bottom: 2.5rem;
+            font-size: 1.05rem;
+            font-family: var(--font-main);
+            transition: 0.3s var(--ease-luxury);
+            color: var(--brand-black);
+        }
+
+        .form-pill-input:focus {
+            border-color: var(--brand-gold);
+            background: var(--brand-white);
+            box-shadow: 0 10px 30px rgba(197, 160, 89, 0.1);
+        }
+
+        .priority-submission-btn {
+            width: 100%;
+            background: var(--brand-black);
+            color: var(--brand-white);
+            padding: 1.7rem;
+            border-radius: var(--radius-pill);
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.35em;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: 0.5s var(--ease-luxury);
+            margin-top: 1.5rem;
+            border: none;
+        }
+
+        .priority-submission-btn:hover {
+            background: var(--brand-gold);
+            color: var(--brand-black);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(197, 160, 89, 0.3);
+        }
+
+        /* 6. MICRO-INTERACTION KEYFRAMES
+           Custom animations for the "Revolutionary" feel.
+        */
+        @keyframes fade-in-up-heavy {
+            0% { opacity: 0; transform: translateY(60px); filter: blur(10px); }
+            100% { opacity: 1; transform: translateY(0); filter: blur(0); }
+        }
+
+        .reveal-cinematic {
+            animation: fade-in-up-heavy 1.5s var(--ease-cinematic) forwards;
+        }
+
     </style>
 </head>
 <body class="antialiased">
 
     <header class="site-header">
-        <div class="logo-wrap">
+        <div class="logo-wrap" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
             <span class="brand-h1">Funeral</span>
-            <div class="gold-line"></div>
-            <span class="brand-h1 match-gold">Match</span>
+            <div class="logo-divider"></div>
+            <span class="brand-h1 brand-match-text">Match</span>
         </div>
     </header>
 
-    <div class="hero-visual">
-        <div class="w-full max-w-4xl text-center">
-            <h2 class="serif text-white text-5xl italic mb-12" data-aos="fade-in">Clarity begins here.</h2>
-            <div class="search-sanctuary" data-aos="zoom-in" data-aos-delay="300">
-                <input type="text" placeholder="Enter Postcode for Vetted Comparison..." class="search-input">
-                <button class="search-btn">Search</button>
+    <div class="scroll-thread-track"></div>
+
+    <main>
+        
+        <section class="search-area">
+            <div class="hero-intro reveal-cinematic">
+                <h1 class="serif hero-title italic">Absolute clarity, <br><span class="not-italic">redefined.</span></h1>
+                <p class="hero-desc">
+                    Welcome to the revolution. We provide an independent, vetted framework designed to bring total transparency and professional dignity to funeral care.
+                </p>
             </div>
-            <p class="text-white/60 text-xs uppercase tracking-[0.4em] mt-10" data-aos="fade-up" data-aos-delay="600">Scroll to explore our standard</p>
-        </div>
+
+            <div class="search-container-fluid" data-aos="fade-up" data-aos-delay="500">
+                <input type="text" placeholder="Enter your Postcode to begin..." class="search-input-field">
+                <button class="search-submit-btn">Begin Match</button>
+            </div>
+
+            <div class="mt-20 opacity-0 pointer-events-none">
+                <h2>Compare Local Funeral Directors</h2>
+                <h3>Vetted Funeral Services UK</h3>
+                <h4>Transparent Funeral Costs</h4>
+            </div>
+        </section>
+
+        <section class="narrative-frame-section">
+            <article class="capsule-content" data-aos="fade-up">
+                <span class="capsule-meta">The Identity</span>
+                <h2 class="serif capsule-heading italic">Independent <br><span class="not-italic">Middleman.</span></h2>
+                <p class="capsule-body">
+                    FuneralMatch is not a provider. We are your dedicated representative in a complex industry, ensuring every funeral home in our suite prioritizes your family over their bottom line. We bridge the gap between necessity and peace of mind.
+                </p>
+            </article>
+        </section>
+
+        <section class="narrative-frame-section">
+            <article class="capsule-content" data-aos="fade-up">
+                <span class="capsule-meta">The Framework</span>
+                <h2 class="serif capsule-heading italic">Transparent <br><span class="not-italic gold">Directorship.</span></h2>
+                <p class="capsule-body">
+                    We've dismantled the opaque pricing structures of the past. Our modern framework standardizes service reporting so you can compare costs with absolute clarity, eliminating the stress of hidden fees during your time of need.
+                </p>
+            </article>
+        </section>
+
+        <section class="narrative-frame-section">
+            <article class="capsule-content" data-aos="fade-up">
+                <span class="capsule-meta">The Security</span>
+                <h2 class="serif capsule-heading italic">Audited <br><span class="not-italic">Merit.</span></h2>
+                <p class="capsule-body">
+                    Every funeral director in our network is audited for pricing transparency, facility quality, and professional conduct. We perform the heavy lifting of due diligence so you can focus on creating a meaningful final tribute.
+                </p>
+            </article>
+        </section>
+
+        <section class="narrative-frame-section">
+            <article class="capsule-content" data-aos="fade-up">
+                <span class="capsule-meta">The Innovation</span>
+                <h2 class="serif capsule-heading italic text-stone-200">New Age <br><span class="not-italic">Modernism.</span></h2>
+                <p class="capsule-body">
+                    The funeral industry is aging; we are the evolution. Our digital-first suite provides the 21st-century tools required for a dignified, efficient planning experience, respecting both the legacy of the deceased and the needs of the living.
+                </p>
+            </article>
+        </section>
+
+        <section class="narrative-frame-section">
+            <article class="capsule-content" data-aos="fade-up">
+                <span class="capsule-meta">The Result</span>
+                <h2 class="serif capsule-heading italic">Complete <br><span class="not-italic text-stone-300">Autonomy.</span></h2>
+                <p class="capsule-body">
+                    Ultimately, we return the power to the family. By providing the objective data you need to make an informed choice, we ensure the final tribute is a true, uncompromised reflection of the life lived.
+                </p>
+            </article>
+        </section>
+
+        <section class="narrative-frame-section">
+            <article class="capsule-content" data-aos="fade-up">
+                <span class="capsule-meta">The Commitment</span>
+                <h2 class="serif capsule-heading italic">A Sincere <br><span class="not-italic">Invitation.</span></h2>
+                <p class="capsule-body mb-12">
+                    Experience the new standard of care. Join the thousands of families who have found clarity through our independent comparison framework.
+                </p>
+                <button class="priority-submission-btn max-w-sm" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+                    Begin Your Match
+                </button>
+            </article>
+        </section>
+
+    </main>
+
+    <div id="support-pulse-hook" class="support-pulse-hook" onclick="openConsultationModal()">
+        <div class="pulse-indicator"></div>
+        <span class="pulse-text">Immediate Help Required?</span>
     </div>
 
-    <div class="progress-thread"></div>
-
-    <section>
-        <div class="info-card" data-aos="fade-up">
-            <span class="card-tag">The Identity</span>
-            <h2 class="serif card-h2 italic">Independent <br><span class="not-italic">Middleman.</span></h2>
-            <p class="card-p">We represent your family, not the director. As a revolutionary middleman, we audit every provider to ensure unbiased merit.</p>
-        </div>
-    </section>
-
-    <section>
-        <div class="info-card" data-aos="fade-up">
-            <span class="card-tag">The Mandate</span>
-            <h2 class="serif card-h2 italic text-stone-100">Transparent <br><span class="not-italic gold">Pricing.</span></h2>
-            <p class="card-p">We've dismantled hidden fee cultures. Compare vetted funeral directors through a standardized, fixed-cost framework.</p>
-        </div>
-    </section>
-
-    <section>
-        <div class="info-card" data-aos="fade-up">
-            <span class="card-tag">The Quality</span>
-            <h2 class="serif card-h2 italic">Verified <br><span class="not-italic text-stone-300">Dignity.</span></h2>
-            <p class="card-p">Every partner in our network is audited for professional conduct and facility standards, returning control to you.</p>
-        </div>
-    </section>
-
-    <section>
-        <div class="info-card" data-aos="fade-up">
-            <span class="card-tag">The Innovation</span>
-            <h2 class="serif card-h2 italic">New Age <br><span class="not-italic">Modernism.</span></h2>
-            <p class="card-p">Industry traditionalism meets digital-first efficiency. We provide the 21st-century tools required for a dignified tribute.</p>
-        </div>
-    </section>
-
-    <section>
-        <div class="info-card" data-aos="fade-up">
-            <span class="card-tag">The Outcome</span>
-            <h2 class="serif card-h2 italic">Total <br><span class="not-italic text-stone-400">Security.</span></h2>
-            <p class="card-p">Make informed decisions with confidence. Our standard ensures the final farewell is a true reflection of the life lived.</p>
-        </div>
-    </section>
-
-    <div id="soft-support" onclick="openFullSupport()">
-        <span class="relative flex h-2 w-2">
-            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
-            <span class="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
-        </span>
-        <span class="text-[10px] font-bold uppercase tracking-widest">Help Required?</span>
-    </div>
-
-    <div id="full-modal" onclick="handleOverlay(event)">
-        <div class="modal-box">
-            <h3 class="serif text-3xl italic mb-8">Urgent Support</h3>
-            <form class="space-y-6">
-                <input type="text" placeholder="Full Name" class="w-full p-4 border rounded-full outline-none focus:border-gold">
-                <input type="text" placeholder="Location" class="w-full p-4 border rounded-full outline-none focus:border-gold">
-                <select class="w-full p-4 border rounded-full outline-none bg-white">
-                    <option>Death has occurred</option>
-                    <option>Expected shortly</option>
-                </select>
-                <button class="w-full bg-black text-white py-4 rounded-full font-bold uppercase tracking-widest text-xs">Request Call</button>
+    <div id="consultation-modal-overlay" class="modal-blur-overlay" onclick="handleOutsideModalClick(event)">
+        <div class="consultation-modal-card">
+            <span class="modal-exit-trigger" onclick="closeConsultationModal()">&times;</span>
+            
+            <div class="mb-14">
+                <h3 class="serif text-3xl italic mb-3">Urgent Support</h3>
+                <p class="text-[10px] uppercase tracking-[0.5em] text-stone-400 font-bold">A dedicated consultant is ready to assist your family.</p>
+            </div>
+            
+            <form id="priority-lead-form" onsubmit="handlePrioritySubmission(event)">
+                <div class="mb-8">
+                    <label class="form-section-label">Who is the correspondent?</label>
+                    <input type="text" class="form-pill-input" placeholder="Full Name" required>
+                </div>
+                
+                <div class="mb-8">
+                    <label class="form-section-label">Where is care needed?</label>
+                    <input type="text" class="form-pill-input" placeholder="Postcode or Town" required>
+                </div>
+                
+                <div class="mb-8">
+                    <label class="form-section-label">What is the urgency status?</label>
+                    <select class="form-pill-input bg-transparent" required>
+                        <option value="" disabled selected>Select Status</option>
+                        <option value="immediate">Death has occurred (Immediate Help)</option>
+                        <option value="expected">Passing expected shortly</option>
+                        <option value="preplanning">General Pre-planning Inquiry</option>
+                    </select>
+                </div>
+                
+                <button type="submit" class="priority-submission-btn">
+                    Request Priority Callback
+                </button>
             </form>
+
+            <div class="mt-12 text-center">
+                <p class="text-[9px] text-stone-400 uppercase tracking-widest leading-relaxed">
+                    By submitting, you agree to our <br>professional terms of service and privacy data act.
+                </p>
+            </div>
         </div>
     </div>
 
     <script>
-        AOS.init({ duration: 1200, once: true, offset: 150 });
-
-        window.addEventListener('load', () => {
-            setTimeout(() => { document.getElementById('soft-support').classList.add('active'); }, 2500);
+        // Initialize AOS (Animate on Scroll)
+        AOS.init({
+            duration: 1200,
+            easing: 'cubic-bezier(0.19, 1, 0.22, 1)',
+            once: true,
+            offset: 150,
+            delay: 100
         });
 
-        function openFullSupport() { document.getElementById('full-modal').style.display = 'flex'; }
-        function handleOverlay(e) { if(e.target.id === 'full-modal') e.target.style.display = 'none'; }
+        // SOFT-HOOK AUTOMATION (2.5 Second Precision Delay)
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const hook = document.getElementById('support-pulse-hook');
+                if (hook) {
+                    hook.classList.add('active');
+                }
+            }, 2500);
+        });
+
+        // MODAL INTERFACE MANAGEMENT
+        function openConsultationModal() {
+            const overlay = document.getElementById('consultation-modal-overlay');
+            const hook = document.getElementById('support-pulse-hook');
+            
+            if (overlay) {
+                overlay.classList.add('visible');
+                // Lock body scroll for focus
+                document.body.style.overflow = 'hidden';
+            }
+            if (hook) {
+                hook.classList.remove('active');
+            }
+        }
+
+        function closeConsultationModal() {
+            const overlay = document.getElementById('consultation-modal-overlay');
+            const hook = document.getElementById('support-pulse-hook');
+            
+            if (overlay) {
+                overlay.classList.remove('visible');
+                // Restore body scroll
+                document.body.style.overflow = 'auto';
+            }
+            // Re-trigger hook for persistence if needed
+            setTimeout(() => {
+                if (hook) hook.classList.add('active');
+            }, 1000);
+        }
+
+        function handleOutsideModalClick(e) {
+            const overlay = document.getElementById('consultation-modal-overlay');
+            if (e.target === overlay) {
+                closeConsultationModal();
+            }
+        }
+
+        // LEAD CAPTURE HANDLER
+        function handlePrioritySubmission(e) {
+            e.preventDefault();
+            
+            // Interaction Feedback
+            const btn = e.target.querySelector('button');
+            const originalText = btn.innerText;
+            
+            btn.innerText = "Processing Connection...";
+            btn.disabled = true;
+            btn.style.opacity = "0.7";
+            
+            setTimeout(() => {
+                alert('Inquiry Recorded. A FuneralMatch Priority Consultant will contact you within 15 minutes.');
+                closeConsultationModal();
+                
+                // Reset form
+                btn.innerText = originalText;
+                btn.disabled = false;
+                btn.style.opacity = "1";
+                e.target.reset();
+            }, 1500);
+        }
+
+        // ACCESSIBILITY: KEYBOARD NAVIGATION (ESCAPE KEY)
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeConsultationModal();
+            }
+        });
+
+        // FOOTER/SEO DATA (HIDDEN FOR REVOLUTION AESTHETIC)
+        console.log("FuneralMatch Monolith Engine Initialized. v3.0 Production Build.");
     </script>
 </body>
 </html>
