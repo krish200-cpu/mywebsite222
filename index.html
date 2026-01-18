@@ -3,136 +3,122 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FuneralMatch | A New Standard of Care</title>
+    <title>FuneralMatch | A Sincere Approach</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/scrollreveal"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,500&family=Inter:wght@400;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,500&family=Inter:wght@300;400;600;700&display=swap');
         
-        :root {
-            --gold: #C5A059;
-            --black: #1a1a1a;
-            --soft-cream: #F9F8F6;
-        }
-
-        body { 
-            font-family: 'Inter', sans-serif;
-            background-color: var(--soft-cream);
-            color: var(--black);
-            -webkit-font-smoothing: antialiased;
-        }
-
-        /* Scaled Down Logo - Centred Left */
-        .logo-wrap {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start; /* Left Aligned */
-            width: fit-content;
-        }
-
-        .brand-text {
-            font-family: 'Bodoni Moda', serif;
-            text-transform: uppercase;
-            line-height: 1;
-        }
-
-        .brand-funeral {
-            font-size: 0.9rem; /* Smaller scale */
-            letter-spacing: 0.4em;
-            color: var(--black);
-        }
-
-        .logo-divider {
-            width: 35px;
-            height: 1.5px;
-            background-color: var(--gold);
-            margin: 6px 0;
-        }
-
-        .brand-match {
-            font-size: 0.9rem;
-            letter-spacing: 0.75em; 
-            margin-right: -0.75em;
-            color: var(--gold);
-        }
-
-        /* Typography Legibility Fixes */
-        .hero-title {
-            font-family: 'Inter', sans-serif;
-            font-weight: 700; /* Bolder for readability */
-            font-size: 3.5rem;
-            line-height: 1.1;
-            letter-spacing: -0.02em;
-        }
-
-        .hero-sub {
-            font-size: 1.25rem;
-            line-height: 1.6;
-            color: #4A4A4A;
-            max-width: 550px; /* Controlled width to prevent big paragraphs */
-        }
-
-        .rounded-pill { border-radius: 100px; }
+        :root { --gold: #C5A059; --black: #1a1a1a; --cream: #FBFBF9; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--cream); color: var(--black); overflow-x: hidden; }
+        .serif { font-family: 'Bodoni Moda', serif; }
         
-        /* Subtle Luxury Image Treatment */
-        .image-container {
-            border-radius: 40px;
-            overflow: hidden;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.08);
+        /* Centred Left Logo Refinement */
+        .logo-wrap { display: flex; flex-direction: column; align-items: flex-start; width: 140px; }
+        .brand-text { font-family: 'Bodoni Moda', serif; text-transform: uppercase; line-height: 1.1; font-size: 1rem; letter-spacing: 0.3em; }
+        .brand-match { color: var(--gold); letter-spacing: 0.65em; margin-right: -0.65em; }
+        .logo-divider { width: 100%; height: 1px; background-color: var(--gold); margin: 6px 0; }
+
+        section { min-height: 80vh; display: flex; flex-direction: column; justify-content: center; padding: 0 10%; }
+        .pill { border-radius: 100px; }
+        
+        /* Emergency Popup Styling */
+        #emergency-modal {
+            display: none;
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 380px;
+            background: white;
+            border-radius: 30px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            border: 1px solid rgba(197, 160, 89, 0.2);
         }
     </style>
 </head>
-<body>
+<body class="antialiased">
 
-    <header class="p-8 md:p-12">
-        <div class="max-w-7xl mx-auto">
-            <div class="logo-wrap">
-                <span class="brand-text brand-funeral">Funeral</span>
-                <div class="logo-divider"></div>
-                <span class="brand-text brand-match">Match</span>
-            </div>
+    <header class="fixed top-0 left-0 p-10 z-50">
+        <div class="logo-wrap">
+            <span class="brand-text">Funeral</span>
+            <div class="logo-divider"></div>
+            <span class="brand-text brand-match">Match</span>
         </div>
     </header>
 
-    <main class="max-w-7xl mx-auto px-8 py-4 grid lg:grid-cols-2 gap-16 items-center">
-        
-        <div class="space-y-10">
-            <div class="space-y-6">
-                <h1 class="hero-title">Dignity, <br>Simplified.</h1>
-                <p class="hero-sub">
-                    Finding the right funeral director is a significant decision. We provide a calm, independent space to compare services and costs, helping you make a choice with confidence.
-                </p>
-            </div>
+    <section class="reveal">
+        <h2 class="text-stone-400 uppercase tracking-[0.4em] text-xs font-bold mb-6">Who we are</h2>
+        <h1 class="serif text-5xl md:text-7xl leading-tight max-w-4xl">
+            A compassionate <br><span class="italic text-stone-500">independent</span> partner.
+        </h1>
+    </section>
 
-            <div class="flex flex-col sm:flex-row gap-4">
-                <a href="search.html" class="bg-[#1a1a1a] text-white px-10 py-5 rounded-pill font-bold uppercase tracking-widest text-sm hover:bg-black transition-all shadow-xl flex items-center justify-center gap-3 group">
-                    Start Your Search
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                    </svg>
-                </a>
-                <button class="bg-white border border-stone-200 text-stone-600 px-10 py-5 rounded-pill font-bold uppercase tracking-widest text-sm hover:bg-stone-50 transition-all">
-                    How it works
-                </button>
-            </div>
+    <section class="reveal">
+        <h2 class="text-stone-400 uppercase tracking-[0.4em] text-xs font-bold mb-6">What we do</h2>
+        <p class="text-3xl md:text-4xl leading-snug max-w-3xl font-light">
+            We curate a transparent comparison of local funeral directors, stripping away the complexity of pricing and logistics.
+        </p>
+    </section>
+
+    <section class="reveal">
+        <h2 class="text-stone-400 uppercase tracking-[0.4em] text-xs font-bold mb-6">Why it matters</h2>
+        <div class="grid md:grid-cols-2 gap-12 max-w-5xl">
+            <p class="text-2xl font-light">You gain <span class="font-semibold">clarity</span> when things feel clouded.</p>
+            <p class="text-2xl font-light">You gain <span class="font-semibold">control</span> over the final tribute.</p>
         </div>
+    </section>
 
-        <div class="hidden lg:block">
-            <div class="image-container">
-                <img src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?q=80&w=1200&auto=format&fit=crop" alt="Peaceful Landscape" class="w-full h-[550px] object-cover opacity-90">
-            </div>
+    <section class="reveal items-center text-center">
+        <h2 class="serif text-5xl mb-12 italic">Ready to find the right care?</h2>
+        <a href="search.html" class="bg-black text-white px-12 py-6 pill text-sm font-bold uppercase tracking-[0.2em] shadow-2xl hover:bg-stone-800 transition-all">
+            Begin Your Search
+        </a>
+    </section>
+
+    <div id="emergency-modal" class="p-8 animate-bounce-in">
+        <div class="flex justify-between items-center mb-6">
+            <h3 class="font-bold text-lg">Immediate Support</h3>
+            <button onclick="closeModal()" class="text-stone-400 hover:text-black">&times;</button>
         </div>
-
-    </main>
-
-    <div class="fixed bottom-8 right-8 z-50">
-        <button class="bg-white border border-stone-100 p-5 rounded-pill shadow-2xl flex items-center gap-4 hover:shadow-xl transition-all border-b-2 border-amber-400/30">
-            <span class="relative flex h-2 w-2">
-                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
-                <span class="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
-            </span>
-            <span class="text-xs font-bold uppercase tracking-wider text-stone-700">Immediate Support</span>
-        </button>
+        <form class="space-y-4">
+            <input type="text" placeholder="Your Full Name" class="w-full p-4 bg-stone-50 border-none pill text-sm outline-none focus:ring-1 focus:ring-amber-200">
+            <input type="tel" placeholder="Phone Number" class="w-full p-4 bg-stone-50 border-none pill text-sm outline-none focus:ring-1 focus:ring-amber-200">
+            <select class="w-full p-4 bg-stone-50 border-none pill text-sm outline-none text-stone-500">
+                <option>Has the death occurred?</option>
+                <option>Yes, I need help now</option>
+                <option>No, I am pre-planning</option>
+            </select>
+            <textarea placeholder="Current location of deceased? (e.g. Hospital)" class="w-full p-4 bg-stone-50 border-none rounded-2xl text-sm outline-none focus:ring-1 focus:ring-amber-200 h-24"></textarea>
+            <button class="w-full bg-[#D4AF37] text-white py-4 pill font-bold uppercase tracking-widest text-xs shadow-lg">
+                Request Urgent Call
+            </button>
+        </form>
     </div>
 
+    <script>
+        // Scroll Reveal Config
+        ScrollReveal().reveal('.reveal', {
+            delay: 300,
+            distance: '50px',
+            origin: 'bottom',
+            duration: 1200,
+            interval: 200,
+            cleanup: true
+        });
+
+        // Emergency Popup Logic (1s Delay)
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const modal = document.getElementById('emergency-modal');
+                modal.style.display = 'block';
+                modal.classList.add('animate-in');
+            }, 1000);
+        });
+
+        function closeModal() {
+            document.getElementById('emergency-modal').style.display = 'none';
+        }
+    </script>
 </body>
 </html>
