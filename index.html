@@ -3,461 +3,239 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="description" content="FuneralMatch: The New Standard of Independent Funeral Care.">
-    <title>FuneralMatch | The Revolution of Care</title>
+    <title>FuneralMatch | The New Standard</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,ital,wght@6..96,0,400;6..96,0,600;6..96,0,700&family=Outfit:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,ital,wght@6..96,0,400;6..96,0,700&family=Outfit:wght@200;300;400;600;800&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
     <style>
         /* ==========================================================================
-           MASTER CSS ARCHITECTURE: THE CHAPEL MONOLITH (v9.0)
-           Engineered for High-Detail, Persistence, and Zero-Corner Geometry.
-           ==========================================================================
-        */
+           MASTER ARCHITECTURE: THE CHAPEL MONOLITH
+           Goal: Absolute Viability, High-End Professionalism, Zero Corners
+           ========================================================================== */
 
         :root {
-            /* Palette Architecture */
-            --brand-gold: #C5A059;
-            --brand-gold-muted: rgba(197, 160, 89, 0.25);
-            --brand-black: #000000;
-            --brand-black-soft: #121212;
-            --brand-white: #FFFFFF;
-            --glass-blur: blur(25px);
-            
-            /* Revolutionary Geometry (No-Corner Mandate) */
+            --gold: #C5A059;
+            --black: #000000;
+            --white: #FFFFFF;
+            --glass-bg: rgba(255, 255, 255, 0.12);
+            --glass-border: rgba(255, 255, 255, 0.2);
             --radius-pill: 9999px;
             --radius-box: 3.5rem;
-            --radius-modal: 4.5rem;
-
-            /* Animation Physics */
             --ease-cinematic: cubic-bezier(0.16, 1, 0.3, 1);
-            --transition-main: all 1.2s cubic-bezier(0.19, 1, 0.22, 1);
         }
 
-        /* 1. RESET & PERFORMANCE TUNING */
-        *, *::before, *::after {
-            margin: 0; padding: 0; box-sizing: border-box;
-            outline: none; -webkit-tap-highlight-color: transparent;
-        }
-
-        html, body {
-            height: 100%; width: 100%;
-            background-color: var(--brand-black);
-            scroll-behavior: smooth;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
 
         body {
             font-family: 'Outfit', sans-serif;
-            color: var(--brand-white);
+            background-color: #F6F4F1;
+            color: var(--black);
             overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
+            min-height: 100vh;
+        }
+
+        /* PERSISTENT CHAPEL BACKGROUND - Based on Dignity Image */
+        .persistent-sanctuary {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background: linear-gradient(rgba(255,255,255,0.4), rgba(255,255,255,0.4)), 
+                        url('https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2560&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            /* Ensures the background stays put during navigation */
         }
 
         .serif { font-family: 'Bodoni Moda', serif; }
 
-        /* 2. PERSISTENT SANCTUARY BACKGROUND
-           Locks the Modern Chapel imagery across the entire experience.
-        */
-        .sanctuary-background {
-            position: fixed;
-            inset: 0;
-            z-index: -1;
-            background: linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.45)), 
-                        url('https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2560&auto=format&fit=crop');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            transition: transform 3s var(--ease-cinematic);
-        }
-
-        /* 3. BRANDING HIERARCHY (LEFT-ALIGNED & COMPACT) */
+        /* HEADER: LEFT ALIGNED LOGO & TOP-RIGHT MOTTO */
         header {
-            position: fixed;
-            top: 0; left: 0; width: 100%;
+            position: fixed; top: 0; left: 0; width: 100%;
             padding: clamp(1.5rem, 4vw, 3rem) 8%;
-            display: flex;
-            justify-content: space-between;
+            display: flex; justify-content: space-between;
             align-items: flex-start;
             z-index: 100;
         }
 
         @media (max-width: 1024px) {
-            header { padding: 1.5rem 5%; flex-direction: column; align-items: center; gap: 1.5rem; }
-            .motto-hallmark { text-align: center !important; margin: 0 auto; }
-            .motto-line { margin: 8px auto 0 auto !important; }
-            .logo-wrap { text-align: center !important; align-items: center; }
+            header { flex-direction: column; align-items: center; gap: 1.5rem; padding: 1.5rem 5%; }
+            .motto-hallmark { text-align: center !important; margin: 0 auto; order: 2; }
+            .logo-wrap { order: 1; margin-bottom: 1rem; }
         }
 
-        .logo-wrap {
-            display: flex;
-            flex-direction: column;
-            width: clamp(120px, 15vw, 150px);
-            cursor: pointer;
-            transition: 0.3s;
-        }
+        .logo-wrap { display: flex; flex-direction: column; width: 130px; text-align: left; }
+        .brand-funeral { font-family: 'Bodoni Moda', serif; text-transform: uppercase; font-size: 0.95rem; letter-spacing: 0.35em; line-height: 1.1; font-weight: 800; color: var(--black); }
+        .logo-line { width: 100%; height: 1.5px; background: var(--gold); margin: 5px 0; }
+        .brand-match { font-family: 'Bodoni Moda', serif; text-transform: uppercase; font-size: 0.95rem; letter-spacing: 0.65em; font-weight: 700; color: var(--gold); margin-right: -0.65em; }
 
-        .logo-wrap:hover { opacity: 0.8; transform: translateY(-1px); }
-
-        .brand-funeral {
-            font-family: 'Bodoni Moda', serif;
-            text-transform: uppercase;
-            font-size: clamp(0.9rem, 2vw, 1.1rem);
-            letter-spacing: 0.35em;
-            line-height: 1.1;
-            font-weight: 800;
-            color: var(--brand-black); /* BLACK as requested */
-        }
-
-        .brand-divider {
-            width: 100%;
-            height: 1.5px;
-            background: var(--brand-gold);
-            margin: 5px 0;
-        }
-
-        .brand-match-text {
-            font-family: 'Bodoni Moda', serif;
-            text-transform: uppercase;
-            font-size: clamp(0.9rem, 2vw, 1.1rem);
-            letter-spacing: 0.75em;
-            line-height: 1;
-            font-weight: 700;
-            color: var(--brand-gold);
-            margin-right: -0.75em;
-        }
-
-        /* 4. GAP FILLER: THE MOTTO HALLMARK (TOP-RIGHT) */
         .motto-hallmark {
             max-width: 280px;
             text-align: right;
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(15px);
-            padding: 1rem 1.5rem;
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            padding: 1.2rem 1.8rem;
             border-radius: 2rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
         }
+        .motto-text { color: #333; font-size: 0.9rem; font-weight: 300; line-height: 1.4; }
+        .motto-gold-line { width: 35px; height: 1px; background: var(--gold); margin: 10px 0 0 auto; }
 
-        .motto-text {
-            color: white;
-            font-size: clamp(0.8rem, 1.5vw, 0.95rem);
-            font-weight: 300;
-            line-height: 1.5;
-        }
-
-        .motto-line {
-            width: 35px;
-            height: 1px;
-            background: var(--brand-gold);
-            margin: 10px 0 0 auto;
-        }
-
-        /* 5. MAIN COMMAND CENTRE: SEARCH & REDEFINED CENTRE */
+        /* CENTRE DEFINITION */
         main {
             min-height: 100vh;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 15vh 8% 10rem 8%;
-        }
-
-        .hero-statement {
-            text-align: center;
-            margin-bottom: 4rem;
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            padding: 15vh 8% 5rem 8%;
         }
 
         .hero-title {
-            font-size: clamp(2.2rem, 6vw, 5.5rem);
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
             line-height: 1.1;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            color: var(--black);
         }
 
-        /* THE SEARCH STADIUM: FLUID DEVICE-AWARE */
-        .search-stadium-unit {
-            width: 100%;
-            max-width: 800px;
-            background: rgba(255, 255, 255, 0.98);
+        /* THE SEARCH COMMAND - Device Adaptive */
+        .search-pill {
+            width: 100%; max-width: 750px;
+            background: white;
             padding: 0.6rem;
             border-radius: var(--radius-pill);
-            display: flex;
-            align-items: center;
-            box-shadow: 0 40px 100px rgba(0,0,0,0.4);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            transition: var(--transition-main);
+            display: flex; align-items: center;
+            box-shadow: 0 40px 100px rgba(0,0,0,0.1);
+            margin-bottom: 8vh;
         }
 
         @media (max-width: 640px) {
-            .search-stadium-unit { flex-direction: column; border-radius: 2.5rem; padding: 1.25rem; }
-            .search-input-field { text-align: center; margin-bottom: 1rem; width: 100%; }
-            .search-submit-trigger { width: 100%; padding: 1.3rem; }
+            .search-pill { flex-direction: column; border-radius: 2.5rem; padding: 1.2rem; }
+            .search-input { width: 100%; text-align: center; margin-bottom: 1rem; }
+            .search-btn { width: 100%; }
         }
 
-        .search-stadium-unit:focus-within {
-            border-color: var(--brand-gold);
-            box-shadow: 0 50px 120px rgba(197, 160, 89, 0.15);
-            transform: scale(1.02);
-        }
+        .search-input { flex: 1; border: none; outline: none; padding: 0 2rem; font-size: 1.1rem; background: transparent; color: #111; }
+        .search-btn { background: #000; color: white; padding: 1.2rem 3.5rem; border-radius: var(--radius-pill); font-weight: 700; text-transform: uppercase; letter-spacing: 0.25em; font-size: 0.75rem; cursor: pointer; }
 
-        .search-input-field {
-            flex: 1;
-            border: none;
-            background: transparent;
-            padding: 0 2rem;
-            font-size: 1.1rem;
-            color: #111;
-            font-weight: 300;
-        }
-
-        .search-submit-trigger {
-            background: var(--brand-black);
-            color: white;
-            padding: 1.2rem 3.5rem;
-            border-radius: var(--radius-pill);
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.25em;
-            font-size: 0.75rem;
-            cursor: pointer;
-            transition: 0.4s;
-        }
-
-        .search-submit-trigger:hover {
-            background: #222;
-            transform: translateY(-2px);
-        }
-
-        /* 6. REDESIGNED INFORMATION GRID 
-           Focus: High-Impact Selling Points + Spotlight Partner Box
-        */
-        .narrative-grid {
+        /* REDESIGNED GRID: SPOTLIGHT VS GLASS */
+        .info-grid {
             display: grid;
-            grid-template-cols: repeat(auto-fit, minmax(320px, 1fr));
+            grid-template-cols: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2.5rem;
-            width: 100%;
-            max-width: 1300px;
-            margin-top: 5rem;
+            width: 100%; max-width: 1300px;
         }
 
-        .insight-capsule {
-            background: var(--glass-bg);
-            backdrop-filter: var(--glass-blur);
-            -webkit-backdrop-filter: var(--glass-blur);
+        .box-revolution {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(20px);
             padding: 4rem 2.5rem;
             border-radius: var(--radius-box);
-            border: 1px solid var(--glass-border);
+            border: 1px solid rgba(255, 255, 255, 0.6);
             text-align: center;
-            transition: var(--transition-main);
-            cursor: pointer;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
+            transition: var(--ease-cinematic) 0.8s;
         }
 
-        .insight-capsule:hover {
-            background: rgba(255, 255, 255, 0.15);
-            border-color: var(--brand-gold);
-            transform: translateY(-10px);
+        /* FUNERAL PLAN SPOTLIGHT (REVENUE) */
+        .partner-box {
+            background: white;
+            border: 2px solid var(--gold);
+            box-shadow: 0 30px 60px rgba(197, 160, 89, 0.2);
+            transform: scale(1.05);
+            z-index: 10;
         }
 
-        /* THE FUNERAL PLAN PARTNER (PROMINENT REVENUE SPOTLIGHT) */
-        .spotlight-partner {
-            background: var(--brand-white);
-            color: var(--brand-black);
-            border: 2px solid var(--brand-gold);
-            box-shadow: 0 30px 70px rgba(197, 160, 89, 0.25);
-            transform: scale(1.05); /* Visual Importance */
-            z-index: 50;
-        }
+        .tag { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.5em; color: var(--gold); font-weight: 800; margin-bottom: 1.5rem; display: block; }
+        .h2-box { font-size: 2.4rem; line-height: 1.1; margin-bottom: 1rem; color: var(--black); }
+        .p-box { font-size: 0.95rem; font-weight: 300; color: #555; line-height: 1.7; }
 
-        .spotlight-partner:hover {
-            transform: scale(1.08) translateY(-5px);
-            background: var(--brand-white);
-            border-color: var(--brand-black);
-        }
-
-        .capsule-tag {
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 0.45em;
-            color: var(--brand-gold);
-            font-weight: 800;
-            margin-bottom: 1.5rem;
-            display: block;
-        }
-
-        .capsule-h2 {
-            font-size: clamp(2rem, 4vw, 2.5rem);
-            line-height: 1.1;
-            margin-bottom: 1.5rem;
-        }
-
-        .capsule-p {
-            font-size: 1rem;
-            font-weight: 300;
-            color: #CCCCCC;
-            line-height: 1.7;
-            max-width: 90%;
-            margin: 0 auto;
-        }
-
-        .spotlight-partner .capsule-p { color: #555555; }
-
-        /* 7. TWO-STAGE EMERGENCY CONCIERGE (2.5s DELAY) */
-        #emergency-pulse-hook {
-            position: fixed;
-            bottom: 3rem; right: 3rem;
-            background: var(--brand-white);
-            padding: 1.25rem 2.2rem;
+        /* EMERGENCY SYSTEM */
+        #soft-support {
+            position: fixed; bottom: 3rem; right: 3rem;
+            background: white; padding: 1.2rem 2.2rem;
             border-radius: var(--radius-pill);
-            box-shadow: 0 25px 60px rgba(0,0,0,0.4);
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            z-index: 4000;
-            cursor: pointer;
-            transform: translateY(250%);
-            transition: var(--transition-main);
-            border: 1px solid var(--brand-gold-muted);
+            box-shadow: 0 25px 60px rgba(0,0,0,0.15);
+            display: flex; align-items: center; gap: 15px;
+            z-index: 2000; transform: translateY(200%);
+            transition: var(--ease-cinematic) 1.2s;
+            border: 1px solid var(--gold);
         }
-
-        #emergency-pulse-hook.active { transform: translateY(0); }
-
-        .pulse-core {
-            width: 10px; height: 10px;
-            background: #FFB800;
-            border-radius: 50%;
-            position: relative;
-        }
-
-        .pulse-core::after {
-            content: ''; position: absolute; inset: -5px;
-            border-radius: 50%; border: 2px solid #FFB800;
-            animation: support-pulse 2.2s infinite;
-        }
-
-        @keyframes support-pulse {
-            0% { transform: scale(1); opacity: 1; }
-            100% { transform: scale(3.5); opacity: 0; }
-        }
-
-        .pulse-dismiss {
-            font-size: 1.5rem;
-            color: #DDD;
-            padding-left: 12px;
-            border-left: 1px solid #EEE;
-            line-height: 1;
-            transition: 0.3s;
-        }
-
-        .pulse-dismiss:hover { color: var(--brand-black); }
-
+        #soft-support.active { transform: translateY(0); }
+        .x-close { font-size: 1.3rem; color: #CCC; cursor: pointer; border-left: 1px solid #EEE; padding-left: 12px; }
     </style>
 </head>
-<body class="antialiased">
+<body>
 
-    <div class="sanctuary-background"></div>
+    <div class="persistent-sanctuary"></div>
 
     <header>
-        <div class="logo-wrap" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" data-aos="fade-right">
+        <div class="logo-wrap" data-aos="fade-right">
             <span class="brand-funeral">Funeral</span>
-            <div class="brand-divider"></div>
-            <span class="brand-match-text">Match</span>
+            <div class="logo-line"></div>
+            <span class="brand-match">Match</span>
         </div>
 
         <div class="motto-hallmark" data-aos="fade-left">
             <p class="motto-text serif italic">Because you don’t have to figure this out alone.</p>
-            <div class="motto-line"></div>
+            <div class="motto-gold-line"></div>
         </div>
     </header>
 
     <main>
-        
         <div class="hero-statement" data-aos="fade-up">
-            <h1 class="serif hero-title italic">Clarity in <br><span class="not-italic text-stone-300">every step.</span></h1>
-            <p class="text-white/40 text-xs uppercase tracking-[0.6em]">Search 1,200+ Vetted Directors Nationwide</p>
+            <h1 class="serif hero-title italic">Clarity in <br><span class="not-italic text-stone-500">every step.</span></h1>
+            <p class="text-stone-400 text-xs uppercase tracking-[0.6em] text-center">Search 1,200+ Vetted Directors Nationwide</p>
         </div>
 
-        <div class="search-stadium-unit" data-aos="zoom-in" data-aos-delay="400">
-            <input type="text" placeholder="Enter Postcode to find local care..." class="search-input-field">
-            <button class="search-submit-trigger">Begin Match</button>
+        <div class="search-pill" data-aos="zoom-in" data-aos-delay="300">
+            <input type="text" placeholder="Enter Postcode..." class="search-input">
+            <button class="search-btn">Begin Match</button>
         </div>
 
-        <div class="narrative-grid">
+        <div class="info-grid">
             
-            <article class="insight-capsule" data-aos="fade-up" data-aos-delay="500">
-                <span class="capsule-tag">Independence</span>
-                <h2 class="serif capsule-h2 italic">Independent <br>Advocacy.</h2>
-                <p class="capsule-p">
-                    FuneralMatch is not a provider. We are your dedicated representative, ensuring unbiased merit in every comparison.
-                </p>
-            </article>
+            <div class="box-revolution" data-aos="fade-up" data-aos-delay="400">
+                <span class="tag">Independent</span>
+                <h2 class="serif h2-box italic">Vetted <br>Merit.</h2>
+                <p class="p-box">Our independent comparison represents your family. We audit every director to ensure service over profit.</p>
+            </div>
 
-            <article class="insight-capsule spotlight-partner" data-aos="fade-up" data-aos-delay="600">
-                <span class="capsule-tag">The Standard</span>
-                <h2 class="serif capsule-h2 italic">Funeral <br>Planning.</h2>
-                <p class="capsule-p">
-                    Lock in today's security for the future. Discover our vetted partners for guaranteed long-term peace of mind.
-                </p>
-            </article>
+            <div class="box-revolution partner-box" data-aos="fade-up" data-aos-delay="500">
+                <span class="tag">Standard Partner</span>
+                <h2 class="serif h2-box italic">Funeral <br>Planning.</h2>
+                <p class="p-box">Lock in today's security. Discover vetted partners for guaranteed long-term peace of mind and fixed costs.</p>
+            </div>
 
-            <article class="insight-capsule" data-aos="fade-up" data-aos-delay="700">
-                <span class="capsule-tag">Transparency</span>
-                <h2 class="serif capsule-h2 italic">Vetted <br>Merit.</h2>
-                <p class="capsule-p">
-                    Dismantling hidden fee cultures. Compare local funeral directors through a standardized, fixed-cost framework.
-                </p>
-            </article>
+            <div class="box-revolution" data-aos="fade-up" data-aos-delay="600">
+                <span class="tag">Standard</span>
+                <h2 class="serif h2-box italic">Transparent <br>Costs.</h2>
+                <p class="p-box">Zero hidden fees. Access high-quality care through a fixed-cost, modernized framework built for transparency.</p>
+            </div>
 
         </div>
-
     </main>
 
-    <div id="emergency-pulse-hook">
-        <div class="flex items-center gap-4 cursor-pointer" onclick="alert('Priority Consultation Triggered')">
-            <div class="pulse-core"></div>
+    <div id="soft-support">
+        <div class="flex items-center gap-4 cursor-pointer" onclick="alert('Full Consultation Modal Triggered')">
+            <span class="relative flex h-2 w-2">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
+            </span>
             <span class="text-[10px] font-bold uppercase tracking-widest text-stone-700">Immediate Help?</span>
         </div>
-        <span class="pulse-dismiss" onclick="dismissSupport(event)">&times;</span>
+        <span class="x-close" onclick="this.parentElement.style.display='none'">&times;</span>
     </div>
 
     <script>
-        // Initialize Animate on Scroll
-        AOS.init({
-            duration: 1500,
-            easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
-            once: true,
-            offset: 100
-        });
+        AOS.init({ duration: 1500, once: true, offset: 100 });
 
-        // Soft-Hook Automation (2.5s Delay)
         window.addEventListener('load', () => {
             setTimeout(() => {
-                const hook = document.getElementById('emergency-pulse-hook');
-                // Check if user has previously dismissed for UX
-                if (!localStorage.getItem('supportDismissed')) {
-                    hook.classList.add('active');
-                }
+                document.getElementById('soft-support').classList.add('active');
             }, 2500);
-        });
-
-        // Support Dismissal Logic
-        function dismissSupport(e) {
-            e.stopPropagation();
-            const hook = document.getElementById('emergency-pulse-hook');
-            hook.classList.remove('active');
-            localStorage.setItem('supportDismissed', 'true');
-        }
-
-        // Accessibility: Escape Key to Close Support
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                const hook = document.getElementById('emergency-pulse-hook');
-                hook.classList.remove('active');
-            }
         });
     </script>
 </body>
