@@ -3,170 +3,467 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FuneralMatch | The Revolution of Care</title>
+    <meta name="description" content="FuneralMatch - The New Standard of Care. Compare Vetted Funeral Directors with Transparency and Dignity.">
+    <title>FuneralMatch | The New Standard of Care</title>
+
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,ital,wght@6..96,0,400;6..96,0,600;6..96,1,400&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,500;6..96,600&family=Inter:wght@300;400;600&display=swap');
-        
-        :root { 
-            --gold: #C5A059; 
-            --bg-linen: #F4F1EE; 
-            --box-dark: #1A1A1A; 
+        /* EXTENDED CSS ARCHITECTURE 
+           Theme: New Age Revolution
+           Palette: Funeral Black, Match Gold, Soft Linen
+        */
+        :root {
+            --brand-black: #121212;
+            --brand-gold: #C5A059;
+            --brand-gold-muted: rgba(197, 160, 89, 0.2);
+            --bg-linen: #F5F3F0;
+            --card-white: #FFFFFF;
+            --text-stone: #6B6B6B;
+            --transition-main: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            --radius-pill: 9999px;
+            --radius-capsule: 3.5rem;
         }
-        
-        body { 
-            font-family: 'Inter', sans-serif; 
+
+        /* Base Styles & Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
             background-color: var(--bg-linen);
             background-image: url("https://www.transparenttextures.com/patterns/linen.png");
-            color: #1A1A1A;
+            color: var(--brand-black);
             overflow-x: hidden;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
         }
 
         .serif { font-family: 'Bodoni Moda', serif; }
 
-        /* Branding: Top Left Static */
-        header { padding: 3rem 10%; }
-        .logo-wrap { display: flex; flex-direction: column; width: 140px; }
-        .brand-text { font-family: 'Bodoni Moda', serif; text-transform: uppercase; font-size: 1rem; letter-spacing: 0.35em; line-height: 1.1; font-weight: 600; color: #1A1A1A; }
-        .logo-line { width: 100%; height: 1.5px; background: var(--gold); margin: 6px 0; }
-        .brand-match { color: var(--gold); letter-spacing: 0.72em; margin-right: -0.72em; }
-
-        /* The Sanctuary Search: No Corners */
-        .search-stadium {
-            max-width: 800px;
+        /* HEADER & LOGO ARCHITECTURE 
+           Position: Top Left (Static/Document Flow)
+        */
+        .site-header {
+            padding: 4rem 8%;
             width: 100%;
-            background: white;
-            padding: 1rem;
-            border-radius: 9999px; /* Absolute Modernism */
             display: flex;
+            justify-content: flex-start;
             align-items: center;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.03);
-            border: 1px solid rgba(0,0,0,0.05);
-            margin-bottom: 8vh;
-            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .search-stadium:focus-within {
-            border-color: var(--gold);
-            box-shadow: 0 40px 80px rgba(197, 160, 89, 0.1);
-            transform: translateY(-2px);
-        }
-        .search-input { flex: 1; border: none; outline: none; padding: 0 2rem; font-size: 1.1rem; background: transparent; }
-        .search-btn { background: var(--box-dark); color: white; padding: 1.2rem 3rem; border-radius: 9999px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.2em; font-size: 0.75rem; transition: 0.3s; }
-
-        /* The Revolution Box: Hyper-Rounded Landing UI */
-        .fluid-box {
-            background-color: var(--box-dark);
-            padding: 5rem;
-            border-radius: 4rem; /* Soft, New-Age Geometry */
-            width: 100%;
-            max-width: 850px;
-            color: #FFFFFF;
-            margin-bottom: 6rem;
-            position: relative;
-            box-shadow: 0 50px 100px rgba(0,0,0,0.15);
         }
 
-        section {
-            min-height: 100vh;
+        .logo-wrap {
             display: flex;
             flex-direction: column;
-            justify-content: flex-start;
-            padding-top: 5vh;
-            padding-left: 10%;
-            padding-right: 10%;
+            width: 150px;
+            cursor: pointer;
         }
 
-        .hero-h1 { font-size: clamp(2rem, 5vw, 4rem); line-height: 1.1; margin-bottom: 2rem; }
-        .hero-p { font-size: 1.15rem; font-weight: 300; color: #AFAFAF; max-width: 550px; line-height: 1.7; }
-
-        /* Inquiry Modal: Refined Logic */
-        #inquiry-drawer {
-            position: fixed;
-            top: 2rem; right: 2rem; bottom: 2rem;
-            width: 450px;
-            background: var(--box-dark);
-            border-radius: 3rem;
-            z-index: 2000;
-            transform: translateX(120%);
-            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-            padding: 4rem; color: #FFFFFF;
-            box-shadow: -20px 0 80px rgba(0,0,0,0.3);
-            display: flex; flex-direction: column;
+        .brand-text {
+            font-family: 'Bodoni Moda', serif;
+            text-transform: uppercase;
+            font-size: 1.1rem;
+            letter-spacing: 0.35em;
+            line-height: 1.1;
+            font-weight: 600;
         }
-        #inquiry-drawer.active { transform: translateX(0); }
 
-        .fluid-input {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 9999px;
-            padding: 1.2rem 2rem;
+        .logo-line {
             width: 100%;
+            height: 1.5px;
+            background: var(--brand-gold);
+            margin: 6px 0;
+        }
+
+        .brand-match {
+            color: var(--brand-gold);
+            letter-spacing: 0.72em;
+            margin-right: -0.72em;
+        }
+
+        /* SANCTUARY SEARCH COMPONENT
+           Focus: High-comfort interaction, device-aware
+        */
+        .search-section {
+            padding: 0 8% 4rem 8%;
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        .search-pill {
+            max-width: 750px;
+            width: 100%;
+            background: var(--card-white);
+            border-radius: var(--radius-pill);
+            display: flex;
+            align-items: center;
+            padding: 0.75rem;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.04);
+            border: 1px solid rgba(0,0,0,0.05);
+            transition: var(--transition-main);
+        }
+
+        .search-pill:focus-within {
+            border-color: var(--brand-gold);
+            box-shadow: 0 30px 60px var(--brand-gold-muted);
+            transform: translateY(-2px);
+        }
+
+        .search-input {
+            flex: 1;
+            border: none;
+            outline: none;
+            padding: 0 2rem;
+            font-size: 1.1rem;
+            font-weight: 300;
+            background: transparent;
+        }
+
+        .search-btn {
+            background: var(--brand-black);
             color: white;
+            padding: 1.25rem 3.5rem;
+            border-radius: var(--radius-pill);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            font-size: 0.75rem;
+            transition: 0.3s ease;
+            cursor: pointer;
+        }
+
+        .search-btn:hover {
+            background: #2a2a2a;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        /* BENTO CAPSULE GRID 
+           Focus: Micro-Information Architecture
+        */
+        .grid-section {
+            padding: 4rem 8% 8rem 8%;
+        }
+
+        .capsule-grid {
+            display: grid;
+            grid-template-cols: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
+            width: 100%;
+        }
+
+        .capsule-item {
+            background-color: var(--brand-black);
+            padding: 3.5rem;
+            border-radius: var(--radius-capsule);
+            color: white;
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            transition: var(--transition-main);
+            border-bottom: 6px solid var(--brand-gold);
+        }
+
+        .capsule-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 40px 80px rgba(0,0,0,0.2);
+        }
+
+        .capsule-tag {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5em;
+            color: var(--brand-gold);
+            font-weight: 700;
+            margin-bottom: 2rem;
+            display: block;
+        }
+
+        .capsule-title {
+            font-size: 2.25rem;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .capsule-desc {
+            font-size: 1.05rem;
+            font-weight: 300;
+            color: #A0A0A0;
+            max-width: 90%;
+        }
+
+        /* CTA AREA & EMERGENCY TRIGGER */
+        .action-section {
+            padding: 4rem 8% 10rem 8%;
+            display: flex;
+            justify-content: center;
+        }
+
+        .emergency-btn {
+            background: var(--card-white);
+            color: var(--brand-black);
+            padding: 1.5rem 4rem;
+            border-radius: var(--radius-pill);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.35em;
+            font-size: 0.7rem;
+            border: 1px solid rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: var(--transition-main);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+        }
+
+        .emergency-btn:hover {
+            border-color: var(--brand-gold);
+            color: var(--brand-gold);
+            transform: scale(1.05);
+        }
+
+        /* INQUIRY SIDEBAR (MODERN DRAWER) */
+        .sidebar-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.4);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+        }
+
+        .sidebar-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .sidebar-content {
+            position: fixed;
+            top: 1.5rem; right: 1.5rem; bottom: 1.5rem;
+            width: 480px;
+            max-width: calc(100vw - 3rem);
+            background: var(--brand-black);
+            border-radius: 3rem;
+            z-index: 1001;
+            transform: translateX(120%);
+            transition: var(--transition-main);
+            padding: 4rem;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            box-shadow: -30px 0 90px rgba(0,0,0,0.4);
+        }
+
+        .sidebar-content.active {
+            transform: translateX(0);
+        }
+
+        .close-drawer {
+            position: absolute;
+            top: 3rem; right: 3rem;
+            color: #555;
+            font-size: 2rem;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .close-drawer:hover { color: white; }
+
+        .form-label {
+            display: block;
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+            color: var(--brand-gold);
+            margin-bottom: 0.75rem;
+            font-weight: 700;
+        }
+
+        .form-input {
+            width: 100%;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: var(--radius-pill);
+            padding: 1.25rem 2rem;
+            color: white;
+            margin-bottom: 2.5rem;
             outline: none;
             transition: 0.3s;
         }
-        .fluid-input:focus { border-color: var(--gold); background: rgba(255,255,255,0.07); }
+
+        .form-input:focus {
+            border-color: var(--brand-gold);
+            background: rgba(255,255,255,0.08);
+        }
+
+        .submit-inquiry {
+            width: 100%;
+            background: var(--brand-gold);
+            color: var(--brand-black);
+            padding: 1.5rem;
+            border-radius: var(--radius-pill);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: 0.4s;
+            margin-top: auto;
+        }
+
+        .submit-inquiry:hover {
+            background: white;
+            transform: translateY(-3px);
+        }
+
+        /* RESPONSIVE ADAPTATIONS */
+        @media (max-width: 768px) {
+            .site-header { padding: 3rem 5%; }
+            .search-section { padding: 0 5% 3rem 5%; }
+            .grid-section { padding: 0 5% 5rem 5%; }
+            .sidebar-content { top: 0; right: 0; bottom: 0; width: 100%; border-radius: 0; padding: 3rem 2rem; }
+            .search-pill { flex-direction: column; border-radius: 2rem; padding: 1rem; }
+            .search-btn { width: 100%; margin-top: 1rem; }
+            .hero-h1 { font-size: 2.5rem; }
+            .capsule-item { padding: 2.5rem; min-height: 350px; }
+        }
     </style>
 </head>
-<body class="antialiased">
+<body>
 
-    <header>
-        <div class="logo-wrap">
+    <header class="site-header">
+        <div class="logo-wrap" onclick="window.location.reload()">
             <span class="brand-text">Funeral</span>
             <div class="logo-line"></div>
             <span class="brand-text brand-match">Match</span>
         </div>
     </header>
 
-    <section>
-        <div class="search-stadium" data-aos="fade-down" data-aos-duration="1000">
-            <input type="text" placeholder="Compare funeral directors by postcode..." class="search-input">
-            <button class="search-btn">Search</button>
-        </div>
+    <section class="max-w-7xl mx-auto px-[8%] mb-12" data-aos="fade-up">
+        <h1 class="serif text-4xl md:text-6xl mb-6 italic">A modern framework <br><span class="not-italic">for vetted care.</span></h1>
+        <p class="text-stone-500 font-light text-xl max-w-2xl">Revolutionizing how families compare funeral directors through transparency, independence, and dignity.</p>
+    </section>
 
-        <div class="fluid-box" data-aos="fade-up" data-aos-duration="1200">
-            <p class="text-[10px] uppercase tracking-[0.6em] text-stone-500 mb-8 font-bold">The Revolution</p>
-            <h1 class="serif hero-h1 italic">A new age <br><span class="not-italic">for the industry.</span></h1>
-            <p class="hero-p">We are dismantling the outdated methods of the past. FuneralMatch introduces a modern, transparent framework for families seeking vetted care.</p>
-        </div>
-
-        <div class="fluid-box" data-aos="fade-up" data-aos-duration="1200">
-            <h2 class="text-[10px] uppercase tracking-[0.6em] text-stone-500 mb-8 font-bold">Absolute Clarity</h2>
-            <p class="serif text-3xl md:text-4xl leading-tight">Transparent <br><span class="gold underline decoration-amber-600/20">Funeral Pricing.</span></p>
-            <p class="hero-p mt-6 text-sm">Modernism requires honesty. We provide the tools to compare funeral directors based on audited service standards and clear value.</p>
+    <section class="search-section">
+        <div class="search-pill" data-aos="fade-up" data-aos-delay="200">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-stone-300 ml-4 hidden md:block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+            <input type="text" placeholder="Enter Postcode to find local care..." class="search-input">
+            <button class="search-btn">Begin Match</button>
         </div>
     </section>
 
-    <div class="fixed bottom-12 right-12 z-[100]">
-        <button onclick="toggleDrawer()" class="bg-white text-black px-12 py-6 rounded-full text-[10px] font-bold uppercase tracking-[0.4em] shadow-2xl border-b-4 border-amber-600 hover:scale-105 transition-transform">
+    <section class="grid-section">
+        <div class="capsule-grid">
+            
+            <article class="capsule-item" data-aos="fade-up" data-aos-delay="300">
+                <div>
+                    <span class="capsule-tag">The Middleman</span>
+                    <h2 class="serif capsule-title italic">Independent <br>Advocacy.</h2>
+                </div>
+                <p class="capsule-desc">We represent your family, not the director. Our comparison engine ensures unbiased results based on verified service quality.</p>
+            </article>
+
+            <article class="capsule-item" data-aos="fade-up" data-aos-delay="400">
+                <div>
+                    <span class="capsule-tag">The Framework</span>
+                    <h2 class="serif capsule-title italic">Transparent <br>Pricing.</h2>
+                </div>
+                <p class="capsule-desc">We dismantle the "old age" hidden fee culture. Compare local funeral directors by fixed-cost packages with zero pressure.</p>
+            </article>
+
+            <article class="capsule-item" data-aos="fade-up" data-aos-delay="500">
+                <div>
+                    <span class="capsule-tag">The Revolution</span>
+                    <h2 class="serif capsule-title italic">New Age <br>Standard.</h2>
+                </div>
+                <p class="capsule-desc">Built for the next generation. Our digital-first approach brings professional dignity into the 21st century.</p>
+            </article>
+
+        </div>
+    </section>
+
+    <section class="action-section" data-aos="zoom-in">
+        <button class="emergency-btn" onclick="toggleDrawer()">
             Immediate Help Required
         </button>
-    </div>
+    </section>
 
-    <div id="inquiry-drawer">
-        <div class="flex justify-between items-center mb-16">
-            <span class="serif text-sm uppercase tracking-widest gold font-bold">Urgent Inquiry</span>
-            <button onclick="toggleDrawer()" class="text-stone-500 hover:text-white text-3xl">&times;</button>
+    <div class="sidebar-overlay" id="overlay" onclick="toggleDrawer()"></div>
+    <div class="sidebar-content" id="drawer">
+        <span class="close-drawer" onclick="toggleDrawer()">&times;</span>
+        
+        <div class="mb-12 mt-8">
+            <h3 class="serif text-3xl italic mb-2">Urgent Inquiry</h3>
+            <div class="w-12 h-1 bg-[#C5A059]"></div>
         </div>
-        <form class="space-y-10">
-            <input type="text" placeholder="Name" class="fluid-input">
-            <input type="text" placeholder="Location Postcode" class="fluid-input">
-            <select class="fluid-input bg-stone-900">
-                <option>Immediacy of Need</option>
-                <option>Immediate Assistance</option>
-                <option>Future Planning</option>
-            </select>
-            <button class="w-full bg-[#C5A059] text-black py-5 rounded-full font-bold uppercase tracking-widest text-[11px] hover:bg-white transition-all">
-                Send Request
+
+        <form onsubmit="event.preventDefault(); alert('Lead Captured Successfully'); toggleDrawer();">
+            <div class="mb-6">
+                <label class="form-label">Who is the correspondent?</label>
+                <input type="text" placeholder="Full Name" class="form-input" required>
+            </div>
+
+            <div class="mb-6">
+                <label class="form-label">Where is care needed?</label>
+                <input type="text" placeholder="Location or Postcode" class="form-input" required>
+            </div>
+
+            <div class="mb-6">
+                <label class="form-label">When is support required?</label>
+                <select class="form-input" style="background-image: none;" required>
+                    <option value="" disabled selected>Select Urgency</option>
+                    <option value="immediate">Immediate (Within 24 Hours)</option>
+                    <option value="expected">Passing Expected Shortly</option>
+                    <option value="planning">Pre-Planning Inquiry</option>
+                </select>
+            </div>
+
+            <button type="submit" class="submit-inquiry">
+                Request Priority Callback
             </button>
         </form>
+
+        <p class="mt-10 text-[10px] text-stone-600 uppercase tracking-widest text-center leading-relaxed">
+            By submitting, you agree to our <br>Terms of Service and Data Privacy Policy.
+        </p>
     </div>
 
     <script>
-        AOS.init({ once: true });
-        function toggleDrawer() { document.getElementById('inquiry-drawer').classList.toggle('active'); }
+        // Initialize AOS (Animate on Scroll)
+        AOS.init({
+            duration: 1000,
+            easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
+            once: true,
+            offset: 50
+        });
+
+        // Toggle Drawer Logic
+        function toggleDrawer() {
+            const overlay = document.getElementById('overlay');
+            const drawer = document.getElementById('drawer');
+            
+            overlay.classList.toggle('active');
+            drawer.classList.toggle('active');
+
+            // Prevent body scroll when drawer is open
+            if (drawer.classList.contains('active')) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = 'auto';
+            }
+        }
     </script>
+
 </body>
 </html>
