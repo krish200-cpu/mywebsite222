@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Financial Ledger | FuneralMatch Director Portal</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@1,400;1,700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --gold: #C5A059;
+            --black: #1a1a1a;
+            --soft-bg: #F8F7F5;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--soft-bg); color: var(--black); }
+        .serif { font-family: 'Bodoni Moda', serif; }
+        
+        .sidebar { height: 100vh; width: 280px; position: fixed; left: 0; top: 0; background: white; border-right: 1px solid #EEE; padding: 3rem 2rem; z-index: 100; }
+        .main-content { margin-left: 280px; padding: 4rem; min-height: 100vh; }
+
+        @media (max-width: 1024px) {
+            .sidebar { display: none; }
+            .main-content { margin-left: 0; padding: 2rem 1.5rem; }
+        }
+
+        .nav-item { display: flex; align-items: center; gap: 1rem; padding: 1rem; border-radius: 1rem; color: #888; transition: 0.3s; cursor: pointer; margin-bottom: 0.5rem; font-size: 0.85rem; }
+        .nav-item.active { background: var(--soft-bg); color: var(--black); font-weight: 700; }
+
+        .finance-card { background: white; padding: 2.5rem; border-radius: 2rem; border: 1px solid #F0F0F0; }
+        .invoice-row:hover { background: #fafafa; }
+        
+        .status-paid { background: #ECFDF5; color: #065F46; padding: 4px 12px; border-radius: 9999px; font-size: 0.65rem; font-weight: 700; }
+        .status-pending { background: #FFF7ED; color: #9A3412; padding: 4px 12px; border-radius: 9999px; font-size: 0.65rem; font-weight: 700; }
+    </style>
+</head>
+<body>
+
+    <aside class="sidebar">
+        <div class="mb-16">
+            <h1 class="serif text-xl font-bold uppercase tracking-widest">Funeral <span class="text-[#C5A059]">Match</span></h1>
+            <p class="text-[9px] uppercase tracking-[0.4em] text-stone-400 mt-2">Director Command</p>
+        </div>
+        <nav>
+            <div class="nav-item">Dashboard</div>
+            <div class="nav-item">Live Marketplace</div>
+            <div class="nav-item active">Revenue & Billing</div>
+            <div class="nav-item">Firm Profile</div>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        
+        <header class="flex justify-between items-start mb-16">
+            <div data-aos="fade-right">
+                <h2 class="serif italic text-4xl mb-2">Financial Ledger</h2>
+                <p class="text-xs text-stone-400 font-medium">Billing Cycle: Jan 2026</p>
+            </div>
+            <div class="flex gap-4">
+                <button class="px-6 py-3 bg-black text-white rounded-full text-[10px] font-bold uppercase tracking-widest">Add Lead Credits</button>
+            </div>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+            <div class="finance-card" data-aos="fade-up">
+                <p class="text-[10px] uppercase tracking-widest text-stone-400 mb-4">Lead Credit Balance</p>
+                <h3 class="serif text-4xl italic">£1,250.00</h3>
+            </div>
+            <div class="finance-card" data-aos="fade-up" data-aos-delay="100">
+                <p class="text-[10px] uppercase tracking-widest text-stone-400 mb-4">Total Spent (MTD)</p>
+                <h3 class="serif text-4xl italic">£485.00</h3>
+            </div>
+            <div class="finance-card" data-aos="fade-up" data-aos-delay="200">
+                <p class="text-[10px] uppercase tracking-widest text-stone-400 mb-4">Acquisition ROI</p>
+                <h3 class="serif text-4xl italic text-green-600">4.2x</h3>
+            </div>
+        </div>
+
+        <section class="bg-white rounded-[2.5rem] border border-stone-100 shadow-sm overflow-hidden" data-aos="fade-up">
+            <div class="p-10 border-b border-stone-50">
+                <h3 class="serif italic text-2xl">Transaction History</h3>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-left">
+                    <thead class="bg-stone-50/50 text-[9px] uppercase tracking-[0.2em] text-stone-500">
+                        <tr>
+                            <th class="p-8">Invoice ID</th>
+                            <th class="p-8">Description</th>
+                            <th class="p-8">Amount</th>
+                            <th class="p-8">Status</th>
+                            <th class="p-8 text-right">Invoice</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-stone-50">
+                        <tr class="invoice-row">
+                            <td class="p-8 text-xs font-bold">#FM-88219</td>
+                            <td class="p-8 text-xs">Lead Acquisition (Urgent) - SW1A 1AA</td>
+                            <td class="p-8 text-xs font-bold">£45.00</td>
+                            <td class="p-8"><span class="status-paid">Paid</span></td>
+                            <td class="p-8 text-right"><button class="text-[10px] font-bold border-b border-black">Download PDF</button></td>
+                        </tr>
+                        <tr class="invoice-row">
+                            <td class="p-8 text-xs font-bold">#FM-88204</td>
+                            <td class="p-8 text-xs">Lead Acquisition (Planning) - NW1 6XE</td>
+                            <td class="p-8 text-xs font-bold">£20.00</td>
+                            <td class="p-8"><span class="status-paid">Paid</span></td>
+                            <td class="p-8 text-right"><button class="text-[10px] font-bold border-b border-black">Download PDF</button></td>
+                        </tr>
+                        <tr class="invoice-row">
+                            <td class="p-8 text-xs font-bold">#FM-Credit-01</td>
+                            <td class="p-8 text-xs">Wallet Top-up (500 Credits)</td>
+                            <td class="p-8 text-xs font-bold">£500.00</td>
+                            <td class="p-8"><span class="status-pending">Processing</span></td>
+                            <td class="p-8 text-right"><button class="text-[10px] font-bold border-b border-black">Download PDF</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        AOS.init({ duration: 1000, once: true });
+    </script>
+</body>
+</html>
