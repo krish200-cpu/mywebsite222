@@ -1,127 +1,166 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-GB">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FuneralMatch | Expert Comparison</title>
+    <title>FuneralMatch | Trusted Funeral Comparison</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Outfit', sans-serif; background-color: #ffffff; }
-        .serif { font-family: 'Playfair Display', serif; }
-        .gold { color: #D4AF37; }
-        .gold-bg { background-color: #D4AF37; }
+        @import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400&family=Inter:wght@300;400;500&display=swap');
         
-        /* The Balanced Logo */
+        :root {
+            --gold: #C5A059;
+            --black: #1a1a1a;
+            --soft-bg: #FDFDFD;
+        }
+
+        body { 
+            font-family: 'Inter', sans-serif;
+            background-color: var(--soft-bg);
+            color: var(--black);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* The Exact Logo Transition to Top-Left */
         .logo-wrap {
-            display: inline-flex;
+            display: flex;
             flex-direction: column;
             align-items: center;
-            width: 180px;
+            width: fit-content;
         }
-        .logo-line {
+
+        .brand-text {
+            font-family: 'Bodoni Moda', serif;
+            text-transform: uppercase;
+            line-height: 1;
+        }
+
+        .brand-funeral {
+            font-size: 1.1rem;
+            letter-spacing: 0.5em;
+            margin-right: -0.5em;
+            color: var(--black);
+        }
+
+        .logo-divider {
+            width: 40px;
             height: 1px;
-            width: 100%;
-            background-color: #D4AF37;
-            margin: 4px 0;
+            background-color: var(--gold);
+            margin: 8px 0;
         }
 
-        /* Solving the White Space: Soft Gradient & Image */
-        .hero-section {
-            background: 
-                linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7)),
-                url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=2560&auto=format&fit=crop');
-            background-size: cover;
-            background-position: center;
-            min-height: 90vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .brand-match {
+            font-size: 1.1rem;
+            letter-spacing: 0.82em; 
+            margin-right: -0.82em;
+            color: var(--gold);
         }
 
-        .soft-pill { border-radius: 100px; }
-        .soft-box { border-radius: 40px; }
+        /* Subtle Luxury Hero */
+        .hero-gradient {
+            background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(252,250,247,1) 100%);
+        }
+
+        .rounded-pill { border-radius: 100px; }
+        .rounded-large { border-radius: 32px; }
         
-        .shadow-soft {
-            box-shadow: 0 20px 50px rgba(0,0,0,0.05);
+        .soft-input {
+            transition: all 0.3s ease;
+            border: 1px solid #e5e7eb;
+        }
+        .soft-input:focus {
+            border-color: var(--gold);
+            box-shadow: 0 0 0 4px rgba(197, 160, 89, 0.1);
+        }
+
+        .floating-emergency {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 100;
         }
     </style>
 </head>
-<body class="antialiased text-black">
+<body class="hero-gradient min-height-screen">
 
-    <nav class="absolute top-0 w-full z-10 py-10">
-        <div class="max-w-7xl mx-auto px-8 flex justify-center">
+    <header class="p-10">
+        <div class="max-w-7xl mx-auto">
             <div class="logo-wrap">
-                <span class="serif text-2xl tracking-[0.15em] uppercase">Funeral</span>
-                <div class="logo-line"></div>
-                <span class="serif text-2xl tracking-[0.15em] uppercase gold">Match</span>
+                <span class="brand-text brand-funeral">Funeral</span>
+                <div class="logo-divider"></div>
+                <span class="brand-text brand-match">Match</span>
             </div>
         </div>
-    </nav>
+    </header>
 
-    <main class="hero-section px-6 pt-20">
-        <div class="max-w-4xl w-full text-center">
-            <div class="mb-12">
-                <h1 class="serif text-4xl md:text-6xl mb-6 leading-tight">Finding the right care <br>shouldn't be a burden.</h1>
-                <p class="text-stone-600 text-lg md:text-xl font-light max-w-2xl mx-auto">
-                    We compare local funeral directors based on service, price, and compassion, so you don't have to.
-                </p>
-            </div>
+    <main class="max-w-5xl mx-auto px-8 pt-12 pb-24">
+        
+        <section class="text-center mb-16">
+            <h1 class="brand-text text-4xl md:text-5xl mb-6 text-stone-800">Clarity at a time of need.</h1>
+            <p class="text-stone-500 text-lg md:text-xl font-light max-w-2xl mx-auto leading-relaxed">
+                We simplify the process of finding a funeral director by comparing local services on transparency, care, and cost. 
+                <span class="block mt-2 font-medium text-stone-400 text-sm italic">You focus on the family; we’ll handle the logistics.</span>
+            </p>
+        </section>
 
-            <div class="bg-white/80 backdrop-blur-md p-8 md:p-12 soft-box shadow-soft border border-stone-100 max-w-3xl mx-auto text-left">
-                <form class="space-y-6">
-                    <div class="grid md:grid-cols-2 gap-6">
-                        <div class="space-y-2">
-                            <label class="text-[10px] font-bold uppercase tracking-widest text-stone-400 ml-4">I am looking for</label>
-                            <select class="w-full p-4 bg-stone-50 border border-stone-100 soft-pill outline-none appearance-none focus:ring-1 focus:ring-stone-200">
-                                <option>A Traditional Funeral</option>
+        <section class="bg-white p-2 shadow-xl rounded-large max-w-3xl mx-auto border border-stone-100">
+            <div class="p-8 md:p-12">
+                <form class="space-y-8">
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div class="space-y-3">
+                            <label class="text-[10px] font-bold uppercase tracking-widest text-stone-400 ml-4">Required Service</label>
+                            <select class="w-full p-4 bg-stone-50 soft-input rounded-pill outline-none appearance-none cursor-pointer">
+                                <option>Full Service Funeral</option>
                                 <option>Direct Cremation</option>
-                                <option>Advice & Comparison</option>
+                                <option>Burial Only</option>
+                                <option>Not sure yet</option>
                             </select>
                         </div>
-                        <div class="space-y-2">
-                            <label class="text-[10px] font-bold uppercase tracking-widest text-stone-400 ml-4">Near Postcode</label>
-                            <input type="text" placeholder="e.g. SW1A 1AA" class="w-full p-4 bg-stone-50 border border-stone-100 soft-pill outline-none focus:ring-1 focus:ring-stone-200">
+                        <div class="space-y-3">
+                            <label class="text-[10px] font-bold uppercase tracking-widest text-stone-400 ml-4">Postcode / Location</label>
+                            <input type="text" placeholder="e.g. NW1 1AA" class="w-full p-4 bg-stone-50 soft-input rounded-pill outline-none">
                         </div>
                     </div>
-                    <button class="w-full bg-black text-white py-5 soft-pill font-semibold uppercase tracking-widest text-sm hover:bg-stone-800 transition shadow-lg">
-                        Find My Match
+
+                    <button class="w-full bg-[#1a1a1a] text-white py-5 rounded-pill font-semibold uppercase tracking-widest text-sm hover:bg-black transition-all shadow-lg active:scale-[0.98]">
+                        Compare Local Options
                     </button>
                 </form>
             </div>
-        </div>
+        </section>
+
+        <section class="mt-20 text-center">
+            <p class="text-[10px] font-bold uppercase tracking-[0.4em] text-stone-300 mb-8">Our Verified Partners</p>
+            <div class="flex flex-wrap justify-center gap-12 opacity-40 grayscale">
+                <span class="font-serif text-xl">DirectorGroup</span>
+                <span class="font-serif text-xl">HeritageCare</span>
+                <span class="font-serif text-xl">UnityServices</span>
+                <span class="font-serif text-xl">PureDignity</span>
+            </div>
+        </section>
+
     </main>
 
-    <div class="fixed bottom-8 right-8 z-50">
-        <button class="bg-white border border-stone-200 p-5 soft-pill shadow-2xl flex items-center gap-4 hover:bg-stone-50 transition-all">
-            <span class="relative flex h-3 w-3">
-                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
-                <span class="relative inline-flex rounded-full h-3 w-3 gold-bg"></span>
+    <div class="floating-emergency">
+        <button class="bg-white border border-stone-200 px-6 py-4 rounded-pill shadow-2xl flex items-center gap-4 hover:shadow-xl transition-all group">
+            <span class="flex h-2 w-2">
+                <span class="animate-ping absolute inline-flex h-2 w-2 rounded-full bg-amber-400 opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
             </span>
-            <span class="text-sm font-semibold tracking-tight">Request Emergency Call Back</span>
+            <span class="text-xs font-bold uppercase tracking-wider text-stone-700">Emergency Call Back</span>
         </button>
     </div>
 
-    <section class="py-24 max-w-5xl mx-auto px-8 text-center">
-        <h2 class="serif text-3xl mb-16 italic">A simple, three-step process</h2>
-        <div class="grid md:grid-cols-3 gap-12">
-            <div class="space-y-4">
-                <div class="text-2xl gold">01</div>
-                <h4 class="font-bold text-sm uppercase tracking-widest">Inquiry</h4>
-                <p class="text-sm text-stone-500 leading-relaxed">Tell us your needs and location through our secure form.</p>
-            </div>
-            <div class="space-y-4">
-                <div class="text-2xl gold">02</div>
-                <h4 class="font-bold text-sm uppercase tracking-widest">Comparison</h4>
-                <p class="text-sm text-stone-500 leading-relaxed">We match you with 3 vetted directors who fit your criteria.</p>
-            </div>
-            <div class="space-y-4">
-                <div class="text-2xl gold">03</div>
-                <h4 class="font-bold text-sm uppercase tracking-widest">Selection</h4>
-                <p class="text-sm text-stone-500 leading-relaxed">Choose the director you feel most comfortable with.</p>
+    <footer class="py-12 border-t border-stone-100 bg-white">
+        <div class="max-w-7xl mx-auto px-10 flex flex-col md:flex-row justify-between items-center gap-6">
+            <p class="text-xs text-stone-400">© 2026 FuneralMatch. Middleman services for the modern era.</p>
+            <div class="flex gap-8 text-[10px] uppercase font-bold tracking-widest text-stone-400">
+                <a href="#" class="hover:text-amber-600 transition">Privacy</a>
+                <a href="#" class="hover:text-amber-600 transition">For Directors</a>
+                <a href="#" class="hover:text-amber-600 transition">Contact</a>
             </div>
         </div>
-    </section>
+    </footer>
 
 </body>
 </html>
