@@ -3,121 +3,168 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FuneralMatch | A Sincere Approach</title>
+    <title>FuneralMatch | The New Standard of Care</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/scrollreveal"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,500&family=Inter:wght@300;400;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@400;500&family=Inter:wght@300;400;600&display=swap');
         
-        :root { --gold: #C5A059; --black: #1a1a1a; --cream: #FBFBF9; }
-        body { font-family: 'Inter', sans-serif; background-color: var(--cream); color: var(--black); overflow-x: hidden; }
-        .serif { font-family: 'Bodoni Moda', serif; }
+        :root { --gold: #C5A059; --black: #1a1a1a; }
         
-        /* Centred Left Logo Refinement */
-        .logo-wrap { display: flex; flex-direction: column; align-items: flex-start; width: 140px; }
-        .brand-text { font-family: 'Bodoni Moda', serif; text-transform: uppercase; line-height: 1.1; font-size: 1rem; letter-spacing: 0.3em; }
-        .brand-match { color: var(--gold); letter-spacing: 0.65em; margin-right: -0.65em; }
-        .logo-divider { width: 100%; height: 1px; background-color: var(--gold); margin: 6px 0; }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #F8F7F4;
+            /* Fine-grain paper texture overlay */
+            background-image: url('https://www.transparenttextures.com/patterns/natural-paper.png');
+            color: var(--black);
+            overflow-x: hidden;
+        }
 
-        section { min-height: 80vh; display: flex; flex-direction: column; justify-content: center; padding: 0 10%; }
-        .pill { border-radius: 100px; }
-        
-        /* Emergency Popup Styling */
-        #emergency-modal {
-            display: none;
+        .serif { font-family: 'Bodoni Moda', serif; }
+
+        /* Perfectly Balanced Logo - Top Left */
+        .logo-fixed {
+            position: fixed;
+            top: 3rem;
+            left: 3rem;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            width: 140px;
+        }
+        .brand-text { font-family: 'Bodoni Moda', serif; text-transform: uppercase; font-size: 1rem; letter-spacing: 0.3em; line-height: 1.2; }
+        .logo-line { width: 100%; height: 1px; background: var(--gold); margin: 6px 0; }
+        .brand-match { color: var(--gold); letter-spacing: 0.65em; margin-right: -0.65em; }
+
+        /* Scroll Snap Sections */
+        section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0 15%;
+            position: relative;
+        }
+
+        .text-reveal {
+            font-size: clamp(2rem, 5vw, 4rem);
+            line-height: 1.2;
+            margin-bottom: 2rem;
+        }
+
+        .slogan-mark {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5em;
+            color: var(--gold);
+            font-weight: 600;
+        }
+
+        /* The Lead Capture Modal */
+        #emergency-popup {
             position: fixed;
             bottom: 2rem;
             right: 2rem;
-            width: 380px;
+            width: 400px;
             background: white;
-            border-radius: 30px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.2);
+            border-radius: 35px;
+            box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.15);
             z-index: 1000;
-            border: 1px solid rgba(197, 160, 89, 0.2);
+            transform: translateY(120%);
+            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            border: 1px solid rgba(197, 160, 89, 0.1);
+            overflow: hidden;
         }
+        #emergency-popup.active { transform: translateY(0); }
     </style>
 </head>
 <body class="antialiased">
 
-    <header class="fixed top-0 left-0 p-10 z-50">
-        <div class="logo-wrap">
-            <span class="brand-text">Funeral</span>
-            <div class="logo-divider"></div>
-            <span class="brand-text brand-match">Match</span>
-        </div>
-    </header>
+    <div class="logo-fixed">
+        <span class="brand-text">Funeral</span>
+        <div class="logo-line"></div>
+        <span class="brand-text brand-match">Match</span>
+    </div>
 
-    <section class="reveal">
-        <h2 class="text-stone-400 uppercase tracking-[0.4em] text-xs font-bold mb-6">Who we are</h2>
-        <h1 class="serif text-5xl md:text-7xl leading-tight max-w-4xl">
-            A compassionate <br><span class="italic text-stone-500">independent</span> partner.
-        </h1>
-    </section>
-
-    <section class="reveal">
-        <h2 class="text-stone-400 uppercase tracking-[0.4em] text-xs font-bold mb-6">What we do</h2>
-        <p class="text-3xl md:text-4xl leading-snug max-w-3xl font-light">
-            We curate a transparent comparison of local funeral directors, stripping away the complexity of pricing and logistics.
-        </p>
-    </section>
-
-    <section class="reveal">
-        <h2 class="text-stone-400 uppercase tracking-[0.4em] text-xs font-bold mb-6">Why it matters</h2>
-        <div class="grid md:grid-cols-2 gap-12 max-w-5xl">
-            <p class="text-2xl font-light">You gain <span class="font-semibold">clarity</span> when things feel clouded.</p>
-            <p class="text-2xl font-light">You gain <span class="font-semibold">control</span> over the final tribute.</p>
+    <section>
+        <div data-aos="fade-up" data-aos-duration="1500">
+            <p class="slogan-mark mb-8">The New Standard of Care</p>
+            <h1 class="serif text-reveal">We believe every family deserves <span class="italic text-stone-400">absolute clarity.</span></h1>
         </div>
     </section>
 
-    <section class="reveal items-center text-center">
-        <h2 class="serif text-5xl mb-12 italic">Ready to find the right care?</h2>
-        <a href="search.html" class="bg-black text-white px-12 py-6 pill text-sm font-bold uppercase tracking-[0.2em] shadow-2xl hover:bg-stone-800 transition-all">
-            Begin Your Search
-        </a>
+    <section>
+        <div data-aos="fade-up" data-aos-duration="1500">
+            <h2 class="text-stone-400 uppercase tracking-widest text-xs font-bold mb-6">Who We Are</h2>
+            <p class="serif text-reveal">A bridge between <br>necessity and peace of mind.</p>
+        </div>
     </section>
 
-    <div id="emergency-modal" class="p-8 animate-bounce-in">
-        <div class="flex justify-between items-center mb-6">
-            <h3 class="font-bold text-lg">Immediate Support</h3>
-            <button onclick="closeModal()" class="text-stone-400 hover:text-black">&times;</button>
+    <section>
+        <div data-aos="fade-up" data-aos-duration="1500">
+            <h2 class="text-stone-400 uppercase tracking-widest text-xs font-bold mb-6">The Benefit</h2>
+            <p class="text-2xl md:text-3xl font-light leading-relaxed max-w-3xl">
+                By standardizing how funeral services are compared, we empower you to choose a director based on <span class="font-semibold">verified merit</span> and transparent value.
+            </p>
         </div>
-        <form class="space-y-4">
-            <input type="text" placeholder="Your Full Name" class="w-full p-4 bg-stone-50 border-none pill text-sm outline-none focus:ring-1 focus:ring-amber-200">
-            <input type="tel" placeholder="Phone Number" class="w-full p-4 bg-stone-50 border-none pill text-sm outline-none focus:ring-1 focus:ring-amber-200">
-            <select class="w-full p-4 bg-stone-50 border-none pill text-sm outline-none text-stone-500">
-                <option>Has the death occurred?</option>
-                <option>Yes, I need help now</option>
-                <option>No, I am pre-planning</option>
-            </select>
-            <textarea placeholder="Current location of deceased? (e.g. Hospital)" class="w-full p-4 bg-stone-50 border-none rounded-2xl text-sm outline-none focus:ring-1 focus:ring-amber-200 h-24"></textarea>
-            <button class="w-full bg-[#D4AF37] text-white py-4 pill font-bold uppercase tracking-widest text-xs shadow-lg">
-                Request Urgent Call
+    </section>
+
+    <section class="items-center text-center">
+        <div data-aos="zoom-in" data-aos-duration="1000">
+            <h2 class="serif text-4xl mb-12 italic">Begin your transition to care.</h2>
+            <button class="bg-black text-white px-16 py-6 rounded-full text-sm font-bold uppercase tracking-widest hover:bg-stone-800 transition-all shadow-2xl">
+                Find Your Match
+            </button>
+        </div>
+    </section>
+
+    <div id="emergency-popup" class="p-10">
+        <div class="flex justify-between items-start mb-8">
+            <div>
+                <h3 class="serif text-2xl">Immediate Care</h3>
+                <p class="text-xs text-stone-400 uppercase tracking-tighter">Emergency Support Required</p>
+            </div>
+            <button onclick="closePopup()" class="text-stone-300 hover:text-black text-2xl">&times;</button>
+        </div>
+        
+        <form class="space-y-5">
+            <div>
+                <label class="text-[10px] font-bold uppercase gold text-stone-400 block mb-2 ml-4">Who is this for?</label>
+                <input type="text" placeholder="Full Name" class="w-full p-4 bg-stone-50 border-none rounded-full text-sm focus:ring-1 focus:ring-amber-200 outline-none">
+            </div>
+            <div>
+                <label class="text-[10px] font-bold uppercase text-stone-400 block mb-2 ml-4">Where is the support needed?</label>
+                <input type="text" placeholder="Location or Postcode" class="w-full p-4 bg-stone-50 border-none rounded-full text-sm focus:ring-1 focus:ring-amber-200 outline-none">
+            </div>
+            <div>
+                <label class="text-[10px] font-bold uppercase text-stone-400 block mb-2 ml-4">When did the passing occur?</label>
+                <select class="w-full p-4 bg-stone-50 border-none rounded-full text-sm outline-none text-stone-500">
+                    <option>Within the last 24 hours</option>
+                    <option>Expecting imminently</option>
+                    <option>Pre-planning / Inquiry</option>
+                </select>
+            </div>
+            <button class="w-full bg-[#1a1a1a] text-white py-5 rounded-full font-bold uppercase tracking-widest text-xs mt-4 shadow-xl">
+                Request Priority Callback
             </button>
         </form>
     </div>
 
     <script>
-        // Scroll Reveal Config
-        ScrollReveal().reveal('.reveal', {
-            delay: 300,
-            distance: '50px',
-            origin: 'bottom',
-            duration: 1200,
-            interval: 200,
-            cleanup: true
-        });
+        // Initialize Animations
+        AOS.init();
 
-        // Emergency Popup Logic (1s Delay)
+        // Delayed Popup Logic (1s)
         window.addEventListener('load', () => {
             setTimeout(() => {
-                const modal = document.getElementById('emergency-modal');
-                modal.style.display = 'block';
-                modal.classList.add('animate-in');
+                document.getElementById('emergency-popup').classList.add('active');
             }, 1000);
         });
 
-        function closeModal() {
-            document.getElementById('emergency-modal').style.display = 'none';
+        function closePopup() {
+            document.getElementById('emergency-popup').classList.remove('active');
         }
     </script>
 </body>
