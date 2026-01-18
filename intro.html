@@ -6,7 +6,7 @@
     <title>Funeral Match</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400&family=Inter:wght@200;400;500&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,500&family=Inter:wght@300;500&display=swap');
         
         :root {
             --gold: #C5A059;
@@ -33,20 +33,21 @@
             align-items: center;
         }
 
-        /* Line 1: Traditional Serif with Soft Float */
+        /* Line 1: Traditional Serif - Increased weight to 500 for better presence */
         .brand-funeral {
             font-family: 'Bodoni Moda', serif;
-            font-size: 1.2rem;
+            font-size: 1.25rem;
+            font-weight: 500;
             text-transform: uppercase;
             letter-spacing: 0.5em;
             color: var(--black);
-            margin-right: -0.5em; /* Optical centering */
+            margin-right: -0.5em; /* Corrects optical center */
             opacity: 0;
-            /* Long duration with a 'Silk Settle' curve */
+            /* Silk Settle Animation */
             animation: cinematicFloat 4.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
         }
 
-        /* The Gold Divider: Expanding gently from center */
+        /* The Gold Divider: Expanding gently */
         .logo-divider {
             width: 0;
             height: 1px;
@@ -57,20 +58,20 @@
             animation-delay: 1.5s;
         }
 
-        /* Line 2: Modern Sans with Staggered Soft Float */
+        /* Line 2: Modern Sans - Adjusted spacing for perfect width match */
         .brand-match {
-            font-size: 1.2rem; 
-            font-weight: 200;
+            font-size: 1.25rem; 
+            font-weight: 300;
             text-transform: uppercase;
             letter-spacing: 0.82em; 
             color: var(--gold);
-            margin-right: -0.82em; /* Optical centering */
+            margin-right: -0.82em; /* Corrects optical center */
             opacity: 0;
             animation: cinematicFloat 4.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-            animation-delay: 0.6s; /* Subtle lag for a flowing feel */
+            animation-delay: 0.6s;
         }
 
-        /* The Slogan: Rising like a whisper */
+        /* The Slogan: Rising with the new landing style */
         .slogan-reveal {
             margin-top: 5rem;
             font-size: 0.65rem;
@@ -84,19 +85,18 @@
             animation-delay: 5s; 
         }
 
-        /* The Core "Soft Landing" Animation */
+        /* Cinematic Float: Staggered Y-axis drift and blur emergence */
         @keyframes cinematicFloat {
             0% {
                 opacity: 0;
                 filter: blur(12px);
-                transform: translateY(20px) scale(0.99);
-                letter-spacing: 1.2em; /* Starts 'airy' and settles into place */
+                transform: translateY(15px);
+                letter-spacing: 1.2em; /* Starts airy, settles into place */
             }
             100% {
                 opacity: 1;
                 filter: blur(0);
-                transform: translateY(0) scale(1);
-                /* Matches the static letter-spacing values above */
+                transform: translateY(0);
             }
         }
 
@@ -108,7 +108,7 @@
         @keyframes sloganRise {
             0% {
                 opacity: 0;
-                transform: translateY(15px);
+                transform: translateY(12px);
                 filter: blur(4px);
             }
             100% {
@@ -118,6 +118,7 @@
             }
         }
 
+        /* Seamless exit to landing page */
         .exit-clean {
             opacity: 0;
             transition: opacity 2s cubic-bezier(0.45, 0, 0.55, 1);
@@ -135,14 +136,14 @@
 
     <script>
         window.addEventListener('load', () => {
-            // Timed to allow the full cinematic float to settle before exiting
+            // Timed to allow the float to settle before redirecting
             setTimeout(() => {
                 document.getElementById('intro-container').classList.add('exit-clean');
                 
                 setTimeout(() => {
                     window.location.href = 'index.html';
-                }, 2000); // 2s transition for a luxury feel
-            }, 9000); 
+                }, 2000);
+            }, 8500); 
         });
     </script>
 </body>
