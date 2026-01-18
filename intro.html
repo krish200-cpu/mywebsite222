@@ -6,11 +6,11 @@
     <title>Funeral Match</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400&family=Inter:wght@200;400;500&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,600&family=Inter:wght@400;600&display=swap');
         
         :root {
             --gold: #C5A059;
-            --black: #1a1a1a;
+            --black: #111111; /* Deeper black for more punch */
         }
 
         body { 
@@ -33,78 +33,78 @@
             align-items: center;
         }
 
-        /* Harmonic Stacked Logo Style */
-        .funeral-brand {
+        /* Line 1: Bold, High-Contrast Serif */
+        .brand-funeral {
             font-family: 'Bodoni Moda', serif;
-            font-size: 1.1rem;
+            font-size: 1.4rem; /* Slightly larger */
+            font-weight: 600; /* Increased weight for "engraved" look */
             text-transform: uppercase;
-            letter-spacing: 0.6em;
+            letter-spacing: 0.4em;
             color: var(--black);
-            margin-right: -0.6em;
+            margin-right: -0.4em;
             opacity: 0;
-            animation: fadeInSettling 3s ease-out forwards;
+            animation: fadeInSettling 2.5s ease-out forwards;
         }
 
+        /* The Gold Divider - Thicker and more visible */
         .logo-divider {
-            width: 40px;
-            height: 1px;
+            width: 80px;
+            height: 2px; /* Thicker line */
             background-color: var(--gold);
-            margin: 15px 0;
+            margin: 20px 0;
             opacity: 0;
-            animation: pureFade 2s ease-out forwards;
+            animation: pureFade 1.5s ease-out forwards;
             animation-delay: 1s;
         }
 
-        .match-brand {
-            font-size: 1.1rem; 
-            font-weight: 200;
+        /* Line 2: Professional Sans-Serif */
+        .brand-match {
+            font-size: 1.4rem; 
+            font-weight: 600; /* Matching weight to the Serif above */
             text-transform: uppercase;
-            letter-spacing: 0.85em;
+            letter-spacing: 0.58em; /* Adjusted for perfect alignment */
             color: var(--gold);
-            margin-right: -0.85em;
+            margin-right: -0.58em;
             opacity: 0;
-            animation: fadeInSettling 3.5s ease-out forwards;
-            animation-delay: 0.5s;
+            animation: fadeInSettling 3s ease-out forwards;
+            animation-delay: 0.3s;
         }
 
-        /* Enhanced Slogan Landing */
+        /* Slogan: Landing with authority */
         .slogan-reveal {
-            margin-top: 4.5rem;
-            font-size: 0.65rem; /* Slightly larger */
-            font-weight: 500; /* Increased weight for presence */
+            margin-top: 5rem;
+            font-size: 0.75rem;
+            font-weight: 600; /* Bolded to stand out */
             text-transform: uppercase;
-            letter-spacing: 0.7em;
-            color: #888; /* Darkened for better contrast */
+            letter-spacing: 0.5em;
+            color: #444; /* Darker for legibility */
             opacity: 0;
-            animation: sloganLanding 2.5s ease-out forwards;
-            animation-delay: 4s; /* Starts after brand settles */
+            animation: sloganLanding 2s ease-out forwards;
+            animation-delay: 4s;
         }
 
         @keyframes fadeInSettling {
             from { 
                 opacity: 0; 
-                letter-spacing: 1.2em; 
-                filter: blur(8px);
-                transform: translateY(5px);
+                letter-spacing: 0.8em; 
+                filter: blur(10px);
+                transform: scale(1.05);
             }
             to { 
                 opacity: 1; 
-                letter-spacing: inherit; 
                 filter: blur(0);
-                transform: translateY(0);
+                transform: scale(1);
             }
         }
 
         @keyframes sloganLanding {
             from {
                 opacity: 0;
-                transform: translateY(10px);
-                filter: blur(4px);
+                transform: translateY(15px);
             }
             to {
                 opacity: 1;
                 transform: translateY(0);
-                filter: blur(0);
             }
         }
 
@@ -121,7 +121,7 @@
 <body>
 
     <div id="intro-container" class="logo-wrap">
-        <span class="funeral-brand">Funeral</span>
+        <span class="brand-funeral">Funeral</span>
         <div class="logo-divider"></div>
         <span class="brand-match">Match</span>
         <p class="slogan-reveal">The New Standard of Care</p>
@@ -129,14 +129,13 @@
 
     <script>
         window.addEventListener('load', () => {
-            // Extended to 6 seconds to allow the slogan to "land" and be read
             setTimeout(() => {
                 document.getElementById('intro-container').classList.add('exit-clean');
                 
                 setTimeout(() => {
                     window.location.href = 'index.html';
                 }, 1500);
-            }, 6000); 
+            }, 7500); 
         });
     </script>
 </body>
