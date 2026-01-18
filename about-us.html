@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Story | The FuneralMatch Standard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@1,400;1,700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        :root { --gold: #C5A059; --black: #1a1a1a; --soft-bg: #F8F7F5; }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        body { font-family: 'Inter', sans-serif; background: var(--soft-bg); color: var(--black); }
+        .serif { font-family: 'Bodoni Moda', serif; }
+        
+        /* CONSISTENT LOGO ARCHITECTURE */
+        .logo-nav { position: fixed; top: 2rem; left: 5%; z-index: 1000; }
+        .logo-wrap { display: flex; flex-direction: column; align-items: flex-start; }
+        .brand-text { font-family: 'Bodoni Moda', serif; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.4em; }
+        .brand-gold { color: var(--gold); letter-spacing: 0.7em; }
+        .logo-line { width: 35px; height: 1px; background: var(--gold); margin: 6px 0; }
+
+        .story-card { background: white; border-radius: 3rem; padding: 4rem; border: 1px solid #EEE; margin-bottom: 2rem; }
+        .value-pill { background: #000; color: white; padding: 4px 12px; border-radius: 9999px; font-size: 9px; font-weight: 800; text-transform: uppercase; margin-bottom: 1.5rem; display: inline-block; }
+    </style>
+</head>
+<body class="pt-40 pb-24 px-8">
+
+    <nav class="logo-nav">
+        <div class="logo-wrap">
+            <span class="brand-text">Funeral</span>
+            <div class="logo-line"></div>
+            <span class="brand-text brand-gold">Match</span>
+        </div>
+    </nav>
+
+    <main class="max-w-6xl mx-auto">
+        
+        <header class="text-center mb-32" data-aos="fade-up">
+            <h1 class="serif italic text-6xl mb-6">Restoring dignity <br>to the final journey.</h1>
+            <p class="max-w-2xl mx-auto text-stone-500 text-sm leading-relaxed">We built FuneralMatch because we believe the last thing a grieving family should worry about is hidden costs or sub-standard care. We are the audit, the advocate, and the guide.</p>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-24 items-center">
+            <div data-aos="fade-right">
+                <span class="value-pill">The Origin</span>
+                <h2 class="serif italic text-4xl mb-6">Clarity in a confused market.</h2>
+                <p class="text-stone-500 text-sm leading-loose mb-6">For too long, the UK funeral industry has been dominated by large corporate chains operating under trusted local names. Prices were hidden, standards varied, and families were left in the dark.</p>
+                <p class="text-stone-500 text-sm leading-loose">FuneralMatch was founded to break this cycle. We created the UK's first <strong>Merit-Based Network</strong>. We don't just list directors; we vet them. If they don't meet our standards for facility cleanliness and pricing transparency, they don't get on the platform.</p>
+            </div>
+            <div class="h-[500px] bg-stone-200 rounded-[3rem] overflow-hidden relative" data-aos="fade-left">
+                <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1000&auto=format&fit=crop" class="w-full h-full object-cover grayscale opacity-80" alt="Office Culture">
+                <div class="absolute bottom-10 left-10 right-10 p-8 bg-white/90 backdrop-blur-md rounded-3xl border border-white/50">
+                    <p class="serif italic text-xl">"Our mission is simple: To ensure that every family, regardless of budget, has access to a dignified farewell."</p>
+                </div>
+            </div>
+        </div>
+
+        <section class="mb-32">
+            <div class="text-center mb-16">
+                <h2 class="serif italic text-3xl">Our Founding Pillars</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                
+                <div class="story-card text-center" data-aos="fade-up">
+                    <p class="serif italic text-4xl text-[#C5A059] mb-4">01.</p>
+                    <h3 class="text-xs font-bold uppercase tracking-widest mb-4">Total Transparency</h3>
+                    <p class="text-[11px] text-stone-500 leading-relaxed">We demand that every director displays fixed fees. No hidden disbursements. No surprises on the invoice.</p>
+                </div>
+
+                <div class="story-card text-center" data-aos="fade-up" data-aos-delay="100">
+                    <p class="serif italic text-4xl text-[#C5A059] mb-4">02.</p>
+                    <h3 class="text-xs font-bold uppercase tracking-widest mb-4">Independent Advocacy</h3>
+                    <p class="text-[11px] text-stone-500 leading-relaxed">We champion the family-owned business. Independent directors are accountable to you, not to shareholders.</p>
+                </div>
+
+                <div class="story-card text-center" data-aos="fade-up" data-aos-delay="200">
+                    <p class="serif italic text-4xl text-[#C5A059] mb-4">03.</p>
+                    <h3 class="text-xs font-bold uppercase tracking-widest mb-4">Vetted Merit</h3>
+                    <p class="text-[11px] text-stone-500 leading-relaxed">Our search results prioritize quality of care. A director cannot buy their way to a good reputation on our platform; they must earn it.</p>
+                </div>
+
+            </div>
+        </section>
+
+        <div class="bg-black text-white rounded-[3.5rem] p-16 md:p-24 text-center" data-aos="zoom-in">
+            <h2 class="serif italic text-4xl mb-6">Experience the difference.</h2>
+            <p class="text-stone-400 text-sm mb-10 max-w-xl mx-auto">Join the thousands of families who found peace of mind through FuneralMatch.</p>
+            <div class="flex flex-col md:flex-row gap-4 justify-center">
+                <button class="bg-[#C5A059] text-white px-10 py-4 rounded-full text-[10px] font-bold uppercase tracking-widest">Search Directors</button>
+                <button class="border border-white text-white px-10 py-4 rounded-full text-[10px] font-bold uppercase tracking-widest">Join as Partner</button>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        AOS.init({ duration: 1000, once: true });
+    </script>
+</body>
+</html>
