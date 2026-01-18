@@ -3,77 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FuneralMatch | The New Standard</title>
+    <title>FuneralMatch | The New Standard of Care</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@400;500&family=Inter:wght@300;400;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;6..96,600&family=Outfit:wght@300;400;600&display=swap');
         
-        :root { --gold: #C5A059; --black: #1a1a1a; }
+        :root { --gold: #C5A059; --black: #121212; --off-white: #FBFBFA; }
         
         body { 
-            font-family: 'Inter', sans-serif; 
-            background-color: #F4F3F0;
-            background-image: url('https://www.transparenttextures.com/patterns/natural-paper.png');
+            font-family: 'Outfit', sans-serif; 
+            background-color: var(--off-white);
+            /* High-end paper grain */
+            background-image: url('https://www.transparenttextures.com/patterns/pinstriped-suit.png');
             color: var(--black);
             overflow-x: hidden;
         }
 
         .serif { font-family: 'Bodoni Moda', serif; }
 
-        /* Left-Aligned Balanced Logo */
+        /* Left-Aligned Balanced Logo - Top Left */
         .logo-fixed {
             position: fixed;
-            top: 2.5rem;
-            left: 2.5rem;
+            top: 3.5rem;
+            left: 3.5rem;
             z-index: 100;
             display: flex;
             flex-direction: column;
-            width: 130px;
+            width: 150px;
         }
-        .brand-text { font-family: 'Bodoni Moda', serif; text-transform: uppercase; font-size: 0.95rem; letter-spacing: 0.3em; line-height: 1.2; }
-        .logo-line { width: 100%; height: 1px; background: var(--gold); margin: 5px 0; }
-        .brand-match { color: var(--gold); letter-spacing: 0.65em; margin-right: -0.65em; }
+        .brand-text { font-family: 'Bodoni Moda', serif; text-transform: uppercase; font-size: 1.1rem; letter-spacing: 0.35em; line-height: 1.1; font-weight: 600; }
+        .logo-line { width: 100%; height: 1.5px; background: var(--gold); margin: 6px 0; }
+        .brand-match { color: var(--gold); letter-spacing: 0.72em; margin-right: -0.72em; }
 
-        /* Dark Outline / Border Framing */
-        .content-frame {
-            border: 1px solid rgba(26, 26, 26, 0.15);
-            padding: 3rem;
-            border-radius: 2px; /* Sharp but professional */
-            position: relative;
-            background: rgba(255,255,255,0.2);
+        /* The Framing: High-End Border & Shadow */
+        .luxury-frame {
+            border: 1px solid rgba(18, 18, 18, 0.1);
+            padding: 4rem;
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(5px);
+            box-shadow: 0 40px 100px -30px rgba(0,0,0,0.05);
+            max-width: 900px;
+            width: 100%;
         }
 
         section {
-            min-height: 100vh;
+            min-height: 90vh;
             display: flex;
             flex-direction: column;
-            justify-content: flex-start; /* Transition to High of Page */
-            padding-top: 15vh; /* Fixed high starting point */
+            justify-content: flex-start;
+            padding-top: 22vh; /* High of the page */
             padding-left: 10%;
-            padding-right: 10%;
         }
 
-        .reveal-text {
-            font-size: clamp(1.5rem, 4vw, 3rem);
-            line-height: 1.3;
-            max-width: 800px;
-        }
+        .reveal-h1 { font-size: clamp(2.5rem, 6vw, 4.5rem); line-height: 1; margin-bottom: 2rem; }
+        .reveal-p { font-size: 1.4rem; font-weight: 300; color: #555; max-width: 600px; }
 
-        /* Lead Capture Modal Refinement */
-        #emergency-card {
+        /* Refined Emergency Drawer (Not in your face) */
+        #emergency-drawer {
             position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            width: 380px;
+            bottom: 0;
+            right: 3rem;
+            width: 420px;
             background: white;
-            border: 1px solid var(--black); /* Dark outline to match theme */
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            border: 1px solid rgba(0,0,0,0.1);
+            border-bottom: none;
             z-index: 1000;
-            transform: translateY(150%);
-            transition: transform 1s cubic-bezier(0.19, 1, 0.22, 1);
+            transform: translateY(100%);
+            transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+            padding: 2.5rem;
         }
-        #emergency-card.active { transform: translateY(0); }
+        #emergency-drawer.active { transform: translateY(0); }
+        
+        .gold-underline { border-bottom: 2px solid var(--gold); }
     </style>
 </head>
 <body class="antialiased">
@@ -85,71 +90,91 @@
     </div>
 
     <section>
-        <div class="content-frame" data-aos="fade-in" data-aos-duration="1200">
-            <p class="text-[10px] uppercase tracking-[0.6em] text-stone-400 mb-6">The New Standard of Care</p>
-            <h1 class="serif reveal-text">We provide the <span class="italic">framework</span> for a dignified farewell.</h1>
+        <div class="luxury-frame" data-aos="fade-up">
+            <p class="text-[10px] uppercase tracking-[0.6em] text-stone-400 mb-8 font-bold">The New Standard of Care</p>
+            <h1 class="serif reveal-h1 italic">Clarity <br><span class="not-italic">redefined.</span></h1>
+            <p class="reveal-p">Providing an independent framework for families seeking the highest standards in funeral care.</p>
         </div>
     </section>
 
     <section>
-        <div class="content-frame" data-aos="fade-in" data-aos-duration="1200">
-            <h2 class="text-[10px] uppercase tracking-[0.6em] text-stone-400 mb-6">Our Purpose</h2>
-            <p class="reveal-text font-light">
-                An independent middleman service dedicated to removing the guesswork from funeral planning.
-            </p>
+        <div class="luxury-frame" data-aos="fade-up">
+            <h2 class="text-[10px] uppercase tracking-[0.6em] text-stone-400 mb-8 font-bold">What We Do</h2>
+            <p class="serif text-4xl leading-snug">We act as your <span class="gold-underline">independent advocate</span>, matching you with local directors who prioritize dignity over logistics.</p>
         </div>
     </section>
 
     <section>
-        <div class="content-frame" data-aos="fade-in" data-aos-duration="1200">
-            <h2 class="text-[10px] uppercase tracking-[0.6em] text-stone-400 mb-6">The Benefit</h2>
-            <p class="reveal-text font-light">
-                Compare local directors based on <span class="font-semibold underline decoration-gold">vetted service standards</span> and real-world value.
-            </p>
+        <div class="luxury-frame" data-aos="fade-up">
+            <h2 class="text-[10px] uppercase tracking-[0.6em] text-stone-400 mb-8 font-bold">The Benefit</h2>
+            <p class="reveal-p mb-8 italic">Why families trust FuneralMatch:</p>
+            <div class="grid grid-cols-2 gap-8 text-sm uppercase tracking-widest font-semibold">
+                <div>— Vetted Excellence</div>
+                <div>— Transparent Pricing</div>
+                <div>— Immediate Relief</div>
+                <div>— Complete Privacy</div>
+            </div>
         </div>
     </section>
 
-    <section class="items-center text-center">
-        <div data-aos="zoom-in">
-            <h2 class="serif text-4xl mb-10">Proceed to your comparison.</h2>
-            <button class="border-2 border-black px-12 py-5 text-sm font-bold uppercase tracking-widest hover:bg-black hover:text-white transition-all">
-                Enter Search
+    <section class="items-start">
+        <div class="luxury-frame bg-black text-white" data-aos="zoom-in">
+            <h2 class="serif text-5xl mb-12">Experience the <br>difference.</h2>
+            <button class="border border-white/30 px-12 py-5 text-sm font-bold uppercase tracking-widest hover:bg-white hover:text-black transition-all">
+                Enter Comparison Suite
             </button>
         </div>
     </section>
 
-    <div id="emergency-card" class="p-8 shadow-2xl">
-        <div class="flex justify-between items-center mb-6">
-            <h3 class="serif text-xl uppercase tracking-widest">Urgent Care</h3>
-            <button onclick="closePop()" class="text-stone-400 hover:text-black">&times;</button>
+    <div id="emergency-drawer">
+        <div class="flex justify-between items-start mb-8">
+            <div>
+                <h3 class="serif text-2xl uppercase tracking-widest leading-none mb-2">Urgent Care</h3>
+                <div class="w-10 h-0.5 bg-gold"></div>
+            </div>
+            <button onclick="toggleDrawer()" class="text-stone-300 hover:text-black text-3xl leading-none">&times;</button>
         </div>
         
-        <form class="space-y-4">
-            <input type="text" placeholder="Name of Correspondent" class="w-full p-3 border border-stone-200 outline-none focus:border-black text-sm">
-            <input type="text" placeholder="Location (Postcode)" class="w-full p-3 border border-stone-200 outline-none focus:border-black text-sm">
-            <select class="w-full p-3 border border-stone-200 outline-none focus:border-black text-sm text-stone-500">
-                <option>When is support needed?</option>
-                <option>Immediate (Within 24hrs)</option>
-                <option>Future Planning</option>
-            </select>
-            <button class="w-full bg-black text-white py-4 font-bold uppercase tracking-widest text-[10px] hover:bg-stone-800 transition-all">
-                Submit Immediate Inquiry
+        <form class="space-y-6">
+            <div class="space-y-1">
+                <label class="text-[9px] uppercase font-bold text-stone-400 tracking-widest">Name of Correspondent</label>
+                <input type="text" class="w-full border-b border-stone-200 py-2 outline-none focus:border-gold text-sm bg-transparent">
+            </div>
+            <div class="space-y-1">
+                <label class="text-[9px] uppercase font-bold text-stone-400 tracking-widest">When is care required?</label>
+                <select class="w-full border-b border-stone-200 py-2 outline-none focus:border-gold text-sm bg-transparent">
+                    <option>Immediate Assistance (Today)</option>
+                    <option>Within 48 Hours</option>
+                    <option>Pre-Planning Inquiry</option>
+                </select>
+            </div>
+            <div class="space-y-1">
+                <label class="text-[9px] uppercase font-bold text-stone-400 tracking-widest">Current Location of Deceased</label>
+                <input type="text" placeholder="e.g. Home, Hospital" class="w-full border-b border-stone-200 py-2 outline-none focus:border-gold text-sm bg-transparent">
+            </div>
+            <button class="w-full bg-black text-white py-5 font-bold uppercase tracking-widest text-[10px] hover:bg-stone-800 transition-all shadow-xl">
+                Request Priority Connection
             </button>
         </form>
     </div>
 
-    <script>
-        AOS.init({ once: false }); // Allow re-animation for smooth scrolling
+    <button onclick="toggleDrawer()" class="fixed bottom-0 right-12 bg-black text-white px-8 py-3 rounded-t-lg text-[10px] font-bold uppercase tracking-[0.3em] z-50 shadow-2xl">
+        Immediate Support
+    </button>
 
+    <script>
+        AOS.init({ duration: 1500, once: false });
+
+        function toggleDrawer() {
+            document.getElementById('emergency-drawer').classList.toggle('active');
+        }
+
+        // Automatic activation after 1s for the first time
         window.addEventListener('load', () => {
             setTimeout(() => {
-                document.getElementById('emergency-card').classList.add('active');
+                document.getElementById('emergency-drawer').classList.add('active');
             }, 1000);
         });
-
-        function closePop() {
-            document.getElementById('emergency-card').classList.remove('active');
-        }
     </script>
 </body>
 </html>
