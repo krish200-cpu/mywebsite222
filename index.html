@@ -3,208 +3,203 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Funeral Match | Professional Care</title>
+    <title>Funeral Match | Iconic Care</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,600;1,6..96,400&family=Inter:wght@200;300;400;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,600;1,6..96,400&family=Inter:wght@200;300;400;500&display=swap');
 
         :root {
             --gold: #C5A059;
-            --obsidian: #0D0D0D; /* Deepest base */
-            --charcoal: #1A1A1A; /* Bubble background */
-            --soft-white: #E5E5E5;
-            --muted-gold: rgba(197, 160, 89, 0.2);
+            --obsidian: #080808;
+            --glass: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
         }
 
         body {
             font-family: 'Inter', sans-serif;
             background-color: var(--obsidian);
-            color: var(--soft-white);
-            line-height: 1.6;
+            color: #fff;
             margin: 0;
+            overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
         }
 
-        /* --- THE FLOATING DARK NAV --- */
-        .header-nav {
-            max-width: 1100px;
-            margin: 20px auto;
-            background: var(--charcoal);
-            border: 1px solid rgba(255,255,255,0.05);
+        /* --- THE ICONIC HEADER BUBBLE --- */
+        .nav-bubble {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 1200px;
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
             border-radius: 100px;
-            padding: 10px 35px;
+            padding: 12px 30px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            z-index: 1000;
+        }
+
+        .brand-text {
+            font-family: 'Bodoni Moda', serif;
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+            font-size: 0.9rem;
+        }
+
+        .brand-match { color: var(--gold); letter-spacing: 0.5em; margin-left: 5px; }
+
+        /* --- THE SEARCH REDIRECTION PILL --- */
+        .nav-search {
+            background: rgba(255,255,255,0.05);
+            border-radius: 50px;
+            padding: 6px 6px 6px 20px;
+            display: flex;
+            align-items: center;
+            width: 300px;
+            border: 1px solid transparent;
+            transition: all 0.4s;
+        }
+
+        .nav-search:focus-within { border-color: var(--gold); background: rgba(255,255,255,0.1); }
+
+        .search-input {
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #fff;
+            font-size: 0.75rem;
+            flex: 1;
+            letter-spacing: 0.1em;
+        }
+
+        .search-trigger {
+            background: var(--gold);
+            color: #fff;
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            padding: 8px 18px;
+            border-radius: 40px;
+            font-weight: 600;
+        }
+
+        /* --- HERO: THE ICONIC INTRODUCTION --- */
+        .hero-intro {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+            background: radial-gradient(circle at center, #1a1a1a 0%, #080808 100%);
+        }
+
+        .hero-intro h1 {
+            font-family: 'Bodoni Moda', serif;
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            font-weight: 400;
+            line-height: 1.1;
+            margin-bottom: 30px;
+            max-width: 1000px;
+        }
+
+        .hero-intro p {
+            font-size: 1.1rem;
+            font-weight: 200;
+            color: #999;
+            max-width: 600px;
+            margin-bottom: 50px;
+            letter-spacing: 0.05em;
+        }
+
+        /* --- THE PROFIT BUTTON: FIRST CALL --- */
+        .btn-first-call {
+            background: #fff;
+            color: #000;
+            padding: 22px 60px;
+            border-radius: 100px;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 0.3em;
+            font-weight: 600;
+            transition: all 0.5s cubic-bezier(0.2, 1, 0.3, 1);
+            box-shadow: 0 0 50px rgba(255,255,255,0.1);
+        }
+
+        .btn-first-call:hover {
+            background: var(--gold);
+            color: #fff;
+            transform: scale(1.05);
+            box-shadow: 0 0 60px rgba(197, 160, 89, 0.3);
+        }
+
+        /* --- THE DIGNITY ADVERT STRIP (FLOATING REVENUE) --- */
+        .revenue-bar {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 1100px;
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+            padding: 20px 40px;
+            border-radius: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 900;
         }
 
         @media (max-width: 768px) {
-            .header-nav { border-radius: 40px; flex-direction: column; padding: 20px; gap: 20px; }
+            .revenue-bar { flex-direction: column; border-radius: 30px; padding: 25px; gap: 15px; text-align: center; }
+            .nav-search { display: none; } /* Mobile keeps it focused on the First Call */
         }
 
-        .brand-funeral { font-family: 'Bodoni Moda', serif; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 0.2em; font-weight: 600; color: #fff; }
-        .brand-match { font-family: 'Bodoni Moda', serif; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 0.4em; color: var(--gold); }
-
-        /* --- SEARCH PILL (DARK EDITION) --- */
-        .search-pill {
-            background: #252525;
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 50px;
-            padding: 5px 5px 5px 20px;
-            display: flex;
-            align-items: center;
-            width: 100%;
-            max-width: 350px;
-        }
-
-        .search-input { border: none; outline: none; flex: 1; font-size: 0.8rem; letter-spacing: 0.05em; color: #fff; background: transparent; }
-        .search-btn { background: var(--gold); color: white; border-radius: 40px; padding: 8px 22px; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 600; }
-
-        /* --- HERO: CRISIS FIRST CALL --- */
-        .hero-lead {
-            max-width: 900px;
-            margin: 100px auto 60px;
-            text-align: center;
-            padding: 0 20px;
-        }
-
-        .hero-lead h1 { font-family: 'Bodoni Moda', serif; font-size: clamp(2.2rem, 6vw, 3.5rem); font-weight: 400; margin-bottom: 25px; line-height: 1.1; color: #fff; }
-        .hero-lead p { color: #999; font-weight: 300; font-size: 1.1rem; }
-
-        .first-call-btn {
-            background: #fff;
-            color: var(--obsidian);
-            padding: 24px 60px;
-            border-radius: 100px;
-            display: inline-block;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 0.3em;
-            margin-top: 40px;
-            font-weight: 600;
-            transition: all 0.4s ease;
-            box-shadow: 0 0 30px rgba(255,255,255,0.1);
-        }
-
-        .first-call-btn:hover { background: var(--gold); color: #fff; transform: translateY(-3px); }
-
-        /* --- SERVICE PEBBLES --- */
-        .service-grid {
-            max-width: 1100px;
-            margin: 60px auto;
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 30px;
-            padding: 0 20px;
-        }
-
-        @media (min-width: 768px) { .service-grid { grid-template-columns: repeat(2, 1fr); } }
-
-        .service-card {
-            background: var(--charcoal);
-            border: 1px solid rgba(255,255,255,0.03);
-            border-radius: 60px;
-            padding: 60px 40px;
-            text-align: center;
-            transition: border-color 0.4s;
-        }
-
-        .service-card:hover { border-color: var(--gold); }
-        .service-card h3 { font-family: 'Bodoni Moda', serif; font-size: 1.6rem; margin-bottom: 15px; color: #fff; }
-        .service-card p { font-size: 0.9rem; color: #888; font-weight: 300; }
-
-        /* --- DIGNITY AFFILIATE AD --- */
-        .dignity-strip {
-            max-width: 1100px;
-            margin: 40px auto 100px;
-            background: linear-gradient(90deg, #1A1A1A 0%, #111 100%);
-            border: 1px solid var(--muted-gold);
-            padding: 30px 60px;
-            border-radius: 100px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        @media (max-width: 768px) { .dignity-strip { border-radius: 40px; flex-direction: column; text-align: center; gap: 25px; padding: 40px 20px; } }
-
-        .ad-text-wrap h4 { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.4em; color: var(--gold); margin-bottom: 8px; }
-        .ad-text-wrap p { font-family: 'Bodoni Moda', serif; font-size: 1.4rem; color: #fff; font-style: italic; }
-        
-        .ad-btn { 
-            border: 1px solid var(--gold); 
-            color: var(--gold); 
-            padding: 14px 35px; 
-            border-radius: 50px; 
-            font-size: 0.75rem; 
-            text-transform: uppercase; 
-            letter-spacing: 0.2em;
-            transition: all 0.3s;
-        }
-
-        .ad-btn:hover { background: var(--gold); color: #fff; }
+        .ad-label { font-size: 0.55rem; text-transform: uppercase; color: var(--gold); letter-spacing: 0.4em; margin-bottom: 5px; display: block; }
+        .ad-title { font-family: 'Bodoni Moda', serif; font-size: 1.1rem; color: #fff; font-style: italic; }
+        .ad-btn { border: 1px solid var(--gold); color: var(--gold); padding: 10px 25px; border-radius: 50px; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.2em; }
 
     </style>
 </head>
 <body>
 
-    <header class="px-4">
-        <nav class="header-nav">
-            <div class="brand">
-                <span class="brand-funeral">Funeral</span>
-                <span class="brand-match">Match</span>
-            </div>
+    <header class="nav-bubble">
+        <div class="brand">
+            <span class="brand-text">Funeral</span>
+            <span class="brand-text brand-match">Match</span>
+        </div>
 
-            <div class="search-pill">
-                <input type="text" class="search-input" placeholder="Enter Postcode">
-                <button class="search-btn">Search</button>
-            </div>
-        </nav>
+        <div class="nav-search">
+            <input type="text" class="search-input" placeholder="LOCATION...">
+            <button class="search-trigger">Search</button>
+        </div>
     </header>
 
-    <main>
-        <section class="hero-lead">
-            <h1>Excellence in Care,<br>When You Need It Most.</h1>
-            <p>Immediate care coordination for families in crisis. One click to notify a vetted director.</p>
-            
-            <a href="#first-call" class="first-call-btn">Begin First Call</a>
-            
-            <div class="mt-12 flex items-center justify-center gap-4 opacity-40">
-                <div class="w-12 h-[1px] bg-white"></div>
-                <span class="text-[0.6rem] uppercase tracking-[0.5em]">Independent & Trusted</span>
-                <div class="w-12 h-[1px] bg-white"></div>
-            </div>
-        </section>
+    <main class="hero-intro">
+        <h1 class="fade-in">Defining The New <br><i>Standard of Care</i>.</h1>
+        <p>A refined digital environment designed to coordinate immediate care and transparent arrangements.</p>
+        
+        <a href="tel:YOUR_NUMBER" class="btn-first-call">Initiate First Call</a>
 
-        <section class="service-grid">
-            <div class="service-card">
-                <h3>Arrange Online</h3>
-                <p>Complete the entire funeral arrangement process digitally. Our concierge team manages the logistics for you.</p>
-                <button class="mt-8 text-[0.7rem] uppercase tracking-[0.3em] text-gold border-b border-gold pb-1">Begin Process</button>
-            </div>
-
-            <div class="service-card">
-                <h3>Compare Directors</h3>
-                <p>Access transparent pricing and quality metrics for every vetted funeral home in your local area.</p>
-                <button class="mt-8 text-[0.7rem] uppercase tracking-[0.3em] text-gold border-b border-gold pb-1">View Results</button>
-            </div>
-        </section>
-
-        <section class="px-4">
-            <div class="dignity-strip">
-                <div class="ad-text-wrap">
-                    <h4>Partnership</h4>
-                    <p>Securing a Dignified Future.</p>
-                </div>
-                <a href="#" class="ad-btn">View Dignity Plans</a>
-            </div>
-        </section>
+        <div class="mt-20 opacity-20">
+            <div class="w-[1px] h-20 bg-white mx-auto"></div>
+        </div>
     </main>
 
-    <footer class="py-20 text-center opacity-30">
-        <p class="text-[9px] uppercase tracking-[0.6em]">&copy; 2026 Funeral Match &bull; Luxury Digital Care</p>
-    </footer>
+    <section class="revenue-bar">
+        <div>
+            <span class="ad-label">Partner Spotlight</span>
+            <p class="ad-title">Secure a future of dignity.</p>
+        </div>
+        <a href="#" class="ad-btn">Explore Plans</a>
+    </section>
 
 </body>
 </html>
