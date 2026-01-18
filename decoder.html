@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice Decoder | FuneralMatch Advocacy</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@1,400;1,700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        :root { --gold: #C5A059; --black: #1a1a1a; --soft-bg: #F8F7F5; }
+        body { font-family: 'Inter', sans-serif; background: var(--soft-bg); color: var(--black); }
+        .serif { font-family: 'Bodoni Moda', serif; }
+        
+        .decoder-card { background: white; border-radius: 1.5rem; padding: 2rem; border: 1px solid #EEE; margin-bottom: 1rem; cursor: pointer; transition: 0.3s; }
+        .decoder-card:hover { border-color: var(--gold); }
+        .decoder-card[open] { background: #FFFDF9; border-color: var(--gold); }
+        
+        .price-tag { background: #000; color: #fff; padding: 4px 12px; border-radius: 99px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; }
+        .red-flag { background: #FFEBEB; color: #D64545; padding: 4px 12px; border-radius: 99px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; }
+    </style>
+</head>
+<body class="py-24 px-8">
+
+    <main class="max-w-5xl mx-auto">
+        
+        <header class="text-center mb-20" data-aos="fade-up">
+            <span class="text-[10px] uppercase font-bold tracking-[0.4em] text-stone-400">Financial Advocacy</span>
+            <h1 class="serif italic text-6xl mt-4 mb-6">Don't pay until <br>you understand.</h1>
+            <p class="max-w-xl mx-auto text-stone-500 text-sm leading-relaxed">Funeral invoices are intentionally confusing. We break down the jargon and show you the "Fair Price" range based on national independent audit data.</p>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+            
+            <div class="lg:col-span-2">
+                <h2 class="serif italic text-3xl mb-8">Tap a term to translate</h2>
+                
+                <details class="decoder-card group" data-aos="fade-up">
+                    <summary class="flex justify-between items-center list-none cursor-pointer">
+                        <h3 class="font-bold text-lg">Professional Fees</h3>
+                        <span class="text-2xl text-[#C5A059] group-open:rotate-45 transition-transform">+</span>
+                    </summary>
+                    <div class="mt-6 pt-6 border-t border-stone-100">
+                        <p class="text-sm text-stone-600 mb-4"><strong>Translation:</strong> The core fee for the director's time, overheads, and the care of the deceased.</p>
+                        <div class="flex justify-between items-center bg-stone-50 p-4 rounded-xl">
+                            <span class="text-xs font-bold uppercase text-stone-400">Fair Price Range</span>
+                            <span class="price-tag">£950 - £1,500</span>
+                        </div>
+                    </div>
+                </details>
+
+                <details class="decoder-card group" data-aos="fade-up" data-aos-delay="100">
+                    <summary class="flex justify-between items-center list-none cursor-pointer">
+                        <h3 class="font-bold text-lg">Hygienic Treatment</h3>
+                        <span class="text-2xl text-[#C5A059] group-open:rotate-45 transition-transform">+</span>
+                    </summary>
+                    <div class="mt-6 pt-6 border-t border-stone-100">
+                        <p class="text-sm text-stone-600 mb-4"><strong>Translation:</strong> This is <em>Embalming</em>. It is rarely legally required unless you are viewing the deceased or repatriating.</p>
+                        <div class="flex justify-between items-center bg-stone-50 p-4 rounded-xl mb-2">
+                            <span class="text-xs font-bold uppercase text-stone-400">Fair Price Range</span>
+                            <span class="price-tag">£120 - £200</span>
+                        </div>
+                        <div class="inline-block red-flag">Warning: Optional Service</div>
+                    </div>
+                </details>
+
+                <details class="decoder-card group" data-aos="fade-up" data-aos-delay="200">
+                    <summary class="flex justify-between items-center list-none cursor-pointer">
+                        <h3 class="font-bold text-lg">Disbursements</h3>
+                        <span class="text-2xl text-[#C5A059] group-open:rotate-45 transition-transform">+</span>
+                    </summary>
+                    <div class="mt-6 pt-6 border-t border-stone-100">
+                        <p class="text-sm text-stone-600 mb-4"><strong>Translation:</strong> Third-party costs (Crematorium, Doctors, Minister). These must be charged <em>at cost</em>.</p>
+                        <div class="flex justify-between items-center bg-stone-50 p-4 rounded-xl">
+                            <span class="text-xs font-bold uppercase text-stone-400">Fair Price Range</span>
+                            <span class="price-tag">Varies (Must be £0 Markup)</span>
+                        </div>
+                    </div>
+                </details>
+
+                <details class="decoder-card group" data-aos="fade-up" data-aos-delay="300">
+                    <summary class="flex justify-between items-center list-none cursor-pointer">
+                        <h3 class="font-bold text-lg">Conveyance</h3>
+                        <span class="text-2xl text-[#C5A059] group-open:rotate-45 transition-transform">+</span>
+                    </summary>
+                    <div class="mt-6 pt-6 border-t border-stone-100">
+                        <p class="text-sm text-stone-600 mb-4"><strong>Translation:</strong> Moving the deceased from the place of death to the funeral home.</p>
+                        <div class="flex justify-between items-center bg-stone-50 p-4 rounded-xl">
+                            <span class="text-xs font-bold uppercase text-stone-400">Fair Price Range</span>
+                            <span class="price-tag">£150 - £250</span>
+                        </div>
+                    </div>
+                </details>
+
+            </div>
+
+            <aside class="sticky top-8 h-fit">
+                <div class="bg-black text-white p-10 rounded-[2.5rem] relative overflow-hidden text-center" data-aos="zoom-in">
+                    <h3 class="serif italic text-3xl mb-4">Check your quote.</h3>
+                    <p class="text-stone-400 text-xs mb-8 leading-relaxed">Have a quote from another director? We will audit it for free and tell you if you are overpaying.</p>
+                    
+                    <form action="https://formspree.io/f/mvzzkjeq" method="POST" enctype="multipart/form-data">
+                         <input type="hidden" name="_subject" value="INVOICE AUDIT REQUEST">
+                         <label class="block w-full p-4 border border-dashed border-stone-700 rounded-xl mb-4 cursor-pointer hover:border-[#C5A059] transition-colors">
+                             <span class="text-[10px] uppercase font-bold tracking-widest text-stone-500">Upload Photo of Quote</span>
+                             <input type="file" name="quote_upload" class="hidden">
+                         </label>
+                         <button type="submit" class="w-full bg-[#C5A059] text-white py-4 rounded-full text-[10px] font-bold uppercase tracking-widest">Audit My Quote</button>
+                    </form>
+                    
+                    <div class="mt-8 pt-8 border-t border-white/10">
+                        <p class="text-[9px] text-stone-500 uppercase tracking-widest mb-4">Or find a fair price now</p>
+                        <a href="/search" class="text-xs font-bold border-b border-white pb-1">Search Vetted Directors</a>
+                    </div>
+                </div>
+            </aside>
+
+        </div>
+    </main>
+
+    <script>
+        AOS.init({ duration: 1000, once: true });
+    </script>
+</body>
+</html>
