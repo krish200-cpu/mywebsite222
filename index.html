@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FuneralMatch | The New Standard of Care</title>
+    <title>FuneralMatch | The New Standard</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
@@ -14,8 +14,7 @@
         
         body { 
             font-family: 'Inter', sans-serif; 
-            background-color: #F8F7F4;
-            /* Fine-grain paper texture overlay */
+            background-color: #F4F3F0;
             background-image: url('https://www.transparenttextures.com/patterns/natural-paper.png');
             color: var(--black);
             overflow-x: hidden;
@@ -23,61 +22,58 @@
 
         .serif { font-family: 'Bodoni Moda', serif; }
 
-        /* Perfectly Balanced Logo - Top Left */
+        /* Left-Aligned Balanced Logo */
         .logo-fixed {
             position: fixed;
-            top: 3rem;
-            left: 3rem;
+            top: 2.5rem;
+            left: 2.5rem;
             z-index: 100;
             display: flex;
             flex-direction: column;
-            align-items: flex-start;
-            width: 140px;
+            width: 130px;
         }
-        .brand-text { font-family: 'Bodoni Moda', serif; text-transform: uppercase; font-size: 1rem; letter-spacing: 0.3em; line-height: 1.2; }
-        .logo-line { width: 100%; height: 1px; background: var(--gold); margin: 6px 0; }
+        .brand-text { font-family: 'Bodoni Moda', serif; text-transform: uppercase; font-size: 0.95rem; letter-spacing: 0.3em; line-height: 1.2; }
+        .logo-line { width: 100%; height: 1px; background: var(--gold); margin: 5px 0; }
         .brand-match { color: var(--gold); letter-spacing: 0.65em; margin-right: -0.65em; }
 
-        /* Scroll Snap Sections */
+        /* Dark Outline / Border Framing */
+        .content-frame {
+            border: 1px solid rgba(26, 26, 26, 0.15);
+            padding: 3rem;
+            border-radius: 2px; /* Sharp but professional */
+            position: relative;
+            background: rgba(255,255,255,0.2);
+        }
+
         section {
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            padding: 0 15%;
-            position: relative;
+            justify-content: flex-start; /* Transition to High of Page */
+            padding-top: 15vh; /* Fixed high starting point */
+            padding-left: 10%;
+            padding-right: 10%;
         }
 
-        .text-reveal {
-            font-size: clamp(2rem, 5vw, 4rem);
-            line-height: 1.2;
-            margin-bottom: 2rem;
+        .reveal-text {
+            font-size: clamp(1.5rem, 4vw, 3rem);
+            line-height: 1.3;
+            max-width: 800px;
         }
 
-        .slogan-mark {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5em;
-            color: var(--gold);
-            font-weight: 600;
-        }
-
-        /* The Lead Capture Modal */
-        #emergency-popup {
+        /* Lead Capture Modal Refinement */
+        #emergency-card {
             position: fixed;
             bottom: 2rem;
             right: 2rem;
-            width: 400px;
+            width: 380px;
             background: white;
-            border-radius: 35px;
-            box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.15);
+            border: 1px solid var(--black); /* Dark outline to match theme */
             z-index: 1000;
-            transform: translateY(120%);
-            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-            border: 1px solid rgba(197, 160, 89, 0.1);
-            overflow: hidden;
+            transform: translateY(150%);
+            transition: transform 1s cubic-bezier(0.19, 1, 0.22, 1);
         }
-        #emergency-popup.active { transform: translateY(0); }
+        #emergency-card.active { transform: translateY(0); }
     </style>
 </head>
 <body class="antialiased">
@@ -89,82 +85,70 @@
     </div>
 
     <section>
-        <div data-aos="fade-up" data-aos-duration="1500">
-            <p class="slogan-mark mb-8">The New Standard of Care</p>
-            <h1 class="serif text-reveal">We believe every family deserves <span class="italic text-stone-400">absolute clarity.</span></h1>
+        <div class="content-frame" data-aos="fade-in" data-aos-duration="1200">
+            <p class="text-[10px] uppercase tracking-[0.6em] text-stone-400 mb-6">The New Standard of Care</p>
+            <h1 class="serif reveal-text">We provide the <span class="italic">framework</span> for a dignified farewell.</h1>
         </div>
     </section>
 
     <section>
-        <div data-aos="fade-up" data-aos-duration="1500">
-            <h2 class="text-stone-400 uppercase tracking-widest text-xs font-bold mb-6">Who We Are</h2>
-            <p class="serif text-reveal">A bridge between <br>necessity and peace of mind.</p>
+        <div class="content-frame" data-aos="fade-in" data-aos-duration="1200">
+            <h2 class="text-[10px] uppercase tracking-[0.6em] text-stone-400 mb-6">Our Purpose</h2>
+            <p class="reveal-text font-light">
+                An independent middleman service dedicated to removing the guesswork from funeral planning.
+            </p>
         </div>
     </section>
 
     <section>
-        <div data-aos="fade-up" data-aos-duration="1500">
-            <h2 class="text-stone-400 uppercase tracking-widest text-xs font-bold mb-6">The Benefit</h2>
-            <p class="text-2xl md:text-3xl font-light leading-relaxed max-w-3xl">
-                By standardizing how funeral services are compared, we empower you to choose a director based on <span class="font-semibold">verified merit</span> and transparent value.
+        <div class="content-frame" data-aos="fade-in" data-aos-duration="1200">
+            <h2 class="text-[10px] uppercase tracking-[0.6em] text-stone-400 mb-6">The Benefit</h2>
+            <p class="reveal-text font-light">
+                Compare local directors based on <span class="font-semibold underline decoration-gold">vetted service standards</span> and real-world value.
             </p>
         </div>
     </section>
 
     <section class="items-center text-center">
-        <div data-aos="zoom-in" data-aos-duration="1000">
-            <h2 class="serif text-4xl mb-12 italic">Begin your transition to care.</h2>
-            <button class="bg-black text-white px-16 py-6 rounded-full text-sm font-bold uppercase tracking-widest hover:bg-stone-800 transition-all shadow-2xl">
-                Find Your Match
+        <div data-aos="zoom-in">
+            <h2 class="serif text-4xl mb-10">Proceed to your comparison.</h2>
+            <button class="border-2 border-black px-12 py-5 text-sm font-bold uppercase tracking-widest hover:bg-black hover:text-white transition-all">
+                Enter Search
             </button>
         </div>
     </section>
 
-    <div id="emergency-popup" class="p-10">
-        <div class="flex justify-between items-start mb-8">
-            <div>
-                <h3 class="serif text-2xl">Immediate Care</h3>
-                <p class="text-xs text-stone-400 uppercase tracking-tighter">Emergency Support Required</p>
-            </div>
-            <button onclick="closePopup()" class="text-stone-300 hover:text-black text-2xl">&times;</button>
+    <div id="emergency-card" class="p-8 shadow-2xl">
+        <div class="flex justify-between items-center mb-6">
+            <h3 class="serif text-xl uppercase tracking-widest">Urgent Care</h3>
+            <button onclick="closePop()" class="text-stone-400 hover:text-black">&times;</button>
         </div>
         
-        <form class="space-y-5">
-            <div>
-                <label class="text-[10px] font-bold uppercase gold text-stone-400 block mb-2 ml-4">Who is this for?</label>
-                <input type="text" placeholder="Full Name" class="w-full p-4 bg-stone-50 border-none rounded-full text-sm focus:ring-1 focus:ring-amber-200 outline-none">
-            </div>
-            <div>
-                <label class="text-[10px] font-bold uppercase text-stone-400 block mb-2 ml-4">Where is the support needed?</label>
-                <input type="text" placeholder="Location or Postcode" class="w-full p-4 bg-stone-50 border-none rounded-full text-sm focus:ring-1 focus:ring-amber-200 outline-none">
-            </div>
-            <div>
-                <label class="text-[10px] font-bold uppercase text-stone-400 block mb-2 ml-4">When did the passing occur?</label>
-                <select class="w-full p-4 bg-stone-50 border-none rounded-full text-sm outline-none text-stone-500">
-                    <option>Within the last 24 hours</option>
-                    <option>Expecting imminently</option>
-                    <option>Pre-planning / Inquiry</option>
-                </select>
-            </div>
-            <button class="w-full bg-[#1a1a1a] text-white py-5 rounded-full font-bold uppercase tracking-widest text-xs mt-4 shadow-xl">
-                Request Priority Callback
+        <form class="space-y-4">
+            <input type="text" placeholder="Name of Correspondent" class="w-full p-3 border border-stone-200 outline-none focus:border-black text-sm">
+            <input type="text" placeholder="Location (Postcode)" class="w-full p-3 border border-stone-200 outline-none focus:border-black text-sm">
+            <select class="w-full p-3 border border-stone-200 outline-none focus:border-black text-sm text-stone-500">
+                <option>When is support needed?</option>
+                <option>Immediate (Within 24hrs)</option>
+                <option>Future Planning</option>
+            </select>
+            <button class="w-full bg-black text-white py-4 font-bold uppercase tracking-widest text-[10px] hover:bg-stone-800 transition-all">
+                Submit Immediate Inquiry
             </button>
         </form>
     </div>
 
     <script>
-        // Initialize Animations
-        AOS.init();
+        AOS.init({ once: false }); // Allow re-animation for smooth scrolling
 
-        // Delayed Popup Logic (1s)
         window.addEventListener('load', () => {
             setTimeout(() => {
-                document.getElementById('emergency-popup').classList.add('active');
+                document.getElementById('emergency-card').classList.add('active');
             }, 1000);
         });
 
-        function closePopup() {
-            document.getElementById('emergency-popup').classList.remove('active');
+        function closePop() {
+            document.getElementById('emergency-card').classList.remove('active');
         }
     </script>
 </body>
