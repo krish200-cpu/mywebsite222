@@ -6,7 +6,7 @@
     <title>Funeral Match</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;1,6..96,400&family=Inter:wght@300;500&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400&family=Inter:wght@400;500&display=swap');
         
         :root {
             --gold: #C5A059;
@@ -33,88 +33,86 @@
             align-items: center;
         }
 
-        /* Unified Serif Style for both lines */
+        /* Unified Serif Style */
         .brand-text {
             font-family: 'Bodoni Moda', serif;
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             text-transform: uppercase;
             opacity: 0;
-            line-height: 1;
         }
 
         .brand-funeral {
             color: var(--black);
-            letter-spacing: 0.6em;
-            margin-right: -0.6em; /* Precise Optical Center */
-            animation: softLanding 4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+            letter-spacing: 0.5em;
+            margin-right: -0.5em; /* Precise centering */
+            animation: fadeInSettling 3s ease-out forwards;
         }
 
         .logo-divider {
-            width: 0;
+            width: 50px;
             height: 1px;
             background-color: var(--gold);
-            margin: 22px 0;
+            margin: 15px 0;
             opacity: 0;
-            animation: lineExpand 3s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-            animation-delay: 1.5s;
+            animation: pureFade 2s ease-out forwards;
+            animation-delay: 1.2s;
         }
 
         .brand-match {
             color: var(--gold);
-            letter-spacing: 0.75em; /* Adjusted to visually balance with line 1 */
-            margin-right: -0.75em; /* Precise Optical Center */
-            animation: softLanding 4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-            animation-delay: 0.6s;
+            letter-spacing: 0.82em; 
+            margin-right: -0.82em; /* Precise centering */
+            animation: fadeInSettling 3.5s ease-out forwards;
+            animation-delay: 0.5s;
         }
 
         .slogan-reveal {
-            margin-top: 5rem;
+            margin-top: 4.5rem;
             font-size: 0.65rem;
             font-weight: 500;
             text-transform: uppercase;
             letter-spacing: 0.7em;
             color: #888;
-            margin-right: -0.7em;
             opacity: 0;
-            animation: sloganRise 3s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-            animation-delay: 5s; 
+            animation: sloganLanding 2.5s ease-out forwards;
+            animation-delay: 4.5s;
         }
 
-        /* Soft Landing Animation: Drift + Blur + Fade */
-        @keyframes softLanding {
-            0% {
-                opacity: 0;
-                filter: blur(12px);
-                transform: translateY(15px);
+        /* THE EXACT EFFECTS FROM YOUR CODE */
+        @keyframes fadeInSettling {
+            from { 
+                opacity: 0; 
+                letter-spacing: 1.2em; 
+                filter: blur(8px);
+                transform: translateY(5px);
             }
-            100% {
-                opacity: 1;
+            to { 
+                opacity: 1; 
                 filter: blur(0);
                 transform: translateY(0);
             }
         }
 
-        @keyframes lineExpand {
-            0% { width: 0; opacity: 0; }
-            100% { width: 65px; opacity: 0.7; }
-        }
-
-        @keyframes sloganRise {
-            0% {
+        @keyframes sloganLanding {
+            from {
                 opacity: 0;
                 transform: translateY(10px);
                 filter: blur(4px);
             }
-            100% {
+            to {
                 opacity: 1;
                 transform: translateY(0);
                 filter: blur(0);
             }
         }
 
+        @keyframes pureFade {
+            to { opacity: 1; }
+        }
+
         .exit-clean {
             opacity: 0;
-            transition: opacity 2s ease-in-out;
+            transition: opacity 1.5s ease-in-out;
         }
     </style>
 </head>
@@ -134,8 +132,8 @@
                 
                 setTimeout(() => {
                     window.location.href = 'index.html';
-                }, 2000);
-            }, 8500); 
+                }, 1500);
+            }, 7000); 
         });
     </script>
 </body>
