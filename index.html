@@ -1,248 +1,156 @@
-<!DOCTYPE html>
-<html lang="en-GB">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>FuneralMatch | The New Standard of Independent Care</title>
+<style>
+    #emergency-system {
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        z-index: 3000;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
 
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,ital,wght@6..96,0,400;6..96,0,700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    .emergency-trigger {
+        background: white;
+        padding: 0.8rem 1.5rem;
+        border-radius: 9999px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        cursor: pointer;
+        border: 1px solid var(--gold);
+        transition: 0.3s;
+    }
 
-    <style>
-        :root {
-            --gold: #C5A059;
-            --black: #1a1a1a;
-            --white: #ffffff;
-            --glass-bg: rgba(255, 255, 255, 0.45);
-            --radius-pill: 9999px;
-            --radius-box: 3rem;
-            --ease: cubic-bezier(0.16, 1, 0.3, 1);
-        }
+    .dismiss-btn {
+        background: rgba(255,255,255,0.8);
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        font-size: 0.8rem;
+        color: #888;
+        border: 1px solid #eee;
+    }
 
-        /* 1. DEVICE NORMALIZATION (SAFE AREAS) */
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
-        
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #F8F7F5;
-            color: var(--black);
-            overflow-x: hidden;
-            padding-top: env(safe-area-inset-top);
-        }
+    /* Lead Capture Modal */
+    .lead-modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.4);
+        backdrop-filter: blur(20px);
+        z-index: 4000;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 1.5rem;
+    }
 
-        /* PERSISTENT BACKGROUND - DIGNITY CHAPEL AESTHETIC */
-        .persistent-sanctuary {
-            position: fixed;
-            inset: 0;
-            z-index: -1;
-            background: linear-gradient(rgba(255,255,255,0.25), rgba(255,255,255,0.35)), 
-                        url('https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2560&auto=format&fit=crop');
-            background-size: cover;
-            background-position: center;
-        }
+    .lead-modal-overlay.active { display: flex; }
 
-        .serif { font-family: 'Bodoni Moda', serif; }
+    .lead-form-container {
+        background: white;
+        width: 100%;
+        max-width: 500px;
+        padding: 3rem 2.5rem;
+        border-radius: 2.5rem;
+        position: relative;
+        max-height: 90vh;
+        overflow-y: auto;
+    }
 
-        /* 2. LOGO REPLICATION (STUCK AT TOP) */
-        header {
-            position: absolute;
-            top: 0; left: 0; width: 100%;
-            padding: clamp(2rem, 5vw, 4rem) 8%;
-            z-index: 100;
-        }
+    .conditional-fields {
+        display: none;
+        margin-top: 1.5rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid #f0f0f0;
+    }
 
-        .logo-wrap { display: flex; flex-direction: column; align-items: flex-start; width: fit-content; }
-        .brand-text { font-family: 'Bodoni Moda', serif; font-size: clamp(0.75rem, 2vw, 1rem); text-transform: uppercase; }
-        .brand-funeral { color: var(--black); letter-spacing: 0.5em; animation: logoIn 2s forwards; }
-        .logo-divider { width: 45px; height: 1.2px; background-color: var(--gold); margin: 6px 0; animation: logoIn 2s forwards 0.8s; opacity: 0; }
-        .brand-match { color: var(--gold); letter-spacing: 0.82em; margin-right: -0.82em; animation: logoIn 2.5s forwards 0.4s; opacity: 0; }
+    .input-group { margin-bottom: 1.2rem; }
+    .input-group label { display: block; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--gold); font-weight: 700; margin-bottom: 0.5rem; }
+    .lead-input { width: 100%; padding: 1rem 1.5rem; border-radius: 1.2rem; border: 1px solid #eee; outline: none; font-size: 0.95rem; transition: 0.3s; }
+    .lead-input:focus { border-color: var(--gold); }
+    
+    .submit-lead-btn { width: 100%; background: var(--black); color: white; padding: 1.2rem; border-radius: 9999px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.2em; margin-top: 1rem; border: none; cursor: pointer; }
+</style>
 
-        @keyframes logoIn {
-            from { opacity: 0; filter: blur(4px); transform: translateY(5px); }
-            to { opacity: 1; filter: blur(0); transform: translateY(0); }
-        }
-
-        /* 3. FLUID COMMAND ENGINE */
-        main {
-            padding: 20vh 8% 8rem 8%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
-        }
-
-        .hero-title {
-            font-size: clamp(2.5rem, 8vw, 4.8rem);
-            line-height: 1;
-            margin-bottom: 3.5rem;
-            text-align: center;
-        }
-
-        /* SEARCH STADIUM (AUTO-RESPONSIVE) */
-        .search-stadium {
-            width: 100%; max-width: 850px;
-            background: white; padding: 0.6rem;
-            border-radius: var(--radius-pill);
-            display: flex; align-items: center;
-            box-shadow: 0 40px 100px rgba(0,0,0,0.1);
-            margin-bottom: 2.5rem;
-        }
-
-        @media (max-width: 768px) {
-            .search-stadium { flex-direction: column; border-radius: 2.5rem; padding: 1.5rem; }
-            .search-input { text-align: center; margin-bottom: 1rem; width: 100%; }
-            .search-btn { width: 100%; }
-        }
-
-        .search-input { flex: 1; border: none; outline: none; padding: 0 2.5rem; font-size: 1.1rem; background: transparent; }
-        .search-input::placeholder { color: #A0A0A0; font-weight: 300; }
-        .search-btn { background: #000; color: white; padding: 1.25rem 3.5rem; border-radius: var(--radius-pill); font-weight: 700; text-transform: uppercase; letter-spacing: 0.25em; font-size: 0.75rem; cursor: pointer; }
-
-        /* REVENUE BRIDGE: DIGNITY HINT */
-        .dignity-ribbon {
-            width: 100%; max-width: 850px;
-            background: rgba(197, 160, 89, 0.05);
-            border: 1px dashed var(--gold);
-            border-radius: 2rem; padding: 1.5rem 2.5rem;
-            display: flex; justify-content: space-between; align-items: center;
-            backdrop-filter: blur(15px); margin-bottom: 10vh;
-        }
-
-        @media (max-width: 640px) { .dignity-ribbon { flex-direction: column; text-align: center; gap: 1rem; } }
-
-        .ribbon-text { font-size: 0.95rem; font-weight: 300; color: #333; }
-        .ribbon-link { font-size: 0.65rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.2em; border-bottom: 2px solid var(--gold); cursor: pointer; padding-bottom: 2px; }
-
-        /* 4. EXPOSURE GRID (5 PILLARS) */
-        .grid-master {
-            display: grid;
-            grid-template-cols: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 2.5rem;
-            width: 100%; max-width: 1400px;
-        }
-
-        .info-box {
-            background: var(--glass-bg);
-            backdrop-filter: blur(30px);
-            padding: clamp(3rem, 6vw, 4.5rem) 2.5rem;
-            border-radius: var(--radius-box);
-            border: 1px solid rgba(255, 255, 255, 0.7);
-            text-align: center;
-            transition: 0.8s var(--ease);
-        }
-
-        .info-box:hover { transform: translateY(-8px); border-color: var(--gold); background: rgba(255, 255, 255, 0.6); }
-
-        .tag { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.45em; color: var(--gold); font-weight: 800; margin-bottom: 1.5rem; display: block; }
-        .h2-box { font-family: 'Bodoni Moda', serif; font-size: 2.5rem; margin-bottom: 1.2rem; font-style: italic; line-height: 1; }
-        .p-box { font-size: 1rem; color: #444; line-height: 1.7; font-weight: 400; }
-
-        /* 5. EMERGENCY RELAY & FOOTER */
-        #emergency-hook {
-            position: fixed; bottom: 3rem; right: 3rem;
-            background: white; padding: 1.1rem 2.2rem;
-            border-radius: var(--radius-pill);
-            box-shadow: 0 25px 60px rgba(0,0,0,0.15);
-            display: flex; align-items: center; gap: 15px;
-            z-index: 2000; border: 1px solid var(--gold);
-            transform: translateY(200%); transition: 0.8s var(--ease);
-        }
-        #emergency-hook.active { transform: translateY(0); }
-
-        footer {
-            background: white; padding: 6rem 8% 4rem 8%; border-top: 1px solid #EEE;
-            display: grid; grid-template-cols: repeat(auto-fit, minmax(200px, 1fr)); gap: 4rem; width: 100%;
-        }
-        .f-link { display: block; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.25em; color: #888; margin-bottom: 1.2rem; text-decoration: none; font-weight: 600; }
-        .f-link:hover { color: #000; transform: translateX(5px); }
-    </style>
-</head>
-<body>
-
-    <div class="persistent-sanctuary"></div>
-
-    <header>
-        <div class="logo-wrap">
-            <span class="brand-text brand-funeral">Funeral</span>
-            <div class="logo-divider"></div>
-            <span class="brand-text brand-match">Match</span>
-        </div>
-    </header>
-
-    <main>
-        <div data-aos="fade-up">
-            <h1 class="serif hero-title italic">Clarity in <br><span style="font-style: normal; color: #555;">every step.</span></h1>
-        </div>
-
-        <div class="search-stadium" data-aos="zoom-in">
-            <input type="text" placeholder="Search from 1,200 directors nationwide..." class="search-input">
-            <button class="search-btn">Begin Match</button>
-        </div>
-
-        <div class="dignity-ribbon" data-aos="fade-up">
-            <p class="ribbon-text italic">Considering future security? Explore <strong>Dignity Funeral Plans</strong> for peace of mind.</p>
-            <span class="ribbon-link" onclick="toggleModal(true)">View Plans</span>
-        </div>
-
-        <div class="grid-master">
-            <div class="info-box" data-aos="fade-up">
-                <span class="tag">Independence</span>
-                <h2 class="h2-box">Unbiased <br>Advocacy.</h2>
-                <p class="p-box">We represent the family, not the director. Our comparison platform ensures merit-based results and service transparency.</p>
-            </div>
-            <div class="info-box" data-aos="fade-up" data-aos-delay="100">
-                <span class="tag">Quality</span>
-                <h2 class="h2-box">Vetted <br>Networks.</h2>
-                <p class="p-box">Every director is audited for professional conduct and facility standards, returning control to you.</p>
-            </div>
-            <div class="info-box" data-aos="fade-up" data-aos-delay="200">
-                <span class="tag">Standard</span>
-                <h2 class="h2-box">Transparent <br>Pricing.</h2>
-                <p class="p-box">Zero hidden fees. Access high-quality care through a fixed-cost framework designed for families first.</p>
-            </div>
-            <div class="info-box" data-aos="fade-up" data-aos-delay="300">
-                <span class="tag">Modernism</span>
-                <h2 class="h2-box">Digital <br>Efficiency.</h2>
-                <p class="p-box">The industry is aging; we are the evolution. Use 21st-century tools to manage a dignified tribute seamlessly.</p>
-            </div>
-            <div class="info-box" data-aos="fade-up" data-aos-delay="400">
-                <span class="tag">The Vision</span>
-                <h2 class="h2-box">Absolute <br>Clarity.</h2>
-                <p class="p-box">Standardizing the market vetting process to empower you with data. No more confusion—just a clear path forward.</p>
-            </div>
-        </div>
-    </main>
-
-    <div id="emergency-hook">
-        <div style="width: 8px; height: 8px; background: #FFB800; border-radius: 50%;"></div>
-        <span style="font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.2em; cursor: pointer;">Immediate Help?</span>
+<div id="emergency-system">
+    <div class="emergency-trigger" onclick="openLeadModal()">
+        <div style="width: 8px; height: 8px; background: #FFB800; border-radius: 50%; animation: pulse 2s infinite;"></div>
+        <span style="font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em;">Need Emergency Help?</span>
     </div>
+    <div class="dismiss-btn" onclick="document.getElementById('emergency-system').style.display='none'">&times;</div>
+</div>
 
-    <footer>
-        <div>
-            <p style="font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.4em; margin-bottom: 2.5rem; color: var(--gold);">Platform</p>
-            <a href="#" class="f-link">How it Works</a>
-            <a href="#" class="f-link">Vetting Process</a>
-            <a href="#" class="f-link">About Us</a>
-        </div>
-        <div>
-            <p style="font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.4em; margin-bottom: 2.5rem; color: var(--gold);">Legal</p>
-            <a href="#" class="f-link">Privacy Policy</a>
-            <a href="#" class="f-link">Terms of Service</a>
-            <a href="#" class="f-link">Cookie Policy</a>
-        </div>
-        <div>
-            <p style="font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.4em; margin-bottom: 2.5rem; color: var(--gold);">Industry</p>
-            <a href="#" class="f-link">Director Login</a>
-            <p style="font-size: 10px; color: #AAA; margin-top: 1rem;">© 2026 FuneralMatch. panchalkrish47@gmail.com Relay Active.</p>
-        </div>
-    </footer>
+<div id="lead-modal" class="lead-modal-overlay" onclick="closeLeadModal()">
+    <div class="lead-form-container" onclick="event.stopPropagation()">
+        <div style="position: absolute; top: 1.5rem; right: 2rem; cursor: pointer; font-size: 1.5rem; color: #ccc;" onclick="closeLeadModal()">&times;</div>
+        
+        <h3 class="serif italic text-3xl mb-1">Priority Support</h3>
+        <p class="text-[10px] uppercase tracking-widest text-stone-400 mb-8">Immediate Lead Dispatch</p>
 
-    <script>
-        AOS.init({ duration: 1500, once: true });
-        window.addEventListener('load', () => { setTimeout(() => { document.getElementById('emergency-hook').classList.add('active'); }, 2500); });
-    </script>
-</body>
-</html>
+        <form action="https://formspree.io/f/panchalkrish47@gmail.com" method="POST">
+            <div class="input-group">
+                <label>Reporter Full Name</label>
+                <input type="text" name="reporter_name" class="lead-input" placeholder="Your Name" required>
+            </div>
+            <div class="input-group">
+                <label>Contact Number</label>
+                <input type="tel" name="reporter_phone" class="lead-input" placeholder="07xxx xxxxxx" required>
+            </div>
+            
+            <div class="input-group">
+                <label>Status of Care</label>
+                <select name="status" id="status-select" class="lead-input" onchange="toggleConditionalFields(this.value)" required>
+                    <option value="planning">Pre-planning / Inquiry</option>
+                    <option value="immediate">Death has occurred (Immediate Help)</option>
+                </select>
+            </div>
+
+            <div id="immediate-fields" class="conditional-fields">
+                <div class="input-group">
+                    <label>Deceased Full Name</label>
+                    <input type="text" name="deceased_name" class="lead-input" placeholder="Name of deceased">
+                </div>
+                <div class="input-group">
+                    <label>Your Relationship</label>
+                    <input type="text" name="relationship" class="lead-input" placeholder="e.g. Spouse, Child, Executor">
+                </div>
+                <div class="input-group">
+                    <label>Current Location of Deceased</label>
+                    <input type="text" name="deceased_location" class="lead-input" placeholder="e.g. Home, Hospital, Hospice">
+                </div>
+            </div>
+
+            <input type="hidden" name="_subject" value="URGENT: New Priority Lead Captured">
+            <button type="submit" class="submit-lead-btn">Dispatch Lead</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    function openLeadModal() {
+        document.getElementById('lead-modal').classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeLeadModal() {
+        document.getElementById('lead-modal').classList.remove('active');
+        document.body.style.overflow = 'auto';
+    }
+
+    function toggleConditionalFields(val) {
+        const fields = document.getElementById('immediate-fields');
+        const inputs = fields.querySelectorAll('input');
+        if(val === 'immediate') {
+            fields.style.display = 'block';
+            inputs.forEach(i => i.setAttribute('required', ''));
+        } else {
+            fields.style.display = 'none';
+            inputs.forEach(i => i.removeAttribute('required'));
+        }
+    }
+</script>
