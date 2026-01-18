@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ancillary Partnerships | FuneralMatch</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@1,400;1,700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        :root { --gold: #C5A059; --black: #1a1a1a; --soft-bg: #F8F7F5; }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        body { font-family: 'Inter', sans-serif; background: var(--soft-bg); color: var(--black); }
+        .serif { font-family: 'Bodoni Moda', serif; }
+        
+        .partner-card { background: white; border-radius: 2.5rem; padding: 3rem; border: 1px solid #EEE; transition: 0.4s; }
+        .partner-card:hover { border-color: var(--gold); transform: translateY(-5px); }
+        .icon-circle { width: 60px; height: 60px; background: #FFFDF9; border: 1px solid #F0E6D2; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem; }
+    </style>
+</head>
+<body class="py-24 px-8">
+
+    <main class="max-w-6xl mx-auto">
+        <header class="text-center mb-24" data-aos="fade-up">
+            <h1 class="serif italic text-6xl mb-8">Beyond the Service.</h1>
+            <p class="text-stone-400 uppercase tracking-[0.4em] text-[10px] font-bold">Partner with the UK's Highest Standard Network</p>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-24">
+            
+            <div class="partner-card" data-aos="fade-up">
+                <div class="icon-circle">🍴</div>
+                <h3 class="serif text-2xl mb-4">Catering & Wakes</h3>
+                <p class="text-sm text-stone-500 mb-8">Join our recommended sidebar for families booking venues and memorial refreshments.</p>
+                <button class="text-[10px] font-bold uppercase tracking-widest text-[#C5A059] border-b border-[#C5A059]">Apply as Partner</button>
+            </div>
+
+            <div class="partner-card" data-aos="fade-up" data-aos-delay="100">
+                <div class="icon-circle">⚖️</div>
+                <h3 class="serif text-2xl mb-4">Legal & Probate</h3>
+                <p class="text-sm text-stone-500 mb-8">Direct integration for estate executors and solicitors seeking vetted family leads.</p>
+                <button class="text-[10px] font-bold uppercase tracking-widest text-[#C5A059] border-b border-[#C5A059]">Apply as Partner</button>
+            </div>
+
+            <div class="partner-card" data-aos="fade-up" data-aos-delay="200">
+                <div class="icon-circle">🌿</div>
+                <h3 class="serif text-2xl mb-4">Floral Tributes</h3>
+                <p class="text-sm text-stone-500 mb-8">Supply premium arrangements directly to our 1,200+ director network.</p>
+                <button class="text-[10px] font-bold uppercase tracking-widest text-[#C5A059] border-b border-[#C5A059]">Apply as Partner</button>
+            </div>
+
+        </div>
+
+        <section class="bg-black text-white rounded-[3.5rem] p-12 md:p-24 overflow-hidden relative" data-aos="zoom-in">
+            <div class="relative z-10 max-w-2xl">
+                <h2 class="serif italic text-4xl mb-8">Why Partner with FuneralMatch?</h2>
+                <ul class="space-y-6">
+                    <li class="flex items-start gap-4">
+                        <span class="text-[#C5A059] font-bold">01.</span>
+                        <p class="text-stone-400 text-sm"><strong class="text-white">Direct Lead Routing:</strong> Our concierge service suggests your firm the moment a family starts planning.</p>
+                    </li>
+                    <li class="flex items-start gap-4">
+                        <span class="text-[#C5A059] font-bold">02.</span>
+                        <p class="text-stone-400 text-sm"><strong class="text-white">Seamless Billing:</strong> We handle the referral tracking and commission reporting through your dedicated portal.</p>
+                    </li>
+                    <li class="flex items-start gap-4">
+                        <span class="text-[#C5A059] font-bold">03.</span>
+                        <p class="text-stone-400 text-sm"><strong class="text-white">Vetted Status:</strong> Use the FuneralMatch "Vetted Partner" seal on your own website to boost conversion.</p>
+                    </li>
+                </ul>
+                <form action="https://formspree.io/f/mvzzkjeq" method="POST" class="mt-12">
+                    <input type="hidden" name="_subject" value="NEW ANCILLARY PARTNER APPLICATION">
+                    <button type="submit" class="bg-[#C5A059] text-white px-10 py-4 rounded-full text-[10px] font-bold uppercase tracking-widest">Register Interest</button>
+                </form>
+            </div>
+            <div class="absolute -right-20 -bottom-20 opacity-10 serif italic text-[20rem] pointer-events-none">FM</div>
+        </section>
+
+    </main>
+
+    <script>
+        AOS.init({ duration: 1000, once: true });
+    </script>
+</body>
+</html>
