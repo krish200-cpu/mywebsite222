@@ -1,25 +1,115 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@1,400;1,700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --gold: #C5A059; --black: #1a1a1a; }
+        .serif { font-family: 'Bodoni Moda', serif; }
+        body { font-family: 'Inter', sans-serif; background-color: #F8F7F5; }
+        
+        /* Fixed Aspect Ratio Hack for broader compatibility */
+        .img-container { position: relative; width: 100%; padding-top: 100%; border-radius: 2rem; overflow: hidden; background: #f0f0f0; }
+        .img-container img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+        .product-card:hover img { transform: scale(1.1); }
+        
+        /* Cart Slide-out */
+        #cart-panel { position: fixed; top: 0; right: -400px; width: 400px; height: 100%; background: white; box-shadow: -10px 0 50px rgba(0,0,0,0.1); z-index: 5000; transition: 0.5s var(--ease); padding: 3rem 2rem; }
+        #cart-panel.active { right: 0; }
+    </style>
+</head>
+<body>
+
 <section class="max-w-6xl mx-auto py-24 px-8">
     <div class="flex justify-between items-end mb-12">
-        <h3 class="serif italic text-4xl">The Memorial Collection</h3>
-        <button class="text-[10px] font-bold uppercase tracking-widest border-b border-black">View All Items</button>
+        <div>
+            <p class="text-[10px] uppercase tracking-[0.3em] text-stone-400 font-bold mb-2">Curated Artifacts</p>
+            <h3 class="serif italic text-4xl">The Memorial Collection</h3>
+        </div>
+        <button class="text-[10px] font-bold uppercase tracking-widest border-b border-black pb-1">Browse Gallery</button>
     </div>
     
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div class="group cursor-pointer">
-            <div class="aspect-square bg-stone-100 rounded-3xl mb-6 overflow-hidden">
-                <img src="https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?q=80&w=1000&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-110 transition-transform">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+        <div class="product-card group cursor-pointer" onclick="toggleCart('Solid Oak Urn', 245)">
+            <div class="img-container mb-6">
+                <img src="https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?q=80&w=1000&auto=format&fit=crop" alt="Solid Oak Urn">
             </div>
-            <p class="text-[10px] uppercase font-bold text-stone-400">Handcrafted</p>
-            <h4 class="font-bold text-sm">Solid Oak Urn - "The Sanctuary"</h4>
-            <p class="text-[#C5A059] font-bold mt-2">£245.00</p>
+            <p class="text-[9px] uppercase font-bold tracking-widest text-stone-400 mb-1">Handcrafted Archive</p>
+            <h4 class="font-bold text-sm tracking-tight">Solid Oak Urn — "The Sanctuary"</h4>
+            <div class="flex items-center gap-3 mt-2">
+                <p class="text-[#C5A059] font-bold">£245.00</p>
+                <span class="text-[9px] bg-stone-100 px-2 py-0.5 rounded text-stone-500">In Stock</span>
+            </div>
         </div>
-        <div class="group cursor-pointer">
-            <div class="aspect-square bg-stone-100 rounded-3xl mb-6 overflow-hidden">
-                <img src="https://images.unsplash.com/photo-1611085583191-a3b1a30a8a3a?q=80&w=1000&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-110 transition-transform">
+
+        <div class="product-card group cursor-pointer" onclick="toggleCart('Silver Memory Locket', 120)">
+            <div class="img-container mb-6">
+                <img src="https://images.unsplash.com/photo-1611085583191-a3b1a30a8a3a?q=80&w=1000&auto=format&fit=crop" alt="Memory Locket">
             </div>
-            <p class="text-[10px] uppercase font-bold text-stone-400">Jewellery</p>
-            <h4 class="font-bold text-sm">Silver Memory Locket</h4>
-            <p class="text-[#C5A059] font-bold mt-2">£120.00</p>
+            <p class="text-[9px] uppercase font-bold tracking-widest text-stone-400 mb-1">Bespoke Jewellery</p>
+            <h4 class="font-bold text-sm tracking-tight">Silver Ash-Infused Memory Locket</h4>
+            <div class="flex items-center gap-3 mt-2">
+                <p class="text-[#C5A059] font-bold">£120.00</p>
+                <span class="text-[9px] bg-stone-100 px-2 py-0.5 rounded text-stone-500">Express Delivery</span>
+            </div>
+        </div>
+
+        <div class="product-card group cursor-pointer" onclick="toggleCart('Keepsake Stone', 85)">
+            <div class="img-container mb-6">
+                <img src="https://images.unsplash.com/photo-1517457373958-b7bdd4587205?q=80&w=1000&auto=format&fit=crop" alt="Keepsake Stone">
+            </div>
+            <p class="text-[9px] uppercase font-bold tracking-widest text-stone-400 mb-1">Natural Memorials</p>
+            <h4 class="font-bold text-sm tracking-tight">River Pebble Hand-Engraved Stone</h4>
+            <div class="flex items-center gap-3 mt-2">
+                <p class="text-[#C5A059] font-bold">£85.00</p>
+            </div>
         </div>
     </div>
 </section>
+
+<div id="cart-panel">
+    <div class="flex justify-between items-center mb-12">
+        <h3 class="serif italic text-2xl">Your Selection</h3>
+        <button onclick="toggleCart()" class="text-2xl">&times;</button>
+    </div>
+    
+    <div id="cart-content" class="mb-12">
+        </div>
+
+    <form action="https://formspree.io/f/mvzzkjeq" method="POST" class="space-y-4">
+        <input type="hidden" id="selected-product" name="product_name">
+        <input type="text" name="customer_name" placeholder="Full Name" class="w-full p-4 bg-stone-50 rounded-xl text-sm border-none" required>
+        <input type="email" name="customer_email" placeholder="Email Address" class="w-full p-4 bg-stone-50 rounded-xl text-sm border-none" required>
+        
+        <div class="pt-6 border-t border-stone-100">
+            <div class="flex justify-between mb-6">
+                <span class="text-xs uppercase font-bold tracking-widest">Subtotal</span>
+                <span id="cart-total" class="font-bold text-[#C5A059]">£0.00</span>
+            </div>
+            <button type="submit" class="w-full bg-black text-white py-4 rounded-full text-[10px] font-bold uppercase tracking-widest">Reserve for Arrangement</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    function toggleCart(name, price) {
+        const panel = document.getElementById('cart-panel');
+        panel.classList.toggle('active');
+        
+        if(name) {
+            document.getElementById('selected-product').value = name;
+            document.getElementById('cart-content').innerHTML = `
+                <div class="flex justify-between items-center bg-stone-50 p-6 rounded-2xl">
+                    <p class="font-bold text-sm">${name}</p>
+                    <p class="text-[#C5A059] font-bold">£${price}.00</p>
+                </div>
+            `;
+            document.getElementById('cart-total').innerText = `£${price}.00`;
+        }
+    }
+</script>
+
+</body>
+</html>
