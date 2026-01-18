@@ -1,156 +1,264 @@
-<style>
-    #emergency-system {
-        position: fixed;
-        bottom: 2rem;
-        right: 2rem;
-        z-index: 3000;
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-    }
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>FuneralMatch | Vetted Independent Care</title>
 
-    .emergency-trigger {
-        background: white;
-        padding: 0.8rem 1.5rem;
-        border-radius: 9999px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        cursor: pointer;
-        border: 1px solid var(--gold);
-        transition: 0.3s;
-    }
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,ital,wght@6..96,400;6..96,700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
-    .dismiss-btn {
-        background: rgba(255,255,255,0.8);
-        width: 30px;
-        height: 30px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        font-size: 0.8rem;
-        color: #888;
-        border: 1px solid #eee;
-    }
-
-    /* Lead Capture Modal */
-    .lead-modal-overlay {
-        position: fixed;
-        inset: 0;
-        background: rgba(0,0,0,0.4);
-        backdrop-filter: blur(20px);
-        z-index: 4000;
-        display: none;
-        align-items: center;
-        justify-content: center;
-        padding: 1.5rem;
-    }
-
-    .lead-modal-overlay.active { display: flex; }
-
-    .lead-form-container {
-        background: white;
-        width: 100%;
-        max-width: 500px;
-        padding: 3rem 2.5rem;
-        border-radius: 2.5rem;
-        position: relative;
-        max-height: 90vh;
-        overflow-y: auto;
-    }
-
-    .conditional-fields {
-        display: none;
-        margin-top: 1.5rem;
-        padding-top: 1.5rem;
-        border-top: 1px solid #f0f0f0;
-    }
-
-    .input-group { margin-bottom: 1.2rem; }
-    .input-group label { display: block; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--gold); font-weight: 700; margin-bottom: 0.5rem; }
-    .lead-input { width: 100%; padding: 1rem 1.5rem; border-radius: 1.2rem; border: 1px solid #eee; outline: none; font-size: 0.95rem; transition: 0.3s; }
-    .lead-input:focus { border-color: var(--gold); }
-    
-    .submit-lead-btn { width: 100%; background: var(--black); color: white; padding: 1.2rem; border-radius: 9999px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.2em; margin-top: 1rem; border: none; cursor: pointer; }
-</style>
-
-<div id="emergency-system">
-    <div class="emergency-trigger" onclick="openLeadModal()">
-        <div style="width: 8px; height: 8px; background: #FFB800; border-radius: 50%; animation: pulse 2s infinite;"></div>
-        <span style="font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em;">Need Emergency Help?</span>
-    </div>
-    <div class="dismiss-btn" onclick="document.getElementById('emergency-system').style.display='none'">&times;</div>
-</div>
-
-<div id="lead-modal" class="lead-modal-overlay" onclick="closeLeadModal()">
-    <div class="lead-form-container" onclick="event.stopPropagation()">
-        <div style="position: absolute; top: 1.5rem; right: 2rem; cursor: pointer; font-size: 1.5rem; color: #ccc;" onclick="closeLeadModal()">&times;</div>
-        
-        <h3 class="serif italic text-3xl mb-1">Priority Support</h3>
-        <p class="text-[10px] uppercase tracking-widest text-stone-400 mb-8">Immediate Lead Dispatch</p>
-
-        <form action="https://formspree.io/f/panchalkrish47@gmail.com" method="POST">
-            <div class="input-group">
-                <label>Reporter Full Name</label>
-                <input type="text" name="reporter_name" class="lead-input" placeholder="Your Name" required>
-            </div>
-            <div class="input-group">
-                <label>Contact Number</label>
-                <input type="tel" name="reporter_phone" class="lead-input" placeholder="07xxx xxxxxx" required>
-            </div>
-            
-            <div class="input-group">
-                <label>Status of Care</label>
-                <select name="status" id="status-select" class="lead-input" onchange="toggleConditionalFields(this.value)" required>
-                    <option value="planning">Pre-planning / Inquiry</option>
-                    <option value="immediate">Death has occurred (Immediate Help)</option>
-                </select>
-            </div>
-
-            <div id="immediate-fields" class="conditional-fields">
-                <div class="input-group">
-                    <label>Deceased Full Name</label>
-                    <input type="text" name="deceased_name" class="lead-input" placeholder="Name of deceased">
-                </div>
-                <div class="input-group">
-                    <label>Your Relationship</label>
-                    <input type="text" name="relationship" class="lead-input" placeholder="e.g. Spouse, Child, Executor">
-                </div>
-                <div class="input-group">
-                    <label>Current Location of Deceased</label>
-                    <input type="text" name="deceased_location" class="lead-input" placeholder="e.g. Home, Hospital, Hospice">
-                </div>
-            </div>
-
-            <input type="hidden" name="_subject" value="URGENT: New Priority Lead Captured">
-            <button type="submit" class="submit-lead-btn">Dispatch Lead</button>
-        </form>
-    </div>
-</div>
-
-<script>
-    function openLeadModal() {
-        document.getElementById('lead-modal').classList.add('active');
-        document.body.style.overflow = 'hidden';
-    }
-
-    function closeLeadModal() {
-        document.getElementById('lead-modal').classList.remove('active');
-        document.body.style.overflow = 'auto';
-    }
-
-    function toggleConditionalFields(val) {
-        const fields = document.getElementById('immediate-fields');
-        const inputs = fields.querySelectorAll('input');
-        if(val === 'immediate') {
-            fields.style.display = 'block';
-            inputs.forEach(i => i.setAttribute('required', ''));
-        } else {
-            fields.style.display = 'none';
-            inputs.forEach(i => i.removeAttribute('required'));
+    <style>
+        :root {
+            --gold: #C5A059;
+            --black: #1a1a1a;
+            --white: #ffffff;
+            --glass: rgba(255, 255, 255, 0.45);
+            --radius-box: 2.5rem;
+            --ease: cubic-bezier(0.16, 1, 0.3, 1);
         }
-    }
-</script>
+
+        /* 1. RESET & DEVICE FIXES */
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8F7F5;
+            color: var(--black);
+            overflow-x: hidden;
+            padding-top: env(safe-area-inset-top);
+        }
+
+        /* PERSISTENT BACKGROUND */
+        .sanctuary-bg {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background: linear-gradient(rgba(255,255,255,0.2), rgba(255,255,255,0.3)), 
+                        url('https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2560&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* 2. EXACT LOGO FORMAT (TOP-LEFT) */
+        header {
+            position: absolute;
+            top: 0; left: 0; width: 100%;
+            padding: clamp(1.5rem, 5vw, 3rem) 8%;
+            z-index: 100;
+        }
+
+        .logo-wrap { display: flex; flex-direction: column; align-items: flex-start; }
+        .brand-text { font-family: 'Bodoni Moda', serif; font-size: clamp(0.7rem, 2vw, 0.9rem); text-transform: uppercase; }
+        .brand-funeral { color: var(--black); letter-spacing: 0.5em; animation: logoFade 2s forwards; }
+        .logo-divider { width: 40px; height: 1px; background-color: var(--gold); margin: 8px 0; animation: logoFade 2s forwards 0.8s; opacity: 0; }
+        .brand-match { color: var(--gold); letter-spacing: 0.82em; margin-right: -0.82em; animation: logoFade 2.5s forwards 0.4s; opacity: 0; }
+
+        @keyframes logoFade {
+            from { opacity: 0; filter: blur(4px); transform: translateY(5px); }
+            to { opacity: 1; filter: blur(0); transform: translateY(0); }
+        }
+
+        /* 3. MAIN UI COMPONENTS */
+        main { padding: 18vh 8% 8rem 8%; display: flex; flex-direction: column; align-items: center; }
+        
+        .hero-title {
+            font-family: 'Bodoni Moda', serif;
+            font-size: clamp(2.2rem, 8vw, 4.5rem);
+            line-height: 1.1;
+            margin-bottom: 2.5rem;
+            text-align: center;
+            font-style: italic;
+        }
+
+        .search-stadium {
+            width: 100%; max-width: 800px;
+            background: white; padding: 0.5rem; border-radius: 9999px;
+            display: flex; align-items: center; box-shadow: 0 30px 60px rgba(0,0,0,0.06);
+            margin-bottom: 3rem;
+        }
+
+        @media (max-width: 768px) {
+            .search-stadium { flex-direction: column; border-radius: 2rem; padding: 1.25rem; }
+            .search-input { width: 100%; text-align: center; margin-bottom: 1rem; }
+            .search-btn { width: 100%; }
+        }
+
+        .search-input { flex: 1; border: none; outline: none; padding: 0 2rem; font-size: 1.1rem; background: transparent; color: #111; }
+        .search-btn { background: #000; color: white; padding: 1.2rem 3.5rem; border-radius: 9999px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.2em; cursor: pointer; border: none; }
+
+        /* 4. EMERGENCY SYSTEM (PILL + DISMISS) */
+        #emergency-system {
+            position: fixed; bottom: 2rem; right: 2rem;
+            z-index: 3000; display: flex; align-items: center; gap: 0.5rem;
+            transform: translateY(150%); transition: 0.8s var(--ease);
+        }
+        #emergency-system.active { transform: translateY(0); }
+
+        .emergency-trigger {
+            background: white; padding: 0.8rem 1.5rem; border-radius: 9999px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15); display: flex; align-items: center; gap: 12px;
+            cursor: pointer; border: 1px solid var(--gold);
+        }
+
+        .dismiss-btn {
+            background: white; width: 30px; height: 30px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; border: 1px solid #eee; font-size: 0.8rem;
+        }
+
+        /* 5. MULTI-STEP LEAD CAPTURE MODAL */
+        .modal-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.4);
+            backdrop-filter: blur(25px); z-index: 4000;
+            display: none; align-items: center; justify-content: center;
+            padding: 1.5rem; opacity: 0; transition: 0.5s ease;
+        }
+        .modal-overlay.active { display: flex; opacity: 1; }
+
+        .lead-card {
+            background: white; width: 500px; max-width: 100%;
+            padding: 3.5rem 2.5rem; border-radius: 3rem; position: relative;
+            max-height: 90vh; overflow-y: auto;
+        }
+
+        .input-group { margin-bottom: 1.2rem; }
+        .input-group label { display: block; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--gold); font-weight: 700; margin-bottom: 0.5rem; }
+        .lead-input { width: 100%; padding: 1.1rem 1.5rem; border-radius: 1.2rem; border: 1px solid #eee; outline: none; font-size: 1rem; transition: 0.3s; }
+        .lead-input:focus { border-color: var(--gold); }
+        
+        .submit-lead-btn { width: 100%; background: #000; color: white; padding: 1.25rem; border-radius: 9999px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.2em; margin-top: 1rem; cursor: pointer; border: none; }
+
+        /* 6. INFORMATION GRID (5 BOXES) */
+        .info-grid { display: grid; grid-template-cols: repeat(auto-fit, minmax(300px, 1fr)); gap: 2.5rem; width: 100%; max-width: 1400px; margin-top: 6rem; }
+        .info-box { background: var(--glass); backdrop-filter: blur(30px); padding: 4rem 2.5rem; border-radius: var(--radius-box); border: 1px solid rgba(255,255,255,0.7); text-align: center; }
+
+        .tag { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.45em; color: var(--gold); font-weight: 700; margin-bottom: 1.5rem; display: block; }
+        .h2-box { font-family: 'Bodoni Moda', serif; font-size: 2.4rem; font-style: italic; line-height: 1; margin-bottom: 1.2rem; }
+
+        footer { background: white; padding: 5rem 8%; border-top: 1px solid #EEE; display: grid; grid-template-cols: repeat(auto-fit, minmax(200px, 1fr)); gap: 4rem; width: 100%; }
+    </style>
+</head>
+<body>
+
+    <div class="sanctuary-bg"></div>
+
+    <header>
+        <div class="logo-wrap">
+            <span class="brand-text brand-funeral">Funeral</span>
+            <div class="logo-divider"></div>
+            <span class="brand-text brand-match">Match</span>
+        </div>
+    </header>
+
+    <main>
+        <div data-aos="fade-up">
+            <h1 class="hero-title">Clarity in <br><span style="font-style: normal; color: #555;">every step.</span></h1>
+        </div>
+
+        <div class="search-stadium" data-aos="zoom-in">
+            <input type="text" placeholder="Search from 1,200 directors..." class="search-input">
+            <button class="search-btn">Begin Match</button>
+        </div>
+
+        <div class="info-grid">
+            <div class="info-box" data-aos="fade-up">
+                <span class="tag">Identity</span>
+                <h2 class="h2-box">Independent <br>Advocacy.</h2>
+                <p>Ensuring unbiased merit and service transparency for your family choice.</p>
+            </div>
+            <div class="info-box" data-aos="fade-up" data-aos-delay="100">
+                <span class="tag">Quality</span>
+                <h2 class="h2-box">Vetted <br>Networks.</h2>
+                <p>Every director is audited for professional conduct and facility standards.</p>
+            </div>
+            <div class="info-box" data-aos="fade-up" data-aos-delay="200">
+                <span class="tag">Standard</span>
+                <h2 class="h2-box">Transparent <br>Pricing.</h2>
+                <p>Zero hidden fees. High-quality care through a fixed-cost framework.</p>
+            </div>
+            <div class="info-box" data-aos="fade-up" data-aos-delay="300">
+                <span class="tag">Modernism</span>
+                <h2 class="h2-box">Digital <br>Efficiency.</h2>
+                <p>Modern tools to manage a dignified tribute seamlessly and securely online.</p>
+            </div>
+            <div class="info-box" data-aos="fade-up" data-aos-delay="400">
+                <span class="tag">Vision</span>
+                <h2 class="h2-box">Absolute <br>Clarity.</h2>
+                <p>Standardizing the market vetting process to empower you with direct data.</p>
+            </div>
+        </div>
+    </main>
+
+    <div id="emergency-system">
+        <div class="emergency-trigger" onclick="toggleModal(true)">
+            <div style="width: 8px; height: 8px; background: #FFB800; border-radius: 50%; animation: pulse 2s infinite;"></div>
+            <span style="font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em;">Need Emergency Help?</span>
+        </div>
+        <div class="dismiss-btn" onclick="document.getElementById('emergency-system').style.display='none'">&times;</div>
+    </div>
+
+    <div id="lead-modal" class="modal-overlay" onclick="toggleModal(false)">
+        <div class="lead-card" onclick="event.stopPropagation()">
+            <div style="position: absolute; top: 1.5rem; right: 2rem; cursor: pointer; font-size: 1.5rem; color: #ccc;" onclick="toggleModal(false)">&times;</div>
+            <h3 class="serif italic text-3xl mb-1">Priority Support</h3>
+            <p class="text-[10px] uppercase tracking-widest text-stone-400 mb-8">Lead capture: panchalkrish47@gmail.com</p>
+
+            <form action="https://formspree.io/f/panchalkrish47@gmail.com" method="POST">
+                <div class="input-group">
+                    <label>Your Full Name</label>
+                    <input type="text" name="reporter_name" class="lead-input" required>
+                </div>
+                <div class="input-group">
+                    <label>Contact Number</label>
+                    <input type="tel" name="phone" class="lead-input" required>
+                </div>
+                <div class="input-group">
+                    <label>Situation</label>
+                    <select name="type" class="lead-input" onchange="toggleImmediate(this.value)" required>
+                        <option value="inquiry">General Inquiry</option>
+                        <option value="immediate">Death has occurred</option>
+                    </select>
+                </div>
+
+                <div id="immediate-info" style="display: none; border-top: 1px solid #f0f0f0; padding-top: 1rem; margin-top: 1rem;">
+                    <div class="input-group">
+                        <label>Deceased Name</label>
+                        <input type="text" name="deceased_name" class="lead-input">
+                    </div>
+                    <div class="input-group">
+                        <label>Relation to Deceased</label>
+                        <input type="text" name="relation" class="lead-input">
+                    </div>
+                </div>
+
+                <input type="hidden" name="_subject" value="URGENT: New FuneralMatch Lead">
+                <button type="submit" class="submit-lead-btn">Dispatch Priority Lead</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // AOS Initialize
+        AOS.init({ duration: 1500, once: true });
+
+        // Emergency popup logic
+        window.addEventListener('load', () => {
+            setTimeout(() => { document.getElementById('emergency-system').classList.add('active'); }, 3000);
+        });
+
+        function toggleModal(show) {
+            const m = document.getElementById('lead-modal');
+            if (show) { m.style.display = 'flex'; setTimeout(() => m.classList.add('active'), 10); } 
+            else { m.classList.remove('active'); setTimeout(() => m.style.display = 'none', 500); }
+        }
+
+        function toggleImmediate(val) {
+            const fields = document.getElementById('immediate-info');
+            fields.style.display = (val === 'immediate') ? 'block' : 'none';
+        }
+    </script>
+</body>
+</html>
