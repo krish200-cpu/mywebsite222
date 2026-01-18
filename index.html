@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>FuneralMatch | The New Standard</title>
+    <title>FuneralMatch | The New Standard of Care</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,ital,wght@6..96,0,400;6..96,0,700&family=Outfit:wght@200;300;400;600;800&display=swap" rel="stylesheet">
@@ -15,29 +15,30 @@
             --gold: #C5A059;
             --black: #000000;
             --white: #FFFFFF;
-            --glass: rgba(255, 255, 255, 0.4);
+            --glass: rgba(255, 255, 255, 0.45);
             --radius-pill: 9999px;
             --radius-box: 3.5rem;
             --ease: cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        /* 1. STATUS BAR FIX (SOLVING YOUR CIRCLED ISSUE) */
+        /* 1. DEVICE NOTCH FIX (SOLVING THE CIRCLED WHITE BAR) */
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         html, body {
             height: 100%;
-            background-color: transparent; /* Allows background to bleed to edges */
+            background-color: #F6F4F1; /* Fallback matches chapel tone */
         }
 
         body {
             font-family: 'Outfit', sans-serif;
             color: var(--black);
             overflow-x: hidden;
-            padding-top: env(safe-area-inset-top); /* Matches device notch */
+            /* Ensures background bleeds behind status bar/notch */
+            padding-top: env(safe-area-inset-top); 
         }
 
-        /* PERSISTENT BACKGROUND ENGINE */
-        .persistent-sanctuary {
+        /* PERSISTENT ARCHITECTURAL SANCTUARY */
+        .persistent-bg {
             position: fixed;
             inset: 0;
             z-index: -1;
@@ -49,118 +50,118 @@
 
         .serif { font-family: 'Bodoni Moda', serif; }
 
-        /* 2. LOGO REFINEMENT (NO WHITE BOX) */
+        /* 2. REFINED HEADER & LOGO VISIBILITY */
         header {
             position: absolute;
             top: 0; left: 0; width: 100%;
-            padding: 2rem 8%;
+            padding: 2.5rem 8%;
             z-index: 100;
         }
 
-        .logo-box {
+        .logo-container {
             display: flex;
             flex-direction: column;
-            width: 140px;
-            /* Fully transparent now - no white background */
-            background: transparent; 
+            width: 150px;
+            background: transparent; /* No white box anymore */
+            filter: drop-shadow(0 2px 4px rgba(255,255,255,0.5)); /* Adds subtle halo for visibility */
         }
 
         .brand-funeral { font-family: 'Bodoni Moda', serif; text-transform: uppercase; font-size: 1rem; letter-spacing: 0.35em; line-height: 1.1; font-weight: 800; color: var(--black); }
-        .logo-divider { width: 100%; height: 1.2px; background: var(--gold); margin: 5px 0; }
+        .logo-divider { width: 100%; height: 1.5px; background: var(--gold); margin: 5px 0; }
         .brand-match { font-family: 'Bodoni Moda', serif; text-transform: uppercase; font-size: 1rem; letter-spacing: 0.65em; font-weight: 700; color: var(--gold); margin-right: -0.65em; }
 
-        /* 3. CENTER COMMAND ENGINE */
+        /* 3. CENTRE COMMAND UNIT */
         main {
-            padding: 15vh 8% 8rem 8%;
+            padding: 18vh 8% 10rem 8%;
             display: flex;
             flex-direction: column;
             align-items: center;
         }
 
         .hero-title {
-            font-size: clamp(2.5rem, 8vw, 5rem);
+            font-size: clamp(2.8rem, 8vw, 5.5rem);
             line-height: 1;
-            margin-bottom: 2.5rem;
+            margin-bottom: 3.5rem;
             text-align: center;
+            color: #111;
         }
 
         .search-stadium {
-            width: 100%; max-width: 800px;
+            width: 100%; max-width: 850px;
             background: white;
             padding: 0.6rem;
             border-radius: var(--radius-pill);
             display: flex; align-items: center;
-            box-shadow: 0 40px 100px rgba(0,0,0,0.08);
+            box-shadow: 0 40px 100px rgba(0,0,0,0.1);
             margin-bottom: 2.5rem;
         }
 
         @media (max-width: 768px) {
-            .search-stadium { flex-direction: column; border-radius: 2.5rem; padding: 1.5rem; }
+            .search-stadium { flex-direction: column; border-radius: 2.5rem; padding: 1.25rem; }
             .search-input { width: 100%; text-align: center; margin-bottom: 1rem; }
             .search-btn { width: 100%; }
         }
 
-        .search-input { flex: 1; border: none; outline: none; padding: 0 2rem; font-size: 1.1rem; background: transparent; }
-        .search-input::placeholder { color: #A0A0A0; font-weight: 300; }
-        .search-btn { background: #000; color: white; padding: 1.25rem 3.5rem; border-radius: var(--radius-pill); font-weight: 700; text-transform: uppercase; letter-spacing: 0.2em; font-size: 0.75rem; cursor: pointer; }
+        .search-input { flex: 1; border: none; outline: none; padding: 0 2.5rem; font-size: 1.15rem; background: transparent; color: #111; }
+        .search-input::placeholder { color: #888; font-weight: 300; font-size: 0.95rem; }
+        .search-btn { background: #000; color: white; padding: 1.25rem 3.5rem; border-radius: var(--radius-pill); font-weight: 700; text-transform: uppercase; letter-spacing: 0.25em; font-size: 0.75rem; cursor: pointer; }
 
-        /* 4. DIGNITY PLAN INTEGRATION (IMMEDIATELY UNDER SEARCH) */
+        /* DIGNITY INTEGRATION (SUBTLE UNDER SEARCH) */
         .dignity-hint {
-            width: 100%; max-width: 800px;
-            background: rgba(197, 160, 89, 0.08);
-            border: 1px dashed var(--gold);
-            border-radius: 2rem;
-            padding: 1.5rem 2.5rem;
+            width: 100%; max-width: 850px;
+            background: rgba(197, 160, 89, 0.05);
+            border: 1.5px dashed var(--gold);
+            border-radius: 2.5rem;
+            padding: 1.8rem 3rem;
             margin-bottom: 8rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            backdrop-filter: blur(10px);
+            display: flex; justify-content: space-between; align-items: center;
+            backdrop-filter: blur(15px);
         }
 
-        @media (max-width: 640px) { .dignity-hint { flex-direction: column; text-align: center; gap: 1rem; } }
+        @media (max-width: 640px) { .dignity-hint { flex-direction: column; text-align: center; gap: 1.5rem; } }
 
-        .hint-text { font-size: 0.9rem; font-weight: 300; color: #333; }
-        .hint-btn { font-size: 0.65rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.2em; border-bottom: 1px solid var(--gold); cursor: pointer; padding-bottom: 2px; }
+        .hint-p { font-size: 0.95rem; color: #333; font-weight: 300; line-height: 1.5; }
+        .hint-link { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.25em; border-bottom: 1px solid var(--gold); cursor: pointer; padding-bottom: 3px; }
 
-        /* 5. EXPANDED COMPANY INFORMATION BOXES */
-        .info-grid {
+        /* 4. EXPOSURE GRID: "BIGGING UP" THE COMPANY (5 BOXES) */
+        .exposure-grid {
             display: grid;
             grid-template-cols: repeat(auto-fit, minmax(320px, 1fr));
             gap: 2.5rem;
             width: 100%; max-width: 1400px;
         }
 
-        .info-capsule {
+        .info-pill {
             background: var(--glass);
             backdrop-filter: blur(30px);
-            padding: 4rem 2.5rem;
+            padding: 4.5rem 3rem;
             border-radius: var(--radius-box);
-            border: 1px solid rgba(255,255,255,0.6);
+            border: 1px solid rgba(255,255,255,0.7);
             text-align: center;
             transition: var(--ease) 0.8s;
         }
 
-        .info-capsule:hover { background: rgba(255,255,255,0.6); transform: translateY(-5px); border-color: var(--gold); }
+        .info-pill:hover { transform: translateY(-8px); border-color: var(--gold); background: rgba(255,255,255,0.6); }
 
-        .tag { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.45em; color: var(--gold); font-weight: 800; margin-bottom: 1.5rem; display: block; }
-        .h2-box { font-size: 2.4rem; margin-bottom: 1.2rem; line-height: 1; }
-        .p-box { font-size: 1rem; color: #444; line-height: 1.7; font-weight: 300; }
+        .tag { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5em; color: var(--gold); font-weight: 800; margin-bottom: 1.5rem; display: block; }
+        .h2-pill { font-size: 2.5rem; margin-bottom: 1.2rem; line-height: 1; }
+        .p-pill { font-size: 1.05rem; color: #444; line-height: 1.7; font-weight: 300; }
 
         /* FOOTER */
         footer {
-            background: white; padding: 5rem 8%; border-top: 1px solid #EEE;
-            display: grid; grid-template-cols: repeat(auto-fit, minmax(200px, 1fr)); gap: 4rem;
+            background: white; padding: 6rem 8%; border-top: 1px solid #EEE;
+            display: grid; grid-template-cols: repeat(auto-fit, minmax(250px, 1fr)); gap: 4rem;
         }
-        .footer-link { display: block; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.2em; color: #888; margin-bottom: 1.2rem; text-decoration: none; font-weight: 600; }
+        .footer-link { display: block; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.25em; color: #999; margin-bottom: 1.2rem; text-decoration: none; font-weight: 600; }
+        .footer-link:hover { color: var(--black); }
     </style>
 </head>
 <body>
 
-    <div class="persistent-sanctuary"></div>
+    <div class="persistent-bg"></div>
 
     <header>
-        <div class="logo-box">
+        <div class="logo-container">
             <span class="brand-funeral">Funeral</span>
             <div class="logo-divider"></div>
             <span class="brand-match">Match</span>
@@ -173,58 +174,66 @@
         </div>
 
         <div class="search-stadium" data-aos="zoom-in">
-            <input type="text" placeholder="Search from 1,200+ directors nationwide..." class="search-input">
+            <input type="text" placeholder="Search from 1,200+ directors nationwide or locally..." class="search-input">
             <button class="search-btn">Begin Match</button>
         </div>
 
         <div class="dignity-hint" data-aos="fade-up">
-            <p class="hint-text italic">Considering future security? Explore <strong class="font-bold">Dignity Funeral Plans</strong> for total peace of mind.</p>
-            <span class="hint-btn">Learn More</span>
+            <p class="hint-p italic">Considering future security? Explore <strong class="font-bold">Dignity Funeral Plans</strong> for total peace of mind and fixed costs.</p>
+            <span class="hint-link">Explore Plans</span>
         </div>
 
-        <div class="info-grid">
-            <div class="info-capsule" data-aos="fade-up">
-                <span class="tag">Independence</span>
-                <h2 class="serif h2-box italic">Our <br>Advocacy.</h2>
-                <p class="p-box">We represent the family, not the director. Our comparison platform ensures unbiased merit and service transparency.</p>
-            </div>
-
-            <div class="info-capsule" data-aos="fade-up" data-aos-delay="100">
-                <span class="tag">The Standard</span>
-                <h2 class="serif h2-box italic">Vetted <br>Networks.</h2>
-                <p class="p-box">Every director in our network is audited for professional conduct and facility standards, giving you complete control.</p>
-            </div>
-
-            <div class="info-capsule" data-aos="fade-up" data-aos-delay="200">
-                <span class="tag">Transparency</span>
-                <h2 class="serif h2-box italic">Direct <br>Pricing.</h2>
-                <p class="p-box">Zero hidden fees. Access high-quality care through a fixed-cost framework designed for families first.</p>
-            </div>
+        <div class="exposure-grid">
             
-            <div class="info-capsule" data-aos="fade-up" data-aos-delay="300">
-                <span class="tag">Modernism</span>
-                <h2 class="serif h2-box italic">Digital <br>Efficiency.</h2>
-                <p class="p-box">The industry is aging; we are the evolution. Use modern tools to manage a dignified tribute seamlessly and securely.</p>
+            <div class="info-pill" data-aos="fade-up">
+                <span class="tag">Independence</span>
+                <h2 class="serif h2-pill italic">Our <br>Advocacy.</h2>
+                <p class="p-pill">We are the objective middleman. We represent the family, not the director, ensuring unbiased merit and service transparency.</p>
             </div>
+
+            <div class="info-pill" data-aos="fade-up" data-aos-delay="100">
+                <span class="tag">The Standard</span>
+                <h2 class="serif h2-pill italic">Vetted <br>Quality.</h2>
+                <p class="p-pill">Every director in our network is audited for professional conduct and facility standards, returning absolute control to you.</p>
+            </div>
+
+            <div class="info-pill" data-aos="fade-up" data-aos-delay="200">
+                <span class="tag">Transparency</span>
+                <h2 class="serif h2-pill italic">Fixed <br>Pricing.</h2>
+                <p class="p-pill">Zero hidden fees. Access high-quality care through a modernized framework designed to put the family's needs first.</p>
+            </div>
+
+            <div class="info-pill" data-aos="fade-up" data-aos-delay="300">
+                <span class="tag">Modernism</span>
+                <h2 class="serif h2-pill italic">Digital <br>Dignity.</h2>
+                <p class="p-pill">The industry is aging; we are the evolution. Use modern tools to manage a dignified tribute with 21st-century efficiency.</p>
+            </div>
+
+            <div class="info-pill" data-aos="fade-up" data-aos-delay="400">
+                <span class="tag">Security</span>
+                <h2 class="serif h2-pill italic">Guaranteed <br>Peace.</h2>
+                <p class="p-pill">Join the thousands of families who found clarity through our platform. We vet the market so you can focus on the memories.</p>
+            </div>
+
         </div>
     </main>
 
     <footer>
         <div>
-            <p class="text-[10px] font-bold uppercase tracking-[0.4em] mb-8">Navigation</p>
-            <a href="#" class="footer-link">About Us</a>
-            <a href="#" class="footer-link">How it Works</a>
-            <a href="#" class="footer-link">Contact</a>
+            <p class="text-[10px] font-bold uppercase tracking-[0.5em] mb-10">Navigation</p>
+            <a href="#" class="footer-link">About the Match</a>
+            <a href="#" class="footer-link">Find a Director</a>
+            <a href="#" class="footer-link">Contact Us</a>
         </div>
         <div>
-            <p class="text-[10px] font-bold uppercase tracking-[0.4em] mb-8">Legal</p>
+            <p class="text-[10px] font-bold uppercase tracking-[0.5em] mb-10">Legal</p>
             <a href="#" class="footer-link">Privacy Policy</a>
             <a href="#" class="footer-link">Terms of Service</a>
         </div>
         <div>
-            <p class="text-[10px] font-bold uppercase tracking-[0.4em] mb-8">Professional</p>
-            <a href="#" class="footer-link">Director Login</a>
-            <p class="text-[9px] text-stone-400 mt-4 italic">© 2026 FuneralMatch</p>
+            <p class="text-[10px] font-bold uppercase tracking-[0.5em] mb-10">Industry</p>
+            <a href="#" class="footer-link">Director Portal</a>
+            <p class="text-[10px] text-stone-400 mt-6 italic">© 2026 FuneralMatch. Vetted Care.</p>
         </div>
     </footer>
 
