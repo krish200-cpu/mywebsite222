@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FuneralMatch | Trusted Comparison Service</title>
+    <title>FuneralMatch | The Revolution of Care</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,500;6..96,600&family=Inter:wght@300;400;500;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,500;6..96,600&family=Inter:wght@300;400;600&display=swap');
         
         :root { 
             --gold: #C5A059; 
@@ -18,7 +18,6 @@
         
         body { 
             font-family: 'Inter', sans-serif; 
-            /* New aesthetically pleasing soft-grain linen texture */
             background-color: var(--bg-linen);
             background-image: url("https://www.transparenttextures.com/patterns/linen.png");
             color: #1A1A1A;
@@ -27,41 +26,46 @@
 
         .serif { font-family: 'Bodoni Moda', serif; }
 
-        header { padding: 4rem 10%; }
+        /* Branding: Top Left Static */
+        header { padding: 3rem 10%; }
         .logo-wrap { display: flex; flex-direction: column; width: 140px; }
         .brand-text { font-family: 'Bodoni Moda', serif; text-transform: uppercase; font-size: 1rem; letter-spacing: 0.35em; line-height: 1.1; font-weight: 600; color: #1A1A1A; }
         .logo-line { width: 100%; height: 1.5px; background: var(--gold); margin: 6px 0; }
         .brand-match { color: var(--gold); letter-spacing: 0.72em; margin-right: -0.72em; }
 
-        /* Unique Sanctuary Search Box */
-        .search-container {
-            max-width: 850px;
+        /* The Sanctuary Search: No Corners */
+        .search-stadium {
+            max-width: 800px;
             width: 100%;
             background: white;
-            padding: 1.5rem;
-            border-radius: 100px;
+            padding: 1rem;
+            border-radius: 9999px; /* Absolute Modernism */
             display: flex;
             align-items: center;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.05);
-            border: 1px solid rgba(197, 160, 89, 0.2);
-            margin-bottom: 5vh;
-            transition: all 0.4s ease;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.03);
+            border: 1px solid rgba(0,0,0,0.05);
+            margin-bottom: 8vh;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .search-container:hover { border-color: var(--gold); box-shadow: 0 25px 50px rgba(197, 160, 89, 0.1); }
-        .search-input { flex: 1; border: none; outline: none; padding: 0 1.5rem; font-size: 1.1rem; color: #1A1A1A; }
-        .search-btn { background: var(--box-dark); color: white; padding: 1rem 2.5rem; border-radius: 100px; font-weight: 600; letter-spacing: 0.1em; transition: 0.3s; }
-        .search-btn:hover { background: #333; }
+        .search-stadium:focus-within {
+            border-color: var(--gold);
+            box-shadow: 0 40px 80px rgba(197, 160, 89, 0.1);
+            transform: translateY(-2px);
+        }
+        .search-input { flex: 1; border: none; outline: none; padding: 0 2rem; font-size: 1.1rem; background: transparent; }
+        .search-btn { background: var(--box-dark); color: white; padding: 1.2rem 3rem; border-radius: 9999px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.2em; font-size: 0.75rem; transition: 0.3s; }
 
-        /* Sequential Info Boxes */
-        .info-box {
+        /* The Revolution Box: Hyper-Rounded Landing UI */
+        .fluid-box {
             background-color: var(--box-dark);
-            padding: 4rem;
-            border-radius: 2px;
+            padding: 5rem;
+            border-radius: 4rem; /* Soft, New-Age Geometry */
             width: 100%;
             max-width: 850px;
             color: #FFFFFF;
-            border-left: 4px solid var(--gold);
-            margin-bottom: 4rem;
+            margin-bottom: 6rem;
+            position: relative;
+            box-shadow: 0 50px 100px rgba(0,0,0,0.15);
         }
 
         section {
@@ -69,26 +73,41 @@
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
-            padding-top: 10vh;
+            padding-top: 5vh;
             padding-left: 10%;
             padding-right: 10%;
         }
 
-        .hero-h1 { font-size: clamp(2rem, 5vw, 4rem); line-height: 1.1; margin-bottom: 1.5rem; }
-        .hero-p { font-size: 1.1rem; font-weight: 300; color: #BCBCBC; max-width: 550px; line-height: 1.6; }
+        .hero-h1 { font-size: clamp(2rem, 5vw, 4rem); line-height: 1.1; margin-bottom: 2rem; }
+        .hero-p { font-size: 1.15rem; font-weight: 300; color: #AFAFAF; max-width: 550px; line-height: 1.7; }
 
-        /* Hidden Inquiry Drawer - Triggered only by button */
+        /* Inquiry Modal: Refined Logic */
         #inquiry-drawer {
             position: fixed;
-            top: 0; right: 0;
-            height: 100vh; width: 450px;
+            top: 2rem; right: 2rem; bottom: 2rem;
+            width: 450px;
             background: var(--box-dark);
+            border-radius: 3rem;
             z-index: 2000;
-            transform: translateX(100%);
-            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-            padding: 4rem; color: #FFFFFF; border-left: 1px solid var(--gold);
+            transform: translateX(120%);
+            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            padding: 4rem; color: #FFFFFF;
+            box-shadow: -20px 0 80px rgba(0,0,0,0.3);
+            display: flex; flex-direction: column;
         }
         #inquiry-drawer.active { transform: translateX(0); }
+
+        .fluid-input {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 9999px;
+            padding: 1.2rem 2rem;
+            width: 100%;
+            color: white;
+            outline: none;
+            transition: 0.3s;
+        }
+        .fluid-input:focus { border-color: var(--gold); background: rgba(255,255,255,0.07); }
     </style>
 </head>
 <body class="antialiased">
@@ -102,58 +121,51 @@
     </header>
 
     <section>
-        <div class="search-container" data-aos="fade-down">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-stone-400 ml-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
-            <input type="text" placeholder="Search by Postcode or Town..." class="search-input">
-            <button class="search-btn uppercase text-xs">Compare</button>
+        <div class="search-stadium" data-aos="fade-down" data-aos-duration="1000">
+            <input type="text" placeholder="Compare funeral directors by postcode..." class="search-input">
+            <button class="search-btn">Search</button>
         </div>
 
-        <div class="info-box" data-aos="fade-up">
-            <p class="text-[10px] uppercase tracking-[0.5em] text-stone-500 mb-6 font-bold">The New Standard of Care</p>
-            <h1 class="serif hero-h1 italic">Compare <br><span class="not-italic">Funeral Directors.</span></h1>
-            <p class="hero-p">Access an independent network of vetted professionals. Our comparison service ensures you find high-quality care at a transparent price.</p>
+        <div class="fluid-box" data-aos="fade-up" data-aos-duration="1200">
+            <p class="text-[10px] uppercase tracking-[0.6em] text-stone-500 mb-8 font-bold">The Revolution</p>
+            <h1 class="serif hero-h1 italic">A new age <br><span class="not-italic">for the industry.</span></h1>
+            <p class="hero-p">We are dismantling the outdated methods of the past. FuneralMatch introduces a modern, transparent framework for families seeking vetted care.</p>
         </div>
 
-        <div class="info-box" data-aos="fade-up">
-            <h2 class="text-[10px] uppercase tracking-[0.5em] text-stone-500 mb-6 font-bold">Vetted Services</h2>
-            <p class="serif text-3xl md:text-4xl leading-tight">Transparent <br><span class="gold underline decoration-amber-600/30">Funeral Costs.</span></p>
-            <p class="hero-p mt-6 text-sm">We standardize how funeral services are reported, allowing families to evaluate value without hidden fees or pressure.</p>
-        </div>
-
-        <div class="info-box" data-aos="fade-up">
-            <h2 class="text-[10px] uppercase tracking-[0.5em] text-stone-500 mb-6 font-bold">Our Mandate</h2>
-            <p class="serif text-3xl md:text-4xl leading-tight">Professional <br><span class="gold underline decoration-amber-600/30">Dignity.</span></p>
-            <p class="hero-p mt-6 text-sm">FuneralMatch acts as your objective partner, ensuring every director in our suite meets our rigorous quality standards.</p>
+        <div class="fluid-box" data-aos="fade-up" data-aos-duration="1200">
+            <h2 class="text-[10px] uppercase tracking-[0.6em] text-stone-500 mb-8 font-bold">Absolute Clarity</h2>
+            <p class="serif text-3xl md:text-4xl leading-tight">Transparent <br><span class="gold underline decoration-amber-600/20">Funeral Pricing.</span></p>
+            <p class="hero-p mt-6 text-sm">Modernism requires honesty. We provide the tools to compare funeral directors based on audited service standards and clear value.</p>
         </div>
     </section>
 
-    <div class="fixed bottom-10 right-10 z-[100]">
-        <button onclick="toggleDrawer()" class="bg-white text-black px-10 py-5 rounded-sm text-[10px] font-bold uppercase tracking-[0.4em] shadow-2xl border-b-4 border-amber-600">
+    <div class="fixed bottom-12 right-12 z-[100]">
+        <button onclick="toggleDrawer()" class="bg-white text-black px-12 py-6 rounded-full text-[10px] font-bold uppercase tracking-[0.4em] shadow-2xl border-b-4 border-amber-600 hover:scale-105 transition-transform">
             Immediate Help Required
         </button>
     </div>
 
     <div id="inquiry-drawer">
-        <div class="flex justify-between items-center mb-12">
-            <span class="serif text-xs uppercase tracking-widest font-bold gold">Urgent Inquiry</span>
-            <button onclick="toggleDrawer()" class="text-stone-500 hover:text-white text-4xl leading-none">&times;</button>
+        <div class="flex justify-between items-center mb-16">
+            <span class="serif text-sm uppercase tracking-widest gold font-bold">Urgent Inquiry</span>
+            <button onclick="toggleDrawer()" class="text-stone-500 hover:text-white text-3xl">&times;</button>
         </div>
-        <form class="space-y-8">
-            <input type="text" placeholder="Name" class="w-full bg-transparent border-b border-stone-800 p-4 outline-none">
-            <input type="text" placeholder="Postcode" class="w-full bg-transparent border-b border-stone-800 p-4 outline-none">
-            <select class="w-full bg-transparent border-b border-stone-800 p-4 outline-none text-stone-500">
-                <option>When is care needed?</option>
-                <option>Immediate</option>
+        <form class="space-y-10">
+            <input type="text" placeholder="Name" class="fluid-input">
+            <input type="text" placeholder="Location Postcode" class="fluid-input">
+            <select class="fluid-input bg-stone-900">
+                <option>Immediacy of Need</option>
+                <option>Immediate Assistance</option>
                 <option>Future Planning</option>
             </select>
-            <button class="w-full bg-[#C5A059] text-black py-5 font-bold uppercase tracking-widest text-[11px]">Request Callback</button>
+            <button class="w-full bg-[#C5A059] text-black py-5 rounded-full font-bold uppercase tracking-widest text-[11px] hover:bg-white transition-all">
+                Send Request
+            </button>
         </form>
     </div>
 
     <script>
-        AOS.init({ duration: 1200, once: true });
+        AOS.init({ once: true });
         function toggleDrawer() { document.getElementById('inquiry-drawer').classList.toggle('active'); }
     </script>
 </body>
