@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Join the Network | FuneralMatch Professional</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@1,400;1,700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --gold: #C5A059;
+            --black: #1a1a1a;
+            --soft-bg: #F8F7F5;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--soft-bg); color: var(--black); overflow-x: hidden; }
+        .serif { font-family: 'Bodoni Moda', serif; }
+
+        /* PERSISTENT BACKGROUND */
+        .sanctuary-bg {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background: linear-gradient(rgba(255,255,255,0.4), rgba(255,255,255,0.5)), 
+                        url('https://images.unsplash.com/photo-1517457373958-b7bdd4587205?q=80&w=2669&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .vetting-card { background: white; border-radius: 3rem; box-shadow: 0 40px 100px rgba(0,0,0,0.05); }
+        .input-pill { width: 100%; padding: 1.2rem 2rem; border-radius: 9999px; border: 1px solid #EEE; outline: none; transition: 0.3s; }
+        .input-pill:focus { border-color: var(--gold); }
+        
+        .checkbox-group { display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 1.5rem; }
+        .checkbox-group input { margin-top: 0.3rem; }
+
+        .btn-gold { background: var(--gold); color: white; padding: 1.2rem 3rem; border-radius: 9999px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.2em; font-size: 0.75rem; border: none; cursor: pointer; }
+    </style>
+</head>
+<body class="pt-24 pb-24">
+
+    <div class="sanctuary-bg"></div>
+
+    <main class="max-w-4xl mx-auto px-6">
+        
+        <header class="text-center mb-16" data-aos="fade-up">
+            <h1 class="serif italic text-5xl mb-6">Elevate your standards.</h1>
+            <p class="text-stone-500 max-w-xl mx-auto leading-relaxed">Join the UK's premier independent network. We connect vetted, high-standard funeral directors with families seeking clarity and quality.</p>
+        </header>
+
+        <section class="vetting-card p-10 md:p-20" data-aos="fade-up" data-aos-delay="100">
+            <h2 class="serif italic text-3xl mb-8">Application for Network Entry</h2>
+            
+            <form action="https://formspree.io/f/mvzzkjeq" method="POST">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                    <div>
+                        <label class="text-[10px] uppercase font-bold tracking-widest text-stone-400 ml-4 mb-2 block">Firm Name</label>
+                        <input type="text" name="firm_name" class="input-pill" placeholder="e.g. Premier Care" required>
+                    </div>
+                    <div>
+                        <label class="text-[10px] uppercase font-bold tracking-widest text-stone-400 ml-4 mb-2 block">Postcode Area</label>
+                        <input type="text" name="coverage_area" class="input-pill" placeholder="e.g. SW1, SW2" required>
+                    </div>
+                </div>
+
+                <div class="mb-12">
+                    <label class="text-[10px] uppercase font-bold tracking-widest text-stone-400 ml-4 mb-2 block">Lead Contact Email</label>
+                    <input type="email" name="director_email" class="input-pill" placeholder="director@firm.com" required>
+                </div>
+
+                <h3 class="text-xs uppercase font-bold tracking-widest text-[#C5A059] mb-8 border-b border-stone-100 pb-4">Compliance & Ethics Declaration</h3>
+                
+                <div class="checkbox-group">
+                    <input type="checkbox" name="independent_status" required>
+                    <p class="text-sm text-stone-600">I confirm this firm is an <strong>Independent Funeral Director</strong> and is not part of a national conglomerate.</p>
+                </div>
+
+                <div class="checkbox-group">
+                    <input type="checkbox" name="facility_audit" required>
+                    <p class="text-sm text-stone-600">I agree to a <strong>Physical Facility Audit</strong> by FuneralMatch to verify mortuary and service room standards.</p>
+                </div>
+
+                <div class="checkbox-group">
+                    <input type="checkbox" name="price_transparency" required>
+                    <p class="text-sm text-stone-600">I agree to maintain **Total Price Transparency** and will provide a fixed-fee framework for platform users.</p>
+                </div>
+
+                <div class="mt-12 text-center">
+                    <button type="submit" class="btn-gold shadow-lg shadow-amber-100">Submit for Vetting</button>
+                    <p class="text-[10px] text-stone-400 mt-6 uppercase tracking-widest">Audit Ref: 2917681399450303860</p>
+                </div>
+            </form>
+        </section>
+
+    </main>
+
+    <script>
+        AOS.init({ duration: 1000, once: true });
+    </script>
+</body>
+</html>
