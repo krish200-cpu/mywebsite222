@@ -20,7 +20,6 @@
             --ease: cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        /* 1. DEVICE ADAPTIVE NORMALIZATION */
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
         
         body {
@@ -42,7 +41,7 @@
             background-position: center;
         }
 
-        /* 2. EXACT LOGO FORMAT (TOP-LEFT) */
+        /* LOGO ARCHITECTURE (EXACT ANIMATION) */
         header {
             position: absolute;
             top: 0; left: 0; width: 100%;
@@ -61,7 +60,6 @@
             to { opacity: 1; filter: blur(0); transform: translateY(0); }
         }
 
-        /* 3. MAIN UI COMPONENTS */
         main { padding: 18vh 8% 8rem 8%; display: flex; flex-direction: column; align-items: center; }
         .hero-title { font-family: 'Bodoni Moda', serif; font-size: clamp(2.2rem, 8vw, 4.5rem); text-align: center; font-style: italic; margin-bottom: 2.5rem; }
 
@@ -69,7 +67,7 @@
             width: 100%; max-width: 800px;
             background: white; padding: 0.5rem; border-radius: 9999px;
             display: flex; align-items: center; box-shadow: 0 30px 60px rgba(0,0,0,0.06);
-            margin-bottom: 2.5rem;
+            margin-bottom: 2rem;
         }
 
         @media (max-width: 768px) {
@@ -81,7 +79,17 @@
         .search-input { flex: 1; border: none; outline: none; padding: 0 2rem; font-size: 1.1rem; background: transparent; }
         .search-btn { background: #000; color: white; padding: 1.2rem 3.5rem; border-radius: 9999px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.2em; border: none; cursor: pointer; }
 
-        /* 4. EMERGENCY SYSTEM (PILL + DISMISS) */
+        /* REVENUE BRIDGE: DIGNITY FUNERAL PLANS */
+        .revenue-hint {
+            width: 100%; max-width: 800px; background: rgba(197, 160, 89, 0.04);
+            border: 1px dashed var(--gold); border-radius: 2rem; padding: 1.5rem 2rem;
+            margin-bottom: 8rem; display: flex; justify-content: space-between; align-items: center;
+            backdrop-filter: blur(10px);
+        }
+        @media (max-width: 640px) { .revenue-hint { flex-direction: column; text-align: center; gap: 1rem; } }
+        .hint-btn { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.25em; border-bottom: 1px solid var(--gold); cursor: pointer; padding-bottom: 2px; }
+
+        /* EMERGENCY SYSTEM */
         #emergency-system {
             position: fixed; bottom: 2rem; right: 2rem;
             z-index: 3000; display: flex; align-items: center; gap: 0.5rem;
@@ -95,7 +103,7 @@
             cursor: pointer; border: 1px solid var(--gold);
         }
 
-        /* 5. MODAL SYSTEM */
+        /* LEAD CAPTURE MODAL */
         .modal-overlay {
             position: fixed; inset: 0; background: rgba(0,0,0,0.4);
             backdrop-filter: blur(25px); z-index: 4000;
@@ -113,31 +121,21 @@
         .input-group { margin-bottom: 1.2rem; }
         .input-group label { display: block; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--gold); font-weight: 700; margin-bottom: 0.5rem; }
         .lead-input { width: 100%; padding: 1.1rem 1.5rem; border-radius: 1.2rem; border: 1px solid #eee; outline: none; font-size: 1rem; }
-        
         .submit-btn { width: 100%; background: #000; color: white; padding: 1.25rem; border-radius: 9999px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.2em; border: none; cursor: pointer; }
 
-        /* 6. THE 5 EXPOSURE PILLARS (DETAILED) */
+        /* INFORMATION GRID (5 BOXES) */
         .info-grid { display: grid; grid-template-cols: repeat(auto-fit, minmax(320px, 1fr)); gap: 2.5rem; width: 100%; max-width: 1400px; margin-top: 6rem; }
         .info-box { background: var(--glass); backdrop-filter: blur(30px); padding: 4.5rem 2.5rem; border-radius: var(--radius-box); border: 1px solid rgba(255,255,255,0.7); text-align: center; transition: 0.5s; }
-        .info-box:hover { transform: translateY(-8px); border-color: var(--gold); }
         .tag { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.45em; color: var(--gold); font-weight: 700; margin-bottom: 1.5rem; display: block; }
         .h2-box { font-family: 'Bodoni Moda', serif; font-size: 2.4rem; font-style: italic; line-height: 1; margin-bottom: 1.2rem; }
-        .p-box { font-size: 0.95rem; line-height: 1.7; color: #444; font-weight: 400; }
 
-        /* 7. MASTER FOOTER */
+        /* FOOTER */
         footer {
-            background: white;
-            padding: 6rem 8% 4rem 8%;
-            border-top: 1px solid #EEE;
-            display: grid;
-            grid-template-cols: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 4rem;
-            width: 100%;
+            background: white; padding: 6rem 8% 4rem 8%; border-top: 1px solid #EEE;
+            display: grid; grid-template-cols: repeat(auto-fit, minmax(200px, 1fr)); gap: 4rem; width: 100%;
         }
-
         .footer-col h4 { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.3em; margin-bottom: 2rem; color: var(--gold); }
         .footer-link { display: block; font-size: 0.85rem; color: #777; margin-bottom: 1rem; text-decoration: none; transition: 0.3s; }
-        .footer-link:hover { color: #000; transform: translateX(5px); }
     </style>
 </head>
 <body>
@@ -162,31 +160,36 @@
             <button class="search-btn">Begin Match</button>
         </div>
 
+        <div class="revenue-hint" data-aos="fade-up">
+            <p class="italic text-sm text-stone-600">Planning ahead? Explore <strong>Dignity Funeral Plans</strong> for future peace of mind.</p>
+            <span class="hint-btn" onclick="toggleModal(true)">Explore Plans</span>
+        </div>
+
         <div class="info-grid">
             <div class="info-box" data-aos="fade-up">
                 <span class="tag">Identity</span>
                 <h2 class="h2-box">Independent <br>Advocacy.</h2>
-                <p class="p-box">Unlike traditional directories, we represent the family, not the director. Our comparison platform is built to ensure unbiased merit, service transparency, and a focus on your specific needs during the choice of care.</p>
+                <p>We represent the family, not the director, ensuring unbiased merit and service transparency.</p>
             </div>
             <div class="info-box" data-aos="fade-up" data-aos-delay="100">
                 <span class="tag">Standard</span>
                 <h2 class="h2-box">Vetted <br>Networks.</h2>
-                <p class="p-box">Safety is our standard. Every funeral director in our nationwide network undergoes a rigorous audit for professional conduct, facility cleanliness, and staffing standards, returning absolute control to the family.</p>
+                <p>Every director is audited for professional conduct and facility standards for your safety.</p>
             </div>
             <div class="info-box" data-aos="fade-up" data-aos-delay="200">
                 <span class="tag">Costing</span>
                 <h2 class="h2-box">Transparent <br>Pricing.</h2>
-                <p class="p-box">We are dismantling the opaque fee cultures of the past. By using our platform, you gain access to high-quality care through a fixed-cost framework that eliminates hidden charges and prioritizes affordability without compromise.</p>
+                <p>Zero hidden fees. Access high-quality care through a fixed-cost framework designed for families.</p>
             </div>
             <div class="info-box" data-aos="fade-up" data-aos-delay="300">
                 <span class="tag">Revolution</span>
                 <h2 class="h2-box">Digital <br>Efficiency.</h2>
-                <p class="p-box">The funeral industry is evolving, and we are the catalyst. We provide the modern, 21st-century tools required to compare, book, and manage a dignified tribute seamlessly and securely through our end-to-end digital portal.</p>
+                <p>The evolution of care: manage dignified tributes securely through our modern digital portal.</p>
             </div>
             <div class="info-box" data-aos="fade-up" data-aos-delay="400">
                 <span class="tag">Vision</span>
                 <h2 class="h2-box">Absolute <br>Clarity.</h2>
-                <p class="p-box">Our ultimate mission is to standardize the market vetting process to empower every grieving family with direct, honest data. No more confusion—just a clear, supported path to the tribute your loved one deserves.</p>
+                <p>Standardizing the vetting process to empower you with direct, honest data in your time of need.</p>
             </div>
         </div>
     </main>
@@ -203,7 +206,7 @@
         <div class="lead-card" onclick="event.stopPropagation()">
             <div style="position: absolute; top: 1.5rem; right: 2rem; cursor: pointer; font-size: 1.5rem; color: #ccc;" onclick="toggleModal(false)">&times;</div>
             <h3 class="serif italic text-3xl mb-1">Priority Support</h3>
-            <p class="text-[10px] uppercase tracking-widest text-stone-400 mb-8">Direct lead dispatch to panchalkrish47@gmail.com</p>
+            <p class="text-[10px] uppercase tracking-widest text-stone-400 mb-8">Lead captured to panchalkrish47@gmail.com</p>
 
             <form action="https://formspree.io/f/mvzzkjeq" method="POST">
                 <div class="input-group">
@@ -229,11 +232,11 @@
                     </div>
                     <div class="input-group">
                         <label>Reporter's Relation</label>
-                        <input type="text" name="relationship_to_deceased" class="lead-input" placeholder="e.g. Next of Kin">
+                        <input type="text" name="relationship" class="lead-input" placeholder="e.g. Spouse, Child">
                     </div>
                 </div>
 
-                <input type="hidden" name="_subject" value="URGENT: New FuneralMatch Lead">
+                <input type="hidden" name="_subject" value="URGENT: New FuneralMatch Lead Captured">
                 <button type="submit" class="submit-btn">Dispatch Priority Lead</button>
             </form>
         </div>
@@ -243,25 +246,23 @@
         <div class="footer-col">
             <h4>Platform</h4>
             <a href="#" class="footer-link">How it Works</a>
-            <a href="#" class="footer-link">Vetting Process</a>
+            <a href="#" class="footer-link">Vetting Criteria</a>
             <a href="#" class="footer-link">Dignity Plans</a>
         </div>
         <div class="footer-col">
             <h4>Support</h4>
             <a href="#" class="footer-link">Contact Us</a>
             <a href="#" class="footer-link">Help Centre</a>
-            <a href="#" class="footer-link">Emergency Guide</a>
         </div>
         <div class="footer-col">
             <h4>Legal</h4>
             <a href="#" class="footer-link">Privacy Policy</a>
             <a href="#" class="footer-link">Terms of Service</a>
-            <a href="#" class="footer-link">Cookie Policy</a>
         </div>
         <div class="footer-col">
             <h4>Industry</h4>
-            <a href="#" class="footer-link">Director Portal</a>
-            <p style="font-size: 10px; color: #AAA; margin-top: 2rem;">© 2026 FuneralMatch. panchalkrish47@gmail.com Relay Active.</p>
+            <a href="#" class="footer-link">Director Portal Login</a>
+            <p style="font-size: 10px; color: #AAA; margin-top: 1rem;">© 2026 FuneralMatch. panchalkrish47@gmail.com Relay Active.</p>
         </div>
     </footer>
 
