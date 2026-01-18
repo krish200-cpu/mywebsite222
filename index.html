@@ -11,11 +11,12 @@
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
     <style>
-        /* MASTER CSS: THE CHAPEL MONOLITH (v7.0) */
+        /* MASTER CSS: THE REVOLUTION (v8.0) */
         :root {
             --gold: #C5A059;
+            --black: #000000;
             --white: #FFFFFF;
-            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-bg: rgba(255, 255, 255, 0.12);
             --glass-border: rgba(255, 255, 255, 0.2);
             --radius-pill: 9999px;
             --radius-box: 3.5rem;
@@ -32,11 +33,10 @@
             min-height: 100vh;
         }
 
-        /* PERSISTENT CINEMATIC ENGINE */
+        /* BACKGROUND REMAINS AS IS */
         .sanctuary-bg {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            /* High-Fidelity Chapel Aesthetic based on User Reference */
             background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.5)), 
                         url('https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2560&auto=format&fit=crop');
             background-size: cover;
@@ -46,118 +46,110 @@
 
         .serif { font-family: 'Bodoni Moda', serif; }
 
-        /* HEADER: LEFT-ALIGNED LOGO */
+        /* HEADER: SMALLER LOGO & BLACK TEXT */
         header {
             position: fixed; top: 0; left: 0; width: 100%;
-            padding: clamp(2rem, 5vw, 4rem) 8%;
+            padding: clamp(1.5rem, 4vw, 3rem) 8%;
             display: flex; justify-content: space-between;
             align-items: flex-start;
             z-index: 100;
         }
 
-        @media (max-width: 1024px) {
-            header { padding: 2rem 5%; }
-            .motto-hallmark { display: none; } /* Clear mobile clutter */
-        }
+        .logo-wrap { display: flex; flex-direction: column; width: 130px; text-align: left; }
+        .brand-text { font-family: 'Bodoni Moda', serif; text-transform: uppercase; font-size: 0.95rem; letter-spacing: 0.3em; line-height: 1.1; font-weight: 700; color: var(--black); }
+        .logo-line { width: 100%; height: 1.5px; background: var(--gold); margin: 5px 0; }
+        .brand-match { color: var(--gold); letter-spacing: 0.65em; margin-right: -0.65em; }
 
-        .logo-wrap { display: flex; flex-direction: column; width: 160px; text-align: left; }
-        .brand-text { font-family: 'Bodoni Moda', serif; text-transform: uppercase; font-size: 1.1rem; letter-spacing: 0.35em; line-height: 1.1; font-weight: 600; }
-        .logo-line { width: 100%; height: 1.5px; background: var(--gold); margin: 6px 0; }
-        .brand-match { color: var(--gold); letter-spacing: 0.72em; margin-right: -0.72em; }
-
-        /* GAP FILLER: TOP RIGHT MOTTO */
         .motto-hallmark {
-            max-width: 300px;
+            max-width: 260px;
             text-align: right;
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(15px);
+            padding: 1rem 1.5rem;
             border-radius: 2rem;
-            border: 1px solid var(--glass-border);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
-        .motto-text { color: white; font-size: 0.95rem; font-weight: 200; line-height: 1.4; }
+        .motto-text { color: white; font-size: 0.85rem; font-weight: 300; line-height: 1.4; }
 
         /* MAIN COMMAND CENTRE */
         main {
             min-height: 100vh;
             display: flex; flex-direction: column;
             justify-content: center; align-items: center;
-            padding: 10vh 8% 5rem 8%;
+            padding: 12vh 8% 5rem 8%;
         }
 
         .hero-title {
-            font-size: clamp(2.5rem, 7vw, 5.5rem);
+            font-size: clamp(2.2rem, 6vw, 4.5rem);
             line-height: 1.1;
-            margin-bottom: 2.5rem;
+            margin-bottom: 2rem;
             text-align: center;
         }
 
         .search-stadium {
-            width: 100%; max-width: 800px;
+            width: 100%; max-width: 750px;
             background: white;
-            padding: 0.6rem;
+            padding: 0.5rem;
             border-radius: var(--radius-pill);
             display: flex; align-items: center;
-            box-shadow: 0 40px 100px rgba(0,0,0,0.4);
+            box-shadow: 0 30px 80px rgba(0,0,0,0.4);
             margin-bottom: 8vh;
         }
 
-        @media (max-width: 640px) {
-            .search-stadium { flex-direction: column; border-radius: 2.5rem; padding: 1.2rem; }
-            .search-input { width: 100%; text-align: center; margin-bottom: 1rem; }
-            .search-btn { width: 100%; }
-        }
+        .search-input { flex: 1; border: none; outline: none; padding: 0 2rem; font-size: 1rem; background: transparent; color: #111; }
+        .search-btn { background: #000; color: white; padding: 1.1rem 3rem; border-radius: var(--radius-pill); font-weight: 700; text-transform: uppercase; letter-spacing: 0.2em; font-size: 0.7rem; transition: 0.3s; }
 
-        .search-input { flex: 1; border: none; outline: none; padding: 0 2rem; font-size: 1.1rem; background: transparent; color: #111; }
-        .search-btn { background: #000; color: white; padding: 1.2rem 3.5rem; border-radius: var(--radius-pill); font-weight: 700; text-transform: uppercase; letter-spacing: 0.25em; font-size: 0.75rem; transition: 0.4s; }
-
-        /* ACTION GRID: PARTNER PROMINENCE */
-        .action-grid {
+        /* NEW BOX ARCHITECTURE */
+        .info-grid {
             display: grid;
-            grid-template-cols: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-cols: repeat(auto-fit, minmax(280px, 1fr));
             gap: 2rem;
-            width: 100%; max-width: 1300px;
+            width: 100%; max-width: 1200px;
         }
 
-        .modern-pill {
+        .redesigned-box {
             background: var(--glass-bg);
             backdrop-filter: blur(25px);
-            padding: 3.5rem 2.5rem;
+            padding: 3rem 2rem;
             border-radius: var(--radius-box);
             border: 1px solid var(--glass-border);
             text-align: center;
             transition: var(--ease-cinematic) 0.8s;
-            cursor: pointer;
+            position: relative;
         }
 
-        /* THE PROMINENT PARTNER BOX */
-        .partner-spotlight {
-            background: linear-gradient(145deg, rgba(197, 160, 89, 0.2) 0%, rgba(0,0,0,0.4) 100%);
+        /* FUNERAL PLAN HIGHLIGHT (REVENUE STREAM) */
+        .plan-partner-box {
+            background: rgba(255, 255, 255, 0.95);
+            color: var(--black);
             border: 2px solid var(--gold);
-            box-shadow: 0 0 40px rgba(197, 160, 89, 0.15);
+            box-shadow: 0 25px 50px rgba(197, 160, 89, 0.2);
+            transform: scale(1.05);
+            z-index: 10;
         }
-        .partner-spotlight:hover { background: rgba(197, 160, 89, 0.25); border-color: white; }
+        .plan-partner-box .tag { color: var(--gold); }
+        .plan-partner-box .p-pill { color: #555; }
 
-        .tag { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.5em; color: var(--gold); font-weight: 800; margin-bottom: 1.5rem; display: block; }
-        .h2-pill { font-size: 2.4rem; line-height: 1.1; margin-bottom: 1rem; }
-        .p-pill { font-size: 0.95rem; font-weight: 300; color: #DDD; line-height: 1.7; }
+        .tag { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.4em; color: var(--gold); font-weight: 800; margin-bottom: 1.2rem; display: block; }
+        .h2-pill { font-size: 2.1rem; line-height: 1.1; margin-bottom: 1rem; }
+        .p-pill { font-size: 0.9rem; font-weight: 300; color: #CCC; line-height: 1.6; }
 
-        /* EMERGENCY TRIGGER */
+        /* EMERGENCY HOOK */
         #soft-support {
-            position: fixed; bottom: 3rem; right: 3rem;
-            background: white; padding: 1.1rem 2rem;
+            position: fixed; bottom: 2.5rem; right: 2.5rem;
+            background: white; padding: 1rem 1.8rem;
             border-radius: var(--radius-pill);
             box-shadow: 0 20px 60px rgba(0,0,0,0.4);
-            display: flex; align-items: center; gap: 15px;
+            display: flex; align-items: center; gap: 12px;
             z-index: 2000; transform: translateY(200%);
             transition: var(--ease-cinematic) 1.2s;
             border: 1px solid var(--gold);
         }
         #soft-support.active { transform: translateY(0); }
-        .x-dismiss { font-size: 1.2rem; color: #CCC; cursor: pointer; border-left: 1px solid #EEE; padding-left: 10px; }
+        .x-btn { font-size: 1.1rem; color: #CCC; cursor: pointer; border-left: 1px solid #EEE; padding-left: 10px; }
     </style>
 </head>
-<body class="antialiased">
+<body>
 
     <div class="sanctuary-bg"></div>
 
@@ -174,48 +166,47 @@
     </header>
 
     <main>
-        <div class="mb-16" data-aos="fade-up">
-            <h1 class="serif hero-title italic">Clarity in <br><span class="not-italic text-stone-200">every step.</span></h1>
-            <p class="text-white/40 text-center text-xs uppercase tracking-[0.6em]">Compare Vetted Directors Nationwide</p>
+        <div class="mb-12" data-aos="fade-up">
+            <h1 class="serif hero-title italic">Clarity in <br><span class="not-italic text-stone-300">every step.</span></h1>
         </div>
 
-        <div class="search-stadium" data-aos="zoom-in" data-aos-delay="300">
+        <div class="search-stadium" data-aos="zoom-in" data-aos-delay="200">
             <input type="text" placeholder="Enter Postcode..." class="search-input">
             <button class="search-btn">Begin</button>
         </div>
 
-        <div class="action-grid">
+        <div class="info-grid">
             
-            <div class="modern-pill partner-spotlight" data-aos="fade-up">
-                <span class="tag">Secure The Future</span>
-                <h2 class="serif h2-pill italic">Funeral <br>Planning</h2>
-                <p class="p-pill">Lock in today's rates for tomorrow's peace of mind. Discover our premier vetted planning partners.</p>
-            </div>
-
-            <div class="modern-pill" data-aos="fade-up" data-aos-delay="200">
+            <div class="redesigned-box" data-aos="fade-up">
                 <span class="tag">Independent</span>
                 <h2 class="serif h2-pill italic">Vetted <br>Merit</h2>
-                <p class="p-pill">Our comparison engine represents your family, ensuring unbiased results based on verified service standards.</p>
+                <p class="p-pill">Our engine represents your family. We audit every director to ensure service over profit.</p>
             </div>
 
-            <div class="modern-pill" data-aos="fade-up" data-aos-delay="400">
+            <div class="redesigned-box plan-partner-box" data-aos="fade-up" data-aos-delay="200">
+                <span class="tag">Premium Partner</span>
+                <h2 class="serif h2-pill italic">Funeral <br>Planning</h2>
+                <p class="p-pill">Lock in today's security. Discover vetted partners for guaranteed long-term peace of mind.</p>
+            </div>
+
+            <div class="redesigned-box" data-aos="fade-up" data-aos-delay="400">
                 <span class="tag">Standard</span>
-                <h2 class="serif h2-pill italic">Transparent <br>Costs</h2>
-                <p class="p-pill">Dismantling the opaque fee cultures of the past. Access high-quality care through a fixed-cost framework.</p>
+                <h2 class="serif h2-pill italic">Transparent <br>Pricing</h2>
+                <p class="p-pill">Zero hidden fees. Access high-quality care through a fixed-cost, modernized framework.</p>
             </div>
 
         </div>
     </main>
 
     <div id="soft-support">
-        <div class="flex items-center gap-4 cursor-pointer" onclick="alert('Full Consultation Modal Triggered')">
+        <div class="flex items-center gap-4 cursor-pointer" onclick="alert('Priority Help Triggered')">
             <span class="relative flex h-2 w-2">
                 <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
                 <span class="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
             </span>
             <span class="text-[10px] font-bold uppercase tracking-widest text-stone-700">Immediate Help?</span>
         </div>
-        <span class="x-dismiss" onclick="this.parentElement.style.display='none'">&times;</span>
+        <span class="x-btn" onclick="this.parentElement.style.display='none'">&times;</span>
     </div>
 
     <script>
