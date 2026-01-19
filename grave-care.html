@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <title>Grave Care | FuneralMatch Tending</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@1,400;1,700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        :root { --gold: #C5A059; --green: #3A4D39; --soft-bg: #F8F7F5; }
+        body { font-family: 'Inter', sans-serif; background: var(--soft-bg); color: #1a1a1a; }
+        .serif { font-family: 'Bodoni Moda', serif; }
+        
+        .care-card { background: white; border: 1px solid #eee; border-radius: 2rem; overflow: hidden; transition: 0.3s; position: relative; }
+        .care-card:hover { transform: translateY(-5px); border-color: var(--green); box-shadow: 0 15px 30px rgba(58, 77, 57, 0.1); }
+        
+        .season-badge { display: inline-block; padding: 4px 12px; background: #f0f0f0; border-radius: 99px; font-size: 0.65rem; font-weight: 800; text-transform: uppercase; color: #666; margin-right: 4px; }
+        .check-list li { font-size: 0.8rem; color: #666; margin-bottom: 0.5rem; display: flex; gap: 8px; }
+    </style>
+</head>
+<body class="py-12 px-6">
+
+    <main class="max-w-5xl mx-auto">
+        <header class="text-center mb-16">
+            <span class="text-[10px] uppercase font-bold tracking-[0.4em] text-[#3A4D39]">Memorial Maintenance</span>
+            <h1 class="serif italic text-5xl mt-4 mb-6">Always Remembered. <br>Always Tended.</h1>
+            <p class="max-w-lg mx-auto text-stone-500 text-sm">Distance shouldn't prevent dignity. Our nationwide network of tenders will visit your loved one's resting place to clean, tidy, and lay fresh seasonal flowers on your behalf.</p>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+            
+            <div class="care-card p-8">
+                <h3 class="serif text-2xl mb-2">The Anniversary</h3>
+                <p class="text-xs text-stone-400 mb-6">A single visit on a special date.</p>
+                <div class="mb-6">
+                    <span class="text-3xl font-bold">£45</span> <span class="text-xs text-stone-400">/ year</span>
+                </div>
+                
+                <ul class="check-list mb-8">
+                    <li><span>🌿</span> Light Weeding & Tidy</li>
+                    <li><span>🧼</span> Stone Wipe Down</li>
+                    <li><span>💐</span> Fresh Posy of Flowers</li>
+                    <li><span>📸</span> Photo Report Emailed</li>
+                </ul>
+                <button class="w-full py-3 border border-stone-200 rounded-full text-[10px] font-bold uppercase hover:bg-black hover:text-white transition-all">Choose Date</button>
+            </div>
+
+            <div class="care-card p-8 border-[#3A4D39] shadow-lg transform scale-105">
+                <div class="absolute top-0 right-0 bg-[#3A4D39] text-white px-4 py-1 text-[9px] font-bold uppercase rounded-bl-xl">Most Popular</div>
+                <h3 class="serif text-2xl mb-2">The Seasonal</h3>
+                <p class="text-xs text-stone-400 mb-6">4 visits per year (Quarterly).</p>
+                <div class="mb-6">
+                    <span class="text-3xl font-bold text-[#3A4D39]">£140</span> <span class="text-xs text-stone-400">/ year</span>
+                </div>
+                
+                <div class="mb-6">
+                    <span class="season-badge">Spring</span>
+                    <span class="season-badge">Summer</span>
+                    <span class="season-badge">Autumn</span>
+                    <span class="season-badge">Winter</span>
+                </div>
+                
+                <ul class="check-list mb-8">
+                    <li><span>🌿</span> Full Plot Weeding</li>
+                    <li><span>🧼</span> Specialist Stone Clean</li>
+                    <li><span>💐</span> Seasonal Wreaths/Bouquets</li>
+                    <li><span>📸</span> 4x Photo Reports</li>
+                </ul>
+                <button class="w-full py-3 bg-[#3A4D39] text-white rounded-full text-[10px] font-bold uppercase hover:bg-black transition-all">Subscribe Now</button>
+            </div>
+
+            <div class="care-card p-8">
+                <h3 class="serif text-2xl mb-2">The Monthly</h3>
+                <p class="text-xs text-stone-400 mb-6">12 visits per year.</p>
+                <div class="mb-6">
+                    <span class="text-3xl font-bold">£300</span> <span class="text-xs text-stone-400">/ year</span>
+                </div>
+                
+                <ul class="check-list mb-8">
+                    <li><span>🌿</span> Pristine Maintenance</li>
+                    <li><span>🕯️</span> Monthly Candle Lighting</li>
+                    <li><span>💐</span> Premium Floral Tributes</li>
+                    <li><span>📸</span> Monthly Updates</li>
+                </ul>
+                <button class="w-full py-3 border border-stone-200 rounded-full text-[10px] font-bold uppercase hover:bg-black hover:text-white transition-all">Subscribe Now</button>
+            </div>
+
+        </div>
+
+        <div class="bg-white rounded-[2rem] p-8 border border-stone-200 flex flex-col md:flex-row gap-8 items-center" data-aos="fade-up">
+            <div class="md:w-1/2">
+                <h3 class="font-bold text-lg mb-2">The "Photo Proof" Promise</h3>
+                <p class="text-xs text-stone-500 leading-relaxed">We know trust is everything. That's why we don't just say we visited—we prove it. After every visit, you receive a digital report containing high-res photos of the cleaned stone and the fresh flowers, time-stamped for your peace of mind.</p>
+            </div>
+            <div class="md:w-1/2 flex gap-4">
+                <div class="bg-gray-100 rounded-xl p-2 w-1/2 text-center">
+                    <span class="text-[9px] uppercase font-bold text-stone-400 mb-1 block">Before</span>
+                    <div class="h-24 bg-gray-300 rounded-lg"></div> </div>
+                <div class="bg-green-50 rounded-xl p-2 w-1/2 text-center border border-green-100">
+                    <span class="text-[9px] uppercase font-bold text-green-600 mb-1 block">After</span>
+                    <div class="h-24 bg-green-200 rounded-lg"></div> </div>
+            </div>
+        </div>
+
+    </main>
+    <script>AOS.init({ duration: 1000, once: true });</script>
+</body>
+</html>
