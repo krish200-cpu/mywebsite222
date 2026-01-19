@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Funeral Notice | FuneralMatch</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@1,400;1,700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        :root { --gold: #C5A059; --black: #1a1a1a; --soft-bg: #F8F7F5; }
+        body { font-family: 'Inter', sans-serif; background: var(--soft-bg); color: var(--black); }
+        .serif { font-family: 'Bodoni Moda', serif; }
+        
+        .notice-card { background: white; border-radius: 3rem; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.05); }
+        .hero-image { height: 400px; width: 100%; object-fit: cover; }
+        .details-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; }
+        
+        .rsvp-pill { background: #000; color: white; padding: 1rem 2rem; border-radius: 99px; font-weight: 700; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 0.2em; display: inline-block; cursor: pointer; transition: 0.3s; }
+        .rsvp-pill:hover { background: var(--gold); transform: translateY(-2px); }
+        
+        .timeline-line { position: absolute; left: 24px; top: 0; bottom: 0; width: 1px; background: #E5E5E5; z-index: 0; }
+        .timeline-dot { width: 12px; height: 12px; background: var(--gold); border-radius: 50%; z-index: 10; position: relative; margin-right: 2rem; margin-top: 6px; }
+    </style>
+</head>
+<body class="py-12 px-4 md:px-8">
+
+    <main class="max-w-4xl mx-auto">
+        
+        <div class="bg-black text-white p-4 rounded-full flex justify-between items-center mb-8 px-8 sticky top-4 z-50 shadow-xl">
+            <span class="text-[10px] font-bold uppercase tracking-widest">Editing Mode</span>
+            <div class="flex gap-4">
+                <button class="text-[10px] font-bold uppercase tracking-widest hover:text-[#C5A059]">Edit Details</button>
+                <button class="text-[10px] font-bold uppercase tracking-widest text-[#C5A059]">Share Link</button>
+            </div>
+        </div>
+
+        <div class="notice-card">
+            <div class="relative">
+                <img src="https://images.unsplash.com/photo-1494548162494-384bba4ab999?q=80&w=1000&auto=format&fit=crop" class="hero-image">
+                <div class="absolute inset-0 bg-black/30 flex flex-col justify-end p-12">
+                    <p class="text-white text-[10px] font-bold uppercase tracking-[0.4em] mb-4">Celebrating the Life of</p>
+                    <h1 class="serif italic text-white text-5xl md:text-7xl">Eleanor Rigby</h1>
+                    <p class="text-white/80 mt-4 text-xl serif italic">1945 — 2026</p>
+                </div>
+            </div>
+
+            <div class="p-12">
+                <div class="details-grid mb-16">
+                    <div>
+                        <h3 class="text-xs font-bold uppercase tracking-widest text-stone-400 mb-2">Service</h3>
+                        <p class="serif text-xl">St. Mary's Chapel</p>
+                        <p class="text-sm text-stone-500 mt-1">Friday, 24th Jan @ 11:00 AM</p>
+                        <a href="#" class="text-[10px] font-bold uppercase border-b border-black mt-2 inline-block">Get Directions</a>
+                    </div>
+                    <div>
+                        <h3 class="text-xs font-bold uppercase tracking-widest text-stone-400 mb-2">The Wake</h3>
+                        <p class="serif text-xl">The Grand Hotel</p>
+                        <p class="text-sm text-stone-500 mt-1">1:00 PM - 5:00 PM</p>
+                        <a href="#" class="text-[10px] font-bold uppercase border-b border-black mt-2 inline-block">Get Directions</a>
+                    </div>
+                    <div>
+                        <h3 class="text-xs font-bold uppercase tracking-widest text-stone-400 mb-2">Dress Code</h3>
+                        <p class="serif text-xl">Colourful</p>
+                        <p class="text-sm text-stone-500 mt-1">Please avoid black ties.</p>
+                    </div>
+                </div>
+
+                <div class="bg-stone-50 rounded-2xl p-8 text-center mb-16 border border-stone-100">
+                    <h3 class="serif italic text-2xl mb-4">Will you be attending?</h3>
+                    <p class="text-xs text-stone-500 mb-8">Please let the family know by Wednesday for catering purposes.</p>
+                    <div class="flex gap-4 justify-center">
+                        <button class="rsvp-pill">I Will Attend</button>
+                        <button class="rsvp-pill bg-white text-black border border-stone-200 hover:bg-stone-100 hover:text-black">Unable to Attend</button>
+                    </div>
+                    <p class="mt-6 text-[10px] font-bold uppercase text-[#C5A059]">42 Guests Confirmed</p>
+                </div>
+
+                <div>
+                    <h3 class="serif italic text-3xl mb-8">Tribute Wall</h3>
+                    <div class="relative pl-6">
+                        <div class="timeline-line"></div>
+                        
+                        <div class="flex mb-8">
+                            <div class="timeline-dot"></div>
+                            <div>
+                                <p class="text-sm italic text-stone-600 mb-2">"A truly wonderful soul who will be missed by the entire gardening club."</p>
+                                <p class="text-[10px] font-bold uppercase tracking-widest text-stone-400">— Sarah Jenkins</p>
+                            </div>
+                        </div>
+
+                        <div class="flex mb-8">
+                            <div class="timeline-dot"></div>
+                            <div>
+                                <p class="text-sm italic text-stone-600 mb-2">"Thinking of you all. I have made a donation to the hospice in her name."</p>
+                                <p class="text-[10px] font-bold uppercase tracking-widest text-stone-400">— The Miller Family</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <form action="https://formspree.io/f/mvzzkjeq" method="POST" class="mt-8">
+                        <textarea name="tribute_msg" placeholder="Leave a tribute..." class="w-full p-4 bg-stone-50 rounded-xl text-sm mb-4 outline-none focus:ring-1 focus:ring-[#C5A059]"></textarea>
+                        <button type="submit" class="text-[10px] font-bold uppercase tracking-widest border-b border-black">Post Message</button>
+                    </form>
+                </div>
+
+            </div>
+            
+            <div class="bg-black p-6 text-center">
+                <p class="text-white/40 text-[9px] uppercase tracking-widest">Notice powered by</p>
+                <p class="serif italic text-white text-xl mt-2">FuneralMatch</p>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        AOS.init({ duration: 1000, once: true });
+    </script>
+</body>
+</html>
