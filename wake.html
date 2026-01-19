@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reception Venues | FuneralMatch Hospitality</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@1,400;1,700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        :root { --gold: #C5A059; --black: #1a1a1a; --soft-bg: #FFFDF9; }
+        body { font-family: 'Inter', sans-serif; background: var(--soft-bg); color: var(--black); }
+        .serif { font-family: 'Bodoni Moda', serif; }
+
+        .venue-card { background: white; border-radius: 2rem; overflow: hidden; border: 1px solid #EEE; transition: 0.4s; cursor: pointer; }
+        .venue-card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.05); border-color: var(--gold); }
+        
+        .venue-img-wrap { height: 250px; position: relative; }
+        .venue-img { width: 100%; height: 100%; object-fit: cover; }
+        
+        .badge-capacity { position: absolute; top: 1rem; right: 1rem; background: rgba(0,0,0,0.8); color: white; padding: 4px 12px; border-radius: 99px; font-size: 0.6rem; font-weight: 800; uppercase; backdrop-filter: blur(4px); }
+        .badge-dist { position: absolute; bottom: 1rem; left: 1rem; background: white; color: black; padding: 4px 12px; border-radius: 99px; font-size: 0.6rem; font-weight: 800; uppercase; }
+        
+        .menu-item { display: flex; justify-content: space-between; border-bottom: 1px solid #f0f0f0; padding: 0.8rem 0; font-size: 0.8rem; color: #666; }
+    </style>
+</head>
+<body class="py-12 px-6 md:px-12">
+
+    <nav class="flex justify-between items-center mb-12 border-b border-black/5 pb-6">
+        <div class="flex flex-col items-start">
+            <span class="serif text-xs font-bold uppercase tracking-[0.4em] mb-1">Funeral</span>
+            <div style="width: 30px; height: 1px; background: var(--gold); margin-bottom: 4px;"></div>
+            <span class="serif text-xs font-bold text-[#C5A059] uppercase tracking-[0.7em]">Match</span>
+        </div>
+        <div class="hidden md:block text-right">
+            <p class="text-[9px] uppercase font-bold tracking-widest text-stone-400">Search Area</p>
+            <p class="font-bold text-sm">Near St. Mary's Church (+2 miles)</p>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto">
+        
+        <header class="mb-16 flex justify-between items-end">
+            <div data-aos="fade-right">
+                <span class="text-[10px] uppercase font-bold tracking-[0.4em] text-[#C5A059]">The Reception</span>
+                <h1 class="serif italic text-5xl mt-4 mb-4">Gather & Remember.</h1>
+                <p class="text-stone-500 text-sm max-w-md">Private rooms, curated menus, and seamless service. Find the perfect venue to celebrate the life of your loved one.</p>
+            </div>
+            
+            <div class="hidden md:flex gap-4">
+                 <button class="bg-black text-white px-8 py-3 rounded-full text-[10px] font-bold uppercase">View Map</button>
+                 <button class="bg-white border border-stone-200 px-8 py-3 rounded-full text-[10px] font-bold uppercase">Filter: Catering</button>
+            </div>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            
+            <div class="venue-card group" data-aos="fade-up">
+                <div class="venue-img-wrap">
+                    <img src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=1000&auto=format&fit=crop" class="venue-img">
+                    <span class="badge-capacity">Up to 50 Guests</span>
+                    <span class="badge-dist">0.5 Miles from Service</span>
+                </div>
+                <div class="p-8">
+                    <h3 class="serif text-2xl mb-1">The Fox & Hounds</h3>
+                    <p class="text-[10px] uppercase font-bold text-stone-400 mb-6">Private Garden Room</p>
+                    
+                    <div class="mb-6">
+                        <div class="menu-item">
+                            <span>Finger Buffet A</span>
+                            <span class="font-bold text-black">£14.50 /hd</span>
+                        </div>
+                        <div class="menu-item">
+                            <span>Hot Fork Buffet</span>
+                            <span class="font-bold text-black">£22.00 /hd</span>
+                        </div>
+                        <div class="menu-item border-none">
+                            <span>Tea & Coffee Station</span>
+                            <span class="font-bold text-black">Incl.</span>
+                        </div>
+                    </div>
+                    
+                    <button class="w-full py-3 bg-black text-white rounded-lg text-[10px] font-bold uppercase hover:bg-[#C5A059] transition-colors">Check Availability</button>
+                </div>
+            </div>
+
+            <div class="venue-card group" data-aos="fade-up" data-aos-delay="100">
+                <div class="venue-img-wrap">
+                    <img src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?q=80&w=1000&auto=format&fit=crop" class="venue-img">
+                    <span class="badge-capacity">Up to 120 Guests</span>
+                    <span class="badge-dist">1.2 Miles from Service</span>
+                </div>
+                <div class="p-8">
+                    <h3 class="serif text-2xl mb-1">Manor House Hotel</h3>
+                    <p class="text-[10px] uppercase font-bold text-stone-400 mb-6">The Library Suite</p>
+                    
+                    <div class="mb-6">
+                        <div class="menu-item">
+                            <span>Afternoon Tea</span>
+                            <span class="font-bold text-black">£28.00 /hd</span>
+                        </div>
+                        <div class="menu-item">
+                            <span>3-Course Meal</span>
+                            <span class="font-bold text-black">£45.00 /hd</span>
+                        </div>
+                        <div class="menu-item border-none">
+                            <span>Projector for Photos</span>
+                            <span class="font-bold text-black">Incl.</span>
+                        </div>
+                    </div>
+                    
+                    <button class="w-full py-3 bg-white border border-stone-200 text-black rounded-lg text-[10px] font-bold uppercase hover:bg-black hover:text-white transition-colors">Check Availability</button>
+                </div>
+            </div>
+
+            <div class="venue-card group" data-aos="fade-up" data-aos-delay="200">
+                <div class="venue-img-wrap">
+                    <img src="https://images.unsplash.com/photo-1581452697818-45c1109a9627?q=80&w=1000&auto=format&fit=crop" class="venue-img">
+                    <span class="badge-capacity">Up to 200 Guests</span>
+                    <span class="badge-dist">2.0 Miles from Service</span>
+                </div>
+                <div class="p-8">
+                    <h3 class="serif text-2xl mb-1">Oakwood Golf Club</h3>
+                    <p class="text-[10px] uppercase font-bold text-stone-400 mb-6">Main Function Hall</p>
+                    
+                    <div class="mb-6">
+                        <div class="menu-item">
+                            <span>Classic Buffet</span>
+                            <span class="font-bold text-black">£18.50 /hd</span>
+                        </div>
+                        <div class="menu-item">
+                            <span>Arrival Drinks</span>
+                            <span class="font-bold text-black">£6.00 /hd</span>
+                        </div>
+                        <div class="menu-item border-none">
+                            <span>Ample Parking</span>
+                            <span class="font-bold text-black">Free</span>
+                        </div>
+                    </div>
+                    
+                    <button class="w-full py-3 bg-white border border-stone-200 text-black rounded-lg text-[10px] font-bold uppercase hover:bg-black hover:text-white transition-colors">Check Availability</button>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <script>
+        AOS.init({ duration: 1000, once: true });
+    </script>
+</body>
+</html>
