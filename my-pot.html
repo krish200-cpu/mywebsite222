@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <title>My Future Fund | Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@1,400;1,700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --gold: #C5A059; --soft-bg: #F3F4F6; }
+        body { font-family: 'Inter', sans-serif; background: var(--soft-bg); color: #1a1a1a; }
+        .serif { font-family: 'Bodoni Moda', serif; }
+        
+        .bank-card { background: linear-gradient(135deg, #1a1a1a 0%, #000 100%); color: white; border-radius: 1.5rem; padding: 2rem; position: relative; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.2); height: 100%; }
+        .chip { width: 40px; height: 30px; background: linear-gradient(135deg, #FFD700, #B8860B); border-radius: 6px; margin-bottom: 2rem; opacity: 0.8; }
+        
+        .stat-box { background: white; padding: 1.5rem; border-radius: 1rem; border: 1px solid #E5E7EB; }
+    </style>
+</head>
+<body class="py-10 px-6">
+
+    <main class="max-w-5xl mx-auto">
+        
+        <header class="flex justify-between items-end mb-10">
+            <div>
+                <h1 class="serif italic text-4xl">Welcome back, Eleanor.</h1>
+                <p class="text-sm text-stone-500 mt-1">Plan ID: #FM-8829-X</p>
+            </div>
+            <button class="bg-[#C5A059] text-white px-6 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-black transition-all">+ Add Funds</button>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+            
+            <div class="md:col-span-1">
+                <div class="bank-card">
+                    <div class="flex justify-between items-start">
+                        <div class="chip"></div>
+                        <span class="text-[10px] font-bold uppercase tracking-widest text-stone-400">FuneralMatch</span>
+                    </div>
+                    <div class="mb-8">
+                        <p class="text-[10px] uppercase text-stone-500 mb-1">Total Pot Value</p>
+                        <p class="text-4xl font-bold font-mono">£1,250.00</p>
+                    </div>
+                    <div class="flex justify-between items-end">
+                        <div>
+                            <p class="text-[8px] uppercase text-stone-500">Plan Holder</p>
+                            <p class="font-bold text-sm tracking-widest">ELEANOR RIGBY</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-[8px] uppercase text-stone-500">Status</p>
+                            <p class="font-bold text-sm text-[#C5A059]">ACTIVE</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="md:col-span-2 grid grid-cols-2 gap-6">
+                <div class="stat-box">
+                    <p class="text-[10px] font-bold uppercase text-stone-400 mb-2">Target Goal</p>
+                    <p class="text-2xl font-bold">£4,200</p>
+                    <div class="w-full bg-gray-100 h-2 rounded-full mt-4 overflow-hidden">
+                        <div class="bg-[#C5A059] h-full w-[30%]"></div>
+                    </div>
+                    <p class="text-[9px] text-stone-400 mt-2">30% Funded</p>
+                </div>
+
+                <div class="stat-box">
+                    <p class="text-[10px] font-bold uppercase text-stone-400 mb-2">Next Payment</p>
+                    <p class="text-2xl font-bold">£45.00</p>
+                    <p class="text-[10px] text-stone-400 mt-4">Due: 1st Feb 2026</p>
+                    <p class="text-[9px] text-green-600 font-bold">Direct Debit Active ✓</p>
+                </div>
+
+                <div class="stat-box col-span-2 bg-stone-900 text-white border-none flex justify-between items-center">
+                    <div>
+                        <p class="text-[10px] font-bold uppercase text-[#C5A059] mb-1">Inflation Shield</p>
+                        <p class="font-bold text-lg">Your plan is locked at 2026 prices.</p>
+                        <p class="text-[10px] text-stone-500">You have saved approx £120 in future price hikes.</p>
+                    </div>
+                    <div class="text-3xl">🛡️</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-[2rem] border border-stone-200 p-8">
+            <h3 class="font-bold text-lg mb-6">Recent Activity</h3>
+            <div class="space-y-4">
+                <div class="flex justify-between items-center border-b border-stone-100 pb-4">
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 bg-green-100 text-green-700 rounded-full flex items-center justify-center font-bold text-xs">⬇</div>
+                        <div>
+                            <p class="font-bold text-sm">Monthly Deposit</p>
+                            <p class="text-[10px] text-stone-400">1st Jan 2026</p>
+                        </div>
+                    </div>
+                    <span class="font-bold text-green-600">+£45.00</span>
+                </div>
+                <div class="flex justify-between items-center border-b border-stone-100 pb-4">
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 bg-green-100 text-green-700 rounded-full flex items-center justify-center font-bold text-xs">⬇</div>
+                        <div>
+                            <p class="font-bold text-sm">Monthly Deposit</p>
+                            <p class="text-[10px] text-stone-400">1st Dec 2025</p>
+                        </div>
+                    </div>
+                    <span class="font-bold text-green-600">+£45.00</span>
+                </div>
+            </div>
+            
+            <button class="mt-6 text-[10px] font-bold uppercase text-stone-400 hover:text-black">Download Statement (PDF)</button>
+        </div>
+
+    </main>
+</body>
+</html>
