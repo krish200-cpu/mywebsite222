@@ -2,573 +2,442 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>FuneralMatch Fluid Designer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>FuneralMatch Page Editor</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 
     <style>
-        /* --- 1. CORE VARIABLES --- */
+        /* --- CORE VARIABLES --- */
         :root {
             --bg: #050505;
             --surface: #121212;
             --border: #222;
             --gold: #D4AF37;
-            --gold-glow: rgba(212, 175, 55, 0.15);
-            --safe-bottom: env(safe-area-inset-bottom, 20px);
+            --page-width: 400px;  /* Base reference width */
+            --page-height: 565px; /* A5 Ratio approx */
         }
-
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
         body {
             background-color: var(--bg);
             color: white;
             font-family: 'Inter', sans-serif;
-            height: 100dvh; /* Dynamic Height for Mobile Browsers */
+            height: 100vh;
             width: 100vw;
             overflow: hidden;
             display: flex;
             flex-direction: column;
         }
 
-        /* --- 2. THE CANVAS ENGINE --- */
-        #workspace {
+        /* --- 3D STAGE --- */
+        #stage {
             flex: 1;
-            position: relative;
-            overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
+            perspective: 2000px; /* Deep 3D space */
+            overflow: hidden;
             background-image: radial-gradient(#1a1a1a 1px, transparent 1px);
-            background-size: 20px 20px;
-            z-index: 10;
+            background-size: 24px 24px;
         }
 
-        /* The Scaler Div - This is what we resize via JS */
-        #canvas-scaler {
-            transform-origin: center center;
-            transition: transform 0.1s linear; /* Fast response for resize */
-            will-change: transform;
-            width: 800px; /* Base Width */
-            height: 565px; /* Base Height (A4 Landscape aspect) */
+        /* Container that holds the pages */
+        .book-container {
+            width: var(--page-width);
+            height: var(--page-height);
+            position: relative;
+            transform-style: preserve-3d;
+            /* Auto-scale for mobile via JS */
+            transition: transform 0.3s ease; 
         }
 
-        .spread {
-            width: 100%;
-            height: 100%;
+        /* --- THE PAGE (Physical Object) --- */
+        .sheet {
+            position: absolute;
+            inset: 0;
             background: white;
+            color: black;
+            box-shadow: 
+                0 4px 10px rgba(0,0,0,0.1), /* Close shadow */
+                0 20px 50px rgba(0,0,0,0.5); /* Deep shadow */
+            transform-origin: left center; /* Hinge on the left spine */
+            backface-visibility: hidden;
+            border-radius: 2px 6px 6px 2px; /* Slight curve on right edge */
             display: flex;
-            box-shadow: 0 0 50px rgba(0,0,0,0.8);
-            position: relative;
-        }
-
-        .page {
-            flex: 1;
-            position: relative;
-            overflow: hidden;
-            border-right: 1px solid rgba(0,0,0,0.1);
-            transition: background 0.3s;
-        }
-
-        /* Selection Highlight */
-        .page-highlight {
-            position: absolute; inset: 0; pointer-events: none;
-            border: 2px solid transparent; transition: 0.3s; z-index: 20;
-        }
-        .page.active .page-highlight { border-color: var(--gold); background: var(--gold-glow); }
-
-
-        /* --- 3. UI LAYOUT --- */
-        
-        /* Top Bar */
-        .top-bar {
-            height: 50px;
-            background: var(--surface);
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 16px;
-            z-index: 50;
-        }
-
-        /* Bottom Dock (Mobile & Desktop Unified) */
-        .dock {
-            background: var(--surface);
-            border-top: 1px solid var(--border);
-            padding-bottom: var(--safe-bottom);
-            z-index: 50;
-            transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
-        }
-
-        .dock-nav {
-            height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 20px;
-        }
-
-        /* Navigation Buttons */
-        .nav-btn {
-            width: 44px; height: 44px;
-            border-radius: 50%;
-            background: #1a1a1a;
-            border: 1px solid #333;
-            color: white;
-            display: flex; align-items: center; justify-content: center;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        .nav-btn:active { transform: scale(0.9); border-color: var(--gold); }
-
-        /* Tools Toggle */
-        .tools-drawer {
-            height: 0;
-            overflow: hidden;
-            transition: height 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
-            background: #0f0f0f;
-        }
-        .tools-drawer.open { height: 200px; border-bottom: 1px solid var(--border); }
-
-        .tool-tab {
-            padding: 12px 16px;
-            color: #666;
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            cursor: pointer;
-            border-bottom: 2px solid transparent;
-        }
-        .tool-tab.active { color: var(--gold); border-color: var(--gold); }
-
-        /* --- 4. INTERACTIVE ELEMENTS --- */
-        .editable {
-            transition: 0.2s; border: 1px dashed transparent; cursor: pointer;
-        }
-        .editable:hover { border-color: var(--gold); background: rgba(0,0,0,0.02); }
-        
-        .photo-slot {
-            background: #f4f4f4; width: 100%; height: 100%; 
-            display: flex; align-items: center; justify-content: center;
-            color: #ccc; cursor: pointer; overflow: hidden; position: relative;
-        }
-        .photo-slot img { width: 100%; height: 100%; object-fit: cover; }
-
-        /* Layout Grid */
-        .layout-grid {
-            display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; padding: 16px;
-        }
-        .layout-card {
-            background: #1a1a1a; border: 1px solid #333; border-radius: 8px;
-            aspect-ratio: 1/1; display: flex; flex-direction: column; align-items: center; justify-content: center;
-            cursor: pointer;
-        }
-        .layout-card:hover { border-color: white; }
-        .layout-card.selected { border-color: var(--gold); background: rgba(212, 175, 55, 0.1); }
-
-        /* --- 5. EDIT MODAL (Full Screen on Mobile) --- */
-        #edit-modal {
-            position: fixed; inset: 0; z-index: 100;
-            background: rgba(0,0,0,0.9);
-            backdrop-filter: blur(10px);
-            display: none;
             flex-direction: column;
-            justify-content: center;
-            padding: 20px;
+            overflow: hidden;
+            transition: transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1); /* Smooth "Paper" Bezier */
         }
-        #edit-modal.active { display: flex; animation: fadeIn 0.2s ease; }
-        
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* Typography */
-        .serif { font-family: 'Bodoni Moda', serif; }
-        .sans { font-family: 'Inter', sans-serif; }
-        .script { font-family: 'Playfair Display', serif; font-style: italic; }
+        /* Page States */
+        .sheet.active { z-index: 10; transform: rotateY(0deg); }
+        .sheet.flipped { z-index: 20; transform: rotateY(-180deg); } /* Gone to left */
+        .sheet.upcoming { z-index: 1; transform: rotateY(0deg) scale(0.95) translateZ(-10px); opacity: 0; } /* Waiting in stack */
+
+        /* Paper Texture Overlay */
+        .texture {
+            position: absolute; inset: 0; pointer-events: none;
+            background-image: url('https://www.transparenttextures.com/patterns/cream-paper.png');
+            opacity: 0.5; mix-blend-mode: multiply; z-index: 50;
+        }
+
+        /* Spine Highlight */
+        .spine-highlight {
+            position: absolute; top: 0; bottom: 0; left: 0; width: 40px;
+            background: linear-gradient(to right, rgba(0,0,0,0.1), transparent);
+            pointer-events: none; z-index: 40;
+        }
+
+        /* --- CONTENT STYLES --- */
+        .page-content {
+            flex: 1; padding: 40px;
+            display: flex; flex-direction: column;
+            position: relative;
+        }
+
+        .editable {
+            border: 1px dashed transparent; cursor: pointer; transition: 0.2s;
+        }
+        .editable:hover { border-color: var(--gold); background: rgba(212, 175, 55, 0.05); }
+
+        .photo-zone {
+            background: #f4f4f4; width: 100%; display: flex; align-items: center; justify-content: center;
+            cursor: pointer; overflow: hidden; position: relative; color: #ccc;
+        }
+        .photo-zone:hover { color: var(--gold); background: #eee; }
+        .photo-zone img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* --- UI OVERLAY --- */
+        .ui-layer {
+            position: absolute; inset: 0; pointer-events: none;
+            display: flex; flex-direction: column; justify-content: space-between;
+            padding: 20px; z-index: 100;
+        }
+
+        .top-bar {
+            pointer-events: auto;
+            background: rgba(18, 18, 18, 0.9); backdrop-filter: blur(10px);
+            border: 1px solid var(--border); border-radius: 99px;
+            padding: 8px 20px;
+            display: flex; align-items: center; justify-content: space-between;
+            align-self: center; width: 100%; max-width: 600px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .bottom-bar {
+            pointer-events: auto;
+            background: rgba(18, 18, 18, 0.9); backdrop-filter: blur(10px);
+            border: 1px solid var(--border); border-radius: 16px;
+            padding: 16px;
+            align-self: center; width: 100%; max-width: 600px;
+            display: flex; flex-direction: column; gap: 16px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+        }
+
+        .nav-row { display: flex; justify-content: space-between; align-items: center; }
+        
+        .scrubber { flex: 1; margin: 0 20px; position: relative; height: 4px; background: #333; border-radius: 2px; }
+        .scrubber-fill { height: 100%; background: var(--gold); width: 0%; transition: width 0.3s; border-radius: 2px; }
+
+        .btn-icon {
+            width: 44px; height: 44px; border-radius: 50%;
+            background: #222; color: white; border: 1px solid #333;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: 0.2s;
+        }
+        .btn-icon:hover { border-color: var(--gold); color: var(--gold); }
+        .btn-icon:active { transform: scale(0.95); }
+
+        .layout-tray {
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;
+            padding-top: 16px; border-top: 1px solid #333;
+        }
+        .layout-opt {
+            background: #000; border: 1px solid #333; border-radius: 6px;
+            height: 60px; display: flex; flex-direction: column; align-items: center; justify-content: center;
+            cursor: pointer; opacity: 0.6; transition: 0.2s;
+        }
+        .layout-opt:hover { opacity: 1; border-color: #666; }
+        .layout-opt.active { opacity: 1; border-color: var(--gold); background: rgba(212, 175, 55, 0.1); }
 
     </style>
 </head>
 <body>
 
-    <div class="top-bar">
-        <div class="flex flex-col">
-            <span class="text-[8px] uppercase font-bold text-[#C5A059] tracking-widest">FuneralMatch</span>
-            <span class="text-xs font-bold text-white">Design Studio</span>
-        </div>
-        <div class="flex items-center gap-3">
-            <div class="px-2 py-1 bg-[#1a1a1a] rounded border border-[#333] flex items-center gap-2">
-                <i class="fas fa-camera text-[10px] text-gray-500"></i>
-                <span id="photo-count" class="text-[10px] font-bold text-white">0/5</span>
-            </div>
-            <span id="total-price" class="text-xs font-bold text-[#C5A059]">£80.00</span>
-        </div>
-    </div>
-
-    <div id="workspace">
-        <div id="canvas-scaler">
-            
-            <div class="spread">
-                <div id="page-left" class="page" onclick="selectPage('left')">
-                    <div class="page-highlight"></div>
-                    <div id="content-left" class="w-full h-full p-8 text-black flex flex-col items-center justify-center text-center">
-                        </div>
-                </div>
-
-                <div id="page-right" class="page active" onclick="selectPage('right')">
-                    <div class="page-highlight"></div>
-                    <div id="content-right" class="w-full h-full p-8 text-black flex flex-col items-center justify-center text-center">
-                        </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-
-    <div class="dock">
+    <div class="ui-layer">
         
-        <div id="tools-drawer" class="tools-drawer">
-            <div class="flex border-b border-[#222]">
-                <div class="tool-tab active" onclick="switchTab('layouts', this)">Layouts</div>
-                <div class="tool-tab" onclick="switchTab('text', this)">Text Style</div>
-                <div class="tool-tab" onclick="switchTab('settings', this)">Settings</div>
+        <div class="top-bar">
+            <div class="flex flex-col">
+                <span class="text-[8px] uppercase font-bold text-[#C5A059] tracking-widest">FuneralMatch</span>
+                <span class="text-xs font-bold">Studio</span>
             </div>
-
-            <div id="tab-layouts" class="p-4 h-full overflow-y-auto">
-                <div class="layout-grid">
-                    <div class="layout-card" onclick="applyLayout('cover')">
-                        <div class="w-8 h-8 rounded-full border border-gray-600 mb-2"></div>
-                        <span class="text-[9px] uppercase text-gray-500">Cover</span>
-                    </div>
-                    <div class="layout-card" onclick="applyLayout('text')">
-                        <div class="w-8 h-px bg-gray-600 mb-1"></div>
-                        <div class="w-8 h-px bg-gray-600 mb-1"></div>
-                        <div class="w-8 h-px bg-gray-600"></div>
-                        <span class="text-[9px] uppercase text-gray-500 mt-2">Text</span>
-                    </div>
-                    <div class="layout-card" onclick="applyLayout('photo')">
-                        <div class="w-full h-8 bg-gray-800 mb-1"></div>
-                        <span class="text-[9px] uppercase text-gray-500 mt-1">Photo</span>
-                    </div>
-                    <div class="layout-card" onclick="applyLayout('hymn')">
-                        <i class="fas fa-music text-gray-600 mb-1"></i>
-                        <span class="text-[9px] uppercase text-gray-500 mt-1">Hymn</span>
-                    </div>
+            <div class="flex items-center gap-4">
+                <div class="flex items-center gap-2">
+                    <i class="fas fa-camera text-gray-500 text-xs"></i>
+                    <span class="text-xs font-bold text-gray-300" id="photo-count">0/5</span>
                 </div>
+                <div class="h-4 w-px bg-white/20"></div>
+                <span class="text-xs font-bold text-[#C5A059]">£80.00</span>
             </div>
+        </div>
 
-            <div id="tab-text" class="p-4 h-full overflow-y-auto hidden">
-                <p class="text-[10px] uppercase font-bold text-gray-500 mb-2">Typography</p>
-                <div class="flex gap-2">
-                    <button onclick="setFont('serif')" class="flex-1 py-2 bg-[#222] border border-[#333] rounded text-xs font-serif hover:border-[#D4AF37]">Bodoni</button>
-                    <button onclick="setFont('sans')" class="flex-1 py-2 bg-[#222] border border-[#333] rounded text-xs font-sans uppercase font-bold hover:border-[#D4AF37]">Modern</button>
-                    <button onclick="setFont('script')" class="flex-1 py-2 bg-[#222] border border-[#333] rounded text-xs italic hover:border-[#D4AF37]">Script</button>
+        <div class="bottom-bar">
+            <div class="nav-row">
+                <button class="btn-icon" onclick="prevPage()"><i class="fas fa-arrow-left"></i></button>
+                
+                <div class="flex-1 flex flex-col items-center px-4">
+                    <span class="text-[10px] uppercase font-bold text-gray-400 mb-2" id="page-label">Page 1: Front Cover</span>
+                    <div class="scrubber"><div class="scrubber-fill" id="progress-bar"></div></div>
                 </div>
+
+                <button class="btn-icon" onclick="nextPage()"><i class="fas fa-arrow-right"></i></button>
             </div>
 
-            <div id="tab-settings" class="p-4 h-full overflow-y-auto hidden">
-                <p class="text-[10px] uppercase font-bold text-gray-500 mb-2">Booklet Size</p>
-                <div class="flex gap-2">
-                    <button onclick="resetPages(4)" class="flex-1 py-2 bg-[#222] border border-[#333] rounded text-xs hover:border-[#D4AF37]">4 Pages</button>
-                    <button onclick="resetPages(8)" class="flex-1 py-2 bg-[#222] border border-[#333] rounded text-xs hover:border-[#D4AF37]">8 Pages</button>
+            <div class="layout-tray">
+                <div class="layout-opt" onclick="applyLayout('cover')">
+                    <i class="fas fa-book text-gray-400 mb-1 text-xs"></i>
+                    <span class="text-[8px] uppercase text-gray-500">Cover</span>
+                </div>
+                <div class="layout-opt" onclick="applyLayout('text')">
+                    <i class="fas fa-align-left text-gray-400 mb-1 text-xs"></i>
+                    <span class="text-[8px] uppercase text-gray-500">Text</span>
+                </div>
+                <div class="layout-opt" onclick="applyLayout('photo')">
+                    <i class="fas fa-image text-gray-400 mb-1 text-xs"></i>
+                    <span class="text-[8px] uppercase text-gray-500">Photo</span>
+                </div>
+                <div class="layout-opt" onclick="applyLayout('hymn')">
+                    <i class="fas fa-music text-gray-400 mb-1 text-xs"></i>
+                    <span class="text-[8px] uppercase text-gray-500">Hymn</span>
                 </div>
             </div>
         </div>
 
-        <div class="dock-nav">
-            <button class="nav-btn" onclick="prevSpread()"><i class="fas fa-chevron-left text-xs"></i></button>
-            
-            <div class="flex flex-col items-center cursor-pointer" onclick="toggleTools()">
-                <span class="text-[10px] uppercase font-bold text-gray-500 tracking-widest mb-1" id="page-label">Cover</span>
-                <div class="flex gap-1" id="dots-container">
-                    </div>
-            </div>
-
-            <div class="flex gap-3">
-                <button class="nav-btn bg-[#222]" onclick="toggleTools()"><i class="fas fa-layer-group text-xs"></i></button>
-                <button class="nav-btn bg-[#D4AF37] border-[#D4AF37] text-black" onclick="alert('Proceeding to Cart')"><i class="fas fa-check text-xs"></i></button>
-                <button class="nav-btn" onclick="nextSpread()"><i class="fas fa-chevron-right text-xs"></i></button>
-            </div>
-        </div>
     </div>
 
-
-    <div id="edit-modal">
-        <label class="text-xs font-bold text-gray-400 uppercase mb-2">Edit Text</label>
-        <textarea id="modal-input" class="w-full h-32 bg-[#111] border border-[#333] rounded-lg p-4 text-white text-lg outline-none focus:border-[#D4AF37] mb-4"></textarea>
-        <button onclick="saveEdit()" class="w-full bg-[#D4AF37] text-black font-bold h-12 rounded-lg uppercase tracking-widest text-xs">Update</button>
-        <button onclick="closeEdit()" class="w-full mt-2 text-gray-500 text-xs font-bold uppercase p-2">Cancel</button>
+    <div id="stage">
+        <div class="book-container" id="book">
+            </div>
     </div>
 
     <input type="file" id="img-upload" class="hidden" accept="image/*">
 
-
     <script>
-        // === 1. LAYOUT TEMPLATES ===
-        const TEMPLATES = {
-            cover: `
-                <div class="pointer-events-none">
-                    <p class="editable mb-4 text-xs uppercase tracking-widest text-gray-500 pointer-events-auto" onclick="edit(this)">In Loving Memory of</p>
-                    <div class="photo-slot rounded-full w-40 h-40 mb-6 mx-auto border-4 border-double border-gray-100 pointer-events-auto" onclick="upload(this)">
-                        <i class="fas fa-camera text-2xl opacity-20"></i>
-                    </div>
-                    <h1 class="editable text-3xl mb-2 pointer-events-auto leading-tight" onclick="edit(this)">Eleanor<br>Rigby</h1>
-                    <p class="editable text-sm mb-6 pointer-events-auto" onclick="edit(this)">1950 — 2026</p>
-                    <p class="editable text-[10px] uppercase font-bold text-gray-400 pointer-events-auto" onclick="edit(this)">St Mary's Church</p>
-                </div>
-            `,
-            text: `
-                <div class="text-left w-full h-full pointer-events-none">
-                    <h2 class="editable text-lg font-bold mb-4 border-b border-gray-200 pb-2 pointer-events-auto" onclick="edit(this)">Reading</h2>
-                    <p class="editable text-xs leading-loose text-gray-600 pointer-events-auto" onclick="edit(this)">
-                        Tap to edit. You can paste poems, readings, or eulogies here.
-                    </p>
-                </div>
-            `,
-            photo: `
-                <div class="w-full h-full flex flex-col pointer-events-none">
-                    <div class="photo-slot w-full h-1/2 mb-4 bg-gray-100 pointer-events-auto" onclick="upload(this)">
-                        <span class="text-[9px] uppercase font-bold opacity-50">Add Photo</span>
-                    </div>
-                    <div class="px-2 text-left">
-                        <h2 class="editable text-lg font-bold mb-2 pointer-events-auto" onclick="edit(this)">Caption</h2>
-                        <p class="editable text-xs text-gray-600 pointer-events-auto" onclick="edit(this)">Add description...</p>
-                    </div>
-                </div>
-            `,
-            hymn: `
-                <div class="text-center w-full h-full pointer-events-none pt-8">
-                    <p class="text-[9px] uppercase font-bold text-gray-300 mb-2">Hymn</p>
-                    <h2 class="editable text-xl italic mb-4 pointer-events-auto" onclick="edit(this)">Abide With Me</h2>
-                    <div class="editable text-xs font-serif italic text-gray-600 leading-relaxed pointer-events-auto" onclick="edit(this)">
-Abide with me;<br>fast falls the eventide;<br>The darkness deepens;<br>Lord with me abide.
-                    </div>
-                </div>
-            `
-        };
-
-        // === 2. STATE ===
+        // === STATE ===
         const state = {
-            totalPages: 4,
-            currentSpread: 0,
-            activeSide: 'right', // 'left' or 'right'
+            totalPages: 8, // Rectangular pages (A5)
+            currentPage: 0, // 0-based index
             pages: [],
             price: 80,
             photos: 0
         };
 
-        // === 3. AUTO-FIT ENGINE (Crucial for Mobile) ===
-        function resizeCanvas() {
-            const workspace = document.getElementById('workspace');
-            const scaler = document.getElementById('canvas-scaler');
+        const TEMPLATES = {
+            cover: `
+                <div class="h-full flex flex-col items-center justify-center text-center">
+                    <p class="editable text-xs uppercase tracking-widest text-gray-500 mb-8" onclick="editText(this)">In Loving Memory</p>
+                    <div class="photo-zone rounded-full w-40 h-40 mb-8 shadow-xl border-4 border-double border-gray-100" onclick="uploadPhoto(this)">
+                        <i class="fas fa-camera opacity-30 text-2xl"></i>
+                    </div>
+                    <h1 class="editable text-4xl mb-2 font-serif" onclick="editText(this)">Name<br>Here</h1>
+                    <p class="editable text-sm mb-8" onclick="editText(this)">1950 — 2026</p>
+                    <p class="editable text-[10px] uppercase font-bold text-gray-400" onclick="editText(this)">St Mary's Church</p>
+                </div>`,
             
-            // Available space
-            const w = workspace.clientWidth;
-            const h = workspace.clientHeight;
+            text: `
+                <div class="h-full p-8 text-left">
+                    <h2 class="editable text-xl font-bold mb-4 border-b border-gray-200 pb-2" onclick="editText(this)">Reading</h2>
+                    <p class="editable text-xs leading-loose text-gray-600 whitespace-pre-wrap" onclick="editText(this)">
+Tap to edit text. You can add poems, eulogies, or order of service details here.
+                    </p>
+                </div>`,
             
-            // Target size (A4 Spread approx)
-            const targetW = 800;
-            const targetH = 565;
+            photo: `
+                <div class="h-full flex flex-col">
+                    <div class="photo-zone w-full h-1/2 mb-6 bg-gray-100" onclick="uploadPhoto(this)">
+                        <div class="flex flex-col items-center"><i class="fas fa-image opacity-30 mb-2"></i><span class="text-[8px] uppercase font-bold opacity-30">Add Photo</span></div>
+                    </div>
+                    <div class="px-6">
+                        <h2 class="editable text-xl font-bold mb-2" onclick="editText(this)">Caption</h2>
+                        <p class="editable text-xs text-gray-600" onclick="editText(this)">Add a description...</p>
+                    </div>
+                </div>`,
             
-            // Add padding
-            const padding = 20;
-            
-            // Math
-            const scale = Math.min(
-                (w - padding * 2) / targetW, 
-                (h - padding * 2) / targetH
-            );
-            
-            scaler.style.transform = `scale(${scale})`;
-        }
-        
-        window.addEventListener('resize', resizeCanvas);
+            hymn: `
+                <div class="h-full flex flex-col items-center justify-start pt-12 text-center px-6">
+                    <p class="text-[9px] uppercase font-bold text-gray-300 mb-2">Hymn</p>
+                    <h2 class="editable text-2xl italic mb-6 font-serif" onclick="editText(this)">Abide With Me</h2>
+                    <div class="editable text-xs font-serif italic text-gray-600 leading-relaxed" onclick="editText(this)">
+Abide with me; fast falls the eventide;
+The darkness deepens; Lord with me abide.
+When other helpers fail and comforts flee,
+Help of the helpless, O abide with me.
+                    </div>
+                </div>`
+        };
 
-        // === 4. CORE LOGIC ===
+        // === INIT ===
         function init() {
-            resetPages(4);
-            resizeCanvas();
-        }
-
-        function resetPages(count) {
-            state.totalPages = parseInt(count);
-            state.pages = [];
-            
-            // Back/Front Cover
-            state.pages.push(`<div class="w-full h-full flex items-center justify-center"><p class="text-[10px] text-gray-300 uppercase">Back Cover</p></div>`);
-            state.pages.push(TEMPLATES.cover);
-            
-            // Inner Pages
-            for(let i=2; i<count; i++) {
-                state.pages.push(TEMPLATES.text);
+            // Build pages
+            for(let i=0; i<state.totalPages; i++) {
+                let content = TEMPLATES.text;
+                if(i === 0) content = TEMPLATES.cover;
+                
+                state.pages.push({
+                    id: i,
+                    content: content,
+                    layout: i === 0 ? 'cover' : 'text'
+                });
             }
             
-            state.currentSpread = 0;
-            renderSpread();
-            updatePrice();
+            renderBook();
+            updateUI();
+            autoScale();
+            window.addEventListener('resize', autoScale);
         }
 
-        function renderSpread() {
-            const pLeft = state.currentSpread * 2;
-            const pRight = pLeft + 1;
-            
-            document.getElementById('content-left').innerHTML = state.pages[pLeft];
-            document.getElementById('content-right').innerHTML = state.pages[pRight];
-            
-            // Label
-            const label = document.getElementById('page-label');
-            label.innerText = state.currentSpread === 0 ? "Cover" : `Pages ${pLeft} & ${pRight}`;
-            
-            renderDots();
-            
-            // Re-apply font theme
-            const font = document.querySelector('.serif') ? 'serif' : 'sans'; // basic check
-            // (In full version store font choice in state)
-        }
-
-        function renderDots() {
-            const container = document.getElementById('dots-container');
+        // === RENDERING (The 3D Engine) ===
+        function renderBook() {
+            const container = document.getElementById('book');
             container.innerHTML = '';
-            const spreads = state.totalPages / 2;
-            for(let i=0; i<spreads; i++) {
-                const dot = document.createElement('div');
-                dot.className = `w-1.5 h-1.5 rounded-full transition-all ${i===state.currentSpread ? 'bg-white scale-125' : 'bg-gray-600'}`;
-                container.appendChild(dot);
+
+            state.pages.forEach((page, index) => {
+                const sheet = document.createElement('div');
+                sheet.className = `sheet font-serif`; // Default font
+                sheet.id = `page-${index}`;
+                sheet.innerHTML = `
+                    <div class="texture"></div>
+                    <div class="spine-highlight"></div>
+                    <div class="page-content" id="content-${index}">
+                        ${page.content}
+                    </div>
+                `;
+                
+                // Z-Index Stacking: Lower pages are behind
+                sheet.style.zIndex = state.totalPages - index;
+                
+                // Initial State
+                if (index < state.currentPage) {
+                    sheet.classList.add('flipped');
+                } else if (index === state.currentPage) {
+                    sheet.classList.add('active');
+                } else {
+                    sheet.classList.add('upcoming');
+                }
+
+                container.appendChild(sheet);
+            });
+        }
+
+        // === NAVIGATION (The Flip Logic) ===
+        function nextPage() {
+            if (state.currentPage < state.totalPages - 1) {
+                // Animate current page flipping away
+                const currentEl = document.getElementById(`page-${state.currentPage}`);
+                currentEl.classList.remove('active');
+                currentEl.classList.add('flipped');
+
+                state.currentPage++;
+
+                // Animate next page appearing
+                const nextEl = document.getElementById(`page-${state.currentPage}`);
+                nextEl.classList.remove('upcoming');
+                nextEl.classList.add('active');
+
+                updateUI();
             }
         }
 
-        function selectPage(side) {
-            state.activeSide = side;
-            document.getElementById('page-left').classList.remove('active');
-            document.getElementById('page-right').classList.remove('active');
-            document.getElementById(`page-${side}`).classList.add('active');
+        function prevPage() {
+            if (state.currentPage > 0) {
+                // Animate current page disappearing (becoming upcoming)
+                const currentEl = document.getElementById(`page-${state.currentPage}`);
+                currentEl.classList.remove('active');
+                currentEl.classList.add('upcoming');
+
+                state.currentPage--;
+
+                // Animate prev page flipping back
+                const prevEl = document.getElementById(`page-${state.currentPage}`);
+                prevEl.classList.remove('flipped');
+                prevEl.classList.add('active');
+
+                updateUI();
+            }
+        }
+
+        function updateUI() {
+            // Label
+            let label = `Page ${state.currentPage + 1}`;
+            if (state.currentPage === 0) label += ": Front Cover";
+            else if (state.currentPage === state.totalPages - 1) label += ": Back Cover";
+            document.getElementById('page-label').innerText = label;
+
+            // Progress Bar
+            const pct = ((state.currentPage + 1) / state.totalPages) * 100;
+            document.getElementById('progress-bar').style.width = `${pct}%`;
+        }
+
+        // === SCALING (Responsive) ===
+        function autoScale() {
+            const stage = document.getElementById('stage');
+            const book = document.getElementById('book');
             
-            // Open tools if closed
-            const tools = document.getElementById('tools-drawer');
-            if(tools.clientHeight === 0) toggleTools();
-        }
-
-        // === 5. NAVIGATION ===
-        function nextSpread() {
-            if(state.currentSpread < (state.totalPages/2)-1) {
-                saveCurrentPage();
-                state.currentSpread++;
-                renderSpread();
-            }
-        }
-        function prevSpread() {
-            if(state.currentSpread > 0) {
-                saveCurrentPage();
-                state.currentSpread--;
-                renderSpread();
-            }
-        }
-
-        function saveCurrentPage() {
-            const pLeft = state.currentSpread * 2;
-            const pRight = pLeft + 1;
-            state.pages[pLeft] = document.getElementById('content-left').innerHTML;
-            state.pages[pRight] = document.getElementById('content-right').innerHTML;
-            updatePrice();
-        }
-
-        // === 6. TOOLS & EDITING ===
-        function toggleTools() {
-            document.getElementById('tools-drawer').classList.toggle('open');
-        }
-
-        function switchTab(tabId, el) {
-            // Hide all tabs
-            ['layouts', 'text', 'settings'].forEach(t => document.getElementById(`tab-${t}`).classList.add('hidden'));
-            document.getElementById(`tab-${tabId}`).classList.remove('hidden');
+            const w = stage.clientWidth;
+            const h = stage.clientHeight;
             
-            document.querySelectorAll('.tool-tab').forEach(t => t.classList.remove('active'));
-            el.classList.add('active');
+            // Margins
+            const padX = 40;
+            const padY = 160; // Space for UI
+
+            const baseW = 400; // From CSS var
+            const baseH = 565;
+
+            const scale = Math.min(
+                (w - padX) / baseW,
+                (h - padY) / baseH
+            );
+
+            // Limit max scale to 1.2 to avoid pixelation
+            const finalScale = Math.min(scale, 1.2);
+            
+            book.style.transform = `scale(${finalScale})`;
         }
 
+        // === EDITING ===
         function applyLayout(type) {
-            const contentDiv = document.getElementById(`content-${state.activeSide}`);
-            contentDiv.innerHTML = TEMPLATES[type];
-            updatePrice();
+            const idx = state.currentPage;
+            state.pages[idx].content = TEMPLATES[type];
+            document.getElementById(`content-${idx}`).innerHTML = TEMPLATES[type];
         }
 
-        // --- Text Editing ---
-        let activeEditEl = null;
-        function edit(el) {
-            activeEditEl = el;
-            const modal = document.getElementById('edit-modal');
-            const input = document.getElementById('modal-input');
-            input.value = el.innerText;
-            modal.classList.add('active');
-            input.focus();
+        function editText(el) {
+            const newText = prompt("Edit content:", el.innerText);
+            if (newText !== null) el.innerText = newText;
         }
 
-        function saveEdit() {
-            if(activeEditEl) {
-                activeEditEl.innerText = document.getElementById('modal-input').value;
-            }
-            closeEdit();
-        }
-        function closeEdit() {
-            document.getElementById('edit-modal').classList.remove('active');
-        }
-
-        // --- Photo Upload ---
-        let activePhotoEl = null;
-        function upload(el) {
-            activePhotoEl = el;
+        let uploadTarget = null;
+        function uploadPhoto(el) {
+            uploadTarget = el;
             document.getElementById('img-upload').click();
         }
+
         document.getElementById('img-upload').onchange = (e) => {
-            if(e.target.files[0] && activePhotoEl) {
+            if (e.target.files && e.target.files[0] && uploadTarget) {
                 const reader = new FileReader();
                 reader.onload = (evt) => {
-                    activePhotoEl.innerHTML = `<img src="${evt.target.result}">`;
-                    updatePrice();
+                    uploadTarget.innerHTML = `<img src="${evt.target.result}">`;
+                    uploadTarget.style.backgroundColor = 'transparent';
+                    uploadTarget.style.border = 'none';
+                    state.photos++;
+                    document.getElementById('photo-count').innerText = `${state.photos}/5`;
                 };
                 reader.readAsDataURL(e.target.files[0]);
             }
-        }
+        };
 
-        // --- Pricing Logic ---
-        function updatePrice() {
-            // Count photos in ALL pages
-            let count = 0;
-            state.pages.forEach(p => {
-                count += (p.match(/<img/g) || []).length;
-            });
-            // Add current view if not saved
-            const currentHTML = document.getElementById('content-left').innerHTML + document.getElementById('content-right').innerHTML;
-            // (Simple estimation for demo)
-            
-            state.photos = count;
-            document.getElementById('photo-count').innerText = `${state.photos}/5`;
-            
-            // Logic
-            let price = 80;
-            const extraPages = (state.totalPages - 4) / 4;
-            price += (extraPages * 40);
-            
-            if(state.photos > 5) {
-                price += (state.photos - 5) * 7.50;
-                document.getElementById('photo-count').style.color = 'red';
-            } else {
-                document.getElementById('photo-count').style.color = 'white';
-            }
-            
-            document.getElementById('total-price').innerText = `£${price.toFixed(2)}`;
-        }
-
-        function setFont(type) {
-            const spread = document.querySelector('.spread');
-            spread.className = 'spread'; // reset
-            if(type === 'serif') spread.classList.add('serif');
-            if(type === 'sans') spread.classList.add('sans');
-            if(type === 'script') spread.classList.add('script');
-        }
-
-        // Init
+        // Run
         init();
 
     </script>
