@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Command Center | FuneralMatch Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@1,400;1,700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        :root { --gold: #C5A059; --black: #1a1a1a; --soft-bg: #F3F4F6; }
+        body { font-family: 'Inter', sans-serif; background: var(--soft-bg); color: var(--black); }
+        .serif { font-family: 'Bodoni Moda', serif; }
+        
+        .nav-item { display: flex; align-items: center; gap: 12px; padding: 12px 20px; border-radius: 12px; color: #6B7280; font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: 0.3s; }
+        .nav-item:hover, .nav-item.active { background: white; color: black; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .nav-icon { font-size: 1.2rem; }
+        
+        .dash-card { background: white; border-radius: 1.5rem; padding: 1.5rem; border: 1px solid #E5E7EB; height: 100%; }
+        .status-pill { padding: 4px 12px; border-radius: 99px; font-size: 0.65rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; }
+        .status-pending { background: #FEF3C7; color: #D97706; }
+        .status-complete { background: #D1FAE5; color: #059669; }
+
+        .marketplace-thumb { width: 100%; height: 120px; background: #f0f0f0; border-radius: 1rem; object-fit: cover; margin-bottom: 1rem; }
+    </style>
+</head>
+<body class="flex h-screen overflow-hidden">
+
+    <aside class="w-64 bg-[#F9FAFB] border-r border-gray-200 p-6 flex flex-col justify-between hidden md:flex">
+        <div>
+            <div class="mb-10 pl-2">
+                <span class="serif italic text-2xl font-bold">Funeral<span class="text-[#C5A059]">Match</span></span>
+            </div>
+            
+            <nav class="space-y-2">
+                <div class="nav-item active">
+                    <span class="nav-icon">📊</span> Overview
+                </div>
+                <div class="nav-item">
+                    <span class="nav-icon">📋</span> The Plan
+                </div>
+                <div class="nav-item">
+                    <span class="nav-icon">💰</span> Finances
+                </div>
+                <div class="nav-item">
+                    <span class="nav-icon">👥</span> Guest List
+                </div>
+                <div class="nav-item">
+                    <span class="nav-icon">🛍️</span> Marketplace
+                </div>
+                <div class="nav-item">
+                    <span class="nav-icon">⚖️</span> Legal Docs
+                </div>
+            </nav>
+        </div>
+
+        <div class="bg-black text-white p-4 rounded-2xl text-center">
+            <p class="text-[9px] uppercase font-bold text-stone-400 mb-2">Director On Call</p>
+            <div class="w-10 h-10 bg-[#C5A059] rounded-full mx-auto mb-2 flex items-center justify-center font-bold">JD</div>
+            <p class="text-xs font-bold">John Doe</p>
+            <button class="w-full mt-3 py-2 bg-white/10 rounded-lg text-[9px] font-bold uppercase hover:bg-white/20">Chat Now</button>
+        </div>
+    </aside>
+
+    <main class="flex-1 overflow-y-auto p-8">
+        
+        <header class="flex justify-between items-end mb-10">
+            <div>
+                <span class="text-[10px] uppercase font-bold tracking-widest text-stone-400">Project Dashboard</span>
+                <h1 class="serif italic text-4xl mt-2">Arrangement for Eleanor</h1>
+            </div>
+            <div class="flex gap-4">
+                <button class="bg-white border border-gray-200 px-6 py-3 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-gray-50">Share Access</button>
+                <button class="bg-[#C5A059] text-white px-6 py-3 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-[#b08d4b]">+ Add Item</button>
+            </div>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
+            <div class="dash-card flex flex-col justify-between">
+                <div>
+                    <p class="text-[10px] uppercase font-bold text-stone-400 mb-1">Total Estimated Cost</p>
+                    <h3 class="text-3xl font-bold">£3,450</h3>
+                </div>
+                <div class="w-full bg-gray-100 h-2 rounded-full mt-4">
+                    <div class="bg-green-500 h-2 rounded-full w-[40%]"></div>
+                </div>
+                <p class="text-[9px] text-stone-400 mt-2">£1,450 Paid (Crowdfund)</p>
+            </div>
+
+            <div class="dash-card">
+                <p class="text-[10px] uppercase font-bold text-stone-400 mb-1">Time to Service</p>
+                <h3 class="text-3xl font-bold text-[#C5A059]">4 Days</h3>
+                <p class="text-xs font-bold mt-2">Friday, 24th Jan</p>
+                <span class="status-pill status-pending mt-3 inline-block">Director Confirming</span>
+            </div>
+
+            <div class="dash-card">
+                <p class="text-[10px] uppercase font-bold text-stone-400 mb-1">Guest List</p>
+                <h3 class="text-3xl font-bold">42</h3>
+                <p class="text-xs text-stone-400 mt-2">Confirmed via RSVP</p>
+                <button class="text-[9px] font-bold uppercase border-b border-black mt-3">Manage List</button>
+            </div>
+
+            <div class="dash-card bg-black text-white border-black">
+                <p class="text-[10px] uppercase font-bold text-stone-400 mb-1">Action Required</p>
+                <h3 class="text-xl font-bold mb-4">Upload Green Form</h3>
+                <p class="text-[10px] text-stone-400 mb-4">Director needs this to proceed.</p>
+                <button class="w-full py-2 bg-[#C5A059] rounded-lg text-[9px] font-bold uppercase text-black">Upload Now</button>
+            </div>
+        </div>
+
+        <section>
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="serif italic text-2xl">Complete the Arrangement</h2>
+                <a href="#" class="text-[10px] font-bold uppercase text-[#C5A059]">Visit Marketplace -></a>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="dash-card group cursor-pointer hover:border-[#C5A059]">
+                    <img src="https://images.unsplash.com/photo-1596068586938-1b6e1590209f?q=80&w=1000&auto=format&fit=crop" class="marketplace-thumb">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h4 class="font-bold text-sm">Floral Tributes</h4>
+                            <p class="text-[10px] text-stone-400">Coffin sprays & wreaths</p>
+                        </div>
+                        <span class="text-xs font-bold text-[#C5A059]">+£120</span>
+                    </div>
+                </div>
+
+                <div class="dash-card group cursor-pointer hover:border-[#C5A059]">
+                    <img src="https://images.unsplash.com/photo-1516962215378-7fa2e137ae93?q=80&w=1000&auto=format&fit=crop" class="marketplace-thumb">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h4 class="font-bold text-sm">Order of Service</h4>
+                            <p class="text-[10px] text-stone-400">50x Printed Booklets</p>
+                        </div>
+                        <span class="text-xs font-bold text-[#C5A059]">+£85</span>
+                    </div>
+                </div>
+
+                <div class="dash-card group cursor-pointer hover:border-[#C5A059]">
+                    <img src="https://images.unsplash.com/photo-1617260010903-888997a48856?q=80&w=1000&auto=format&fit=crop" class="marketplace-thumb">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h4 class="font-bold text-sm">Transport Upgrade</h4>
+                            <p class="text-[10px] text-stone-400">Add 2x Limousines</p>
+                        </div>
+                        <span class="text-xs font-bold text-[#C5A059]">+£450</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        AOS.init({ duration: 1000, once: true });
+    </script>
+</body>
+</html>
