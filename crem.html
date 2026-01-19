@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crematorium Finder | FuneralMatch</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@1,400;1,700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        :root { --gold: #C5A059; --black: #1a1a1a; --soft-bg: #F8F7F5; }
+        body { font-family: 'Inter', sans-serif; background: var(--soft-bg); color: var(--black); }
+        .serif { font-family: 'Bodoni Moda', serif; }
+        
+        .crem-card { background: white; border-radius: 2rem; overflow: hidden; border: 1px solid #EEE; transition: 0.4s; cursor: pointer; }
+        .crem-card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.05); border-color: var(--gold); }
+        
+        .crem-img-wrap { height: 250px; position: relative; }
+        .crem-img { width: 100%; height: 100%; object-fit: cover; }
+        
+        .slot-pill { display: flex; justify-content: space-between; background: #F9FAFB; padding: 10px 16px; border-radius: 12px; font-size: 0.8rem; margin-bottom: 0.5rem; border: 1px solid transparent; transition: 0.2s; cursor: pointer; }
+        .slot-pill:hover { border-color: var(--gold); background: white; }
+        .slot-time { font-weight: bold; }
+        .slot-price { color: #059669; font-weight: bold; }
+        
+        .feature-icon { font-size: 1.2rem; margin-right: 0.5rem; color: var(--gold); }
+    </style>
+</head>
+<body class="py-12 px-6 md:px-12">
+
+    <nav class="flex justify-between items-center mb-12 border-b border-black/5 pb-6">
+        <div class="flex flex-col items-start">
+            <span class="serif text-xs font-bold uppercase tracking-[0.4em] mb-1">Funeral</span>
+            <div style="width: 30px; height: 1px; background: var(--gold); margin-bottom: 4px;"></div>
+            <span class="serif text-xs font-bold text-[#C5A059] uppercase tracking-[0.7em]">Match</span>
+        </div>
+        <div class="hidden md:block text-right">
+            <p class="text-[9px] uppercase font-bold tracking-widest text-stone-400">Search Radius</p>
+            <p class="font-bold text-sm">15 Miles</p>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto">
+        
+        <header class="mb-16 grid grid-cols-1 lg:grid-cols-2 gap-12 items-end">
+            <div data-aos="fade-right">
+                <span class="text-[10px] uppercase font-bold tracking-[0.4em] text-[#C5A059]">The Venue</span>
+                <h1 class="serif italic text-5xl mt-4 mb-4">Find the perfect setting.</h1>
+                <p class="text-stone-500 text-sm max-w-md">Compare chapel fees, view slot availability, and tour the gardens. Booking the crematorium directly can save you up to £400 by choosing "Early Bird" times.</p>
+            </div>
+            
+            <form class="bg-white p-2 rounded-full border border-stone-200 shadow-lg flex w-full" data-aos="fade-left">
+                <input type="text" placeholder="Enter Postcode (e.g. SW1)" class="flex-1 p-4 rounded-full outline-none text-sm pl-8 bg-transparent">
+                <button class="bg-black text-white px-8 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-[#C5A059] transition-colors">Search Venues</button>
+            </form>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            
+            <div class="crem-card group" data-aos="fade-up">
+                <div class="crem-img-wrap">
+                    <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1000&auto=format&fit=crop" class="crem-img">
+                    <div class="absolute top-4 right-4 bg-white/90 px-3 py-1 rounded-full text-[9px] font-bold uppercase backdrop-blur-md">Modern Chapel</div>
+                </div>
+                <div class="p-8">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <h3 class="serif text-2xl mb-1">Oakleaf Crematorium</h3>
+                            <p class="text-xs text-stone-500">4.2 Miles away</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-[9px] uppercase font-bold text-stone-400">Standard Fee</p>
+                            <p class="font-bold text-lg">£950</p>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-4 mb-6 text-xs text-stone-600">
+                        <span class="flex items-center"><span class="feature-icon">👥</span> 120 Seats</span>
+                        <span class="flex items-center"><span class="feature-icon">🎵</span> Obitus System</span>
+                        <span class="flex items-center"><span class="feature-icon">💻</span> Webcast</span>
+                    </div>
+
+                    <div class="mb-6">
+                        <p class="text-[9px] uppercase font-bold text-stone-400 mb-2">Next Available Slots (Friday)</p>
+                        <div class="slot-pill">
+                            <span class="slot-time">09:00 AM (Early Bird)</span>
+                            <span class="slot-price">£650</span>
+                        </div>
+                        <div class="slot-pill border-stone-200">
+                            <span class="slot-time">11:00 AM (Premium)</span>
+                            <span class="slot-price text-black">£950</span>
+                        </div>
+                        <div class="slot-pill">
+                            <span class="slot-time">02:00 PM (Premium)</span>
+                            <span class="slot-price text-black">£950</span>
+                        </div>
+                    </div>
+                    
+                    <button class="w-full py-3 bg-black text-white rounded-lg text-[10px] font-bold uppercase hover:bg-[#C5A059] transition-colors">Hold Slot</button>
+                </div>
+            </div>
+
+            <div class="crem-card group" data-aos="fade-up" data-aos-delay="100">
+                <div class="crem-img-wrap">
+                    <img src="https://images.unsplash.com/photo-1548625361-987716954b8d?q=80&w=1000&auto=format&fit=crop" class="crem-img">
+                    <div class="absolute top-4 right-4 bg-white/90 px-3 py-1 rounded-full text-[9px] font-bold uppercase backdrop-blur-md">Victorian</div>
+                </div>
+                <div class="p-8">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <h3 class="serif text-2xl mb-1">St. Peters Garden</h3>
+                            <p class="text-xs text-stone-500">6.8 Miles away</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-[9px] uppercase font-bold text-stone-400">Standard Fee</p>
+                            <p class="font-bold text-lg">£820</p>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-4 mb-6 text-xs text-stone-600">
+                        <span class="flex items-center"><span class="feature-icon">👥</span> 80 Seats</span>
+                        <span class="flex items-center"><span class="feature-icon">🎹</span> Organist</span>
+                        <span class="flex items-center"><span class="feature-icon">🌳</span> Rose Garden</span>
+                    </div>
+
+                    <div class="mb-6">
+                        <p class="text-[9px] uppercase font-bold text-stone-400 mb-2">Next Available Slots (Friday)</p>
+                        <div class="slot-pill">
+                            <span class="slot-time">09:30 AM (Standard)</span>
+                            <span class="slot-price text-black">£820</span>
+                        </div>
+                        <div class="slot-pill border-stone-200">
+                            <span class="slot-time">12:30 PM (Standard)</span>
+                            <span class="slot-price text-black">£820</span>
+                        </div>
+                    </div>
+                    
+                    <button class="w-full py-3 bg-white border border-stone-200 text-black rounded-lg text-[10px] font-bold uppercase hover:bg-black hover:text-white transition-colors">Hold Slot</button>
+                </div>
+            </div>
+
+            <div class="crem-card group" data-aos="fade-up" data-aos-delay="200">
+                <div class="crem-img-wrap">
+                    <img src="https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?q=80&w=1000&auto=format&fit=crop" class="crem-img">
+                    <div class="absolute top-4 right-4 bg-[#3A4D39] text-white px-3 py-1 rounded-full text-[9px] font-bold uppercase">Eco-Friendly</div>
+                </div>
+                <div class="p-8">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <h3 class="serif text-2xl mb-1">Greenwood Park</h3>
+                            <p class="text-xs text-stone-500">12.0 Miles away</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-[9px] uppercase font-bold text-stone-400">Standard Fee</p>
+                            <p class="font-bold text-lg">£1,150</p>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-4 mb-6 text-xs text-stone-600">
+                        <span class="flex items-center"><span class="feature-icon">👥</span> 200 Seats</span>
+                        <span class="flex items-center"><span class="feature-icon">🎥</span> 4K Recording</span>
+                        <span class="flex items-center"><span class="feature-icon">💧</span> Water Urns</span>
+                    </div>
+
+                    <div class="mb-6">
+                        <p class="text-[9px] uppercase font-bold text-stone-400 mb-2">Next Available Slots (Friday)</p>
+                        <div class="slot-pill">
+                            <span class="slot-time">10:00 AM (Standard)</span>
+                            <span class="slot-price text-black">£1,150</span>
+                        </div>
+                    </div>
+                    
+                    <button class="w-full py-3 bg-white border border-stone-200 text-black rounded-lg text-[10px] font-bold uppercase hover:bg-black hover:text-white transition-colors">Hold Slot</button>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="mt-16 bg-[#F3F4F6] rounded-[2rem] p-8 flex items-start gap-4" data-aos="fade-up">
+            <div class="text-2xl">ℹ️</div>
+            <div>
+                <h4 class="font-bold text-sm mb-1">How Booking Works</h4>
+                <p class="text-xs text-stone-500 leading-relaxed">When you click "Hold Slot", we tentatively reserve this time for 24 hours. You must then select a Funeral Director to confirm the booking, as they are legally required to manage the paperwork and transport.</p>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        AOS.init({ duration: 1000, once: true });
+    </script>
+</body>
+</html>
