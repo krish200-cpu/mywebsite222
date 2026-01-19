@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How It Works | FuneralMatch</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@1,400;1,700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        :root { --gold: #C5A059; --black: #1a1a1a; --soft-bg: #F8F7F5; }
+        body { font-family: 'Inter', sans-serif; background: var(--soft-bg); color: var(--black); }
+        .serif { font-family: 'Bodoni Moda', serif; }
+        
+        .step-line { position: absolute; left: 29px; top: 0; bottom: 0; width: 2px; background: #E5E5E5; z-index: 0; }
+        .step-circle { width: 60px; height: 60px; background: white; border: 2px solid var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Bodoni Moda', serif; font-size: 1.5rem; font-style: italic; z-index: 10; position: relative; }
+        
+        .process-card { margin-left: 5rem; padding-bottom: 5rem; position: relative; }
+    </style>
+</head>
+<body class="py-24 px-8">
+
+    <main class="max-w-4xl mx-auto">
+        
+        <header class="text-center mb-24" data-aos="fade-up">
+            <span class="text-[10px] uppercase font-bold tracking-[0.4em] text-stone-400">The Journey</span>
+            <h1 class="serif italic text-6xl mt-4 mb-8">Arranging made simple.</h1>
+            <p class="max-w-xl mx-auto text-stone-500 text-sm leading-relaxed">We have replaced the stress of calling multiple directors with a calm, digital process. Here is how you can arrange a dignified farewell in under 20 minutes.</p>
+        </header>
+
+        <div class="relative">
+            <div class="step-line"></div>
+
+            <div class="process-card" data-aos="fade-up">
+                <div class="step-circle absolute -left-[5rem]">1</div>
+                <h3 class="serif italic text-3xl mb-4">Search & Compare</h3>
+                <p class="text-stone-500 text-sm leading-relaxed mb-6">Enter your postcode to see vetted directors near you. Filter by price, service type (Cremation/Burial), and "Merit Score." We show you the total price upfront—no hidden fees.</p>
+                <div class="bg-white p-6 rounded-2xl border border-stone-100 inline-block shadow-sm">
+                    <p class="text-[10px] uppercase font-bold text-stone-400 mb-2">You See:</p>
+                    <div class="flex gap-4 text-xs font-bold">
+                        <span>✓ Total Cost</span>
+                        <span>✓ Facility Photos</span>
+                        <span>✓ Audit Score</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="process-card" data-aos="fade-up" data-aos-delay="100">
+                <div class="step-circle absolute -left-[5rem]">2</div>
+                <h3 class="serif italic text-3xl mb-4">Build the Arrangement</h3>
+                <p class="text-stone-500 text-sm leading-relaxed mb-6">Use our "Arrangement Builder" to select exactly what you want. Choose the coffin, transport, and music. This creates a digital plan that you can save, share with family, or edit later.</p>
+            </div>
+
+            <div class="process-card" data-aos="fade-up" data-aos-delay="200">
+                <div class="step-circle absolute -left-[5rem]">3</div>
+                <h3 class="serif italic text-3xl mb-4">Connect with Confidence</h3>
+                <p class="text-stone-500 text-sm leading-relaxed mb-6">Once you are ready, click "Connect." Your chosen director receives your plan and will call you to confirm the final logistics (like the date and time). No payment is taken online.</p>
+                <a href="/search" class="bg-black text-white px-8 py-4 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-[#C5A059] transition-all">Start Search</a>
+            </div>
+
+        </div>
+
+    </main>
+    
+    <script>
+        AOS.init({ duration: 1000, once: true });
+    </script>
+</body>
+</html>
