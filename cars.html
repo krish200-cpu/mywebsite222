@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Fleet | FuneralMatch Transport</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@1,400;1,700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        :root { --gold: #C5A059; --black: #1a1a1a; --soft-bg: #F8F7F5; }
+        body { font-family: 'Inter', sans-serif; background: var(--soft-bg); color: var(--black); }
+        .serif { font-family: 'Bodoni Moda', serif; }
+        
+        .fleet-card { background: white; border-radius: 2rem; overflow: hidden; transition: 0.4s; border: 1px solid transparent; cursor: pointer; }
+        .fleet-card:hover { border-color: var(--gold); transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.05); }
+        
+        .vehicle-img-wrap { height: 260px; width: 100%; position: relative; overflow: hidden; }
+        .vehicle-img { width: 100%; height: 100%; object-fit: cover; transition: 0.6s; }
+        .fleet-card:hover .vehicle-img { transform: scale(1.05); }
+        
+        .tag-pill { position: absolute; top: 1rem; left: 1rem; padding: 6px 14px; border-radius: 99px; font-size: 0.65rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; z-index: 10; }
+        .tag-black { background: var(--black); color: white; }
+        .tag-gold { background: var(--gold); color: white; }
+        
+        .spec-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #f0f0f0; }
+        .spec-item { font-size: 0.75rem; color: #888; display: flex; align-items: center; gap: 6px; }
+        
+        .select-btn { width: 100%; padding: 1.2rem; background: #F3F4F6; color: #111; font-weight: 800; text-transform: uppercase; letter-spacing: 0.2em; font-size: 0.7rem; transition: 0.3s; margin-top: 1.5rem; }
+        .fleet-card:hover .select-btn { background: var(--black); color: white; }
+    </style>
+</head>
+<body class="py-12 px-6 md:px-12">
+
+    <nav class="flex justify-between items-center mb-16 border-b border-black/5 pb-6">
+        <div class="flex flex-col items-start">
+            <span class="serif text-xs font-bold uppercase tracking-[0.4em] mb-1">Funeral</span>
+            <div style="width: 30px; height: 1px; background: var(--gold); margin-bottom: 4px;"></div>
+            <span class="serif text-xs font-bold text-[#C5A059] uppercase tracking-[0.7em]">Match</span>
+        </div>
+        <div class="flex items-center gap-6">
+            <div class="text-right hidden md:block">
+                <p class="text-[9px] uppercase font-bold tracking-widest text-stone-400">Total Fleet Cost</p>
+                <p class="font-bold text-sm text-[#C5A059]">£0.00</p>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto">
+        
+        <header class="mb-16 text-center max-w-2xl mx-auto" data-aos="fade-up">
+            <h1 class="serif italic text-5xl mb-6">The Final Journey.</h1>
+            <p class="text-stone-500 text-sm leading-relaxed">From the traditional dignity of a Mercedes fleet to the personal statement of a motorcycle hearse. All vehicles include a uniformed chauffeur and route planning.</p>
+        </header>
+
+        <div class="flex flex-wrap justify-center gap-4 mb-16" data-aos="fade-up">
+            <button class="px-8 py-3 bg-black text-white rounded-full text-[10px] font-bold uppercase tracking-widest">All Vehicles</button>
+            <button class="px-8 py-3 bg-white border border-stone-200 text-stone-500 rounded-full text-[10px] font-bold uppercase tracking-widest hover:border-black hover:text-black">Traditional</button>
+            <button class="px-8 py-3 bg-white border border-stone-200 text-stone-500 rounded-full text-[10px] font-bold uppercase tracking-widest hover:border-black hover:text-black">Horse-Drawn</button>
+            <button class="px-8 py-3 bg-white border border-stone-200 text-stone-500 rounded-full text-[10px] font-bold uppercase tracking-widest hover:border-black hover:text-black">Eco / Electric</button>
+            <button class="px-8 py-3 bg-white border border-stone-200 text-stone-500 rounded-full text-[10px] font-bold uppercase tracking-widest hover:border-black hover:text-black">Specialist</button>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            
+            <div class="fleet-card group" data-aos="fade-up">
+                <div class="vehicle-img-wrap">
+                    <span class="tag-pill tag-black">The Standard</span>
+                    <img src="https://images.unsplash.com/photo-1617788138017-80ad40651399?q=80&w=1000&auto=format&fit=crop" class="vehicle-img">
+                </div>
+                <div class="p-8 pb-0">
+                    <h3 class="serif text-2xl mb-2">Mercedes E-Class Hearse</h3>
+                    <p class="text-xs text-stone-500 mb-4 line-clamp-2">The industry standard for dignity. Obsidian black finish with expansive glass deck and floral rails.</p>
+                    <div class="flex justify-between items-end">
+                        <span class="font-bold text-xl">£250</span>
+                        <span class="text-[9px] uppercase font-bold text-stone-400">Included in Base Price</span>
+                    </div>
+                    <div class="spec-grid">
+                        <div class="spec-item">👤 Chauffeur Incl.</div>
+                        <div class="spec-item">⚰️ 1 Coffin Deck</div>
+                    </div>
+                </div>
+                <button class="select-btn">Selected</button>
+            </div>
+
+            <div class="fleet-card group" data-aos="fade-up" data-aos-delay="100">
+                <div class="vehicle-img-wrap">
+                    <span class="tag-pill tag-gold">Most Added</span>
+                    <img src="https://images.unsplash.com/photo-1566374843076-2e92750e5015?q=80&w=1000&auto=format&fit=crop" class="vehicle-img">
+                </div>
+                <div class="p-8 pb-0">
+                    <h3 class="serif text-2xl mb-2">Matching Limousine</h3>
+                    <p class="text-xs text-stone-500 mb-4 line-clamp-2">Follow the hearse in privacy. Seats 7 mourners comfortably. Air-conditioned with partition.</p>
+                    <div class="flex justify-between items-end">
+                        <span class="font-bold text-xl">+£220</span>
+                        <span class="text-[9px] uppercase font-bold text-stone-400">Per Vehicle</span>
+                    </div>
+                    <div class="spec-grid">
+                        <div class="spec-item">👤 Chauffeur Incl.</div>
+                        <div class="spec-item">👨‍👩‍👧‍👦 Seats 7</div>
+                    </div>
+                </div>
+                <button class="select-btn">Add to Fleet</button>
+            </div>
+
+            <div class="fleet-card group" data-aos="fade-up" data-aos-delay="200">
+                <div class="vehicle-img-wrap">
+                    <span class="tag-pill tag-black">Premium</span>
+                    <img src="https://images.unsplash.com/photo-1549466396-0164c919d77e?q=80&w=1000&auto=format&fit=crop" class="vehicle-img">
+                </div>
+                <div class="p-8 pb-0">
+                    <h3 class="serif text-2xl mb-2">Belgian Blacks (Pair)</h3>
+                    <p class="text-xs text-stone-500 mb-4 line-clamp-2">A majestic 19th-century glass carriage drawn by two plumed Friesian horses. The ultimate traditional tribute.</p>
+                    <div class="flex justify-between items-end">
+                        <span class="font-bold text-xl">+£950</span>
+                        <span class="text-[9px] uppercase font-bold text-stone-400">Limited Availability</span>
+                    </div>
+                    <div class="spec-grid">
+                        <div class="spec-item">🎩 2x Grooms</div>
+                        <div class="spec-item">🐴 Black or White</div>
+                    </div>
+                </div>
+                <button class="select-btn">Request Availability</button>
+            </div>
+
+            <div class="fleet-card group" data-aos="fade-up">
+                <div class="vehicle-img-wrap">
+                    <span class="tag-pill tag-black">Specialist</span>
+                    <img src="https://images.unsplash.com/photo-1558981403-c5f9899a28bc?q=80&w=1000&auto=format&fit=crop" class="vehicle-img">
+                </div>
+                <div class="p-8 pb-0">
+                    <h3 class="serif text-2xl mb-2">Triumph Motorcycle</h3>
+                    <p class="text-xs text-stone-500 mb-4 line-clamp-2">For the biker at heart. A classic Triumph Bonneville with a custom-engineered sidecar hearse.</p>
+                    <div class="flex justify-between items-end">
+                        <span class="font-bold text-xl">+£850</span>
+                        <span class="text-[9px] uppercase font-bold text-stone-400">Nationwide</span>
+                    </div>
+                    <div class="spec-grid">
+                        <div class="spec-item">🏍️ Professional Rider</div>
+                        <div class="spec-item">🌧️ Weather Proof</div>
+                    </div>
+                </div>
+                <button class="select-btn">Add to Fleet</button>
+            </div>
+
+            <div class="fleet-card group" data-aos="fade-up" data-aos-delay="100">
+                <div class="vehicle-img-wrap">
+                    <span class="tag-pill tag-black">Specialist</span>
+                    <img src="https://images.unsplash.com/photo-1506015391300-4802dc74de2e?q=80&w=1000&auto=format&fit=crop" class="vehicle-img">
+                </div>
+                <div class="p-8 pb-0">
+                    <h3 class="serif text-2xl mb-2">Land Rover Defender</h3>
+                    <p class="text-xs text-stone-500 mb-4 line-clamp-2">A modified Defender 110 hearse. Perfect for lovers of the outdoors or military personnel.</p>
+                    <div class="flex justify-between items-end">
+                        <span class="font-bold text-xl">+£650</span>
+                        <span class="text-[9px] uppercase font-bold text-stone-400">4x4 Capability</span>
+                    </div>
+                    <div class="spec-grid">
+                        <div class="spec-item">👤 Chauffeur Incl.</div>
+                        <div class="spec-item">🌲 Off-Road Ready</div>
+                    </div>
+                </div>
+                <button class="select-btn">Add to Fleet</button>
+            </div>
+
+            <div class="fleet-card group" data-aos="fade-up" data-aos-delay="200">
+                <div class="vehicle-img-wrap">
+                    <span class="tag-pill bg-[#3A4D39] text-white">Zero Emission</span>
+                    <img src="https://images.unsplash.com/photo-1560958089-b8a1929cea89?q=80&w=1000&auto=format&fit=crop" class="vehicle-img">
+                </div>
+                <div class="p-8 pb-0">
+                    <h3 class="serif text-2xl mb-2">Tesla Model S Hearse</h3>
+                    <p class="text-xs text-stone-500 mb-4 line-clamp-2">The silent farewell. A fully electric, custom-coachbuilt Tesla hearse. Zero noise, zero emissions.</p>
+                    <div class="flex justify-between items-end">
+                        <span class="font-bold text-xl">+£450</span>
+                        <span class="text-[9px] uppercase font-bold text-stone-400">High Demand</span>
+                    </div>
+                    <div class="spec-grid">
+                        <div class="spec-item">⚡ 100% Electric</div>
+                        <div class="spec-item">🔇 Silent Drive</div>
+                    </div>
+                </div>
+                <button class="select-btn">Add to Fleet</button>
+            </div>
+
+        </div>
+
+    </main>
+
+    <script>
+        AOS.init({ duration: 1000, once: true });
+    </script>
+</body>
+</html>
