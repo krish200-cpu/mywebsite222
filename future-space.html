@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Future Legacy | Space & DNA</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@1,400;1,700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        :root { --gold: #C5A059; --space-black: #050505; --star-white: #ffffff; }
+        body { font-family: 'Inter', sans-serif; background: var(--space-black); color: white; overflow-x: hidden; }
+        .serif { font-family: 'Bodoni Moda', serif; }
+        
+        /* Star Field Background */
+        .stars { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; background-image: radial-gradient(white 1px, transparent 1px); background-size: 50px 50px; opacity: 0.1; }
+        
+        .science-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 2rem; padding: 3rem; backdrop-filter: blur(10px); transition: 0.4s; }
+        .science-card:hover { border-color: var(--gold); transform: translateY(-10px); background: rgba(255,255,255,0.08); }
+        
+        .launch-btn { background: linear-gradient(45deg, #C5A059, #E5C580); color: black; font-weight: 800; padding: 1rem 3rem; border-radius: 99px; text-transform: uppercase; letter-spacing: 0.2em; transition: 0.3s; display: inline-block; }
+        .launch-btn:hover { transform: scale(1.05);
