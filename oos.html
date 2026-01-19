@@ -2,294 +2,427 @@
 <html lang="en-GB">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Design Studio | FuneralMatch</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Order of Service Designer | FuneralMatch</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,700;1,400;1,700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,400&family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,700;1,400;1,700&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 
     <style>
-        :root { --gold: #C5A059; --black: #1a1a1a; --soft-bg: #F3F4F6; }
-        body { font-family: 'Inter', sans-serif; background: var(--black); color: white; }
-        .serif { font-family: 'Bodoni Moda', serif; }
+        /* --- CORE VARIABLES & RESETS --- */
+        :root { --gold: #C5A059; --dark: #1a1a1a; --light: #F8F7F5; }
+        body { font-family: 'Inter', sans-serif; background: var(--dark); color: white; -webkit-font-smoothing: antialiased; }
+        .serif-bodoni { font-family: 'Bodoni Moda', serif; }
+        .serif-playfair { font-family: 'Playfair Display', serif; }
         
-        /* SMOOTH TRANSITIONS */
-        .preview-element { transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
-        
-        /* THEME: RED ROSES */
-        .theme-red .booklet-bg { background: linear-gradient(to bottom, #2b0a0a, #000); border-color: #8B0000; }
-        .theme-red .accent-text { color: #ffcccc; font-family: 'Playfair Display', serif; }
-        .theme-red .deco-line { background: #8B0000; }
-        .theme-red .overlay-img { background-image: url('https://www.transparenttextures.com/patterns/black-linen.png'); opacity: 0.5; }
+        /* --- UTILITIES --- */
+        .smooth-transition { transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+        /* Hide scrollbar for clean UI in panels */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-        /* THEME: WHITE LILY */
-        .theme-white .booklet-bg { background: #fdfbf7; border-color: #e5e5e5; color: #333; }
-        .theme-white .accent-text { color: #555; font-family: 'Bodoni Moda', serif; }
-        .theme-white .deco-line { background: #d1d5db; }
-        .theme-white .main-text { color: #1a1a1a; }
+        /* --- UI COMPONENTS --- */
+        .control-panel { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; overflow: hidden; margin-bottom: 24px; }
+        .panel-header { background: rgba(255,255,255,0.05); padding: 16px 24px; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--gold); display: flex; align-items: center; gap: 12px; }
+        .panel-body { padding: 24px; }
 
-        /* THEME: MODERN MINIMAL */
-        .theme-modern .booklet-bg { background: #1a1a1a; border-color: #333; color: white; }
-        .theme-modern .accent-text { color: white; font-family: 'Inter', sans-serif; text-transform: uppercase; letter-spacing: 0.2em; font-size: 0.8rem; }
-        .theme-modern .deco-line { background: white; height: 1px; width: 50%; }
-        
-        /* UI ELEMENTS */
-        .input-group { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 1rem; padding: 1.5rem; margin-bottom: 1.5rem; transition: 0.3s; }
-        .input-group:focus-within { border-color: var(--gold); background: rgba(255,255,255,0.08); }
-        
-        .theme-btn { border: 2px solid transparent; transition: 0.3s; }
-        .theme-btn.active { border-color: var(--gold); transform: scale(1.05); }
+        .input-field { width: 100%; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.1); padding: 16px; border-radius: 12px; color: white; outline: none; transition: 0.3s; }
+        .input-field:focus { border-color: var(--gold); background: rgba(255,255,255,0.12); }
+        .input-label { display: block; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #888; margin-bottom: 8px; }
 
-        .range-slider { -webkit-appearance: none; width: 100%; height: 6px; background: #333; border-radius: 99px; outline: none; }
-        .range-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 24px; height: 24px; background: var(--gold); border-radius: 50%; cursor: pointer; }
+        .theme-selector-btn { border: 2px solid transparent; border-radius: 12px; overflow: hidden; cursor: pointer; transition: 0.3s; position: relative; height: 80px; }
+        .theme-selector-btn.active { border-color: var(--gold); transform: scale(1.02); box-shadow: 0 0 20px rgba(197, 160, 89, 0.3); }
+        .theme-label { position: absolute; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.7); font-size: 0.7rem; text-align: center; padding: 4px; font-weight: 700; text-transform: uppercase; }
+
+        /* Custom Range Slider */
+        .styled-slider { -webkit-appearance: none; width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 99px; outline: none; }
+        .styled-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 24px; height: 24px; background: var(--gold); border-radius: 50%; cursor: pointer; border: 2px solid var(--dark); box-shadow: 0 0 10px rgba(197, 160, 89, 0.5); }
+
+        /* --- THE BOOKLET PREVIEW ENGINE --- */
+        /* The physical booklet container */
+        #booklet-preview-container { perspective: 1500px; }
+        #booklet-physical { 
+            aspect-ratio: 1 / 1.414; /* A-series paper ratio */
+            width: 100%;
+            position: relative;
+            background: white;
+            border-radius: 2px 16px 16px 2px; /* Slight curve on opening edge */
+            box-shadow: 
+                /* Spine shadow */ inset 15px 0 20px -10px rgba(0,0,0,0.2),
+                /* Deep ambient shadow */ 30px 30px 70px -20px rgba(0,0,0,0.5),
+                /* Sharp contact shadow */ 5px 5px 15px rgba(0,0,0,0.3);
+            transform: rotateY(-5deg); /* Subtle 3D open effect */
+            transition: all 0.5s ease-out;
+            overflow: hidden;
+        }
+        /* Texture overlay */
+        .paper-texture { position: absolute; inset: 0; mix-blend-mode: multiply; opacity: 0.05; background-image: url('https://www.transparenttextures.com/patterns/cream-paper.png'); pointer-events: none; z-index: 10; }
+
+        /* --- THEME STYLES (Applied dynamically via JS) --- */
         
-        /* Toast Notification */
-        #toast { visibility: hidden; min-width: 250px; margin-left: -125px; background-color: #333; color: #fff; text-align: center; border-radius: 50px; padding: 16px; position: fixed; z-index: 100; left: 50%; bottom: 30px; font-size: 14px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); transform: translateY(20px); opacity: 0; transition: 0.5s; }
-        #toast.show { visibility: visible; transform: translateY(0); opacity: 1; }
+        /* Theme 1: Red Roses (Dramatic, Traditional) */
+        .theme-roses #booklet-physical { background: linear-gradient(to right, #2b0a0a, #1a0505); border-left: 4px solid #4a0e0e; }
+        .theme-roses .design-layer { position: absolute; inset: 0; background-image: url('https://images.unsplash.com/photo-1596068586938-1b6e1590209f?q=80&w=600'); background-size: cover; opacity: 0.3; mix-blend-mode: screen; filter: grayscale(30%) contrast(120%); }
+        .theme-roses .text-primary-color { color: #e0c0c0; }
+        .theme-roses .text-accent-color { color: #C5A059; }
+        .theme-roses .main-font { font-family: 'Playfair Display', serif; }
+        .theme-roses .divider-line { background: #C5A059; opacity: 0.5; height: 2px; }
+        .theme-roses .photo-frame { border-color: #C5A059; box-shadow: 0 10px 30px -10px rgba(0,0,0,0.8); }
+
+        /* Theme 2: Classic White (Clean, Bright) */
+        .theme-classic #booklet-physical { background: #fcfaf7; color: #333; border-left: 4px solid #e5e5e5; }
+        .theme-classic .design-layer { display: none; } /* Clean background */
+        .theme-classic .text-primary-color { color: #2c2c2c; }
+        .theme-classic .text-accent-color { color: #666; text-transform: uppercase; letter-spacing: 0.2em; font-size: 0.7rem; font-weight: 700; }
+        .theme-classic .main-font { font-family: 'Bodoni Moda', serif; }
+        .theme-classic .divider-line { background: #ddd; height: 1px; width: 50%; margin: 2rem auto; }
+        .theme-classic .photo-frame { border-color: #eee; box-shadow: 0 10px 20px -10px rgba(0,0,0,0.2); }
+        .theme-classic .paper-texture { opacity: 0.4; }
+
+        /* Theme 3: Modern Dark (Minimalist, Sleek) */
+        .theme-modern #booklet-physical { background: #111; color: white; border-left: 4px solid #333; }
+        .theme-modern .design-layer { display: none; }
+        .theme-modern .text-primary-color { color: white; }
+        .theme-modern .text-accent-color { color: var(--gold); font-family: 'Inter', sans-serif; text-transform: uppercase; letter-spacing: 0.3em; font-size: 0.65rem; font-weight: 700; }
+        .theme-modern .main-font { font-family: 'Inter', sans-serif; font-weight: 300; letter-spacing: -0.02em; }
+        .theme-modern .divider-line { display: none; } /* Minimalist, no divider */
+        .theme-modern .photo-frame { border-width: 1px; border-color: #333; border-radius: 12px; } /* Modern rounded square */
+
+        /* --- TOAST NOTIFICATION --- */
+        #toast-container { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); z-index: 100; pointer-events: none; }
+        .toast { background: var(--dark); color: white; padding: 12px 24px; border-radius: 99px; font-size: 0.8rem; font-weight: 600; display: flex; align-items: center; gap: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); opacity: 0; transform: translateY(20px); transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .toast.active { opacity: 1; transform: translateY(0); }
+        .toast-icon { color: var(--gold); }
+
     </style>
 </head>
 <body class="min-h-screen flex flex-col">
 
-    <nav class="border-b border-white/10 bg-black/50 backdrop-blur-md sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-            <div class="flex flex-col items-start">
-                <span class="serif text-xs font-bold uppercase tracking-[0.4em] mb-1">Funeral</span>
-                <div style="width: 30px; height: 1px; background: var(--gold); margin-bottom: 4px;"></div>
-                <span class="serif text-xs font-bold text-[#C5A059] uppercase tracking-[0.7em]">Match</span>
+    <nav class="sticky top-0 z-50 bg-dark/80 backdrop-blur-lg border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex justify-between items-center">
+             <div class="flex flex-col items-start">
+                <span class="serif-bodoni text-[0.6rem] font-bold uppercase tracking-[0.4em] mb-1 leading-none">Funeral</span>
+                <div style="width: 24px; height: 1px; background: var(--gold); margin-bottom: 3px;"></div>
+                <span class="serif-bodoni text-[0.6rem] font-bold text-[#C5A059] uppercase tracking-[0.6em] leading-none">Match</span>
             </div>
-            <div class="flex gap-4">
-                <button onclick="showToast('Draft Saved to Cloud')" class="text-[10px] font-bold uppercase tracking-widest text-stone-400 hover:text-white transition-colors"><i class="fas fa-save mr-2"></i> Save Draft</button>
-                <button onclick="showToast('Collaboration Link Copied')" class="text-[10px] font-bold uppercase tracking-widest text-[#C5A059] hover:text-white transition-colors"><i class="fas fa-user-plus mr-2"></i> Invite Family</button>
+            
+            <div class="flex gap-2 sm:gap-4">
+                <button onclick="triggerToast('Draft Saved', 'Your progress has been saved locally.')" class="flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 text-[0.6rem] sm:text-xs font-bold uppercase tracking-wider hover:bg-white/5 transition-colors">
+                    <i class="far fa-save"></i> <span class="hidden sm:inline">Save Draft</span>
+                </button>
+                <button onclick="triggerToast('Link Copied', 'Share URL copied to clipboard.')" class="flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 text-[#C5A059] text-[0.6rem] sm:text-xs font-bold uppercase tracking-wider hover:bg-white/10 transition-colors">
+                    <i class="far fa-user-plus"></i> <span class="hidden sm:inline">Invite Family</span>
+                </button>
             </div>
         </div>
     </nav>
 
-    <div class="flex-1 max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 p-6 lg:p-12">
-        
-        <div class="lg:col-span-5 space-y-8 h-fit overflow-y-auto pb-20">
-            
-            <div class="mb-8">
-                <h1 class="serif italic text-4xl mb-2">Design Studio.</h1>
-                <p class="text-stone-400 text-sm">Customize every detail. Real-time preview.</p>
-            </div>
 
-            <div class="input-group">
-                <label class="text-[10px] uppercase font-bold tracking-widest text-stone-500 mb-4 block">1. Select Aesthetic</label>
-                <div class="grid grid-cols-3 gap-4">
-                    <div class="cursor-pointer group" onclick="setTheme('red')">
-                        <div class="theme-btn h-20 rounded-xl bg-gradient-to-br from-red-900 to-black mb-2 relative overflow-hidden" id="btn-red">
-                            <img src="https://images.unsplash.com/photo-1559563362-c667ba5f5480?auto=format&fit=crop&w=300&q=80" class="absolute inset-0 w-full h-full object-cover opacity-50 mix-blend-overlay">
-                        </div>
-                        <p class="text-center text-[10px] font-bold text-stone-400 group-hover:text-white">Red Roses</p>
+    <div class="flex-1 max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-8 p-4 sm:p-8 lg:p-12">
+
+        <div class="lg:col-span-5 order-2 lg:order-1">
+            <header class="mb-8">
+                <h1 class="serif-bodoni italic text-4xl mb-2">Design Studio.</h1>
+                <p class="text-gray-400 text-sm">Customize the Order of Service booklet.</p>
+            </header>
+
+            <div class="control-panel">
+                <div class="panel-header"><i class="fas fa-palette"></i> 1. Select Aesthetic</div>
+                <div class="panel-body grid grid-cols-3 gap-3">
+                    
+                    <div class="theme-selector-btn active" onclick="setTheme('roses', this)" style="background: linear-gradient(to br, #3d0c0c, #000);">
+                        <img src="https://images.unsplash.com/photo-1596068586938-1b6e1590209f?q=80&w=300" class="absolute inset-0 w-full h-full object-cover opacity-40 mix-blend-overlay">
+                        <span class="theme-label">Red Roses</span>
                     </div>
-                    <div class="cursor-pointer group" onclick="setTheme('white')">
-                        <div class="theme-btn h-20 rounded-xl bg-white mb-2" id="btn-white"></div>
-                        <p class="text-center text-[10px] font-bold text-stone-400 group-hover:text-white">Pure White</p>
+
+                    <div class="theme-selector-btn" onclick="setTheme('classic', this)" style="background: #fcfaf7;">
+                        <span class="theme-label" style="color:#333; background:rgba(255,255,255,0.8)">Classic</span>
                     </div>
-                    <div class="cursor-pointer group" onclick="setTheme('modern')">
-                        <div class="theme-btn h-20 rounded-xl bg-stone-800 mb-2 active" id="btn-modern"></div>
-                        <p class="text-center text-[10px] font-bold text-stone-400 group-hover:text-white">Modern</p>
+
+                    <div class="theme-selector-btn" onclick="setTheme('modern', this)" style="background: #222;">
+                         <span class="theme-label">Modern</span>
                     </div>
+
                 </div>
             </div>
 
-            <div class="input-group">
-                <label class="text-[10px] uppercase font-bold tracking-widest text-stone-500 mb-4 block">2. Essential Details</label>
-                <div class="space-y-4">
+            <div class="control-panel">
+                <div class="panel-header"><i class="fas fa-pen-nib"></i> 2. Essential Details</div>
+                <div class="panel-body space-y-5">
                     <div>
-                        <input type="text" id="inputName" placeholder="Full Name of Deceased" oninput="updatePreview()" class="w-full bg-white/5 border border-white/10 rounded-lg p-3 text-sm text-white focus:border-[#C5A059] focus:outline-none transition-colors">
+                        <label class="input-label">Full Name</label>
+                        <input type="text" id="inputName" oninput="updateText(this.value, 'previewName', 'Name of Deceased')" class="input-field serif-playfair text-xl" placeholder="e.g. Eleanor Rigby">
                     </div>
                     <div class="grid grid-cols-2 gap-4">
-                        <input type="text" id="inputDob" placeholder="Year Born (e.g. 1945)" oninput="updatePreview()" class="w-full bg-white/5 border border-white/10 rounded-lg p-3 text-sm text-white focus:border-[#C5A059] focus:outline-none">
-                        <input type="text" id="inputDod" placeholder="Year Passed (e.g. 2026)" oninput="updatePreview()" class="w-full bg-white/5 border border-white/10 rounded-lg p-3 text-sm text-white focus:border-[#C5A059] focus:outline-none">
+                         <div>
+                            <label class="input-label">Year Born</label>
+                            <input type="text" id="inputBorn" oninput="updateText(this.value, 'previewBorn', '1900')" class="input-field" placeholder="YYYY">
+                        </div>
+                         <div>
+                            <label class="input-label">Year Passed</label>
+                            <input type="text" id="inputDied" oninput="updateText(this.value, 'previewDied', '2026')" class="input-field" placeholder="YYYY">
+                        </div>
                     </div>
                     <div>
-                        <input type="text" id="inputVenue" placeholder="Service Location (e.g. St Mary's)" oninput="updatePreview()" class="w-full bg-white/5 border border-white/10 rounded-lg p-3 text-sm text-white focus:border-[#C5A059] focus:outline-none">
+                        <label class="input-label">Service Location / Date</label>
+                        <input type="text" id="inputVenue" oninput="updateText(this.value, 'previewVenue', 'Venue & Date')" class="input-field" placeholder="e.g. St Mary's Church, Friday 24th">
                     </div>
                     <div>
-                        <input type="text" id="inputQuote" placeholder="Short Quote or 'In Loving Memory'" oninput="updatePreview()" class="w-full bg-white/5 border border-white/10 rounded-lg p-3 text-sm text-white focus:border-[#C5A059] focus:outline-none">
+                        <label class="input-label">Subtitle / Quote</label>
+                        <input type="text" id="inputQuote" oninput="updateText(this.value, 'previewQuote', 'A Celebration of Life')" class="input-field" placeholder="e.g. In Loving Memory">
                     </div>
                 </div>
             </div>
 
-            <div class="input-group">
-                <label class="text-[10px] uppercase font-bold tracking-widest text-stone-500 mb-4 block">3. Cover Photo</label>
-                <div class="relative border-2 border-dashed border-white/20 rounded-xl p-6 text-center hover:border-[#C5A059] transition-colors cursor-pointer group">
-                    <input type="file" id="photoUpload" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" onchange="handleImageUpload(this)">
-                    <i class="fas fa-cloud-upload-alt text-2xl mb-2 text-stone-500 group-hover:text-[#C5A059]"></i>
-                    <p class="text-xs text-stone-400">Click to upload photo</p>
+             <div class="control-panel">
+                <div class="panel-header"><i class="fas fa-camera"></i> 3. Cover Photo</div>
+                <div class="panel-body">
+                    <label class="relative block cursor-pointer group">
+                        <input type="file" accept="image/*" onchange="handleImageUpload(this)" class="hidden">
+                        <div class="border-2 border-dashed border-white/20 rounded-xl p-8 text-center transition-all group-hover:border-[#C5A059] group-hover:bg-white/5">
+                            <div id="uploadPlaceholder">
+                                <i class="fas fa-cloud-upload-alt text-3xl mb-3 text-gray-500 group-hover:text-[#C5A059] transition-colors"></i>
+                                <p class="text-sm font-bold">Click to upload photo</p>
+                                <p class="text-xs text-gray-500 mt-1">JPG or PNG. Max 5MB.</p>
+                            </div>
+                            <div id="uploadSuccess" class="hidden flex items-center justify-center gap-3 text-green-500">
+                                 <i class="fas fa-check-circle"></i> <span>Photo successfully loaded below</span>
+                            </div>
+                        </div>
+                    </label>
                 </div>
             </div>
 
-            <div class="input-group border-[#C5A059]">
-                <div class="flex justify-between items-end mb-4">
-                    <label class="text-[10px] uppercase font-bold tracking-widest text-[#C5A059]">4. Print Quantity</label>
-                    <span class="text-2xl font-bold" id="displayQty">20</span>
-                </div>
-                
-                <input type="range" min="20" max="200" step="10" value="20" class="range-slider mb-6" id="qtySlider" oninput="updatePrice()">
-                
-                <div class="bg-black/40 rounded-lg p-4 flex justify-between items-center">
-                    <div class="text-xs text-stone-400">
-                        <p>Base cost (20 copies): £80</p>
-                        <p>+£15 per extra 10</p>
+            <div class="control-panel" style="border-color: var(--gold);">
+                <div class="panel-header" style="background: rgba(197, 160, 89, 0.1);"><i class="fas fa-tags"></i> 4. Quantity & Price</div>
+                <div class="panel-body">
+                    <div class="flex justify-between items-end mb-6">
+                         <div>
+                             <label class="input-label text-[#C5A059]">Print Quantity</label>
+                             <span id="qtyDisplay" class="text-3xl font-bold">20</span> <span class="text-sm text-gray-400">copies</span>
+                         </div>
                     </div>
-                    <div class="text-right">
-                        <p class="text-[10px] uppercase font-bold text-stone-500">Total Price</p>
-                        <p class="text-2xl font-bold text-white" id="totalPrice">£80.00</p>
+
+                    <input type="range" id="qtySlider" min="20" max="200" step="10" value="20" class="styled-slider mb-8" oninput="updatePricing(this.value)">
+                    
+                    <div class="bg-dark/50 p-4 rounded-xl flex justify-between items-center border border-white/10">
+                        <div class="text-xs text-gray-400 leading-relaxed">
+                            <p>Base price (first 20): <strong class="text-white">£80.00</strong></p>
+                            <p>Additional sets of 10: <strong class="text-white">+£15.00</strong> ea</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="input-label mb-0">Total Cost</p>
+                            <p id="totalPriceDisplay" class="text-3xl font-bold text-[#C5A059]">£80.00</p>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <button class="w-full bg-[#C5A059] text-black py-5 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-white transition-all transform hover:scale-[1.02] shadow-xl shadow-[#C5A059]/20">
-                Add to Arrangement <i class="fas fa-arrow-right ml-2"></i>
+            <button class="w-full bg-[#C5A059] text-dark py-5 rounded-full text-sm font-bold uppercase tracking-widest hover:bg-white transition-all transform hover:scale-[1.02] shadow-xl shadow-[#C5A059]/20 flex items-center justify-center gap-3">
+                <span>Add to Arrangement</span> <i class="fas fa-arrow-right"></i>
             </button>
-            <p class="text-center text-[10px] text-stone-500 mt-2">Next day delivery available if ordered by 2pm.</p>
+            <p class="text-center text-xs text-gray-500 mt-3"><i class="fas fa-truck-fast mr-1"></i> Next day delivery if ordered by 2pm.</p>
 
         </div>
 
-
-        <div class="lg:col-span-7 relative">
-            <div class="sticky top-32">
-                <div class="flex justify-between items-end mb-4 px-4">
-                    <p class="text-[10px] uppercase font-bold tracking-widest text-stone-500">Live Preview</p>
-                    <div class="flex gap-2">
-                        <div class="w-3 h-3 rounded-full bg-red-500"></div>
-                        <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
-                        <div class="w-3 h-3 rounded-full bg-green-500"></div>
-                    </div>
-                </div>
-
-                <div id="bookletContainer" class="theme-modern relative aspect-[1/1.414] w-full max-w-md mx-auto shadow-2xl rounded-r-2xl rounded-l-sm transition-all duration-500 transform hover:scale-[1.01]">
-                    
-                    <div class="booklet-bg absolute inset-0 rounded-r-2xl rounded-l-sm border-r-4 border-b-4 flex flex-col items-center justify-between p-12 overflow-hidden preview-element">
-                        
-                        <div class="overlay-img absolute inset-0 z-0 bg-cover bg-center transition-opacity duration-500"></div>
-
-                        <div class="relative z-10 text-center w-full">
-                            <p id="previewQuote" class="accent-text text-xs tracking-[0.2em] mb-8 opacity-80 preview-element">IN LOVING MEMORY</p>
-                            
-                            <div class="w-48 h-48 mx-auto mb-8 relative group">
-                                <div id="previewPhoto" class="w-full h-full rounded-full bg-stone-800 object-cover shadow-2xl border-4 border-opacity-20 border-white overflow-hidden preview-element flex items-center justify-center">
-                                    <i class="fas fa-user text-4xl opacity-20 text-white"></i>
-                                </div>
-                                <div class="absolute inset-0 rounded-full bg-gradient-to-tr from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
-                            </div>
-                        </div>
-
-                        <div class="relative z-10 text-center w-full">
-                            <h1 id="previewName" class="main-text serif italic text-4xl md:text-5xl mb-4 leading-tight preview-element">Name of<br>Deceased</h1>
-                            
-                            <div class="deco-line h-px w-24 mx-auto my-6 opacity-50 preview-element"></div>
-                            
-                            <p class="accent-text text-sm mb-2 opacity-80 preview-element"><span id="previewDob">1900</span> — <span id="previewDod">2026</span></p>
-                            
-                            <div class="mt-12 opacity-60">
-                                <p id="previewVenue" class="text-[10px] uppercase tracking-widest font-bold preview-element">Funeral Location</p>
-                                <p class="text-[10px] mt-1 accent-text preview-element">Order of Service</p>
-                            </div>
-                        </div>
-
-                    </div>
-                    
-                    <div class="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-black/50 to-transparent pointer-events-none z-20 rounded-l-sm"></div>
-                </div>
-
-                <div class="max-w-md mx-auto h-8 bg-black/20 blur-xl rounded-[100%] mt-4 transform scale-x-90"></div>
-
+        <div class="lg:col-span-7 order-1 lg:order-2 lg:sticky lg:top-24 h-fit z-10">
+            
+            <div class="flex justify-between items-end mb-4 px-2">
+                <p class="text-[0.65rem] uppercase font-bold tracking-widest text-gray-400"><i class="fas fa-eye mr-2"></i> Live Preview</p>
+                <div class="text-[0.65rem] uppercase font-bold tracking-widest text-gray-500">Front Cover</div>
             </div>
+            
+            <div id="booklet-preview-container" class="theme-roses"> <div id="booklet-physical">
+                    
+                    <div class="paper-texture"></div>
+                    <div class="design-layer smooth-transition"></div>
+
+                    <div class="relative z-20 h-full flex flex-col items-center justify-between p-8 sm:p-12 lg:p-16 text-center">
+                        
+                        <div class="w-full flex flex-col items-center">
+                            <p id="previewQuote" class="text-accent-color text-xs sm:text-sm tracking-[0.2em] mb-6 sm:mb-8 smooth-transition">A CELEBRATION OF LIFE</p>
+                            
+                            <div class="photo-frame w-40 h-40 sm:w-52 sm:h-52 rounded-full border-4 overflow-hidden relative bg-black/10 shadow-2xl smooth-transition group">
+                                <img id="previewImage" src="" class="w-full h-full object-cover hidden smooth-transition">
+                                <div id="imagePlaceholder" class="absolute inset-0 flex items-center justify-center text-4xl opacity-20 text-accent-color">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <div class="absolute inset-0 bg-gradient-to-tr from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"></div>
+                            </div>
+                        </div>
+
+                        <div class="w-full">
+                             <h1 id="previewName" class="main-font text-primary-color text-3xl sm:text-4xl lg:text-5xl leading-tight mb-4 smooth-transition">Name of Deceased</h1>
+                             
+                             <div class="divider-line mx-auto my-4 sm:my-6 smooth-transition" style="width: 60px;"></div>
+                             
+                             <p class="text-accent-color text-sm sm:text-base mb-1 smooth-transition"><span id="previewBorn">1900</span> — <span id="previewDied">2026</span></p>
+                             
+                             <div class="mt-8 sm:mt-12 opacity-70 smooth-transition">
+                                 <p id="previewVenue" class="text-[0.65rem] sm:text-xs uppercase tracking-widest font-bold text-primary-color">Venue & Date</p>
+                             </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="w-[90%] mx-auto h-8 bg-black/30 blur-xl rounded-[100%] mt-4 transform scale-y-50 opacity-50 lg:opacity-100 transition-opacity"></div>
+            </div>
+
         </div>
 
     </div>
 
-    <div id="toast">Notification</div>
+    <div id="toast-container"></div>
+
 
     <script>
-        // INIT
-        window.onload = function() {
-            updatePrice();
+        // ===========================
+        // 1. STATE MANAGEMENT
+        // ===========================
+        // We keep track of the current state for saving/restoring (future proofing)
+        let appState = {
+            theme: 'roses',
+            texts: {
+                name: '', born: '', died: '', venue: '', quote: ''
+            },
+            photoUploaded: false,
+            quantity: 20,
+            totalPrice: 80
+        };
+
+        // ===========================
+        // 2. THEME ENGINE
+        // ===========================
+        function setTheme(themeName, clickedBtn) {
+            // Update State
+            appState.theme = themeName;
+
+            // 1. Update UI Buttons
+            document.querySelectorAll('.theme-selector-btn').forEach(btn => btn.classList.remove('active'));
+            clickedBtn.classList.add('active');
+
+            // 2. Update Preview Container Class
+            // This single class change triggers all the CSS specific to that theme
+            const container = document.getElementById('booklet-preview-container');
+            // Remove existing theme classes (filter classes starting with 'theme-')
+            const currentClasses = Array.from(container.classList);
+            currentClasses.forEach(cls => {
+                if (cls.startsWith('theme-')) container.classList.remove(cls);
+            });
+            // Add new theme class
+            container.classList.add(`theme-${themeName}`);
+            
+            triggerToast('Theme Changed', `Applied ${themeName.charAt(0).toUpperCase() + themeName.slice(1)} style.`);
         }
 
-        // PRICING LOGIC
-        function updatePrice() {
-            const qty = parseInt(document.getElementById('qtySlider').value);
-            document.getElementById('displayQty').innerText = qty;
+
+        // ===========================
+        // 3. REAL-TIME TEXT UPDATES
+        // ===========================
+        function updateText(value, previewElementId, placeholderText) {
+            const element = document.getElementById(previewElementId);
+            // If input is empty, revert to placeholder, otherwise show value
+            // Also handles line breaks for long names automatically via CSS wrapping
+            element.innerText = value.trim() === '' ? placeholderText : value;
             
-            let price = 80; // Base for 20
-            if (qty > 20) {
-                const extraSets = Math.ceil((qty - 20) / 10);
-                price += (extraSets * 15);
-            }
-            
-            document.getElementById('totalPrice').innerText = '£' + price + '.00';
+            // Update State (mapping input IDs to state keys would be cleaner in a framework, doing manually here)
+            if(previewElementId === 'previewName') appState.texts.name = value;
+            // ... repeats for others in a full app
         }
 
-        // PREVIEW UPDATE LOGIC
-        function updatePreview() {
-            const name = document.getElementById('inputName').value;
-            const dob = document.getElementById('inputDob').value;
-            const dod = document.getElementById('inputDod').value;
-            const venue = document.getElementById('inputVenue').value;
-            const quote = document.getElementById('inputQuote').value;
 
-            if(name) document.getElementById('previewName').innerHTML = name.replace(/\s/g, '<br>');
-            if(dob) document.getElementById('previewDob').innerText = dob;
-            if(dod) document.getElementById('previewDod').innerText = dod;
-            if(venue) document.getElementById('previewVenue').innerText = venue;
-            if(quote) document.getElementById('previewQuote').innerText = quote.toUpperCase();
-        }
-
-        // THEME SWITCHER
-        function setTheme(theme) {
-            const container = document.getElementById('bookletContainer');
-            const btns = document.querySelectorAll('.theme-btn');
-            
-            // Remove active state from buttons
-            btns.forEach(b => b.classList.remove('active'));
-            document.getElementById('btn-' + theme).classList.add('active');
-
-            // Reset Classes
-            container.className = "relative aspect-[1/1.414] w-full max-w-md mx-auto shadow-2xl rounded-r-2xl rounded-l-sm transition-all duration-500 transform hover:scale-[1.01]";
-            
-            // Add new Theme Class
-            container.classList.add('theme-' + theme);
-
-            // Handle Specific Image Assets for Red Theme
-            const overlay = container.querySelector('.overlay-img');
-            if (theme === 'red') {
-                overlay.style.backgroundImage = "url('https://images.unsplash.com/photo-1596068586938-1b6e1590209f?auto=format&fit=crop&w=600&q=80')";
-                overlay.style.opacity = "0.2";
-                overlay.style.mixBlendMode = "overlay";
-            } else if (theme === 'white') {
-                overlay.style.backgroundImage = "url('https://www.transparenttextures.com/patterns/cream-paper.png')";
-                overlay.style.opacity = "0.5";
-                overlay.style.mixBlendMode = "normal";
-            } else {
-                overlay.style.backgroundImage = "none";
-            }
-        }
-
-        // IMAGE UPLOAD HANDLER
-        function handleImageUpload(input) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    const preview = document.getElementById('previewPhoto');
-                    preview.innerHTML = `<img src="${e.target.result}" class="w-full h-full object-cover">`;
+        // ===========================
+        // 4. PHOTO UPLOAD HANDLING
+        // ===========================
+        function handleImageUpload(inputElement) {
+            const file = inputElement.files[0];
+            if (file) {
+                // Validate size (e.g., max 5MB)
+                if (file.size > 5 * 1024 * 1024) {
+                    triggerToast('Error', 'File size too large. Max 5MB.', true);
+                    return;
                 }
-                reader.readAsDataURL(input.files[0]);
-                showToast("Photo Uploaded Successfully");
+
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = document.getElementById('previewImage');
+                    const placeholder = document.getElementById('imagePlaceholder');
+                    
+                    // Set image source and show it
+                    img.src = e.target.result;
+                    img.classList.remove('hidden');
+                    placeholder.classList.add('hidden'); // Hide the icon icon
+
+                    // Update upload UI feedback
+                    document.getElementById('uploadPlaceholder').classList.add('hidden');
+                    document.getElementById('uploadSuccess').classList.remove('hidden');
+
+                    appState.photoUploaded = true;
+                    triggerToast('Photo Added', 'Image uploaded successfully.');
+                };
+                reader.readAsDataURL(file);
             }
         }
 
-        // TOAST NOTIFICATION
-        function showToast(message) {
-            var x = document.getElementById("toast");
-            x.innerText = message;
-            x.className = "show";
-            setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+
+        // ===========================
+        // 5. DYNAMIC PRICING ENGINE
+        // ===========================
+        function updatePricing(qtyVal) {
+            const qty = parseInt(qtyVal);
+            document.getElementById('qtyDisplay').innerText = qty;
+
+            // Pricing Logic:
+            // Base cost = £80 for up to 20.
+            // Every additional 10 adds £15.
+            let price = 80;
+            if (qty > 20) {
+                const additionalSets = Math.ceil((qty - 20) / 10);
+                price += (additionalSets * 15);
+            }
+
+            // Format to currency
+            const formattedPrice = new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'GBP' }).format(price);
+            document.getElementById('totalPriceDisplay').innerText = formattedPrice;
+
+            // Update state
+            appState.quantity = qty;
+            appState.totalPrice = price;
         }
+
+
+        // ===========================
+        // 6. UI UTILITIES (Toasts)
+        // ===========================
+        function triggerToast(title, message, isError = false) {
+            const container = document.getElementById('toast-container');
+            
+            // Create toast element
+            const toast = document.createElement('div');
+            toast.className = `toast ${isError ? 'border-red-500' : ''}`;
+            toast.innerHTML = `
+                <i class="${isError ? 'fas fa-exclamation-circle text-red-500' : 'fas fa-check-circle toast-icon'}"></i>
+                <div>
+                    <p>${message}</p>
+                </div>
+            `;
+
+            // Add to DOM
+            container.appendChild(toast);
+
+            // Trigger animation in
+            setTimeout(() => toast.classList.add('active'), 10);
+
+            // Remove after 3 seconds
+            setTimeout(() => {
+                toast.classList.remove('active');
+                setTimeout(() => toast.remove(), 500); // Wait for fade out transition
+            }, 3000);
+        }
+
+        // Initialize pricing on load
+        updatePricing(20);
+
     </script>
 </body>
 </html>
