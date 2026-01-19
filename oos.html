@@ -2,428 +2,485 @@
 <html lang="en-GB">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Master Booklet Designer | FuneralMatch</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Booklet Architect | FuneralMatch</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,700;1,400&family=Cinzel:wght@400;600&family=Inter:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;1,400&family=Lora:ital@0;1&display=swap" rel="stylesheet">
 
     <style>
-        :root { --gold: #C5A059; --dark: #121212; --panel: #1E1E1E; }
-        body { font-family: 'Inter', sans-serif; background: var(--dark); color: white; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+        :root { --gold: #C5A059; --dark: #121212; --panel: #1a1a1a; --border: rgba(255,255,255,0.1); }
+        body { font-family: 'Inter', sans-serif; background: #0f0f0f; color: white; height: 100vh; overflow: hidden; display: flex; }
 
         /* --- UI COMPONENTS --- */
-        .btn-action { background: var(--gold); color: black; font-weight: bold; text-transform: uppercase; letter-spacing: 0.05em; padding: 10px 20px; border-radius: 6px; transition: 0.2s; }
-        .btn-action:hover { background: white; }
-        
-        .layout-btn { border: 1px solid #333; background: #222; padding: 8px; border-radius: 4px; cursor: pointer; text-align: center; font-size: 0.65rem; color: #888; transition: 0.2s; }
-        .layout-btn:hover { border-color: var(--gold); color: white; }
-        .layout-btn.active { background: var(--gold); color: black; border-color: var(--gold); }
+        .glass-sidebar {
+            background: rgba(30,30,30,0.95);
+            backdrop-filter: blur(20px);
+            border-right: 1px solid var(--border);
+            display: flex; flex-direction: column;
+            z-index: 20;
+        }
 
-        /* --- THE SPREAD (BOOKLET) --- */
-        /* A landscape container holding two A5 pages */
-        .spread-container { 
-            display: flex; 
-            width: 100%; 
-            max-width: 900px; 
-            aspect-ratio: 1.414 / 1; /* A4 Landscape ratio */
-            background: #fff; 
-            box-shadow: 0 0 50px rgba(0,0,0,0.5);
-            margin: auto;
-            color: black;
+        .tool-btn {
+            width: 100%; text-align: left; padding: 12px; border-radius: 8px;
+            font-size: 0.75rem; font-weight: 600; color: #888; transition: 0.2s;
+            border: 1px solid transparent; display: flex; align-items: center; gap: 10px;
+        }
+        .tool-btn:hover { background: rgba(255,255,255,0.05); color: white; }
+        .tool-btn.active { background: rgba(197, 160, 89, 0.1); color: var(--gold); border-color: rgba(197, 160, 89, 0.3); }
+
+        .theme-thumb {
+            height: 60px; width: 100%; border-radius: 6px; position: relative; overflow: hidden;
+            border: 2px solid transparent; cursor: pointer; transition: 0.2s;
+        }
+        .theme-thumb:hover { transform: scale(1.02); }
+        .theme-thumb.active { border-color: var(--gold); box-shadow: 0 0 15px rgba(197, 160, 89, 0.3); }
+        
+        /* --- MAIN STAGE --- */
+        .stage { flex: 1; background: #050505; display: flex; flex-direction: column; position: relative; overflow: hidden; }
+        
+        .spread-wrapper {
+            flex: 1; display: flex; align-items: center; justify-content: center;
+            overflow: auto; padding: 40px;
+        }
+
+        .booklet-spread {
+            width: 100%; max-width: 900px;
+            aspect-ratio: 1.414 / 1;
+            background: #fff;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            display: flex;
             position: relative;
+            transition: transform 0.3s ease;
         }
         
-        .page-a5 { flex: 1; position: relative; overflow: hidden; display: flex; flex-direction: column; }
+        .page { flex: 1; position: relative; overflow: hidden; color: #1a1a1a; display: flex; flex-direction: column; }
         .page-left { border-right: 1px solid #eee; }
-        .page-right { border-left: 1px solid #eee; }
         
-        /* Page Overlays for Editing */
-        .edit-overlay { 
-            position: absolute; inset: 0; 
-            background: rgba(0,0,0,0.02); 
-            opacity: 0; transition: 0.2s; 
-            display: flex; flex-direction: column; justify-content: center; items-center; gap: 10px;
-            pointer-events: none;
+        /* --- EDITING UX --- */
+        .editable-zone {
+            border: 1px dashed transparent; min-height: 20px; transition: 0.2s; cursor: text;
         }
-        .page-a5:hover .edit-overlay { opacity: 1; }
-        
-        /* Typography Themes */
-        .font-classic h1, .font-classic h2 { font-family: 'Bodoni Moda', serif; }
-        .font-modern h1, .font-modern h2 { font-family: 'Inter', sans-serif; text-transform: uppercase; letter-spacing: 0.1em; }
-        .font-script h1, .font-script h2 { font-family: 'Playfair Display', serif; font-style: italic; }
+        .editable-zone:hover { border-color: var(--gold); background: rgba(197, 160, 89, 0.1); }
+        .editable-zone:focus { outline: none; border-color: var(--gold); background: rgba(255,255,255,0.8); }
 
-        /* Helpers */
-        .photo-slot { background: #f0f0f0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: #ccc; cursor: pointer; overflow: hidden; position: relative; }
-        .photo-slot img { width: 100%; height: 100%; object-fit: cover; }
-        .photo-slot:hover { background: #e0e0e0; }
-        
-        .editable-text { border: 1px dashed transparent; min-height: 1.5em; cursor: text; }
-        .editable-text:hover { border-color: var(--gold); background: rgba(197, 160, 89, 0.1); }
-        .editable-text:focus { outline: none; border-color: var(--gold); background: white; }
+        .photo-placeholder {
+            background: #f0f0f0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;
+            cursor: pointer; color: #ccc; transition: 0.2s; position: relative;
+        }
+        .photo-placeholder:hover { background: #e0e0e0; color: var(--gold); }
+        .photo-placeholder img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* Nav Dots */
-        .nav-dot { width: 12px; height: 12px; border-radius: 50%; background: #333; cursor: pointer; transition: 0.2s; }
-        .nav-dot.active { background: var(--gold); transform: scale(1.3); }
+        /* --- THEMES --- */
+        /* Ivy Theme */
+        .theme-ivy .page { background-image: url('https://www.transparenttextures.com/patterns/cream-paper.png'); }
+        .theme-ivy .deco-corner { position: absolute; width: 100px; height: 100px; background-size: contain; background-repeat: no-repeat; opacity: 0.6; pointer-events: none; }
+        .theme-ivy .page-left .deco-corner { top: 0; left: 0; background-image: url('https://img.icons8.com/color/96/ivy.png'); transform: rotate(180deg); }
+        .theme-ivy .page-right .deco-corner { bottom: 0; right: 0; background-image: url('https://img.icons8.com/color/96/ivy.png'); }
+        .theme-ivy h1, .theme-ivy h2 { font-family: 'Playfair Display', serif; color: #2d3a2d; }
+        .theme-ivy p { font-family: 'Lora', serif; color: #4a4a4a; }
+
+        /* Art Deco Theme */
+        .theme-deco .page { background-color: #fcfbf8; }
+        .theme-deco .border-frame { position: absolute; inset: 10px; border: 2px solid #D4AF37; pointer-events: none; z-index: 10; }
+        .theme-deco h1, .theme-deco h2 { font-family: 'Cinzel', serif; letter-spacing: 0.1em; color: #1a1a1a; }
+        .theme-deco p { font-family: 'Inter', sans-serif; font-size: 0.8rem; }
+        
+        /* Minimal Theme */
+        .theme-minimal .page { background-color: #ffffff; }
+        .theme-minimal h1, .theme-minimal h2 { font-family: 'Bodoni Moda', serif; font-weight: 700; }
+        .theme-minimal p { font-family: 'Inter', sans-serif; font-weight: 300; }
+
     </style>
 </head>
 <body>
 
-    <div class="h-16 bg-panel border-b border-white/10 flex items-center justify-between px-6 z-20">
-        
-        <div class="flex items-center gap-6">
-            <div>
-                <label class="text-[0.6rem] uppercase font-bold text-gray-500 block mb-1">Booklet Size</label>
-                <select id="pageCountSelect" onchange="updatePageCount(this.value)" class="bg-black border border-white/20 text-white text-xs rounded px-2 py-1">
-                    <option value="4">4 Pages (Standard)</option>
-                    <option value="8">8 Pages</option>
-                    <option value="12">12 Pages</option>
-                    <option value="16">16 Pages (Max)</option>
-                </select>
-            </div>
+    <div class="glass-sidebar w-64 p-6 hidden md:flex">
+        <div class="mb-8">
+            <span class="text-[10px] uppercase font-bold text-[#C5A059] tracking-widest">FuneralMatch</span>
+            <h1 class="text-xl font-bold mt-1">Booklet Architect</h1>
+        </div>
 
-            <div>
-                <label class="text-[0.6rem] uppercase font-bold text-gray-500 block mb-1">Copies</label>
-                <select id="qtySelect" onchange="calculatePrice()" class="bg-black border border-white/20 text-white text-xs rounded px-2 py-1">
-                    <option value="20">20 Copies</option>
-                    <option value="50">50 Copies</option>
-                    <option value="100">100 Copies</option>
-                </select>
-            </div>
-
-            <div>
-                <label class="text-[0.6rem] uppercase font-bold text-gray-500 block mb-1">Font Style</label>
-                <select onchange="changeFontTheme(this.value)" class="bg-black border border-white/20 text-white text-xs rounded px-2 py-1">
-                    <option value="classic">Classic (Bodoni)</option>
-                    <option value="modern">Modern (Sans)</option>
-                    <option value="script">Elegant (Script)</option>
-                </select>
+        <div class="mb-8">
+            <p class="text-[10px] uppercase font-bold text-gray-500 mb-3">1. Structure</p>
+            <div class="space-y-3">
+                <div>
+                    <label class="text-xs text-gray-400 block mb-1">Page Count</label>
+                    <select id="pageCountSelect" onchange="updatePageCount(this.value)" class="w-full bg-black border border-white/20 text-white text-xs rounded p-2">
+                        <option value="4">4 Pages (Standard)</option>
+                        <option value="8">8 Pages (+£40)</option>
+                        <option value="12">12 Pages (+£80)</option>
+                        <option value="16">16 Pages (Max)</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="text-xs text-gray-400 block mb-1">Print Copies</label>
+                    <select id="qtySelect" onchange="calculatePrice()" class="w-full bg-black border border-white/20 text-white text-xs rounded p-2">
+                        <option value="20">20 Copies</option>
+                        <option value="50">50 Copies</option>
+                        <option value="100">100 Copies</option>
+                    </select>
+                </div>
             </div>
         </div>
 
-        <div class="bg-black px-4 py-2 rounded-lg border border-white/10 flex items-center gap-4">
-            <div class="text-right">
-                <p class="text-[0.6rem] uppercase font-bold text-gray-400">Photo Limit</p>
-                <p class="text-xs font-bold"><span id="photoCount">0</span> / 5 Free</p>
-            </div>
-            <div class="h-8 w-px bg-white/20"></div>
-            <div class="text-right">
-                <p class="text-[0.6rem] uppercase font-bold text-gray-400">Surcharge</p>
-                <p id="surchargeDisplay" class="text-xs font-bold text-green-500">£0.00</p>
+        <div class="mb-auto">
+            <p class="text-[10px] uppercase font-bold text-gray-500 mb-3">2. Visual Theme</p>
+            <div class="grid grid-cols-2 gap-3">
+                <div class="theme-thumb active bg-[#fdfbf7]" onclick="setTheme('ivy', this)">
+                    <div class="absolute top-0 left-0 w-8 h-8 opacity-50 bg-[url('https://img.icons8.com/color/48/ivy.png')] bg-cover"></div>
+                    <span class="absolute bottom-1 left-1 text-[8px] text-black font-bold uppercase">Floral</span>
+                </div>
+                <div class="theme-thumb bg-white border-2 border-[#D4AF37]" onclick="setTheme('deco', this)">
+                    <div class="absolute inset-1 border border-[#D4AF37]"></div>
+                    <span class="absolute bottom-1 left-1 text-[8px] text-black font-bold uppercase">Deco</span>
+                </div>
+                <div class="theme-thumb bg-white" onclick="setTheme('minimal', this)">
+                    <div class="absolute inset-0 flex items-center justify-center text-black font-serif text-lg italic">Aa</div>
+                    <span class="absolute bottom-1 left-1 text-[8px] text-black font-bold uppercase">Clean</span>
+                </div>
             </div>
         </div>
 
-        <div class="text-right">
-            <p class="text-[0.6rem] uppercase font-bold text-gray-500">Total Estimate</p>
-            <p id="totalPrice" class="text-xl font-bold text-[#C5A059]">£80.00</p>
+        <div class="bg-white/5 rounded-xl p-4 border border-white/10">
+            <div class="flex justify-between items-center mb-2">
+                <span class="text-xs text-gray-400">Photos (Max 5)</span>
+                <span id="photoCounter" class="text-xs font-bold text-white">0</span>
+            </div>
+            <div id="surchargeRow" class="flex justify-between items-center mb-4 hidden">
+                <span class="text-xs text-red-400">Extra Photos</span>
+                <span id="surchargePrice" class="text-xs font-bold text-red-400">+£0.00</span>
+            </div>
+            <div class="h-px bg-white/10 mb-3"></div>
+            <div class="flex justify-between items-end">
+                <span class="text-[10px] uppercase font-bold text-[#C5A059]">Total</span>
+                <span id="totalPriceDisplay" class="text-2xl font-bold text-white">£80</span>
+            </div>
+            <button class="w-full mt-4 bg-[#C5A059] hover:bg-white hover:text-black text-black text-xs font-bold py-3 rounded uppercase tracking-widest transition-colors">
+                Save Design
+            </button>
         </div>
-
     </div>
 
-    <div class="flex-1 bg-[#111] flex flex-col relative overflow-hidden">
+
+    <div class="stage">
         
-        <div class="h-12 bg-white/5 border-b border-white/5 flex items-center justify-center gap-4 text-xs">
-            <span class="text-gray-400 uppercase font-bold tracking-widest" id="spreadLabel">Cover & Back</span>
-            <div class="h-4 w-px bg-white/10"></div>
-            <div class="flex gap-2" id="layout-controls">
-                </div>
+        <div class="h-14 bg-black/50 border-b border-white/10 flex items-center justify-center gap-8 backdrop-blur-md z-10">
+            <button onclick="prevSpread()" class="text-gray-400 hover:text-white"><i class="fas fa-chevron-left mr-2"></i> Prev Spread</button>
+            <div class="text-xs font-bold text-white uppercase tracking-widest" id="spreadLabel">Cover & Back</div>
+            <button onclick="nextSpread()" class="text-gray-400 hover:text-white">Next Spread <i class="fas fa-chevron-right ml-2"></i></button>
         </div>
 
-        <div class="flex-1 flex items-center justify-center p-8 overflow-y-auto">
-            
-            <button onclick="prevSpread()" class="absolute left-4 top-1/2 text-white/20 hover:text-[#C5A059] text-4xl transition-colors"><i class="fas fa-chevron-left"></i></button>
-
-            <div id="spread-container" class="spread-container font-classic transition-all duration-500">
+        <div class="spread-wrapper">
+            <div id="booklet-spread" class="booklet-spread theme-ivy transition-all duration-300">
                 
-                <div id="page-left" class="page-a5 page-left p-8">
-                    </div>
+                <div id="page-left" class="page page-left p-8">
+                    <div class="deco-corner"></div>
+                    <div class="border-frame"></div>
+                </div>
 
-                <div id="page-right" class="page-a5 page-right p-8">
-                    </div>
+                <div id="page-right" class="page page-right p-8">
+                    <div class="deco-corner"></div>
+                    <div class="border-frame"></div>
+                </div>
 
                 <div class="absolute inset-y-0 left-1/2 w-16 -ml-8 bg-gradient-to-r from-transparent via-black/10 to-transparent pointer-events-none"></div>
+
             </div>
-
-            <button onclick="nextSpread()" class="absolute right-4 top-1/2 text-white/20 hover:text-[#C5A059] text-4xl transition-colors"><i class="fas fa-chevron-right"></i></button>
-
         </div>
-
-        <div class="h-16 flex items-center justify-center gap-4 pb-4" id="navDots">
-            </div>
 
     </div>
 
-    <input type="file" id="globalPhotoInput" accept="image/*" class="hidden">
+
+    <div class="glass-sidebar w-60 border-l border-white/10 p-4">
+        <p class="text-[10px] uppercase font-bold text-gray-500 mb-4 text-center">Page Layouts</p>
+        
+        <div class="mb-6">
+            <p class="text-[10px] font-bold text-white mb-2 bg-white/10 p-1 rounded text-center">Left Page</p>
+            <div class="grid grid-cols-2 gap-2">
+                <button onclick="applyLayout('left', 'text')" class="layout-btn bg-black border border-white/20 p-2 rounded hover:border-[#C5A059] flex flex-col items-center gap-1">
+                    <i class="fas fa-align-left text-gray-500 text-lg"></i>
+                    <span class="text-[8px] text-gray-400 uppercase">Text</span>
+                </button>
+                <button onclick="applyLayout('left', 'photo-top')" class="layout-btn bg-black border border-white/20 p-2 rounded hover:border-[#C5A059] flex flex-col items-center gap-1">
+                    <i class="fas fa-image text-gray-500 text-lg"></i>
+                    <span class="text-[8px] text-gray-400 uppercase">Photo</span>
+                </button>
+                <button onclick="applyLayout('left', 'hymn')" class="layout-btn bg-black border border-white/20 p-2 rounded hover:border-[#C5A059] flex flex-col items-center gap-1">
+                    <i class="fas fa-music text-gray-500 text-lg"></i>
+                    <span class="text-[8px] text-gray-400 uppercase">Hymn</span>
+                </button>
+                <button onclick="applyLayout('left', 'photo-full')" class="layout-btn bg-black border border-white/20 p-2 rounded hover:border-[#C5A059] flex flex-col items-center gap-1">
+                    <i class="fas fa-expand text-gray-500 text-lg"></i>
+                    <span class="text-[8px] text-gray-400 uppercase">Full</span>
+                </button>
+            </div>
+        </div>
+
+        <div>
+            <p class="text-[10px] font-bold text-white mb-2 bg-white/10 p-1 rounded text-center">Right Page</p>
+            <div class="grid grid-cols-2 gap-2">
+                <button onclick="applyLayout('right', 'text')" class="layout-btn bg-black border border-white/20 p-2 rounded hover:border-[#C5A059] flex flex-col items-center gap-1">
+                    <i class="fas fa-align-left text-gray-500 text-lg"></i>
+                    <span class="text-[8px] text-gray-400 uppercase">Text</span>
+                </button>
+                <button onclick="applyLayout('right', 'photo-top')" class="layout-btn bg-black border border-white/20 p-2 rounded hover:border-[#C5A059] flex flex-col items-center gap-1">
+                    <i class="fas fa-image text-gray-500 text-lg"></i>
+                    <span class="text-[8px] text-gray-400 uppercase">Photo</span>
+                </button>
+                <button onclick="applyLayout('right', 'hymn')" class="layout-btn bg-black border border-white/20 p-2 rounded hover:border-[#C5A059] flex flex-col items-center gap-1">
+                    <i class="fas fa-music text-gray-500 text-lg"></i>
+                    <span class="text-[8px] text-gray-400 uppercase">Hymn</span>
+                </button>
+                <button onclick="applyLayout('right', 'photo-full')" class="layout-btn bg-black border border-white/20 p-2 rounded hover:border-[#C5A059] flex flex-col items-center gap-1">
+                    <i class="fas fa-expand text-gray-500 text-lg"></i>
+                    <span class="text-[8px] text-gray-400 uppercase">Full</span>
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <input type="file" id="imgUpload" class="hidden" accept="image/*">
 
     <script>
-        // ================= STATE =================
-        const state = {
-            pageCount: 4,
-            currentSpread: 0, // 0 = Cover/Back, 1 = Pages 2-3, etc.
-            qty: 20,
-            photoLimit: 5,
-            extraPhotoCost: 7.50,
-            pages: [] // Array of Page Objects
-        };
-
-        // Page Layout Templates
-        const TEMPLATES = {
-            'cover': `<div class="h-full flex flex-col items-center justify-center text-center">
-                        <div class="editable-text text-sm uppercase tracking-widest mb-4" contenteditable="true">In Loving Memory of</div>
-                        <div class="photo-slot w-48 h-48 rounded-full mb-6 border-4 border-double border-gray-200" onclick="triggerPhotoUpload(this)">
-                            <i class="fas fa-camera text-2xl"></i>
+        // === HTML TEMPLATES FOR LAYOUTS ===
+        const LAYOUTS = {
+            'cover': `<div class="h-full flex flex-col items-center justify-center text-center z-10 relative">
+                        <div class="editable-zone text-sm uppercase tracking-widest mb-6" contenteditable="true">In Loving Memory of</div>
+                        <div class="photo-placeholder rounded-full w-48 h-48 mb-6 border-4 border-double border-gray-200 shadow-xl" onclick="triggerUpload(this)">
+                            <i class="fas fa-camera text-2xl opacity-50"></i>
                         </div>
-                        <h1 class="editable-text text-4xl mb-2 w-full" contenteditable="true">Name Here</h1>
-                        <p class="editable-text text-sm w-full" contenteditable="true">1950 - 2026</p>
-                        <div class="mt-8 text-xs uppercase tracking-widest editable-text" contenteditable="true">St Mary's Church</div>
+                        <h1 class="editable-zone text-4xl mb-2 w-full outline-none" contenteditable="true">Name Here</h1>
+                        <p class="editable-zone text-sm w-full outline-none" contenteditable="true">1950 - 2026</p>
                       </div>`,
             
-            'back': `<div class="h-full flex flex-col items-center justify-end text-center pb-10">
-                        <div class="photo-slot w-24 h-24 mb-6" onclick="triggerPhotoUpload(this)"><i class="fas fa-camera"></i></div>
-                        <h3 class="editable-text text-lg mb-2" contenteditable="true">Donations</h3>
-                        <p class="editable-text text-xs text-gray-600 w-3/4 mb-8" contenteditable="true">Donations in memory may be made to The Hospice Charity.</p>
-                        <p class="text-[10px] text-gray-400">Printed by FuneralMatch</p>
+            'back': `<div class="h-full flex flex-col items-center justify-end text-center pb-12 z-10 relative">
+                        <div class="photo-placeholder w-24 h-24 mb-6 rounded-lg shadow-inner" onclick="triggerUpload(this)"><i class="fas fa-plus opacity-50"></i></div>
+                        <h3 class="editable-zone text-lg mb-2 font-bold" contenteditable="true">Donations</h3>
+                        <p class="editable-zone text-xs w-3/4 mx-auto leading-relaxed" contenteditable="true">Donations in memory may be made to<br>The Hospice Charity.</p>
                      </div>`,
 
-            'text': `<div class="h-full p-4">
-                        <h2 class="editable-text text-xl font-bold border-b border-gray-200 pb-2 mb-4" contenteditable="true">Reading / Hymn</h2>
-                        <div class="editable-text text-sm leading-loose whitespace-pre-wrap" contenteditable="true">
-Paste your hymn lyrics, reading, or eulogy text here...
+            'text': `<div class="h-full p-4 z-10 relative">
+                        <h2 class="editable-zone text-xl font-bold border-b border-gray-300 pb-2 mb-6" contenteditable="true">Reading</h2>
+                        <div class="editable-zone text-sm leading-loose whitespace-pre-wrap outline-none" contenteditable="true">
+Paste your reading, poem or eulogy text here.
+You can edit this text directly.
                         </div>
                      </div>`,
 
-            'photo-top': `<div class="h-full flex flex-col">
-                            <div class="photo-slot h-1/2 w-full mb-4" onclick="triggerPhotoUpload(this)"><i class="fas fa-camera mr-2"></i> Add Photo</div>
-                            <h2 class="editable-text text-xl font-bold mb-2" contenteditable="true">Title</h2>
-                            <div class="editable-text text-sm" contenteditable="true">Write caption here...</div>
+            'hymn': `<div class="h-full p-4 text-center z-10 relative">
+                        <p class="text-[10px] uppercase font-bold tracking-widest text-gray-400 mb-2">Hymn</p>
+                        <h2 class="editable-zone text-2xl mb-6 italic" contenteditable="true">Abide With Me</h2>
+                        <div class="editable-zone text-sm leading-loose whitespace-pre-wrap font-serif" contenteditable="true">
+Abide with me; fast falls the eventide;
+The darkness deepens; Lord with me abide.
+When other helpers fail and comforts flee,
+Help of the helpless, O abide with me.
+                        </div>
+                     </div>`,
+
+            'photo-top': `<div class="h-full flex flex-col z-10 relative">
+                            <div class="photo-placeholder h-1/2 w-full mb-6 shadow-md" onclick="triggerUpload(this)"><i class="fas fa-image mr-2 opacity-50"></i> Add Photo</div>
+                            <div class="px-4">
+                                <h2 class="editable-zone text-xl font-bold mb-2" contenteditable="true">Title</h2>
+                                <div class="editable-zone text-sm text-gray-600" contenteditable="true">Write a caption or short memory here...</div>
+                            </div>
                           </div>`,
 
-            'photo-full': `<div class="h-full w-full p-0">
-                             <div class="photo-slot w-full h-full" onclick="triggerPhotoUpload(this)"><i class="fas fa-expand mr-2"></i> Full Page Photo</div>
+            'photo-full': `<div class="h-full w-full p-0 z-10 relative">
+                             <div class="photo-placeholder w-full h-full" onclick="triggerUpload(this)"><i class="fas fa-expand mr-2 opacity-50"></i> Full Page Photo</div>
                            </div>`
         };
 
-        // ================= INIT =================
+        // === STATE ===
+        const state = {
+            pageCount: 4,
+            currentSpread: 0, // 0 = Cover/Back
+            pages: [],
+            basePrice: 80,
+            photoLimit: 5,
+            extraPhotoCost: 7.50
+        };
+
+        // === INIT ===
         function init() {
+            // Generate Initial Pages
             generatePages(4);
             renderSpread();
-            calculatePrice();
-        }
-
-        // ================= LOGIC =================
-        
-        function updatePageCount(val) {
-            const newCount = parseInt(val);
-            if(confirm("Changing page count will reset layouts. Continue?")) {
-                state.pageCount = newCount;
-                state.currentSpread = 0; // Reset to cover
-                generatePages(newCount);
-                renderSpread();
-                calculatePrice();
-            }
+            updatePricing();
         }
 
         function generatePages(count) {
             state.pages = [];
-            
-            // Logic: 
-            // Index 0 = Back Cover (Left of Spread 0)
-            // Index 1 = Front Cover (Right of Spread 0)
-            // Index 2..n-1 = Inner Pages
-            
-            // 0: Back Cover
-            state.pages.push({ id: 0, html: TEMPLATES['back'], type: 'back' });
-            // 1: Front Cover
-            state.pages.push({ id: 1, html: TEMPLATES['cover'], type: 'cover' });
-
-            // Inner Pages (2 to count-1)
-            for(let i=2; i < count; i++) {
-                state.pages.push({ id: i, html: TEMPLATES['text'], type: 'inner' });
-            }
-            
-            renderNavDots();
-        }
-
-        function renderNavDots() {
-            const container = document.getElementById('navDots');
-            container.innerHTML = '';
-            
-            // Calculate number of spreads:
-            // Spread 0: Back (0) + Front (1)
-            // Spread 1: Page 2 + Page 3
-            // Spread 2: Page 4 + Page 5...
-            const totalSpreads = (state.pageCount / 2); 
-
-            for(let i=0; i < totalSpreads; i++) {
-                const dot = document.createElement('div');
-                dot.className = `nav-dot ${i === state.currentSpread ? 'active' : ''}`;
-                dot.title = i === 0 ? "Cover" : `Pages ${i*2} & ${i*2+1}`;
-                dot.onclick = () => jumpToSpread(i);
-                container.appendChild(dot);
+            // 0: Back, 1: Front
+            state.pages.push(LAYOUTS['back']);
+            state.pages.push(LAYOUTS['cover']);
+            // Inner pages
+            for(let i=2; i<count; i++) {
+                state.pages.push(LAYOUTS['text']);
             }
         }
 
-        function jumpToSpread(index) {
-            saveCurrentSpreadState();
-            state.currentSpread = index;
-            renderSpread();
-            renderNavDots(); // update active class
+        // === NAVIGATION ===
+        function updatePageCount(val) {
+            if(confirm("Reset layout to " + val + " pages?")) {
+                state.pageCount = parseInt(val);
+                state.currentSpread = 0;
+                generatePages(state.pageCount);
+                renderSpread();
+                updatePricing();
+            }
         }
 
         function nextSpread() {
-            const max = (state.pageCount / 2) - 1;
-            if(state.currentSpread < max) jumpToSpread(state.currentSpread + 1);
+            const max = (state.pageCount/2) - 1;
+            if(state.currentSpread < max) {
+                saveCurrentSpread();
+                state.currentSpread++;
+                renderSpread();
+            }
         }
 
         function prevSpread() {
-            if(state.currentSpread > 0) jumpToSpread(state.currentSpread - 1);
+            if(state.currentSpread > 0) {
+                saveCurrentSpread();
+                state.currentSpread--;
+                renderSpread();
+            }
         }
 
-        function saveCurrentSpreadState() {
-            // Save HTML from DOM back to state array before navigating away
-            if (state.currentSpread === 0) {
-                state.pages[0].html = document.getElementById('page-left').innerHTML;
-                state.pages[1].html = document.getElementById('page-right').innerHTML;
-            } else {
-                // Determine page indices
-                const pLeft = state.currentSpread * 2;
-                const pRight = pLeft + 1;
-                if(state.pages[pLeft]) state.pages[pLeft].html = document.getElementById('page-left').innerHTML;
-                if(state.pages[pRight]) state.pages[pRight].html = document.getElementById('page-right').innerHTML;
-            }
-            countPhotos(); // Recalculate photos on save
+        function saveCurrentSpread() {
+            const pLeft = state.currentSpread * 2;
+            const pRight = pLeft + 1;
+            // Clean content to avoid saving decorator divs
+            const leftContent = document.getElementById('page-left').innerHTML;
+            const rightContent = document.getElementById('page-right').innerHTML;
+            
+            // In production, strip out the .deco-corner and .border-frame divs before saving
+            state.pages[pLeft] = leftContent;
+            state.pages[pRight] = rightContent;
+            
+            updatePricing(); // recount photos
         }
 
         function renderSpread() {
-            const leftDiv = document.getElementById('page-left');
-            const rightDiv = document.getElementById('page-right');
+            const pLeft = state.currentSpread * 2;
+            const pRight = pLeft + 1;
             const label = document.getElementById('spreadLabel');
-            const controls = document.getElementById('layout-controls');
 
-            // Clear Controls
-            controls.innerHTML = `
-                <span class="text-gray-500 mr-2">Apply Layout to Page:</span>
-                <button class="layout-btn" onclick="applyTemplate('text')">Text</button>
-                <button class="layout-btn" onclick="applyTemplate('photo-top')">Photo Top</button>
-                <button class="layout-btn" onclick="applyTemplate('photo-full')">Full Photo</button>
-                <button class="layout-btn" onclick="applyTemplate('text')">Hymn</button>
-            `;
-
-            if (state.currentSpread === 0) {
-                // SPECIAL CASE: Cover Spread
-                // Left = Back Cover (Index 0)
-                // Right = Front Cover (Index 1)
+            if(state.currentSpread === 0) {
                 label.innerText = "Back Cover & Front Cover";
-                leftDiv.innerHTML = state.pages[0].html;
-                rightDiv.innerHTML = state.pages[1].html;
-                
-                // Disable standard layout controls for covers to prevent breaking design
-                controls.innerHTML = '<span class="text-gray-600 italic">Cover layouts are fixed</span>';
-                
             } else {
-                // Inner Spreads
-                const pLeft = state.currentSpread * 2;
-                const pRight = pLeft + 1;
-                
                 label.innerText = `Pages ${pLeft} & ${pRight}`;
-                
-                leftDiv.innerHTML = state.pages[pLeft] ? state.pages[pLeft].html : '';
-                rightDiv.innerHTML = state.pages[pRight] ? state.pages[pRight].html : '';
             }
-        }
 
-        // ================= TEMPLATE SYSTEM =================
-        // In a real app, we'd need to know WHICH page (left or right) the user wants to change.
-        // For this demo, we'll apply it to the RIGHT page by default as it's the primary reading page, 
-        // or toggle based on click focus. Simplified here to apply to Right Page.
-        function applyTemplate(type) {
-            if(state.currentSpread === 0) return; // Cant change covers
-            const pRight = (state.currentSpread * 2) + 1;
+            // Inject Content
+            // We re-add the decorator divs (Ivy/Deco borders) because they are visual CSS elements, not content
+            const decorators = `<div class="deco-corner"></div><div class="border-frame"></div>`;
             
-            if(confirm("Replace content on Right Page with this template?")) {
-                document.getElementById('page-right').innerHTML = TEMPLATES[type];
-                calculatePrice(); // Re-check photo counts
+            document.getElementById('page-left').innerHTML = state.pages[pLeft] + decorators;
+            document.getElementById('page-right').innerHTML = state.pages[pRight] + decorators;
+        }
+
+        // === LAYOUT TOOLS ===
+        function applyLayout(side, type) {
+            const index = side === 'left' ? state.currentSpread * 2 : (state.currentSpread * 2) + 1;
+            
+            // Prevent changing covers in this simplified demo
+            if(state.currentSpread === 0) {
+                alert("Cover layouts are fixed in this demo.");
+                return;
             }
+
+            state.pages[index] = LAYOUTS[type];
+            renderSpread();
+            updatePricing();
         }
 
-        // ================= PHOTO HANDLING =================
-        let currentPhotoSlot = null;
-
-        function triggerPhotoUpload(element) {
-            currentPhotoSlot = element;
-            document.getElementById('globalPhotoInput').click();
+        // === THEME ENGINE ===
+        function setTheme(themeName, el) {
+            document.getElementById('booklet-spread').className = `booklet-spread theme-${themeName} transition-all duration-300`;
+            
+            // Update UI Thumbnails
+            document.querySelectorAll('.theme-thumb').forEach(t => t.classList.remove('active'));
+            el.classList.add('active');
         }
 
-        document.getElementById('globalPhotoInput').onchange = function(e) {
+        // === PHOTO UPLOAD ===
+        let currentUploadTarget = null;
+        function triggerUpload(el) {
+            currentUploadTarget = el;
+            document.getElementById('imgUpload').click();
+        }
+        
+        document.getElementById('imgUpload').onchange = function(e) {
             if(e.target.files && e.target.files[0]) {
                 const reader = new FileReader();
                 reader.onload = function(evt) {
-                    if(currentPhotoSlot) {
-                        currentPhotoSlot.innerHTML = `<img src="${evt.target.result}" style="width:100%; height:100%; object-fit:cover;">`;
-                        currentPhotoSlot.classList.remove('bg-gray-200'); // Remove placeholder styling
-                        saveCurrentSpreadState(); // Save immediately
-                        calculatePrice(); // Check limits
+                    if(currentUploadTarget) {
+                        currentUploadTarget.innerHTML = `<img src="${evt.target.result}">`;
+                        currentUploadTarget.classList.remove('bg-gray-200'); // Remove gray bg
+                        updatePricing(); // Check surcharge
                     }
                 };
                 reader.readAsDataURL(e.target.files[0]);
             }
         };
 
-        function countPhotos() {
-            // Scan ALL pages in memory for <img> tags
-            let total = 0;
-            state.pages.forEach(page => {
-                // Simple regex to count img tags in the HTML string
-                const count = (page.html.match(/<img/g) || []).length;
-                total += count;
-            });
-            return total;
-        }
-
-        // ================= PRICING =================
+        // === PRICING ===
         function calculatePrice() {
-            // 1. Base Cost (Qty)
-            state.qty = parseInt(document.getElementById('qtySelect').value);
-            let base = 80; // 20 copies
-            if(state.qty === 50) base = 140;
-            if(state.qty === 100) base = 220;
-
-            // 2. Page Count Cost
+            // 1. Page Count Cost
             let pageCost = 0;
-            if (state.pageCount === 8) pageCost = 40;
-            if (state.pageCount === 12) pageCost = 80;
-            if (state.pageCount === 16) pageCost = 120;
+            if(state.pageCount === 8) pageCost = 40;
+            if(state.pageCount === 12) pageCost = 80;
+            if(state.pageCount === 16) pageCost = 120;
 
-            // 3. Photo Surcharge
-            const usedPhotos = countPhotos();
-            document.getElementById('photoCount').innerText = usedPhotos;
+            // 2. Copies
+            const copies = parseInt(document.getElementById('qtySelect').value);
+            let copyCost = 0;
+            if(copies === 50) copyCost = 60;
+            if(copies === 100) copyCost = 140;
+
+            updatePhotoCount(); // Recalculate photos
+            const surcharge = parseFloat(document.getElementById('surchargePrice').dataset.val || 0);
+
+            const total = state.basePrice + pageCost + copyCost + surcharge;
+            document.getElementById('totalPriceDisplay').innerText = `£${total.toFixed(2)}`;
+        }
+
+        function updatePhotoCount() {
+            // Count <img> tags in all pages
+            let count = 0;
+            state.pages.forEach(html => {
+                count += (html.match(/<img/g) || []).length;
+            });
             
-            let surcharge = 0;
-            const display = document.getElementById('surchargeDisplay');
+            // Add current view photos (if not saved yet)
+            // (Simplified logic: In a real app we'd save constantly)
             
-            if (usedPhotos > state.photoLimit) {
-                const extra = usedPhotos - state.photoLimit;
-                surcharge = extra * state.extraPhotoCost;
-                display.innerText = `+£${surcharge.toFixed(2)}`;
-                display.classList.remove('text-green-500');
-                display.classList.add('text-red-500');
+            document.getElementById('photoCounter').innerText = count;
+            const surchargeRow = document.getElementById('surchargeRow');
+            const surchargeDisplay = document.getElementById('surchargePrice');
+
+            if(count > state.photoLimit) {
+                const extra = count - state.photoLimit;
+                const cost = extra * state.extraPhotoCost;
+                surchargeRow.classList.remove('hidden');
+                surchargeDisplay.innerText = `+£${cost.toFixed(2)}`;
+                surchargeDisplay.dataset.val = cost;
             } else {
-                display.innerText = "£0.00";
-                display.classList.add('text-green-500');
-                display.classList.remove('text-red-500');
+                surchargeRow.classList.add('hidden');
+                surchargeDisplay.dataset.val = 0;
             }
-
-            // Total
-            const total = base + pageCost + surcharge;
-            document.getElementById('totalPrice').innerText = `£${total.toFixed(2)}`;
         }
 
-        function changeFontTheme(theme) {
-            const container = document.getElementById('spread-container');
-            container.className = `spread-container font-${theme} transition-all duration-500`;
+        function updatePricing() {
+            saveCurrentSpread(); // Ensures photos on screen are counted
+            calculatePrice();
         }
 
-        // Run
+        // Boot
         init();
 
     </script>
