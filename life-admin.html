@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <title>Life Admin Automator | FuneralMatch</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@1,400;1,700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --gold: #C5A059; --soft-bg: #F3F4F6; }
+        body { font-family: 'Inter', sans-serif; background: var(--soft-bg); color: #1a1a1a; }
+        .serif { font-family: 'Bodoni Moda', serif; }
+        .brand-icon { width: 40px; height: 40px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.8rem; border: 1px solid #eee; }
+        .toggle-switch { width: 40px; height: 20px; background: #C5A059; border-radius: 99px; position: relative; }
+        .toggle-dot { width: 16px; height: 16px; background: white; border-radius: 50%; position: absolute; top: 2px; right: 2px; }
+    </style>
+</head>
+<body class="py-12 px-6">
+
+    <main class="max-w-4xl mx-auto">
+        <header class="text-center mb-12">
+            <span class="text-[10px] uppercase font-bold tracking-[0.4em] text-[#C5A059]">Digital Death Notification</span>
+            <h1 class="serif italic text-5xl mt-4 mb-6">Close their Digital Life.</h1>
+            <p class="max-w-xl mx-auto text-stone-500 text-sm">Don't spend hours on hold. We notify 300+ UK companies (Utilities, Social Media, Subscriptions) that your loved one has passed, stopping bills and preventing fraud.</p>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            
+            <div class="bg-white rounded-[2rem] p-8 shadow-xl border border-stone-200">
+                <div class="flex justify-between items-center mb-6 pb-6 border-b border-stone-100">
+                    <div>
+                        <h3 class="font-bold text-lg">Active Accounts</h3>
+                        <p class="text-xs text-stone-400">Select accounts to close or freeze.</p>
+                    </div>
+                    <div class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-[10px] font-bold uppercase">Verified</div>
+                </div>
+
+                <div class="space-y-4">
+                    <div class="flex justify-between items-center">
+                        <div class="flex items-center gap-4">
+                            <div class="brand-icon text-red-600">N</div>
+                            <div>
+                                <p class="font-bold text-sm">Netflix</p>
+                                <p class="text-[10px] text-stone-400">Subscription</p>
+                            </div>
+                        </div>
+                        <div class="toggle-switch"><div class="toggle-dot"></div></div>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <div class="flex items-center gap-4">
+                            <div class="brand-icon text-blue-600">f</div>
+                            <div>
+                                <p class="font-bold text-sm">Facebook</p>
+                                <p class="text-[10px] text-stone-400">Memorialize Account</p>
+                            </div>
+                        </div>
+                        <div class="toggle-switch"><div class="toggle-dot"></div></div>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <div class="flex items-center gap-4">
+                            <div class="brand-icon text-blue-400">BG</div>
+                            <div>
+                                <p class="font-bold text-sm">British Gas</p>
+                                <p class="text-[10px] text-stone-400">Utility Bill</p>
+                            </div>
+                        </div>
+                        <div class="toggle-switch"><div class="toggle-dot"></div></div>
+                    </div>
+                </div>
+
+                <div class="mt-8 pt-6 border-t border-stone-100 flex justify-between items-center">
+                    <span class="text-xs font-bold text-stone-400">Total Saved /mo</span>
+                    <span class="text-2xl font-bold text-[#C5A059]">£145.00</span>
+                </div>
+            </div>
+
+            <div>
+                <h3 class="serif italic text-3xl mb-6">One Form. Everything Stopped.</h3>
+                <ul class="space-y-6 mb-8">
+                    <li class="flex gap-4">
+                        <span class="font-bold text-[#C5A059]">01.</span>
+                        <p class="text-sm text-stone-600"><strong>Stop the Bills:</strong> We automatically cancel recurring Direct Debits for gyms, streaming, and magazines.</p>
+                    </li>
+                    <li class="flex gap-4">
+                        <span class="font-bold text-[#C5A059]">02.</span>
+                        <p class="text-sm text-stone-600"><strong>Social Media:</strong> Choose to delete accounts or turn them into "Memorial Pages."</p>
+                    </li>
+                    <li class="flex gap-4">
+                        <span class="font-bold text-[#C5A059]">03.</span>
+                        <p class="text-sm text-stone-600"><strong>Prevent Fraud:</strong> Notifying credit bureaus stops identity theft of the deceased.</p>
+                    </li>
+                </ul>
+                <div class="bg-black text-white p-6 rounded-2xl flex justify-between items-center">
+                    <div>
+                        <p class="text-[10px] uppercase font-bold text-stone-400">One-off Fee</p>
+                        <p class="text-3xl font-bold">£49</p>
+                    </div>
+                    <button class="bg-[#C5A059] text-white px-6 py-3 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-white hover:text-black transition-all">Start Now</button>
+                </div>
+            </div>
+
+        </div>
+    </main>
+</body>
+</html>
