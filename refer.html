@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Digital Wish Registry | FuneralMatch Advocacy</title>
+    <title>Refer & Earn | FuneralMatch Community</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@1,400;1,700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
@@ -11,94 +11,107 @@
 
     <style>
         :root { --gold: #C5A059; --black: #1a1a1a; --soft-bg: #F8F7F5; }
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
         body { font-family: 'Inter', sans-serif; background: var(--soft-bg); color: var(--black); }
         .serif { font-family: 'Bodoni Moda', serif; }
-        
-        /* LOGO CONSISTENCY */
-        .logo-nav { position: absolute; top: 2rem; left: 5%; z-index: 1000; }
-        .logo-wrap { display: flex; flex-direction: column; align-items: flex-start; }
-        .brand-text { font-family: 'Bodoni Moda', serif; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.4em; }
-        .brand-gold { color: var(--gold); letter-spacing: 0.7em; }
-        .logo-line { width: 35px; height: 1px; background: var(--gold); margin: 6px 0; }
 
-        .wish-card { background: white; border-radius: 2.5rem; padding: 3rem; border: 1px solid #EEE; margin-bottom: 2rem; }
-        .step-pill { background: #000; color: white; padding: 4px 12px; border-radius: 9999px; font-size: 9px; font-weight: 800; text-transform: uppercase; margin-bottom: 1.5rem; display: inline-block; }
-        .input-underline { width: 100%; border: none; border-bottom: 1px solid #EEE; padding: 1rem 0; outline: none; font-size: 1.1rem; background: transparent; transition: 0.3s; }
-        .input-underline:focus { border-color: var(--gold); }
+        .step-card { background: white; padding: 2.5rem; border-radius: 2rem; border: 1px solid #EEE; position: relative; transition: 0.3s; }
+        .step-card:hover { transform: translateY(-5px); border-color: var(--gold); }
+        .step-num { font-family: 'Bodoni Moda', serif; font-size: 3rem; color: var(--gold); opacity: 0.3; position: absolute; top: 1rem; right: 2rem; font-style: italic; }
+
+        .reward-pill { background: #000; color: white; padding: 4px 12px; border-radius: 99px; font-size: 0.6rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; display: inline-block; margin-bottom: 1rem; }
     </style>
 </head>
-<body class="pt-32 pb-24 px-8">
+<body class="py-12 px-6 md:px-12">
 
-    <nav class="logo-nav">
-        <div class="logo-wrap">
-            <span class="brand-text">Funeral</span>
-            <div class="logo-line"></div>
-            <span class="brand-text brand-gold">Match</span>
+    <nav class="flex justify-between items-center mb-16 border-b border-black/5 pb-6">
+        <div class="flex flex-col items-start">
+            <span class="serif text-xs font-bold uppercase tracking-[0.4em] mb-1">Funeral</span>
+            <div style="width: 30px; height: 1px; background: var(--gold); margin-bottom: 4px;"></div>
+            <span class="serif text-xs font-bold text-[#C5A059] uppercase tracking-[0.7em]">Match</span>
         </div>
+        <a href="/" class="text-[10px] font-bold uppercase tracking-widest border-b border-black pb-1">Back to Home</a>
     </nav>
 
-    <main class="max-w-4xl mx-auto">
-        
+    <main class="max-w-5xl mx-auto">
+
         <header class="text-center mb-20" data-aos="fade-up">
-            <h1 class="serif italic text-6xl mb-6">Record your story.</h1>
-            <p class="text-stone-400 uppercase tracking-[0.4em] text-[10px] font-bold">Non-Financial Letter of Wishes // Secure Registry</p>
+            <span class="text-[10px] uppercase font-bold tracking-[0.4em] text-stone-400">Community Rewards</span>
+            <h1 class="serif italic text-6xl mt-4 mb-6">Good advice is <br>worth sharing.</h1>
+            <p class="max-w-xl mx-auto text-stone-500 text-sm leading-relaxed">Help a friend avoid overpaying for a funeral. When you refer them to FuneralMatch, we thank you with a cash reward or a donation to a charity of your choice.</p>
         </header>
 
-        <form action="https://formspree.io/f/mvzzkjeq" method="POST">
+        <div class="bg-black text-white rounded-[3rem] p-12 md:p-16 text-center mb-20 relative overflow-hidden" data-aos="zoom-in">
+            <div class="relative z-10">
+                <p class="text-[10px] font-bold uppercase tracking-widest text-[#C5A059] mb-4">The Reward</p>
+                <h2 class="serif italic text-5xl mb-8">£50 for you. <br>Concierge Care for them.</h2>
+                <div class="flex flex-col md:flex-row justify-center gap-6 text-left max-w-2xl mx-auto">
+                    <div class="bg-white/10 p-6 rounded-2xl flex-1 backdrop-blur-sm">
+                        <h3 class="font-bold text-lg mb-2">🎁 Your Benefit</h3>
+                        <p class="text-xs text-stone-400 leading-relaxed">Receive a <strong>£50 Cash Transfer</strong> or Amazon Voucher for every completed plan. Or, select "Donate" and we will send £50 to Cancer Research UK in your name.</p>
+                    </div>
+                    <div class="bg-white/10 p-6 rounded-2xl flex-1 backdrop-blur-sm">
+                        <h3 class="font-bold text-lg mb-2">❤️ Their Benefit</h3>
+                        <p class="text-xs text-stone-400 leading-relaxed">Your friend receives <strong>Priority Concierge Status</strong> (worth £99), ensuring they get a dedicated case manager to handle negotiations for free.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-[#C5A059]/20 via-black to-black"></div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
+            <div class="step-card" data-aos="fade-up">
+                <span class="step-num">1</span>
+                <span class="reward-pill">Join</span>
+                <h3 class="serif text-2xl mb-4">Get your Link</h3>
+                <p class="text-xs text-stone-500 leading-relaxed">Sign up below to generate your unique referral link or QR code instantly.</p>
+            </div>
+            <div class="step-card" data-aos="fade-up" data-aos-delay="100">
+                <span class="step-num">2</span>
+                <span class="reward-pill">Share</span>
+                <h3 class="serif text-2xl mb-4">Send to Friend</h3>
+                <p class="text-xs text-stone-500 leading-relaxed">Text, WhatsApp, or Email the link to anyone needing funeral arrangements.</p>
+            </div>
+            <div class="step-card" data-aos="fade-up" data-aos-delay="200">
+                <span class="step-num">3</span>
+                <span class="reward-pill">Earn</span>
+                <h3 class="serif text-2xl mb-4">Get Paid</h3>
+                <p class="text-xs text-stone-500 leading-relaxed">Once the funeral takes place, we transfer £50 to your bank account automatically.</p>
+            </div>
+        </div>
+
+        <section class="max-w-2xl mx-auto bg-white rounded-[2rem] p-10 border border-stone-200 shadow-xl" id="generate">
+            <h3 class="serif italic text-3xl mb-8 text-center">Create Referral Link</h3>
             
-            <section class="wish-card" data-aos="fade-up">
-                <span class="step-pill">Phase 01</span>
-                <h2 class="serif italic text-3xl mb-8">Atmosphere & Tone</h2>
-                <div class="space-y-8">
-                    <div>
-                        <label class="text-[10px] font-bold uppercase tracking-widest text-stone-400">The "Song" of your life</label>
-                        <input type="text" name="music_preference" class="input-underline" placeholder="e.g. 'My Way' - Frank Sinatra">
-                    </div>
-                    <div>
-                        <label class="text-[10px] font-bold uppercase tracking-widest text-stone-400">Atmosphere</label>
-                        <select name="tone" class="input-underline">
-                            <option value="traditional">Traditional & Solemn</option>
-                            <option value="celebration">A Celebration of Life</option>
-                            <option value="minimalist">Simple & Private</option>
-                        </select>
-                    </div>
-                </div>
-            </section>
-
-            <section class="wish-card" data-aos="fade-up">
-                <span class="step-pill">Phase 02</span>
-                <h2 class="serif italic text-3xl mb-8">Resting Place</h2>
-                <div class="space-y-8">
-                    <div class="flex gap-8 items-center">
-                        <label class="flex items-center gap-2 cursor-pointer">
-                            <input type="radio" name="disposal" value="cremation" class="accent-[#C5A059]"> <span class="text-sm">Cremation</span>
-                        </label>
-                        <label class="flex items-center gap-2 cursor-pointer">
-                            <input type="radio" name="disposal" value="burial" class="accent-[#C5A059]"> <span class="text-sm">Burial</span>
-                        </label>
-                    </div>
-                    <div>
-                        <label class="text-[10px] font-bold uppercase tracking-widest text-stone-400">Specific Requests (e.g. Woodland, scattering location)</label>
-                        <textarea name="location_details" class="input-underline h-24" placeholder="Share your vision..."></textarea>
-                    </div>
-                </div>
-            </section>
-
-            <section class="wish-card" data-aos="fade-up">
-                <span class="step-pill">Phase 03</span>
-                <h2 class="serif italic text-3xl mb-8">Secure the File</h2>
-                <p class="text-xs text-stone-400 mb-8 leading-relaxed">By registering your wishes, we will store this encrypted file and provide you with a unique ID to share with your next of kin. No payment required.</p>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <input type="text" name="user_name" placeholder="Your Name" class="input-underline" required>
-                    <input type="email" name="user_email" placeholder="Email Address" class="input-underline" required>
-                </div>
+            <form action="https://formspree.io/f/mvzzkjeq" method="POST" class="space-y-6">
+                <input type="hidden" name="_subject" value="NEW REFERRAL PARTNER SIGNUP">
                 
-                <button type="submit" class="w-full mt-12 bg-black text-white py-5 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-[#C5A059] transition-all shadow-xl">Register My Wishes</button>
-                <p class="text-[9px] text-center text-stone-400 mt-6 tracking-widest">RELAY TAG: 2917681399450303860 // NON-FINANCIAL REGISTRY</p>
-            </section>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="text-[9px] uppercase font-bold text-stone-400 mb-2 block">Your Name</label>
+                        <input type="text" name="name" placeholder="Full Name" class="w-full p-4 bg-stone-50 rounded-xl text-sm border-none outline-none focus:ring-1 focus:ring-[#C5A059]" required>
+                    </div>
+                    <div>
+                        <label class="text-[9px] uppercase font-bold text-stone-400 mb-2 block">Email Address</label>
+                        <input type="email" name="email" placeholder="Where to send the link" class="w-full p-4 bg-stone-50 rounded-xl text-sm border-none outline-none focus:ring-1 focus:ring-[#C5A059]" required>
+                    </div>
+                </div>
 
-        </form>
+                <div>
+                    <label class="text-[9px] uppercase font-bold text-stone-400 mb-2 block">Reward Preference</label>
+                    <select name="reward_type" class="w-full p-4 bg-stone-50 rounded-xl text-sm border-none outline-none focus:ring-1 focus:ring-[#C5A059]">
+                        <option value="bank_transfer">Cash (Bank Transfer)</option>
+                        <option value="voucher">Amazon Voucher</option>
+                        <option value="charity">Donate to Charity (Cancer Research)</option>
+                        <option value="charity_hospice">Donate to Charity (British Heart Foundation)</option>
+                    </select>
+                </div>
+
+                <div class="pt-4">
+                    <button type="submit" class="w-full bg-[#C5A059] text-white py-4 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-black transition-colors">Generate My Link</button>
+                    <p class="text-[9px] text-stone-400 text-center mt-4">By joining, you agree to our Referral Terms. Payouts processed 14 days after service completion.</p>
+                </div>
+            </form>
+        </section>
 
     </main>
 
