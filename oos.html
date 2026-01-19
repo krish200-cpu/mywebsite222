@@ -3,445 +3,525 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Premium Editor | FuneralMatch</title>
+    <title>FuneralMatch Designer OS</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 
     <style>
-        /* --- PREMIUM VARIABLES --- */
-        :root { 
-            --gold: #D4AF37; 
-            --paper: #fdfbf7;
-            --ink: #1a1a1a;
-            --bg: #0f0f0f;
-            --panel: rgba(30, 30, 30, 0.85);
-        }
-        
-        body { font-family: 'Inter', sans-serif; background: var(--bg); color: white; height: 100vh; overflow: hidden; -webkit-font-smoothing: antialiased; }
-
-        /* --- UI POLISH --- */
-        .glass-panel {
-            background: var(--panel);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-top: 1px solid rgba(255,255,255,0.1);
-            box-shadow: 0 -10px 40px rgba(0,0,0,0.5);
+        /* --- APP THEME --- */
+        :root {
+            --bg-deep: #050505;
+            --glass-surface: rgba(20, 20, 20, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --gold: #D4AF37;
+            --gold-glow: rgba(212, 175, 55, 0.3);
+            --accent: #3b82f6;
         }
 
-        .floating-pill {
-            background: rgba(0,0,0,0.8);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.15);
-            padding: 8px 16px;
-            border-radius: 99px;
-            font-size: 11px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: #ccc;
-            transition: 0.2s;
+        body {
+            background-color: var(--bg-deep);
+            background-image: 
+                radial-gradient(circle at 50% 0%, #1a1a1a 0%, transparent 70%),
+                radial-gradient(circle at 80% 80%, #0f0f0f 0%, transparent 50%);
+            color: white;
+            font-family: 'Inter', sans-serif;
+            height: 100vh;
+            overflow: hidden;
+            -webkit-font-smoothing: antialiased;
         }
-        .floating-pill.active { border-color: var(--gold); color: var(--gold); background: rgba(212, 175, 55, 0.1); }
 
-        /* --- THE BOOKLET ENGINE (Responsive) --- */
-        #viewport {
-            width: 100%;
-            height: 100%;
+        /* --- 3D STAGE --- */
+        #stage {
+            position: absolute;
+            inset: 0;
             display: flex;
             align-items: center;
             justify-content: center;
-            perspective: 2000px;
+            perspective: 2500px;
             overflow: hidden;
-            padding-bottom: 180px; /* Space for UI */
-            padding-top: 60px;
-        }
-
-        .spread-container {
-            position: relative;
-            width: 90vw; /* Mobile Default */
-            max-width: 800px;
-            aspect-ratio: 1.414 / 1; /* A4 Landscape (Open A5s) */
-            background: var(--paper);
-            box-shadow: 
-                0 20px 50px rgba(0,0,0,0.5),
-                0 5px 15px rgba(0,0,0,0.2),
-                inset 0 0 100px rgba(0,0,0,0.05); /* Vignette */
-            transform-style: preserve-3d;
-            transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
-            border-radius: 2px;
-        }
-        
-        /* The Spine Shadow */
-        .spine-shadow {
-            position: absolute;
-            left: 50%;
-            top: 0; bottom: 0;
-            width: 60px;
-            margin-left: -30px;
-            background: linear-gradient(to right, 
-                rgba(0,0,0,0), 
-                rgba(0,0,0,0.05) 40%, 
-                rgba(0,0,0,0.15) 50%, 
-                rgba(0,0,0,0.05) 60%, 
-                rgba(0,0,0,0));
-            pointer-events: none;
             z-index: 10;
         }
 
-        /* Pages */
-        .page-frame {
-            position: absolute;
-            top: 0; bottom: 0;
-            width: 50%;
-            overflow: hidden;
-            background-image: url('https://www.transparenttextures.com/patterns/cream-paper.png');
-            background-blend-mode: multiply;
+        #booklet-wrapper {
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
-        .page-left { left: 0; border-right: 1px solid rgba(0,0,0,0.05); }
-        .page-right { right: 0; border-left: 1px solid rgba(0,0,0,0.05); }
 
-        /* Content Areas */
-        .content-area {
-            height: 100%;
-            padding: 10%; /* Responsive padding */
+        .spread {
+            width: 80vw;
+            max-width: 900px;
+            aspect-ratio: 1.414 / 1;
+            background: #fff;
+            border-radius: 4px;
             display: flex;
-            flex-direction: column;
-            color: var(--ink);
+            box-shadow: 
+                0 50px 100px -20px rgba(0,0,0,0.7),
+                0 30px 60px -30px rgba(0,0,0,0.5),
+                inset 0 0 100px rgba(0,0,0,0.02);
+            position: relative;
+            transform-origin: center center;
+            backface-visibility: hidden;
         }
+
+        /* Spine Fold Effect */
+        .spread::after {
+            content: ''; position: absolute; top: 0; bottom: 0; left: 50%; width: 60px; margin-left: -30px;
+            background: linear-gradient(to right, 
+                transparent 0%, 
+                rgba(0,0,0,0.05) 35%, 
+                rgba(0,0,0,0.15) 50%, 
+                rgba(0,0,0,0.05) 65%, 
+                transparent 100%);
+            pointer-events: none; mix-blend-mode: multiply;
+        }
+
+        .page { flex: 1; position: relative; overflow: hidden; transition: background 0.3s; }
+        .page-left { border-right: 1px solid rgba(0,0,0,0.05); }
+        .page-right { border-left: 1px solid rgba(0,0,0,0.05); }
+
+        /* --- UI COMPONENTS --- */
+        .glass-pill {
+            background: var(--glass-surface);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid var(--glass-border);
+            border-radius: 99px;
+            box-shadow: 0 10px 40px -10px rgba(0,0,0,0.5);
+        }
+
+        .icon-btn {
+            width: 44px; height: 44px;
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 50%;
+            color: #888;
+            transition: 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+            cursor: pointer;
+            position: relative;
+        }
+        .icon-btn:hover { color: white; background: rgba(255,255,255,0.1); transform: scale(1.05); }
+        .icon-btn.active { color: var(--gold); background: rgba(212, 175, 55, 0.1); box-shadow: 0 0 15px var(--gold-glow); }
+        
+        .layout-grid {
+            display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px;
+            padding: 8px;
+        }
+        .layout-option {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid transparent;
+            border-radius: 8px;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .layout-option:hover { background: rgba(255,255,255,0.08); }
+        .layout-option.selected { border-color: var(--gold); background: rgba(212, 175, 55, 0.1); }
+        .layout-mini { width: 20px; height: 14px; background: #555; margin: 0 auto 6px auto; border-radius: 2px; opacity: 0.5; }
+        
+        /* Layout Mini-Icons (CSS Drawing) */
+        .mini-text .line { height: 2px; background: #999; margin-bottom: 2px; }
+        .mini-photo { background: #555; display: flex; align-items: center; justify-content: center; }
+        .mini-photo::after { content:''; width: 6px; height: 6px; border-radius: 50%; border: 1px solid #999; }
 
         /* --- EDITABLE ZONES --- */
-        /* Instead of contenteditable, we use click triggers */
-        .editable {
-            cursor: pointer;
-            border: 1px dashed transparent;
-            border-radius: 4px;
-            transition: 0.2s;
-            position: relative;
+        .zone {
+            transition: 0.2s; cursor: pointer; border: 1px dashed transparent;
         }
-        .editable:hover { background: rgba(0,0,0,0.03); border-color: rgba(0,0,0,0.1); }
-        .editable::after {
-            content: '\f303'; /* Pen icon */
-            font-family: 'Font Awesome 6 Free';
-            font-weight: 900;
-            position: absolute;
-            top: -10px; right: -10px;
-            background: var(--gold);
-            color: white;
-            width: 20px; height: 20px;
-            border-radius: 50%;
-            font-size: 10px;
-            display: flex; align-items: center; justify-content: center;
-            opacity: 0;
-            transition: 0.2s;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        .zone:hover { 
+            background: rgba(0,0,255,0.03); /* Subtle blue tint on white paper */
+            border-color: rgba(0,0,0,0.1);
         }
-        .editable:hover::after { opacity: 1; }
+        .zone.empty { background: #f5f5f5; color: #aaa; display: flex; align-items: center; justify-content: center; }
+        .zone.empty:hover { background: #e0e0e0; color: #333; }
 
-        /* --- TYPOGRAPHY SCALING (Fixes the "Nam e" bug) --- */
-        /* Fluid type to prevent breaking */
-        .type-h1 { font-size: clamp(1.5rem, 4vw, 3rem); line-height: 1.1; margin-bottom: 0.5em; overflow-wrap: break-word; hyphens: auto; }
-        .type-sub { font-size: clamp(0.6rem, 1.5vw, 0.9rem); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 1em; }
-        .type-body { font-size: clamp(0.7rem, 1.8vw, 1rem); line-height: 1.6; }
-
-        /* --- PHOTO PLACEHOLDERS --- */
-        .photo-zone {
-            width: 100%;
-            aspect-ratio: 1/1;
-            background: #f0f0f0;
-            border-radius: 50%; /* Circle by default for covers */
-            display: flex; align-items: center; justify-content: center;
-            color: #aaa;
-            margin: 0 auto 1.5rem auto;
-            overflow: hidden;
-            position: relative;
-            cursor: pointer;
-            transition: 0.3s;
-            box-shadow: inset 0 0 20px rgba(0,0,0,0.05);
+        /* --- SIDEBAR PANEL --- */
+        #properties-panel {
+            position: absolute; top: 20px; right: 20px; bottom: 100px;
+            width: 280px;
+            transform: translateX(120%);
+            transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+            z-index: 50;
         }
-        .photo-zone:hover { background: #e0e0e0; color: var(--gold); }
-        .photo-zone img { width: 100%; height: 100%; object-fit: cover; }
+        #properties-panel.open { transform: translateX(0); }
 
-        /* --- BOTTOM DRAWER (The Editor) --- */
-        #edit-drawer {
-            position: fixed;
-            bottom: 0; left: 0; right: 0;
-            background: #1a1a1a;
-            border-radius: 20px 20px 0 0;
-            padding: 24px;
-            transform: translateY(110%);
-            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-            z-index: 100;
-            box-shadow: 0 -10px 50px rgba(0,0,0,0.5);
-            border-top: 1px solid rgba(255,255,255,0.1);
+        /* --- ANIMATIONS --- */
+        @keyframes flipNext {
+            0% { transform: rotateY(0) scale(1); }
+            50% { transform: rotateY(-15deg) scale(0.85); }
+            100% { transform: rotateY(0) scale(1); }
         }
-        #edit-drawer.open { transform: translateY(0); }
-        
-        .drawer-handle { width: 40px; height: 4px; background: rgba(255,255,255,0.2); border-radius: 99px; margin: 0 auto 16px auto; }
+        @keyframes flipPrev {
+            0% { transform: rotateY(0) scale(1); }
+            50% { transform: rotateY(15deg) scale(0.85); }
+            100% { transform: rotateY(0) scale(1); }
+        }
+        .animate-next { animation: flipNext 0.6s ease; }
+        .animate-prev { animation: flipPrev 0.6s ease; }
 
-        .drawer-input {
-            width: 100%;
-            background: #000;
-            border: 1px solid #333;
-            color: white;
-            padding: 12px;
-            border-radius: 8px;
-            font-size: 16px; /* Prevents zoom on iOS */
-            outline: none;
-        }
-        .drawer-input:focus { border-color: var(--gold); }
+        /* --- TYPOGRAPHY THEMES --- */
+        .font-modern h1 { font-family: 'Inter', sans-serif; text-transform: uppercase; letter-spacing: -0.05em; font-weight: 800; }
+        .font-classic h1 { font-family: 'Bodoni Moda', serif; font-weight: 400; }
+        .font-script h1 { font-family: 'Playfair Display', serif; font-style: italic; }
 
     </style>
 </head>
 <body>
 
-    <div class="fixed top-0 left-0 right-0 p-4 z-50 flex justify-between items-start pointer-events-none">
-        
-        <div class="pointer-events-auto bg-black/80 backdrop-blur-md px-4 py-2 rounded-full border border-white/10">
-            <span class="text-[10px] uppercase font-bold text-[#D4AF37] tracking-widest">FuneralMatch</span>
-        </div>
-
-        <div class="pointer-events-auto flex gap-2 bg-black/80 backdrop-blur-md px-3 py-2 rounded-full border border-white/10" id="nav-dots">
-            <div class="w-2 h-2 rounded-full bg-[#D4AF37]"></div>
-            <div class="w-2 h-2 rounded-full bg-gray-600"></div>
-            <div class="w-2 h-2 rounded-full bg-gray-600"></div>
-        </div>
-
-        <div class="pointer-events-auto bg-black/80 backdrop-blur-md px-4 py-2 rounded-full border border-white/10 text-right">
-            <p class="text-[8px] uppercase text-gray-400 font-bold">Total</p>
-            <p class="text-xs font-bold text-white">£80.00</p>
+    <div class="absolute top-6 left-0 right-0 flex justify-center z-50 pointer-events-none">
+        <div class="glass-pill px-6 py-2 flex items-center gap-6 pointer-events-auto">
+            <div class="flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                <span class="text-[10px] uppercase font-bold text-gray-400 tracking-widest">FuneralMatch OS</span>
+            </div>
+            <div class="h-4 w-px bg-white/10"></div>
+            <div class="flex items-center gap-2">
+                <i class="fas fa-camera text-gray-500 text-xs"></i>
+                <span class="text-xs font-bold" id="photo-counter">0/5</span>
+            </div>
+            <div class="h-4 w-px bg-white/10"></div>
+            <div class="text-xs font-bold text-white">£80.00</div>
         </div>
     </div>
 
-
-    <div id="viewport">
-        
-        <div id="booklet" class="spread-container font-serif-bodoni">
+    <div id="stage">
+        <div id="booklet-wrapper">
             
-            <div class="spine-shadow"></div>
-
-            <div class="page-frame page-left" id="page-left">
-                <div class="content-area items-center justify-end text-center pb-12">
-                    <div class="photo-zone rounded-lg w-24 h-24 mb-4" onclick="openPhotoUploader('back')">
-                        <i class="fas fa-plus text-xl"></i>
-                    </div>
-                    <div class="editable" onclick="openTextEditor('back-title', this)">
-                        <h3 class="type-sub" style="margin-bottom:0.5em">Donations</h3>
-                    </div>
-                    <div class="editable" onclick="openTextEditor('back-body', this)">
-                        <p class="type-body text-xs text-gray-600 w-3/4 mx-auto">
-                            Donations in memory may be made to<br>The Hospice Charity.
-                        </p>
-                    </div>
-                    <div class="mt-8 opacity-30 text-[8px] uppercase tracking-widest">Designed on FuneralMatch</div>
-                </div>
-            </div>
-
-            <div class="page-frame page-right" id="page-right">
-                <div class="content-area items-center justify-center text-center">
-                    
-                    <div class="editable mb-8" onclick="openTextEditor('cover-sub', this)">
-                        <p class="type-sub text-gray-500">In Loving Memory of</p>
+            <div id="spread" class="spread font-classic bg-white text-black">
+                
+                <div id="page-left" class="page page-left relative p-12 flex flex-col items-center justify-center text-center" onclick="selectPage('left')">
                     </div>
 
-                    <div class="photo-zone w-40 h-40 sm:w-56 sm:h-56 mb-8 shadow-xl" onclick="openPhotoUploader('cover')">
-                        <img id="cover-img-preview" src="" class="hidden">
-                        <div id="cover-img-placeholder" class="flex flex-col items-center">
-                            <i class="fas fa-camera text-2xl mb-2 opacity-50"></i>
-                            <span class="text-[8px] uppercase font-bold tracking-widest opacity-50">Add Photo</span>
-                        </div>
+                <div id="page-right" class="page page-right relative p-12 flex flex-col items-center justify-center text-center" onclick="selectPage('right')">
                     </div>
 
-                    <div class="editable w-full" onclick="openTextEditor('cover-name', this)">
-                        <h1 class="type-h1 text-gray-900" id="disp-name">Eleanor<br>Rigby</h1>
-                    </div>
-
-                    <div class="editable mb-8" onclick="openTextEditor('cover-dates', this)">
-                        <p class="type-body text-gray-600">1950 — 2026</p>
-                    </div>
-
-                    <div class="editable" onclick="openTextEditor('cover-venue', this)">
-                        <p class="text-[9px] uppercase tracking-[0.2em] font-bold text-gray-400">St Mary's Church</p>
-                    </div>
-
-                </div>
+                <div id="selection-border" class="absolute inset-0 border-2 border-blue-500 opacity-0 pointer-events-none transition-all duration-300"></div>
+            
             </div>
 
         </div>
-
     </div>
 
 
-    <div class="fixed bottom-0 left-0 right-0 glass-panel pb-8 pt-4 px-6 z-40">
-        
-        <div class="flex justify-between items-center max-w-lg mx-auto mb-4">
-            <button class="w-10 h-10 rounded-full bg-white/5 border border-white/10 text-white flex items-center justify-center hover:bg-white/10" onclick="prevPage()">
-                <i class="fas fa-chevron-left"></i>
+    <div class="absolute bottom-8 left-0 right-0 flex justify-center z-50">
+        <div class="glass-pill p-2 flex items-center gap-2">
+            
+            <button class="icon-btn" onclick="prevSpread()">
+                <i class="fas fa-arrow-left"></i>
             </button>
-            
-            <div class="flex gap-2">
-                <button class="floating-pill active" onclick="setTheme('classic', this)">Classic</button>
-                <button class="floating-pill" onclick="setTheme('modern', this)">Modern</button>
-                <button class="floating-pill" onclick="setTheme('soft', this)">Soft</button>
+
+            <div class="px-4 flex flex-col items-center cursor-pointer group" id="scrubber" onclick="toggleOverview()">
+                <span class="text-[10px] uppercase font-bold text-gray-400 mb-1" id="spread-label">Cover</span>
+                <div class="flex gap-1" id="dots-container">
+                    </div>
             </div>
 
-            <button class="w-10 h-10 rounded-full bg-white/5 border border-white/10 text-white flex items-center justify-center hover:bg-white/10" onclick="nextPage()">
-                <i class="fas fa-chevron-right"></i>
+            <button class="icon-btn" onclick="nextSpread()">
+                <i class="fas fa-arrow-right"></i>
+            </button>
+
+            <div class="w-px h-8 bg-white/10 mx-2"></div>
+
+            <button class="icon-btn" id="btn-layout" onclick="togglePanel('layout')">
+                <i class="fas fa-layer-group"></i>
+            </button>
+            <button class="icon-btn" id="btn-theme" onclick="togglePanel('theme')">
+                <i class="fas fa-palette"></i>
+            </button>
+            <button class="icon-btn" id="btn-settings" onclick="togglePanel('settings')">
+                <i class="fas fa-cog"></i>
+            </button>
+
+            <div class="w-px h-8 bg-white/10 mx-2"></div>
+
+            <button class="px-6 py-2 bg-white text-black rounded-full font-bold text-xs uppercase tracking-widest hover:bg-[#D4AF37] hover:text-white transition-colors">
+                Print
             </button>
         </div>
-
-        <button class="w-full max-w-lg mx-auto bg-[#D4AF37] text-black font-bold h-12 rounded-lg uppercase tracking-widest text-xs flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(212,175,55,0.3)] hover:bg-white hover:text-black transition-colors">
-            <span>Proceed to Print</span> <i class="fas fa-arrow-right"></i>
-        </button>
     </div>
 
 
-    <div id="edit-drawer">
-        <div class="drawer-handle"></div>
-        <div class="flex justify-between items-center mb-4">
-            <h3 class="text-sm font-bold text-gray-400 uppercase tracking-wider" id="drawer-title">Edit Text</h3>
-            <button onclick="closeDrawer()" class="text-white bg-white/10 w-6 h-6 rounded-full text-xs flex items-center justify-center"><i class="fas fa-times"></i></button>
+    <div id="properties-panel" class="glass-pill !rounded-2xl overflow-hidden flex flex-col">
+        
+        <div class="p-4 border-b border-white/10 flex justify-between items-center bg-black/20">
+            <span class="text-xs font-bold uppercase tracking-widest text-gray-400" id="panel-title">Layout</span>
+            <button onclick="closePanel()" class="text-gray-500 hover:text-white"><i class="fas fa-times"></i></button>
         </div>
-        
-        <input type="text" id="drawer-input-text" class="drawer-input mb-4 hidden" placeholder="Type here...">
-        <textarea id="drawer-input-area" class="drawer-input mb-4 h-32 hidden" placeholder="Type here..."></textarea>
-        
-        <button onclick="saveDrawer()" class="w-full bg-white text-black font-bold h-10 rounded-lg text-xs uppercase hover:bg-[#D4AF37] transition-colors">Update Design</button>
+
+        <div class="p-4 flex-1 overflow-y-auto" id="panel-content">
+            </div>
+
     </div>
-    
-    <input type="file" id="file-input" accept="image/*" class="hidden">
 
-
-    <script>
-        // --- STATE & DATA ---
-        let currentElement = null;
-        let currentImgTarget = null;
+    <input type="file" id="img-upload" class="hidden" accept="image/*">
+    <input type="text" id="text-edit-input" class="fixed opacity-0 pointer-events-none"> <script>
+        // === DATA STORE ===
         const state = {
-            page: 0, // 0 = Cover
-            theme: 'classic'
+            totalPages: 4,
+            currentSpread: 0, // 0 = Cover
+            selectedPageSide: 'right', // 'left' or 'right'
+            activePanel: null,
+            theme: 'classic',
+            pages: [],
+            photos: 0
         };
 
-        // --- DRAWER LOGIC ---
-        const drawer = document.getElementById('edit-drawer');
-        const inputSingle = document.getElementById('drawer-input-text');
-        const inputArea = document.getElementById('drawer-input-area');
+        // === TEMPLATES ===
+        const LAYOUTS = {
+            cover: `<div class="h-full w-full flex flex-col items-center justify-center">
+                        <p class="zone text-xs uppercase tracking-[0.2em] text-gray-500 mb-6 px-4 py-2" onclick="edit(this)">In Loving Memory of</p>
+                        <div class="zone photo-placeholder rounded-full w-48 h-48 mb-8 shadow-xl border-4 border-double border-gray-100 overflow-hidden" onclick="upload(this)">
+                            <i class="fas fa-camera text-2xl opacity-30"></i>
+                        </div>
+                        <h1 class="zone text-4xl mb-2 w-full px-2" onclick="edit(this)">Eleanor Rigby</h1>
+                        <p class="zone text-sm text-gray-600 mb-8" onclick="edit(this)">1950 — 2026</p>
+                        <p class="zone text-[10px] uppercase font-bold text-gray-400" onclick="edit(this)">St Mary's Church</p>
+                    </div>`,
+            
+            text: `<div class="h-full w-full p-8 text-left">
+                     <h2 class="zone text-xl font-bold mb-4 border-b border-gray-200 pb-2" onclick="edit(this)">Title Here</h2>
+                     <p class="zone text-sm leading-loose text-gray-600 whitespace-pre-wrap" onclick="edit(this)">Click to edit this body text. You can paste poems, readings, or eulogies here.</p>
+                   </div>`,
+            
+            photoTop: `<div class="h-full w-full flex flex-col">
+                        <div class="zone photo-placeholder h-1/2 w-full mb-6 bg-gray-100" onclick="upload(this)">
+                            <div class="flex flex-col items-center"><i class="fas fa-image mb-2 opacity-50"></i><span class="text-[9px] uppercase font-bold opacity-50">Add Photo</span></div>
+                        </div>
+                        <div class="px-4">
+                            <h2 class="zone text-xl font-bold mb-2" onclick="edit(this)">Caption Title</h2>
+                            <p class="zone text-sm text-gray-600" onclick="edit(this)">Add a description...</p>
+                        </div>
+                       </div>`,
+            
+            hymn: `<div class="h-full w-full flex flex-col items-center justify-start pt-10 text-center">
+                    <p class="text-[10px] uppercase font-bold text-gray-300 mb-2">Hymn</p>
+                    <h2 class="zone text-2xl italic mb-6" onclick="edit(this)">Abide With Me</h2>
+                    <div class="zone text-sm font-serif italic text-gray-600 leading-relaxed whitespace-pre-wrap" onclick="edit(this)">
+Abide with me; fast falls the eventide;
+The darkness deepens; Lord with me abide.
+                    </div>
+                   </div>`
+        };
 
-        function openTextEditor(id, el) {
-            currentElement = el;
-            const textEl = el.querySelector('h1, h3, p') || el;
+        // === INIT ===
+        function init() {
+            // Generate Data
+            state.pages = [
+                { type: 'back', html: `<div class="h-full flex flex-col justify-end pb-10 items-center"><p class="text-[9px] text-gray-400">Back Cover</p></div>` }, // 0
+                { type: 'cover', html: LAYOUTS.cover }, // 1
+                { type: 'text', html: LAYOUTS.text }, // 2
+                { type: 'text', html: LAYOUTS.hymn }  // 3
+            ];
             
-            // Get text but preserve basic line breaks
-            let currentText = textEl.innerHTML.replace(/<br\s*\/?>/gi, "\n");
+            renderSpread();
+            renderDots();
             
-            // Determine input type
-            const isLong = currentText.length > 40 || currentText.includes('\n');
+            // Default select right page (Cover)
+            selectPage('right');
+        }
+
+        // === RENDER ENGINE ===
+        function renderSpread() {
+            const pLeftIdx = state.currentSpread * 2;
+            const pRightIdx = pLeftIdx + 1;
+
+            const leftDiv = document.getElementById('page-left');
+            const rightDiv = document.getElementById('page-right');
+
+            // Inject HTML (Mocking data persistence)
+            if(state.pages[pLeftIdx]) leftDiv.innerHTML = state.pages[pLeftIdx].html;
+            if(state.pages[pRightIdx]) rightDiv.innerHTML = state.pages[pRightIdx].html;
+
+            // Labels
+            const label = document.getElementById('spread-label');
+            if(state.currentSpread === 0) label.innerText = "Cover & Back";
+            else label.innerText = `Pages ${pLeftIdx} & ${pRightIdx}`;
+
+            renderDots();
+        }
+
+        function renderDots() {
+            const container = document.getElementById('dots-container');
+            container.innerHTML = '';
+            const totalSpreads = state.totalPages / 2;
             
-            if(isLong) {
-                inputSingle.classList.add('hidden');
-                inputArea.classList.remove('hidden');
-                inputArea.value = currentText.replace(/<[^>]*>?/gm, ''); // Strip tags for edit
-                inputArea.focus();
-            } else {
-                inputArea.classList.add('hidden');
-                inputSingle.classList.remove('hidden');
-                inputSingle.value = currentText.replace(/<[^>]*>?/gm, ''); // Strip tags for edit
-                inputSingle.focus();
+            for(let i=0; i<totalSpreads; i++) {
+                const dot = document.createElement('div');
+                dot.className = `w-1.5 h-1.5 rounded-full transition-all ${i === state.currentSpread ? 'bg-white scale-125' : 'bg-white/20'}`;
+                container.appendChild(dot);
             }
-
-            document.getElementById('drawer-title').innerText = "Edit Content";
-            drawer.classList.add('open');
         }
 
-        function saveDrawer() {
-            if(!currentElement) return;
-            
-            const textEl = currentElement.querySelector('h1, h3, p') || currentElement;
-            const newVal = inputSingle.classList.contains('hidden') ? inputArea.value : inputSingle.value;
-            
-            // Replace newlines with <br> for HTML rendering
-            textEl.innerHTML = newVal.replace(/\n/g, '<br>');
-            
-            closeDrawer();
+        // === INTERACTION LOGIC ===
+        function nextSpread() {
+            if(state.currentSpread < (state.totalPages/2)-1) {
+                // Animation
+                document.getElementById('booklet-wrapper').classList.add('animate-next');
+                setTimeout(() => document.getElementById('booklet-wrapper').classList.remove('animate-next'), 600);
+                
+                state.currentSpread++;
+                renderSpread();
+            }
         }
 
-        function closeDrawer() {
-            drawer.classList.remove('open');
-            // blur inputs to hide keyboard on mobile
-            inputSingle.blur();
-            inputArea.blur();
+        function prevSpread() {
+            if(state.currentSpread > 0) {
+                 // Animation
+                document.getElementById('booklet-wrapper').classList.add('animate-prev');
+                setTimeout(() => document.getElementById('booklet-wrapper').classList.remove('animate-prev'), 600);
+
+                state.currentSpread--;
+                renderSpread();
+            }
         }
 
-        // --- PHOTO LOGIC ---
-        function openPhotoUploader(targetId) {
-            // Trigger file input
-            const input = document.getElementById('file-input');
+        function selectPage(side) {
+            state.selectedPageSide = side;
+            
+            // Visual Highlight (Blue Border logic)
+            const border = document.getElementById('selection-border');
+            if(side === 'left') {
+                border.style.right = '50%'; border.style.left = '0';
+            } else {
+                border.style.left = '50%'; border.style.right = '0';
+            }
+            border.style.opacity = '1';
+            
+            // If panel is open, refresh layout options
+            if(state.activePanel === 'layout') populateLayouts();
+        }
+
+        // === EDITING (Text & Photo) ===
+        function edit(el) {
+            const currentText = el.innerText;
+            const newText = prompt("Edit text:", currentText); // Keeping it simple for the single-file constraint. Ideally this is a floating input.
+            if(newText !== null) el.innerText = newText;
+        }
+
+        function upload(el) {
+            const input = document.getElementById('img-upload');
             input.click();
-            
             input.onchange = (e) => {
-                if(e.target.files && e.target.files[0]) {
+                if (e.target.files && e.target.files[0]) {
                     const reader = new FileReader();
                     reader.onload = (evt) => {
-                        if(targetId === 'cover') {
-                            const img = document.getElementById('cover-img-preview');
-                            const place = document.getElementById('cover-img-placeholder');
-                            img.src = evt.target.result;
-                            img.classList.remove('hidden');
-                            place.classList.add('hidden');
-                        }
-                        // Logic for other IDs would go here
+                        el.innerHTML = `<img src="${evt.target.result}" style="width:100%;height:100%;object-fit:cover;">`;
+                        el.classList.remove('bg-gray-100', 'border-4', 'border-double'); // Clean up placeholder styles
+                        state.photos++;
+                        document.getElementById('photo-counter').innerText = `${state.photos}/5`;
                     };
                     reader.readAsDataURL(e.target.files[0]);
                 }
             };
         }
 
-        // --- THEME LOGIC ---
-        function setTheme(theme, btn) {
-            const booklet = document.getElementById('booklet');
-            const h1 = document.querySelector('.type-h1');
+        // === PANELS (The Right Sidebar) ===
+        function togglePanel(type) {
+            const panel = document.getElementById('properties-panel');
+            const title = document.getElementById('panel-title');
+            const content = document.getElementById('panel-content');
             
-            // Reset fonts
-            booklet.style.fontFamily = '';
-            h1.style.fontFamily = '';
-            h1.style.textTransform = 'none';
-            h1.style.letterSpacing = 'normal';
-            h1.style.fontStyle = 'normal';
-            
-            // Update Active Pill
-            document.querySelectorAll('.floating-pill').forEach(b => b.classList.remove('active'));
-            if(btn) btn.classList.add('active');
+            // Toggle active button state
+            document.querySelectorAll('.icon-btn').forEach(b => b.classList.remove('active'));
 
-            if(theme === 'classic') {
-                booklet.style.fontFamily = "'Bodoni Moda', serif";
-            } else if (theme === 'modern') {
-                booklet.style.fontFamily = "'Inter', sans-serif";
-                h1.style.fontFamily = "'Inter', sans-serif";
-                h1.style.textTransform = "uppercase";
-                h1.style.letterSpacing = "-0.05em";
-                h1.style.fontWeight = "700";
-            } else if (theme === 'soft') {
-                booklet.style.fontFamily = "'Cormorant Garamond', serif";
-                h1.style.fontStyle = "italic";
+            if(state.activePanel === type) {
+                closePanel();
+                return;
+            }
+
+            document.getElementById(`btn-${type}`).classList.add('active');
+            state.activePanel = type;
+            panel.classList.add('open');
+
+            // Render Content
+            content.innerHTML = ''; // Clear
+            if(type === 'layout') {
+                title.innerText = "Change Page Layout";
+                populateLayouts(content);
+            } else if (type === 'theme') {
+                title.innerText = "Typography Theme";
+                populateThemes(content);
+            } else if (type === 'settings') {
+                title.innerText = "Document Settings";
+                populateSettings(content);
             }
         }
 
-        // --- NAVIGATION MOCKUP ---
-        function nextPage() {
-            // Visual feedback only for demo
-            const booklet = document.getElementById('booklet');
-            booklet.style.transform = "rotateY(-10deg) scale(0.9)";
-            setTimeout(() => {
-                booklet.style.transform = "rotateY(0) scale(1)";
-                // Ideally, swap content here
-            }, 300);
+        function closePanel() {
+            document.getElementById('properties-panel').classList.remove('open');
+            state.activePanel = null;
+            document.querySelectorAll('.icon-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById('selection-border').style.opacity = '0';
         }
-        function prevPage() {
-            const booklet = document.getElementById('booklet');
-            booklet.style.transform = "rotateY(10deg) scale(0.9)";
-            setTimeout(() => {
-                booklet.style.transform = "rotateY(0) scale(1)";
-            }, 300);
+
+        // Panel Content Generators
+        function populateLayouts(container) {
+            if(!container) container = document.getElementById('panel-content');
+            
+            const grid = document.createElement('div');
+            grid.className = 'layout-grid';
+            
+            const options = [
+                { id: 'text', name: 'Standard Text', icon: '<div class="mini-text"><div class="line w-3/4"></div><div class="line w-full"></div><div class="line w-full"></div></div>' },
+                { id: 'photoTop', name: 'Photo Top', icon: '<div class="mini-photo h-6 w-full mb-1"></div><div class="mini-text"><div class="line w-full"></div></div>' },
+                { id: 'hymn', name: 'Hymn Center', icon: '<div class="flex flex-col items-center pt-2"><div class="mini-text w-1/2 text-center"><div class="line w-full"></div><div class="line w-3/4"></div></div></div>' }
+            ];
+
+            options.forEach(opt => {
+                const div = document.createElement('div');
+                div.className = 'layout-option';
+                div.innerHTML = `${opt.icon}<p class="text-[9px] text-gray-400 uppercase mt-2 font-bold">${opt.name}</p>`;
+                div.onclick = () => applyLayout(opt.id);
+                grid.appendChild(div);
+            });
+            container.appendChild(grid);
         }
+
+        function populateThemes(container) {
+            const themes = [
+                { id: 'classic', name: 'Classic', font: 'Bodoni Moda' },
+                { id: 'modern', name: 'Modern', font: 'Inter' },
+                { id: 'script', name: 'Elegant', font: 'Playfair Display' }
+            ];
+            
+            themes.forEach(t => {
+                const btn = document.createElement('div');
+                btn.className = 'w-full p-3 mb-2 rounded bg-white/5 hover:bg-white/10 cursor-pointer border border-transparent hover:border-white/20';
+                btn.innerHTML = `<h3 style="font-family:${t.font}" class="text-lg">Aa</h3><p class="text-[9px] uppercase text-gray-500 font-bold">${t.name}</p>`;
+                btn.onclick = () => {
+                    document.getElementById('spread').className = `spread ${'font-'+t.id} bg-white text-black`;
+                };
+                container.appendChild(btn);
+            });
+        }
+
+        function populateSettings(container) {
+            container.innerHTML = `
+                <div class="mb-4">
+                    <label class="text-xs text-gray-400 block mb-2">Page Count</label>
+                    <select class="w-full bg-black border border-white/20 rounded p-2 text-xs" onchange="alert('In full version, this rebuilds the booklet.')">
+                        <option>4 Pages</option>
+                        <option>8 Pages</option>
+                        <option>12 Pages</option>
+                    </select>
+                </div>
+            `;
+        }
+
+        function applyLayout(layoutId) {
+            // Apply to currently selected page side
+            const pIdx = (state.currentSpread * 2) + (state.selectedPageSide === 'left' ? 0 : 1);
+            
+            // Update Data
+            state.pages[pIdx] = { type: layoutId, html: LAYOUTS[layoutId] };
+            
+            // Re-render
+            renderSpread();
+        }
+
+        // Boot
+        init();
 
     </script>
 </body>
