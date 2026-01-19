@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <title>The Future Fund | FuneralMatch Banking</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@1,400;1,700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        :root { --gold: #C5A059; --black: #1a1a1a; --soft-bg: #F8F7F5; }
+        body { font-family: 'Inter', sans-serif; background: var(--soft-bg); color: var(--black); }
+        .serif { font-family: 'Bodoni Moda', serif; }
+        
+        .trust-badge { display: flex; align-items: center; gap: 8px; font-size: 0.75rem; font-weight: bold; color: #666; background: white; padding: 8px 16px; border-radius: 99px; border: 1px solid #eee; }
+        
+        .calc-card { background: var(--black); color: white; border-radius: 2rem; padding: 3rem; position: relative; overflow: hidden; }
+        .slider-thumb { -webkit-appearance: none; width: 100%; height: 4px; background: rgba(255,255,255,0.2); outline: none; border-radius: 99px; }
+        .slider-thumb::-webkit-slider-thumb { -webkit-appearance: none; width: 24px; height: 24px; background: var(--gold); border-radius: 50%; cursor: pointer; }
+    </style>
+</head>
+<body class="py-12 px-6 md:px-12">
+
+    <nav class="flex justify-between items-center mb-16 border-b border-black/5 pb-6">
+        <div class="flex flex-col items-start">
+            <span class="serif text-xs font-bold uppercase tracking-[0.4em] mb-1">Funeral</span>
+            <div style="width: 30px; height: 1px; background: var(--gold); margin-bottom: 4px;"></div>
+            <span class="serif text-xs font-bold text-[#C5A059] uppercase tracking-[0.7em]">Match</span>
+        </div>
+        <div class="flex gap-4">
+            <div class="trust-badge">🔒 FCA Regulated Partner</div>
+            <div class="trust-badge">🛡️ FSCS Protected</div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto">
+        
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center mb-24">
+            
+            <div data-aos="fade-right">
+                <span class="text-[10px] uppercase font-bold tracking-[0.4em] text-[#C5A059]">Financial Planning</span>
+                <h1 class="serif italic text-6xl mt-4 mb-6">Inflation proof <br>your peace of mind.</h1>
+                <p class="text-stone-500 text-sm leading-relaxed mb-8 max-w-md">Funeral costs have risen 120% in 15 years. Lock in today's prices by saving small amounts monthly into a secure, ring-fenced pot. Guaranteed to cover your plan, whenever the time comes.</p>
+                
+                <ul class="space-y-4 mb-8">
+                    <li class="flex items-center gap-4">
+                        <span class="bg-green-100 text-green-700 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold">✓</span>
+                        <span class="text-xs font-bold text-stone-600">No Health Checks Required</span>
+                    </li>
+                    <li class="flex items-center gap-4">
+                        <span class="bg-green-100 text-green-700 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold">✓</span>
+                        <span class="text-xs font-bold text-stone-600">Stops Rising Costs (Price Lock)</span>
+                    </li>
+                    <li class="flex items-center gap-4">
+                        <span class="bg-green-100 text-green-700 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold">✓</span>
+                        <span class="text-xs font-bold text-stone-600">Funds Held in Independent Trust</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="calc-card shadow-2xl" data-aos="fade-left">
+                <div class="absolute top-0 right-0 p-8 opacity-10 text-9xl serif italic">£</div>
+                
+                <h3 class="serif text-3xl mb-8 relative z-10">Smart Saver</h3>
+                
+                <div class="mb-10 relative z-10">
+                    <div class="flex justify-between mb-4">
+                        <label class="text-[10px] uppercase font-bold text-stone-400">Target Funeral Value</label>
+                        <span class="text-xl font-bold">£4,000</span>
+                    </div>
+                    <input type="range" min="2000" max="10000" value="4000" class="slider-thumb mb-2">
+                    <p class="text-[9px] text-stone-500">Based on a Traditional Cremation Plan</p>
+                </div>
+
+                <div class="mb-12 relative z-10">
+                    <div class="flex justify-between mb-4">
+                        <label class="text-[10px] uppercase font-bold text-stone-400">Monthly Contribution</label>
+                        <span class="text-xl font-bold text-[#C5A059]">£45 /mo</span>
+                    </div>
+                    <input type="range" min="10" max="200" value="45" class="slider-thumb mb-2">
+                </div>
+
+                <div class="bg-white/10 rounded-xl p-6 relative z-10">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <p class="text-[10px] uppercase font-bold text-stone-400">Time to Full Cover</p>
+                            <p class="text-2xl font-bold">7 Years, 4 Months</p>
+                        </div>
+                        <button class="bg-[#C5A059] text-black px-6 py-3 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-white transition-all">Start Plan</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-[2rem] p-12 text-center border border-stone-200">
+            <h3 class="serif italic text-3xl mb-4">The "Safe Hands" Promise</h3>
+            <p class="text-stone-500 text-sm max-w-2xl mx-auto leading-relaxed mb-8">FuneralMatch does not hold your money. Your monthly payments are deposited directly into the <strong>Golden Leaves Trust</strong>, managed by an independent board of trustees and regulated by the Funeral Planning Authority.</p>
+            <div class="flex justify-center gap-8 opacity-50 grayscale">
+                <div class="h-8 w-24 bg-stone-200 rounded"></div>
+                <div class="h-8 w-24 bg-stone-200 rounded"></div>
+                <div class="h-8 w-24 bg-stone-200 rounded"></div>
+            </div>
+        </div>
+
+    </main>
+    <script>AOS.init({ duration: 1000, once: true });</script>
+</body>
+</html>
