@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Showroom | FuneralMatch</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@1,400;1,700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        :root { --gold: #C5A059; --black: #1a1a1a; --soft-bg: #F8F7F5; }
+        body { font-family: 'Inter', sans-serif; background: var(--soft-bg); color: var(--black); }
+        .serif { font-family: 'Bodoni Moda', serif; }
+        
+        /* LAYOUT */
+        .sidebar-filter { position: sticky; top: 2rem; height: fit-content; }
+        .filter-group { margin-bottom: 2rem; }
+        .filter-title { font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; color: var(--black); margin-bottom: 1rem; }
+        .filter-option { display: flex; align-items: center; gap: 10px; font-size: 0.9rem; color: #666; margin-bottom: 0.5rem; cursor: pointer; transition: 0.3s; }
+        .filter-option:hover { color: var(--gold); }
+        
+        /* PRODUCT CARD */
+        .product-card { background: white; border-radius: 2rem; overflow: hidden; transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1); border: 1px solid transparent; }
+        .product-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.05); border-color: #EEE; }
+        .product-img-wrap { height: 280px; width: 100%; background: #F3F3F3; position: relative; overflow: hidden; }
+        .product-img { width: 100%; height: 100%; object-fit: cover; transition: 0.6s; }
+        .product-card:hover .product-img { transform: scale(1.05); }
+        
+        .badge-eco { position: absolute; top: 1rem; left: 1rem; background: #3A4D39; color: white; padding: 4px 12px; border-radius: 99px; font-size: 0.6rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; }
+        .badge-premium { position: absolute; top: 1rem; left: 1rem; background: var(--black); color: white; padding: 4px 12px; border-radius: 99px; font-size: 0.6rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; }
+
+        .add-btn { background: var(--black); color: white; width: 100%; padding: 1rem; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.2em; transition: 0.3s; }
+        .add-btn:hover { background: var(--gold); }
+    </style>
+</head>
+<body class="py-12 px-6 md:px-12">
+
+    <nav class="flex justify-between items-center mb-16 border-b border-black/5 pb-6">
+        <div class="flex flex-col items-start">
+            <span class="serif text-xs font-bold uppercase tracking-[0.4em] mb-1">Funeral</span>
+            <div style="width: 30px; height: 1px; background: var(--gold); margin-bottom: 4px;"></div>
+            <span class="serif text-xs font-bold text-[#C5A059] uppercase tracking-[0.7em]">Match</span>
+        </div>
+        <div class="flex items-center gap-6">
+            <div class="text-right hidden md:block">
+                <p class="text-[9px] uppercase font-bold tracking-widest text-stone-400">Current Arrangement</p>
+                <p class="font-bold text-sm">Eleanor Rigby</p>
+            </div>
+            <button class="bg-[#F0F0F0] w-10 h-10 rounded-full flex items-center justify-center">🛍️</button>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-4 gap-12">
+        
+        <aside class="hidden lg:block sidebar-filter">
+            <div class="mb-10">
+                <h1 class="serif italic text-4xl mb-4">The Showroom</h1>
+                <p class="text-xs text-stone-500 leading-relaxed">Direct-to-Director pricing. All items include free 24h delivery to your chosen funeral home.</p>
+            </div>
+
+            <div class="filter-group">
+                <p class="filter-title">Material</p>
+                <label class="filter-option"><input type="checkbox" class="accent-[#C5A059]"> Solid Oak</label>
+                <label class="filter-option"><input type="checkbox" class="accent-[#C5A059]"> Mahogany Veneer</label>
+                <label class="filter-option"><input type="checkbox" class="accent-[#C5A059]"> Wicker / Willow</label>
+                <label class="filter-option"><input type="checkbox" class="accent-[#C5A059]"> Cardboard (Eco)</label>
+            </div>
+
+            <div class="filter-group">
+                <p class="filter-title">Price Range</p>
+                <label class="filter-option"><input type="checkbox" class="accent-[#C5A059]"> Under £300</label>
+                <label class="filter-option"><input type="checkbox" class="accent-[#C5A059]"> £300 - £800</label>
+                <label class="filter-option"><input type="checkbox" class="accent-[#C5A059]"> £800 - £2,000</label>
+                <label class="filter-option"><input type="checkbox" class="accent-[#C5A059]"> Premium (£2k+)</label>
+            </div>
+
+            <div class="filter-group">
+                <p class="filter-title">Sustainability</p>
+                <label class="filter-option"><input type="checkbox" class="accent-[#C5A059]"> 100% Biodegradable</label>
+                <label class="filter-option"><input type="checkbox" class="accent-[#C5A059]"> FSC Certified Wood</label>
+            </div>
+        </aside>
+
+        <div class="lg:col-span-3">
+            
+            <div class="bg-black text-white rounded-[2rem] p-8 mb-12 flex justify-between items-center" data-aos="fade-up">
+                <div>
+                    <h3 class="serif italic text-2xl mb-1">Price Match Guarantee</h3>
+                    <p class="text-xs text-stone-400">If your Director quotes cheaper for the same model, we'll beat it by £50.</p>
+                </div>
+                <div class="text-[#C5A059] text-3xl">✓</div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <div class="product-card group" data-aos="fade-up">
+                    <div class="product-img-wrap">
+                        <img src="https://images.unsplash.com/photo-1545089063-8a397940259e?q=80&w=1000&auto=format&fit=crop" class="product-img">
+                    </div>
+                    <div class="p-6">
+                        <p class="text-[9px] uppercase font-bold tracking-widest text-stone-400 mb-1">Traditional Veneer</p>
+                        <h3 class="serif text-xl mb-2">The Morpeth</h3>
+                        <p class="text-xs text-stone-500 mb-6 line-clamp-2">Classic mahogany veneer with gold-effect handles and gathered silk lining.</p>
+                        <div class="flex justify-between items-center mb-6">
+                            <span class="font-bold text-lg">£450</span>
+                            <span class="text-[9px] text-stone-400 line-through">RRP £750</span>
+                        </div>
+                    </div>
+                    <button class="add-btn">Select for Arrangement</button>
+                </div>
+
+                <div class="product-card group" data-aos="fade-up" data-aos-delay="100">
+                    <div class="product-img-wrap">
+                        <span class="badge-eco">Sustainable Choice</span>
+                        <img src="https://images.unsplash.com/photo-1506543730435-e2c1d455b57d?q=80&w=1000&auto=format&fit=crop" class="product-img">
+                    </div>
+                    <div class="p-6">
+                        <p class="text-[9px] uppercase font-bold tracking-widest text-stone-400 mb-1">Hand-Woven Willow</p>
+                        <h3 class="serif text-xl mb-2">The Somerset</h3>
+                        <p class="text-xs text-stone-500 mb-6 line-clamp-2">Grown in England. 100% biodegradable. Soft unbleached calico lining.</p>
+                        <div class="flex justify-between items-center mb-6">
+                            <span class="font-bold text-lg">£895</span>
+                            <span class="text-[9px] text-green-600 font-bold">Carbon Neutral</span>
+                        </div>
+                    </div>
+                    <button class="add-btn">Select for Arrangement</button>
+                </div>
+
+                <div class="product-card group" data-aos="fade-up" data-aos-delay="200">
+                    <div class="product-img-wrap">
+                        <span class="badge-premium">American Style</span>
+                        <img src="https://images.unsplash.com/photo-1595846519845-68e298c2edd8?q=80&w=1000&auto=format&fit=crop" class="product-img">
+                    </div>
+                    <div class="p-6">
+                        <p class="text-[9px] uppercase font-bold tracking-widest text-stone-400 mb-1">Solid Metal Casket</p>
+                        <h3 class="serif text-xl mb-2">The Kennedy</h3>
+                        <p class="text-xs text-stone-500 mb-6 line-clamp-2">18-gauge steel with hermetic seal. White velvet interior with adjustable bed.</p>
+                        <div class="flex justify-between items-center mb-6">
+                            <span class="font-bold text-lg">£2,450</span>
+                            <span class="text-[9px] text-stone-400">Imports in 3 Days</span>
+                        </div>
+                    </div>
+                    <button class="add-btn">Select for Arrangement</button>
+                </div>
+
+                <div class="product-card group" data-aos="fade-up">
+                    <div class="product-img-wrap">
+                        <span class="badge-eco">Recycled</span>
+                        <img src="https://images.unsplash.com/photo-1621360841013-c768371e93cf?q=80&w=1000&auto=format&fit=crop" class="product-img">
+                    </div>
+                    <div class="p-6">
+                        <p class="text-[9px] uppercase font-bold tracking-widest text-stone-400 mb-1">Graphic Print</p>
+                        <h3 class="serif text-xl mb-2">The Reflection</h3>
+                        <p class="text-xs text-stone-500 mb-6 line-clamp-2">High-density reinforced cardboard. Available in Wood-Effect or custom photo print.</p>
+                        <div class="flex justify-between items-center mb-6">
+                            <span class="font-bold text-lg">£295</span>
+                            <span class="text-[9px] text-stone-400">Best for Cremation</span>
+                        </div>
+                    </div>
+                    <button class="add-btn">Select for Arrangement</button>
+                </div>
+
+                 <div class="product-card group bg-black text-white border-black" data-aos="fade-up" data-aos-delay="100">
+                    <div class="product-img-wrap opacity-50 grayscale">
+                        <img src="https://images.unsplash.com/photo-1513519245088-0e12902e5a38?q=80&w=1000&auto=format&fit=crop" class="product-img">
+                    </div>
+                    <div class="p-6">
+                        <p class="text-[9px] uppercase font-bold tracking-widest text-[#C5A059] mb-1">Artist Commission</p>
+                        <h3 class="serif text-xl mb-2">Design Your Own</h3>
+                        <p class="text-xs text-stone-400 mb-6 line-clamp-2">Upload family photos or artwork to be vinyl-wrapped onto a eco-coffin.</p>
+                        <div class="flex justify-between items-center mb-6">
+                            <span class="font-bold text-lg">From £550</span>
+                        </div>
+                    </div>
+                    <button class="add-btn bg-[#C5A059] text-black hover:bg-white">Start Designing</button>
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        AOS.init({ duration: 1000, once: true });
+    </script>
+</body>
+</html>
