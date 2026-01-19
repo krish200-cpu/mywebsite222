@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <title>Tribute Fund | FuneralMatch</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@1,400;1,700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background: #FFFDF9; color: #1a1a1a; }
+        .serif { font-family: 'Bodoni Moda', serif; }
+        .prog-bg { width: 100%; height: 10px; background: #F0F0F0; border-radius: 99px; overflow: hidden; }
+        .prog-fill { height: 100%; background: #C5A059; width: 65%; }
+    </style>
+</head>
+<body class="py-20 px-8">
+
+    <main class="max-w-xl mx-auto bg-white border border-stone-200 rounded-[2.5rem] p-10 shadow-xl">
+        <header class="text-center mb-10">
+            <span class="text-[10px] uppercase font-bold tracking-widest text-stone-400">Funeral Fund</span>
+            <h1 class="serif italic text-4xl mt-2 mb-2">Help give Eleanor <br>the best send-off.</h1>
+        </header>
+
+        <div class="text-center mb-10">
+            <h2 class="text-5xl font-bold text-[#C5A059] mb-2">£1,450</h2>
+            <p class="text-xs text-stone-500 uppercase tracking-widest">raised of £2,500 goal</p>
+            
+            <div class="prog-bg mt-6 mb-2">
+                <div class="prog-fill"></div>
+            </div>
+            <p class="text-[10px] text-stone-400 italic">Funds go directly to [Director Name] to offset funeral costs.</p>
+        </div>
+
+        <form action="https://formspree.io/f/mvzzkjeq" method="POST" class="space-y-4">
+            <input type="hidden" name="_subject" value="NEW DONATION PLEDGE">
+            
+            <div class="grid grid-cols-3 gap-2 mb-6">
+                <button type="button" class="py-3 border border-stone-200 rounded-xl text-sm font-bold hover:bg-black hover:text-white transition-all">£20</button>
+                <button type="button" class="py-3 border border-stone-200 rounded-xl text-sm font-bold hover:bg-black hover:text-white transition-all">£50</button>
+                <button type="button" class="py-3 border border-stone-200 rounded-xl text-sm font-bold hover:bg-black hover:text-white transition-all">£100</button>
+            </div>
+
+            <input type="text" name="donor_name" placeholder="Your Name" class="w-full p-4 bg-stone-50 rounded-xl text-sm outline-none" required>
+            <input type="email" name="donor_email" placeholder="Your Email" class="w-full p-4 bg-stone-50 rounded-xl text-sm outline-none" required>
+            
+            <button type="submit" class="w-full bg-[#C5A059] text-white py-4 rounded-full text-[10px] font-bold uppercase tracking-widest">Contribute Securely</button>
+        </form>
+    </main>
+</body>
+</html>
