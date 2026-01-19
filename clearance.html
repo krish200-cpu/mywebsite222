@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <title>Property Clearance | FuneralMatch</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@1,400;1,700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --gold: #C5A059; --soft-bg: #F8F7F5; }
+        body { font-family: 'Inter', sans-serif; background: var(--soft-bg); }
+        .serif { font-family: 'Bodoni Moda', serif; }
+        .service-check { display: flex; align-items: center; gap: 10px; font-size: 0.8rem; margin-bottom: 0.5rem; }
+        .check-icon { color: var(--gold); font-weight: bold; }
+    </style>
+</head>
+<body class="py-12 px-6">
+
+    <main class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+        
+        <div>
+            <span class="text-[10px] uppercase font-bold tracking-[0.4em] text-[#C5A059]">Logistics</span>
+            <h1 class="serif italic text-5xl mt-4 mb-6">The Next Step.</h1>
+            <p class="text-stone-500 text-sm leading-relaxed mb-8">We offer respectful house clearance, cleaning, and item valuation services. Whether you need to prepare the property for sale or simply return keys to a landlord, we handle the heavy lifting.</p>
+            
+            <div class="bg-white p-6 rounded-2xl border border-stone-200 shadow-sm mb-8">
+                <div class="service-check"><span class="check-icon">✓</span> <span>Full Property Clearance (Furniture/Waste)</span></div>
+                <div class="service-check"><span class="check-icon">✓</span> <span>Deep Cleaning for End of Tenancy</span></div>
+                <div class="service-check"><span class="check-icon">✓</span> <span>Auction Valuation for Antiques</span></div>
+                <div class="service-check"><span class="check-icon">✓</span> <span>Secure Document Shredding</span></div>
+                <div class="service-check"><span class="check-icon">✓</span> <span>Charity Donation of Useable Items</span></div>
+            </div>
+            
+            <div class="flex gap-4">
+                <div class="text-center">
+                    <span class="block font-bold text-2xl">98%</span>
+                    <span class="text-[9px] uppercase text-stone-400">Recycle Rate</span>
+                </div>
+                <div class="w-px bg-stone-300"></div>
+                <div class="text-center">
+                    <span class="block font-bold text-2xl">Nat.</span>
+                    <span class="text-[9px] uppercase text-stone-400">Coverage</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white p-10 rounded-[2.5rem] shadow-xl border border-stone-100">
+            <h3 class="serif italic text-2xl mb-6">Get a Free Quote</h3>
+            <form action="https://formspree.io/f/mvzzkjeq" method="POST" class="space-y-4">
+                <input type="text" name="postcode" placeholder="Property Postcode" class="w-full p-4 bg-stone-50 rounded-xl text-sm border-none outline-none focus:ring-1 focus:ring-[#C5A059]" required>
+                
+                <div class="grid grid-cols-2 gap-4">
+                    <select name="property_size" class="w-full p-4 bg-stone-50 rounded-xl text-sm border-none">
+                        <option>1 Bed Flat</option>
+                        <option>2 Bed House</option>
+                        <option>3+ Bed House</option>
+                        <option>Garage / Loft Only</option>
+                    </select>
+                    <select name="service_type" class="w-full p-4 bg-stone-50 rounded-xl text-sm border-none">
+                        <option>Clearance Only</option>
+                        <option>Clearance + Clean</option>
+                        <option>Clean Only</option>
+                    </select>
+                </div>
+
+                <textarea name="details" placeholder="Any specific requirements? (e.g. Piano removal)" class="w-full p-4 bg-stone-50 rounded-xl text-sm border-none h-32"></textarea>
+                
+                <button type="submit" class="w-full bg-[#C5A059] text-white py-4 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-black transition-all">Request Call Back</button>
+            </form>
+        </div>
+
+    </main>
+</body>
+</html>
