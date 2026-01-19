@@ -3,425 +3,483 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Order of Service Designer | FuneralMatch</title>
+    <title>Pro Booklet Designer | FuneralMatch</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,700;1,400;1,700&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,700;1,400&family=Cinzel:wght@400;700&family=Great+Vibes&family=Inter:wght@300;400;600&family=Lato:wght@300;400;700&family=Lora:ital,wght@0,400;1,400&family=Montserrat:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
 
     <style>
-        /* --- CORE VARIABLES & RESETS --- */
-        :root { --gold: #C5A059; --dark: #1a1a1a; --light: #F8F7F5; }
-        body { font-family: 'Inter', sans-serif; background: var(--dark); color: white; -webkit-font-smoothing: antialiased; }
-        .serif-bodoni { font-family: 'Bodoni Moda', serif; }
-        .serif-playfair { font-family: 'Playfair Display', serif; }
-        
-        /* --- UTILITIES --- */
-        .smooth-transition { transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
-        /* Hide scrollbar for clean UI in panels */
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        /* --- CORE VARIABLES --- */
+        :root { --gold: #C5A059; --dark: #121212; --panel-bg: #1E1E1E; --border: rgba(255,255,255,0.1); }
+        body { font-family: 'Inter', sans-serif; background: var(--dark); color: white; height: 100vh; overflow: hidden; }
 
         /* --- UI COMPONENTS --- */
-        .control-panel { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; overflow: hidden; margin-bottom: 24px; }
-        .panel-header { background: rgba(255,255,255,0.05); padding: 16px 24px; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--gold); display: flex; align-items: center; gap: 12px; }
-        .panel-body { padding: 24px; }
+        /* Custom Scrollbar for the editor panel */
+        .editor-scroll::-webkit-scrollbar { width: 6px; }
+        .editor-scroll::-webkit-scrollbar-track { background: var(--dark); }
+        .editor-scroll::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+        .editor-scroll::-webkit-scrollbar-thumb:hover { background: var(--gold); }
 
-        .input-field { width: 100%; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.1); padding: 16px; border-radius: 12px; color: white; outline: none; transition: 0.3s; }
-        .input-field:focus { border-color: var(--gold); background: rgba(255,255,255,0.12); }
-        .input-label { display: block; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #888; margin-bottom: 8px; }
+        .control-group { margin-bottom: 2rem; border-bottom: 1px solid var(--border); padding-bottom: 2rem; }
+        .control-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #888; margin-bottom: 0.5rem; display: block; }
+        
+        .input-std { width: 100%; background: rgba(255,255,255,0.05); border: 1px solid var(--border); padding: 12px; border-radius: 8px; color: white; font-size: 0.9rem; transition: 0.2s; }
+        .input-std:focus { border-color: var(--gold); outline: none; background: rgba(255,255,255,0.1); }
+        textarea.input-std { min-height: 100px; resize: vertical; }
 
-        .theme-selector-btn { border: 2px solid transparent; border-radius: 12px; overflow: hidden; cursor: pointer; transition: 0.3s; position: relative; height: 80px; }
-        .theme-selector-btn.active { border-color: var(--gold); transform: scale(1.02); box-shadow: 0 0 20px rgba(197, 160, 89, 0.3); }
-        .theme-label { position: absolute; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.7); font-size: 0.7rem; text-align: center; padding: 4px; font-weight: 700; text-transform: uppercase; }
+        /* --- PAGE NAVIGATION (The "Timeline") --- */
+        .page-nav { display: flex; gap: 8px; overflow-x: auto; padding: 4px; scroll-behavior: smooth; }
+        .page-node { min-width: 40px; height: 40px; border-radius: 8px; background: #333; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: bold; cursor: pointer; border: 1px solid transparent; transition: 0.2s; color: #aaa; }
+        .page-node:hover { background: #444; color: white; }
+        .page-node.active { background: var(--gold); color: black; border-color: var(--gold); transform: scale(1.1); box-shadow: 0 0 15px rgba(197,160,89,0.3); }
 
-        /* Custom Range Slider */
-        .styled-slider { -webkit-appearance: none; width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 99px; outline: none; }
-        .styled-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 24px; height: 24px; background: var(--gold); border-radius: 50%; cursor: pointer; border: 2px solid var(--dark); box-shadow: 0 0 10px rgba(197, 160, 89, 0.5); }
+        /* --- LAYOUT SELECTOR CARDS --- */
+        .layout-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+        .layout-card { border: 1px solid var(--border); border-radius: 8px; padding: 10px; cursor: pointer; transition: 0.2s; background: rgba(255,255,255,0.02); text-align: center; }
+        .layout-card:hover { border-color: #666; }
+        .layout-card.selected { border-color: var(--gold); background: rgba(197, 160, 89, 0.1); }
+        .layout-icon { font-size: 1.5rem; margin-bottom: 5px; color: #666; }
+        .layout-card.selected .layout-icon { color: var(--gold); }
+        .layout-name { font-size: 0.65rem; text-transform: uppercase; font-weight: 700; }
 
-        /* --- THE BOOKLET PREVIEW ENGINE --- */
-        /* The physical booklet container */
-        #booklet-preview-container { perspective: 1500px; }
-        #booklet-physical { 
-            aspect-ratio: 1 / 1.414; /* A-series paper ratio */
-            width: 100%;
-            position: relative;
-            background: white;
-            border-radius: 2px 16px 16px 2px; /* Slight curve on opening edge */
-            box-shadow: 
-                /* Spine shadow */ inset 15px 0 20px -10px rgba(0,0,0,0.2),
-                /* Deep ambient shadow */ 30px 30px 70px -20px rgba(0,0,0,0.5),
-                /* Sharp contact shadow */ 5px 5px 15px rgba(0,0,0,0.3);
-            transform: rotateY(-5deg); /* Subtle 3D open effect */
-            transition: all 0.5s ease-out;
+        /* --- PREVIEW AREA --- */
+        /* A4 Aspect Ratio Container */
+        .a4-container { 
+            aspect-ratio: 1 / 1.414; 
+            background: white; 
+            width: 100%; 
+            max-width: 450px; 
+            margin: 0 auto; 
+            position: relative; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5); 
+            transition: transform 0.3s ease;
+            color: black;
             overflow: hidden;
         }
-        /* Texture overlay */
-        .paper-texture { position: absolute; inset: 0; mix-blend-mode: multiply; opacity: 0.05; background-image: url('https://www.transparenttextures.com/patterns/cream-paper.png'); pointer-events: none; z-index: 10; }
-
-        /* --- THEME STYLES (Applied dynamically via JS) --- */
         
-        /* Theme 1: Red Roses (Dramatic, Traditional) */
-        .theme-roses #booklet-physical { background: linear-gradient(to right, #2b0a0a, #1a0505); border-left: 4px solid #4a0e0e; }
-        .theme-roses .design-layer { position: absolute; inset: 0; background-image: url('https://images.unsplash.com/photo-1596068586938-1b6e1590209f?q=80&w=600'); background-size: cover; opacity: 0.3; mix-blend-mode: screen; filter: grayscale(30%) contrast(120%); }
-        .theme-roses .text-primary-color { color: #e0c0c0; }
-        .theme-roses .text-accent-color { color: #C5A059; }
-        .theme-roses .main-font { font-family: 'Playfair Display', serif; }
-        .theme-roses .divider-line { background: #C5A059; opacity: 0.5; height: 2px; }
-        .theme-roses .photo-frame { border-color: #C5A059; box-shadow: 0 10px 30px -10px rgba(0,0,0,0.8); }
+        /* Font Stacks */
+        .font-traditional h1, .font-traditional h2 { font-family: 'Cinzel', serif; }
+        .font-traditional p { font-family: 'Lora', serif; }
 
-        /* Theme 2: Classic White (Clean, Bright) */
-        .theme-classic #booklet-physical { background: #fcfaf7; color: #333; border-left: 4px solid #e5e5e5; }
-        .theme-classic .design-layer { display: none; } /* Clean background */
-        .theme-classic .text-primary-color { color: #2c2c2c; }
-        .theme-classic .text-accent-color { color: #666; text-transform: uppercase; letter-spacing: 0.2em; font-size: 0.7rem; font-weight: 700; }
-        .theme-classic .main-font { font-family: 'Bodoni Moda', serif; }
-        .theme-classic .divider-line { background: #ddd; height: 1px; width: 50%; margin: 2rem auto; }
-        .theme-classic .photo-frame { border-color: #eee; box-shadow: 0 10px 20px -10px rgba(0,0,0,0.2); }
-        .theme-classic .paper-texture { opacity: 0.4; }
+        .font-modern h1, .font-modern h2 { font-family: 'Montserrat', sans-serif; letter-spacing: 0.1em; text-transform: uppercase; }
+        .font-modern p { font-family: 'Lato', sans-serif; }
 
-        /* Theme 3: Modern Dark (Minimalist, Sleek) */
-        .theme-modern #booklet-physical { background: #111; color: white; border-left: 4px solid #333; }
-        .theme-modern .design-layer { display: none; }
-        .theme-modern .text-primary-color { color: white; }
-        .theme-modern .text-accent-color { color: var(--gold); font-family: 'Inter', sans-serif; text-transform: uppercase; letter-spacing: 0.3em; font-size: 0.65rem; font-weight: 700; }
-        .theme-modern .main-font { font-family: 'Inter', sans-serif; font-weight: 300; letter-spacing: -0.02em; }
-        .theme-modern .divider-line { display: none; } /* Minimalist, no divider */
-        .theme-modern .photo-frame { border-width: 1px; border-color: #333; border-radius: 12px; } /* Modern rounded square */
+        .font-elegant h1, .font-elegant h2 { font-family: 'Great Vibes', cursive; }
+        .font-elegant p { font-family: 'Bodoni Moda', serif; }
 
-        /* --- TOAST NOTIFICATION --- */
-        #toast-container { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); z-index: 100; pointer-events: none; }
-        .toast { background: var(--dark); color: white; padding: 12px 24px; border-radius: 99px; font-size: 0.8rem; font-weight: 600; display: flex; align-items: center; gap: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); opacity: 0; transform: translateY(20px); transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        .toast.active { opacity: 1; transform: translateY(0); }
-        .toast-icon { color: var(--gold); }
+        /* Helpers for content placement */
+        .page-content { height: 100%; display: flex; flex-direction: column; }
+        .photo-placeholder { background: #f0f0f0; display: flex; align-items: center; justify-content: center; color: #ccc; width: 100%; overflow: hidden; }
+        .photo-placeholder img { width: 100%; height: 100%; object-fit: cover; }
 
     </style>
 </head>
-<body class="min-h-screen flex flex-col">
+<body class="flex flex-col lg:flex-row">
 
-    <nav class="sticky top-0 z-50 bg-dark/80 backdrop-blur-lg border-b border-white/10">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex justify-between items-center">
-             <div class="flex flex-col items-start">
-                <span class="serif-bodoni text-[0.6rem] font-bold uppercase tracking-[0.4em] mb-1 leading-none">Funeral</span>
-                <div style="width: 24px; height: 1px; background: var(--gold); margin-bottom: 3px;"></div>
-                <span class="serif-bodoni text-[0.6rem] font-bold text-[#C5A059] uppercase tracking-[0.6em] leading-none">Match</span>
+    <div class="w-full lg:w-[450px] bg-panel-bg border-r border-white/10 flex flex-col h-screen z-20 shadow-2xl">
+        
+        <div class="p-6 border-b border-white/10 bg-dark/50 backdrop-blur-md sticky top-0 z-30">
+            <div class="flex items-center gap-3 mb-1">
+                <i class="fas fa-book-open text-[#C5A059]"></i>
+                <h2 class="text-sm font-bold uppercase tracking-widest text-white">Booklet Architect</h2>
             </div>
-            
-            <div class="flex gap-2 sm:gap-4">
-                <button onclick="triggerToast('Draft Saved', 'Your progress has been saved locally.')" class="flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 text-[0.6rem] sm:text-xs font-bold uppercase tracking-wider hover:bg-white/5 transition-colors">
-                    <i class="far fa-save"></i> <span class="hidden sm:inline">Save Draft</span>
-                </button>
-                <button onclick="triggerToast('Link Copied', 'Share URL copied to clipboard.')" class="flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 text-[#C5A059] text-[0.6rem] sm:text-xs font-bold uppercase tracking-wider hover:bg-white/10 transition-colors">
-                    <i class="far fa-user-plus"></i> <span class="hidden sm:inline">Invite Family</span>
-                </button>
-            </div>
+            <p class="text-xs text-gray-500">Pro Edition v2.0</p>
         </div>
-    </nav>
 
-
-    <div class="flex-1 max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-8 p-4 sm:p-8 lg:p-12">
-
-        <div class="lg:col-span-5 order-2 lg:order-1">
-            <header class="mb-8">
-                <h1 class="serif-bodoni italic text-4xl mb-2">Design Studio.</h1>
-                <p class="text-gray-400 text-sm">Customize the Order of Service booklet.</p>
-            </header>
-
-            <div class="control-panel">
-                <div class="panel-header"><i class="fas fa-palette"></i> 1. Select Aesthetic</div>
-                <div class="panel-body grid grid-cols-3 gap-3">
-                    
-                    <div class="theme-selector-btn active" onclick="setTheme('roses', this)" style="background: linear-gradient(to br, #3d0c0c, #000);">
-                        <img src="https://images.unsplash.com/photo-1596068586938-1b6e1590209f?q=80&w=300" class="absolute inset-0 w-full h-full object-cover opacity-40 mix-blend-overlay">
-                        <span class="theme-label">Red Roses</span>
-                    </div>
-
-                    <div class="theme-selector-btn" onclick="setTheme('classic', this)" style="background: #fcfaf7;">
-                        <span class="theme-label" style="color:#333; background:rgba(255,255,255,0.8)">Classic</span>
-                    </div>
-
-                    <div class="theme-selector-btn" onclick="setTheme('modern', this)" style="background: #222;">
-                         <span class="theme-label">Modern</span>
-                    </div>
-
-                </div>
-            </div>
-
-            <div class="control-panel">
-                <div class="panel-header"><i class="fas fa-pen-nib"></i> 2. Essential Details</div>
-                <div class="panel-body space-y-5">
+        <div class="flex-1 overflow-y-auto editor-scroll p-6">
+            
+            <div class="control-group">
+                <label class="control-label text-[#C5A059]"><i class="fas fa-layer-group mr-2"></i> Document Structure</label>
+                <div class="grid grid-cols-2 gap-4 mb-4">
                     <div>
-                        <label class="input-label">Full Name</label>
-                        <input type="text" id="inputName" oninput="updateText(this.value, 'previewName', 'Name of Deceased')" class="input-field serif-playfair text-xl" placeholder="e.g. Eleanor Rigby">
-                    </div>
-                    <div class="grid grid-cols-2 gap-4">
-                         <div>
-                            <label class="input-label">Year Born</label>
-                            <input type="text" id="inputBorn" oninput="updateText(this.value, 'previewBorn', '1900')" class="input-field" placeholder="YYYY">
-                        </div>
-                         <div>
-                            <label class="input-label">Year Passed</label>
-                            <input type="text" id="inputDied" oninput="updateText(this.value, 'previewDied', '2026')" class="input-field" placeholder="YYYY">
-                        </div>
+                        <label class="text-[10px] text-gray-400 uppercase font-bold mb-2 block">Total Pages</label>
+                        <select id="pageCountSelect" onchange="changePageCount(this.value)" class="input-std cursor-pointer">
+                            <option value="4">4 Pages (Standard)</option>
+                            <option value="8">8 Pages (+£40)</option>
+                            <option value="12">12 Pages (+£80)</option>
+                            <option value="16">16 Pages (Max)</option>
+                        </select>
                     </div>
                     <div>
-                        <label class="input-label">Service Location / Date</label>
-                        <input type="text" id="inputVenue" oninput="updateText(this.value, 'previewVenue', 'Venue & Date')" class="input-field" placeholder="e.g. St Mary's Church, Friday 24th">
-                    </div>
-                    <div>
-                        <label class="input-label">Subtitle / Quote</label>
-                        <input type="text" id="inputQuote" oninput="updateText(this.value, 'previewQuote', 'A Celebration of Life')" class="input-field" placeholder="e.g. In Loving Memory">
-                    </div>
-                </div>
-            </div>
-
-             <div class="control-panel">
-                <div class="panel-header"><i class="fas fa-camera"></i> 3. Cover Photo</div>
-                <div class="panel-body">
-                    <label class="relative block cursor-pointer group">
-                        <input type="file" accept="image/*" onchange="handleImageUpload(this)" class="hidden">
-                        <div class="border-2 border-dashed border-white/20 rounded-xl p-8 text-center transition-all group-hover:border-[#C5A059] group-hover:bg-white/5">
-                            <div id="uploadPlaceholder">
-                                <i class="fas fa-cloud-upload-alt text-3xl mb-3 text-gray-500 group-hover:text-[#C5A059] transition-colors"></i>
-                                <p class="text-sm font-bold">Click to upload photo</p>
-                                <p class="text-xs text-gray-500 mt-1">JPG or PNG. Max 5MB.</p>
-                            </div>
-                            <div id="uploadSuccess" class="hidden flex items-center justify-center gap-3 text-green-500">
-                                 <i class="fas fa-check-circle"></i> <span>Photo successfully loaded below</span>
-                            </div>
-                        </div>
-                    </label>
-                </div>
-            </div>
-
-            <div class="control-panel" style="border-color: var(--gold);">
-                <div class="panel-header" style="background: rgba(197, 160, 89, 0.1);"><i class="fas fa-tags"></i> 4. Quantity & Price</div>
-                <div class="panel-body">
-                    <div class="flex justify-between items-end mb-6">
-                         <div>
-                             <label class="input-label text-[#C5A059]">Print Quantity</label>
-                             <span id="qtyDisplay" class="text-3xl font-bold">20</span> <span class="text-sm text-gray-400">copies</span>
-                         </div>
-                    </div>
-
-                    <input type="range" id="qtySlider" min="20" max="200" step="10" value="20" class="styled-slider mb-8" oninput="updatePricing(this.value)">
-                    
-                    <div class="bg-dark/50 p-4 rounded-xl flex justify-between items-center border border-white/10">
-                        <div class="text-xs text-gray-400 leading-relaxed">
-                            <p>Base price (first 20): <strong class="text-white">£80.00</strong></p>
-                            <p>Additional sets of 10: <strong class="text-white">+£15.00</strong> ea</p>
-                        </div>
-                        <div class="text-right">
-                            <p class="input-label mb-0">Total Cost</p>
-                            <p id="totalPriceDisplay" class="text-3xl font-bold text-[#C5A059]">£80.00</p>
-                        </div>
+                        <label class="text-[10px] text-gray-400 uppercase font-bold mb-2 block">Typography</label>
+                        <select id="fontSelect" onchange="changeFontTheme(this.value)" class="input-std cursor-pointer">
+                            <option value="traditional">Traditional (Cinzel)</option>
+                            <option value="modern">Modern (Clean)</option>
+                            <option value="elegant">Elegant (Script)</option>
+                        </select>
                     </div>
                 </div>
+                
+                <label class="text-[10px] text-gray-400 uppercase font-bold mb-2 block">Jump to Page</label>
+                <div class="page-nav no-scrollbar" id="pageNavContainer">
+                    </div>
             </div>
 
-            <button class="w-full bg-[#C5A059] text-dark py-5 rounded-full text-sm font-bold uppercase tracking-widest hover:bg-white transition-all transform hover:scale-[1.02] shadow-xl shadow-[#C5A059]/20 flex items-center justify-center gap-3">
-                <span>Add to Arrangement</span> <i class="fas fa-arrow-right"></i>
+            <div id="dynamicEditorArea" class="animate-fade-in">
+                
+                <div class="flex justify-between items-center mb-4">
+                    <label class="control-label text-white text-lg"><span id="editorPageLabel">Cover Page</span> Design</label>
+                    <span class="text-[10px] bg-white/10 px-2 py-1 rounded text-gray-400">Editing Page <span id="currentPageNum">1</span></span>
+                </div>
+
+                <div class="mb-6">
+                    <label class="control-label">Select Layout Template</label>
+                    <div class="layout-grid" id="layoutGrid">
+                        </div>
+                </div>
+
+                <div id="inputContainer" class="space-y-4">
+                    </div>
+
+            </div>
+
+        </div>
+
+        <div class="p-6 border-t border-white/10 bg-[#151515] sticky bottom-0 z-30">
+            <div class="flex justify-between items-end mb-4">
+                <div>
+                    <p class="text-[10px] uppercase font-bold text-gray-500 mb-1">Total Photos: <span id="photoCountDisplay" class="text-white">0</span>/5</p>
+                    <p id="photoSurchargeMsg" class="text-[10px] text-red-400 hidden">+£7.50 per extra photo</p>
+                </div>
+                <div class="text-right">
+                    <p class="text-[10px] uppercase font-bold text-gray-500">Est. Total</p>
+                    <p id="totalPriceDisplay" class="text-2xl font-bold text-[#C5A059]">£80.00</p>
+                </div>
+            </div>
+            <button class="w-full bg-[#C5A059] hover:bg-white hover:text-black text-black font-bold py-3 rounded-lg uppercase tracking-widest text-xs transition-all flex justify-between px-6">
+                <span>Save Design</span>
+                <i class="fas fa-chevron-right"></i>
             </button>
-            <p class="text-center text-xs text-gray-500 mt-3"><i class="fas fa-truck-fast mr-1"></i> Next day delivery if ordered by 2pm.</p>
-
-        </div>
-
-        <div class="lg:col-span-7 order-1 lg:order-2 lg:sticky lg:top-24 h-fit z-10">
-            
-            <div class="flex justify-between items-end mb-4 px-2">
-                <p class="text-[0.65rem] uppercase font-bold tracking-widest text-gray-400"><i class="fas fa-eye mr-2"></i> Live Preview</p>
-                <div class="text-[0.65rem] uppercase font-bold tracking-widest text-gray-500">Front Cover</div>
-            </div>
-            
-            <div id="booklet-preview-container" class="theme-roses"> <div id="booklet-physical">
-                    
-                    <div class="paper-texture"></div>
-                    <div class="design-layer smooth-transition"></div>
-
-                    <div class="relative z-20 h-full flex flex-col items-center justify-between p-8 sm:p-12 lg:p-16 text-center">
-                        
-                        <div class="w-full flex flex-col items-center">
-                            <p id="previewQuote" class="text-accent-color text-xs sm:text-sm tracking-[0.2em] mb-6 sm:mb-8 smooth-transition">A CELEBRATION OF LIFE</p>
-                            
-                            <div class="photo-frame w-40 h-40 sm:w-52 sm:h-52 rounded-full border-4 overflow-hidden relative bg-black/10 shadow-2xl smooth-transition group">
-                                <img id="previewImage" src="" class="w-full h-full object-cover hidden smooth-transition">
-                                <div id="imagePlaceholder" class="absolute inset-0 flex items-center justify-center text-4xl opacity-20 text-accent-color">
-                                    <i class="fas fa-user"></i>
-                                </div>
-                                <div class="absolute inset-0 bg-gradient-to-tr from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"></div>
-                            </div>
-                        </div>
-
-                        <div class="w-full">
-                             <h1 id="previewName" class="main-font text-primary-color text-3xl sm:text-4xl lg:text-5xl leading-tight mb-4 smooth-transition">Name of Deceased</h1>
-                             
-                             <div class="divider-line mx-auto my-4 sm:my-6 smooth-transition" style="width: 60px;"></div>
-                             
-                             <p class="text-accent-color text-sm sm:text-base mb-1 smooth-transition"><span id="previewBorn">1900</span> — <span id="previewDied">2026</span></p>
-                             
-                             <div class="mt-8 sm:mt-12 opacity-70 smooth-transition">
-                                 <p id="previewVenue" class="text-[0.65rem] sm:text-xs uppercase tracking-widest font-bold text-primary-color">Venue & Date</p>
-                             </div>
-                        </div>
-
-                    </div>
-                </div>
-                <div class="w-[90%] mx-auto h-8 bg-black/30 blur-xl rounded-[100%] mt-4 transform scale-y-50 opacity-50 lg:opacity-100 transition-opacity"></div>
-            </div>
-
         </div>
 
     </div>
 
-    <div id="toast-container"></div>
+    <div class="flex-1 bg-black relative flex flex-col h-screen overflow-hidden">
+        
+        <div class="h-16 border-b border-white/10 flex items-center justify-between px-8 bg-dark/50">
+            <div class="flex gap-4">
+                <button class="text-xs text-gray-400 hover:text-white uppercase font-bold tracking-wider" onclick="prevPage()"><i class="fas fa-arrow-left mr-2"></i> Prev Page</button>
+            </div>
+            <span class="text-xs font-bold text-[#C5A059] uppercase tracking-widest">Live Preview</span>
+            <div class="flex gap-4">
+                <button class="text-xs text-gray-400 hover:text-white uppercase font-bold tracking-wider" onclick="nextPage()">Next Page <i class="fas fa-arrow-right ml-2"></i></button>
+            </div>
+        </div>
 
+        <div class="flex-1 bg-[#0a0a0a] flex items-center justify-center p-8 overflow-y-auto">
+            
+            <div id="previewContainer" class="a4-container font-traditional p-8 sm:p-12 relative">
+                <div class="absolute inset-0 pointer-events-none opacity-10" style="background-image: url('https://www.transparenttextures.com/patterns/cream-paper.png'); mix-blend-mode: multiply;"></div>
+                
+                <div id="previewContent" class="page-content relative z-10">
+                    </div>
+            </div>
+
+        </div>
+        
+    </div>
 
     <script>
         // ===========================
-        // 1. STATE MANAGEMENT
+        // 1. DATA STATE
         // ===========================
-        // We keep track of the current state for saving/restoring (future proofing)
-        let appState = {
-            theme: 'roses',
-            texts: {
-                name: '', born: '', died: '', venue: '', quote: ''
-            },
-            photoUploaded: false,
-            quantity: 20,
-            totalPrice: 80
+        const state = {
+            totalPages: 4,
+            currentPage: 1, // 1-based index
+            fontTheme: 'traditional',
+            basePrice: 80, // for 20 copies base
+            extraPhotoPrice: 7.50,
+            pages: [] // Array to hold data for each page
         };
 
-        // ===========================
-        // 2. THEME ENGINE
-        // ===========================
-        function setTheme(themeName, clickedBtn) {
-            // Update State
-            appState.theme = themeName;
+        // Layout Templates Definition
+        const LAYOUTS = {
+            COVER: [
+                { id: 'cover-classic', name: 'Classic Text', icon: 'fas fa-align-center' },
+                { id: 'cover-photo', name: 'Large Photo', icon: 'fas fa-image' }
+            ],
+            INNER: [
+                { id: 'text-full', name: 'Full Text', icon: 'fas fa-align-left' },
+                { id: 'hymn-list', name: 'Hymn / Song', icon: 'fas fa-music' },
+                { id: 'photo-top', name: 'Photo Top', icon: 'fas fa-portrait' },
+                { id: 'photo-full', name: 'Full Page Photo', icon: 'fas fa-expand' }
+            ]
+        };
 
-            // 1. Update UI Buttons
-            document.querySelectorAll('.theme-selector-btn').forEach(btn => btn.classList.remove('active'));
-            clickedBtn.classList.add('active');
+        // Initialize State
+        function init() {
+            // Create initial empty pages
+            for(let i=1; i<=16; i++) {
+                state.pages[i] = {
+                    type: i===1 ? 'cover' : 'inner',
+                    layout: i===1 ? 'cover-classic' : 'text-full',
+                    title: i===1 ? 'In Loving Memory' : `Page ${i} Title`,
+                    body: i===1 ? 'Name of Deceased' : 'Enter text here...',
+                    photo: null,
+                    hymnLines: ['Verse 1...', 'Verse 2...']
+                };
+            }
+            renderNav();
+            loadEditorForPage(1);
+            updatePricing();
+        }
 
-            // 2. Update Preview Container Class
-            // This single class change triggers all the CSS specific to that theme
-            const container = document.getElementById('booklet-preview-container');
-            // Remove existing theme classes (filter classes starting with 'theme-')
-            const currentClasses = Array.from(container.classList);
-            currentClasses.forEach(cls => {
-                if (cls.startsWith('theme-')) container.classList.remove(cls);
+        // ===========================
+        // 2. NAVIGATION LOGIC
+        // ===========================
+        function changePageCount(val) {
+            state.totalPages = parseInt(val);
+            // Cap current page if we shrank the document
+            if (state.currentPage > state.totalPages) {
+                state.currentPage = state.totalPages;
+            }
+            renderNav();
+            updatePricing();
+            loadEditorForPage(state.currentPage);
+        }
+
+        function renderNav() {
+            const container = document.getElementById('pageNavContainer');
+            container.innerHTML = '';
+            
+            for (let i = 1; i <= state.totalPages; i++) {
+                const node = document.createElement('div');
+                node.className = `page-node ${i === state.currentPage ? 'active' : ''}`;
+                node.innerText = i;
+                node.onclick = () => loadEditorForPage(i);
+                container.appendChild(node);
+            }
+        }
+
+        function nextPage() {
+            if(state.currentPage < state.totalPages) loadEditorForPage(state.currentPage + 1);
+        }
+        function prevPage() {
+            if(state.currentPage > 1) loadEditorForPage(state.currentPage - 1);
+        }
+
+        // ===========================
+        // 3. EDITOR RENDERER
+        // ===========================
+        function loadEditorForPage(pageNum) {
+            state.currentPage = pageNum;
+            const pageData = state.pages[pageNum];
+            
+            // Update UI Labels
+            document.getElementById('currentPageNum').innerText = pageNum;
+            document.getElementById('editorPageLabel').innerText = pageNum === 1 ? 'Cover' : `Page ${pageNum}`;
+            renderNav(); // Update active class
+
+            // 1. Render Layout Grid
+            const grid = document.getElementById('layoutGrid');
+            grid.innerHTML = '';
+            const availableLayouts = pageNum === 1 ? LAYOUTS.COVER : LAYOUTS.INNER;
+            
+            availableLayouts.forEach(layout => {
+                const card = document.createElement('div');
+                card.className = `layout-card ${pageData.layout === layout.id ? 'selected' : ''}`;
+                card.onclick = () => changeLayout(layout.id);
+                card.innerHTML = `<i class="${layout.icon} layout-icon"></i><div class="layout-name">${layout.name}</div>`;
+                grid.appendChild(card);
             });
-            // Add new theme class
-            container.classList.add(`theme-${themeName}`);
+
+            // 2. Render Inputs based on current Layout
+            renderInputs(pageData.layout);
             
-            triggerToast('Theme Changed', `Applied ${themeName.charAt(0).toUpperCase() + themeName.slice(1)} style.`);
+            // 3. Render Preview
+            renderPreview();
         }
 
-
-        // ===========================
-        // 3. REAL-TIME TEXT UPDATES
-        // ===========================
-        function updateText(value, previewElementId, placeholderText) {
-            const element = document.getElementById(previewElementId);
-            // If input is empty, revert to placeholder, otherwise show value
-            // Also handles line breaks for long names automatically via CSS wrapping
-            element.innerText = value.trim() === '' ? placeholderText : value;
-            
-            // Update State (mapping input IDs to state keys would be cleaner in a framework, doing manually here)
-            if(previewElementId === 'previewName') appState.texts.name = value;
-            // ... repeats for others in a full app
+        function changeLayout(layoutId) {
+            state.pages[state.currentPage].layout = layoutId;
+            loadEditorForPage(state.currentPage); // Re-render everything
         }
 
+        function renderInputs(layoutId) {
+            const container = document.getElementById('inputContainer');
+            container.innerHTML = '';
+            const page = state.pages[state.currentPage];
 
-        // ===========================
-        // 4. PHOTO UPLOAD HANDLING
-        // ===========================
-        function handleImageUpload(inputElement) {
-            const file = inputElement.files[0];
-            if (file) {
-                // Validate size (e.g., max 5MB)
-                if (file.size > 5 * 1024 * 1024) {
-                    triggerToast('Error', 'File size too large. Max 5MB.', true);
-                    return;
+            // Helper to create input
+            const createInput = (label, key, type='text', placeholder='') => {
+                const div = document.createElement('div');
+                div.innerHTML = `<label class="control-label">${label}</label>`;
+                
+                let input;
+                if(type === 'textarea') {
+                    input = document.createElement('textarea');
+                    input.className = 'input-std';
+                    input.value = page[key];
+                    input.oninput = (e) => { page[key] = e.target.value; renderPreview(); };
+                } else if (type === 'file') {
+                    input = document.createElement('div');
+                    input.className = 'border border-dashed border-gray-600 rounded p-4 text-center cursor-pointer hover:border-gold hover:bg-white/5';
+                    input.innerHTML = `<i class="fas fa-camera text-2xl mb-2 text-gray-500"></i><p class="text-xs text-gray-400">${page.photo ? 'Change Photo' : 'Upload Photo'}</p>`;
+                    const hiddenInput = document.createElement('input');
+                    hiddenInput.type = 'file';
+                    hiddenInput.accept = 'image/*';
+                    hiddenInput.style.display = 'none';
+                    hiddenInput.onchange = (e) => handlePhotoUpload(e);
+                    input.onclick = () => hiddenInput.click();
+                    input.appendChild(hiddenInput);
+                } else {
+                    input = document.createElement('input');
+                    input.type = 'text';
+                    input.className = 'input-std';
+                    input.value = page[key];
+                    input.placeholder = placeholder;
+                    input.oninput = (e) => { page[key] = e.target.value; renderPreview(); };
                 }
+                div.appendChild(input);
+                container.appendChild(div);
+            };
 
+            // Logic for what inputs to show
+            if (layoutId.includes('text') || layoutId.includes('classic')) {
+                createInput('Main Heading / Name', 'title');
+                createInput('Body Text / Details', 'body', 'textarea');
+            }
+            else if (layoutId.includes('photo')) {
+                createInput('Heading', 'title');
+                createInput('Upload Image', 'photo', 'file');
+                if(!layoutId.includes('full')) createInput('Caption / Text', 'body', 'textarea');
+            }
+            else if (layoutId.includes('hymn')) {
+                createInput('Hymn Title', 'title');
+                createInput('Lyrics (Paste here)', 'body', 'textarea');
+            }
+        }
+
+        // ===========================
+        // 4. PREVIEW RENDERER
+        // ===========================
+        function changeFontTheme(theme) {
+            state.fontTheme = theme;
+            const container = document.getElementById('previewContainer');
+            // Remove old font classes
+            container.classList.remove('font-traditional', 'font-modern', 'font-elegant');
+            container.classList.add(`font-${theme}`);
+        }
+
+        function renderPreview() {
+            const container = document.getElementById('previewContent');
+            const page = state.pages[state.currentPage];
+            
+            let html = '';
+
+            // Layout: Cover Classic
+            if (page.layout === 'cover-classic') {
+                html = `
+                    <div class="h-full flex flex-col justify-between text-center py-10 border-4 border-double border-gray-200 m-2">
+                        <div class="mt-8">
+                            <p class="text-sm uppercase tracking-[0.2em] text-gray-500 mb-4">In Loving Memory of</p>
+                            <h1 class="text-4xl md:text-5xl leading-tight text-gray-800">${page.title}</h1>
+                        </div>
+                        <div class="mb-12">
+                            <div class="w-16 h-px bg-black mx-auto mb-4"></div>
+                            <p class="text-sm whitespace-pre-wrap">${page.body}</p>
+                        </div>
+                    </div>
+                `;
+            }
+            // Layout: Photo Top
+            else if (page.layout === 'photo-top' || page.layout === 'cover-photo') {
+                html = `
+                    <div class="h-full flex flex-col text-center">
+                        <div class="h-1/2 w-full photo-placeholder mb-6 relative">
+                            ${page.photo ? `<img src="${page.photo}">` : '<i class="fas fa-user text-4xl"></i>'}
+                            ${state.currentPage === 1 ? '<div class="absolute inset-0 border-b-4 border-gold opacity-50"></div>' : ''}
+                        </div>
+                        <div class="px-8">
+                            <h2 class="text-2xl mb-4 text-gray-800">${page.title}</h2>
+                            <p class="text-sm text-gray-600 whitespace-pre-wrap leading-relaxed">${page.body}</p>
+                        </div>
+                    </div>
+                `;
+            }
+            // Layout: Full Text
+            else if (page.layout === 'text-full') {
+                html = `
+                    <div class="h-full px-8 py-12">
+                        <h2 class="text-xl font-bold mb-6 text-gray-800 border-b border-gray-200 pb-2">${page.title}</h2>
+                        <p class="text-sm text-gray-600 whitespace-pre-wrap leading-loose text-justify">${page.body}</p>
+                    </div>
+                `;
+            }
+            // Layout: Full Photo
+            else if (page.layout === 'photo-full') {
+                html = `
+                    <div class="h-full w-full photo-placeholder relative">
+                         ${page.photo ? `<img src="${page.photo}">` : '<div class="text-center"><i class="fas fa-image text-4xl mb-2"></i><p>Full Page Photo</p></div>'}
+                         <div class="absolute bottom-10 left-0 right-0 text-center">
+                            <h2 class="text-white text-3xl drop-shadow-md">${page.title}</h2>
+                         </div>
+                    </div>
+                `;
+            }
+            // Layout: Hymn
+            else if (page.layout === 'hymn-list') {
+                html = `
+                    <div class="h-full px-8 py-12 text-center">
+                        <p class="text-xs font-bold uppercase tracking-widest text-gray-400 mb-2">Hymn</p>
+                        <h2 class="text-2xl mb-8 text-gray-800 italic">${page.title}</h2>
+                        <div class="text-sm text-gray-600 whitespace-pre-wrap leading-loose font-serif italic">
+                            ${page.body}
+                        </div>
+                    </div>
+                `;
+            }
+
+            container.innerHTML = html;
+        }
+
+        // ===========================
+        // 5. SMART LOGIC: PHOTOS & PRICING
+        // ===========================
+        function handlePhotoUpload(e) {
+            const file = e.target.files[0];
+            if (file) {
                 const reader = new FileReader();
-                reader.onload = function(e) {
-                    const img = document.getElementById('previewImage');
-                    const placeholder = document.getElementById('imagePlaceholder');
-                    
-                    // Set image source and show it
-                    img.src = e.target.result;
-                    img.classList.remove('hidden');
-                    placeholder.classList.add('hidden'); // Hide the icon icon
-
-                    // Update upload UI feedback
-                    document.getElementById('uploadPlaceholder').classList.add('hidden');
-                    document.getElementById('uploadSuccess').classList.remove('hidden');
-
-                    appState.photoUploaded = true;
-                    triggerToast('Photo Added', 'Image uploaded successfully.');
+                reader.onload = function(evt) {
+                    state.pages[state.currentPage].photo = evt.target.result;
+                    renderPreview();
+                    updatePricing(); // Re-calc photo count
                 };
                 reader.readAsDataURL(file);
             }
         }
 
+        function updatePricing() {
+            // 1. Calculate Page Count Cost
+            let pageCost = 0;
+            if (state.totalPages === 8) pageCost = 40;
+            if (state.totalPages === 12) pageCost = 80;
+            if (state.totalPages === 16) pageCost = 120;
 
-        // ===========================
-        // 5. DYNAMIC PRICING ENGINE
-        // ===========================
-        function updatePricing(qtyVal) {
-            const qty = parseInt(qtyVal);
-            document.getElementById('qtyDisplay').innerText = qty;
-
-            // Pricing Logic:
-            // Base cost = £80 for up to 20.
-            // Every additional 10 adds £15.
-            let price = 80;
-            if (qty > 20) {
-                const additionalSets = Math.ceil((qty - 20) / 10);
-                price += (additionalSets * 15);
+            // 2. Count Photos across ALL pages
+            let photoCount = 0;
+            for(let i=1; i<=16; i++) {
+                if (state.pages[i].photo) photoCount++;
             }
 
-            // Format to currency
-            const formattedPrice = new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'GBP' }).format(price);
-            document.getElementById('totalPriceDisplay').innerText = formattedPrice;
+            // 3. Calculate Surcharge
+            let photoSurcharge = 0;
+            if (photoCount > 5) {
+                photoSurcharge = (photoCount - 5) * state.extraPhotoPrice;
+                document.getElementById('photoSurchargeMsg').classList.remove('hidden');
+            } else {
+                document.getElementById('photoSurchargeMsg').classList.add('hidden');
+            }
 
-            // Update state
-            appState.quantity = qty;
-            appState.totalPrice = price;
-        }
-
-
-        // ===========================
-        // 6. UI UTILITIES (Toasts)
-        // ===========================
-        function triggerToast(title, message, isError = false) {
-            const container = document.getElementById('toast-container');
+            // Update UI
+            document.getElementById('photoCountDisplay').innerText = photoCount;
+            const finalPrice = state.basePrice + pageCost + photoSurcharge;
             
-            // Create toast element
-            const toast = document.createElement('div');
-            toast.className = `toast ${isError ? 'border-red-500' : ''}`;
-            toast.innerHTML = `
-                <i class="${isError ? 'fas fa-exclamation-circle text-red-500' : 'fas fa-check-circle toast-icon'}"></i>
-                <div>
-                    <p>${message}</p>
-                </div>
-            `;
-
-            // Add to DOM
-            container.appendChild(toast);
-
-            // Trigger animation in
-            setTimeout(() => toast.classList.add('active'), 10);
-
-            // Remove after 3 seconds
-            setTimeout(() => {
-                toast.classList.remove('active');
-                setTimeout(() => toast.remove(), 500); // Wait for fade out transition
-            }, 3000);
+            document.getElementById('totalPriceDisplay').innerText = '£' + finalPrice.toFixed(2);
         }
 
-        // Initialize pricing on load
-        updatePricing(20);
+        // Boot
+        window.onload = init;
 
     </script>
 </body>
