@@ -3,30 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Master Arrangement Suite | FuneralMatch</title>
+    <title>FuneralMatch | Guided Arrangement</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,600;1,400;1,600&family=Inter:wght@300;400;500;600&family=Cinzel:wght@600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,600;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
     <style>
-        /* --- 1. THEME ENGINE --- */
+        /* --- 1. DESIGN SYSTEM --- */
         :root {
-            --bg-page: #F9F8F6; /* Softest Cream */
-            --bg-panel: #FFFFFF;
-            --text-main: #111111;
-            --text-muted: #666666;
-            
+            --bg-page: #FAF9F6; /* Off-white */
             --gold: #C5A059;
             --gold-light: #F4EFE6;
+            --text-main: #1a1a1a;
+            --text-light: #666;
             --border: #E5E5E5;
-            
-            --radius-soft: 24px;
-            --radius-pill: 999px;
-            
-            --shadow-float: 0 10px 40px rgba(0,0,0,0.05);
+            --radius: 24px;
             --ease: cubic-bezier(0.25, 1, 0.5, 1);
         }
 
@@ -35,565 +29,430 @@
             color: var(--text-main);
             font-family: 'Inter', sans-serif;
             height: 100vh;
-            display: flex;
-            flex-direction: column;
+            display: flex; flex-direction: column;
             overflow: hidden;
         }
 
-        /* --- 2. LAYOUT GRID --- */
-        .app-container {
-            flex: 1;
-            display: grid;
-            grid-template-columns: 260px 1fr 340px; /* Nav | Form | Ledger */
-            overflow: hidden;
+        /* --- 2. HEADER & PROGRESS --- */
+        .top-nav {
+            padding: 20px 30px;
+            display: flex; flex-direction: column; gap: 16px;
+            background: white; border-bottom: 1px solid var(--border);
+            z-index: 50;
         }
-
-        /* --- 3. SIDEBAR NAVIGATION --- */
-        .sidebar {
-            background: var(--bg-panel);
-            border-right: 1px solid var(--border);
-            overflow-y: auto;
-            padding: 30px 0;
-        }
+        .brand { font-size: 10px; font-weight: 800; color: var(--gold); letter-spacing: 0.15em; text-transform: uppercase; }
         
-        .nav-group-title {
-            padding: 0 30px; margin-bottom: 10px; margin-top: 20px;
-            font-size: 10px; text-transform: uppercase; letter-spacing: 0.15em; color: #999; font-weight: 700;
+        .progress-track {
+            height: 4px; width: 100%; background: #F0F0F0; border-radius: 99px; overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%; background: var(--gold); width: 16%; transition: width 0.5s var(--ease);
+        }
+        .step-indicator { font-size: 12px; font-weight: 600; color: #999; display: flex; justify-content: space-between; }
+        .step-active { color: black; }
+
+        /* --- 3. WIZARD STAGE --- */
+        .stage {
+            flex: 1; overflow-y: auto; overflow-x: hidden;
+            padding: 40px 20px 120px 20px; /* Bottom padding for nav */
+            display: flex; flex-direction: column; align-items: center;
         }
 
-        .nav-item {
-            padding: 14px 30px; cursor: pointer;
-            display: flex; align-items: center; gap: 12px;
-            color: var(--text-muted); font-size: 13px; font-weight: 500;
-            transition: 0.2s; border-left: 3px solid transparent;
+        .step-container {
+            width: 100%; max-width: 600px;
+            display: none; animation: slideUp 0.5s var(--ease);
         }
-        .nav-item:hover { background: var(--gold-light); color: black; }
-        .nav-item.active { 
-            border-left-color: var(--gold); background: var(--gold-light); 
-            color: black; font-weight: 700; 
-        }
-        .nav-item i { width: 16px; text-align: center; }
+        .step-container.active { display: block; }
 
-        /* --- 4. MAIN FORM AREA --- */
-        .main-stage {
-            overflow-y: auto; padding: 40px 60px 120px 60px;
-            scroll-behavior: smooth;
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        .section-header { margin-bottom: 40px; }
-        .section-title { font-family: 'Bodoni Moda', serif; font-size: 32px; margin-bottom: 8px; color: black; }
-        .section-desc { font-size: 14px; color: var(--text-muted); max-width: 600px; line-height: 1.6; }
+        .step-title { font-family: 'Bodoni Moda', serif; font-size: 32px; margin-bottom: 8px; color: black; text-align: center; }
+        .step-desc { font-size: 14px; color: var(--text-light); text-align: center; margin-bottom: 40px; line-height: 1.5; }
 
-        /* Form Components */
-        .form-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin-bottom: 32px; }
-        .full-width { grid-column: span 2; }
-
-        .form-label {
-            display: block; font-size: 11px; font-weight: 700; text-transform: uppercase; 
-            color: #888; letter-spacing: 0.05em; margin-bottom: 8px;
+        /* --- 4. FORM ELEMENTS (Soft UI) --- */
+        .input-group { margin-bottom: 24px; }
+        .input-label { display: block; font-size: 11px; font-weight: 700; text-transform: uppercase; color: #999; margin-bottom: 8px; letter-spacing: 0.05em; }
+        
+        .input-field {
+            width: 100%; padding: 16px 24px;
+            background: white; border: 1px solid var(--border); border-radius: var(--radius);
+            font-size: 16px; outline: none; transition: 0.2s;
         }
+        .input-field:focus { border-color: var(--gold); box-shadow: 0 4px 20px rgba(197, 160, 89, 0.15); }
 
-        .input-field, .input-select, .input-area {
-            width: 100%; padding: 14px 20px;
-            background: white; border: 1px solid var(--border);
-            border-radius: var(--radius-soft);
-            font-size: 14px; color: black; outline: none; transition: 0.2s;
-        }
-        .input-field:focus { border-color: var(--gold); box-shadow: 0 0 0 4px var(--gold-light); }
-
-        /* Toggle Switches (Yes/No) */
-        .toggle-group {
-            display: flex; background: white; border: 1px solid var(--border);
-            border-radius: var(--radius-pill); padding: 4px; width: fit-content;
-        }
-        .toggle-opt {
-            padding: 8px 20px; border-radius: var(--radius-pill); cursor: pointer;
-            font-size: 12px; font-weight: 600; color: #666; transition: 0.2s;
-        }
-        .toggle-opt.active { background: var(--gold); color: white; box-shadow: 0 2px 10px rgba(197, 160, 89, 0.3); }
-
-        /* --- 5. CARDS & VISUALS --- */
-        .option-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
+        /* Option Cards (Big Tap Targets) */
+        .grid-options { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 16px; }
         
         .option-card {
-            background: white; border: 1px solid var(--border);
-            border-radius: var(--radius-soft); overflow: hidden;
-            cursor: pointer; transition: 0.2s; position: relative;
-            display: flex; flex-direction: column;
+            background: white; border: 1px solid var(--border); border-radius: var(--radius);
+            padding: 24px; cursor: pointer; text-align: center; transition: 0.2s;
+            display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px;
         }
-        .option-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-float); }
+        .option-card:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
         .option-card.selected { border: 2px solid var(--gold); background: #FFFCF5; }
-
-        .card-img {
-            height: 160px; background: #f0f0f0; width: 100%; object-fit: cover;
-        }
-        .card-body { padding: 20px; flex: 1; display: flex; flex-direction: column; }
-        .card-title { font-weight: 700; font-size: 14px; margin-bottom: 4px; }
-        .card-sub { font-size: 11px; color: #666; margin-bottom: 12px; line-height: 1.4; }
-        .card-price { margin-top: auto; color: var(--gold); font-weight: 700; font-size: 13px; }
-
-        /* --- 6. SUMMARY PANEL (Right) --- */
-        .summary {
-            background: white; border-left: 1px solid var(--border);
-            display: flex; flex-direction: column; padding: 30px;
-            box-shadow: -10px 0 40px rgba(0,0,0,0.02);
-        }
-        .summary-title { font-family: 'Bodoni Moda', serif; font-size: 20px; margin-bottom: 24px; }
         
-        .ledger-list { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
-        .ledger-row { display: flex; justify-content: space-between; font-size: 13px; color: #555; }
-        .ledger-row strong { color: black; }
+        .opt-icon { font-size: 24px; color: #ccc; }
+        .option-card.selected .opt-icon { color: var(--gold); }
+        .opt-label { font-size: 13px; font-weight: 600; }
+        .opt-price { font-size: 11px; color: var(--gold); font-weight: 700; }
 
-        .total-box {
-            margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border);
+        /* Visual Coffin Selector */
+        .coffin-slider {
+            display: flex; gap: 16px; overflow-x: auto; padding-bottom: 20px;
+            scroll-snap-type: x mandatory;
         }
-        .total-amount { font-family: 'Bodoni Moda', serif; font-size: 32px; color: var(--gold); }
+        .coffin-card {
+            min-width: 200px; scroll-snap-align: center;
+            background: white; border-radius: var(--radius); overflow: hidden;
+            border: 1px solid var(--border); cursor: pointer; transition: 0.2s;
+        }
+        .coffin-card.selected { border: 2px solid var(--gold); }
+        .coffin-img { height: 140px; width: 100%; object-fit: cover; background: #eee; }
+        .coffin-meta { padding: 16px; text-align: center; }
 
-        .btn-primary {
-            width: 100%; background: var(--gold); color: white;
-            padding: 16px; border-radius: var(--radius-pill);
-            font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; font-size: 12px;
-            margin-top: 20px; transition: 0.2s; text-align: center;
+        /* --- 5. BOTTOM NAVIGATION --- */
+        .bottom-nav {
+            position: fixed; bottom: 0; left: 0; right: 0;
+            background: white; border-top: 1px solid var(--border);
+            padding: 20px 30px; z-index: 100;
+            display: flex; justify-content: space-between; align-items: center;
         }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(197, 160, 89, 0.4); }
 
-        /* --- 7. RESPONSIVE --- */
-        @media (max-width: 1024px) {
-            .app-container { grid-template-columns: 1fr; display: block; overflow-y: auto; }
-            .sidebar { display: none; } /* Mobile Menu Toggle needed in prod */
-            .summary { border-left: none; border-top: 1px solid var(--border); }
+        .btn-nav {
+            padding: 16px 32px; border-radius: 99px; font-size: 13px; font-weight: 700; 
+            text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; transition: 0.2s;
         }
+        .btn-back { background: transparent; color: #999; }
+        .btn-back:hover { color: black; background: #f5f5f5; }
+        
+        .btn-next { background: var(--gold); color: white; box-shadow: 0 4px 15px rgba(197, 160, 89, 0.3); }
+        .btn-next:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(197, 160, 89, 0.4); }
+
+        .price-display { font-family: 'Bodoni Moda', serif; font-size: 20px; font-weight: 600; color: black; }
+        .price-label { font-size: 9px; text-transform: uppercase; color: #999; font-weight: 700; display: block; }
 
     </style>
 </head>
 <body>
 
-    <header class="h-16 bg-white border-b border-[#E5E5E5] flex items-center justify-between px-8 sticky top-0 z-50">
+    <div class="top-nav">
+        <div class="flex justify-between items-center">
+            <span class="brand">FuneralMatch</span>
+            <div class="text-[10px] font-bold text-gray-400">ARRANGEMENT SUITE</div>
+        </div>
         <div>
-            <span class="text-[9px] font-bold text-[#C5A059] uppercase tracking-widest block">FuneralMatch</span>
-            <span class="text-sm font-bold text-black">Complete Arrangement Suite</span>
+            <div class="step-indicator mb-2">
+                <span id="step-text" class="step-active">01. The Deceased</span>
+                <span class="text-gray-300">06. Finalize</span>
+            </div>
+            <div class="progress-track">
+                <div class="progress-fill" id="progress-bar"></div>
+            </div>
         </div>
-        <div class="flex gap-4">
-            <button onclick="window.print()" class="text-xs font-bold text-gray-500 hover:text-black"><i class="fas fa-print mr-2"></i> Print Pack</button>
-            <button class="text-xs font-bold text-gray-500 hover:text-black"><i class="fas fa-save mr-2"></i> Save Progress</button>
-        </div>
-    </header>
+    </div>
 
-    <div class="app-container">
+    <div class="stage">
         
-        <aside class="sidebar">
-            <div class="nav-group-title">The Basics</div>
-            <div class="nav-item active" onclick="scrollToSection('sec-person')"><i class="fas fa-user"></i> The Person</div>
-            <div class="nav-item" onclick="scrollToSection('sec-docs')"><i class="fas fa-file-contract"></i> Legal & Docs</div>
+        <div id="step-1" class="step-container active">
+            <h1 class="step-title">Who is this for?</h1>
+            <p class="step-desc">We start by recording the essential details of the person who has died. This is required for legal documentation.</p>
             
-            <div class="nav-group-title">The Event</div>
-            <div class="nav-item" onclick="scrollToSection('sec-service')"><i class="fas fa-church"></i> Service Type</div>
-            <div class="nav-item" onclick="scrollToSection('sec-ceremony')"><i class="fas fa-music"></i> Ceremony</div>
-            <div class="nav-item" onclick="scrollToSection('sec-reception')"><i class="fas fa-glass-cheers"></i> Reception</div>
-
-            <div class="nav-group-title">Products</div>
-            <div class="nav-item" onclick="scrollToSection('sec-coffins')"><i class="fas fa-box"></i> Coffin Suite</div>
-            <div class="nav-item" onclick="scrollToSection('sec-transport')"><i class="fas fa-car"></i> Transport</div>
-            <div class="nav-item" onclick="scrollToSection('sec-print')"><i class="fas fa-book-open"></i> Stationery</div>
-
-            <div class="nav-group-title">Finalizing</div>
-            <div class="nav-item" onclick="scrollToSection('sec-contact')"><i class="fas fa-address-book"></i> Next of Kin</div>
-            <div class="nav-item" onclick="scrollToSection('sec-payment')"><i class="fas fa-credit-card"></i> Payment</div>
-        </aside>
-
-        <main class="main-stage">
+            <div class="grid grid-cols-2 gap-4">
+                <div class="input-group">
+                    <label class="input-label">First Name</label>
+                    <input type="text" class="input-field" placeholder="e.g. Eleanor">
+                </div>
+                <div class="input-group">
+                    <label class="input-label">Surname</label>
+                    <input type="text" class="input-field" placeholder="e.g. Rigby">
+                </div>
+            </div>
             
-            <section id="sec-person" class="mb-20">
-                <div class="section-header">
-                    <h2 class="section-title">The Person</h2>
-                    <p class="section-desc">Details of the deceased required for legal registration and care.</p>
+            <div class="input-group">
+                <label class="input-label">Date of Death</label>
+                <input type="date" class="input-field">
+            </div>
+
+            <div class="input-group">
+                <label class="input-label">Current Location</label>
+                <div class="grid-options">
+                    <div class="option-card" onclick="selectOption(this, 'loc')">
+                        <i class="fas fa-home opt-icon"></i>
+                        <span class="opt-label">Home</span>
+                    </div>
+                    <div class="option-card" onclick="selectOption(this, 'loc')">
+                        <i class="fas fa-hospital opt-icon"></i>
+                        <span class="opt-label">Hospital</span>
+                    </div>
+                    <div class="option-card" onclick="selectOption(this, 'loc')">
+                        <i class="fas fa-scale-balanced opt-icon"></i>
+                        <span class="opt-label">Coroner</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="step-2" class="step-container">
+            <h1 class="step-title">The Service</h1>
+            <p class="step-desc">Select the type of committal you wish to arrange.</p>
+
+            <div class="grid grid-cols-1 gap-4">
+                <div class="option-card flex-row text-left px-6 py-4" onclick="setService(995, 'Direct Cremation', this)">
+                    <div class="flex-1">
+                        <div class="opt-label text-lg">Direct Cremation</div>
+                        <div class="text-xs text-gray-500 mt-1">Unattended. Simple. Respectful.</div>
+                    </div>
+                    <div class="opt-price text-lg">£995</div>
                 </div>
                 
-                <div class="form-grid">
-                    <div>
-                        <label class="form-label">First Name(s)</label>
-                        <input type="text" class="input-field" placeholder="Legal first names">
+                <div class="option-card flex-row text-left px-6 py-4" onclick="setService(2200, 'Simple Service', this)">
+                    <div class="flex-1">
+                        <div class="opt-label text-lg">Simple Service</div>
+                        <div class="text-xs text-gray-500 mt-1">Intimate gathering at the chapel.</div>
                     </div>
-                    <div>
-                        <label class="form-label">Surname</label>
-                        <input type="text" class="input-field" placeholder="Legal surname">
-                    </div>
-                    <div>
-                        <label class="form-label">Known As / Alias</label>
-                        <input type="text" class="input-field" placeholder="Nickname">
-                    </div>
-                    <div>
-                        <label class="form-label">Social Security / NI Number</label>
-                        <input type="text" class="input-field">
-                    </div>
-                    <div>
-                        <label class="form-label">Date of Birth</label>
-                        <input type="date" class="input-field">
-                    </div>
-                    <div>
-                        <label class="form-label">Date of Death</label>
-                        <input type="date" class="input-field">
-                    </div>
-                    <div class="full-width">
-                        <label class="form-label">Place of Death (Current Location)</label>
-                        <input type="text" class="input-field" placeholder="Hospital, Home Address, or Care Home">
-                    </div>
+                    <div class="opt-price text-lg">£2,200</div>
                 </div>
 
-                <div class="bg-white p-6 rounded-3xl border border-gray-200">
-                    <h3 class="font-bold text-sm mb-4">Care & Preparation</h3>
-                    <div class="form-grid">
-                        <div>
-                            <label class="form-label">Embalming (Hygienic Treatment)</label>
-                            <div class="toggle-group">
-                                <div class="toggle-opt active" onclick="toggle(this)">Yes</div>
-                                <div class="toggle-opt" onclick="toggle(this)">No</div>
-                            </div>
-                        </div>
-                        <div>
-                            <label class="form-label">Pacemaker Fitted?</label>
-                            <div class="toggle-group">
-                                <div class="toggle-opt" onclick="toggle(this)">Yes</div>
-                                <div class="toggle-opt active" onclick="toggle(this)">No</div>
-                            </div>
-                            <p class="text-[10px] text-red-400 mt-2">*Must be removed for cremation</p>
-                        </div>
-                        <div class="full-width">
-                            <label class="form-label">Jewelry / Personal Effects Instructions</label>
-                            <textarea class="input-area" rows="2" placeholder="e.g. Leave wedding ring on. Return necklace to family."></textarea>
-                        </div>
+                <div class="option-card flex-row text-left px-6 py-4" onclick="setService(3500, 'Traditional Burial', this)">
+                    <div class="flex-1">
+                        <div class="opt-label text-lg">Traditional Burial</div>
+                        <div class="text-xs text-gray-500 mt-1">Full service followed by interment.</div>
+                    </div>
+                    <div class="opt-price text-lg">£3,500</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="step-3" class="step-container">
+            <h1 class="step-title">Coffin Selection</h1>
+            <p class="step-desc">Swipe to view our curated range.</p>
+
+            <div class="coffin-slider">
+                <div class="coffin-card selected" onclick="setCoffin(0, this)">
+                    <img src="https://placehold.co/300x200/EEE/999?text=Morpeth" class="coffin-img">
+                    <div class="coffin-meta">
+                        <div class="font-bold text-sm">The Morpeth</div>
+                        <div class="text-xs text-gray-500 mb-2">Oak Veneer</div>
+                        <div class="text-[#C5A059] font-bold text-xs">Included</div>
                     </div>
                 </div>
-            </section>
-
-            <section id="sec-service" class="mb-20">
-                <div class="section-header">
-                    <h2 class="section-title">Service Type</h2>
-                    <p class="section-desc">Select the type of committal.</p>
-                </div>
-
-                <div class="option-grid">
-                    <div class="option-card" onclick="selectService('Direct Cremation', 995, this)">
-                        <img src="https://images.unsplash.com/photo-1494972308805-463bc619d34e?auto=format&fit=crop&w=400&q=80" class="card-img" alt="Direct">
-                        <div class="card-body">
-                            <div class="card-title">Direct Cremation</div>
-                            <div class="card-sub">Unattended. Respectful. No mourners.</div>
-                            <div class="card-price">£995</div>
-                        </div>
-                    </div>
-                    <div class="option-card" onclick="selectService('Simple Service', 2200, this)">
-                        <img src="https://images.unsplash.com/photo-1518176258769-f227c798150e?auto=format&fit=crop&w=400&q=80" class="card-img" alt="Simple">
-                        <div class="card-body">
-                            <div class="card-title">Simple Service</div>
-                            <div class="card-sub">Chapel service. Up to 20 attendees.</div>
-                            <div class="card-price">£2,200</div>
-                        </div>
-                    </div>
-                    <div class="option-card" onclick="selectService('Traditional Burial', 3500, this)">
-                        <img src="https://images.unsplash.com/photo-1596230529625-7ee541361149?auto=format&fit=crop&w=400&q=80" class="card-img" alt="Burial">
-                        <div class="card-body">
-                            <div class="card-title">Traditional Burial</div>
-                            <div class="card-sub">Full service followed by interment.</div>
-                            <div class="card-price">£3,500</div>
-                        </div>
-                    </div>
-                    <div class="option-card" onclick="selectService('Burial at Sea', 4200, this)">
-                        <img src="https://images.unsplash.com/photo-1468581264429-2548ef9eb732?auto=format&fit=crop&w=400&q=80" class="card-img" alt="Sea">
-                        <div class="card-body">
-                            <div class="card-title">Burial at Sea</div>
-                            <div class="card-sub">Maritime charter service.</div>
-                            <div class="card-price">£4,200</div>
-                        </div>
+                <div class="coffin-card" onclick="setCoffin(450, this)">
+                    <img src="https://placehold.co/300x200/EEE/999?text=Willow" class="coffin-img">
+                    <div class="coffin-meta">
+                        <div class="font-bold text-sm">Natural Willow</div>
+                        <div class="text-xs text-gray-500 mb-2">Hand Woven</div>
+                        <div class="text-[#C5A059] font-bold text-xs">+£450</div>
                     </div>
                 </div>
-            </section>
-
-            <section id="sec-coffins" class="mb-20">
-                <div class="section-header">
-                    <h2 class="section-title">Coffin Suite</h2>
-                    <p class="section-desc">A curated selection ranging from traditional woods to eco-friendly options.</p>
-                </div>
-
-                <div class="mb-4 text-xs font-bold text-[#C5A059] uppercase tracking-widest">Low Range</div>
-                <div class="option-grid mb-8">
-                    <div class="option-card" onclick="selectCoffin('The Morpeth', 0, this)">
-                        <img src="https://placehold.co/400x300/F5F5F5/999?text=Morpeth" class="card-img">
-                        <div class="card-body">
-                            <div class="card-title">The Morpeth</div>
-                            <div class="card-price">Included</div>
-                        </div>
-                    </div>
-                    <div class="option-card" onclick="selectCoffin('The Newcastle', 150, this)">
-                        <img src="https://placehold.co/400x300/F5F5F5/999?text=Newcastle" class="card-img">
-                        <div class="card-body">
-                            <div class="card-title">The Newcastle</div>
-                            <div class="card-price">+£150</div>
-                        </div>
-                    </div>
-                    <div class="option-card" onclick="selectCoffin('Cardboard Eco', 200, this)">
-                        <img src="https://placehold.co/400x300/F5F5F5/999?text=Cardboard" class="card-img">
-                        <div class="card-body">
-                            <div class="card-title">Cardboard Eco</div>
-                            <div class="card-price">+£200</div>
-                        </div>
-                    </div>
-                    <div class="option-card" onclick="selectCoffin('Simple White', 250, this)">
-                        <img src="https://placehold.co/400x300/F5F5F5/999?text=White" class="card-img">
-                        <div class="card-body">
-                            <div class="card-title">Simple White</div>
-                            <div class="card-price">+£250</div>
-                        </div>
+                <div class="coffin-card" onclick="setCoffin(250, this)">
+                    <img src="https://placehold.co/300x200/EEE/999?text=Eco" class="coffin-img">
+                    <div class="coffin-meta">
+                        <div class="font-bold text-sm">Eco Cardboard</div>
+                        <div class="text-xs text-gray-500 mb-2">100% Biodegradable</div>
+                        <div class="text-[#C5A059] font-bold text-xs">+£250</div>
                     </div>
                 </div>
-
-                <div class="mb-4 text-xs font-bold text-[#C5A059] uppercase tracking-widest">Mid Range</div>
-                <div class="option-grid mb-8">
-                    <div class="option-card" onclick="selectCoffin('Willow Woven', 450, this)">
-                        <img src="https://placehold.co/400x300/F5F5F5/999?text=Willow" class="card-img">
-                        <div class="card-body">
-                            <div class="card-title">Willow Woven</div>
-                            <div class="card-price">+£450</div>
-                        </div>
-                    </div>
-                    <div class="option-card" onclick="selectCoffin('Seagrass', 500, this)">
-                        <img src="https://placehold.co/400x300/F5F5F5/999?text=Seagrass" class="card-img">
-                        <div class="card-body">
-                            <div class="card-title">Seagrass</div>
-                            <div class="card-price">+£500</div>
-                        </div>
-                    </div>
-                    <div class="option-card" onclick="selectCoffin('Solid Pine', 600, this)">
-                        <img src="https://placehold.co/400x300/F5F5F5/999?text=Pine" class="card-img">
-                        <div class="card-body">
-                            <div class="card-title">Solid Pine</div>
-                            <div class="card-price">+£600</div>
-                        </div>
-                    </div>
-                    <div class="option-card" onclick="selectCoffin('Picture Coffin', 700, this)">
-                        <img src="https://placehold.co/400x300/F5F5F5/999?text=Picture" class="card-img">
-                        <div class="card-body">
-                            <div class="card-title">Custom Picture</div>
-                            <div class="card-price">+£700</div>
-                        </div>
+                <div class="coffin-card" onclick="setCoffin(1200, this)">
+                    <img src="https://placehold.co/300x200/EEE/999?text=Mahogany" class="coffin-img">
+                    <div class="coffin-meta">
+                        <div class="font-bold text-sm">The Canterbury</div>
+                        <div class="text-xs text-gray-500 mb-2">Solid Mahogany</div>
+                        <div class="text-[#C5A059] font-bold text-xs">+£1,200</div>
                     </div>
                 </div>
+            </div>
+        </div>
 
-                <div class="mb-4 text-xs font-bold text-[#C5A059] uppercase tracking-widest">High Range</div>
-                <div class="option-grid">
-                    <div class="option-card" onclick="selectCoffin('Solid Oak', 950, this)">
-                        <img src="https://placehold.co/400x300/F5F5F5/999?text=Solid+Oak" class="card-img">
-                        <div class="card-body">
-                            <div class="card-title">Solid Oak</div>
-                            <div class="card-price">+£950</div>
-                        </div>
-                    </div>
-                    <div class="option-card" onclick="selectCoffin('The Canterbury', 1200, this)">
-                        <img src="https://placehold.co/400x300/F5F5F5/999?text=Mahogany" class="card-img">
-                        <div class="card-body">
-                            <div class="card-title">The Canterbury</div>
-                            <div class="card-price">+£1,200</div>
-                        </div>
-                    </div>
-                    <div class="option-card" onclick="selectCoffin('Last Supper', 1500, this)">
-                        <img src="https://placehold.co/400x300/F5F5F5/999?text=Last+Supper" class="card-img">
-                        <div class="card-body">
-                            <div class="card-title">The Last Supper</div>
-                            <div class="card-price">+£1,500</div>
-                        </div>
-                    </div>
-                    <div class="option-card" onclick="selectCoffin('American Casket', 2200, this)">
-                        <img src="https://placehold.co/400x300/F5F5F5/999?text=Casket" class="card-img">
-                        <div class="card-body">
-                            <div class="card-title">American Casket</div>
-                            <div class="card-price">+£2,200</div>
-                        </div>
-                    </div>
-                </div>
-            </section>
+        <div id="step-4" class="step-container">
+            <h1 class="step-title">Enhancements</h1>
+            <p class="step-desc">Add transport and stationery needs.</p>
 
-            <section id="sec-transport" class="mb-20">
-                <div class="section-header">
-                    <h2 class="section-title">Transport</h2>
-                    <p class="section-desc">A Motor Hearse is included. Add additional vehicles or upgrade.</p>
-                </div>
-
-                <div class="bg-white p-6 rounded-3xl border border-gray-200 mb-8 flex justify-between items-center">
-                    <div>
-                        <div class="font-bold">Limousines</div>
-                        <div class="text-xs text-gray-500">Seats 7 passengers (£250 each)</div>
-                    </div>
+            <div class="input-group">
+                <label class="input-label">Limousines (Seats 7)</label>
+                <div class="flex items-center justify-between bg-white border border-[#E5E5E5] p-4 rounded-[24px]">
+                    <span class="text-sm font-bold" id="limo-price-display">£0</span>
                     <div class="flex items-center gap-4">
-                        <button class="w-10 h-10 rounded-full border border-gray-300 hover:border-[#C5A059] flex items-center justify-center" onclick="updateLimos(-1)"><i class="fas fa-minus"></i></button>
-                        <span class="font-bold text-lg w-6 text-center" id="limo-count">0</span>
-                        <button class="w-10 h-10 rounded-full border border-gray-300 hover:border-[#C5A059] flex items-center justify-center" onclick="updateLimos(1)"><i class="fas fa-plus"></i></button>
+                        <button class="w-8 h-8 rounded-full bg-gray-100 hover:bg-[#C5A059] hover:text-white" onclick="updateLimo(-1)">-</button>
+                        <span class="font-bold w-4 text-center" id="limo-count">0</span>
+                        <button class="w-8 h-8 rounded-full bg-gray-100 hover:bg-[#C5A059] hover:text-white" onclick="updateLimo(1)">+</button>
                     </div>
                 </div>
-
-                <div class="option-grid">
-                    <div class="option-card" onclick="selectTransport('Horse Drawn', 850, this)">
-                        <img src="https://placehold.co/400x300/F5F5F5/999?text=Horses" class="card-img">
-                        <div class="card-body">
-                            <div class="card-title">Horse Drawn</div>
-                            <div class="card-price">+£850</div>
-                        </div>
-                    </div>
-                    <div class="option-card" onclick="selectTransport('Motorcycle', 950, this)">
-                        <img src="https://placehold.co/400x300/F5F5F5/999?text=Bike" class="card-img">
-                        <div class="card-body">
-                            <div class="card-title">Motorcycle</div>
-                            <div class="card-price">+£950</div>
-                        </div>
-                    </div>
-                    <div class="option-card" onclick="selectTransport('Truck', 600, this)">
-                        <img src="https://placehold.co/400x300/F5F5F5/999?text=Truck" class="card-img">
-                        <div class="card-body">
-                            <div class="card-title">Vintage Truck</div>
-                            <div class="card-price">+£600</div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section id="sec-print" class="mb-20">
-                <div class="section-header">
-                    <h2 class="section-title">Stationery</h2>
-                    <p class="section-desc">Orders of service. Start at 20 copies, add more in batches of 10.</p>
-                </div>
-                
-                <div class="bg-white p-8 rounded-3xl border border-gray-200">
-                    <div class="flex justify-between items-end mb-6">
-                        <div id="print-count-display" class="font-bold text-xl">0 Copies</div>
-                        <div id="print-price-display" class="font-bold text-[#C5A059]">£0</div>
-                    </div>
-                    <input type="range" min="0" max="200" step="10" value="0" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-[#C5A059]" oninput="updatePrint(this.value)">
-                    <p class="text-xs text-center mt-4 text-gray-400">20 Copies = £50. +£15 per 10 extra.</p>
-                </div>
-            </section>
-
-            <section id="sec-contact" class="mb-20">
-                <div class="section-header">
-                    <h2 class="section-title">Next of Kin</h2>
-                    <p class="section-desc">The primary contact for arrangements.</p>
-                </div>
-                <div class="form-grid">
-                    <div><label class="form-label">Full Name</label><input class="input-field" type="text"></div>
-                    <div><label class="form-label">Relationship</label><input class="input-field" type="text"></div>
-                    <div><label class="form-label">Phone</label><input class="input-field" type="tel"></div>
-                    <div><label class="form-label">Email</label><input class="input-field" type="email"></div>
-                    <div class="full-width"><label class="form-label">Address</label><textarea class="input-area" rows="2"></textarea></div>
-                </div>
-            </section>
-
-        </main>
-
-        <aside class="summary">
-            <div class="summary-title">Arrangement Summary</div>
-            
-            <div class="ledger-list">
-                <div class="ledger-row"><span>Service Type</span><strong id="sum-service">-</strong></div>
-                <div class="ledger-row"><span>Coffin</span><strong id="sum-coffin">-</strong></div>
-                <div class="ledger-row"><span>Transport</span><strong id="sum-transport">Hearse</strong></div>
-                <div class="ledger-row"><span>Limousines</span><strong id="sum-limos">0</strong></div>
-                <div class="ledger-row"><span>Stationery</span><strong id="sum-print">-</strong></div>
             </div>
 
-            <div class="total-box">
-                <div class="form-label">Estimated Total</div>
-                <div class="total-amount" id="total-display">£0</div>
-                <button onclick="alert('Arrangement Submitted for Review')" class="btn-primary">Submit Arrangement</button>
+            <div class="input-group">
+                <label class="input-label">Order of Service Booklets</label>
+                <div class="bg-white border border-[#E5E5E5] p-6 rounded-[24px]">
+                    <div class="flex justify-between mb-4">
+                        <span class="font-bold text-sm" id="paper-count">0 Copies</span>
+                        <span class="font-bold text-sm text-[#C5A059]" id="paper-price">£0</span>
+                    </div>
+                    <input type="range" min="0" max="150" step="10" value="0" class="w-full accent-[#C5A059]" oninput="updatePaper(this.value)">
+                </div>
             </div>
-        </aside>
+        </div>
 
+        <div id="step-5" class="step-container">
+            <h1 class="step-title">Final Details</h1>
+            <p class="step-desc">Your contact information for the arrangement.</p>
+
+            <div class="input-group">
+                <label class="input-label">Your Name</label>
+                <input type="text" class="input-field">
+            </div>
+            <div class="input-group">
+                <label class="input-label">Relationship to Deceased</label>
+                <input type="text" class="input-field">
+            </div>
+            <div class="input-group">
+                <label class="input-label">Phone Number</label>
+                <input type="tel" class="input-field">
+            </div>
+            <div class="input-group">
+                <label class="input-label">Email</label>
+                <input type="email" class="input-field">
+            </div>
+        </div>
+
+        <div id="step-6" class="step-container">
+            <h1 class="step-title">Review Plan</h1>
+            <div class="bg-white p-8 rounded-[24px] border border-[#E5E5E5] mb-8">
+                <div class="flex justify-between mb-4 pb-4 border-b border-gray-100">
+                    <span class="text-gray-500 text-sm">Service</span>
+                    <span class="font-bold text-sm" id="sum-service">-</span>
+                </div>
+                <div class="flex justify-between mb-4 pb-4 border-b border-gray-100">
+                    <span class="text-gray-500 text-sm">Coffin</span>
+                    <span class="font-bold text-sm" id="sum-coffin">Included</span>
+                </div>
+                <div class="flex justify-between mb-4 pb-4 border-b border-gray-100">
+                    <span class="text-gray-500 text-sm">Extras</span>
+                    <span class="font-bold text-sm" id="sum-extras">£0</span>
+                </div>
+                <div class="flex justify-between items-end pt-2">
+                    <span class="text-xs font-bold uppercase tracking-widest text-gray-400">Total Estimate</span>
+                    <span class="font-serif text-3xl text-[#C5A059]" id="sum-total">£0</span>
+                </div>
+            </div>
+            <p class="text-xs text-center text-gray-400 mb-8 px-8">By submitting, you agree to our terms. A Funeral Director will contact you within 1 hour to confirm details.</p>
+        </div>
+
+    </div>
+
+    <div class="bottom-nav">
+        <div>
+            <div class="price-label">ESTIMATE</div>
+            <div class="price-display" id="nav-total">£0</div>
+        </div>
+        <div class="flex gap-2">
+            <button class="btn-nav btn-back" id="btn-back" onclick="changeStep(-1)" style="display:none">Back</button>
+            <button class="btn-nav btn-next" id="btn-next" onclick="changeStep(1)">Next Step</button>
+        </div>
     </div>
 
     <script>
         // === STATE ===
-        const state = {
-            service: { price: 0, name: '' },
-            coffin: { price: 0, name: '' },
-            transport: { price: 0, name: '' },
-            limos: { count: 0, price: 0 },
-            print: { count: 0, price: 0 }
+        let currentStep = 1;
+        const totalSteps = 6;
+        const costs = {
+            service: 0,
+            coffin: 0,
+            limos: 0,
+            paper: 0
         };
 
-        function scrollToSection(id) {
-            document.getElementById(id).scrollIntoView({ behavior: 'smooth', block: 'start' });
+        // === NAVIGATION ===
+        function changeStep(dir) {
+            // Hide current
+            document.getElementById(`step-${currentStep}`).classList.remove('active');
+            
+            // Update Index
+            currentStep += dir;
+            
+            // Show new
+            document.getElementById(`step-${currentStep}`).classList.add('active');
+
+            // Update UI
+            document.getElementById('progress-bar').style.width = `${(currentStep / totalSteps) * 100}%`;
+            
+            // Labels
+            const titles = ["", "The Deceased", "The Service", "Coffin Selection", "Enhancements", "Contact Details", "Final Review"];
+            document.getElementById('step-text').innerText = `0${currentStep}. ${titles[currentStep]}`;
+
+            // Button Logic
+            document.getElementById('btn-back').style.display = currentStep === 1 ? 'none' : 'block';
+            
+            const nextBtn = document.getElementById('btn-next');
+            if(currentStep === totalSteps) {
+                nextBtn.innerText = "Submit Arrangement";
+                nextBtn.onclick = () => alert("Arrangement Sent Successfully!");
+            } else {
+                nextBtn.innerText = "Next Step";
+                nextBtn.onclick = () => changeStep(1);
+            }
         }
 
-        // Toggles for UI
-        function toggle(el) {
-            const group = el.parentElement;
-            group.querySelectorAll('.toggle-opt').forEach(opt => opt.classList.remove('active'));
-            el.classList.add('active');
-        }
-
-        // --- SELECTION LOGIC ---
-        function selectService(name, price, el) {
-            state.service = { name, price };
-            highlightCard('sec-service', el);
-            updateTotal();
-        }
-
-        function selectCoffin(name, price, el) {
-            state.coffin = { name, price };
-            highlightCard('sec-coffins', el);
-            updateTotal();
-        }
-
-        function selectTransport(name, price, el) {
-            // Check if already selected to toggle off? For simplicity, we just switch special transport
-            state.transport = { name, price };
-            highlightCard('sec-transport', el);
-            updateTotal();
-        }
-
-        function highlightCard(sectionId, el) {
-            const section = document.getElementById(sectionId);
-            section.querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
+        // === SELECTION UI ===
+        function selectOption(el, group) {
+            // Deselect siblings
+            const parent = el.parentElement;
+            parent.querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
             el.classList.add('selected');
         }
 
-        // --- COUNTERS ---
-        function updateLimos(change) {
-            let n = state.limos.count + change;
+        // === COST LOGIC ===
+        
+        function setService(price, name, el) {
+            costs.service = price;
+            selectOption(el);
+            document.getElementById('sum-service').innerText = `${name} (£${price})`;
+            updateTotal();
+        }
+
+        function setCoffin(price, el) {
+            costs.coffin = price;
+            // Visual slider selection logic
+            el.parentElement.querySelectorAll('.coffin-card').forEach(c => c.classList.remove('selected'));
+            el.classList.add('selected');
+            
+            document.getElementById('sum-coffin').innerText = price === 0 ? "Included" : `+£${price}`;
+            updateTotal();
+        }
+
+        function updateLimo(change) {
+            let n = (costs.limos / 250) + change;
             if(n < 0) n = 0;
-            state.limos.count = n;
-            state.limos.price = n * 250;
+            costs.limos = n * 250;
             
             document.getElementById('limo-count').innerText = n;
+            document.getElementById('limo-price-display').innerText = `£${costs.limos}`;
             updateTotal();
         }
 
-        function updatePrint(val) {
+        function updatePaper(val) {
             const n = parseInt(val);
             let price = 0;
+            if(n >= 20) price = 50 + (((n - 20) / 10) * 15);
             
-            if(n >= 20) {
-                // Base 20 = £50. Each extra 10 = £15.
-                price = 50 + (((n - 20) / 10) * 15);
-                document.getElementById('print-count-display').innerText = `${n} Copies`;
-            } else {
-                document.getElementById('print-count-display').innerText = `0 Copies`;
-            }
-            
-            state.print = { count: n, price: price };
-            document.getElementById('print-price-display').innerText = `£${price}`;
+            costs.paper = price;
+            document.getElementById('paper-count').innerText = n > 0 ? `${n} Copies` : "0 Copies";
+            document.getElementById('paper-price').innerText = `£${price}`;
             updateTotal();
         }
 
-        // --- CALCULATE ---
         function updateTotal() {
-            const total = state.service.price + state.coffin.price + state.transport.price + state.limos.price + state.print.price;
-            
-            // Update UI Ledger
-            document.getElementById('sum-service').innerText = state.service.price ? `${state.service.name} (£${state.service.price})` : '-';
-            document.getElementById('sum-coffin').innerText = state.coffin.price ? `${state.coffin.name} (+£${state.coffin.price})` : '-';
-            document.getElementById('sum-transport').innerText = state.transport.price ? `${state.transport.name} (+£${state.transport.price})` : 'Hearse Only';
-            document.getElementById('sum-limos').innerText = state.limos.count > 0 ? `${state.limos.count} (£${state.limos.price})` : '-';
-            document.getElementById('sum-print').innerText = state.print.price > 0 ? `${state.print.count} (£${state.print.price})` : '-';
-            
-            document.getElementById('total-display').innerText = `£${total.toLocaleString()}`;
+            const total = costs.service + costs.coffin + costs.limos + costs.paper;
+            const extras = costs.limos + costs.paper;
+
+            document.getElementById('nav-total').innerText = `£${total.toLocaleString()}`;
+            document.getElementById('sum-total').innerText = `£${total.toLocaleString()}`;
+            document.getElementById('sum-extras').innerText = `£${extras.toLocaleString()}`;
         }
+
+        // Init
+        updateTotal();
 
     </script>
 </body>
