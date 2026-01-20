@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Precision Search | FuneralMatch</title>
+    <title>FuneralMatch | Director Search</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@1,400;1,700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -12,360 +12,318 @@
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
     <style>
+        /* --- 1. CORE VARIABLES --- */
         :root {
             --gold: #C5A059;
-            --black: #1a1a1a;
-            --soft-bg: #F9F8F6;
-            --ease: cubic-bezier(0.25, 1, 0.5, 1);
+            --black: #111;
+            --off-white: #F9F9F9;
+            --radius-lg: 24px;
+            --radius-pill: 999px;
+            --safe-bottom: env(safe-area-inset-bottom, 20px);
         }
 
-        body { font-family: 'Inter', sans-serif; background-color: var(--soft-bg); color: var(--black); }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--off-white);
+            color: var(--black);
+            -webkit-font-smoothing: antialiased;
+            /* Prevent horizontal scroll */
+            overflow-x: hidden;
+            padding-bottom: 80px;
+        }
         .serif { font-family: 'Bodoni Moda', serif; }
 
-        /* --- 1. THE COMMAND BAR --- */
-        .search-container {
-            position: fixed; top: 20px; left: 0; right: 0; z-index: 100;
-            display: flex; justify-content: center; padding: 0 20px;
+        /* --- 2. HEADER & LOGO --- */
+        .header-fixed {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+            background: rgba(255,255,255,0.95); backdrop-filter: blur(10px);
+            border-bottom: 1px solid #eee;
+            padding: 16px 20px;
+            display: flex; align-items: center; justify-content: space-between;
         }
 
-        .command-bar {
-            background: white; border-radius: 999px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
-            border: 1px solid #E5E5E5;
-            display: flex; align-items: center; padding: 8px; gap: 8px;
-            width: 100%; max-width: 800px;
-            transition: 0.3s var(--ease);
-        }
+        .brand-block { display: flex; flex-direction: column; }
+        .brand-main { font-size: 14px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: black; }
+        .brand-sub { font-size: 10px; font-weight: 700; color: var(--gold); letter-spacing: 0.2em; text-transform: uppercase; }
 
-        .search-input-group {
-            flex: 1; padding: 0 24px; border-right: 1px solid #eee;
-            display: flex; flex-direction: column; justify-content: center;
+        /* --- 3. MOBILE SEARCH BAR (Sticky) --- */
+        .search-sticky {
+            position: sticky; top: 68px; z-index: 40;
+            margin: 0 16px 24px 16px;
         }
-        .search-label { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; color: #999; }
-        .search-input { outline: none; width: 100%; font-size: 14px; font-weight: 600; color: black; background: transparent; }
-
-        .filter-trigger-btn {
-            width: 48px; height: 48px; border-radius: 50%; border: 1px solid #eee;
-            display: flex; align-items: center; justify-content: center; cursor: pointer;
-            transition: 0.2s; position: relative;
-        }
-        .filter-trigger-btn:hover { border-color: var(--gold); background: #FFFDF5; color: var(--gold); }
-        .filter-count {
-            position: absolute; top: -2px; right: -2px; width: 18px; height: 18px;
-            background: var(--gold); color: white; border-radius: 50%; font-size: 10px;
-            font-weight: bold; display: flex; align-items: center; justify-content: center; opacity: 0;
-        }
-
-        .search-btn {
-            background: var(--gold); color: white; height: 48px; padding: 0 32px;
-            border-radius: 999px; font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em;
-            display: flex; align-items: center; gap: 8px; transition: 0.2s;
-        }
-        .search-btn:hover { background: black; }
-
-        /* --- 2. THE FILTER DECK (Advanced) --- */
-        .filter-deck {
-            position: fixed; top: 0; left: 0; right: 0; height: 0;
-            background: white; z-index: 90; overflow: hidden;
-            transition: height 0.5s var(--ease);
-            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
-        }
-        .filter-deck.open { height: 60vh; }
-
-        .deck-content {
-            max-width: 1000px; margin: 0 auto; padding: 120px 40px 40px 40px;
-            height: 100%; display: flex; flex-direction: column;
-        }
-
-        .filter-grid {
-            display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px;
-            overflow-y: auto; padding-bottom: 40px;
-        }
-
-        .filter-group-title { font-family: 'Bodoni Moda', serif; font-size: 18px; margin-bottom: 16px; border-bottom: 1px solid #eee; padding-bottom: 8px; }
         
-        /* Checkbox Styling */
-        .checkbox-item {
-            display: flex; align-items: center; gap: 12px; margin-bottom: 12px; cursor: pointer;
-            font-size: 13px; color: #555; transition: 0.2s;
+        .search-capsule {
+            background: white; border-radius: var(--radius-pill);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            border: 1px solid #eee;
+            display: flex; padding: 6px;
         }
-        .checkbox-item:hover { color: var(--gold); }
-        
-        .custom-check {
-            width: 18px; height: 18px; border: 2px solid #ddd; border-radius: 4px;
-            display: flex; align-items: center; justify-content: center; color: white; transition: 0.2s;
+
+        .search-input {
+            flex: 1; border: none; outline: none; padding-left: 20px;
+            font-size: 16px; /* Prevents iOS Zoom */
+            border-radius: var(--radius-pill);
+            color: #333; background: transparent;
         }
-        input:checked + .custom-check { background: var(--gold); border-color: var(--gold); }
 
-        /* Range Slider */
-        .range-wrap { margin-top: 20px; }
-        input[type=range] { width: 100%; accent-color: var(--gold); }
+        .filter-btn {
+            background: #111; color: white;
+            height: 44px; padding: 0 20px; border-radius: var(--radius-pill);
+            font-size: 13px; font-weight: 600; cursor: pointer;
+            display: flex; align-items: center; gap: 8px;
+            transition: 0.2s;
+        }
+        .filter-btn:active { transform: scale(0.96); }
+        .badge {
+            background: var(--gold); color: white; font-size: 10px; 
+            padding: 2px 6px; border-radius: 99px; margin-left: 4px; display: none;
+        }
 
-        /* Deck Footer */
-        .deck-footer {
-            border-top: 1px solid #eee; padding-top: 20px; margin-top: auto;
+        /* --- 4. BOTTOM SHEET FILTER (Mobile Friendly) --- */
+        .sheet-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 100;
+            opacity: 0; pointer-events: none; transition: 0.3s; backdrop-filter: blur(4px);
+        }
+        .sheet-overlay.open { opacity: 1; pointer-events: auto; }
+
+        .sheet-content {
+            position: absolute; bottom: 0; left: 0; right: 0;
+            background: white; border-radius: 24px 24px 0 0;
+            max-height: 85vh; overflow-y: auto;
+            transform: translateY(100%); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            padding: 24px 24px 100px 24px; /* Padding for bottom button */
+        }
+        .sheet-overlay.open .sheet-content { transform: translateY(0); }
+
+        .sheet-header {
             display: flex; justify-content: space-between; align-items: center;
+            padding-bottom: 20px; border-bottom: 1px solid #f0f0f0; margin-bottom: 20px;
+            position: sticky; top: 0; background: white; z-index: 10;
         }
 
-        /* --- 3. RESULTS GRID --- */
-        .results-area { padding-top: 140px; padding-bottom: 80px; max-width: 1400px; margin: 0 auto; padding-left: 40px; padding-right: 40px; }
-        .grid-layout { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px; }
+        /* Thumb-Friendly Toggles (Chips) */
+        .chip-grid { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 24px; }
+        
+        .filter-chip {
+            padding: 10px 18px; border-radius: 12px;
+            background: #f5f5f5; border: 1px solid transparent;
+            font-size: 13px; font-weight: 600; color: #555;
+            cursor: pointer; transition: 0.2s; user-select: none;
+            display: flex; align-items: center; gap: 8px;
+        }
+        
+        /* Selected State */
+        .filter-chip.active {
+            background: #FFFDF5; border-color: var(--gold); color: var(--gold);
+            box-shadow: 0 4px 12px rgba(197, 160, 89, 0.15);
+        }
+        
+        /* Price Slider */
+        input[type=range] {
+            width: 100%; accent-color: var(--gold); height: 4px; margin: 20px 0;
+        }
+
+        /* Floating Apply Button */
+        .sheet-footer {
+            position: fixed; bottom: 0; left: 0; right: 0;
+            padding: 16px 24px; background: white; border-top: 1px solid #eee;
+            padding-bottom: max(16px, var(--safe-bottom));
+        }
+        .btn-apply {
+            width: 100%; background: var(--black); color: white;
+            padding: 16px; border-radius: var(--radius-pill);
+            font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em;
+        }
+
+        /* --- 5. DIRECTOR CARD --- */
+        .card-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px; padding: 0 16px; max-width: 1200px; margin: 0 auto;
+        }
 
         .director-card {
-            background: white; border-radius: 32px; border: 1px solid #E5E5E5;
-            overflow: hidden; transition: 0.4s; display: flex; flex-direction: column;
+            background: white; border-radius: 20px; overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.03); border: 1px solid #eee;
+            transition: 0.3s;
         }
-        .director-card:hover { transform: translateY(-8px); border-color: var(--gold); box-shadow: 0 20px 50px rgba(0,0,0,0.05); }
+        .director-card:active { transform: scale(0.98); }
 
-        .card-img { height: 200px; background: #eee; position: relative; }
-        .card-img img { width: 100%; height: 100%; object-fit: cover; }
+        .card-img { height: 180px; width: 100%; object-fit: cover; }
         
-        .rating-badge {
-            position: absolute; top: 16px; right: 16px;
-            background: white; padding: 4px 12px; border-radius: 99px;
-            font-size: 11px; font-weight: 800; color: black; box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        }
-        .rating-badge.high { color: var(--gold); }
-
+        .card-content { padding: 20px; }
+        
         .tag-pill {
-            font-size: 10px; padding: 4px 10px; border-radius: 6px; background: #f5f5f5; color: #666; font-weight: 600;
+            font-size: 10px; font-weight: 700; text-transform: uppercase;
+            padding: 4px 10px; border-radius: 6px; background: #f0f0f0; color: #666;
+            margin-right: 4px; display: inline-block; margin-bottom: 8px;
         }
-        .tag-pill.special { background: #FFFDF5; color: #B08D55; border: 1px solid rgba(197, 160, 89, 0.2); }
+        .tag-pill.gold { background: #FFF9E5; color: #B08D55; }
+
+        .price-badge {
+            font-size: 16px; font-weight: 700; color: var(--gold);
+        }
 
     </style>
 </head>
 <body>
 
-    <div class="filter-deck" id="filterDeck">
-        <div class="deck-content">
-            <div class="filter-grid">
-                
-                <div>
-                    <h3 class="filter-group-title">Performance & Merit</h3>
-                    <label class="checkbox-item">
-                        <input type="checkbox" class="hidden filter-input" value="rating_99">
-                        <div class="custom-check"><i class="fas fa-check text-xs"></i></div>
-                        <span>Excellence Only (9.9+)</span>
-                    </label>
-                    <label class="checkbox-item">
-                        <input type="checkbox" class="hidden filter-input" value="rating_95">
-                        <div class="custom-check"><i class="fas fa-check text-xs"></i></div>
-                        <span>High Merit (9.5+)</span>
-                    </label>
-                    
-                    <div class="range-wrap">
-                        <h4 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Max Price Estimate</h4>
-                        <input type="range" min="1000" max="10000" step="100" value="10000" id="priceRange" oninput="document.getElementById('priceVal').innerText = '£' + Number(this.value).toLocaleString()">
-                        <div class="text-right font-serif font-bold text-lg mt-1" id="priceVal">£10,000+</div>
-                    </div>
-                </div>
+    <header class="header-fixed">
+        <div class="brand-block">
+            <span class="brand-main">FuneralMatch</span>
+            <span class="brand-sub">Director Search</span>
+        </div>
+        <div class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-400">
+            <i class="fas fa-user"></i>
+        </div>
+    </header>
 
-                <div>
-                    <h3 class="filter-group-title">Cultural & Religious</h3>
-                    <label class="checkbox-item">
-                        <input type="checkbox" class="hidden filter-input" value="tag_greek">
-                        <div class="custom-check"><i class="fas fa-check text-xs"></i></div>
-                        <span>🇬🇷 Greek Orthodox</span>
-                    </label>
-                    <label class="checkbox-item">
-                        <input type="checkbox" class="hidden filter-input" value="tag_jewish">
-                        <div class="custom-check"><i class="fas fa-check text-xs"></i></div>
-                        <span>✡️ Jewish / Shiva</span>
-                    </label>
-                    <label class="checkbox-item">
-                        <input type="checkbox" class="hidden filter-input" value="tag_muslim">
-                        <div class="custom-check"><i class="fas fa-check text-xs"></i></div>
-                        <span>☪️ Muslim / Janazah</span>
-                    </label>
-                    <label class="checkbox-item">
-                        <input type="checkbox" class="hidden filter-input" value="tag_caribbean">
-                        <div class="custom-check"><i class="fas fa-check text-xs"></i></div>
-                        <span>🇯🇲 Caribbean / Nine Night</span>
-                    </label>
-                    <label class="checkbox-item">
-                        <input type="checkbox" class="hidden filter-input" value="tag_military">
-                        <div class="custom-check"><i class="fas fa-check text-xs"></i></div>
-                        <span>🎖️ Military Honours</span>
-                    </label>
-                </div>
+    <div style="height: 80px;"></div>
 
-                <div>
-                    <h3 class="filter-group-title">Niche Services</h3>
-                    <label class="checkbox-item">
-                        <input type="checkbox" class="hidden filter-input" value="tag_water">
-                        <div class="custom-check"><i class="fas fa-check text-xs"></i></div>
-                        <span>🌊 Burial at Sea</span>
-                    </label>
-                    <label class="checkbox-item">
-                        <input type="checkbox" class="hidden filter-input" value="tag_eco">
-                        <div class="custom-check"><i class="fas fa-check text-xs"></i></div>
-                        <span>🌿 Woodland / Eco</span>
-                    </label>
-                    <label class="checkbox-item">
-                        <input type="checkbox" class="hidden filter-input" value="tag_repatriation">
-                        <div class="custom-check"><i class="fas fa-check text-xs"></i></div>
-                        <span>✈️ International Repatriation</span>
-                    </label>
-                    <label class="checkbox-item">
-                        <input type="checkbox" class="hidden filter-input" value="tag_horse">
-                        <div class="custom-check"><i class="fas fa-check text-xs"></i></div>
-                        <span>🐎 Horse Drawn Hearse</span>
-                    </label>
-                </div>
-
-                <div>
-                    <h3 class="filter-group-title">Facility Features</h3>
-                    <label class="checkbox-item">
-                        <input type="checkbox" class="hidden filter-input" value="feat_chapel">
-                        <div class="custom-check"><i class="fas fa-check text-xs"></i></div>
-                        <span>Private Chapel of Rest</span>
-                    </label>
-                    <label class="checkbox-item">
-                        <input type="checkbox" class="hidden filter-input" value="feat_mortuary">
-                        <div class="custom-check"><i class="fas fa-check text-xs"></i></div>
-                        <span>On-site Mortuary</span>
-                    </label>
-                    <label class="checkbox-item">
-                        <input type="checkbox" class="hidden filter-input" value="feat_parking">
-                        <div class="custom-check"><i class="fas fa-check text-xs"></i></div>
-                        <span>Guest Parking</span>
-                    </label>
-                    <label class="checkbox-item">
-                        <input type="checkbox" class="hidden filter-input" value="feat_streaming">
-                        <div class="custom-check"><i class="fas fa-check text-xs"></i></div>
-                        <span>Live Streaming</span>
-                    </label>
-                </div>
-
-            </div>
-
-            <div class="deck-footer">
-                <button class="text-xs font-bold text-gray-400 hover:text-black uppercase tracking-widest" onclick="resetFilters()">Clear All</button>
-                <button class="bg-black text-white px-8 py-3 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-[#C5A059] transition" onclick="toggleDeck()">
-                    Show <span id="matchCount">25</span> Results
-                </button>
+    <div class="search-sticky">
+        <div class="search-capsule">
+            <input type="text" id="searchInput" class="search-input" placeholder="City or Director Name...">
+            <div class="filter-btn" onclick="openFilters()">
+                <i class="fas fa-sliders-h"></i> Filters <span class="badge" id="filterCount">0</span>
             </div>
         </div>
     </div>
 
-    <div class="search-container">
-        <div class="command-bar">
-            <div class="search-input-group">
-                <label class="search-label">Location</label>
-                <input type="text" class="search-input" placeholder="London, UK" id="locationInput">
-            </div>
+    <main class="card-grid" id="resultsGrid">
+        </main>
+
+    <div id="filterOverlay" class="sheet-overlay" onclick="closeFilters()">
+        <div class="sheet-content" onclick="event.stopPropagation()">
             
-            <div class="search-input-group hidden md:flex">
-                <label class="search-label">Service</label>
-                <select class="search-input cursor-pointer" id="serviceInput">
-                    <option value="">Any Service</option>
-                    <option value="Cremation">Cremation</option>
-                    <option value="Burial">Burial</option>
-                </select>
+            <div class="sheet-header">
+                <h2 class="text-lg font-bold font-serif">Refine Results</h2>
+                <button onclick="closeFilters()" class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center"><i class="fas fa-times"></i></button>
             </div>
 
-            <div class="filter-trigger-btn" onclick="toggleDeck()">
-                <i class="fas fa-sliders-h"></i>
-                <div class="filter-count" id="activeFilterCount">0</div>
+            <h3 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Specialist Requirements</h3>
+            <div class="chip-grid">
+                <div class="filter-chip" onclick="toggleChip(this, 'tag_greek')">🇬🇷 Greek Orthodox</div>
+                <div class="filter-chip" onclick="toggleChip(this, 'tag_water')">🌊 Burial at Sea</div>
+                <div class="filter-chip" onclick="toggleChip(this, 'tag_jewish')">✡️ Jewish</div>
+                <div class="filter-chip" onclick="toggleChip(this, 'tag_military')">🎖️ Military</div>
+                <div class="filter-chip" onclick="toggleChip(this, 'tag_eco')">🌿 Eco Burial</div>
             </div>
 
-            <button class="search-btn" onclick="applySearch()">
-                <i class="fas fa-search"></i> Search
-            </button>
+            <h3 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Merit & Quality</h3>
+            <div class="chip-grid">
+                <div class="filter-chip" onclick="toggleChip(this, 'rating_99')">
+                    <i class="fas fa-star text-yellow-400"></i> Elite (9.9+)
+                </div>
+                <div class="filter-chip" onclick="toggleChip(this, 'rating_95')">
+                    <i class="fas fa-certificate text-gray-400"></i> High Merit (9.5+)
+                </div>
+            </div>
+
+            <h3 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2 mt-6">Max Budget</h3>
+            <div class="flex justify-between items-end mb-2">
+                <span class="text-sm font-bold text-black" id="priceLabel">£10,000</span>
+            </div>
+            <input type="range" min="1000" max="10000" step="100" value="10000" oninput="updatePrice(this.value)">
+
+            <div class="sheet-footer">
+                <button class="btn-apply" onclick="applyFilters()">Show Results</button>
+            </div>
         </div>
-    </div>
-
-    <div class="results-area">
-        <div class="flex justify-between items-end mb-8 border-b border-gray-200 pb-4">
-            <h1 class="serif text-3xl italic">Director Results</h1>
-            <span class="text-xs font-bold text-gray-400 uppercase tracking-widest" id="resultStatus">Showing 25 Vetted Directors</span>
-        </div>
-
-        <div class="grid-layout" id="resultsGrid">
-            </div>
     </div>
 
     <script>
-        // === MOCK DATABASE ===
-        // Includes your specific "Greek + Water Burial" scenario
+        // === MOCK DATA ===
         const directors = [
             { 
-                id: 1, name: "Olympus & Sons", loc: "North London", price: 3200, rating: 9.9, 
-                tags: ["tag_greek", "tag_water", "tag_repatriation", "feat_chapel"], 
+                name: "Olympus & Sons", 
+                loc: "North London", 
+                price: 3200, 
+                rating: 9.9, 
+                tags: ["tag_greek", "tag_water"], 
                 img: "https://images.unsplash.com/photo-1544197150-b99a580bb7a8" 
             },
             { 
-                id: 2, name: "Regency Care", loc: "West London", price: 3500, rating: 10.0, 
-                tags: ["tag_military", "tag_horse", "feat_mortuary", "feat_parking"], 
+                name: "Regency Care", 
+                loc: "West London", 
+                price: 3500, 
+                rating: 10.0, 
+                tags: ["tag_military"], 
                 img: "https://images.unsplash.com/photo-1560185007-c5ca9d2c014d" 
             },
             { 
-                id: 3, name: "Willow Eco", loc: "Hackney", price: 1800, rating: 9.6, 
-                tags: ["tag_eco", "tag_water", "feat_streaming"], 
+                name: "Willow Eco", 
+                loc: "Hackney", 
+                price: 1800, 
+                rating: 9.6, 
+                tags: ["tag_eco", "tag_water"], 
                 img: "https://images.unsplash.com/photo-1473448912268-2022ce9509d8" 
             },
             { 
-                id: 4, name: "Goldstein Family", loc: "Golders Green", price: 2800, rating: 9.9, 
-                tags: ["tag_jewish", "feat_chapel", "feat_streaming"], 
+                name: "Goldstein Family", 
+                loc: "Golders Green", 
+                price: 2800, 
+                rating: 9.9, 
+                tags: ["tag_jewish"], 
                 img: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab" 
             },
-            { 
-                id: 5, name: "Maritime Tributes", loc: "Greenwich", price: 4200, rating: 9.8, 
-                tags: ["tag_water", "tag_military", "tag_repatriation"], 
-                img: "https://images.unsplash.com/photo-1468581264429-2548ef9eb732" 
-            },
-            // ... generating generic fillers for demo ...
-            ...Array.from({length: 20}, (_, i) => ({
-                id: i + 6,
-                name: `Director ${i + 6}`,
+            // Fillers
+            ...Array.from({length: 10}, (_, i) => ({
+                name: `Director ${i+5}`,
                 loc: "London",
-                price: 1500 + (i * 100),
-                rating: (9.0 + (Math.random())).toFixed(1),
-                tags: Math.random() > 0.5 ? ["feat_parking"] : [],
+                price: 1500 + (i*150),
+                rating: (9.0 + Math.random()).toFixed(1),
+                tags: [],
                 img: "https://images.unsplash.com/photo-1519817650390-64a93db51149"
             }))
         ];
 
-        // === ENGINE ===
-        const grid = document.getElementById('resultsGrid');
-        const filters = document.querySelectorAll('.filter-input');
-        const priceSlider = document.getElementById('priceRange');
-        
-        function render(data) {
-            grid.innerHTML = '';
-            document.getElementById('matchCount').innerText = data.length;
-            document.getElementById('resultStatus').innerText = `Showing ${data.length} Vetted Directors`;
+        let activeTags = [];
+        let maxPrice = 10000;
 
-            if(data.length === 0) {
-                grid.innerHTML = `<div class="col-span-full text-center py-20 opacity-50"><i class="fas fa-search text-4xl mb-4"></i><p>No directors match your specific criteria.</p></div>`;
+        // === RENDER ===
+        function render(data) {
+            const grid = document.getElementById('resultsGrid');
+            grid.innerHTML = '';
+
+            if (data.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full text-center py-20 text-gray-400">
+                        <i class="fas fa-search text-4xl mb-4"></i>
+                        <p>No directors found matching these specific filters.</p>
+                        <button onclick="resetAll()" class="mt-4 text-[#C5A059] font-bold text-sm">Clear Filters</button>
+                    </div>`;
                 return;
             }
 
-            data.forEach(d => {
-                // Generate Badges
-                let badges = '';
-                if(d.tags.includes('tag_greek')) badges += `<span class="tag-pill special">🇬🇷 Greek Specialist</span>`;
-                if(d.tags.includes('tag_water')) badges += `<span class="tag-pill special">🌊 Water Burial</span>`;
-                if(d.tags.includes('tag_jewish')) badges += `<span class="tag-pill special">✡️ Jewish</span>`;
+            data.forEach((d, i) => {
+                // Determine Labels
+                let pills = '';
+                if(d.tags.includes('tag_greek')) pills += `<span class="tag-pill gold">Greek</span>`;
+                if(d.tags.includes('tag_water')) pills += `<span class="tag-pill gold">Water Burial</span>`;
+                if(d.tags.includes('tag_jewish')) pills += `<span class="tag-pill gold">Jewish</span>`;
                 
                 const card = document.createElement('div');
-                card.className = 'director-card group cursor-pointer';
+                card.className = 'director-card';
                 card.setAttribute('data-aos', 'fade-up');
+                card.setAttribute('data-aos-delay', i * 50); // Stagger
+
                 card.innerHTML = `
-                    <div class="card-img">
-                        <img src="${d.img}?q=80&w=600&fit=crop">
-                        <div class="rating-badge ${d.rating >= 9.8 ? 'high' : ''}">${d.rating}</div>
-                    </div>
-                    <div class="p-6 flex-1 flex flex-col">
-                        <div class="flex gap-2 flex-wrap mb-3">${badges}</div>
-                        <p class="text-[10px] uppercase tracking-widest text-gray-400 font-bold mb-1">${d.loc}</p>
-                        <h3 class="serif text-xl mb-4 group-hover:text-[#C5A059] transition">${d.name}</h3>
-                        <div class="mt-auto pt-4 border-t border-gray-100 flex justify-between items-end">
+                    <img src="${d.img}?q=80&w=600&fit=crop" class="card-img">
+                    <div class="card-content">
+                        <div class="flex justify-between items-start mb-2">
                             <div>
-                                <span class="block text-[9px] text-gray-400 uppercase font-bold">Est. Cost</span>
-                                <span class="font-bold text-lg">£${d.price.toLocaleString()}</span>
+                                ${pills}
+                                <p class="text-[10px] uppercase font-bold text-gray-400">${d.loc}</p>
                             </div>
-                            <button class="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center hover:bg-black hover:text-white transition"><i class="fas fa-arrow-right text-xs"></i></button>
+                            <div class="flex items-center gap-1 bg-gray-50 px-2 py-1 rounded text-xs font-bold">
+                                <i class="fas fa-star text-yellow-400"></i> ${d.rating}
+                            </div>
+                        </div>
+                        <h3 class="font-serif text-xl font-bold mb-4">${d.name}</h3>
+                        <div class="flex justify-between items-center border-t border-gray-100 pt-4">
+                            <span class="price-badge">£${d.price.toLocaleString()}</span>
+                            <button class="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center text-gray-400">
+                                <i class="fas fa-arrow-right"></i>
+                            </button>
                         </div>
                     </div>
                 `;
@@ -373,60 +331,75 @@
             });
         }
 
-        function filterLogic() {
-            // 1. Get Active Filters
-            const activeTags = Array.from(filters)
-                                    .filter(cb => cb.checked)
-                                    .map(cb => cb.value);
+        // === FILTER LOGIC ===
+        function toggleChip(el, tag) {
+            el.classList.toggle('active');
+            if (activeTags.includes(tag)) {
+                activeTags = activeTags.filter(t => t !== tag);
+            } else {
+                activeTags.push(tag);
+            }
+        }
+
+        function updatePrice(val) {
+            maxPrice = parseInt(val);
+            document.getElementById('priceLabel').innerText = `£${Number(val).toLocaleString()}`;
+        }
+
+        function applyFilters() {
+            // Update Badge
+            const count = activeTags.length;
+            const badge = document.getElementById('filterCount');
+            badge.innerText = count;
+            badge.style.display = count > 0 ? 'inline-block' : 'none';
+
+            // Filter
+            const search = document.getElementById('searchInput').value.toLowerCase();
             
-            const maxPrice = parseInt(priceSlider.value);
-            const locationQuery = document.getElementById('locationInput').value.toLowerCase();
-
-            // 2. Count Active Filters for Badge
-            document.getElementById('activeFilterCount').style.opacity = activeTags.length > 0 ? 1 : 0;
-            document.getElementById('activeFilterCount').innerText = activeTags.length;
-
-            // 3. Filter Data
             const filtered = directors.filter(d => {
-                // Price Check
-                if(d.price > maxPrice) return false;
-
-                // Location Check
-                if(!d.loc.toLowerCase().includes(locationQuery) && !d.name.toLowerCase().includes(locationQuery)) return false;
-
-                // Tag Logic (AND)
-                // If user selected 'tag_greek' AND 'tag_water', director MUST have both.
-                // We also check ratings here if selected
-                const ratingCheck = activeTags.includes('rating_99') ? d.rating >= 9.9 : 
-                                    activeTags.includes('rating_95') ? d.rating >= 9.5 : true;
+                // 1. Search
+                if (!d.name.toLowerCase().includes(search) && !d.loc.toLowerCase().includes(search)) return false;
                 
-                if(!ratingCheck) return false;
+                // 2. Price
+                if (d.price > maxPrice) return false;
 
-                // Check other tags (excluding ratings)
-                const featureTags = activeTags.filter(t => !t.startsWith('rating'));
-                const hasAllFeatures = featureTags.every(tag => d.tags.includes(tag));
+                // 3. Tags (AND Logic)
+                const reqTags = activeTags.filter(t => !t.startsWith('rating'));
+                const hasTags = reqTags.every(t => d.tags.includes(t));
+                if(!hasTags) return false;
 
-                return hasAllFeatures;
+                // 4. Rating
+                if (activeTags.includes('rating_99') && d.rating < 9.9) return false;
+                if (activeTags.includes('rating_95') && d.rating < 9.5) return false;
+
+                return true;
             });
 
             render(filtered);
+            closeFilters();
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+
+        function resetAll() {
+            activeTags = [];
+            maxPrice = 10000;
+            document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+            applyFilters();
         }
 
         // === UI UTILS ===
-        function toggleDeck() {
-            document.getElementById('filterDeck').classList.toggle('open');
+        function openFilters() {
+            document.getElementById('filterOverlay').classList.add('open');
+            document.body.style.overflow = 'hidden'; // Prevent background scroll
         }
 
-        function resetFilters() {
-            filters.forEach(cb => cb.checked = false);
-            priceSlider.value = 10000;
-            filterLogic();
+        function closeFilters() {
+            document.getElementById('filterOverlay').classList.remove('open');
+            document.body.style.overflow = '';
         }
 
-        // Listeners
-        filters.forEach(cb => cb.addEventListener('change', filterLogic));
-        priceSlider.addEventListener('input', filterLogic);
-        document.getElementById('locationInput').addEventListener('input', filterLogic);
+        // Search Listener
+        document.getElementById('searchInput').addEventListener('input', applyFilters);
 
         // Init
         render(directors);
