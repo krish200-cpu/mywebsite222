@@ -2,223 +2,274 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>FuneralMatch Page Editor</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Obsidian Studio | FuneralMatch</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 
     <style>
-        /* --- CORE VARIABLES --- */
+        /* --- 1. PHYSICS & VARIABLES --- */
         :root {
-            --bg: #050505;
-            --surface: #121212;
-            --border: #222;
+            --bg: #0a0a0a;
+            --surface: #141414;
             --gold: #D4AF37;
-            --page-width: 400px;  /* Base reference width */
-            --page-height: 565px; /* A5 Ratio approx */
+            --gold-dim: rgba(212, 175, 55, 0.15);
+            /* The "Soft Landing" Curves */
+            --ease-elastic: cubic-bezier(0.34, 1.56, 0.64, 1);
+            --ease-smooth: cubic-bezier(0.2, 0.8, 0.2, 1);
+            --depth-shadow: 0 30px 60px -10px rgba(0,0,0,0.6);
         }
 
         body {
             background-color: var(--bg);
+            /* Subtle textured noise for depth */
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
             color: white;
             font-family: 'Inter', sans-serif;
-            height: 100vh;
+            height: 100dvh;
             width: 100vw;
             overflow: hidden;
             display: flex;
             flex-direction: column;
         }
 
-        /* --- 3D STAGE --- */
+        /* --- 2. THE 3D STAGE --- */
         #stage {
             flex: 1;
             display: flex;
             align-items: center;
             justify-content: center;
-            perspective: 2000px; /* Deep 3D space */
+            perspective: 1800px; /* Deep cinematic perspective */
             overflow: hidden;
-            background-image: radial-gradient(#1a1a1a 1px, transparent 1px);
-            background-size: 24px 24px;
-        }
-
-        /* Container that holds the pages */
-        .book-container {
-            width: var(--page-width);
-            height: var(--page-height);
             position: relative;
-            transform-style: preserve-3d;
-            /* Auto-scale for mobile via JS */
-            transition: transform 0.3s ease; 
+            z-index: 10;
         }
 
-        /* --- THE PAGE (Physical Object) --- */
+        /* The book wrapper tilts slightly for 3D effect */
+        .book-wrapper {
+            position: relative;
+            width: 360px; /* Mobile Base Width */
+            height: 540px; /* A5 Ratio */
+            transform-style: preserve-3d;
+            transition: transform 0.4s var(--ease-smooth);
+            /* Initial "Desk" Tilt */
+            transform: rotateX(10deg) rotateY(0deg) scale(0.9); 
+        }
+
+        /* Responsive Scaling for Desktop */
+        @media (min-width: 768px) {
+            .book-wrapper { width: 420px; height: 630px; transform: rotateX(5deg) scale(1); }
+        }
+
+        /* --- 3. THE PAGE (Physical Object) --- */
         .sheet {
             position: absolute;
             inset: 0;
-            background: white;
-            color: black;
-            box-shadow: 
-                0 4px 10px rgba(0,0,0,0.1), /* Close shadow */
-                0 20px 50px rgba(0,0,0,0.5); /* Deep shadow */
-            transform-origin: left center; /* Hinge on the left spine */
+            background: #fff;
+            color: #1a1a1a;
+            border-radius: 4px 12px 12px 4px;
+            /* The deep shadow gives it "lift" off the screen */
+            box-shadow: var(--depth-shadow);
+            transform-origin: left center;
             backface-visibility: hidden;
-            border-radius: 2px 6px 6px 2px; /* Slight curve on right edge */
             display: flex;
             flex-direction: column;
             overflow: hidden;
-            transition: transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1); /* Smooth "Paper" Bezier */
+            transition: transform 0.8s var(--ease-smooth), opacity 0.4s ease;
         }
 
         /* Page States */
-        .sheet.active { z-index: 10; transform: rotateY(0deg); }
-        .sheet.flipped { z-index: 20; transform: rotateY(-180deg); } /* Gone to left */
-        .sheet.upcoming { z-index: 1; transform: rotateY(0deg) scale(0.95) translateZ(-10px); opacity: 0; } /* Waiting in stack */
+        .sheet.active { 
+            z-index: 10; 
+            transform: rotateY(0deg); 
+            opacity: 1;
+        }
+        .sheet.flipped { 
+            z-index: 20; 
+            transform: rotateY(-140deg) translateX(-20px); 
+            opacity: 0.5; /* Fade out as it turns */
+            pointer-events: none;
+        }
+        .sheet.next { 
+            z-index: 5; 
+            transform: rotateY(0deg) scale(0.95) translateZ(-20px); 
+            opacity: 0.5; /* Dimmed in background */
+            filter: brightness(0.8);
+        }
 
-        /* Paper Texture Overlay */
+        /* Texture & Lighting Overlays */
         .texture {
-            position: absolute; inset: 0; pointer-events: none;
+            position: absolute; inset: 0; pointer-events: none; z-index: 50;
             background-image: url('https://www.transparenttextures.com/patterns/cream-paper.png');
-            opacity: 0.5; mix-blend-mode: multiply; z-index: 50;
+            opacity: 0.4; mix-blend-mode: multiply;
+        }
+        .lighting {
+            position: absolute; inset: 0; pointer-events: none; z-index: 51;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(0,0,0,0.05) 100%);
         }
 
-        /* Spine Highlight */
-        .spine-highlight {
-            position: absolute; top: 0; bottom: 0; left: 0; width: 40px;
-            background: linear-gradient(to right, rgba(0,0,0,0.1), transparent);
-            pointer-events: none; z-index: 40;
-        }
-
-        /* --- CONTENT STYLES --- */
-        .page-content {
-            flex: 1; padding: 40px;
-            display: flex; flex-direction: column;
-            position: relative;
+        /* --- 4. CONTENT & EDITABLES --- */
+        .content-layer {
+            flex: 1; padding: 40px; display: flex; flex-direction: column; position: relative; z-index: 10;
         }
 
         .editable {
-            border: 1px dashed transparent; cursor: pointer; transition: 0.2s;
+            border: 1px dashed transparent; cursor: pointer; transition: all 0.2s ease;
+            border-radius: 4px; padding: 4px;
         }
-        .editable:hover { border-color: var(--gold); background: rgba(212, 175, 55, 0.05); }
+        .editable:hover { border-color: rgba(212, 175, 55, 0.3); background: rgba(0,0,0,0.02); }
+        .editable.selected { 
+            border-color: var(--gold); 
+            background: rgba(212, 175, 55, 0.05); 
+            box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.1);
+        }
 
-        .photo-zone {
-            background: #f4f4f4; width: 100%; display: flex; align-items: center; justify-content: center;
+        .photo-frame {
+            background: #f0f0f0; width: 100%; display: flex; align-items: center; justify-content: center;
             cursor: pointer; overflow: hidden; position: relative; color: #ccc;
+            transition: all 0.3s var(--ease-elastic);
         }
-        .photo-zone:hover { color: var(--gold); background: #eee; }
-        .photo-zone img { width: 100%; height: 100%; object-fit: cover; }
+        .photo-frame:hover { transform: scale(1.02); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        .photo-frame.selected { ring: 2px solid var(--gold); }
+        .photo-frame img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* --- UI OVERLAY --- */
-        .ui-layer {
-            position: absolute; inset: 0; pointer-events: none;
-            display: flex; flex-direction: column; justify-content: space-between;
-            padding: 20px; z-index: 100;
+        /* --- 5. THE DYNAMIC DOCK (UI) --- */
+        #dock-container {
+            position: absolute; bottom: 30px; left: 0; right: 0;
+            display: flex; justify-content: center; z-index: 100;
+            pointer-events: none; /* Let clicks pass through empty space */
         }
 
-        .top-bar {
+        .glass-dock {
             pointer-events: auto;
-            background: rgba(18, 18, 18, 0.9); backdrop-filter: blur(10px);
-            border: 1px solid var(--border); border-radius: 99px;
-            padding: 8px 20px;
-            display: flex; align-items: center; justify-content: space-between;
-            align-self: center; width: 100%; max-width: 600px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            background: rgba(20, 20, 20, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 24px;
+            padding: 8px;
+            display: flex; gap: 8px;
+            box-shadow: 0 20px 40px -10px rgba(0,0,0,0.5);
+            transition: all 0.3s var(--ease-elastic);
+            /* Initial State */
+            transform: translateY(0); opacity: 1;
         }
 
-        .bottom-bar {
-            pointer-events: auto;
-            background: rgba(18, 18, 18, 0.9); backdrop-filter: blur(10px);
-            border: 1px solid var(--border); border-radius: 16px;
-            padding: 16px;
-            align-self: center; width: 100%; max-width: 600px;
-            display: flex; flex-direction: column; gap: 16px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+        .dock-btn {
+            width: 48px; height: 48px; border-radius: 16px;
+            background: transparent; color: #888;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            cursor: pointer; transition: 0.2s; font-size: 10px; gap: 4px;
         }
-
-        .nav-row { display: flex; justify-content: space-between; align-items: center; }
+        .dock-btn i { font-size: 16px; transition: 0.2s var(--ease-elastic); }
+        .dock-btn:hover { background: rgba(255,255,255,0.1); color: white; }
+        .dock-btn:hover i { transform: translateY(-2px); }
         
-        .scrubber { flex: 1; margin: 0 20px; position: relative; height: 4px; background: #333; border-radius: 2px; }
-        .scrubber-fill { height: 100%; background: var(--gold); width: 0%; transition: width 0.3s; border-radius: 2px; }
+        .dock-btn.primary { background: var(--gold); color: black; font-weight: bold; }
+        .dock-btn.primary:hover { background: white; }
 
-        .btn-icon {
-            width: 44px; height: 44px; border-radius: 50%;
-            background: #222; color: white; border: 1px solid #333;
-            display: flex; align-items: center; justify-content: center;
-            cursor: pointer; transition: 0.2s;
-        }
-        .btn-icon:hover { border-color: var(--gold); color: var(--gold); }
-        .btn-icon:active { transform: scale(0.95); }
+        .dock-divider { width: 1px; height: 32px; background: rgba(255,255,255,0.1); align-self: center; margin: 0 4px; }
 
-        .layout-tray {
-            display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;
-            padding-top: 16px; border-top: 1px solid #333;
+        /* Context Panels (Slide Up) */
+        .context-panel {
+            position: absolute; bottom: 100px; /* Above dock */
+            background: #1a1a1a; border: 1px solid #333; border-radius: 16px;
+            padding: 16px; width: 300px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            opacity: 0; transform: translateY(20px) scale(0.95);
+            pointer-events: none; transition: 0.2s var(--ease-smooth);
         }
-        .layout-opt {
-            background: #000; border: 1px solid #333; border-radius: 6px;
-            height: 60px; display: flex; flex-direction: column; align-items: center; justify-content: center;
-            cursor: pointer; opacity: 0.6; transition: 0.2s;
+        .context-panel.active { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
+
+        /* Typography Presets */
+        .font-opt {
+            padding: 12px; border-radius: 8px; background: #222; text-align: center; border: 1px solid transparent; cursor: pointer;
         }
-        .layout-opt:hover { opacity: 1; border-color: #666; }
-        .layout-opt.active { opacity: 1; border-color: var(--gold); background: rgba(212, 175, 55, 0.1); }
+        .font-opt:hover { border-color: var(--gold); background: #2a2a2a; }
 
     </style>
 </head>
 <body>
 
-    <div class="ui-layer">
+    <div class="absolute top-0 left-0 right-0 p-6 flex justify-between items-start z-50 pointer-events-none">
+        <div class="pointer-events-auto">
+            <span class="text-[9px] uppercase font-bold text-[#D4AF37] tracking-widest block mb-1">FuneralMatch</span>
+            <span class="text-sm font-bold text-white tracking-tight">Atelier OS</span>
+        </div>
         
-        <div class="top-bar">
-            <div class="flex flex-col">
-                <span class="text-[8px] uppercase font-bold text-[#C5A059] tracking-widest">FuneralMatch</span>
-                <span class="text-xs font-bold">Studio</span>
+        <div class="pointer-events-auto flex items-center gap-3 bg-black/50 backdrop-blur-md px-4 py-2 rounded-full border border-white/10">
+            <div class="flex items-center gap-2 border-r border-white/10 pr-3 mr-1">
+                <i class="fas fa-camera text-gray-500 text-xs"></i>
+                <span class="text-xs font-bold text-white" id="photo-counter">0/5</span>
             </div>
-            <div class="flex items-center gap-4">
-                <div class="flex items-center gap-2">
-                    <i class="fas fa-camera text-gray-500 text-xs"></i>
-                    <span class="text-xs font-bold text-gray-300" id="photo-count">0/5</span>
-                </div>
-                <div class="h-4 w-px bg-white/20"></div>
-                <span class="text-xs font-bold text-[#C5A059]">£80.00</span>
-            </div>
+            <span class="text-xs font-bold text-[#D4AF37]">£80.00</span>
         </div>
-
-        <div class="bottom-bar">
-            <div class="nav-row">
-                <button class="btn-icon" onclick="prevPage()"><i class="fas fa-arrow-left"></i></button>
-                
-                <div class="flex-1 flex flex-col items-center px-4">
-                    <span class="text-[10px] uppercase font-bold text-gray-400 mb-2" id="page-label">Page 1: Front Cover</span>
-                    <div class="scrubber"><div class="scrubber-fill" id="progress-bar"></div></div>
-                </div>
-
-                <button class="btn-icon" onclick="nextPage()"><i class="fas fa-arrow-right"></i></button>
-            </div>
-
-            <div class="layout-tray">
-                <div class="layout-opt" onclick="applyLayout('cover')">
-                    <i class="fas fa-book text-gray-400 mb-1 text-xs"></i>
-                    <span class="text-[8px] uppercase text-gray-500">Cover</span>
-                </div>
-                <div class="layout-opt" onclick="applyLayout('text')">
-                    <i class="fas fa-align-left text-gray-400 mb-1 text-xs"></i>
-                    <span class="text-[8px] uppercase text-gray-500">Text</span>
-                </div>
-                <div class="layout-opt" onclick="applyLayout('photo')">
-                    <i class="fas fa-image text-gray-400 mb-1 text-xs"></i>
-                    <span class="text-[8px] uppercase text-gray-500">Photo</span>
-                </div>
-                <div class="layout-opt" onclick="applyLayout('hymn')">
-                    <i class="fas fa-music text-gray-400 mb-1 text-xs"></i>
-                    <span class="text-[8px] uppercase text-gray-500">Hymn</span>
-                </div>
-            </div>
-        </div>
-
     </div>
 
     <div id="stage">
-        <div class="book-container" id="book">
+        <div class="book-wrapper" id="book">
             </div>
+    </div>
+
+    <div id="dock-container">
+        
+        <div class="glass-dock" id="main-dock">
+            
+            <div class="dock-btn" onclick="prevPage()">
+                <i class="fas fa-arrow-left"></i>
+            </div>
+            
+            <div class="dock-divider"></div>
+
+            <div class="flex flex-col items-center justify-center px-4 w-32 cursor-pointer" onclick="toggleOverview()">
+                <span class="text-[9px] uppercase font-bold text-[#D4AF37] mb-1">Editing</span>
+                <span class="text-xs font-bold text-white truncate w-full text-center" id="page-label">Front Cover</span>
+            </div>
+
+            <div class="dock-divider"></div>
+
+            <div class="dock-btn" onclick="toggleLayouts()">
+                <i class="fas fa-th-large"></i>
+            </div>
+            
+            <div class="dock-btn" onclick="toggleTheme()">
+                <i class="fas fa-font"></i>
+            </div>
+
+            <div class="dock-divider"></div>
+
+            <div class="dock-btn primary" onclick="nextPage()">
+                <i class="fas fa-arrow-right"></i>
+            </div>
+
+        </div>
+
+        <div id="panel-layouts" class="context-panel grid grid-cols-2 gap-2">
+            <div class="p-3 bg-[#222] rounded hover:bg-[#333] cursor-pointer flex flex-col items-center" onclick="applyLayout('cover')">
+                <i class="fas fa-book mb-2 text-gray-400"></i>
+                <span class="text-[9px] uppercase text-gray-500 font-bold">Cover</span>
+            </div>
+            <div class="p-3 bg-[#222] rounded hover:bg-[#333] cursor-pointer flex flex-col items-center" onclick="applyLayout('text')">
+                <i class="fas fa-align-left mb-2 text-gray-400"></i>
+                <span class="text-[9px] uppercase text-gray-500 font-bold">Text</span>
+            </div>
+            <div class="p-3 bg-[#222] rounded hover:bg-[#333] cursor-pointer flex flex-col items-center" onclick="applyLayout('photo')">
+                <i class="fas fa-image mb-2 text-gray-400"></i>
+                <span class="text-[9px] uppercase text-gray-500 font-bold">Photo</span>
+            </div>
+            <div class="p-3 bg-[#222] rounded hover:bg-[#333] cursor-pointer flex flex-col items-center" onclick="applyLayout('hymn')">
+                <i class="fas fa-music mb-2 text-gray-400"></i>
+                <span class="text-[9px] uppercase text-gray-500 font-bold">Hymn</span>
+            </div>
+        </div>
+
+        <div id="panel-theme" class="context-panel grid grid-cols-1 gap-2">
+            <div class="font-opt font-serif" onclick="setTheme('serif')">Bodoni Moda (Classic)</div>
+            <div class="font-opt font-sans uppercase font-bold" onclick="setTheme('sans')">Inter (Modern)</div>
+            <div class="font-opt italic font-serif" onclick="setTheme('script')">Cormorant (Elegant)</div>
+        </div>
+
     </div>
 
     <input type="file" id="img-upload" class="hidden" accept="image/*">
@@ -226,218 +277,221 @@
     <script>
         // === STATE ===
         const state = {
-            totalPages: 8, // Rectangular pages (A5)
-            currentPage: 0, // 0-based index
+            totalPages: 8,
+            currentPage: 0,
             pages: [],
-            price: 80,
-            photos: 0
+            theme: 'serif'
         };
 
         const TEMPLATES = {
             cover: `
-                <div class="h-full flex flex-col items-center justify-center text-center">
-                    <p class="editable text-xs uppercase tracking-widest text-gray-500 mb-8" onclick="editText(this)">In Loving Memory</p>
-                    <div class="photo-zone rounded-full w-40 h-40 mb-8 shadow-xl border-4 border-double border-gray-100" onclick="uploadPhoto(this)">
-                        <i class="fas fa-camera opacity-30 text-2xl"></i>
+                <div class="h-full flex flex-col items-center justify-center text-center p-8">
+                    <p class="editable text-xs uppercase tracking-[0.2em] text-gray-500 mb-8" onclick="editText(this)">In Loving Memory</p>
+                    <div class="photo-frame rounded-full w-40 h-40 mb-8 shadow-xl border-4 border-double border-gray-100" onclick="uploadPhoto(this)">
+                        <i class="fas fa-camera opacity-20 text-3xl"></i>
                     </div>
-                    <h1 class="editable text-4xl mb-2 font-serif" onclick="editText(this)">Name<br>Here</h1>
-                    <p class="editable text-sm mb-8" onclick="editText(this)">1950 — 2026</p>
-                    <p class="editable text-[10px] uppercase font-bold text-gray-400" onclick="editText(this)">St Mary's Church</p>
+                    <h1 class="editable text-4xl mb-4 leading-tight" onclick="editText(this)">Name<br>Here</h1>
+                    <p class="editable text-sm mb-8 text-gray-600" onclick="editText(this)">1950 — 2026</p>
+                    <div class="mt-auto pt-4 border-t border-gray-100 w-full">
+                        <p class="editable text-[10px] uppercase font-bold text-gray-400" onclick="editText(this)">St Mary's Church</p>
+                    </div>
                 </div>`,
             
             text: `
-                <div class="h-full p-8 text-left">
-                    <h2 class="editable text-xl font-bold mb-4 border-b border-gray-200 pb-2" onclick="editText(this)">Reading</h2>
-                    <p class="editable text-xs leading-loose text-gray-600 whitespace-pre-wrap" onclick="editText(this)">
-Tap to edit text. You can add poems, eulogies, or order of service details here.
+                <div class="h-full p-10 text-left flex flex-col">
+                    <h2 class="editable text-xl font-bold mb-6 border-b border-gray-200 pb-4" onclick="editText(this)">Reading</h2>
+                    <p class="editable text-sm leading-loose text-gray-600 whitespace-pre-wrap flex-1" onclick="editText(this)">
+Tap to edit text. 
+You can add poems, eulogies, or order of service details here.
                     </p>
+                    <p class="text-[9px] text-gray-300 text-center mt-4">Page Number</p>
                 </div>`,
             
             photo: `
                 <div class="h-full flex flex-col">
-                    <div class="photo-zone w-full h-1/2 mb-6 bg-gray-100" onclick="uploadPhoto(this)">
-                        <div class="flex flex-col items-center"><i class="fas fa-image opacity-30 mb-2"></i><span class="text-[8px] uppercase font-bold opacity-30">Add Photo</span></div>
+                    <div class="photo-frame w-full h-1/2 mb-8 bg-gray-50" onclick="uploadPhoto(this)">
+                        <div class="flex flex-col items-center"><i class="fas fa-image opacity-30 mb-2"></i><span class="text-[9px] uppercase font-bold opacity-30">Add Photo</span></div>
                     </div>
-                    <div class="px-6">
+                    <div class="px-8 text-center">
                         <h2 class="editable text-xl font-bold mb-2" onclick="editText(this)">Caption</h2>
-                        <p class="editable text-xs text-gray-600" onclick="editText(this)">Add a description...</p>
+                        <p class="editable text-sm text-gray-500 leading-relaxed" onclick="editText(this)">Add a description of this memory...</p>
                     </div>
                 </div>`,
             
             hymn: `
-                <div class="h-full flex flex-col items-center justify-start pt-12 text-center px-6">
-                    <p class="text-[9px] uppercase font-bold text-gray-300 mb-2">Hymn</p>
-                    <h2 class="editable text-2xl italic mb-6 font-serif" onclick="editText(this)">Abide With Me</h2>
-                    <div class="editable text-xs font-serif italic text-gray-600 leading-relaxed" onclick="editText(this)">
-Abide with me; fast falls the eventide;
-The darkness deepens; Lord with me abide.
-When other helpers fail and comforts flee,
-Help of the helpless, O abide with me.
+                <div class="h-full flex flex-col items-center justify-start pt-16 text-center px-10">
+                    <p class="text-[10px] uppercase font-bold text-gray-400 mb-4 tracking-widest">Hymn</p>
+                    <h2 class="editable text-2xl italic mb-8 font-serif text-gray-800" onclick="editText(this)">Abide With Me</h2>
+                    <div class="editable text-sm font-serif italic text-gray-600 leading-loose" onclick="editText(this)">
+Abide with me;<br>fast falls the eventide;<br>The darkness deepens;<br>Lord with me abide.<br>When other helpers fail<br>and comforts flee,<br>Help of the helpless,<br>O abide with me.
                     </div>
                 </div>`
         };
 
         // === INIT ===
         function init() {
-            // Build pages
+            // Build Pages
             for(let i=0; i<state.totalPages; i++) {
-                let content = TEMPLATES.text;
-                if(i === 0) content = TEMPLATES.cover;
-                
-                state.pages.push({
-                    id: i,
-                    content: content,
-                    layout: i === 0 ? 'cover' : 'text'
-                });
+                let layout = (i===0) ? 'cover' : 'text';
+                state.pages.push({ id: i, content: TEMPLATES[layout], layout: layout });
             }
-            
             renderBook();
             updateUI();
-            autoScale();
-            window.addEventListener('resize', autoScale);
         }
 
-        // === RENDERING (The 3D Engine) ===
+        // === 3D RENDER ENGINE ===
         function renderBook() {
             const container = document.getElementById('book');
             container.innerHTML = '';
 
             state.pages.forEach((page, index) => {
                 const sheet = document.createElement('div');
-                sheet.className = `sheet font-serif`; // Default font
+                
+                // Base classes
+                sheet.className = `sheet font-${state.theme}`;
                 sheet.id = `page-${index}`;
-                sheet.innerHTML = `
-                    <div class="texture"></div>
-                    <div class="spine-highlight"></div>
-                    <div class="page-content" id="content-${index}">
-                        ${page.content}
-                    </div>
-                `;
                 
-                // Z-Index Stacking: Lower pages are behind
+                // Stack Order Logic
                 sheet.style.zIndex = state.totalPages - index;
-                
-                // Initial State
+
+                // Initial Position Logic
                 if (index < state.currentPage) {
                     sheet.classList.add('flipped');
                 } else if (index === state.currentPage) {
                     sheet.classList.add('active');
                 } else {
-                    sheet.classList.add('upcoming');
+                    sheet.classList.add('next');
                 }
+
+                // Inner HTML
+                sheet.innerHTML = `
+                    <div class="texture"></div>
+                    <div class="lighting"></div>
+                    <div class="content-layer" id="content-${index}">
+                        ${page.content}
+                    </div>
+                `;
 
                 container.appendChild(sheet);
             });
         }
 
-        // === NAVIGATION (The Flip Logic) ===
+        // === NAVIGATION ===
         function nextPage() {
-            if (state.currentPage < state.totalPages - 1) {
-                // Animate current page flipping away
+            if(state.currentPage < state.totalPages - 1) {
+                // Audio Feedback (Optional polish)
+                // playSound(); 
+
                 const currentEl = document.getElementById(`page-${state.currentPage}`);
+                const nextEl = document.getElementById(`page-${state.currentPage+1}`);
+
+                // Physics Animation
                 currentEl.classList.remove('active');
                 currentEl.classList.add('flipped');
 
-                state.currentPage++;
-
-                // Animate next page appearing
-                const nextEl = document.getElementById(`page-${state.currentPage}`);
-                nextEl.classList.remove('upcoming');
+                nextEl.classList.remove('next');
                 nextEl.classList.add('active');
 
+                state.currentPage++;
                 updateUI();
             }
         }
 
         function prevPage() {
-            if (state.currentPage > 0) {
-                // Animate current page disappearing (becoming upcoming)
-                const currentEl = document.getElementById(`page-${state.currentPage}`);
-                currentEl.classList.remove('active');
-                currentEl.classList.add('upcoming');
-
+            if(state.currentPage > 0) {
                 state.currentPage--;
+                
+                const currentEl = document.getElementById(`page-${state.currentPage}`);
+                const prevEl = document.getElementById(`page-${state.currentPage+1}`); // The one we just flipped
 
-                // Animate prev page flipping back
-                const prevEl = document.getElementById(`page-${state.currentPage}`);
-                prevEl.classList.remove('flipped');
-                prevEl.classList.add('active');
+                currentEl.classList.remove('flipped');
+                currentEl.classList.add('active');
+
+                prevEl.classList.remove('active');
+                prevEl.classList.add('next');
 
                 updateUI();
             }
         }
 
         function updateUI() {
-            // Label
-            let label = `Page ${state.currentPage + 1}`;
-            if (state.currentPage === 0) label += ": Front Cover";
-            else if (state.currentPage === state.totalPages - 1) label += ": Back Cover";
-            document.getElementById('page-label').innerText = label;
-
-            // Progress Bar
-            const pct = ((state.currentPage + 1) / state.totalPages) * 100;
-            document.getElementById('progress-bar').style.width = `${pct}%`;
-        }
-
-        // === SCALING (Responsive) ===
-        function autoScale() {
-            const stage = document.getElementById('stage');
-            const book = document.getElementById('book');
-            
-            const w = stage.clientWidth;
-            const h = stage.clientHeight;
-            
-            // Margins
-            const padX = 40;
-            const padY = 160; // Space for UI
-
-            const baseW = 400; // From CSS var
-            const baseH = 565;
-
-            const scale = Math.min(
-                (w - padX) / baseW,
-                (h - padY) / baseH
-            );
-
-            // Limit max scale to 1.2 to avoid pixelation
-            const finalScale = Math.min(scale, 1.2);
-            
-            book.style.transform = `scale(${finalScale})`;
+            // Update Label
+            const label = document.getElementById('page-label');
+            if(state.currentPage === 0) label.innerText = "Front Cover";
+            else if(state.currentPage === state.totalPages-1) label.innerText = "Back Cover";
+            else label.innerText = `Page ${state.currentPage} of ${state.totalPages}`;
         }
 
         // === EDITING ===
-        function applyLayout(type) {
-            const idx = state.currentPage;
-            state.pages[idx].content = TEMPLATES[type];
-            document.getElementById(`content-${idx}`).innerHTML = TEMPLATES[type];
-        }
+        let uploadTarget = null;
 
         function editText(el) {
-            const newText = prompt("Edit content:", el.innerText);
-            if (newText !== null) el.innerText = newText;
+            // Add selected state
+            document.querySelectorAll('.selected').forEach(e => e.classList.remove('selected'));
+            el.classList.add('selected');
+
+            const newText = prompt("Edit text:", el.innerText);
+            if(newText) el.innerText = newText;
+            
+            el.classList.remove('selected');
         }
 
-        let uploadTarget = null;
         function uploadPhoto(el) {
             uploadTarget = el;
             document.getElementById('img-upload').click();
         }
 
         document.getElementById('img-upload').onchange = (e) => {
-            if (e.target.files && e.target.files[0] && uploadTarget) {
+            if(e.target.files[0] && uploadTarget) {
                 const reader = new FileReader();
                 reader.onload = (evt) => {
                     uploadTarget.innerHTML = `<img src="${evt.target.result}">`;
                     uploadTarget.style.backgroundColor = 'transparent';
                     uploadTarget.style.border = 'none';
-                    state.photos++;
-                    document.getElementById('photo-count').innerText = `${state.photos}/5`;
+                    // Update counter logic here
                 };
                 reader.readAsDataURL(e.target.files[0]);
             }
-        };
+        }
 
-        // Run
+        // === LAYOUTS & THEMES ===
+        function toggleLayouts() {
+            closePanels();
+            const panel = document.getElementById('panel-layouts');
+            panel.classList.toggle('active');
+        }
+
+        function toggleTheme() {
+            closePanels();
+            const panel = document.getElementById('panel-theme');
+            panel.classList.toggle('active');
+        }
+
+        function closePanels() {
+            document.querySelectorAll('.context-panel').forEach(p => p.classList.remove('active'));
+        }
+
+        function applyLayout(type) {
+            const idx = state.currentPage;
+            state.pages[idx].content = TEMPLATES[type];
+            document.getElementById(`content-${idx}`).innerHTML = TEMPLATES[type];
+            closePanels();
+        }
+
+        function setTheme(font) {
+            state.theme = font;
+            // Update all pages classes
+            document.querySelectorAll('.sheet').forEach(s => {
+                s.classList.remove('font-serif', 'font-sans', 'font-script');
+                s.classList.add(`font-${font}`);
+            });
+            closePanels();
+        }
+
+        // === CLICK OUTSIDE TO CLOSE PANELS ===
+        document.getElementById('stage').addEventListener('click', closePanels);
+
+        // Boot
         init();
 
     </script>
