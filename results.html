@@ -2,126 +2,194 @@
 <html lang="en-GB">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Director Results | FuneralMatch</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Director Showcase | FuneralMatch</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@1,400;1,700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
     <style>
+        /* --- 1. CORE THEME --- */
         :root {
             --gold: #C5A059;
             --black: #1a1a1a;
             --soft-bg: #F8F7F5;
+            --ease: cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
         body { font-family: 'Inter', sans-serif; background-color: var(--soft-bg); color: var(--black); }
         .serif { font-family: 'Bodoni Moda', serif; }
 
-        /* FIXED NAV LOGO */
-        .nav-logo { position: fixed; top: 2rem; left: 8%; z-index: 500; }
+        /* --- 2. FIXED LOGO --- */
+        .nav-logo { position: fixed; top: 2rem; left: 6%; z-index: 50; }
 
-        /* CARD AESTHETIC */
-        .director-card { background: white; border-radius: 2.5rem; border: 1px solid #EEE; overflow: hidden; transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
-        .director-card:hover { transform: translateY(-10px); border-color: var(--gold); box-shadow: 0 30px 60px rgba(0,0,0,0.05); }
+        /* --- 3. CARD DESIGN --- */
+        .grid-layout {
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); 
+            gap: 2.5rem;
+        }
 
-        .merit-badge { background: #FDFCF0; color: #847524; padding: 4px 12px; border-radius: 9999px; font-size: 0.65rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; }
-        
-        .btn-black { background: black; color: white; padding: 1rem 2rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.2em; transition: 0.3s; }
-        .btn-black:hover { background: var(--gold); }
+        .director-card {
+            background: white; border-radius: 2.5rem; border: 1px solid #E5E5E5; 
+            overflow: hidden; transition: transform 0.5s var(--ease), box-shadow 0.5s var(--ease);
+            display: flex; flex-direction: column;
+        }
+        .director-card:hover { 
+            transform: translateY(-12px); 
+            border-color: var(--gold); 
+            box-shadow: 0 30px 80px -10px rgba(197, 160, 89, 0.15); 
+        }
+
+        .card-image-wrap {
+            height: 220px; width: 100%; position: relative; overflow: hidden; background: #f0f0f0;
+        }
+        .card-image {
+            width: 100%; height: 100%; object-fit: cover; 
+            filter: grayscale(100%); transition: filter 0.5s var(--ease), transform 0.8s var(--ease);
+        }
+        .director-card:hover .card-image { filter: grayscale(0%); transform: scale(1.05); }
+
+        .merit-badge {
+            position: absolute; top: 1.5rem; right: 1.5rem;
+            background: rgba(255,255,255,0.95); backdrop-filter: blur(10px);
+            color: var(--black); padding: 6px 14px; border-radius: 99px;
+            font-size: 0.65rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .btn-action {
+            width: 100%; background: var(--black); color: white;
+            padding: 1rem; border-radius: 99px; margin-top: 2rem;
+            font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em;
+            transition: 0.3s; cursor: pointer;
+        }
+        .btn-action:hover { background: var(--gold); color: white; }
+
+        .stat-row {
+            display: flex; justify-content: space-between; 
+            font-size: 0.75rem; border-bottom: 1px solid #f5f5f5; padding-bottom: 0.75rem; margin-bottom: 0.75rem;
+        }
+        .stat-label { color: #888; font-weight: 600; }
+        .stat-val { font-weight: 700; color: var(--black); }
+
     </style>
 </head>
 <body class="pt-32">
 
     <div class="nav-logo">
         <div class="flex flex-col items-start">
-            <span class="serif text-xs font-bold uppercase tracking-[0.4em] mb-1">Funeral</span>
-            <div style="width: 30px; height: 1px; background: var(--gold); margin-bottom: 4px;"></div>
-            <span class="serif text-xs font-bold text-[#C5A059] uppercase tracking-[0.7em]">Match</span>
+            <span class="serif text-[10px] font-bold uppercase tracking-[0.3em] mb-1">Funeral</span>
+            <div style="width: 24px; height: 2px; background: var(--gold); margin-bottom: 4px;"></div>
+            <span class="serif text-[10px] font-bold text-[#C5A059] uppercase tracking-[0.5em]">Match</span>
         </div>
     </div>
 
-    <main class="max-w-7xl mx-auto px-8 pb-24">
+    <main class="max-w-[1400px] mx-auto px-6 lg:px-12 pb-32">
         
-        <header class="mb-16" data-aos="fade-up">
-            <p class="text-[10px] uppercase tracking-widest text-stone-400 font-bold mb-4">Vetted Independent Results</p>
-            <h2 class="serif italic text-5xl">Directors in your area.</h2>
+        <header class="mb-20 max-w-2xl" data-aos="fade-up">
+            <p class="text-[10px] uppercase tracking-widest text-[#C5A059] font-bold mb-6">Curated Selection</p>
+            <h1 class="serif italic text-6xl leading-tight mb-6">Vetted Directors.</h1>
+            <p class="text-sm text-stone-500 leading-relaxed">
+                We have identified 25 independent funeral directors in your area that meet our rigorous standards for care, facility quality, and transparent pricing.
+            </p>
         </header>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            
-            <div class="director-card" data-aos="fade-up">
-                <div class="h-48 bg-stone-100 overflow-hidden relative">
-                    <img src="https://images.unsplash.com/photo-1517457373958-b7bdd4587205?q=80&w=2669&auto=format&fit=crop" class="w-full h-full object-cover grayscale" alt="Funeral Facility">
-                    <div class="absolute top-6 right-6">
-                        <span class="merit-badge">9.8 Compliance</span>
-                    </div>
-                </div>
-                <div class="p-10">
-                    <p class="text-[10px] uppercase tracking-widest text-stone-400 mb-2">Independent Director</p>
-                    <h3 class="serif text-2xl mb-4">Premier Funeral Care</h3>
-                    <p class="text-sm text-stone-500 leading-relaxed mb-8">Vetted for facility standards, pricing transparency, and modern service options.</p>
-                    
-                    <div class="flex flex-col gap-4 border-t border-stone-50 pt-8">
-                        <div class="flex justify-between text-xs font-bold">
-                            <span>Service Merit</span>
-                            <span class="text-[#C5A059]">Excellent</span>
-                        </div>
-                        <div class="flex justify-between text-xs font-bold">
-                            <span>Fixed Fees</span>
-                            <span>From £1,850</span>
-                        </div>
-                    </div>
-                    
-                    <button class="btn-black w-full mt-10">Request Vetted Quote</button>
-                </div>
+        <div class="grid-layout" id="results-grid">
             </div>
 
-            <div class="director-card" data-aos="fade-up" data-aos-delay="100">
-                <div class="h-48 bg-stone-100 overflow-hidden relative">
-                    <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?q=80&w=2670&auto=format&fit=crop" class="w-full h-full object-cover grayscale" alt="Funeral Facility">
-                    <div class="absolute top-6 right-6">
-                        <span class="merit-badge">9.4 Compliance</span>
-                    </div>
-                </div>
-                <div class="p-10">
-                    <p class="text-[10px] uppercase tracking-widest text-stone-400 mb-2">Independent Director</p>
-                    <h3 class="serif text-2xl mb-4">Sterling & Sons</h3>
-                    <p class="text-sm text-stone-500 leading-relaxed mb-8">Specializing in traditional tributes with high attention to family care and heritage.</p>
-                    
-                    <div class="flex flex-col gap-4 border-t border-stone-50 pt-8">
-                        <div class="flex justify-between text-xs font-bold">
-                            <span>Service Merit</span>
-                            <span class="text-[#C5A059]">Premium</span>
-                        </div>
-                        <div class="flex justify-between text-xs font-bold">
-                            <span>Fixed Fees</span>
-                            <span>From £2,100</span>
-                        </div>
-                    </div>
-                    
-                    <button class="btn-black w-full mt-10">Request Vetted Quote</button>
-                </div>
-            </div>
-
-        </div>
-
-        <div class="mt-24 p-12 rounded-[3rem] border-2 border-dashed border-[#C5A059] bg-white flex flex-col md:flex-row items-center justify-between gap-8" data-aos="zoom-in">
+        <div class="mt-32 p-16 rounded-[3rem] border-2 border-dashed border-[#C5A059] bg-white flex flex-col md:flex-row items-center justify-between gap-10" data-aos="zoom-in" data-aos-offset="200">
             <div class="max-w-xl text-center md:text-left">
                 <p class="text-[10px] uppercase tracking-widest text-[#C5A059] font-bold mb-4">Strategic Partnership</p>
-                <h4 class="serif italic text-3xl mb-2">Looking for a Funeral Plan?</h4>
-                <p class="text-sm text-stone-500">Secure today's prices through our vetted partner, <strong>Dignity Funeral Plans</strong>. Total peace of mind, nationwide.</p>
+                <h4 class="serif italic text-4xl mb-4">Planning Ahead?</h4>
+                <p class="text-sm text-stone-500 leading-relaxed">Secure today's prices through our vetted partner, <strong>Dignity Funeral Plans</strong>. Total peace of mind, nationwide coverage, and capital protection.</p>
             </div>
-            <button class="btn-black">Explore Plans</button>
+            <button class="bg-black text-white px-10 py-4 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-[#C5A059] transition-colors">
+                View Plans
+            </button>
         </div>
 
     </main>
 
     <script>
-        AOS.init({ duration: 1000, once: true });
+        // === DATA SOURCE (25 Entries) ===
+        const directors = [
+            { name: "Premier Funeral Care", loc: "West London", price: "£1,850", rating: "9.8 Compliance", img: "https://images.unsplash.com/photo-1517457373958-b7bdd4587205" },
+            { name: "Sterling & Sons", loc: "Kensington", price: "£2,100", rating: "9.9 Premium", img: "https://images.unsplash.com/photo-1544197150-b99a580bb7a8" },
+            { name: "Oakwood Independent", loc: "Hampstead", price: "£1,950", rating: "9.6 Trusted", img: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab" },
+            { name: "Willow & Grace", loc: "Notting Hill", price: "£2,400", rating: "9.8 Eco-Focus", img: "https://images.unsplash.com/photo-1605152276897-4f618f831968" },
+            { name: "Heritage Tributes", loc: "Chelsea", price: "£2,800", rating: "10.0 Elite", img: "https://images.unsplash.com/photo-1595267664402-239634e9df28" },
+            { name: "Compassionate Care", loc: "Fulham", price: "£1,750", rating: "9.5 Value", img: "https://images.unsplash.com/photo-1518176258769-f227c798150e" },
+            { name: "Modern Farewells", loc: "Shoreditch", price: "£2,000", rating: "9.7 Contemporary", img: "https://images.unsplash.com/photo-1497366216548-37526070297c" },
+            { name: "Traditional Family", loc: "Richmond", price: "£2,250", rating: "9.8 Heritage", img: "https://images.unsplash.com/photo-1596230529625-7ee541361149" },
+            { name: "Serenity Services", loc: "Wimbledon", price: "£1,900", rating: "9.6 Care", img: "https://images.unsplash.com/photo-1519817650390-64a93db51149" },
+            { name: "Maritime Tributes", loc: "Greenwich", price: "£2,500", rating: "9.9 Specialist", img: "https://images.unsplash.com/photo-1468581264429-2548ef9eb732" },
+            { name: "Urban Funeral Co.", loc: "Hackney", price: "£1,800", rating: "9.5 Modern", img: "https://images.unsplash.com/photo-1481277542470-605612bd2d61" },
+            { name: "Starlight Memorials", loc: "Islington", price: "£2,150", rating: "9.7 Service", img: "https://images.unsplash.com/photo-1507643179173-617d654f9229" },
+            { name: "Golden Leaves", loc: "Chiswick", price: "£2,300", rating: "9.8 Premium", img: "https://images.unsplash.com/photo-1518640165980-d3e0e2aa6c1e" },
+            { name: "Silver Linings", loc: "Battersea", price: "£1,950", rating: "9.6 Trusted", img: "https://images.unsplash.com/photo-1505236858219-8359eb29e329" },
+            { name: "Tranquil Paths", loc: "Ealing", price: "£1,850", rating: "9.5 Value", img: "https://images.unsplash.com/photo-1447023029226-ef8f6b52e3ea" },
+            { name: "Regency Funerals", loc: "Mayfair", price: "£3,500", rating: "10.0 Luxury", img: "https://images.unsplash.com/photo-1560185007-c5ca9d2c014d" },
+            { name: "Echo Wood", loc: "Highgate", price: "£2,600", rating: "9.9 Natural", img: "https://images.unsplash.com/photo-1473448912268-2022ce9509d8" },
+            { name: "Civic Services", loc: "Westminster", price: "£2,400", rating: "9.8 Formal", img: "https://images.unsplash.com/photo-1548625361-eeca69305432" },
+            { name: "Kindred Spirits", loc: "Camden", price: "£2,050", rating: "9.7 Independent", img: "https://images.unsplash.com/photo-1528696892704-5e1122852276" },
+            { name: "Eternal Peace", loc: "Hammersmith", price: "£1,900", rating: "9.6 Care", img: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7" },
+            { name: "Noble & Sons", loc: "Clapham", price: "£2,200", rating: "9.8 Family", img: "https://images.unsplash.com/photo-1551590192-807e80d2c110" },
+            { name: "Sunrise Care", loc: "Stratford", price: "£1,700", rating: "9.4 Value", img: "https://images.unsplash.com/photo-1494548162494-384bba4ab999" },
+            { name: "Harmony Funerals", loc: "Brixton", price: "£1,950", rating: "9.6 Community", img: "https://images.unsplash.com/photo-1576662712957-e2b9c2a316a6" },
+            { name: "Prestige Directors", loc: "Knightsbridge", price: "£3,200", rating: "9.9 Elite", img: "https://images.unsplash.com/photo-1562654501-a0ccc0fc3fb1" },
+            { name: "Final Journey", loc: "Putney", price: "£2,100", rating: "9.7 Professional", img: "https://images.unsplash.com/photo-1519222970733-f546218fa6d7" }
+        ];
+
+        // === RENDER LOGIC ===
+        const grid = document.getElementById('results-grid');
+
+        directors.forEach((d, index) => {
+            const card = document.createElement('div');
+            card.className = 'director-card';
+            
+            // Add Fade Up Animation with Staggered Delay
+            card.setAttribute('data-aos', 'fade-up');
+            card.setAttribute('data-aos-delay', (index % 3) * 100); // 0ms, 100ms, 200ms stagger
+            card.setAttribute('data-aos-offset', '100'); // Trigger slightly earlier
+
+            card.innerHTML = `
+                <div class="card-image-wrap">
+                    <img src="${d.img}?q=80&w=800&auto=format&fit=crop" class="card-image" alt="${d.name}">
+                    <div class="merit-badge">${d.rating}</div>
+                </div>
+                <div class="p-8 flex-1 flex flex-col">
+                    <p class="text-[9px] uppercase tracking-widest text-stone-400 mb-2 font-bold">${d.loc}</p>
+                    <h3 class="serif text-2xl mb-4">${d.name}</h3>
+                    
+                    <div class="mt-auto pt-6 border-t border-stone-100">
+                        <div class="stat-row">
+                            <span class="stat-label">Arrangement Fee</span>
+                            <span class="stat-val text-[#C5A059]">${d.price}</span>
+                        </div>
+                        <div class="stat-row" style="border:none; padding:0; margin:0;">
+                            <span class="stat-label">Availability</span>
+                            <span class="stat-val text-green-700">Immediate</span>
+                        </div>
+                    </div>
+                    
+                    <button class="btn-action">View Profile</button>
+                </div>
+            `;
+            grid.appendChild(card);
+        });
+
+        // Initialize AOS
+        AOS.init({
+            duration: 800,
+            easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
+            once: true,
+            mirror: false
+        });
     </script>
 </body>
 </html>
