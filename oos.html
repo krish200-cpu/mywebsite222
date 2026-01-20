@@ -3,180 +3,232 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>FuneralMatch Service Creator</title>
+    <title>FuneralMatch Infinite Studio</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
     
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,700;1,400&family=Cinzel:wght@400;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,600;1,400&family=Cinzel:wght@400;600&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 
     <style>
-        /* --- 1. THEME VARIABLES --- */
+        /* --- 1. DESIGN SYSTEM --- */
         :root {
-            --bg-app: #080808;
-            --bg-panel: #121212;
-            --border: #222;
+            /* Brand Palette */
+            --bg-deep: #050505;
             --gold: #D4AF37;
-            --gold-dim: rgba(212, 175, 55, 0.15);
+            --gold-dim: rgba(212, 175, 55, 0.1);
+            --glass: rgba(10, 10, 10, 0.85);
+            --border: rgba(255, 255, 255, 0.1);
             
-            /* Print Dimensions (A5 Ratio) */
-            --page-width: 148mm;
-            --page-height: 210mm;
-            --page-ratio: 0.707; /* 1 / 1.414 */
+            /* Physical Dimensions */
+            --a5-ratio: 1.414; /* Height / Width */
+            
+            /* Animation Curves */
+            --ease-out: cubic-bezier(0.215, 0.61, 0.355, 1);
         }
 
-        /* --- 2. GLOBAL APP STYLES --- */
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        
-        body {
-            background-color: var(--bg-app);
-            color: white;
-            font-family: 'Inter', sans-serif;
-            height: 100vh;
-            overflow: hidden; /* App container */
-            display: flex; flex-direction: column;
-        }
-
-        /* --- 3. WORKSPACE (The Virtual Desk) --- */
-        #workspace {
-            flex: 1;
-            overflow-y: auto;
-            overflow-x: hidden;
-            padding: 40px 20px 140px 20px;
-            display: flex; flex-direction: column; align-items: center; gap: 40px;
+        /* --- 2. GLOBAL RESET & SCROLLING --- */
+        html {
+            background-color: var(--bg-deep);
+            /* Enable native smooth scrolling */
             scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* The Page (Screen View) */
-        .a5-page {
-            width: 100%;
-            max-width: 500px;
-            aspect-ratio: var(--page-ratio);
-            background: white;
-            color: black;
-            position: relative;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            overflow: hidden;
-            display: flex; flex-direction: column;
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            color: white;
+            /* Allow body to scroll naturally */
+            min-height: 100vh;
+            overflow-x: hidden;
+            padding-bottom: 120px; /* Space for floating dock */
         }
 
-        /* Focus Mode */
-        .a5-page.focused {
-            box-shadow: 0 0 0 3px var(--gold), 0 30px 80px rgba(0,0,0,0.8);
-            transform: scale(1.02);
-            z-index: 10;
+        /* Selection Color */
+        ::selection { background: var(--gold); color: black; }
+
+        /* --- 3. UI COMPONENTS --- */
+        
+        /* Glass Header */
+        .header-glass {
+            position: fixed; top: 0; left: 0; right: 0;
+            height: 60px;
+            background: var(--glass);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            z-index: 50;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 20px;
+            transition: transform 0.3s ease;
         }
+        /* Hide header on scroll down (optional JS hook) */
+        .header-hidden { transform: translateY(-100%); }
 
-        /* Page Label (Screen Only) */
-        .page-meta {
-            position: absolute; top: -25px; left: 0; width: 100%;
-            display: flex; justify-content: space-between;
-            font-size: 10px; font-weight: 700; color: #666; text-transform: uppercase; letter-spacing: 1px;
-        }
-
-        /* Reorder Handle */
-        .drag-handle {
-            display: none; /* Hidden unless in sort mode */
-            position: absolute; top: 10px; right: 10px;
-            width: 32px; height: 32px; background: #eee; border-radius: 50%;
-            color: #333; align-items: center; justify-content: center; cursor: grab; z-index: 50;
-        }
-
-        /* --- 4. CONTENT STYLING --- */
-        .content-area {
-            flex: 1; padding: 10%; display: flex; flex-direction: column;
-        }
-
-        /* Editables */
-        [contenteditable] {
-            outline: none; border: 1px dashed transparent; transition: 0.2s; cursor: text;
-        }
-        [contenteditable]:hover { border-color: rgba(212,175,55,0.3); background: rgba(0,0,0,0.02); }
-        [contenteditable]:focus { border-color: var(--gold); background: rgba(212,175,55,0.05); }
-
-        /* Photo Zones */
-        .photo-zone {
-            background: #f4f4f4; width: 100%; display: flex; align-items: center; justify-content: center;
-            overflow: hidden; position: relative; color: #ccc; transition: 0.2s; cursor: pointer;
-        }
-        .photo-zone:hover { opacity: 0.8; box-shadow: inset 0 0 0 2px var(--gold); }
-        .photo-zone img { width: 100%; height: 100%; object-fit: cover; }
-
-        /* Typography Classes */
-        .font-classic { font-family: 'Bodoni Moda', serif; }
-        .font-modern { font-family: 'Inter', sans-serif; }
-        .font-formal { font-family: 'Cinzel', serif; }
-        .font-soft { font-family: 'Cormorant Garamond', serif; }
-
-        /* --- 5. UI COMPONENTS (Dock & Header) --- */
-        .app-bar {
-            height: 60px; background: rgba(10,10,10,0.9); backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between;
-            padding: 0 20px; z-index: 50; flex-shrink: 0;
+        /* Floating Dock (Dynamic Island Style) */
+        .dock-container {
+            position: fixed; bottom: 30px; left: 0; right: 0;
+            display: flex; justify-content: center; z-index: 50;
+            pointer-events: none; /* Let clicks pass through empty areas */
         }
 
         .dock {
-            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
-            background: rgba(20,20,20,0.95); backdrop-filter: blur(20px);
-            border: 1px solid var(--border); border-radius: 99px;
-            padding: 8px 12px; display: flex; gap: 8px; z-index: 60;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+            pointer-events: auto;
+            background: rgba(15, 15, 15, 0.95);
+            backdrop-filter: blur(25px);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 999px;
+            padding: 6px 8px;
+            display: flex; align-items: center; gap: 8px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+            transform: translateY(0);
+            transition: all 0.3s var(--ease-out);
         }
 
         .dock-btn {
-            height: 48px; padding: 0 20px; border-radius: 99px;
-            background: transparent; color: #aaa; border: 1px solid transparent;
-            font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
-            display: flex; align-items: center; gap: 8px; cursor: pointer; transition: 0.2s;
+            height: 44px; padding: 0 20px;
+            border-radius: 999px;
+            color: #aaa; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
+            display: flex; align-items: center; gap: 8px;
+            cursor: pointer; transition: 0.2s;
+            border: 1px solid transparent;
         }
-        .dock-btn:hover { background: rgba(255,255,255,0.05); color: white; }
+        .dock-btn:hover { color: white; background: rgba(255,255,255,0.05); }
         .dock-btn.active { color: var(--gold); background: var(--gold-dim); border-color: rgba(197,160,89,0.3); }
         
-        .dock-btn.primary { background: var(--gold); color: black; box-shadow: 0 4px 15px rgba(212,175,55,0.3); }
-        .dock-btn.primary:hover { background: white; }
+        .dock-btn.primary {
+            background: var(--gold); color: black; font-weight: 800;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
+        }
+        .dock-btn.primary:active { transform: scale(0.96); }
 
-        /* --- 6. MENUS & MODALS --- */
+        /* --- 4. THE CANVAS --- */
+        .canvas-wrapper {
+            width: 100%;
+            max-width: 550px; /* Optimal reading width on desktop */
+            margin: 0 auto;
+            padding-top: 80px; /* Space for header */
+            display: flex; flex-direction: column; gap: 40px;
+        }
+
+        /* The Physical Page */
+        .page-sheet {
+            position: relative;
+            width: 92%; /* Mobile margins */
+            margin: 0 auto;
+            aspect-ratio: 1 / var(--a5-ratio);
+            background: white;
+            color: black;
+            box-shadow: 0 20px 40px -5px rgba(0,0,0,0.6);
+            border-radius: 2px; /* Slight softening */
+            transition: transform 0.3s var(--ease-out), opacity 0.3s;
+            overflow: hidden;
+        }
+
+        /* Paper Textures */
+        .texture-cream { background-color: #F9F7F2; }
+        .texture-white { background-color: #FFFFFF; }
+        .texture-stone { background-color: #EBEAE8; }
+
+        /* Page Number Tag */
+        .page-tag {
+            position: absolute; top: 0; left: -10px; transform: translateX(-100%);
+            height: 100%; display: flex; flex-direction: column; justify-content: center;
+            font-size: 10px; font-weight: 700; color: #444; opacity: 0.5;
+            padding-right: 10px;
+        }
+        /* Mobile: Hide tags or move them */
+        @media (max-width: 640px) {
+            .page-tag { display: none; }
+        }
+
+        /* --- 5. EDITABLE CONTENT --- */
+        .content-layer {
+            height: 100%; padding: 8% 10%; /* Responsive internal padding */
+            display: flex; flex-direction: column;
+        }
+
+        [contenteditable] {
+            outline: none; border: 1px dashed transparent;
+            transition: 0.2s; cursor: text;
+        }
+        [contenteditable]:hover { background: rgba(0,0,0,0.03); }
+        [contenteditable]:focus { 
+            background: rgba(212, 175, 55, 0.05); 
+            border-color: rgba(212, 175, 55, 0.3);
+            box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.05);
+            border-radius: 4px;
+        }
+
+        /* Photo Zones */
+        .photo-zone {
+            width: 100%; background: #f0f0f0;
+            display: flex; align-items: center; justify-content: center;
+            overflow: hidden; position: relative; cursor: pointer; transition: 0.2s;
+        }
+        .photo-zone:hover { opacity: 0.9; }
+        .photo-zone:active { transform: scale(0.99); }
+        .photo-zone img { width: 100%; height: 100%; object-fit: cover; }
+        .photo-placeholder { display: flex; flex-direction: column; align-items: center; gap: 8px; color: #ccc; }
+
+        /* --- 6. MENUS (Bottom Sheet) --- */
         .sheet-menu {
             position: fixed; bottom: 0; left: 0; right: 0;
-            background: #1a1a1a; border-radius: 24px 24px 0 0;
-            padding: 24px; transform: translateY(110%); transition: transform 0.3s ease;
-            z-index: 70; border-top: 1px solid #333; max-height: 80vh; overflow-y: auto;
+            background: #151515;
+            border-top: 1px solid var(--border);
+            border-radius: 24px 24px 0 0;
+            padding: 24px; padding-bottom: 40px;
+            z-index: 100;
+            transform: translateY(110%);
+            transition: transform 0.4s var(--ease-out);
+            max-height: 70vh; overflow-y: auto;
+            box-shadow: 0 -50px 100px rgba(0,0,0,0.9);
         }
-        .sheet-menu.open { transform: translateY(0); }
+        .sheet-menu.active { transform: translateY(0); }
+
+        .menu-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px);
+            z-index: 90; opacity: 0; pointer-events: none; transition: 0.3s;
+        }
+        .menu-overlay.active { opacity: 1; pointer-events: auto; }
 
         .menu-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
-        .menu-item {
-            background: #252525; padding: 16px; border-radius: 12px;
-            display: flex; flex-direction: column; align-items: center; gap: 8px;
-            cursor: pointer; border: 1px solid transparent; transition: 0.2s;
+        .menu-card {
+            background: rgba(255,255,255,0.03); border: 1px solid var(--border);
+            border-radius: 16px; padding: 20px;
+            display: flex; flex-direction: column; align-items: center; gap: 12px;
+            cursor: pointer; transition: 0.2s;
         }
-        .menu-item:hover { border-color: var(--gold); background: #2a2a2a; }
-        .menu-item i { font-size: 20px; color: #888; }
-        .menu-item span { font-size: 11px; font-weight: 600; color: white; }
+        .menu-card:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.3); }
+        .menu-card.selected { border-color: var(--gold); background: rgba(212, 175, 55, 0.1); }
+        
+        .menu-icon { font-size: 24px; color: #888; }
+        .menu-label { font-size: 12px; font-weight: 600; color: white; }
 
-        /* --- 7. SORT MODE STYLES --- */
-        body.sorting .drag-handle { display: flex; }
-        body.sorting .a5-page { transform: scale(0.95); opacity: 0.8; }
-        body.sorting .a5-page.focused { transform: scale(1); opacity: 1; border: 2px solid var(--gold); }
+        /* --- 7. TYPOGRAPHY CLASSES --- */
+        .font-classic { font-family: 'Bodoni Moda', serif; }
+        .font-modern { font-family: 'Inter', sans-serif; font-weight: 600; }
+        .font-formal { font-family: 'Cinzel', serif; }
+        .font-soft { font-family: 'Cormorant Garamond', serif; }
 
-        /* --- 8. PRINT STYLES (The Critical Part) --- */
+        /* --- 8. PRINT CSS (Critical for production) --- */
         @media print {
             body { background: white; display: block; height: auto; overflow: visible; }
-            .app-bar, .dock, .sheet-menu, .page-meta, .drag-handle { display: none !important; }
-            #workspace { padding: 0; margin: 0; display: block; overflow: visible; }
+            .header-glass, .dock-container, .page-tag, .menu-overlay, .sheet-menu { display: none !important; }
+            .canvas-wrapper { padding: 0; margin: 0; width: 100%; max-width: none; gap: 0; }
             
-            .a5-page {
-                box-shadow: none; margin: 0; width: 100%; max-width: 100%;
-                break-after: page; /* Force page break */
-                page-break-after: always;
-                border: none;
+            .page-sheet {
+                width: 100%; max-width: 100%; margin: 0;
+                box-shadow: none; border-radius: 0;
+                break-after: page; page-break-after: always;
+                background-color: white !important; /* Force white for printing unless full bleed */
+                color: black !important;
             }
-            
             [contenteditable] { border: none !important; }
-            
-            /* Print Settings */
             @page { size: A5; margin: 0; }
         }
 
@@ -184,297 +236,335 @@
 </head>
 <body>
 
-    <div class="app-bar">
-        <div>
-            <span class="text-[9px] uppercase font-bold text-[#D4AF37] tracking-widest block">FuneralMatch</span>
-            <span class="text-xs font-bold text-white">Order of Service</span>
+    <header class="header-glass">
+        <div class="flex flex-col">
+            <span class="text-[9px] font-bold text-[#D4AF37] uppercase tracking-widest">FuneralMatch</span>
+            <span class="text-sm font-bold text-white">Infinite Studio</span>
         </div>
+        
         <div class="flex items-center gap-3">
-            <span id="page-counter" class="text-xs font-bold text-gray-500">4 Pages</span>
-            <div class="h-4 w-px bg-white/10"></div>
-            <button onclick="saveProject()" class="text-xs font-bold text-[#D4AF37] hover:text-white transition-colors">
-                <i class="fas fa-save mr-1"></i> Save
+            <div id="save-status" class="text-[10px] font-bold text-green-500 opacity-0 transition-opacity">SAVED</div>
+            <button onclick="window.print()" class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white/20 transition-all">
+                <i class="fas fa-print text-xs"></i>
+            </button>
+        </div>
+    </header>
+
+    <div id="canvas" class="canvas-wrapper">
+        </div>
+
+    <div class="dock-container">
+        <div class="dock">
+            <button class="dock-btn" onclick="openMenu('add')">
+                <i class="fas fa-plus"></i> <span class="hidden sm:inline">Add Page</span>
+            </button>
+            <div class="w-px h-6 bg-white/10"></div>
+            <button class="dock-btn" onclick="openMenu('style')">
+                <i class="fas fa-palette"></i> <span>Design</span>
+            </button>
+            <button class="dock-btn" onclick="openMenu('templates')">
+                <i class="fas fa-layer-group"></i> <span>Template</span>
+            </button>
+            <div class="w-px h-6 bg-white/10"></div>
+            <button class="dock-btn primary" onclick="alert('Proceeding to Checkout')">
+                <span>Order</span> <i class="fas fa-arrow-right"></i>
             </button>
         </div>
     </div>
 
-    <div id="workspace">
-        </div>
-
-    <div class="dock">
-        <button class="dock-btn" onclick="openMenu('add')">
-            <i class="fas fa-plus"></i> <span class="hidden sm:inline">Add Page</span>
-        </button>
-        <button class="dock-btn" onclick="openMenu('style')">
-            <i class="fas fa-font"></i> <span class="hidden sm:inline">Style</span>
-        </button>
-        <button class="dock-btn" id="btn-sort" onclick="toggleSort()">
-            <i class="fas fa-sort"></i> <span class="hidden sm:inline">Sort</span>
-        </button>
-        <div class="w-px h-6 bg-white/10 mx-2"></div>
-        <button class="dock-btn primary" onclick="printBooklet()">
-            <i class="fas fa-print"></i> <span>Print / PDF</span>
-        </button>
-    </div>
+    <div id="overlay" class="menu-overlay" onclick="closeMenus()"></div>
 
     <div id="menu-add" class="sheet-menu">
         <div class="flex justify-between items-center mb-6">
-            <span class="text-xs font-bold text-gray-500 uppercase tracking-widest">Add Content</span>
+            <span class="text-xs font-bold text-gray-500 uppercase tracking-widest">Insert Page</span>
             <button onclick="closeMenus()" class="text-gray-500"><i class="fas fa-times text-lg"></i></button>
         </div>
         <div class="menu-grid">
-            <div class="menu-item" onclick="addPage('text')">
-                <i class="fas fa-align-left"></i> <span>Text / Reading</span>
+            <div class="menu-card" onclick="addPage('text')">
+                <i class="fas fa-align-left menu-icon"></i>
+                <span class="menu-label">Text / Reading</span>
             </div>
-            <div class="menu-item" onclick="addPage('photo')">
-                <i class="fas fa-image"></i> <span>Full Photo</span>
+            <div class="menu-card" onclick="addPage('photo')">
+                <i class="fas fa-image menu-icon"></i>
+                <span class="menu-label">Full Photo</span>
             </div>
-            <div class="menu-item" onclick="addPage('hymn')">
-                <i class="fas fa-music"></i> <span>Hymn</span>
+            <div class="menu-card" onclick="addPage('hymn')">
+                <i class="fas fa-music menu-icon"></i>
+                <span class="menu-label">Hymn</span>
             </div>
-            <div class="menu-item" onclick="addPage('collage')">
-                <i class="fas fa-images"></i> <span>Photo Collage</span>
+            <div class="menu-card" onclick="addPage('collage')">
+                <i class="fas fa-th-large menu-icon"></i>
+                <span class="menu-label">Collage</span>
             </div>
         </div>
     </div>
 
     <div id="menu-style" class="sheet-menu">
         <div class="flex justify-between items-center mb-6">
-            <span class="text-xs font-bold text-gray-500 uppercase tracking-widest">Typography</span>
+            <span class="text-xs font-bold text-gray-500 uppercase tracking-widest">Global Style</span>
             <button onclick="closeMenus()" class="text-gray-500"><i class="fas fa-times text-lg"></i></button>
         </div>
-        <div class="menu-grid">
-            <div class="menu-item" onclick="applyFont('classic')">
-                <span class="font-serif text-xl">Aa</span> <span>Bodoni (Classic)</span>
+        
+        <p class="text-[10px] font-bold text-[#D4AF37] uppercase mb-3">Typography</p>
+        <div class="menu-grid mb-8">
+            <div class="menu-card" onclick="setStyle('font', 'classic')">
+                <span class="font-serif text-2xl">Aa</span>
+                <span class="menu-label">Classic</span>
             </div>
-            <div class="menu-item" onclick="applyFont('modern')">
-                <span class="font-sans font-bold text-xl">Aa</span> <span>Inter (Modern)</span>
+            <div class="menu-card" onclick="setStyle('font', 'modern')">
+                <span class="font-sans text-2xl font-bold">Aa</span>
+                <span class="menu-label">Modern</span>
             </div>
-            <div class="menu-item" onclick="applyFont('formal')">
-                <span style="font-family: 'Cinzel', serif" class="text-xl">Aa</span> <span>Cinzel (Formal)</span>
+            <div class="menu-card" onclick="setStyle('font', 'formal')">
+                <span style="font-family: 'Cinzel', serif" class="text-2xl">Aa</span>
+                <span class="menu-label">Formal</span>
             </div>
-            <div class="menu-item" onclick="applyFont('soft')">
-                <span style="font-family: 'Cormorant Garamond', serif" class="text-xl italic">Aa</span> <span>Cormorant (Soft)</span>
+            <div class="menu-card" onclick="setStyle('font', 'soft')">
+                <span style="font-family: 'Cormorant Garamond', serif" class="text-2xl italic">Aa</span>
+                <span class="menu-label">Soft</span>
+            </div>
+        </div>
+
+        <p class="text-[10px] font-bold text-[#D4AF37] uppercase mb-3">Paper Stock</p>
+        <div class="flex gap-4">
+            <div onclick="setStyle('paper', 'cream')" class="w-12 h-12 rounded-full bg-[#F9F7F2] border border-gray-600 cursor-pointer hover:scale-110 transition-transform"></div>
+            <div onclick="setStyle('paper', 'stone')" class="w-12 h-12 rounded-full bg-[#EBEAE8] border border-gray-600 cursor-pointer hover:scale-110 transition-transform"></div>
+            <div onclick="setStyle('paper', 'white')" class="w-12 h-12 rounded-full bg-white border border-gray-600 cursor-pointer hover:scale-110 transition-transform"></div>
+        </div>
+    </div>
+
+    <div id="menu-templates" class="sheet-menu">
+        <div class="flex justify-between items-center mb-6">
+            <span class="text-xs font-bold text-gray-500 uppercase tracking-widest">Apply Template</span>
+            <button onclick="closeMenus()" class="text-gray-500"><i class="fas fa-times text-lg"></i></button>
+        </div>
+        <div class="space-y-3">
+            <div class="menu-card flex-row items-center gap-4 text-left p-4" onclick="loadTemplate('traditional')">
+                <i class="fas fa-church text-xl text-[#D4AF37]"></i>
+                <div class="flex-1">
+                    <div class="menu-label text-sm">Traditional Church</div>
+                    <div class="text-[10px] text-gray-500">Hymns, Prayers, Committal</div>
+                </div>
+            </div>
+            <div class="menu-card flex-row items-center gap-4 text-left p-4" onclick="loadTemplate('civil')">
+                <i class="fas fa-leaf text-xl text-green-500"></i>
+                <div class="flex-1">
+                    <div class="menu-label text-sm">Simple / Civil</div>
+                    <div class="text-[10px] text-gray-500">Entrance, Reading, Reflection</div>
+                </div>
             </div>
         </div>
     </div>
 
-    <input type="file" id="img-upload" class="hidden" accept="image/*">
+    <input type="file" id="file-input" class="hidden" accept="image/*">
 
     <script>
-        // === 1. DATA STATE & TEMPLATES ===
+        // === 1. DATA STATE ===
         const state = {
             pages: [],
-            font: 'classic',
-            sorting: false
+            settings: { font: 'classic', paper: 'cream' }
         };
 
-        const TEMPLATES = {
+        // === 2. TEMPLATES (HTML Strings for performance) ===
+        const LAYOUTS = {
             cover: `
-                <div class="h-full flex flex-col items-center justify-center text-center p-8">
-                    <div class="mb-8 text-xs uppercase tracking-widest opacity-60" contenteditable="true">In Loving Memory of</div>
-                    <div class="photo-zone rounded-full w-40 h-40 mb-8 border-4 border-double border-gray-100" onclick="triggerUpload(this)">
-                        <i class="fas fa-camera text-2xl opacity-20"></i>
+                <div class="content-layer items-center justify-center text-center">
+                    <div class="mb-8 text-xs uppercase tracking-[0.2em] opacity-60 font-bold" contenteditable="true">In Loving Memory of</div>
+                    <div class="photo-zone w-40 h-40 rounded-full mb-8 shadow-xl border-4 border-double border-gray-200" onclick="triggerUpload(this)">
+                        <div class="photo-placeholder"><i class="fas fa-camera text-2xl"></i></div>
                     </div>
-                    <div class="text-4xl mb-4 font-bold leading-tight" contenteditable="true">Name<br>Here</div>
-                    <div class="text-sm opacity-60 italic mb-8" contenteditable="true">1950 — 2026</div>
+                    <div class="text-4xl mb-4 font-bold leading-none" contenteditable="true">Eleanor<br>Rigby</div>
+                    <div class="text-sm opacity-60 italic mb-12" contenteditable="true">1950 — 2026</div>
                     <div class="mt-auto text-[10px] uppercase font-bold opacity-40" contenteditable="true">St Mary's Church</div>
                 </div>`,
             
             text: `
-                <div class="h-full p-10 flex flex-col">
-                    <div class="text-lg font-bold mb-6 border-b border-gray-100 pb-2 text-[#D4AF37]" contenteditable="true">Reading</div>
-                    <div class="text-sm leading-loose opacity-80 whitespace-pre-wrap flex-1" contenteditable="true">
-Tap here to type content.
-You can add poems, eulogies, or details about the service here.
+                <div class="content-layer p-10">
+                    <div class="text-lg font-bold mb-6 border-b border-black/10 pb-2 text-[#D4AF37]" contenteditable="true">Reading</div>
+                    <div class="text-sm leading-loose opacity-80 whitespace-pre-wrap" contenteditable="true">
+Tap here to edit text.
+Include poems, readings, or details about the service.
                     </div>
                 </div>`,
             
             photo: `
-                <div class="h-full flex flex-col">
-                    <div class="photo-zone w-full h-2/3 mb-6 bg-gray-50" onclick="triggerUpload(this)">
-                        <div class="flex flex-col items-center"><i class="fas fa-image opacity-30 mb-2"></i><span class="text-[9px] uppercase font-bold opacity-30">Add Photo</span></div>
+                <div class="content-layer p-0">
+                    <div class="photo-zone w-full h-[60%] bg-gray-100" onclick="triggerUpload(this)">
+                        <div class="photo-placeholder"><i class="fas fa-image text-2xl mb-2"></i><span class="text-[9px] uppercase font-bold">Add Photo</span></div>
                     </div>
-                    <div class="px-8 text-center">
+                    <div class="p-8 text-center">
                         <div class="text-lg font-bold mb-2" contenteditable="true">Caption</div>
-                        <div class="text-xs opacity-60" contenteditable="true">Add a description...</div>
+                        <div class="text-xs opacity-60" contenteditable="true">Add description here...</div>
                     </div>
                 </div>`,
             
             hymn: `
-                <div class="h-full flex flex-col items-center justify-start pt-12 text-center px-8">
+                <div class="content-layer items-center pt-12 text-center px-8">
                     <div class="text-[10px] uppercase font-bold opacity-40 mb-4 tracking-widest" contenteditable="true">Hymn</div>
-                    <div class="text-2xl italic mb-8" contenteditable="true">Abide With Me</div>
+                    <div class="text-2xl italic mb-8 font-bold" contenteditable="true">Abide With Me</div>
                     <div class="text-xs italic opacity-70 leading-loose" contenteditable="true">
-Abide with me;<br>fast falls the eventide;<br>The darkness deepens;<br>Lord with me abide.<br>When other helpers fail<br>and comforts flee,<br>Help of the helpless,<br>O abide with me.
+Abide with me;<br>fast falls the eventide;<br>The darkness deepens;<br>Lord with me abide.
                     </div>
                 </div>`
         };
 
-        // === 2. INITIALIZATION ===
+        const TEMPLATE_SETS = {
+            traditional: ['cover', 'music', 'hymn', 'reading', 'eulogy', 'hymn', 'prayer', 'back'],
+            civil: ['cover', 'music', 'reading', 'eulogy', 'music', 'back']
+        };
+
+        // === 3. CORE LOGIC ===
         function init() {
-            // Check LocalStorage
-            const saved = localStorage.getItem('funeralMatchProject');
-            if (saved) {
+            // Load LocalStorage or Default
+            const saved = localStorage.getItem('funeralMatch_v17');
+            if(saved) {
                 const data = JSON.parse(saved);
                 state.pages = data.pages;
-                state.font = data.font;
+                state.settings = data.settings;
+                // Re-apply settings
+                setStyle('font', state.settings.font);
+                setStyle('paper', state.settings.paper);
             } else {
-                // Default Start
-                state.pages = [
-                    { id: Date.now(), html: TEMPLATES.cover, type: 'cover' },
-                    { id: Date.now()+1, html: TEMPLATES.text, type: 'text' },
-                    { id: Date.now()+2, html: TEMPLATES.hymn, type: 'hymn' },
-                    { id: Date.now()+3, html: `
-                        <div class="h-full flex flex-col items-center justify-end pb-12 text-center p-8">
-                            <div class="photo-zone w-20 h-20 mb-4 rounded bg-gray-50 mx-auto" onclick="triggerUpload(this)"><i class="fas fa-plus opacity-20"></i></div>
-                            <div class="font-bold mb-2 text-sm" contenteditable="true">Donations</div>
-                            <div class="text-xs opacity-60" contenteditable="true">To The Hospice Charity.</div>
-                        </div>`, type: 'back' }
-                ];
+                // Default 4 pages
+                addPage('cover', false);
+                addPage('text', false);
+                addPage('hymn', false);
+                addPage('text', false); // Back cover placeholder
             }
             render();
         }
 
-        // === 3. RENDER ENGINE ===
         function render() {
-            const container = document.getElementById('workspace');
-            container.innerHTML = ''; // Clear
+            const canvas = document.getElementById('canvas');
+            canvas.innerHTML = ''; // Clear
 
             state.pages.forEach((page, index) => {
-                const el = document.createElement('div');
-                el.className = `a5-page font-${state.font}`;
-                el.id = `page-${index}`;
+                const sheet = document.createElement('div');
+                sheet.className = `page-sheet texture-${state.settings.paper} font-${state.settings.font}`;
+                sheet.dataset.id = page.id;
                 
-                // Meta Label
-                let label = `Page ${index+1}`;
-                if (index === 0) label = "Front Cover";
-                if (index === state.pages.length - 1) label = "Back Cover";
+                // Add Delete Button (Only if > 4 pages)
+                const deleteBtn = state.pages.length > 4 ? 
+                    `<button onclick="deletePage(${index})" class="absolute top-2 right-2 w-6 h-6 bg-red-50 text-red-500 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"><i class="fas fa-times text-xs"></i></button>` : '';
 
-                el.innerHTML = `
-                    <div class="page-meta">
-                        <span>${label}</span>
-                        ${state.sorting ? '<i class="fas fa-bars"></i>' : ''}
-                    </div>
-                    <div class="drag-handle" onclick="movePage(${index})"><i class="fas fa-arrow-down"></i></div>
-                    <div class="content-area" id="content-${index}">
+                sheet.innerHTML = `
+                    <div class="page-tag">PAGE ${index + 1}</div>
+                    <div class="group relative h-full">
                         ${page.html}
+                        ${deleteBtn}
                     </div>
                 `;
 
-                // Focus Events
-                el.addEventListener('click', () => {
-                    if (state.sorting) return;
-                    document.querySelectorAll('.a5-page').forEach(p => p.classList.remove('focused'));
-                    el.classList.add('focused');
+                // Auto-Save Listeners
+                sheet.addEventListener('input', () => {
+                    // Update state html
+                    state.pages[index].html = sheet.querySelector('.group').innerHTML;
+                    saveState();
                 });
 
-                // Auto-Save Content Changes
-                el.addEventListener('input', () => {
-                    state.pages[index].html = document.getElementById(`content-${index}`).innerHTML;
-                    saveProject(false); // Silent save
-                });
-
-                container.appendChild(el);
+                canvas.appendChild(sheet);
             });
-
-            // Update Counters
-            document.getElementById('page-counter').innerText = `${state.pages.length} Pages`;
-            if (state.pages.length % 4 !== 0) {
-                document.getElementById('page-counter').style.color = '#ef4444'; // Red warning
-                document.getElementById('page-counter').innerText += " (Add " + (4 - (state.pages.length % 4)) + ")";
-            } else {
-                document.getElementById('page-counter').style.color = '#6b7280';
-            }
         }
 
-        // === 4. PAGE ACTIONS ===
-        function addPage(type) {
-            state.pages.splice(state.pages.length - 1, 0, { id: Date.now(), html: TEMPLATES[type], type: type });
-            render();
-            closeMenus();
-            saveProject();
-        }
-
-        function toggleSort() {
-            state.sorting = !state.sorting;
-            const btn = document.getElementById('btn-sort');
+        // === 4. ACTIONS ===
+        function addPage(type, save = true) {
+            let html = LAYOUTS[type];
+            // Fallbacks if layout key missing (music/eulogy mapped to text for demo)
+            if(!html) html = LAYOUTS.text; 
             
-            if (state.sorting) {
-                document.body.classList.add('sorting');
-                btn.classList.add('active');
-            } else {
-                document.body.classList.remove('sorting');
-                btn.classList.remove('active');
-            }
-            render();
-        }
-
-        function movePage(index) {
-            // Simple swap down logic for mobile
-            if (index < state.pages.length - 1) {
-                const temp = state.pages[index];
-                state.pages[index] = state.pages[index+1];
-                state.pages[index+1] = temp;
+            state.pages.push({ id: Date.now(), html: html, type: type });
+            if(save) {
                 render();
-                saveProject();
+                closeMenus();
+                saveState();
+                window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
             }
         }
 
-        function applyFont(fontName) {
-            state.font = fontName;
-            render();
+        function deletePage(index) {
+            if(confirm('Delete this page?')) {
+                state.pages.splice(index, 1);
+                render();
+                saveState();
+            }
+        }
+
+        function loadTemplate(name) {
+            if(confirm('This will replace your current pages. Continue?')) {
+                state.pages = [];
+                const types = TEMPLATE_SETS[name];
+                types.forEach(t => addPage(t, false));
+                render();
+                closeMenus();
+                saveState();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        // === 5. DESIGN SYSTEM ===
+        function setStyle(prop, val) {
+            state.settings[prop] = val;
+            
+            if(prop === 'font') {
+                const sheets = document.querySelectorAll('.page-sheet');
+                sheets.forEach(s => {
+                    s.classList.remove('font-classic', 'font-modern', 'font-formal', 'font-soft');
+                    s.classList.add(`font-${val}`);
+                });
+            }
+            if(prop === 'paper') {
+                const sheets = document.querySelectorAll('.page-sheet');
+                sheets.forEach(s => {
+                    s.classList.remove('texture-cream', 'texture-white', 'texture-stone');
+                    s.classList.add(`texture-${val}`);
+                });
+            }
             closeMenus();
-            saveProject();
+            saveState();
         }
 
-        // === 5. IMAGE UPLOAD ===
-        let uploadTarget = null;
+        // === 6. PHOTO HANDLING ===
+        let activeUpload = null;
         function triggerUpload(el) {
-            uploadTarget = el;
-            document.getElementById('img-upload').click();
+            activeUpload = el;
+            document.getElementById('file-input').click();
         }
-
-        document.getElementById('img-upload').onchange = (e) => {
-            if (e.target.files[0] && uploadTarget) {
+        
+        document.getElementById('file-input').onchange = (e) => {
+            if(e.target.files[0] && activeUpload) {
                 const reader = new FileReader();
                 reader.onload = (evt) => {
-                    uploadTarget.innerHTML = `<img src="${evt.target.result}">`;
-                    uploadTarget.style.background = 'transparent';
-                    // Trigger save
-                    const pageIndex = uploadTarget.closest('.a5-page').id.split('-')[1];
-                    state.pages[pageIndex].html = document.getElementById(`content-${pageIndex}`).innerHTML;
-                    saveProject();
+                    activeUpload.innerHTML = `<img src="${evt.target.result}">`;
+                    activeUpload.style.background = 'transparent';
+                    // Trigger save by dispatching input event on parent
+                    activeUpload.closest('.page-sheet').dispatchEvent(new Event('input'));
                 };
                 reader.readAsDataURL(e.target.files[0]);
             }
         };
 
-        // === 6. SYSTEM ===
+        // === 7. UTILS & UI ===
         function openMenu(id) {
             closeMenus();
-            document.getElementById(`menu-${id}`).classList.add('open');
+            document.getElementById('overlay').classList.add('active');
+            document.getElementById(`menu-${id}`).classList.add('active');
         }
 
         function closeMenus() {
-            document.querySelectorAll('.sheet-menu').forEach(m => m.classList.remove('open'));
+            document.getElementById('overlay').classList.remove('active');
+            document.querySelectorAll('.sheet-menu').forEach(m => m.classList.remove('active'));
         }
 
-        function saveProject(notify = true) {
-            localStorage.setItem('funeralMatchProject', JSON.stringify(state));
-            if (notify) {
-                const btn = document.querySelector('.fa-save').parentNode;
-                const original = btn.innerHTML;
-                btn.innerHTML = '<i class="fas fa-check"></i> Saved';
-                setTimeout(() => btn.innerHTML = original, 2000);
-            }
+        function saveState() {
+            localStorage.setItem('funeralMatch_v17', JSON.stringify(state));
+            
+            // Visual Feedback
+            const status = document.getElementById('save-status');
+            status.style.opacity = '1';
+            setTimeout(() => status.style.opacity = '0', 2000);
         }
 
-        function printBooklet() {
-            window.print();
-        }
-
-        // Boot
+        // Start App
         init();
 
     </script>
