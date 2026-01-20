@@ -1,459 +1,406 @@
 <!DOCTYPE html>
-<html lang="en-GB">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Curated Directors | FuneralMatch</title>
-
+    <title>Arrangement Suite | FuneralMatch</title>
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     
-    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&family=Manrope:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Manrope:wght@300;400;500;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
 
     <style>
-        /* --- 1. LUXURY IDENTITY --- */
+        /* --- 1. LUXURY THEME (v29 Port) --- */
         :root {
-            --bg-body: #FDFBF9; /* Warm Alabaster */
-            --bg-glass: rgba(255, 255, 255, 0.9);
-            --gold-primary: #C5A059;
-            --gold-dark: #A07F40;
-            --black-ink: #0A0A0A;
-            --border-subtle: rgba(0,0,0,0.06);
-            --shadow-float: 0 20px 40px -10px rgba(20, 20, 20, 0.08);
-            --ease-lux: cubic-bezier(0.16, 1, 0.3, 1);
+            --bg-body: #FDFBF9; /* Alabaster */
+            --bg-paper: #F7F5F0;
+            --ink: #0A0A0A;
+            --gold: #C5A059;
+            --border: rgba(0,0,0,0.08);
+            --ease: cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         body {
             background-color: var(--bg-body);
-            color: var(--black-ink);
-            font-family: 'Manrope', sans-serif; /* Clean, modern sans */
-            -webkit-font-smoothing: antialiased;
-        }
-
-        /* --- 2. THE BRAND LOGO --- */
-        .brand-font { font-family: 'Bodoni Moda', serif; }
-        
-        .logo-container {
-            display: flex; flex-direction: column; align-items: flex-start; line-height: 0.9;
-        }
-        .logo-main {
-            font-size: 24px; font-weight: 700; color: var(--black-ink); letter-spacing: -0.02em;
-        }
-        .logo-main span { color: var(--gold-primary); font-style: italic; }
-        .logo-sub {
-            font-family: 'Manrope', sans-serif; font-size: 8px; font-weight: 700; 
-            text-transform: uppercase; letter-spacing: 0.3em; margin-top: 4px; color: #999;
-        }
-
-        /* --- 3. FLOATING FILTER ISLAND --- */
-        .filter-island-wrapper {
-            position: sticky; top: 20px; z-index: 50;
-            padding: 0 20px; margin-bottom: 40px;
-            display: flex; justify-content: center;
-        }
-
-        .filter-island {
-            background: white; border: 1px solid var(--border-subtle);
-            border-radius: 99px; padding: 8px;
-            box-shadow: var(--shadow-float);
-            display: flex; align-items: center; gap: 8px;
-            max-width: 900px; width: 100%;
-            transition: 0.3s ease;
-        }
-
-        .search-capsule {
-            flex: 1; display: flex; align-items: center; padding: 0 24px;
-            border-right: 1px solid var(--border-subtle); height: 44px;
-        }
-        .search-input {
-            width: 100%; border: none; outline: none; font-size: 14px; font-weight: 500;
-            background: transparent; color: var(--black-ink);
-        }
-        .search-input::placeholder { color: #888; font-weight: 400; }
-
-        .chip-scroll {
-            display: flex; gap: 8px; overflow-x: auto; padding: 0 12px;
-            scrollbar-width: none; /* Hide scrollbar */
-            max-width: 400px;
-        }
-        .chip-scroll::-webkit-scrollbar { display: none; }
-
-        .smart-chip {
-            white-space: nowrap; padding: 10px 20px; border-radius: 99px;
-            font-size: 12px; font-weight: 600; color: #666; background: #F7F7F7;
-            cursor: pointer; transition: 0.2s; border: 1px solid transparent;
-        }
-        .smart-chip:hover { background: #EEE; color: black; }
-        .smart-chip.active { background: var(--black-ink); color: white; border-color: black; }
-        
-        .filter-trigger {
-            width: 44px; height: 44px; border-radius: 50%; background: var(--gold-primary);
-            color: white; display: flex; align-items: center; justify-content: center;
-            cursor: pointer; transition: 0.2s; flex-shrink: 0;
-        }
-        .filter-trigger:hover { background: var(--black-ink); }
-
-        /* --- 4. THE REFINED GRID --- */
-        .results-wrapper {
-            padding: 0 40px 120px 40px; max-width: 1600px; margin: 0 auto;
-        }
-        .grid-layout {
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
-            gap: 40px;
-        }
-
-        .studio-card {
-            background: white; border: 1px solid var(--border-subtle);
-            border-radius: 4px; /* Editorial Sharpness */
-            overflow: hidden; transition: 0.4s var(--ease-lux);
+            color: var(--ink);
+            font-family: 'Manrope', sans-serif;
+            height: 100vh; overflow: hidden;
             display: flex; flex-direction: column;
-            position: relative;
-        }
-        .studio-card:hover { 
-            transform: translateY(-8px); 
-            box-shadow: 0 30px 60px rgba(0,0,0,0.08); 
-            border-color: rgba(197, 160, 89, 0.3);
         }
 
-        .card-visual {
-            height: 260px; width: 100%; position: relative; overflow: hidden;
-        }
-        .card-visual img { 
-            width: 100%; height: 100%; object-fit: cover; 
-            transition: transform 0.8s var(--ease-lux); filter: brightness(0.95);
-        }
-        .studio-card:hover .card-visual img { transform: scale(1.05); filter: brightness(1); }
+        .brand-font { font-family: 'Bodoni Moda', serif; }
 
-        .merit-star {
-            position: absolute; top: 16px; right: 16px;
-            background: white; color: var(--black-ink);
-            padding: 6px 12px; border-radius: 99px; font-family: 'Manrope', sans-serif;
-            font-size: 11px; font-weight: 800; letter-spacing: 0.05em;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        /* --- 2. LAYOUT --- */
+        .suite-grid {
+            flex: 1; display: grid;
+            grid-template-columns: 280px 1fr 440px; /* Nav | Wizard | Doc */
+            overflow: hidden;
         }
 
-        .card-info { padding: 32px; display: flex; flex-direction: column; flex: 1; }
-        
-        .director-name {
-            font-family: 'Bodoni Moda', serif; font-size: 26px; font-weight: 500;
-            margin-bottom: 8px; line-height: 1.1;
-        }
-        .director-loc {
-            font-size: 11px; text-transform: uppercase; letter-spacing: 0.15em; 
-            color: #888; font-weight: 700; margin-bottom: 24px; display: block;
-        }
-
-        .tag-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 32px; }
-        .tag-text { font-size: 12px; color: #555; border-bottom: 1px dotted #ccc; padding-bottom: 2px; }
-
-        .card-footer {
-            margin-top: auto; padding-top: 24px; border-top: 1px solid var(--border-subtle);
-            display: flex; justify-content: space-between; align-items: flex-end;
-        }
-        .price-label { font-size: 10px; text-transform: uppercase; color: #999; font-weight: 700; }
-        .price-val { font-family: 'Bodoni Moda', serif; font-size: 20px; color: var(--gold-primary); }
-
-        /* --- 5. REFINED MODAL (Advanced Filters) --- */
-        .modal-backdrop {
-            position: fixed; inset: 0; background: rgba(10,10,10,0.6); backdrop-filter: blur(8px);
-            z-index: 100; opacity: 0; pointer-events: none; transition: 0.3s;
-        }
-        .modal-backdrop.active { opacity: 1; pointer-events: auto; }
-
-        .filter-modal {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -45%);
-            width: 90%; max-width: 900px; max-height: 85vh;
-            background: #FDFBF9; border-radius: 20px;
-            display: flex; flex-direction: column; overflow: hidden;
-            transition: 0.4s var(--ease-lux); opacity: 0;
-        }
-        .modal-backdrop.active .filter-modal { transform: translate(-50%, -50%); opacity: 1; }
-
-        .modal-header {
-            padding: 30px 40px; border-bottom: 1px solid var(--border-subtle);
-            display: flex; justify-content: space-between; align-items: center; background: white;
-        }
-        .modal-body {
-            padding: 40px; overflow-y: auto;
-            display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px;
-        }
-        .modal-footer {
-            padding: 24px 40px; background: white; border-top: 1px solid var(--border-subtle);
-            display: flex; justify-content: space-between; align-items: center;
-        }
-
-        .filter-group-title {
-            font-family: 'Bodoni Moda', serif; font-size: 18px; margin-bottom: 20px; color: var(--black-ink);
+        /* --- 3. SIDEBAR (Navigation) --- */
+        .sidebar {
+            padding: 40px 0; border-right: 1px solid var(--border);
+            display: flex; flex-direction: column; overflow-y: auto;
         }
         
-        /* Custom Checkbox Design */
-        .check-opt {
-            display: flex; align-items: center; gap: 12px; margin-bottom: 16px; cursor: pointer; group: true;
+        .nav-group-label {
+            padding: 24px 32px 8px 32px; font-size: 9px; font-weight: 800; 
+            text-transform: uppercase; letter-spacing: 0.2em; color: #999;
         }
-        .check-box {
-            width: 20px; height: 20px; border: 1px solid #ccc; border-radius: 4px;
-            display: flex; align-items: center; justify-content: center; transition: 0.2s;
-        }
-        .check-opt:hover .check-box { border-color: var(--gold-primary); }
-        .check-opt input:checked + .check-box { background: var(--gold-primary); border-color: var(--gold-primary); }
-        .check-box i { font-size: 10px; color: white; transform: scale(0); transition: 0.2s; }
-        .check-opt input:checked + .check-box i { transform: scale(1); }
-        .check-label { font-size: 14px; color: #444; font-weight: 500; }
 
-        @media (max-width: 1024px) {
-            .results-wrapper { padding: 0 20px 80px 20px; }
-            .modal-body { grid-template-columns: 1fr; }
-            .filter-island { flex-wrap: wrap; border-radius: 24px; }
-            .chip-scroll { order: 3; width: 100%; border-top: 1px solid #eee; padding-top: 10px; margin-top: 4px; }
+        .nav-item {
+            padding: 12px 32px; cursor: pointer; border-left: 2px solid transparent;
+            font-size: 13px; font-weight: 500; color: #666; transition: 0.2s;
+            display: flex; align-items: center; justify-content: space-between;
         }
+        .nav-item:hover { color: var(--ink); background: rgba(0,0,0,0.02); }
+        .nav-item.active { 
+            border-color: var(--gold); color: var(--ink); font-weight: 700; background: white; 
+        }
+        .nav-check { font-size: 10px; color: var(--gold); opacity: 0; }
+        .nav-item.done .nav-check { opacity: 1; }
+
+        /* --- 4. MAIN FORM (Editorial Style) --- */
+        .wizard-stage {
+            overflow-y: auto; padding: 60px 80px 120px 80px; scroll-behavior: smooth;
+        }
+
+        .section-header { margin-bottom: 40px; border-bottom: 1px solid var(--border); padding-bottom: 20px; }
+        .section-num { font-size: 10px; font-weight: 800; color: var(--gold); letter-spacing: 0.2em; text-transform: uppercase; display: block; margin-bottom: 8px; }
+        .section-title { font-size: 36px; font-weight: 500; line-height: 1.1; }
+
+        /* Inputs - Underline Style (Luxury Feel) */
+        .input-group { margin-bottom: 32px; }
+        .label {
+            display: block; font-size: 11px; font-weight: 700; 
+            text-transform: uppercase; letter-spacing: 0.05em; color: #888; margin-bottom: 8px;
+        }
+        
+        .input-lux {
+            width: 100%; padding: 12px 0;
+            border: none; border-bottom: 1px solid #ddd; background: transparent;
+            font-family: 'Bodoni Moda', serif; font-size: 18px; color: var(--ink);
+            border-radius: 0; outline: none; transition: 0.3s;
+        }
+        .input-lux:focus { border-color: var(--gold); }
+        .input-lux::placeholder { color: #ccc; font-family: 'Manrope', sans-serif; font-weight: 300; }
+
+        /* Chips (Smart Select) */
+        .chip-grid { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px; }
+        .smart-chip {
+            padding: 10px 20px; border: 1px solid #eee; border-radius: 99px;
+            font-size: 12px; font-weight: 600; cursor: pointer; transition: 0.2s; background: white;
+        }
+        .smart-chip:hover { border-color: #ccc; }
+        .smart-chip.selected { background: var(--ink); color: white; border-color: var(--ink); }
+
+        /* Coffin Cards */
+        .coffin-card {
+            border: 1px solid var(--border); border-radius: 4px; overflow: hidden;
+            cursor: pointer; transition: 0.3s; opacity: 0.7;
+        }
+        .coffin-card:hover { opacity: 1; transform: translateY(-4px); }
+        .coffin-card.selected { opacity: 1; border-color: var(--gold); box-shadow: 0 10px 30px rgba(197, 160, 89, 0.15); }
+        .coffin-img { height: 140px; width: 100%; object-fit: cover; }
+
+        /* --- 5. LIVE DOCUMENT (Stationery Look) --- */
+        .doc-wrapper {
+            background: #EBE9E4; border-left: 1px solid var(--border);
+            padding: 40px; overflow-y: auto; display: flex; flex-direction: column;
+        }
+        
+        .paper-sheet {
+            background: white; width: 100%; min-height: 100%;
+            padding: 50px; box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            font-family: 'Bodoni Moda', serif; color: #222;
+            background-image: url('https://www.transparenttextures.com/patterns/cream-paper.png');
+        }
+
+        .doc-logo { text-align: center; margin-bottom: 40px; border-bottom: 2px solid var(--gold); padding-bottom: 20px; }
+        .doc-row { 
+            display: flex; justify-content: space-between; align-items: baseline; 
+            margin-bottom: 16px; border-bottom: 1px dotted #ddd; padding-bottom: 4px;
+        }
+        .doc-key { font-family: 'Manrope', sans-serif; font-size: 9px; text-transform: uppercase; color: #888; font-weight: 700; width: 100px; }
+        .doc-val { font-size: 15px; text-align: right; flex: 1; }
+        .doc-val:empty:after { content: "Pending..."; color: #ddd; font-style: italic; }
+
+        /* --- 6. LOGO HEADER --- */
+        .header-lux {
+            padding: 20px 32px; border-bottom: 1px solid var(--border);
+            display: flex; justify-content: space-between; align-items: center; background: rgba(253, 251, 249, 0.9);
+        }
+        .logo-main { font-size: 20px; font-weight: 700; letter-spacing: -0.02em; }
+        .logo-main span { color: var(--gold); font-style: italic; }
 
     </style>
 </head>
 <body>
 
-    <header class="py-8 px-10 flex justify-between items-center">
-        <div class="logo-container">
+    <header class="header-lux">
+        <div class="flex flex-col leading-none">
             <div class="logo-main brand-font">Funeral<span>Match</span></div>
-            <div class="logo-sub">Est. 2026</div>
+            <span class="text-[8px] uppercase tracking-[0.3em] text-gray-400 mt-1 font-bold font-sans">Arrangement Suite</span>
         </div>
-        <div class="hidden md:flex gap-8 text-xs font-bold uppercase tracking-widest text-gray-400">
-            <a href="#" class="hover:text-black transition">The Journal</a>
-            <a href="#" class="hover:text-black transition">Arrangement Suite</a>
-            <a href="#" class="text-black">Directory</a>
+        <div class="flex gap-4">
+            <button class="text-xs font-bold uppercase tracking-widest text-gray-400 hover:text-black transition">Save Draft</button>
+            <button onclick="window.print()" class="bg-black text-white px-6 py-2 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-[#C5A059] transition">Finalize</button>
         </div>
     </header>
 
-    <div class="filter-island-wrapper">
-        <div class="filter-island">
-            <div class="search-capsule">
-                <i class="fas fa-search text-gray-300 mr-3"></i>
-                <input type="text" id="searchInput" class="search-input" placeholder="Location, Name, or Requirement...">
-            </div>
+    <div class="suite-grid">
+        
+        <aside class="sidebar">
+            <div class="nav-group-label">Intake</div>
+            <div class="nav-item active" onclick="scrollToSec('sec-1')"><span>01. The Deceased</span><i class="fas fa-check nav-check"></i></div>
+            <div class="nav-item" onclick="scrollToSec('sec-2')"><span>02. Legal Docs</span><i class="fas fa-check nav-check"></i></div>
             
-            <div class="chip-scroll">
-                <div class="smart-chip" onclick="toggleTag(this, 'tag_greek')">🇬🇷 Greek</div>
-                <div class="smart-chip" onclick="toggleTag(this, 'tag_jewish')">✡️ Jewish</div>
-                <div class="smart-chip" onclick="toggleTag(this, 'tag_water')">🌊 Sea Burial</div>
-                <div class="smart-chip" onclick="toggleTag(this, 'tag_eco')">🌿 Eco</div>
-                <div class="smart-chip" onclick="toggleTag(this, 'tag_horse')">🐎 Horse Drawn</div>
-            </div>
-
-            <div class="filter-trigger" onclick="openModal()">
-                <i class="fas fa-sliders-h text-sm"></i>
-            </div>
-        </div>
-    </div>
-
-    <main class="results-wrapper">
-        <div class="flex justify-between items-end mb-10">
-            <h1 class="brand-font text-4xl">The Collection</h1>
-            <span class="text-xs font-bold uppercase text-gray-400 tracking-widest" id="countLabel">Showing 25 Directors</span>
-        </div>
-
-        <div class="grid-layout" id="resultsGrid">
-            </div>
-    </main>
-
-    <div class="modal-backdrop" id="filterModal" onclick="closeModal()">
-        <div class="filter-modal" onclick="event.stopPropagation()">
-            <div class="modal-header">
-                <h2 class="brand-font text-2xl">Refine Selection</h2>
-                <button onclick="closeModal()" class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center hover:bg-black hover:text-white transition"><i class="fas fa-times"></i></button>
-            </div>
+            <div class="nav-group-label">The Service</div>
+            <div class="nav-item" onclick="scrollToSec('sec-3')"><span>03. Service Type</span><i class="fas fa-check nav-check"></i></div>
+            <div class="nav-item" onclick="scrollToSec('sec-4')"><span>04. Ceremony</span><i class="fas fa-check nav-check"></i></div>
+            <div class="nav-item" onclick="scrollToSec('sec-5')"><span>05. Coffin Suite</span><i class="fas fa-check nav-check"></i></div>
             
-            <div class="modal-body">
-                <div>
-                    <h3 class="filter-group-title">Cultural & Faith</h3>
-                    <label class="check-opt"><input type="checkbox" class="hidden adv-filter" value="tag_greek"><div class="check-box"><i class="fas fa-check"></i></div><span class="check-label">Greek Orthodox</span></label>
-                    <label class="check-opt"><input type="checkbox" class="hidden adv-filter" value="tag_jewish"><div class="check-box"><i class="fas fa-check"></i></div><span class="check-label">Jewish / Shiva</span></label>
-                    <label class="check-opt"><input type="checkbox" class="hidden adv-filter" value="tag_muslim"><div class="check-box"><i class="fas fa-check"></i></div><span class="check-label">Muslim / Janazah</span></label>
-                    <label class="check-opt"><input type="checkbox" class="hidden adv-filter" value="tag_sikh"><div class="check-box"><i class="fas fa-check"></i></div><span class="check-label">Sikh Services</span></label>
+            <div class="nav-group-label">Logistics</div>
+            <div class="nav-item" onclick="scrollToSec('sec-9')"><span>09. Transport</span><i class="fas fa-check nav-check"></i></div>
+            <div class="nav-item" onclick="scrollToSec('sec-14')"><span>14. Special Requests</span><i class="fas fa-check nav-check"></i></div>
+        </aside>
+
+        <main class="wizard-stage">
+            
+            <section id="sec-1" class="mb-24">
+                <div class="section-header">
+                    <span class="section-num brand-font">Section 01</span>
+                    <h1 class="section-title brand-font">General Details</h1>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-8 mb-8">
+                    <div class="input-group">
+                        <label class="label">Legal First Name(s)</label>
+                        <input type="text" class="input-lux" oninput="updateDoc('name', this.value)" placeholder="e.g. Eleanor">
+                    </div>
+                    <div class="input-group">
+                        <label class="label">Legal Surname</label>
+                        <input type="text" class="input-lux" oninput="updateDoc('surname', this.value)" placeholder="e.g. Rigby">
+                    </div>
                 </div>
 
-                <div>
-                    <h3 class="filter-group-title">Service Type</h3>
-                    <label class="check-opt"><input type="checkbox" class="hidden adv-filter" value="tag_water"><div class="check-box"><i class="fas fa-check"></i></div><span class="check-label">Burial at Sea</span></label>
-                    <label class="check-opt"><input type="checkbox" class="hidden adv-filter" value="tag_eco"><div class="check-box"><i class="fas fa-check"></i></div><span class="check-label">Woodland / Eco</span></label>
-                    <label class="check-opt"><input type="checkbox" class="hidden adv-filter" value="tag_direct"><div class="check-box"><i class="fas fa-check"></i></div><span class="check-label">Direct Cremation</span></label>
-                    <label class="check-opt"><input type="checkbox" class="hidden adv-filter" value="tag_repatriation"><div class="check-box"><i class="fas fa-check"></i></div><span class="check-label">Repatriation</span></label>
+                <div class="grid grid-cols-2 gap-8 mb-8">
+                    <div class="input-group">
+                        <label class="label">Date of Death</label>
+                        <input type="date" class="input-lux" oninput="updateDoc('dod', this.value)">
+                    </div>
+                    <div class="input-group">
+                        <label class="label">Location of Passing</label>
+                        <input type="text" class="input-lux" oninput="updateDoc('loc', this.value)" placeholder="Hospital / Home">
+                    </div>
                 </div>
 
-                <div>
-                    <h3 class="filter-group-title">Facilities & Transport</h3>
-                    <label class="check-opt"><input type="checkbox" class="hidden adv-filter" value="feat_chapel"><div class="check-box"><i class="fas fa-check"></i></div><span class="check-label">Private Chapel of Rest</span></label>
-                    <label class="check-opt"><input type="checkbox" class="hidden adv-filter" value="feat_parking"><div class="check-box"><i class="fas fa-check"></i></div><span class="check-label">Guest Parking</span></label>
-                    <label class="check-opt"><input type="checkbox" class="hidden adv-filter" value="tag_horse"><div class="check-box"><i class="fas fa-check"></i></div><span class="check-label">Horse Drawn Hearse</span></label>
-                    <label class="check-opt"><input type="checkbox" class="hidden adv-filter" value="tag_motorcycle"><div class="check-box"><i class="fas fa-check"></i></div><span class="check-label">Motorcycle Hearse</span></label>
+                <div class="input-group">
+                    <label class="label">Next of Kin</label>
+                    <input type="text" class="input-lux" oninput="updateDoc('nok', this.value)" placeholder="Primary Contact Name">
+                </div>
+            </section>
+
+            <section id="sec-2" class="mb-24">
+                <div class="section-header">
+                    <span class="section-num brand-font">Section 02</span>
+                    <h1 class="section-title brand-font">Documentation</h1>
+                </div>
+                
+                <div class="input-group">
+                    <label class="label">Does a Will Exist?</label>
+                    <div class="chip-grid">
+                        <div class="smart-chip" onclick="selectChip(this, 'will', 'Yes')">Yes</div>
+                        <div class="smart-chip" onclick="selectChip(this, 'will', 'No')">No</div>
+                        <div class="smart-chip" onclick="selectChip(this, 'will', 'Unknown')">Unknown</div>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label class="label">Upload Death Certificate</label>
+                    <div class="border border-dashed border-gray-300 rounded-lg p-8 text-center cursor-pointer hover:bg-white transition">
+                        <i class="fas fa-file-upload text-2xl text-gray-300 mb-2"></i>
+                        <div class="text-xs font-bold text-gray-400">Drag & Drop or Click to Upload</div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="sec-3" class="mb-24">
+                <div class="section-header">
+                    <span class="section-num brand-font">Section 03</span>
+                    <h1 class="section-title brand-font">Service Type</h1>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="coffin-card p-6" onclick="selectCard(this, 'service', 'Direct Cremation', 995)">
+                        <div class="font-serif text-xl mb-1">Direct Cremation</div>
+                        <div class="text-xs text-gray-500 mb-4">Unattended. Simple.</div>
+                        <div class="text-[#C5A059] font-bold">£995</div>
+                    </div>
+                    <div class="coffin-card p-6" onclick="selectCard(this, 'service', 'Traditional Burial', 3500)">
+                        <div class="font-serif text-xl mb-1">Traditional Burial</div>
+                        <div class="text-xs text-gray-500 mb-4">Full service & interment.</div>
+                        <div class="text-[#C5A059] font-bold">£3,500</div>
+                    </div>
+                    <div class="coffin-card p-6" onclick="selectCard(this, 'service', 'Attended Cremation', 3200)">
+                        <div class="font-serif text-xl mb-1">Attended Cremation</div>
+                        <div class="text-xs text-gray-500 mb-4">Chapel service included.</div>
+                        <div class="text-[#C5A059] font-bold">£3,200</div>
+                    </div>
+                    <div class="coffin-card p-6" onclick="selectCard(this, 'service', 'Burial at Sea', 4200)">
+                        <div class="font-serif text-xl mb-1">Burial at Sea</div>
+                        <div class="text-xs text-gray-500 mb-4">Maritime charter.</div>
+                        <div class="text-[#C5A059] font-bold">£4,200</div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="sec-5" class="mb-24">
+                <div class="section-header">
+                    <span class="section-num brand-font">Section 05</span>
+                    <h1 class="section-title brand-font">Coffin Suite</h1>
+                </div>
+
+                <div class="grid grid-cols-3 gap-6">
+                    <div class="coffin-card" onclick="selectCard(this, 'coffin', 'The Morpeth', 0)">
+                        <img src="https://images.unsplash.com/photo-1518640165980-d3e0e2aa6c1e?auto=format&fit=crop&q=80&w=300" class="coffin-img">
+                        <div class="p-4">
+                            <div class="font-bold text-sm">The Morpeth</div>
+                            <div class="text-xs text-gray-500">Included</div>
+                        </div>
+                    </div>
+                    <div class="coffin-card" onclick="selectCard(this, 'coffin', 'The Willow', 450)">
+                        <img src="https://images.unsplash.com/photo-1589182373726-e4f658ab50f0?auto=format&fit=crop&q=80&w=300" class="coffin-img">
+                        <div class="p-4">
+                            <div class="font-bold text-sm">Natural Willow</div>
+                            <div class="text-xs text-gray-500">+£450</div>
+                        </div>
+                    </div>
+                    <div class="coffin-card" onclick="selectCard(this, 'coffin', 'American Casket', 2200)">
+                        <img src="https://images.unsplash.com/photo-1595846519845-68e298c2edd8?auto=format&fit=crop&q=80&w=300" class="coffin-img">
+                        <div class="p-4">
+                            <div class="font-bold text-sm">Metal Casket</div>
+                            <div class="text-xs text-gray-500">+£2,200</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-8">
+                    <label class="label">Embalming Preference</label>
+                    <div class="chip-grid">
+                        <div class="smart-chip" onclick="selectChip(this, 'embalm', 'Yes')">Yes</div>
+                        <div class="smart-chip" onclick="selectChip(this, 'embalm', 'No')">No</div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="sec-14" class="mb-24">
+                <div class="section-header">
+                    <span class="section-num brand-font">Section 14</span>
+                    <h1 class="section-title brand-font">Special Requests</h1>
+                </div>
+                
+                <div class="input-group">
+                    <label class="label">Specific Instructions</label>
+                    <textarea class="input-lux" rows="3" placeholder="Military honors, drone footage, specific music..." oninput="updateDoc('notes', this.value)"></textarea>
+                </div>
+            </section>
+
+        </main>
+
+        <aside class="doc-wrapper">
+            <div class="paper-sheet">
+                <div class="doc-logo">
+                    <div class="brand-font text-2xl font-bold">Funeral<span>Match</span></div>
+                    <div class="text-[8px] uppercase tracking-[0.2em] mt-1">Official Arrangement</div>
+                </div>
+
+                <div class="doc-row">
+                    <span class="doc-key">Deceased</span>
+                    <span class="doc-val"><span id="doc-name"></span> <span id="doc-surname"></span></span>
+                </div>
+                <div class="doc-row">
+                    <span class="doc-key">Passed At</span>
+                    <span class="doc-val" id="doc-loc"></span>
+                </div>
+                <div class="doc-row">
+                    <span class="doc-key">Date</span>
+                    <span class="doc-val" id="doc-dod"></span>
+                </div>
+
+                <div class="mt-8 mb-2 text-xs font-bold uppercase tracking-widest text-[#C5A059]">Arrangements</div>
+                
+                <div class="doc-row">
+                    <span class="doc-key">Service</span>
+                    <span class="doc-val" id="doc-service"></span>
+                </div>
+                <div class="doc-row">
+                    <span class="doc-key">Coffin</span>
+                    <span class="doc-val" id="doc-coffin">The Morpeth</span>
+                </div>
+                <div class="doc-row">
+                    <span class="doc-key">Embalming</span>
+                    <span class="doc-val" id="doc-embalm">Pending</span>
+                </div>
+                <div class="doc-row">
+                    <span class="doc-key">Will?</span>
+                    <span class="doc-val" id="doc-will">Pending</span>
+                </div>
+
+                <div class="mt-8 mb-2 text-xs font-bold uppercase tracking-widest text-[#C5A059]">Notes</div>
+                <div class="text-sm italic leading-relaxed min-h-[60px]" id="doc-notes"></div>
+
+                <div class="mt-auto border-t border-black pt-8">
+                    <div class="flex justify-between items-end">
+                        <div class="text-xs uppercase font-bold text-gray-400">Total Estimate</div>
+                        <div class="text-3xl font-serif" id="doc-total">£0</div>
+                    </div>
+                    <div class="mt-8 h-12 border-b border-black flex items-end pb-2 font-handwriting text-2xl" style="font-family: 'Great Vibes', cursive;">
+                        Signed: <span class="ml-4" id="doc-nok"></span>
+                    </div>
                 </div>
             </div>
+        </aside>
 
-            <div class="modal-footer">
-                <button class="text-xs font-bold uppercase tracking-widest text-gray-400 hover:text-black" onclick="resetAll()">Reset</button>
-                <button class="bg-[#0A0A0A] text-white px-8 py-3 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-[#C5A059] transition" onclick="applyAdvanced()">View Results</button>
-            </div>
-        </div>
     </div>
 
     <script>
-        // === MOCK DATA ===
-        const directors = [
-            { 
-                name: "Olympus & Sons", loc: "North London", price: 3200, rating: 9.9, 
-                tags: ["tag_greek", "tag_water", "feat_chapel"], 
-                img: "https://images.unsplash.com/photo-1544197150-b99a580bb7a8" 
-            },
-            { 
-                name: "Regency Care", loc: "West London", price: 3500, rating: 10.0, 
-                tags: ["tag_military", "tag_horse", "feat_parking"], 
-                img: "https://images.unsplash.com/photo-1560185007-c5ca9d2c014d" 
-            },
-            { 
-                name: "Willow Eco", loc: "Hackney", price: 1800, rating: 9.6, 
-                tags: ["tag_eco", "tag_water"], 
-                img: "https://images.unsplash.com/photo-1473448912268-2022ce9509d8" 
-            },
-            { 
-                name: "Goldstein Family", loc: "Golders Green", price: 2800, rating: 9.9, 
-                tags: ["tag_jewish", "feat_chapel"], 
-                img: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab" 
-            },
-            { 
-                name: "Maritime Tributes", loc: "Greenwich", price: 4200, rating: 9.8, 
-                tags: ["tag_water", "tag_military", "tag_repatriation"], 
-                img: "https://images.unsplash.com/photo-1468581264429-2548ef9eb732" 
-            },
-            // Fillers to 25
-            ...Array.from({length: 20}, (_, i) => ({
-                name: `Director ${i+6}`,
-                loc: "London",
-                price: 1500 + (i * 100),
-                rating: (9.0 + Math.random()).toFixed(1),
-                tags: Math.random() > 0.7 ? ["tag_greek"] : [],
-                img: "https://images.unsplash.com/photo-1519817650390-64a93db51149"
-            }))
-        ];
+        let total = 0;
+        let costs = { service: 0, coffin: 0 };
 
-        let activeFilters = [];
-
-        // === RENDER ===
-        const grid = document.getElementById('resultsGrid');
-
-        function render(data) {
-            grid.innerHTML = '';
-            document.getElementById('countLabel').innerText = `Showing ${data.length} Directors`;
-
-            if(data.length === 0) {
-                grid.innerHTML = `<div class="col-span-full text-center py-20 opacity-50"><p>No matches found.</p></div>`;
-                return;
-            }
-
-            data.forEach(d => {
-                // Generate Tag List
-                const tagLabels = {
-                    'tag_greek': 'Greek Orthodox', 'tag_jewish': 'Jewish', 'tag_water': 'Sea Burial',
-                    'tag_eco': 'Eco Friendly', 'tag_horse': 'Horse Drawn', 'feat_chapel': 'Private Chapel'
-                };
-                
-                const visibleTags = d.tags.slice(0, 3).map(t => `<span class="tag-text">${tagLabels[t] || t}</span>`).join('');
-
-                const card = document.createElement('div');
-                card.className = 'studio-card group';
-                card.innerHTML = `
-                    <div class="card-visual">
-                        <img src="${d.img}?q=80&w=600&fit=crop">
-                        <div class="merit-star">${d.rating}</div>
-                    </div>
-                    <div class="card-info">
-                        <span class="director-loc">${d.loc}</span>
-                        <h3 class="director-name group-hover:text-[#C5A059] transition">${d.name}</h3>
-                        <div class="tag-row">${visibleTags}</div>
-                        <div class="card-footer">
-                            <div class="flex flex-col">
-                                <span class="price-label">Arrangement From</span>
-                                <span class="price-val">£${d.price.toLocaleString()}</span>
-                            </div>
-                            <button class="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center group-hover:bg-black group-hover:text-white transition">
-                                <i class="fas fa-arrow-right"></i>
-                            </button>
-                        </div>
-                    </div>
-                `;
-                grid.appendChild(card);
-            });
+        function updateDoc(id, val) {
+            const el = document.getElementById(`doc-${id}`);
+            if(el) el.innerText = val;
         }
 
-        // === FILTER LOGIC ===
-        function runFilter() {
-            const search = document.getElementById('searchInput').value.toLowerCase();
+        function scrollToSec(id) {
+            document.getElementById(id).scrollIntoView({behavior: 'smooth'});
+        }
+
+        function selectChip(el, docId, val) {
+            el.parentElement.querySelectorAll('.smart-chip').forEach(c => c.classList.remove('selected'));
+            el.classList.add('selected');
+            updateDoc(docId, val);
+        }
+
+        function selectCard(el, category, name, price) {
+            // UI
+            el.parentElement.querySelectorAll('.coffin-card').forEach(c => c.classList.remove('selected'));
+            el.classList.add('selected');
             
-            const filtered = directors.filter(d => {
-                // Text Search
-                const matchText = d.name.toLowerCase().includes(search) || d.loc.toLowerCase().includes(search);
-                if(!matchText) return false;
-
-                // Tags (AND Logic)
-                const hasTags = activeFilters.every(tag => d.tags.includes(tag));
-                return hasTags;
-            });
-
-            render(filtered);
-        }
-
-        // Quick Tags (Chips)
-        function toggleTag(el, tag) {
-            el.classList.toggle('active');
-            if(activeFilters.includes(tag)) {
-                activeFilters = activeFilters.filter(t => t !== tag);
-            } else {
-                activeFilters.push(tag);
-            }
+            // Data
+            costs[category] = price;
+            updateDoc(category, name);
             
-            // Sync with modal checkboxes
-            document.querySelectorAll(`.adv-filter[value="${tag}"]`).forEach(cb => cb.checked = el.classList.contains('active'));
-            
-            runFilter();
+            // Total
+            total = costs.service + costs.coffin;
+            document.getElementById('doc-total').innerText = `£${total.toLocaleString()}`;
         }
-
-        // Modal Logic
-        function openModal() { document.getElementById('filterModal').classList.add('active'); }
-        function closeModal() { document.getElementById('filterModal').classList.remove('active'); }
-
-        function applyAdvanced() {
-            // Read checkboxes
-            const checkboxes = document.querySelectorAll('.adv-filter');
-            activeFilters = [];
-            
-            checkboxes.forEach(cb => {
-                if(cb.checked) activeFilters.push(cb.value);
-            });
-
-            // Sync Chips
-            document.querySelectorAll('.smart-chip').forEach(chip => {
-                // This is a simplified sync for demo. 
-                // In prod, check data-tag attribute.
-            });
-
-            runFilter();
-            closeModal();
-        }
-
-        function resetAll() {
-            activeFilters = [];
-            document.getElementById('searchInput').value = '';
-            document.querySelectorAll('.smart-chip').forEach(c => c.classList.remove('active'));
-            document.querySelectorAll('.adv-filter').forEach(c => c.checked = false);
-            runFilter();
-            closeModal();
-        }
-
-        // Listeners
-        document.getElementById('searchInput').addEventListener('input', runFilter);
-
-        // Init
-        render(directors);
 
     </script>
 </body>
 </html>
+
