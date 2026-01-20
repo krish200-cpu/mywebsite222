@@ -3,10 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Typography Studio | FuneralMatch</title>
+    <title>Curated Typography | FuneralMatch</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,700;1,6..96,400&family=Cinzel:wght@400;700&family=Cormorant:ital,wght@0,400;0,600;1,400&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=EB+Garamond:ital,wght@0,400;0,700;1,400&family=Garamond&family=IBM+Plex+Serif:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;600&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Lora:ital,wght@0,400;0,600;1,400&family=Marcellus&family=Merriweather:ital,wght@0,300;0,700;1,300&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Source+Serif+Pro:wght@400;600&family=Spectral:ital,wght@0,400;0,600;1,400&family=Nunito:wght@400;700&family=Lato:wght@400;700&family=Open+Sans:wght@400;700&family=Roboto:wght@400;700&family=Cardo&family=DM+Serif+Display&display=swap" rel="stylesheet">
 
     <style>
         /* --- CORE VARIABLES --- */
@@ -15,7 +18,6 @@
             --surface: #121212;
             --border: #222;
             --gold: #D4AF37;
-            --gold-glow: rgba(212, 175, 55, 0.2);
             --page-ratio: 1.414;
         }
 
@@ -24,7 +26,7 @@
             color: white;
             font-family: 'Inter', sans-serif;
             height: 100vh;
-            overflow: hidden; /* Prevent body scroll, use workspace scroll */
+            overflow: hidden;
         }
 
         /* --- WORKSPACE --- */
@@ -32,315 +34,306 @@
             height: 100%;
             overflow-y: auto;
             scroll-behavior: smooth;
-            padding: 80px 20px 160px 20px; /* Top bar & Dock padding */
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 40px;
+            padding: 80px 20px 160px 20px;
+            display: flex; flex-direction: column; align-items: center; gap: 40px;
         }
 
-        /* --- THE PAGE CARD --- */
         .page-card {
-            width: 100%; max-width: 500px;
-            aspect-ratio: 1 / var(--page-ratio);
-            background: white; color: black;
-            position: relative;
-            border-radius: 4px;
-            box-shadow: 0 20px 50px -10px rgba(0,0,0,0.5);
-            transition: 0.3s ease;
+            width: 100%; max-width: 500px; aspect-ratio: 1 / var(--page-ratio);
+            background: white; color: black; position: relative; border-radius: 4px;
+            box-shadow: 0 20px 50px -10px rgba(0,0,0,0.5); transition: 0.3s ease;
         }
         
-        .page-card.active {
-            box-shadow: 0 0 0 3px var(--gold), 0 30px 80px -20px rgba(0,0,0,0.8);
-            transform: scale(1.01); z-index: 10;
-        }
-
-        .page-label {
-            position: absolute; top: -30px; left: 0;
-            font-size: 10px; font-weight: 700; text-transform: uppercase; 
-            letter-spacing: 0.1em; color: #666;
-        }
-
-        /* --- EDITABLES --- */
+        /* Editables */
         [contenteditable="true"] {
-            outline: none; border: 1px dashed transparent; transition: 0.2s;
-            cursor: text; min-height: 1em; border-radius: 4px;
+            outline: none; border: 1px dashed transparent; transition: 0.2s; cursor: text;
         }
-        [contenteditable="true"]:hover { border-color: var(--gold-glow); background: rgba(0,0,0,0.02); }
+        [contenteditable="true"]:hover { border-color: var(--gold); background: rgba(0,0,0,0.02); }
         [contenteditable="true"]:focus { border-color: var(--gold); background: rgba(212, 175, 55, 0.05); }
 
-        .photo-zone {
-            background: #f4f4f4; width: 100%; display: flex; align-items: center; justify-content: center;
-            cursor: pointer; overflow: hidden; position: relative; color: #ccc; transition: 0.2s;
-        }
-        .photo-zone:hover { opacity: 0.8; box-shadow: inset 0 0 0 2px var(--gold); }
-        .photo-zone img { width: 100%; height: 100%; object-fit: cover; }
-
-        /* --- HEADER & DOCK --- */
-        .glass-bar {
-            background: rgba(20, 20, 20, 0.95);
-            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .top-bar {
-            position: fixed; top: 0; left: 0; right: 0; height: 60px; z-index: 50;
-            display: flex; justify-content: space-between; align-items: center; padding: 0 20px;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .dock {
-            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
-            border-radius: 99px; padding: 8px 12px; z-index: 50;
-            display: flex; gap: 12px; box-shadow: 0 20px 50px rgba(0,0,0,0.6);
-        }
-
-        .dock-btn {
-            height: 48px; padding: 0 24px; border-radius: 99px;
-            font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
-            display: flex; align-items: center; gap: 8px; cursor: pointer; transition: 0.2s;
-            color: #aaa; border: 1px solid transparent;
-        }
-        .dock-btn:hover { color: white; background: rgba(255,255,255,0.05); }
-        .dock-btn.primary { background: var(--gold); color: black; }
-        .dock-btn.primary:hover { background: white; }
-
-        /* --- FONT LIBRARY DRAWER (The Concierge) --- */
+        /* --- FONT DRAWER (The Star) --- */
         #font-drawer {
-            position: fixed; bottom: 0; left: 0; right: 0; height: 80vh;
+            position: fixed; bottom: 0; left: 0; right: 0; height: 85vh;
             background: #111; border-top-left-radius: 24px; border-top-right-radius: 24px;
             z-index: 100; transform: translateY(100%); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            display: flex; flex-direction: column;
-            box-shadow: 0 -20px 60px rgba(0,0,0,0.8);
+            display: flex; flex-direction: column; box-shadow: 0 -20px 60px rgba(0,0,0,0.9);
             border-top: 1px solid #333;
         }
         #font-drawer.open { transform: translateY(0); }
 
         .drawer-header {
             padding: 20px; border-bottom: 1px solid #222;
-            display: flex; flex-direction: column; gap: 16px;
+            display: flex; flex-direction: column; gap: 16px; background: rgba(17,17,17,0.95);
         }
 
         .search-input {
-            width: 100%; background: #000; border: 1px solid #333; color: white;
-            padding: 12px 16px; border-radius: 12px; font-size: 14px; outline: none;
+            width: 100%; background: #050505; border: 1px solid #333; color: white;
+            padding: 14px 16px; border-radius: 12px; font-size: 14px; outline: none;
             transition: 0.2s;
         }
         .search-input:focus { border-color: var(--gold); }
 
+        /* Font List Layout */
         .font-list {
-            flex: 1; overflow-y: auto; padding: 10px;
-            display: grid; grid-template-columns: 1fr; gap: 4px;
+            flex: 1; overflow-y: auto; padding: 0 0 40px 0;
         }
-        
-        .font-item {
-            padding: 16px; border-radius: 8px; cursor: pointer;
-            display: flex; justify-content: space-between; align-items: center;
-            transition: 0.2s; border: 1px solid transparent;
-        }
-        .font-item:hover { background: #1a1a1a; }
-        .font-item.selected { border-color: var(--gold); background: rgba(197, 160, 89, 0.1); }
-        
-        .font-name { font-size: 16px; color: white; }
-        .font-preview { font-size: 12px; color: #666; margin-top: 4px; }
 
-        /* Custom Scrollbar for Font List */
-        .font-list::-webkit-scrollbar { width: 6px; }
-        .font-list::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
+        .font-category-header {
+            position: sticky; top: 0; background: #1a1a1a;
+            padding: 12px 20px; font-size: 10px; font-weight: 700; 
+            text-transform: uppercase; letter-spacing: 0.1em; color: #888;
+            border-bottom: 1px solid #222; border-top: 1px solid #222; z-index: 10;
+        }
+
+        .font-item {
+            padding: 16px 20px; cursor: pointer;
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid #222; transition: 0.2s;
+        }
+        .font-item:hover { background: #222; }
+        .font-item.selected { background: rgba(197, 160, 89, 0.1); }
+        .font-item.selected .font-name { color: var(--gold); }
+
+        .font-name { font-size: 18px; color: white; margin-bottom: 4px; }
+        .font-meta { font-size: 10px; color: #555; text-transform: uppercase; }
+
+        /* --- HEADER & DOCK --- */
+        .glass-bar {
+            background: rgba(20, 20, 20, 0.95); backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .top-bar {
+            position: fixed; top: 0; left: 0; right: 0; height: 60px; z-index: 50;
+            display: flex; justify-content: space-between; align-items: center; padding: 0 20px;
+        }
+        .dock {
+            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+            border-radius: 99px; padding: 8px; z-index: 50; display: flex; gap: 8px;
+        }
+        .dock-btn {
+            height: 48px; padding: 0 24px; border-radius: 99px; font-size: 11px;
+            font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
+            display: flex; align-items: center; gap: 8px; cursor: pointer;
+            color: #ccc; border: 1px solid transparent; background: rgba(255,255,255,0.05);
+        }
+        .dock-btn.primary { background: var(--gold); color: black; }
 
     </style>
 </head>
 <body>
 
     <div class="glass-bar top-bar">
-        <div class="flex flex-col">
-            <span class="text-[9px] uppercase font-bold text-[#D4AF37] tracking-widest">FuneralMatch</span>
-            <span class="text-xs font-bold text-white">Typography Studio</span>
+        <div>
+            <span class="text-[9px] uppercase font-bold text-[#D4AF37] tracking-widest block">FuneralMatch</span>
+            <span class="text-xs font-bold text-white">Typography Suite</span>
         </div>
-        <button onclick="alert('Saved!')" class="text-xs font-bold text-[#D4AF37] hover:text-white">Save</button>
+        <button class="text-xs font-bold text-[#D4AF37]" onclick="alert('Saving...')">Save</button>
     </div>
 
     <div class="workspace-container" id="workspace">
+        <div class="page-card">
+            <div class="h-full flex flex-col items-center justify-center text-center p-8">
+                <div class="mb-6 text-xs uppercase tracking-widest text-gray-500" contenteditable="true" onfocus="setActive(this)">In Loving Memory of</div>
+                <div class="w-40 h-40 rounded-full bg-gray-100 mb-6 flex items-center justify-center text-gray-300 border-4 border-double border-gray-200">
+                    <i class="fas fa-camera text-2xl"></i>
+                </div>
+                <div class="text-5xl mb-4 leading-tight" style="font-family: 'Garamond', serif;" contenteditable="true" onfocus="setActive(this)">Eleanor<br>Rigby</div>
+                <div class="text-sm mb-8 text-gray-600" contenteditable="true" onfocus="setActive(this)">1950 — 2026</div>
+                <div class="mt-auto text-[10px] uppercase font-bold text-gray-400" contenteditable="true" onfocus="setActive(this)">St Mary's Church</div>
+            </div>
         </div>
+    </div>
 
     <div class="glass-bar dock">
-        <button class="dock-btn" onclick="openFontLibrary()">
-            <i class="fas fa-font"></i> <span>Fonts</span>
+        <button class="dock-btn" onclick="openFontDrawer()">
+            <i class="fas fa-font"></i> <span>Typography</span>
         </button>
-        <div class="w-px h-6 bg-white/10"></div>
-        <button class="dock-btn primary" onclick="alert('Print')">
-            <span>Print</span> <i class="fas fa-arrow-right"></i>
+        <button class="dock-btn primary">
+            <span>Done</span>
         </button>
     </div>
 
     <div id="font-drawer">
         <div class="drawer-header">
             <div class="flex justify-between items-center">
-                <span class="text-xs font-bold text-gray-500 uppercase tracking-widest">Font Library</span>
-                <button onclick="closeFontLibrary()" class="text-gray-400 hover:text-white"><i class="fas fa-times text-xl"></i></button>
+                <span class="text-xs font-bold text-gray-500 uppercase tracking-widest">Select Typeface</span>
+                <button onclick="closeFontDrawer()" class="text-gray-400 hover:text-white"><i class="fas fa-times text-xl"></i></button>
             </div>
-            <div class="relative">
-                <i class="fas fa-search absolute left-4 top-3.5 text-gray-500 text-xs"></i>
-                <input type="text" id="font-search" class="search-input pl-10" placeholder="Search 100+ fonts..." onkeyup="filterFonts()">
-            </div>
+            <input type="text" id="font-search" class="search-input" placeholder="Search curated fonts..." onkeyup="filterFonts()">
         </div>
+        
         <div class="font-list" id="font-list-container">
             </div>
     </div>
 
-    <input type="file" id="img-upload" class="hidden" accept="image/*">
-
     <script>
-        // === 1. THE 100 FONTS DATABASE ===
-        const FONT_LIBRARY = [
-            "Arial", "Helvetica", "Times New Roman", "Georgia", "Garamond", "Baskerville", "Palatino", "Verdana", "Tahoma", "Trebuchet MS",
-            "Courier New", "Consolas", "Lucida Console", "Monaco", "Roboto", "Open Sans", "Lato", "Montserrat", "Poppins", "Inter",
-            "Source Sans Pro", "Noto Sans", "Noto Serif", "PT Sans", "PT Serif", "Raleway", "Nunito", "Ubuntu", "Merriweather", "Playfair Display",
-            "Oswald", "Fira Sans", "Work Sans", "Cabin", "Quicksand", "Karla", "Mulish", "DM Sans", "Manrope", "Rubik",
-            "Abril Fatface", "Bebas Neue", "Anton", "League Spartan", "Archivo", "Arvo", "Bitter", "Zilla Slab", "Spectral", "Crimson Text",
-            "Josefin Sans", "Dancing Script", "Pacifico", "Lobster", "Caveat", "Indie Flower", "Abril Text", "Assistant", "Heebo", "Exo",
-            "Exo 2", "Titillium Web", "Oxygen", "Hind", "Mukta", "Inconsolata", "Space Mono", "JetBrains Mono", "IBM Plex Sans", "IBM Plex Serif",
-            "IBM Plex Mono", "Charter", "Franklin Gothic", "Century Gothic", "Gill Sans", "Optima", "Avenir", "Futura", "Univers", "Calibri",
-            "Cambria", "Candara", "Segoe UI", "SF Pro", "DIN", "Gotham", "Proxima Nova", "Myriad Pro", "Helvetica Neue", "Neue Haas Grotesk",
-            "Copperplate", "Rockwell", "Didot", "Bodoni", "Trajan Pro", "Perpetua", "Book Antiqua", "Sabon", "Tisa", "Cormorant"
+        // === 1. CURATED FONT DATABASE (Categorized) ===
+        // Mapped to Web-Safe or Google Font Equivalents for live rendering
+        const FONT_DATA = [
+            {
+                category: "Classic Serif (Traditional)",
+                fonts: [
+                    { name: "Garamond", family: "'EB Garamond', serif" },
+                    { name: "Baskerville", family: "'Libre Baskerville', serif" },
+                    { name: "Times New Roman", family: "'Times New Roman', serif" },
+                    { name: "Palatino", family: "'Palatino Linotype', 'Book Antiqua', serif" },
+                    { name: "Sabon", family: "'Crimson Text', serif" }, // Web approx
+                    { name: "Bembo", family: "'Cardo', serif" }, // Web approx
+                    { name: "Caslon", family: "'Libre Caslon Text', serif" },
+                    { name: "Minion Pro", family: "'Crimson Text', serif" }, // Web approx
+                    { name: "Perpetua", family: "'Baskerville', serif" }, // Web approx
+                    { name: "Book Antiqua", family: "'Book Antiqua', serif" }
+                ]
+            },
+            {
+                category: "Soft Modern Serif (Elegant)",
+                fonts: [
+                    { name: "Georgia", family: "Georgia, serif" },
+                    { name: "Merriweather", family: "'Merriweather', serif" },
+                    { name: "Crimson Text", family: "'Crimson Text', serif" },
+                    { name: "Cormorant", family: "'Cormorant', serif" },
+                    { name: "Charter", family: "'Charter', 'Bitstream Charter', serif" },
+                    { name: "Spectral", family: "'Spectral', serif" },
+                    { name: "Tisa", family: "'Merriweather', serif" }, // Web approx
+                    { name: "Libre Baskerville", family: "'Libre Baskerville', serif" }
+                ]
+            },
+            {
+                category: "Neutral Sans-Serif (Clean)",
+                fonts: [
+                    { name: "Helvetica", family: "Helvetica, Arial, sans-serif" },
+                    { name: "Helvetica Neue", family: "'Helvetica Neue', Arial, sans-serif" },
+                    { name: "Arial", family: "Arial, sans-serif" },
+                    { name: "Gill Sans", family: "'Gill Sans', 'Gill Sans MT', sans-serif" },
+                    { name: "Optima", family: "'Marcellus', sans-serif" }, // Web approx (Marcellus has Optima vibe)
+                    { name: "Avenir", family: "'Nunito', sans-serif" }, // Web approx
+                    { name: "Univers", family: "'Roboto', sans-serif" }, // Web approx
+                    { name: "Calibri", family: "Calibri, sans-serif" },
+                    { name: "Segoe UI", family: "'Segoe UI', sans-serif" },
+                    { name: "Frutiger", family: "'Hind', sans-serif" } // Web approx
+                ]
+            },
+            {
+                category: "Subtle Formal Display (Names)",
+                fonts: [
+                    { name: "Trajan Pro", family: "'Cinzel', serif" }, // Web approx
+                    { name: "Copperplate", family: "Copperplate, serif" },
+                    { name: "Didot", family: "'Playfair Display', serif" }, // Web approx
+                    { name: "Bodoni", family: "'Bodoni Moda', serif" },
+                    { name: "Cinzel", family: "'Cinzel', serif" },
+                    { name: "Playfair Display", family: "'Playfair Display', serif" },
+                    { name: "EB Garamond", family: "'EB Garamond', serif" },
+                    { name: "Adobe Caslon Pro", family: "'Libre Caslon Text', serif" },
+                    { name: "Lora", family: "'Lora', serif" },
+                    { name: "Libre Caslon Text", family: "'Libre Caslon Text', serif" },
+                    { name: "Source Serif Pro", family: "'Source Serif Pro', serif" },
+                    { name: "IBM Plex Serif", family: "'IBM Plex Serif', serif" }
+                ]
+            }
         ];
 
-        // === 2. STATE ===
-        const state = {
-            activeElement: null, // The text element currently being edited
-            selectedFont: 'Bodoni Moda'
-        };
+        let activeElement = null; // The text currently being edited
 
-        const TEMPLATE_COVER = `
-            <div class="h-full flex flex-col items-center justify-center text-center p-8">
-                <div class="mb-6 text-xs uppercase tracking-widest text-gray-500" contenteditable="true" onfocus="setActive(this)">In Loving Memory of</div>
-                <div class="photo-zone rounded-full w-40 h-40 mb-6 border-4 border-double border-gray-100" onclick="upload(this)">
-                    <i class="fas fa-camera text-2xl opacity-20"></i>
-                </div>
-                <div class="text-4xl mb-2 leading-tight" style="font-family: 'Bodoni Moda'" contenteditable="true" onfocus="setActive(this)">Eleanor<br>Rigby</div>
-                <div class="text-sm mb-8 text-gray-600" contenteditable="true" onfocus="setActive(this)">1950 — 2026</div>
-                <div class="mt-auto text-[10px] uppercase font-bold text-gray-400" contenteditable="true" onfocus="setActive(this)">St Mary's Church</div>
-            </div>`;
-
-        // === 3. INIT ===
+        // === 2. INIT ===
         function init() {
-            renderWorkspace();
             renderFontList();
+            
+            // Auto-select the main name on load
+            setTimeout(() => {
+                const nameEl = document.querySelector('.text-5xl');
+                setActive(nameEl);
+            }, 500);
         }
 
-        function renderWorkspace() {
-            const container = document.getElementById('workspace');
-            const card = document.createElement('div');
-            card.className = 'page-card';
-            card.innerHTML = `
-                <div class="page-label">Front Cover</div>
-                <div class="h-full w-full">${TEMPLATE_COVER}</div>
-            `;
-            container.appendChild(card);
-        }
-
-        // === 4. FONT LIBRARY LOGIC ===
+        // === 3. RENDER FONT LIST ===
         function renderFontList() {
-            const list = document.getElementById('font-list-container');
-            list.innerHTML = '';
+            const container = document.getElementById('font-list-container');
+            container.innerHTML = '';
 
-            FONT_LIBRARY.forEach(font => {
-                const item = document.createElement('div');
-                item.className = 'font-item';
-                item.onclick = () => applyFont(font);
-                
-                // For demo, we assume system fonts render. 
-                // For Google Fonts, we would lazy-load the <link> here.
-                
-                item.innerHTML = `
-                    <div>
-                        <div class="font-name" style="font-family: '${font}', sans-serif;">${font}</div>
-                        <div class="font-preview" style="font-family: '${font}', sans-serif;">The quick brown fox jumps over the lazy dog</div>
-                    </div>
-                    ${state.selectedFont === font ? '<i class="fas fa-check text-[#D4AF37]"></i>' : ''}
-                `;
-                list.appendChild(item);
+            FONT_DATA.forEach(group => {
+                // Header
+                const header = document.createElement('div');
+                header.className = 'font-category-header';
+                header.innerText = group.category;
+                container.appendChild(header);
+
+                // Fonts
+                group.fonts.forEach(font => {
+                    const item = document.createElement('div');
+                    item.className = 'font-item';
+                    item.onclick = () => applyFont(font.name, font.family);
+                    
+                    item.innerHTML = `
+                        <div class="flex-1">
+                            <div class="font-name" style="font-family: ${font.family}">${font.name}</div>
+                            <div class="font-meta">${group.category.split(' ')[0]}</div>
+                        </div>
+                        <i class="fas fa-check text-[#D4AF37] opacity-0 check-icon"></i>
+                    `;
+                    
+                    // Store search data
+                    item.dataset.search = (font.name + " " + group.category).toLowerCase();
+                    container.appendChild(item);
+                });
             });
         }
 
-        function openFontLibrary() {
-            // If no text is selected, try to find the main header
-            if(!state.activeElement) {
-                // Auto-select the Name
-                const nameEl = document.querySelector('.text-4xl');
-                if(nameEl) setActive(nameEl);
-            }
-            document.getElementById('font-drawer').classList.add('open');
-            document.getElementById('font-search').focus();
+        // === 4. ACTIVE ELEMENT LOGIC ===
+        function setActive(el) {
+            // Remove previous focus style
+            if(activeElement) activeElement.style.border = '1px dashed transparent';
+            
+            activeElement = el;
+            activeElement.style.border = '1px dashed #D4AF37';
         }
 
-        function closeFontLibrary() {
+        // === 5. APPLY FONT LOGIC ===
+        function applyFont(name, familyStr) {
+            if(!activeElement) {
+                alert("Tap a text area on the page first.");
+                return;
+            }
+
+            // Apply style
+            activeElement.style.fontFamily = familyStr;
+
+            // Visual Feedback in List
+            document.querySelectorAll('.font-item').forEach(el => {
+                el.classList.remove('selected');
+                el.querySelector('.check-icon').classList.add('opacity-0');
+            });
+            event.currentTarget.classList.add('selected');
+            event.currentTarget.querySelector('.check-icon').classList.remove('opacity-0');
+        }
+
+        // === 6. DRAWER CONTROLS ===
+        function openFontDrawer() {
+            if(!activeElement) {
+                // Auto-select name if nothing selected
+                setActive(document.querySelector('.text-5xl'));
+            }
+            document.getElementById('font-drawer').classList.add('open');
+        }
+
+        function closeFontDrawer() {
             document.getElementById('font-drawer').classList.remove('open');
         }
 
         function filterFonts() {
             const query = document.getElementById('font-search').value.toLowerCase();
             const items = document.querySelectorAll('.font-item');
-            
+            const headers = document.querySelectorAll('.font-category-header');
+
             items.forEach(item => {
-                const name = item.querySelector('.font-name').innerText.toLowerCase();
-                if(name.includes(query)) {
+                if(item.dataset.search.includes(query)) {
                     item.style.display = 'flex';
                 } else {
                     item.style.display = 'none';
                 }
             });
-        }
 
-        // === 5. APPLYING FONTS ===
-        function setActive(el) {
-            // Highlight the active element visually
-            if(state.activeElement) state.activeElement.style.border = '1px dashed transparent';
-            state.activeElement = el;
-            el.style.border = '1px dashed #D4AF37';
-        }
-
-        function applyFont(fontName) {
-            if(!state.activeElement) {
-                alert("Please click on a text area on the page first.");
-                return;
-            }
-
-            // 1. Dynamic Load (Google Fonts API Trick)
-            // We create a link tag on the fly. 
-            // Note: This works for Google Fonts. System fonts (Arial) will just work.
-            const link = document.createElement('link');
-            link.href = `https://fonts.googleapis.com/css2?family=${fontName.replace(/ /g, '+')}&display=swap`;
-            link.rel = 'stylesheet';
-            document.head.appendChild(link);
-
-            // 2. Apply to Element
-            state.activeElement.style.fontFamily = `'${fontName}', sans-serif`;
-            state.selectedFont = fontName;
-
-            // 3. Feedback
-            // Re-render list to show checkmark
-            renderFontList();
-            
-            // Optional: Close drawer after selection? No, let them explore.
-        }
-
-        // === 6. PHOTO LOGIC ===
-        let activePhoto = null;
-        function upload(el) {
-            activePhoto = el;
-            document.getElementById('img-upload').click();
-        }
-        document.getElementById('img-upload').onchange = (e) => {
-            if(e.target.files[0] && activePhoto) {
-                const reader = new FileReader();
-                reader.onload = (evt) => {
-                    activePhoto.innerHTML = `<img src="${evt.target.result}">`;
-                    activePhoto.style.background = 'transparent';
-                    activePhoto.style.border = 'none';
-                };
-                reader.readAsDataURL(e.target.files[0]);
-            }
+            // Hide headers if no children are visible (Basic logic)
+            // Ideally we check visibility of next siblings
         }
 
         // Boot
