@@ -2,230 +2,296 @@
 <html lang="en-GB">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>FuneralMatch | Director Search</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Curated Directors | FuneralMatch</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@1,400;1,700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&family=Manrope:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
-        /* --- 1. CORE VARIABLES --- */
+        /* --- 1. LUXURY IDENTITY --- */
         :root {
-            --gold: #C5A059;
-            --black: #111;
-            --off-white: #F9F9F9;
-            --radius-lg: 24px;
-            --radius-pill: 999px;
-            --safe-bottom: env(safe-area-inset-bottom, 20px);
+            --bg-body: #FDFBF9; /* Warm Alabaster */
+            --bg-glass: rgba(255, 255, 255, 0.9);
+            --gold-primary: #C5A059;
+            --gold-dark: #A07F40;
+            --black-ink: #0A0A0A;
+            --border-subtle: rgba(0,0,0,0.06);
+            --shadow-float: 0 20px 40px -10px rgba(20, 20, 20, 0.08);
+            --ease-lux: cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--off-white);
-            color: var(--black);
+            background-color: var(--bg-body);
+            color: var(--black-ink);
+            font-family: 'Manrope', sans-serif; /* Clean, modern sans */
             -webkit-font-smoothing: antialiased;
-            /* Prevent horizontal scroll */
-            overflow-x: hidden;
-            padding-bottom: 80px;
-        }
-        .serif { font-family: 'Bodoni Moda', serif; }
-
-        /* --- 2. HEADER & LOGO --- */
-        .header-fixed {
-            position: fixed; top: 0; left: 0; right: 0; z-index: 50;
-            background: rgba(255,255,255,0.95); backdrop-filter: blur(10px);
-            border-bottom: 1px solid #eee;
-            padding: 16px 20px;
-            display: flex; align-items: center; justify-content: space-between;
         }
 
-        .brand-block { display: flex; flex-direction: column; }
-        .brand-main { font-size: 14px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: black; }
-        .brand-sub { font-size: 10px; font-weight: 700; color: var(--gold); letter-spacing: 0.2em; text-transform: uppercase; }
-
-        /* --- 3. MOBILE SEARCH BAR (Sticky) --- */
-        .search-sticky {
-            position: sticky; top: 68px; z-index: 40;
-            margin: 0 16px 24px 16px;
-        }
+        /* --- 2. THE BRAND LOGO --- */
+        .brand-font { font-family: 'Bodoni Moda', serif; }
         
+        .logo-container {
+            display: flex; flex-direction: column; align-items: flex-start; line-height: 0.9;
+        }
+        .logo-main {
+            font-size: 24px; font-weight: 700; color: var(--black-ink); letter-spacing: -0.02em;
+        }
+        .logo-main span { color: var(--gold-primary); font-style: italic; }
+        .logo-sub {
+            font-family: 'Manrope', sans-serif; font-size: 8px; font-weight: 700; 
+            text-transform: uppercase; letter-spacing: 0.3em; margin-top: 4px; color: #999;
+        }
+
+        /* --- 3. FLOATING FILTER ISLAND --- */
+        .filter-island-wrapper {
+            position: sticky; top: 20px; z-index: 50;
+            padding: 0 20px; margin-bottom: 40px;
+            display: flex; justify-content: center;
+        }
+
+        .filter-island {
+            background: white; border: 1px solid var(--border-subtle);
+            border-radius: 99px; padding: 8px;
+            box-shadow: var(--shadow-float);
+            display: flex; align-items: center; gap: 8px;
+            max-width: 900px; width: 100%;
+            transition: 0.3s ease;
+        }
+
         .search-capsule {
-            background: white; border-radius: var(--radius-pill);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
-            border: 1px solid #eee;
-            display: flex; padding: 6px;
+            flex: 1; display: flex; align-items: center; padding: 0 24px;
+            border-right: 1px solid var(--border-subtle); height: 44px;
         }
-
         .search-input {
-            flex: 1; border: none; outline: none; padding-left: 20px;
-            font-size: 16px; /* Prevents iOS Zoom */
-            border-radius: var(--radius-pill);
-            color: #333; background: transparent;
+            width: 100%; border: none; outline: none; font-size: 14px; font-weight: 500;
+            background: transparent; color: var(--black-ink);
+        }
+        .search-input::placeholder { color: #888; font-weight: 400; }
+
+        .chip-scroll {
+            display: flex; gap: 8px; overflow-x: auto; padding: 0 12px;
+            scrollbar-width: none; /* Hide scrollbar */
+            max-width: 400px;
+        }
+        .chip-scroll::-webkit-scrollbar { display: none; }
+
+        .smart-chip {
+            white-space: nowrap; padding: 10px 20px; border-radius: 99px;
+            font-size: 12px; font-weight: 600; color: #666; background: #F7F7F7;
+            cursor: pointer; transition: 0.2s; border: 1px solid transparent;
+        }
+        .smart-chip:hover { background: #EEE; color: black; }
+        .smart-chip.active { background: var(--black-ink); color: white; border-color: black; }
+        
+        .filter-trigger {
+            width: 44px; height: 44px; border-radius: 50%; background: var(--gold-primary);
+            color: white; display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: 0.2s; flex-shrink: 0;
+        }
+        .filter-trigger:hover { background: var(--black-ink); }
+
+        /* --- 4. THE REFINED GRID --- */
+        .results-wrapper {
+            padding: 0 40px 120px 40px; max-width: 1600px; margin: 0 auto;
+        }
+        .grid-layout {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+            gap: 40px;
         }
 
-        .filter-btn {
-            background: #111; color: white;
-            height: 44px; padding: 0 20px; border-radius: var(--radius-pill);
-            font-size: 13px; font-weight: 600; cursor: pointer;
-            display: flex; align-items: center; gap: 8px;
-            transition: 0.2s;
+        .studio-card {
+            background: white; border: 1px solid var(--border-subtle);
+            border-radius: 4px; /* Editorial Sharpness */
+            overflow: hidden; transition: 0.4s var(--ease-lux);
+            display: flex; flex-direction: column;
+            position: relative;
         }
-        .filter-btn:active { transform: scale(0.96); }
-        .badge {
-            background: var(--gold); color: white; font-size: 10px; 
-            padding: 2px 6px; border-radius: 99px; margin-left: 4px; display: none;
+        .studio-card:hover { 
+            transform: translateY(-8px); 
+            box-shadow: 0 30px 60px rgba(0,0,0,0.08); 
+            border-color: rgba(197, 160, 89, 0.3);
         }
 
-        /* --- 4. BOTTOM SHEET FILTER (Mobile Friendly) --- */
-        .sheet-overlay {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 100;
-            opacity: 0; pointer-events: none; transition: 0.3s; backdrop-filter: blur(4px);
+        .card-visual {
+            height: 260px; width: 100%; position: relative; overflow: hidden;
         }
-        .sheet-overlay.open { opacity: 1; pointer-events: auto; }
-
-        .sheet-content {
-            position: absolute; bottom: 0; left: 0; right: 0;
-            background: white; border-radius: 24px 24px 0 0;
-            max-height: 85vh; overflow-y: auto;
-            transform: translateY(100%); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            padding: 24px 24px 100px 24px; /* Padding for bottom button */
+        .card-visual img { 
+            width: 100%; height: 100%; object-fit: cover; 
+            transition: transform 0.8s var(--ease-lux); filter: brightness(0.95);
         }
-        .sheet-overlay.open .sheet-content { transform: translateY(0); }
+        .studio-card:hover .card-visual img { transform: scale(1.05); filter: brightness(1); }
 
-        .sheet-header {
+        .merit-star {
+            position: absolute; top: 16px; right: 16px;
+            background: white; color: var(--black-ink);
+            padding: 6px 12px; border-radius: 99px; font-family: 'Manrope', sans-serif;
+            font-size: 11px; font-weight: 800; letter-spacing: 0.05em;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .card-info { padding: 32px; display: flex; flex-direction: column; flex: 1; }
+        
+        .director-name {
+            font-family: 'Bodoni Moda', serif; font-size: 26px; font-weight: 500;
+            margin-bottom: 8px; line-height: 1.1;
+        }
+        .director-loc {
+            font-size: 11px; text-transform: uppercase; letter-spacing: 0.15em; 
+            color: #888; font-weight: 700; margin-bottom: 24px; display: block;
+        }
+
+        .tag-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 32px; }
+        .tag-text { font-size: 12px; color: #555; border-bottom: 1px dotted #ccc; padding-bottom: 2px; }
+
+        .card-footer {
+            margin-top: auto; padding-top: 24px; border-top: 1px solid var(--border-subtle);
+            display: flex; justify-content: space-between; align-items: flex-end;
+        }
+        .price-label { font-size: 10px; text-transform: uppercase; color: #999; font-weight: 700; }
+        .price-val { font-family: 'Bodoni Moda', serif; font-size: 20px; color: var(--gold-primary); }
+
+        /* --- 5. REFINED MODAL (Advanced Filters) --- */
+        .modal-backdrop {
+            position: fixed; inset: 0; background: rgba(10,10,10,0.6); backdrop-filter: blur(8px);
+            z-index: 100; opacity: 0; pointer-events: none; transition: 0.3s;
+        }
+        .modal-backdrop.active { opacity: 1; pointer-events: auto; }
+
+        .filter-modal {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -45%);
+            width: 90%; max-width: 900px; max-height: 85vh;
+            background: #FDFBF9; border-radius: 20px;
+            display: flex; flex-direction: column; overflow: hidden;
+            transition: 0.4s var(--ease-lux); opacity: 0;
+        }
+        .modal-backdrop.active .filter-modal { transform: translate(-50%, -50%); opacity: 1; }
+
+        .modal-header {
+            padding: 30px 40px; border-bottom: 1px solid var(--border-subtle);
+            display: flex; justify-content: space-between; align-items: center; background: white;
+        }
+        .modal-body {
+            padding: 40px; overflow-y: auto;
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px;
+        }
+        .modal-footer {
+            padding: 24px 40px; background: white; border-top: 1px solid var(--border-subtle);
             display: flex; justify-content: space-between; align-items: center;
-            padding-bottom: 20px; border-bottom: 1px solid #f0f0f0; margin-bottom: 20px;
-            position: sticky; top: 0; background: white; z-index: 10;
         }
 
-        /* Thumb-Friendly Toggles (Chips) */
-        .chip-grid { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 24px; }
-        
-        .filter-chip {
-            padding: 10px 18px; border-radius: 12px;
-            background: #f5f5f5; border: 1px solid transparent;
-            font-size: 13px; font-weight: 600; color: #555;
-            cursor: pointer; transition: 0.2s; user-select: none;
-            display: flex; align-items: center; gap: 8px;
+        .filter-group-title {
+            font-family: 'Bodoni Moda', serif; font-size: 18px; margin-bottom: 20px; color: var(--black-ink);
         }
         
-        /* Selected State */
-        .filter-chip.active {
-            background: #FFFDF5; border-color: var(--gold); color: var(--gold);
-            box-shadow: 0 4px 12px rgba(197, 160, 89, 0.15);
+        /* Custom Checkbox Design */
+        .check-opt {
+            display: flex; align-items: center; gap: 12px; margin-bottom: 16px; cursor: pointer; group: true;
         }
-        
-        /* Price Slider */
-        input[type=range] {
-            width: 100%; accent-color: var(--gold); height: 4px; margin: 20px 0;
+        .check-box {
+            width: 20px; height: 20px; border: 1px solid #ccc; border-radius: 4px;
+            display: flex; align-items: center; justify-content: center; transition: 0.2s;
         }
+        .check-opt:hover .check-box { border-color: var(--gold-primary); }
+        .check-opt input:checked + .check-box { background: var(--gold-primary); border-color: var(--gold-primary); }
+        .check-box i { font-size: 10px; color: white; transform: scale(0); transition: 0.2s; }
+        .check-opt input:checked + .check-box i { transform: scale(1); }
+        .check-label { font-size: 14px; color: #444; font-weight: 500; }
 
-        /* Floating Apply Button */
-        .sheet-footer {
-            position: fixed; bottom: 0; left: 0; right: 0;
-            padding: 16px 24px; background: white; border-top: 1px solid #eee;
-            padding-bottom: max(16px, var(--safe-bottom));
-        }
-        .btn-apply {
-            width: 100%; background: var(--black); color: white;
-            padding: 16px; border-radius: var(--radius-pill);
-            font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em;
-        }
-
-        /* --- 5. DIRECTOR CARD --- */
-        .card-grid {
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px; padding: 0 16px; max-width: 1200px; margin: 0 auto;
-        }
-
-        .director-card {
-            background: white; border-radius: 20px; overflow: hidden;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.03); border: 1px solid #eee;
-            transition: 0.3s;
-        }
-        .director-card:active { transform: scale(0.98); }
-
-        .card-img { height: 180px; width: 100%; object-fit: cover; }
-        
-        .card-content { padding: 20px; }
-        
-        .tag-pill {
-            font-size: 10px; font-weight: 700; text-transform: uppercase;
-            padding: 4px 10px; border-radius: 6px; background: #f0f0f0; color: #666;
-            margin-right: 4px; display: inline-block; margin-bottom: 8px;
-        }
-        .tag-pill.gold { background: #FFF9E5; color: #B08D55; }
-
-        .price-badge {
-            font-size: 16px; font-weight: 700; color: var(--gold);
+        @media (max-width: 1024px) {
+            .results-wrapper { padding: 0 20px 80px 20px; }
+            .modal-body { grid-template-columns: 1fr; }
+            .filter-island { flex-wrap: wrap; border-radius: 24px; }
+            .chip-scroll { order: 3; width: 100%; border-top: 1px solid #eee; padding-top: 10px; margin-top: 4px; }
         }
 
     </style>
 </head>
 <body>
 
-    <header class="header-fixed">
-        <div class="brand-block">
-            <span class="brand-main">FuneralMatch</span>
-            <span class="brand-sub">Director Search</span>
+    <header class="py-8 px-10 flex justify-between items-center">
+        <div class="logo-container">
+            <div class="logo-main brand-font">Funeral<span>Match</span></div>
+            <div class="logo-sub">Est. 2026</div>
         </div>
-        <div class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-400">
-            <i class="fas fa-user"></i>
+        <div class="hidden md:flex gap-8 text-xs font-bold uppercase tracking-widest text-gray-400">
+            <a href="#" class="hover:text-black transition">The Journal</a>
+            <a href="#" class="hover:text-black transition">Arrangement Suite</a>
+            <a href="#" class="text-black">Directory</a>
         </div>
     </header>
 
-    <div style="height: 80px;"></div>
+    <div class="filter-island-wrapper">
+        <div class="filter-island">
+            <div class="search-capsule">
+                <i class="fas fa-search text-gray-300 mr-3"></i>
+                <input type="text" id="searchInput" class="search-input" placeholder="Location, Name, or Requirement...">
+            </div>
+            
+            <div class="chip-scroll">
+                <div class="smart-chip" onclick="toggleTag(this, 'tag_greek')">🇬🇷 Greek</div>
+                <div class="smart-chip" onclick="toggleTag(this, 'tag_jewish')">✡️ Jewish</div>
+                <div class="smart-chip" onclick="toggleTag(this, 'tag_water')">🌊 Sea Burial</div>
+                <div class="smart-chip" onclick="toggleTag(this, 'tag_eco')">🌿 Eco</div>
+                <div class="smart-chip" onclick="toggleTag(this, 'tag_horse')">🐎 Horse Drawn</div>
+            </div>
 
-    <div class="search-sticky">
-        <div class="search-capsule">
-            <input type="text" id="searchInput" class="search-input" placeholder="City or Director Name...">
-            <div class="filter-btn" onclick="openFilters()">
-                <i class="fas fa-sliders-h"></i> Filters <span class="badge" id="filterCount">0</span>
+            <div class="filter-trigger" onclick="openModal()">
+                <i class="fas fa-sliders-h text-sm"></i>
             </div>
         </div>
     </div>
 
-    <main class="card-grid" id="resultsGrid">
-        </main>
+    <main class="results-wrapper">
+        <div class="flex justify-between items-end mb-10">
+            <h1 class="brand-font text-4xl">The Collection</h1>
+            <span class="text-xs font-bold uppercase text-gray-400 tracking-widest" id="countLabel">Showing 25 Directors</span>
+        </div>
 
-    <div id="filterOverlay" class="sheet-overlay" onclick="closeFilters()">
-        <div class="sheet-content" onclick="event.stopPropagation()">
+        <div class="grid-layout" id="resultsGrid">
+            </div>
+    </main>
+
+    <div class="modal-backdrop" id="filterModal" onclick="closeModal()">
+        <div class="filter-modal" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h2 class="brand-font text-2xl">Refine Selection</h2>
+                <button onclick="closeModal()" class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center hover:bg-black hover:text-white transition"><i class="fas fa-times"></i></button>
+            </div>
             
-            <div class="sheet-header">
-                <h2 class="text-lg font-bold font-serif">Refine Results</h2>
-                <button onclick="closeFilters()" class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center"><i class="fas fa-times"></i></button>
-            </div>
-
-            <h3 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Specialist Requirements</h3>
-            <div class="chip-grid">
-                <div class="filter-chip" onclick="toggleChip(this, 'tag_greek')">🇬🇷 Greek Orthodox</div>
-                <div class="filter-chip" onclick="toggleChip(this, 'tag_water')">🌊 Burial at Sea</div>
-                <div class="filter-chip" onclick="toggleChip(this, 'tag_jewish')">✡️ Jewish</div>
-                <div class="filter-chip" onclick="toggleChip(this, 'tag_military')">🎖️ Military</div>
-                <div class="filter-chip" onclick="toggleChip(this, 'tag_eco')">🌿 Eco Burial</div>
-            </div>
-
-            <h3 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Merit & Quality</h3>
-            <div class="chip-grid">
-                <div class="filter-chip" onclick="toggleChip(this, 'rating_99')">
-                    <i class="fas fa-star text-yellow-400"></i> Elite (9.9+)
+            <div class="modal-body">
+                <div>
+                    <h3 class="filter-group-title">Cultural & Faith</h3>
+                    <label class="check-opt"><input type="checkbox" class="hidden adv-filter" value="tag_greek"><div class="check-box"><i class="fas fa-check"></i></div><span class="check-label">Greek Orthodox</span></label>
+                    <label class="check-opt"><input type="checkbox" class="hidden adv-filter" value="tag_jewish"><div class="check-box"><i class="fas fa-check"></i></div><span class="check-label">Jewish / Shiva</span></label>
+                    <label class="check-opt"><input type="checkbox" class="hidden adv-filter" value="tag_muslim"><div class="check-box"><i class="fas fa-check"></i></div><span class="check-label">Muslim / Janazah</span></label>
+                    <label class="check-opt"><input type="checkbox" class="hidden adv-filter" value="tag_sikh"><div class="check-box"><i class="fas fa-check"></i></div><span class="check-label">Sikh Services</span></label>
                 </div>
-                <div class="filter-chip" onclick="toggleChip(this, 'rating_95')">
-                    <i class="fas fa-certificate text-gray-400"></i> High Merit (9.5+)
+
+                <div>
+                    <h3 class="filter-group-title">Service Type</h3>
+                    <label class="check-opt"><input type="checkbox" class="hidden adv-filter" value="tag_water"><div class="check-box"><i class="fas fa-check"></i></div><span class="check-label">Burial at Sea</span></label>
+                    <label class="check-opt"><input type="checkbox" class="hidden adv-filter" value="tag_eco"><div class="check-box"><i class="fas fa-check"></i></div><span class="check-label">Woodland / Eco</span></label>
+                    <label class="check-opt"><input type="checkbox" class="hidden adv-filter" value="tag_direct"><div class="check-box"><i class="fas fa-check"></i></div><span class="check-label">Direct Cremation</span></label>
+                    <label class="check-opt"><input type="checkbox" class="hidden adv-filter" value="tag_repatriation"><div class="check-box"><i class="fas fa-check"></i></div><span class="check-label">Repatriation</span></label>
+                </div>
+
+                <div>
+                    <h3 class="filter-group-title">Facilities & Transport</h3>
+                    <label class="check-opt"><input type="checkbox" class="hidden adv-filter" value="feat_chapel"><div class="check-box"><i class="fas fa-check"></i></div><span class="check-label">Private Chapel of Rest</span></label>
+                    <label class="check-opt"><input type="checkbox" class="hidden adv-filter" value="feat_parking"><div class="check-box"><i class="fas fa-check"></i></div><span class="check-label">Guest Parking</span></label>
+                    <label class="check-opt"><input type="checkbox" class="hidden adv-filter" value="tag_horse"><div class="check-box"><i class="fas fa-check"></i></div><span class="check-label">Horse Drawn Hearse</span></label>
+                    <label class="check-opt"><input type="checkbox" class="hidden adv-filter" value="tag_motorcycle"><div class="check-box"><i class="fas fa-check"></i></div><span class="check-label">Motorcycle Hearse</span></label>
                 </div>
             </div>
 
-            <h3 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2 mt-6">Max Budget</h3>
-            <div class="flex justify-between items-end mb-2">
-                <span class="text-sm font-bold text-black" id="priceLabel">£10,000</span>
-            </div>
-            <input type="range" min="1000" max="10000" step="100" value="10000" oninput="updatePrice(this.value)">
-
-            <div class="sheet-footer">
-                <button class="btn-apply" onclick="applyFilters()">Show Results</button>
+            <div class="modal-footer">
+                <button class="text-xs font-bold uppercase tracking-widest text-gray-400 hover:text-black" onclick="resetAll()">Reset</button>
+                <button class="bg-[#0A0A0A] text-white px-8 py-3 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-[#C5A059] transition" onclick="applyAdvanced()">View Results</button>
             </div>
         </div>
     </div>
@@ -234,94 +300,81 @@
         // === MOCK DATA ===
         const directors = [
             { 
-                name: "Olympus & Sons", 
-                loc: "North London", 
-                price: 3200, 
-                rating: 9.9, 
-                tags: ["tag_greek", "tag_water"], 
+                name: "Olympus & Sons", loc: "North London", price: 3200, rating: 9.9, 
+                tags: ["tag_greek", "tag_water", "feat_chapel"], 
                 img: "https://images.unsplash.com/photo-1544197150-b99a580bb7a8" 
             },
             { 
-                name: "Regency Care", 
-                loc: "West London", 
-                price: 3500, 
-                rating: 10.0, 
-                tags: ["tag_military"], 
+                name: "Regency Care", loc: "West London", price: 3500, rating: 10.0, 
+                tags: ["tag_military", "tag_horse", "feat_parking"], 
                 img: "https://images.unsplash.com/photo-1560185007-c5ca9d2c014d" 
             },
             { 
-                name: "Willow Eco", 
-                loc: "Hackney", 
-                price: 1800, 
-                rating: 9.6, 
+                name: "Willow Eco", loc: "Hackney", price: 1800, rating: 9.6, 
                 tags: ["tag_eco", "tag_water"], 
                 img: "https://images.unsplash.com/photo-1473448912268-2022ce9509d8" 
             },
             { 
-                name: "Goldstein Family", 
-                loc: "Golders Green", 
-                price: 2800, 
-                rating: 9.9, 
-                tags: ["tag_jewish"], 
+                name: "Goldstein Family", loc: "Golders Green", price: 2800, rating: 9.9, 
+                tags: ["tag_jewish", "feat_chapel"], 
                 img: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab" 
             },
-            // Fillers
-            ...Array.from({length: 10}, (_, i) => ({
-                name: `Director ${i+5}`,
+            { 
+                name: "Maritime Tributes", loc: "Greenwich", price: 4200, rating: 9.8, 
+                tags: ["tag_water", "tag_military", "tag_repatriation"], 
+                img: "https://images.unsplash.com/photo-1468581264429-2548ef9eb732" 
+            },
+            // Fillers to 25
+            ...Array.from({length: 20}, (_, i) => ({
+                name: `Director ${i+6}`,
                 loc: "London",
-                price: 1500 + (i*150),
+                price: 1500 + (i * 100),
                 rating: (9.0 + Math.random()).toFixed(1),
-                tags: [],
+                tags: Math.random() > 0.7 ? ["tag_greek"] : [],
                 img: "https://images.unsplash.com/photo-1519817650390-64a93db51149"
             }))
         ];
 
-        let activeTags = [];
-        let maxPrice = 10000;
+        let activeFilters = [];
 
         // === RENDER ===
-        function render(data) {
-            const grid = document.getElementById('resultsGrid');
-            grid.innerHTML = '';
+        const grid = document.getElementById('resultsGrid');
 
-            if (data.length === 0) {
-                grid.innerHTML = `
-                    <div class="col-span-full text-center py-20 text-gray-400">
-                        <i class="fas fa-search text-4xl mb-4"></i>
-                        <p>No directors found matching these specific filters.</p>
-                        <button onclick="resetAll()" class="mt-4 text-[#C5A059] font-bold text-sm">Clear Filters</button>
-                    </div>`;
+        function render(data) {
+            grid.innerHTML = '';
+            document.getElementById('countLabel').innerText = `Showing ${data.length} Directors`;
+
+            if(data.length === 0) {
+                grid.innerHTML = `<div class="col-span-full text-center py-20 opacity-50"><p>No matches found.</p></div>`;
                 return;
             }
 
-            data.forEach((d, i) => {
-                // Determine Labels
-                let pills = '';
-                if(d.tags.includes('tag_greek')) pills += `<span class="tag-pill gold">Greek</span>`;
-                if(d.tags.includes('tag_water')) pills += `<span class="tag-pill gold">Water Burial</span>`;
-                if(d.tags.includes('tag_jewish')) pills += `<span class="tag-pill gold">Jewish</span>`;
+            data.forEach(d => {
+                // Generate Tag List
+                const tagLabels = {
+                    'tag_greek': 'Greek Orthodox', 'tag_jewish': 'Jewish', 'tag_water': 'Sea Burial',
+                    'tag_eco': 'Eco Friendly', 'tag_horse': 'Horse Drawn', 'feat_chapel': 'Private Chapel'
+                };
                 
-                const card = document.createElement('div');
-                card.className = 'director-card';
-                card.setAttribute('data-aos', 'fade-up');
-                card.setAttribute('data-aos-delay', i * 50); // Stagger
+                const visibleTags = d.tags.slice(0, 3).map(t => `<span class="tag-text">${tagLabels[t] || t}</span>`).join('');
 
+                const card = document.createElement('div');
+                card.className = 'studio-card group';
                 card.innerHTML = `
-                    <img src="${d.img}?q=80&w=600&fit=crop" class="card-img">
-                    <div class="card-content">
-                        <div class="flex justify-between items-start mb-2">
-                            <div>
-                                ${pills}
-                                <p class="text-[10px] uppercase font-bold text-gray-400">${d.loc}</p>
+                    <div class="card-visual">
+                        <img src="${d.img}?q=80&w=600&fit=crop">
+                        <div class="merit-star">${d.rating}</div>
+                    </div>
+                    <div class="card-info">
+                        <span class="director-loc">${d.loc}</span>
+                        <h3 class="director-name group-hover:text-[#C5A059] transition">${d.name}</h3>
+                        <div class="tag-row">${visibleTags}</div>
+                        <div class="card-footer">
+                            <div class="flex flex-col">
+                                <span class="price-label">Arrangement From</span>
+                                <span class="price-val">£${d.price.toLocaleString()}</span>
                             </div>
-                            <div class="flex items-center gap-1 bg-gray-50 px-2 py-1 rounded text-xs font-bold">
-                                <i class="fas fa-star text-yellow-400"></i> ${d.rating}
-                            </div>
-                        </div>
-                        <h3 class="font-serif text-xl font-bold mb-4">${d.name}</h3>
-                        <div class="flex justify-between items-center border-t border-gray-100 pt-4">
-                            <span class="price-badge">£${d.price.toLocaleString()}</span>
-                            <button class="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center text-gray-400">
+                            <button class="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center group-hover:bg-black group-hover:text-white transition">
                                 <i class="fas fa-arrow-right"></i>
                             </button>
                         </div>
@@ -332,78 +385,74 @@
         }
 
         // === FILTER LOGIC ===
-        function toggleChip(el, tag) {
-            el.classList.toggle('active');
-            if (activeTags.includes(tag)) {
-                activeTags = activeTags.filter(t => t !== tag);
-            } else {
-                activeTags.push(tag);
-            }
-        }
-
-        function updatePrice(val) {
-            maxPrice = parseInt(val);
-            document.getElementById('priceLabel').innerText = `£${Number(val).toLocaleString()}`;
-        }
-
-        function applyFilters() {
-            // Update Badge
-            const count = activeTags.length;
-            const badge = document.getElementById('filterCount');
-            badge.innerText = count;
-            badge.style.display = count > 0 ? 'inline-block' : 'none';
-
-            // Filter
+        function runFilter() {
             const search = document.getElementById('searchInput').value.toLowerCase();
             
             const filtered = directors.filter(d => {
-                // 1. Search
-                if (!d.name.toLowerCase().includes(search) && !d.loc.toLowerCase().includes(search)) return false;
-                
-                // 2. Price
-                if (d.price > maxPrice) return false;
+                // Text Search
+                const matchText = d.name.toLowerCase().includes(search) || d.loc.toLowerCase().includes(search);
+                if(!matchText) return false;
 
-                // 3. Tags (AND Logic)
-                const reqTags = activeTags.filter(t => !t.startsWith('rating'));
-                const hasTags = reqTags.every(t => d.tags.includes(t));
-                if(!hasTags) return false;
-
-                // 4. Rating
-                if (activeTags.includes('rating_99') && d.rating < 9.9) return false;
-                if (activeTags.includes('rating_95') && d.rating < 9.5) return false;
-
-                return true;
+                // Tags (AND Logic)
+                const hasTags = activeFilters.every(tag => d.tags.includes(tag));
+                return hasTags;
             });
 
             render(filtered);
-            closeFilters();
-            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+
+        // Quick Tags (Chips)
+        function toggleTag(el, tag) {
+            el.classList.toggle('active');
+            if(activeFilters.includes(tag)) {
+                activeFilters = activeFilters.filter(t => t !== tag);
+            } else {
+                activeFilters.push(tag);
+            }
+            
+            // Sync with modal checkboxes
+            document.querySelectorAll(`.adv-filter[value="${tag}"]`).forEach(cb => cb.checked = el.classList.contains('active'));
+            
+            runFilter();
+        }
+
+        // Modal Logic
+        function openModal() { document.getElementById('filterModal').classList.add('active'); }
+        function closeModal() { document.getElementById('filterModal').classList.remove('active'); }
+
+        function applyAdvanced() {
+            // Read checkboxes
+            const checkboxes = document.querySelectorAll('.adv-filter');
+            activeFilters = [];
+            
+            checkboxes.forEach(cb => {
+                if(cb.checked) activeFilters.push(cb.value);
+            });
+
+            // Sync Chips
+            document.querySelectorAll('.smart-chip').forEach(chip => {
+                // This is a simplified sync for demo. 
+                // In prod, check data-tag attribute.
+            });
+
+            runFilter();
+            closeModal();
         }
 
         function resetAll() {
-            activeTags = [];
-            maxPrice = 10000;
-            document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
-            applyFilters();
+            activeFilters = [];
+            document.getElementById('searchInput').value = '';
+            document.querySelectorAll('.smart-chip').forEach(c => c.classList.remove('active'));
+            document.querySelectorAll('.adv-filter').forEach(c => c.checked = false);
+            runFilter();
+            closeModal();
         }
 
-        // === UI UTILS ===
-        function openFilters() {
-            document.getElementById('filterOverlay').classList.add('open');
-            document.body.style.overflow = 'hidden'; // Prevent background scroll
-        }
-
-        function closeFilters() {
-            document.getElementById('filterOverlay').classList.remove('open');
-            document.body.style.overflow = '';
-        }
-
-        // Search Listener
-        document.getElementById('searchInput').addEventListener('input', applyFilters);
+        // Listeners
+        document.getElementById('searchInput').addEventListener('input', runFilter);
 
         // Init
         render(directors);
-        AOS.init();
 
     </script>
 </body>
