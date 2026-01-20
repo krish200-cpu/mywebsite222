@@ -3,337 +3,502 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Curated Typography | FuneralMatch</title>
+    <title>Order of Service Builder | FuneralMatch</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,700;1,6..96,400&family=Cinzel:wght@400;700&family=Cormorant:ital,wght@0,400;0,600;1,400&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=EB+Garamond:ital,wght@0,400;0,700;1,400&family=Garamond&family=IBM+Plex+Serif:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;600&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Lora:ital,wght@0,400;0,600;1,400&family=Marcellus&family=Merriweather:ital,wght@0,300;0,700;1,300&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Source+Serif+Pro:wght@400;600&family=Spectral:ital,wght@0,400;0,600;1,400&family=Nunito:wght@400;700&family=Lato:wght@400;700&family=Open+Sans:wght@400;700&family=Roboto:wght@400;700&family=Cardo&family=DM+Serif+Display&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
 
     <style>
-        /* --- CORE VARIABLES --- */
+        /* --- 1. CORE IDENTITY --- */
         :root {
-            --bg: #050505;
-            --surface: #121212;
+            --bg-app: #050505;
+            --bg-panel: #111;
             --border: #222;
             --gold: #D4AF37;
-            --page-ratio: 1.414;
+            --gold-dim: rgba(212, 175, 55, 0.1);
+            --paper-color: #ffffff;
+            --ink-color: #1a1a1a;
+            --safe-bottom: env(safe-area-inset-bottom, 20px);
         }
 
         body {
-            background-color: var(--bg);
+            background-color: var(--bg-app);
             color: white;
             font-family: 'Inter', sans-serif;
             height: 100vh;
             overflow: hidden;
+            display: flex;
+            flex-direction: column;
         }
 
-        /* --- WORKSPACE --- */
-        .workspace-container {
-            height: 100%;
+        /* --- 2. WORKSPACE (The Scrollable Area) --- */
+        #workspace {
+            flex: 1;
             overflow-y: auto;
             scroll-behavior: smooth;
-            padding: 80px 20px 160px 20px;
-            display: flex; flex-direction: column; align-items: center; gap: 40px;
+            padding: 20px 16px 140px 16px; /* Bottom padding for dock */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        .page-card {
-            width: 100%; max-width: 500px; aspect-ratio: 1 / var(--page-ratio);
-            background: white; color: black; position: relative; border-radius: 4px;
-            box-shadow: 0 20px 50px -10px rgba(0,0,0,0.5); transition: 0.3s ease;
-        }
-        
-        /* Editables */
-        [contenteditable="true"] {
-            outline: none; border: 1px dashed transparent; transition: 0.2s; cursor: text;
-        }
-        [contenteditable="true"]:hover { border-color: var(--gold); background: rgba(0,0,0,0.02); }
-        [contenteditable="true"]:focus { border-color: var(--gold); background: rgba(212, 175, 55, 0.05); }
-
-        /* --- FONT DRAWER (The Star) --- */
-        #font-drawer {
-            position: fixed; bottom: 0; left: 0; right: 0; height: 85vh;
-            background: #111; border-top-left-radius: 24px; border-top-right-radius: 24px;
-            z-index: 100; transform: translateY(100%); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            display: flex; flex-direction: column; box-shadow: 0 -20px 60px rgba(0,0,0,0.9);
-            border-top: 1px solid #333;
-        }
-        #font-drawer.open { transform: translateY(0); }
-
-        .drawer-header {
-            padding: 20px; border-bottom: 1px solid #222;
-            display: flex; flex-direction: column; gap: 16px; background: rgba(17,17,17,0.95);
+        /* The Paper Sheet */
+        .sheet {
+            width: 100%;
+            max-width: 600px;
+            min-height: 800px;
+            background-color: var(--paper-color);
+            color: var(--ink-color);
+            padding: 40px 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            position: relative;
         }
 
-        .search-input {
-            width: 100%; background: #050505; border: 1px solid #333; color: white;
-            padding: 14px 16px; border-radius: 12px; font-size: 14px; outline: none;
+        /* Paper Colors */
+        .sheet.theme-cream { background-color: #fdfbf7; color: #2c2c2c; }
+        .sheet.theme-stone { background-color: #f5f5f4; color: #44403c; }
+        .sheet.theme-white { background-color: #ffffff; color: #000000; }
+
+        /* Typography Themes */
+        .sheet.font-classic h2 { font-family: 'Bodoni Moda', serif; }
+        .sheet.font-modern h2 { font-family: 'Inter', sans-serif; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 700; }
+        .sheet.font-formal h2 { font-family: 'Cinzel', serif; }
+        .sheet.font-soft h2 { font-family: 'Cormorant Garamond', serif; font-style: italic; }
+
+        /* --- 3. SECTIONS (The Content) --- */
+        .section-item {
+            position: relative;
+            padding: 16px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
             transition: 0.2s;
         }
-        .search-input:focus { border-color: var(--gold); }
-
-        /* Font List Layout */
-        .font-list {
-            flex: 1; overflow-y: auto; padding: 0 0 40px 0;
+        .section-item:last-child { border-bottom: none; }
+        
+        .section-item:hover { background: rgba(0,0,0,0.02); }
+        .section-item.focused { 
+            background: rgba(212, 175, 55, 0.05); 
+            border-radius: 8px; 
+            padding: 16px;
+            margin: 4px 0;
+            border-bottom: none;
+            box-shadow: 0 0 0 2px var(--gold);
         }
 
-        .font-category-header {
-            position: sticky; top: 0; background: #1a1a1a;
-            padding: 12px 20px; font-size: 10px; font-weight: 700; 
-            text-transform: uppercase; letter-spacing: 0.1em; color: #888;
-            border-bottom: 1px solid #222; border-top: 1px solid #222; z-index: 10;
+        /* Inline Editing Styling */
+        .editable-title {
+            font-size: 1.25rem; font-weight: bold; margin-bottom: 8px; outline: none;
+        }
+        .editable-body {
+            font-size: 0.95rem; line-height: 1.6; white-space: pre-wrap; outline: none; opacity: 0.8;
+        }
+        .editable-meta {
+            font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: #888; margin-bottom: 4px; outline: none;
         }
 
-        .font-item {
-            padding: 16px 20px; cursor: pointer;
-            display: flex; justify-content: space-between; align-items: center;
-            border-bottom: 1px solid #222; transition: 0.2s;
+        /* Action Buttons (Hover) */
+        .section-actions {
+            position: absolute; right: 0; top: 10px;
+            display: none; gap: 8px;
         }
-        .font-item:hover { background: #222; }
-        .font-item.selected { background: rgba(197, 160, 89, 0.1); }
-        .font-item.selected .font-name { color: var(--gold); }
+        .section-item.focused .section-actions { display: flex; }
 
-        .font-name { font-size: 18px; color: white; margin-bottom: 4px; }
-        .font-meta { font-size: 10px; color: #555; text-transform: uppercase; }
+        .btn-mini {
+            width: 24px; height: 24px; border-radius: 4px;
+            background: #eee; color: #333; display: flex; align-items: center; justify-content: center;
+            font-size: 12px; cursor: pointer;
+        }
+        .btn-mini.delete:hover { background: #fee2e2; color: #dc2626; }
 
-        /* --- HEADER & DOCK --- */
-        .glass-bar {
-            background: rgba(20, 20, 20, 0.95); backdrop-filter: blur(20px);
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        .top-bar {
-            position: fixed; top: 0; left: 0; right: 0; height: 60px; z-index: 50;
-            display: flex; justify-content: space-between; align-items: center; padding: 0 20px;
-        }
+        /* --- 4. NAVIGATION DOCK --- */
         .dock {
-            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
-            border-radius: 99px; padding: 8px; z-index: 50; display: flex; gap: 8px;
+            position: fixed; bottom: 0; left: 0; right: 0;
+            background: rgba(17, 17, 17, 0.95);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border-top: 1px solid var(--border);
+            padding: 12px 16px;
+            padding-bottom: max(12px, var(--safe-bottom));
+            display: flex; gap: 12px; z-index: 50;
+            box-shadow: 0 -10px 40px rgba(0,0,0,0.5);
         }
+
         .dock-btn {
-            height: 48px; padding: 0 24px; border-radius: 99px; font-size: 11px;
-            font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
-            display: flex; align-items: center; gap: 8px; cursor: pointer;
-            color: #ccc; border: 1px solid transparent; background: rgba(255,255,255,0.05);
+            flex: 1; height: 48px; border-radius: 12px;
+            background: #222; border: 1px solid #333; color: #aaa;
+            font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
+            display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
+            cursor: pointer; transition: 0.2s;
         }
-        .dock-btn.primary { background: var(--gold); color: black; }
+        .dock-btn i { font-size: 16px; }
+        .dock-btn.active { color: var(--gold); border-color: var(--gold); background: var(--gold-dim); }
+        
+        .dock-btn.primary {
+            background: var(--gold); color: black; border-color: var(--gold);
+        }
+
+        /* --- 5. MODALS (Drawers) --- */
+        .drawer {
+            position: fixed; bottom: 0; left: 0; right: 0;
+            background: #151515; border-top: 1px solid #333;
+            border-radius: 24px 24px 0 0;
+            padding: 24px; z-index: 100;
+            transform: translateY(110%); transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 -20px 100px black;
+            max-height: 80vh; overflow-y: auto;
+        }
+        .drawer.open { transform: translateY(0); }
+
+        .drawer-header {
+            display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;
+        }
+        .drawer-title { font-size: 14px; font-weight: 700; color: white; text-transform: uppercase; letter-spacing: 0.1em; }
+
+        /* Grid for Options */
+        .option-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+        .option-card {
+            background: #0a0a0a; border: 1px solid #333; border-radius: 8px; padding: 16px;
+            text-align: center; cursor: pointer; transition: 0.2s;
+        }
+        .option-card:hover { border-color: #666; }
+        .option-card.selected { border-color: var(--gold); background: var(--gold-dim); }
+        .option-card i { font-size: 20px; margin-bottom: 8px; color: #666; }
+        .option-card.selected i { color: var(--gold); }
+        .option-label { font-size: 11px; font-weight: 600; color: #ccc; }
+
+        /* --- 6. REORDER MODE --- */
+        .reorder-handle {
+            display: none; /* Hidden by default */
+            width: 32px; height: 32px; background: #eee; border-radius: 4px;
+            align-items: center; justify-content: center; color: #333;
+            position: absolute; left: -40px; top: 16px; cursor: grab;
+        }
+        .reorder-mode .section-item { padding-left: 0; }
+        .reorder-mode .reorder-handle { display: flex; }
+        
+        .reorder-controls {
+            display: none; gap: 8px; position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
+        }
+        .reorder-mode .reorder-controls { display: flex; }
+        .reorder-mode .section-actions { display: none !important; } /* Hide delete in reorder mode */
+
+        /* --- 7. PRINT STYLES --- */
+        @media print {
+            body { background: white; height: auto; overflow: visible; }
+            .dock, .top-bar, .section-actions, .reorder-controls { display: none !important; }
+            #workspace { padding: 0; margin: 0; overflow: visible; }
+            .sheet { 
+                box-shadow: none; border-radius: 0; max-width: 100%; width: 100%; 
+                padding: 0; margin: 0; min-height: auto;
+            }
+            .section-item.focused { box-shadow: none; background: transparent; padding: 16px 0; }
+        }
 
     </style>
 </head>
 <body>
 
-    <div class="glass-bar top-bar">
+    <div class="top-bar fixed top-0 w-full h-14 bg-[#0a0a0a]/90 backdrop-blur border-b border-[#222] z-40 flex items-center justify-between px-4">
         <div>
-            <span class="text-[9px] uppercase font-bold text-[#D4AF37] tracking-widest block">FuneralMatch</span>
-            <span class="text-xs font-bold text-white">Typography Suite</span>
+            <span class="text-[9px] font-bold text-[#D4AF37] uppercase tracking-widest block">FuneralMatch</span>
+            <span class="text-xs font-bold text-white">Order of Service</span>
         </div>
-        <button class="text-xs font-bold text-[#D4AF37]" onclick="alert('Saving...')">Save</button>
+        <button onclick="window.print()" class="text-xs font-bold text-white bg-[#222] border border-[#333] px-3 py-1.5 rounded hover:bg-[#333]">
+            <i class="fas fa-print mr-2"></i> Print PDF
+        </button>
     </div>
 
-    <div class="workspace-container" id="workspace">
-        <div class="page-card">
-            <div class="h-full flex flex-col items-center justify-center text-center p-8">
-                <div class="mb-6 text-xs uppercase tracking-widest text-gray-500" contenteditable="true" onfocus="setActive(this)">In Loving Memory of</div>
-                <div class="w-40 h-40 rounded-full bg-gray-100 mb-6 flex items-center justify-center text-gray-300 border-4 border-double border-gray-200">
-                    <i class="fas fa-camera text-2xl"></i>
+    <div id="workspace">
+        <div id="sheet" class="sheet theme-cream font-classic">
+            <div class="text-center mb-12 border-b border-black/10 pb-8">
+                <div class="outline-none text-xs uppercase tracking-widest opacity-60 mb-4" contenteditable="true">A Celebration of Life</div>
+                <div class="outline-none text-4xl mb-2 font-bold" contenteditable="true">Eleanor Rigby</div>
+                <div class="outline-none text-sm opacity-60 italic" contenteditable="true">1950 — 2026</div>
+            </div>
+
+            <div id="sections-container">
                 </div>
-                <div class="text-5xl mb-4 leading-tight" style="font-family: 'Garamond', serif;" contenteditable="true" onfocus="setActive(this)">Eleanor<br>Rigby</div>
-                <div class="text-sm mb-8 text-gray-600" contenteditable="true" onfocus="setActive(this)">1950 — 2026</div>
-                <div class="mt-auto text-[10px] uppercase font-bold text-gray-400" contenteditable="true" onfocus="setActive(this)">St Mary's Church</div>
+
+            <div class="mt-12 pt-8 border-t border-black/10 text-center text-xs opacity-50">
+                <div contenteditable="true">St Mary's Church</div>
             </div>
         </div>
     </div>
 
-    <div class="glass-bar dock">
-        <button class="dock-btn" onclick="openFontDrawer()">
-            <i class="fas fa-font"></i> <span>Typography</span>
+    <div class="dock">
+        <button class="dock-btn" onclick="openDrawer('add')">
+            <i class="fas fa-plus-circle"></i> <span>Add</span>
         </button>
-        <button class="dock-btn primary">
-            <span>Done</span>
+        <button class="dock-btn" onclick="openDrawer('design')">
+            <i class="fas fa-palette"></i> <span>Design</span>
+        </button>
+        <button class="dock-btn" id="btn-reorder" onclick="toggleReorderMode()">
+            <i class="fas fa-sort"></i> <span>Reorder</span>
+        </button>
+        <button class="dock-btn primary" onclick="openDrawer('templates')">
+            <i class="fas fa-magic"></i> <span>Templates</span>
         </button>
     </div>
 
-    <div id="font-drawer">
+    <div id="drawer-add" class="drawer">
         <div class="drawer-header">
-            <div class="flex justify-between items-center">
-                <span class="text-xs font-bold text-gray-500 uppercase tracking-widest">Select Typeface</span>
-                <button onclick="closeFontDrawer()" class="text-gray-400 hover:text-white"><i class="fas fa-times text-xl"></i></button>
+            <span class="drawer-title">Add Section</span>
+            <button onclick="closeDrawers()" class="text-gray-500"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="option-grid">
+            <div class="option-card" onclick="addSection('hymn')">
+                <i class="fas fa-music"></i>
+                <div class="option-label">Hymn</div>
             </div>
-            <input type="text" id="font-search" class="search-input" placeholder="Search curated fonts..." onkeyup="filterFonts()">
+            <div class="option-card" onclick="addSection('reading')">
+                <i class="fas fa-book-open"></i>
+                <div class="option-label">Reading</div>
+            </div>
+            <div class="option-card" onclick="addSection('eulogy')">
+                <i class="fas fa-user"></i>
+                <div class="option-label">Eulogy</div>
+            </div>
+            <div class="option-card" onclick="addSection('prayer')">
+                <i class="fas fa-praying-hands"></i>
+                <div class="option-label">Prayer</div>
+            </div>
+            <div class="option-card" onclick="addSection('music')">
+                <i class="fas fa-play-circle"></i>
+                <div class="option-label">Music</div>
+            </div>
+            <div class="option-card" onclick="addSection('text')">
+                <i class="fas fa-align-left"></i>
+                <div class="option-label">Text Block</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="drawer-design" class="drawer">
+        <div class="drawer-header">
+            <span class="drawer-title">Design Style</span>
+            <button onclick="closeDrawers()" class="text-gray-500"><i class="fas fa-times"></i></button>
         </div>
         
-        <div class="font-list" id="font-list-container">
+        <p class="text-[10px] uppercase font-bold text-gray-500 mb-2">Typography</p>
+        <div class="grid grid-cols-2 gap-3 mb-6">
+            <div class="option-card" onclick="setFont('classic')">
+                <span class="font-serif text-lg">Aa</span>
+                <div class="option-label">Classic</div>
             </div>
+            <div class="option-card" onclick="setFont('modern')">
+                <span class="font-sans font-bold text-lg">Aa</span>
+                <div class="option-label">Modern</div>
+            </div>
+            <div class="option-card" onclick="setFont('formal')">
+                <span style="font-family: 'Cinzel', serif" class="text-lg">Aa</span>
+                <div class="option-label">Formal</div>
+            </div>
+            <div class="option-card" onclick="setFont('soft')">
+                <span style="font-family: 'Cormorant Garamond', serif" class="italic text-lg">Aa</span>
+                <div class="option-label">Soft</div>
+            </div>
+        </div>
+
+        <p class="text-[10px] uppercase font-bold text-gray-500 mb-2">Paper</p>
+        <div class="flex gap-3">
+            <div onclick="setPaper('cream')" class="w-12 h-12 rounded-full bg-[#fdfbf7] border border-gray-600 cursor-pointer"></div>
+            <div onclick="setPaper('stone')" class="w-12 h-12 rounded-full bg-[#f5f5f4] border border-gray-600 cursor-pointer"></div>
+            <div onclick="setPaper('white')" class="w-12 h-12 rounded-full bg-white border border-gray-600 cursor-pointer"></div>
+        </div>
+    </div>
+
+    <div id="drawer-templates" class="drawer">
+        <div class="drawer-header">
+            <span class="drawer-title">Quick Templates</span>
+            <button onclick="closeDrawers()" class="text-gray-500"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="space-y-3">
+            <div class="option-card flex flex-row items-center gap-4 text-left" onclick="loadTemplate('traditional')">
+                <i class="fas fa-church text-2xl"></i>
+                <div>
+                    <div class="text-white font-bold text-sm">Traditional Church</div>
+                    <div class="text-[10px] text-gray-500">Hymns, Prayers, Readings</div>
+                </div>
+            </div>
+            <div class="option-card flex flex-row items-center gap-4 text-left" onclick="loadTemplate('simple')">
+                <i class="fas fa-leaf text-2xl"></i>
+                <div>
+                    <div class="text-white font-bold text-sm">Simple Cremation</div>
+                    <div class="text-[10px] text-gray-500">Entrance, Eulogy, Reflection</div>
+                </div>
+            </div>
+            <div class="option-card flex flex-row items-center gap-4 text-left" onclick="loadTemplate('celebration')">
+                <i class="fas fa-glass-cheers text-2xl"></i>
+                <div>
+                    <div class="text-white font-bold text-sm">Celebration of Life</div>
+                    <div class="text-[10px] text-gray-500">Music, Tributes, Stories</div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
-        // === 1. CURATED FONT DATABASE (Categorized) ===
-        // Mapped to Web-Safe or Google Font Equivalents for live rendering
-        const FONT_DATA = [
-            {
-                category: "Classic Serif (Traditional)",
-                fonts: [
-                    { name: "Garamond", family: "'EB Garamond', serif" },
-                    { name: "Baskerville", family: "'Libre Baskerville', serif" },
-                    { name: "Times New Roman", family: "'Times New Roman', serif" },
-                    { name: "Palatino", family: "'Palatino Linotype', 'Book Antiqua', serif" },
-                    { name: "Sabon", family: "'Crimson Text', serif" }, // Web approx
-                    { name: "Bembo", family: "'Cardo', serif" }, // Web approx
-                    { name: "Caslon", family: "'Libre Caslon Text', serif" },
-                    { name: "Minion Pro", family: "'Crimson Text', serif" }, // Web approx
-                    { name: "Perpetua", family: "'Baskerville', serif" }, // Web approx
-                    { name: "Book Antiqua", family: "'Book Antiqua', serif" }
-                ]
-            },
-            {
-                category: "Soft Modern Serif (Elegant)",
-                fonts: [
-                    { name: "Georgia", family: "Georgia, serif" },
-                    { name: "Merriweather", family: "'Merriweather', serif" },
-                    { name: "Crimson Text", family: "'Crimson Text', serif" },
-                    { name: "Cormorant", family: "'Cormorant', serif" },
-                    { name: "Charter", family: "'Charter', 'Bitstream Charter', serif" },
-                    { name: "Spectral", family: "'Spectral', serif" },
-                    { name: "Tisa", family: "'Merriweather', serif" }, // Web approx
-                    { name: "Libre Baskerville", family: "'Libre Baskerville', serif" }
-                ]
-            },
-            {
-                category: "Neutral Sans-Serif (Clean)",
-                fonts: [
-                    { name: "Helvetica", family: "Helvetica, Arial, sans-serif" },
-                    { name: "Helvetica Neue", family: "'Helvetica Neue', Arial, sans-serif" },
-                    { name: "Arial", family: "Arial, sans-serif" },
-                    { name: "Gill Sans", family: "'Gill Sans', 'Gill Sans MT', sans-serif" },
-                    { name: "Optima", family: "'Marcellus', sans-serif" }, // Web approx (Marcellus has Optima vibe)
-                    { name: "Avenir", family: "'Nunito', sans-serif" }, // Web approx
-                    { name: "Univers", family: "'Roboto', sans-serif" }, // Web approx
-                    { name: "Calibri", family: "Calibri, sans-serif" },
-                    { name: "Segoe UI", family: "'Segoe UI', sans-serif" },
-                    { name: "Frutiger", family: "'Hind', sans-serif" } // Web approx
-                ]
-            },
-            {
-                category: "Subtle Formal Display (Names)",
-                fonts: [
-                    { name: "Trajan Pro", family: "'Cinzel', serif" }, // Web approx
-                    { name: "Copperplate", family: "Copperplate, serif" },
-                    { name: "Didot", family: "'Playfair Display', serif" }, // Web approx
-                    { name: "Bodoni", family: "'Bodoni Moda', serif" },
-                    { name: "Cinzel", family: "'Cinzel', serif" },
-                    { name: "Playfair Display", family: "'Playfair Display', serif" },
-                    { name: "EB Garamond", family: "'EB Garamond', serif" },
-                    { name: "Adobe Caslon Pro", family: "'Libre Caslon Text', serif" },
-                    { name: "Lora", family: "'Lora', serif" },
-                    { name: "Libre Caslon Text", family: "'Libre Caslon Text', serif" },
-                    { name: "Source Serif Pro", family: "'Source Serif Pro', serif" },
-                    { name: "IBM Plex Serif", family: "'IBM Plex Serif', serif" }
-                ]
-            }
-        ];
+        // === STATE ===
+        const state = {
+            sections: [],
+            theme: { font: 'classic', paper: 'cream' },
+            reorderMode: false
+        };
 
-        let activeElement = null; // The text currently being edited
+        // === CONTENT TEMPLATES ===
+        const CONTENT_TYPES = {
+            hymn: { title: "Hymn", meta: "Please Stand", body: "Abide with me; fast falls the eventide;\nThe darkness deepens; Lord with me abide." },
+            reading: { title: "Reading", meta: "Read by John", body: "She is Gone.\nYou can shed tears that she is gone\nOr you can smile because she has lived." },
+            eulogy: { title: "Eulogy", meta: "Read by Sarah", body: "A tribute to a wonderful life..." },
+            prayer: { title: "The Lord's Prayer", meta: "All together", body: "Our Father, who art in heaven..." },
+            music: { title: "Entrance Music", meta: "Listen", body: "My Way - Frank Sinatra" },
+            text: { title: "Welcome", meta: "", body: "Thank you for joining us today." }
+        };
 
-        // === 2. INIT ===
+        const TEMPLATE_SETS = {
+            traditional: ['music', 'text', 'hymn', 'reading', 'eulogy', 'prayer', 'hymn', 'music'],
+            simple: ['music', 'text', 'eulogy', 'music', 'text'],
+            celebration: ['music', 'text', 'reading', 'eulogy', 'music']
+        };
+
+        // === INIT ===
         function init() {
-            renderFontList();
-            
-            // Auto-select the main name on load
-            setTimeout(() => {
-                const nameEl = document.querySelector('.text-5xl');
-                setActive(nameEl);
-            }, 500);
+            loadTemplate('simple');
         }
 
-        // === 3. RENDER FONT LIST ===
-        function renderFontList() {
-            const container = document.getElementById('font-list-container');
+        // === RENDER ENGINE ===
+        function render() {
+            const container = document.getElementById('sections-container');
             container.innerHTML = '';
 
-            FONT_DATA.forEach(group => {
-                // Header
-                const header = document.createElement('div');
-                header.className = 'font-category-header';
-                header.innerText = group.category;
-                container.appendChild(header);
-
-                // Fonts
-                group.fonts.forEach(font => {
-                    const item = document.createElement('div');
-                    item.className = 'font-item';
-                    item.onclick = () => applyFont(font.name, font.family);
+            state.sections.forEach((section, index) => {
+                const el = document.createElement('div');
+                el.className = `section-item ${state.reorderMode ? '' : 'interactive'}`;
+                el.dataset.index = index;
+                
+                // HTML Structure
+                el.innerHTML = `
+                    <div class="editable-meta" contenteditable="${!state.reorderMode}">${section.meta}</div>
+                    <div class="editable-title" contenteditable="${!state.reorderMode}">${section.title}</div>
+                    <div class="editable-body" contenteditable="${!state.reorderMode}">${section.body}</div>
                     
-                    item.innerHTML = `
-                        <div class="flex-1">
-                            <div class="font-name" style="font-family: ${font.family}">${font.name}</div>
-                            <div class="font-meta">${group.category.split(' ')[0]}</div>
-                        </div>
-                        <i class="fas fa-check text-[#D4AF37] opacity-0 check-icon"></i>
-                    `;
+                    <div class="section-actions">
+                        <button class="btn-mini delete" onclick="deleteSection(${index})"><i class="fas fa-trash"></i></button>
+                    </div>
+
+                    <div class="reorder-controls">
+                        <button class="w-8 h-8 rounded bg-[#eee] flex items-center justify-center hover:bg-[#ddd]" onclick="moveSection(${index}, -1)">
+                            <i class="fas fa-arrow-up"></i>
+                        </button>
+                        <button class="w-8 h-8 rounded bg-[#eee] flex items-center justify-center hover:bg-[#ddd]" onclick="moveSection(${index}, 1)">
+                            <i class="fas fa-arrow-down"></i>
+                        </button>
+                    </div>
+                `;
+
+                // Events for Focus styling
+                if(!state.reorderMode) {
+                    el.addEventListener('click', (e) => {
+                        document.querySelectorAll('.section-item').forEach(i => i.classList.remove('focused'));
+                        el.classList.add('focused');
+                    });
                     
-                    // Store search data
-                    item.dataset.search = (font.name + " " + group.category).toLowerCase();
-                    container.appendChild(item);
-                });
-            });
-        }
-
-        // === 4. ACTIVE ELEMENT LOGIC ===
-        function setActive(el) {
-            // Remove previous focus style
-            if(activeElement) activeElement.style.border = '1px dashed transparent';
-            
-            activeElement = el;
-            activeElement.style.border = '1px dashed #D4AF37';
-        }
-
-        // === 5. APPLY FONT LOGIC ===
-        function applyFont(name, familyStr) {
-            if(!activeElement) {
-                alert("Tap a text area on the page first.");
-                return;
-            }
-
-            // Apply style
-            activeElement.style.fontFamily = familyStr;
-
-            // Visual Feedback in List
-            document.querySelectorAll('.font-item').forEach(el => {
-                el.classList.remove('selected');
-                el.querySelector('.check-icon').classList.add('opacity-0');
-            });
-            event.currentTarget.classList.add('selected');
-            event.currentTarget.querySelector('.check-icon').classList.remove('opacity-0');
-        }
-
-        // === 6. DRAWER CONTROLS ===
-        function openFontDrawer() {
-            if(!activeElement) {
-                // Auto-select name if nothing selected
-                setActive(document.querySelector('.text-5xl'));
-            }
-            document.getElementById('font-drawer').classList.add('open');
-        }
-
-        function closeFontDrawer() {
-            document.getElementById('font-drawer').classList.remove('open');
-        }
-
-        function filterFonts() {
-            const query = document.getElementById('font-search').value.toLowerCase();
-            const items = document.querySelectorAll('.font-item');
-            const headers = document.querySelectorAll('.font-category-header');
-
-            items.forEach(item => {
-                if(item.dataset.search.includes(query)) {
-                    item.style.display = 'flex';
-                } else {
-                    item.style.display = 'none';
+                    // Auto-Save listeners
+                    el.querySelectorAll('[contenteditable]').forEach(editable => {
+                        editable.addEventListener('input', () => saveContent(index, el));
+                    });
                 }
-            });
 
-            // Hide headers if no children are visible (Basic logic)
-            // Ideally we check visibility of next siblings
+                container.appendChild(el);
+            });
+        }
+
+        // === LOGIC ===
+        function addSection(type) {
+            const template = CONTENT_TYPES[type];
+            state.sections.push({ ...template }); // Clone object
+            render();
+            closeDrawers();
+            // Scroll to bottom
+            setTimeout(() => {
+                const container = document.getElementById('workspace');
+                container.scrollTop = container.scrollHeight;
+            }, 100);
+        }
+
+        function deleteSection(index) {
+            if(confirm("Remove this section?")) {
+                state.sections.splice(index, 1);
+                render();
+            }
+        }
+
+        function saveContent(index, element) {
+            state.sections[index].meta = element.querySelector('.editable-meta').innerText;
+            state.sections[index].title = element.querySelector('.editable-title').innerText;
+            state.sections[index].body = element.querySelector('.editable-body').innerText;
+        }
+
+        function loadTemplate(name) {
+            const set = TEMPLATE_SETS[name];
+            state.sections = [];
+            set.forEach(type => {
+                state.sections.push({ ...CONTENT_TYPES[type] });
+            });
+            render();
+            closeDrawers();
+        }
+
+        // === REORDER LOGIC ===
+        function toggleReorderMode() {
+            state.reorderMode = !state.reorderMode;
+            const sheet = document.getElementById('sheet');
+            const btn = document.getElementById('btn-reorder');
+            
+            if(state.reorderMode) {
+                sheet.classList.add('reorder-mode');
+                btn.classList.add('active');
+            } else {
+                sheet.classList.remove('reorder-mode');
+                btn.classList.remove('active');
+            }
+            render(); // Re-render to disable contenteditable
+        }
+
+        function moveSection(index, direction) {
+            const newIndex = index + direction;
+            if (newIndex >= 0 && newIndex < state.sections.length) {
+                // Swap
+                const temp = state.sections[index];
+                state.sections[index] = state.sections[newIndex];
+                state.sections[newIndex] = temp;
+                render();
+            }
+        }
+
+        // === DESIGN LOGIC ===
+        function setFont(font) {
+            const sheet = document.getElementById('sheet');
+            sheet.classList.remove('font-classic', 'font-modern', 'font-formal', 'font-soft');
+            sheet.classList.add(`font-${font}`);
+            closeDrawers();
+        }
+
+        function setPaper(color) {
+            const sheet = document.getElementById('sheet');
+            sheet.classList.remove('theme-cream', 'theme-stone', 'theme-white');
+            sheet.classList.add(`theme-${color}`);
+            closeDrawers();
+        }
+
+        // === DRAWER UX ===
+        function openDrawer(id) {
+            closeDrawers(); // Close others
+            document.getElementById(`drawer-${id}`).classList.add('open');
+        }
+
+        function closeDrawers() {
+            document.querySelectorAll('.drawer').forEach(d => d.classList.remove('open'));
         }
 
         // Boot
