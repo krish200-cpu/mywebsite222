@@ -3,20 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Director Showcase | FuneralMatch</title>
+    <title>Find a Director | FuneralMatch</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@1,400;1,700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 
     <style>
         /* --- 1. CORE THEME --- */
         :root {
             --gold: #C5A059;
+            --gold-light: #F4EFE6;
             --black: #1a1a1a;
-            --soft-bg: #F8F7F5;
+            --soft-bg: #F9F8F6;
             --ease: cubic-bezier(0.16, 1, 0.3, 1);
         }
 
@@ -24,172 +26,275 @@
         body { font-family: 'Inter', sans-serif; background-color: var(--soft-bg); color: var(--black); }
         .serif { font-family: 'Bodoni Moda', serif; }
 
-        /* --- 2. FIXED LOGO --- */
-        .nav-logo { position: fixed; top: 2rem; left: 6%; z-index: 50; }
+        /* --- 2. NAVIGATION --- */
+        .nav-fixed {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            background: rgba(249, 248, 246, 0.95); backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0,0,0,0.05); padding: 1.5rem 2rem;
+            display: flex; justify-content: space-between; align-items: center;
+        }
 
-        /* --- 3. CARD DESIGN --- */
+        /* --- 3. FILTER BAR (Sticky) --- */
+        .filter-bar {
+            position: sticky; top: 80px; z-index: 90; margin-bottom: 2rem;
+            background: white; border-radius: 1rem; border: 1px solid #E5E5E5;
+            padding: 1rem; box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+            display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;
+        }
+
+        .filter-input {
+            background: #F5F5F5; border: none; padding: 0.75rem 1rem; border-radius: 0.5rem;
+            font-size: 0.85rem; outline: none; min-width: 200px; flex: 1;
+        }
+        .filter-select {
+            background: #F5F5F5; border: none; padding: 0.75rem 2rem 0.75rem 1rem; border-radius: 0.5rem;
+            font-size: 0.85rem; outline: none; cursor: pointer; appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23999'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+            background-repeat: no-repeat; background-position: right 0.5rem center; background-size: 1rem;
+        }
+
+        /* --- 4. SPONSORED RESULT --- */
+        .sponsored-card {
+            background: white; border-radius: 2rem; overflow: hidden; position: relative;
+            border: 2px solid var(--gold); /* Highlight */
+            box-shadow: 0 20px 50px rgba(197, 160, 89, 0.15);
+            margin-bottom: 3rem; display: flex; flex-direction: column; md:flex-row;
+        }
+        .sponsored-badge {
+            position: absolute; top: 1.5rem; left: 1.5rem; z-index: 10;
+            background: var(--gold); color: white; padding: 6px 16px; border-radius: 99px;
+            font-size: 0.65rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        /* --- 5. GRID & ADS --- */
         .grid-layout {
             display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); 
-            gap: 2.5rem;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); 
+            gap: 2rem;
         }
 
         .director-card {
-            background: white; border-radius: 2.5rem; border: 1px solid #E5E5E5; 
-            overflow: hidden; transition: transform 0.5s var(--ease), box-shadow 0.5s var(--ease);
+            background: white; border-radius: 2rem; border: 1px solid #E5E5E5; 
+            overflow: hidden; transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease);
             display: flex; flex-direction: column;
         }
         .director-card:hover { 
-            transform: translateY(-12px); 
-            border-color: var(--gold); 
-            box-shadow: 0 30px 80px -10px rgba(197, 160, 89, 0.15); 
+            transform: translateY(-8px); 
+            border-color: #D4D4D4; 
+            box-shadow: 0 20px 40px -5px rgba(0,0,0,0.08); 
         }
 
-        .card-image-wrap {
-            height: 220px; width: 100%; position: relative; overflow: hidden; background: #f0f0f0;
-        }
-        .card-image {
-            width: 100%; height: 100%; object-fit: cover; 
-            filter: grayscale(100%); transition: filter 0.5s var(--ease), transform 0.8s var(--ease);
-        }
-        .director-card:hover .card-image { filter: grayscale(0%); transform: scale(1.05); }
+        .card-image-wrap { height: 200px; position: relative; overflow: hidden; }
+        .card-image { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
+        .director-card:hover .card-image { transform: scale(1.05); }
 
-        .merit-badge {
-            position: absolute; top: 1.5rem; right: 1.5rem;
-            background: rgba(255,255,255,0.95); backdrop-filter: blur(10px);
-            color: var(--black); padding: 6px 14px; border-radius: 99px;
-            font-size: 0.65rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        /* The Native Ad Card */
+        .ad-card {
+            background: #111; color: white; border-radius: 2rem;
+            display: flex; flex-direction: column; justify-content: space-between;
+            padding: 2rem; position: relative; overflow: hidden;
+            border: 1px solid #333; grid-row: span 1;
         }
-
-        .btn-action {
-            width: 100%; background: var(--black); color: white;
-            padding: 1rem; border-radius: 99px; margin-top: 2rem;
-            font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em;
-            transition: 0.3s; cursor: pointer;
+        .ad-label {
+            font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.2em; color: #666; font-weight: 700; margin-bottom: 1rem;
         }
-        .btn-action:hover { background: var(--gold); color: white; }
-
-        .stat-row {
-            display: flex; justify-content: space-between; 
-            font-size: 0.75rem; border-bottom: 1px solid #f5f5f5; padding-bottom: 0.75rem; margin-bottom: 0.75rem;
+        .ad-content h3 { font-family: 'Bodoni Moda', serif; font-size: 1.8rem; margin-bottom: 0.5rem; color: var(--gold); }
+        .ad-bg {
+            position: absolute; top: 0; right: 0; width: 60%; height: 100%;
+            background: linear-gradient(90deg, #111 0%, transparent 100%), url('https://images.unsplash.com/photo-1635323927429-0604a4336034?auto=format&fit=crop&q=80&w=600');
+            background-size: cover; opacity: 0.3; z-index: 0;
         }
-        .stat-label { color: #888; font-weight: 600; }
-        .stat-val { font-weight: 700; color: var(--black); }
 
     </style>
 </head>
-<body class="pt-32">
+<body class="pt-24">
 
-    <div class="nav-logo">
+    <nav class="nav-fixed">
         <div class="flex flex-col items-start">
             <span class="serif text-[10px] font-bold uppercase tracking-[0.3em] mb-1">Funeral</span>
-            <div style="width: 24px; height: 2px; background: var(--gold); margin-bottom: 4px;"></div>
+            <div style="width: 24px; height: 1px; background: var(--gold); margin-bottom: 2px;"></div>
             <span class="serif text-[10px] font-bold text-[#C5A059] uppercase tracking-[0.5em]">Match</span>
         </div>
-    </div>
+        <div class="hidden md:flex gap-6 text-xs font-bold uppercase tracking-widest text-gray-500">
+            <a href="#" class="hover:text-black">Plan</a>
+            <a href="#" class="hover:text-black">Arrange</a>
+            <a href="#" class="hover:text-black">Directors</a>
+        </div>
+    </nav>
 
     <main class="max-w-[1400px] mx-auto px-6 lg:px-12 pb-32">
         
-        <header class="mb-20 max-w-2xl" data-aos="fade-up">
-            <p class="text-[10px] uppercase tracking-widest text-[#C5A059] font-bold mb-6">Curated Selection</p>
-            <h1 class="serif italic text-6xl leading-tight mb-6">Vetted Directors.</h1>
-            <p class="text-sm text-stone-500 leading-relaxed">
-                We have identified 25 independent funeral directors in your area that meet our rigorous standards for care, facility quality, and transparent pricing.
-            </p>
+        <header class="mb-10 mt-4" data-aos="fade-up">
+            <h1 class="serif italic text-5xl mb-2">Director Search.</h1>
+            <p class="text-sm text-stone-500">Comparing 25 vetted independent directors in <span class="text-black font-bold">West London</span>.</p>
         </header>
+
+        <div class="sponsored-card group cursor-pointer" data-aos="fade-up">
+            <div class="sponsored-badge"><i class="fas fa-star mr-1"></i> Premier Partner</div>
+            <div class="grid grid-cols-1 md:grid-cols-3 h-full">
+                <div class="h-64 md:h-auto relative overflow-hidden bg-gray-100">
+                    <img src="https://images.unsplash.com/photo-1560185007-c5ca9d2c014d?auto=format&fit=crop&q=80&w=800" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition duration-700">
+                </div>
+                <div class="col-span-2 p-8 md:p-12 flex flex-col justify-center">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <p class="text-[10px] uppercase tracking-widest text-gray-400 font-bold mb-2">Independent Family Owned</p>
+                            <h2 class="serif text-3xl md:text-4xl mb-2 group-hover:text-[#C5A059] transition">Regency & Sons</h2>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-2xl font-bold font-serif">£3,500</div>
+                            <div class="text-[10px] text-gray-400 uppercase">Est. Total</div>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-500 leading-relaxed mb-8 max-w-xl">
+                        Our premier partner in West London. Regency & Sons offers an award-winning facility with private chapels of rest and a fleet of silver Daimler hearses. Rated 10.0 for family care.
+                    </p>
+                    <div class="flex gap-4">
+                        <button class="bg-[#C5A059] text-white px-8 py-3 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-black transition">Request Callback</button>
+                        <button class="border border-gray-200 px-8 py-3 rounded-full text-xs font-bold uppercase tracking-widest hover:border-black transition">View Profile</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="filter-bar" id="filters">
+            <div class="flex items-center gap-3 flex-1">
+                <i class="fas fa-search text-gray-400"></i>
+                <input type="text" id="searchInput" class="filter-input bg-transparent p-0" placeholder="Search by name or location...">
+            </div>
+            <div class="h-8 w-px bg-gray-200 hidden md:block"></div>
+            <select id="sortSelect" class="filter-select">
+                <option value="relevance">Sort: Recommended</option>
+                <option value="price_low">Price: Low to High</option>
+                <option value="price_high">Price: High to Low</option>
+                <option value="rating">Merit: Highest Rated</option>
+            </select>
+            <div class="flex items-center gap-2">
+                <input type="checkbox" id="premiumFilter" class="w-4 h-4 accent-[#C5A059] rounded cursor-pointer">
+                <label for="premiumFilter" class="text-xs font-bold uppercase tracking-widest cursor-pointer select-none">Premium Only</label>
+            </div>
+        </div>
 
         <div class="grid-layout" id="results-grid">
             </div>
 
-        <div class="mt-32 p-16 rounded-[3rem] border-2 border-dashed border-[#C5A059] bg-white flex flex-col md:flex-row items-center justify-between gap-10" data-aos="zoom-in" data-aos-offset="200">
-            <div class="max-w-xl text-center md:text-left">
-                <p class="text-[10px] uppercase tracking-widest text-[#C5A059] font-bold mb-4">Strategic Partnership</p>
-                <h4 class="serif italic text-4xl mb-4">Planning Ahead?</h4>
-                <p class="text-sm text-stone-500 leading-relaxed">Secure today's prices through our vetted partner, <strong>Dignity Funeral Plans</strong>. Total peace of mind, nationwide coverage, and capital protection.</p>
-            </div>
-            <button class="bg-black text-white px-10 py-4 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-[#C5A059] transition-colors">
-                View Plans
-            </button>
-        </div>
-
     </main>
 
     <script>
-        // === DATA SOURCE (25 Entries) ===
+        // === DATA SOURCE ===
         const directors = [
-            { name: "Premier Funeral Care", loc: "West London", price: "£1,850", rating: "9.8 Compliance", img: "https://images.unsplash.com/photo-1517457373958-b7bdd4587205" },
-            { name: "Sterling & Sons", loc: "Kensington", price: "£2,100", rating: "9.9 Premium", img: "https://images.unsplash.com/photo-1544197150-b99a580bb7a8" },
-            { name: "Oakwood Independent", loc: "Hampstead", price: "£1,950", rating: "9.6 Trusted", img: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab" },
-            { name: "Willow & Grace", loc: "Notting Hill", price: "£2,400", rating: "9.8 Eco-Focus", img: "https://images.unsplash.com/photo-1605152276897-4f618f831968" },
-            { name: "Heritage Tributes", loc: "Chelsea", price: "£2,800", rating: "10.0 Elite", img: "https://images.unsplash.com/photo-1595267664402-239634e9df28" },
-            { name: "Compassionate Care", loc: "Fulham", price: "£1,750", rating: "9.5 Value", img: "https://images.unsplash.com/photo-1518176258769-f227c798150e" },
-            { name: "Modern Farewells", loc: "Shoreditch", price: "£2,000", rating: "9.7 Contemporary", img: "https://images.unsplash.com/photo-1497366216548-37526070297c" },
-            { name: "Traditional Family", loc: "Richmond", price: "£2,250", rating: "9.8 Heritage", img: "https://images.unsplash.com/photo-1596230529625-7ee541361149" },
-            { name: "Serenity Services", loc: "Wimbledon", price: "£1,900", rating: "9.6 Care", img: "https://images.unsplash.com/photo-1519817650390-64a93db51149" },
-            { name: "Maritime Tributes", loc: "Greenwich", price: "£2,500", rating: "9.9 Specialist", img: "https://images.unsplash.com/photo-1468581264429-2548ef9eb732" },
-            { name: "Urban Funeral Co.", loc: "Hackney", price: "£1,800", rating: "9.5 Modern", img: "https://images.unsplash.com/photo-1481277542470-605612bd2d61" },
-            { name: "Starlight Memorials", loc: "Islington", price: "£2,150", rating: "9.7 Service", img: "https://images.unsplash.com/photo-1507643179173-617d654f9229" },
-            { name: "Golden Leaves", loc: "Chiswick", price: "£2,300", rating: "9.8 Premium", img: "https://images.unsplash.com/photo-1518640165980-d3e0e2aa6c1e" },
-            { name: "Silver Linings", loc: "Battersea", price: "£1,950", rating: "9.6 Trusted", img: "https://images.unsplash.com/photo-1505236858219-8359eb29e329" },
-            { name: "Tranquil Paths", loc: "Ealing", price: "£1,850", rating: "9.5 Value", img: "https://images.unsplash.com/photo-1447023029226-ef8f6b52e3ea" },
-            { name: "Regency Funerals", loc: "Mayfair", price: "£3,500", rating: "10.0 Luxury", img: "https://images.unsplash.com/photo-1560185007-c5ca9d2c014d" },
-            { name: "Echo Wood", loc: "Highgate", price: "£2,600", rating: "9.9 Natural", img: "https://images.unsplash.com/photo-1473448912268-2022ce9509d8" },
-            { name: "Civic Services", loc: "Westminster", price: "£2,400", rating: "9.8 Formal", img: "https://images.unsplash.com/photo-1548625361-eeca69305432" },
-            { name: "Kindred Spirits", loc: "Camden", price: "£2,050", rating: "9.7 Independent", img: "https://images.unsplash.com/photo-1528696892704-5e1122852276" },
-            { name: "Eternal Peace", loc: "Hammersmith", price: "£1,900", rating: "9.6 Care", img: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7" },
-            { name: "Noble & Sons", loc: "Clapham", price: "£2,200", rating: "9.8 Family", img: "https://images.unsplash.com/photo-1551590192-807e80d2c110" },
-            { name: "Sunrise Care", loc: "Stratford", price: "£1,700", rating: "9.4 Value", img: "https://images.unsplash.com/photo-1494548162494-384bba4ab999" },
-            { name: "Harmony Funerals", loc: "Brixton", price: "£1,950", rating: "9.6 Community", img: "https://images.unsplash.com/photo-1576662712957-e2b9c2a316a6" },
-            { name: "Prestige Directors", loc: "Knightsbridge", price: "£3,200", rating: "9.9 Elite", img: "https://images.unsplash.com/photo-1562654501-a0ccc0fc3fb1" },
-            { name: "Final Journey", loc: "Putney", price: "£2,100", rating: "9.7 Professional", img: "https://images.unsplash.com/photo-1519222970733-f546218fa6d7" }
+            { name: "Premier Funeral Care", loc: "West London", price: 1850, rating: 9.8, img: "https://images.unsplash.com/photo-1517457373958-b7bdd4587205", type: "Standard" },
+            { name: "Sterling & Sons", loc: "Kensington", price: 2100, rating: 9.9, img: "https://images.unsplash.com/photo-1544197150-b99a580bb7a8", type: "Premium" },
+            { name: "Oakwood Independent", loc: "Hampstead", price: 1950, rating: 9.6, img: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab", type: "Standard" },
+            { name: "Willow & Grace", loc: "Notting Hill", price: 2400, rating: 9.8, img: "https://images.unsplash.com/photo-1605152276897-4f618f831968", type: "Premium" },
+            { name: "Compassionate Care", loc: "Fulham", price: 1750, rating: 9.5, img: "https://images.unsplash.com/photo-1518176258769-f227c798150e", type: "Standard" },
+            // Insert AD here in render loop
+            { name: "Modern Farewells", loc: "Shoreditch", price: 2000, rating: 9.7, img: "https://images.unsplash.com/photo-1497366216548-37526070297c", type: "Standard" },
+            { name: "Heritage Tributes", loc: "Chelsea", price: 2800, rating: 10.0, img: "https://images.unsplash.com/photo-1595267664402-239634e9df28", type: "Premium" },
+            { name: "Traditional Family", loc: "Richmond", price: 2250, rating: 9.8, img: "https://images.unsplash.com/photo-1596230529625-7ee541361149", type: "Standard" },
+            { name: "Serenity Services", loc: "Wimbledon", price: 1900, rating: 9.6, img: "https://images.unsplash.com/photo-1519817650390-64a93db51149", type: "Standard" },
+            { name: "Maritime Tributes", loc: "Greenwich", price: 2500, rating: 9.9, img: "https://images.unsplash.com/photo-1468581264429-2548ef9eb732", type: "Premium" },
+            { name: "Urban Funeral Co.", loc: "Hackney", price: 1800, rating: 9.5, img: "https://images.unsplash.com/photo-1481277542470-605612bd2d61", type: "Standard" },
+            { name: "Golden Leaves", loc: "Chiswick", price: 2300, rating: 9.8, img: "https://images.unsplash.com/photo-1518640165980-d3e0e2aa6c1e", type: "Premium" },
+            { name: "Silver Linings", loc: "Battersea", price: 1950, rating: 9.6, img: "https://images.unsplash.com/photo-1505236858219-8359eb29e329", type: "Standard" },
+            { name: "Noble & Sons", loc: "Clapham", price: 2200, rating: 9.8, img: "https://images.unsplash.com/photo-1551590192-807e80d2c110", type: "Standard" }
         ];
 
-        // === RENDER LOGIC ===
+        // === RENDER ENGINE ===
         const grid = document.getElementById('results-grid');
+        const searchInput = document.getElementById('searchInput');
+        const sortSelect = document.getElementById('sortSelect');
+        const premiumFilter = document.getElementById('premiumFilter');
 
-        directors.forEach((d, index) => {
-            const card = document.createElement('div');
-            card.className = 'director-card';
+        function render(data) {
+            grid.innerHTML = '';
             
-            // Add Fade Up Animation with Staggered Delay
-            card.setAttribute('data-aos', 'fade-up');
-            card.setAttribute('data-aos-delay', (index % 3) * 100); // 0ms, 100ms, 200ms stagger
-            card.setAttribute('data-aos-offset', '100'); // Trigger slightly earlier
-
-            card.innerHTML = `
-                <div class="card-image-wrap">
-                    <img src="${d.img}?q=80&w=800&auto=format&fit=crop" class="card-image" alt="${d.name}">
-                    <div class="merit-badge">${d.rating}</div>
-                </div>
-                <div class="p-8 flex-1 flex flex-col">
-                    <p class="text-[9px] uppercase tracking-widest text-stone-400 mb-2 font-bold">${d.loc}</p>
-                    <h3 class="serif text-2xl mb-4">${d.name}</h3>
-                    
-                    <div class="mt-auto pt-6 border-t border-stone-100">
-                        <div class="stat-row">
-                            <span class="stat-label">Arrangement Fee</span>
-                            <span class="stat-val text-[#C5A059]">${d.price}</span>
+            data.forEach((d, index) => {
+                // INJECT NATIVE AD at Index 5
+                if (index === 5) {
+                    const ad = document.createElement('div');
+                    ad.className = 'ad-card';
+                    ad.setAttribute('data-aos', 'fade-up');
+                    ad.innerHTML = `
+                        <div class="ad-bg"></div>
+                        <div class="relative z-10 h-full flex flex-col justify-between">
+                            <div>
+                                <div class="ad-label">Sponsored</div>
+                                <div class="ad-content">
+                                    <h3>Peace of Mind.</h3>
+                                    <p class="text-sm text-gray-400 mb-6">Secure today's funeral costs with a Golden Charter plan.</p>
+                                </div>
+                            </div>
+                            <button class="bg-[#C5A059] text-black px-6 py-3 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-white transition w-fit">
+                                View Plans
+                            </button>
                         </div>
-                        <div class="stat-row" style="border:none; padding:0; margin:0;">
-                            <span class="stat-label">Availability</span>
-                            <span class="stat-val text-green-700">Immediate</span>
+                    `;
+                    grid.appendChild(ad);
+                }
+
+                // Render Director Card
+                const card = document.createElement('div');
+                card.className = 'director-card group cursor-pointer';
+                card.setAttribute('data-aos', 'fade-up');
+                
+                // Merit Badge Color
+                let meritColor = d.rating >= 9.8 ? 'text-[#C5A059]' : 'text-gray-600';
+
+                card.innerHTML = `
+                    <div class="card-image-wrap">
+                        <img src="${d.img}?q=80&w=600&auto=format&fit=crop" class="card-image">
+                        <div class="absolute top-4 right-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest shadow-sm">
+                            ${d.rating} Merit
                         </div>
                     </div>
-                    
-                    <button class="btn-action">View Profile</button>
-                </div>
-            `;
-            grid.appendChild(card);
-        });
+                    <div class="p-8 flex-1 flex flex-col">
+                        <p class="text-[9px] uppercase tracking-widest text-gray-400 mb-2 font-bold">${d.loc}</p>
+                        <h3 class="serif text-2xl mb-4 group-hover:text-[#C5A059] transition">${d.name}</h3>
+                        
+                        <div class="mt-auto border-t border-gray-100 pt-6 flex justify-between items-end">
+                            <div>
+                                <span class="block text-[9px] uppercase text-gray-400 font-bold mb-1">From</span>
+                                <span class="font-bold text-lg">£${d.price.toLocaleString()}</span>
+                            </div>
+                            <button class="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center group-hover:bg-black group-hover:border-black group-hover:text-white transition">
+                                <i class="fas fa-arrow-right text-sm"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
 
-        // Initialize AOS
-        AOS.init({
-            duration: 800,
-            easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
-            once: true,
-            mirror: false
-        });
+        // === FILTER LOGIC ===
+        function filterResults() {
+            let filtered = directors.filter(d => {
+                const matchText = d.name.toLowerCase().includes(searchInput.value.toLowerCase()) || 
+                                  d.loc.toLowerCase().includes(searchInput.value.toLowerCase());
+                const matchPremium = premiumFilter.checked ? d.rating >= 9.8 : true;
+                return matchText && matchPremium;
+            });
+
+            // Sorting
+            const sortVal = sortSelect.value;
+            if (sortVal === 'price_low') filtered.sort((a, b) => a.price - b.price);
+            if (sortVal === 'price_high') filtered.sort((a, b) => b.price - a.price);
+            if (sortVal === 'rating') filtered.sort((a, b) => b.rating - a.rating);
+
+            render(filtered);
+        }
+
+        // Listeners
+        searchInput.addEventListener('input', filterResults);
+        sortSelect.addEventListener('change', filterResults);
+        premiumFilter.addEventListener('change', filterResults);
+
+        // Init
+        render(directors);
+        AOS.init();
+
     </script>
 </body>
 </html>
