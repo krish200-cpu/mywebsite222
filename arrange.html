@@ -1,106 +1,437 @@
 <!DOCTYPE html>
-<html lang="en-GB">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Digital Arrangement | FuneralMatch</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Arrangement AI | FuneralMatch</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@1,400;1,700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
     <style>
-        :root { --gold: #C5A059; --black: #1a1a1a; --soft-bg: #F8F7F5; }
-        body { font-family: 'Inter', sans-serif; background: var(--soft-bg); color: var(--black); }
+        /* --- BRAND IDENTITY --- */
+        :root {
+            --bg-deep: #050505;
+            --panel-bg: #111;
+            --gold: #D4AF37;
+            --gold-dim: rgba(212, 175, 55, 0.15);
+            --text-main: #fff;
+            --text-muted: #888;
+            --border: #222;
+        }
+
+        body {
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* --- LAYOUT GRID --- */
+        .main-container {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 1fr 380px; /* Chat | Receipt */
+            height: 100%;
+            overflow: hidden;
+        }
+
+        /* Mobile Layout */
+        @media (max-width: 768px) {
+            .main-container { grid-template-columns: 1fr; grid-template-rows: 1fr auto; }
+            .receipt-panel { 
+                position: fixed; bottom: 0; left: 0; right: 0; 
+                height: auto; max-height: 40vh; z-index: 50;
+                border-top: 1px solid var(--border);
+                transform: translateY(calc(100% - 60px)); /* Peeking state */
+                transition: transform 0.3s ease;
+            }
+            .receipt-panel.open { transform: translateY(0); }
+            .receipt-toggle { display: flex; }
+        }
+
+        /* --- 1. CHAT INTERFACE --- */
+        .chat-zone {
+            display: flex; flex-direction: column;
+            padding: 40px; overflow-y: auto; scroll-behavior: smooth;
+            background: radial-gradient(circle at 50% 0%, #1a1a1a 0%, var(--bg-deep) 60%);
+        }
+
+        .chat-bubble {
+            max-width: 80%;
+            padding: 16px 24px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            font-size: 15px;
+            line-height: 1.6;
+            animation: fadeUp 0.4s ease forwards;
+            opacity: 0; transform: translateY(10px);
+        }
+
+        .bubble-bot {
+            align-self: flex-start;
+            background: var(--panel-bg);
+            border: 1px solid var(--border);
+            color: #eee;
+            border-bottom-left-radius: 2px;
+        }
+
+        .bubble-user {
+            align-self: flex-end;
+            background: var(--gold);
+            color: black;
+            font-weight: 600;
+            border-bottom-right-radius: 2px;
+        }
+
+        /* --- 2. INTERACTION AREA --- */
+        .input-area {
+            display: flex; flex-direction: column; gap: 12px;
+            margin-top: 20px;
+            max-width: 600px;
+            align-self: center;
+            width: 100%;
+        }
+
+        .option-btn {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--border);
+            padding: 16px 20px;
+            border-radius: 12px;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .option-btn:hover { border-color: var(--gold); background: rgba(212, 175, 55, 0.05); }
+        .option-btn .price-tag { font-size: 12px; color: var(--gold); font-weight: bold; }
+        .option-desc { font-size: 11px; color: #666; display: block; margin-top: 4px; }
+
+        /* --- 3. RECEIPT PANEL --- */
+        .receipt-panel {
+            background: #0a0a0a;
+            border-left: 1px solid var(--border);
+            padding: 30px;
+            display: flex; flex-direction: column;
+        }
+
+        .receipt-header { border-bottom: 1px solid var(--border); padding-bottom: 20px; margin-bottom: 20px; }
+        .line-item { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 13px; color: #aaa; }
+        .line-item.total { color: white; font-size: 18px; font-weight: 700; border-top: 1px solid var(--border); padding-top: 20px; margin-top: auto; }
+        
+        .receipt-toggle {
+            display: none; height: 60px; background: #111; align-items: center; justify-content: space-between; padding: 0 20px; cursor: pointer;
+        }
+
+        /* --- ANIMATIONS --- */
+        @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+        
+        .typing-indicator {
+            display: flex; gap: 4px; padding: 12px 16px; background: var(--panel-bg);
+            border-radius: 20px; width: fit-content; margin-bottom: 20px;
+            border: 1px solid var(--border);
+        }
+        .dot { width: 6px; height: 6px; background: #666; border-radius: 50%; animation: bounce 1.4s infinite ease-in-out; }
+        .dot:nth-child(1) { animation-delay: -0.32s; }
+        .dot:nth-child(2) { animation-delay: -0.16s; }
+        @keyframes bounce { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1); } }
+
+        /* Typography */
         .serif { font-family: 'Bodoni Moda', serif; }
-        .config-card { background: white; border-radius: 2rem; padding: 2.5rem; border: 1px solid #EEE; transition: 0.3s; cursor: pointer; }
-        .config-card.selected { border: 2px solid var(--gold); background: #FFFDF9; }
-        .price-chip { background: #F0EDE8; padding: 4px 10px; border-radius: 9999px; font-size: 10px; font-weight: 800; }
-        .sticky-summary { position: sticky; top: 2rem; background: var(--black); color: white; border-radius: 2.5rem; padding: 2.5rem; }
+
     </style>
 </head>
-<body class="p-8 md:p-16">
+<body>
 
-    <main class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-12">
+    <header class="h-16 border-b border-[#222] bg-black flex items-center justify-between px-6 z-20">
+        <div>
+            <span class="text-[9px] uppercase font-bold text-[#D4AF37] tracking-widest block">FuneralMatch</span>
+            <span class="text-xs font-bold text-white">Arrangement AI</span>
+        </div>
+        <button onclick="location.reload()" class="text-xs text-gray-500 hover:text-white"><i class="fas fa-undo mr-2"></i>Restart</button>
+    </header>
+
+    <div class="main-container">
         
-        <div class="lg:col-span-2 space-y-12">
-            <header>
-                <h1 class="serif italic text-5xl mb-4">Arrange with Clarity.</h1>
-                <p class="text-stone-400 uppercase tracking-widest text-[10px] font-bold">Step 1: Core Service Selection</p>
-            </header>
-
-            <section>
-                <h3 class="serif text-2xl mb-6">Service Type</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="config-card selected">
-                        <div class="flex justify-between mb-4">
-                            <span class="price-chip">FROM £1,200</span>
-                            <span class="text-green-600 text-[10px] font-bold">POPULAR</span>
-                        </div>
-                        <h4 class="font-bold mb-2">Attended Cremation</h4>
-                        <p class="text-xs text-stone-500">A full service at the chapel with family and friends present.</p>
-                    </div>
-                    <div class="config-card">
-                        <div class="flex justify-between mb-4">
-                            <span class="price-chip">FROM £850</span>
-                        </div>
-                        <h4 class="font-bold mb-2">Direct Cremation</h4>
-                        <p class="text-xs text-stone-500">An unattended, dignified cremation without a formal service.</p>
-                    </div>
-                </div>
-            </section>
-
-            <section>
-                <h3 class="serif text-2xl mb-6">Enhanced Tributes (Optional)</h3>
-                <div class="space-y-4">
-                    <div class="flex items-center justify-between p-6 bg-white rounded-2xl border border-stone-100">
-                        <div class="flex items-center gap-4">
-                            <input type="checkbox" class="w-5 h-5 accent-[#C5A059]">
-                            <div>
-                                <h5 class="text-sm font-bold">Limousine Transport (7-Seater)</h5>
-                                <p class="text-[10px] text-stone-400">Professional chauffeur service for the family.</p>
-                            </div>
-                        </div>
-                        <span class="text-sm font-bold text-[#C5A059]">+£250</span>
-                    </div>
-
-                    <div class="flex items-center justify-between p-6 bg-white rounded-2xl border border-stone-100">
-                        <div class="flex items-center gap-4">
-                            <input type="checkbox" class="w-5 h-5 accent-[#C5A059]">
-                            <div>
-                                <h5 class="text-sm font-bold">Premium Floral Arrangement</h5>
-                                <p class="text-[10px] text-stone-400">Vetted floristry partner package.</p>
-                            </div>
-                        </div>
-                        <span class="text-sm font-bold text-[#C5A059]">+£180</span>
-                    </div>
-                </div>
-            </section>
+        <div class="chat-zone" id="chat-feed">
+            <div id="input-container" class="input-area"></div>
         </div>
 
-        <aside class="lg:col-span-1">
-            <div class="sticky-summary">
-                <h3 class="serif italic text-2xl mb-8">Arrangement Summary</h3>
-                <div class="space-y-4 mb-8 border-b border-stone-800 pb-8">
-                    <div class="flex justify-between text-xs">
-                        <span class="text-stone-400">Base Service</span>
-                        <span>£1,200</span>
-                    </div>
-                    <div class="flex justify-between text-xs">
-                        <span class="text-stone-400">Add-ons Selected</span>
-                        <span class="text-[#C5A059]">£0</span>
-                    </div>
-                </div>
-                <div class="flex justify-between items-baseline mb-8">
-                    <span class="text-xs uppercase font-bold tracking-widest text-stone-500">Estimated Total</span>
-                    <span class="text-3xl serif italic text-[#C5A059]">£1,200</span>
-                </div>
-                
-                <form action="https://formspree.io/f/mvzzkjeq" method="POST">
-                    <input type="hidden" name="_subject" value="PREMIUM ARRANGEMENT LEAD">
-                    <p class="text-[9px] text-stone-500 mb-6 leading-relaxed">By clicking 'Submit Arrangement', your selected director will be notified of your full requirements for immediate review.</p>
-                    <button type="submit" class="w-full bg-[#C5A059] py-4 rounded-full text-[10px] font-bold uppercase tracking-widest">Submit Arrangement</button>
-                </form>
+        <div class="receipt-panel" id="receipt">
+            <div class="receipt-toggle" onclick="toggleReceipt()">
+                <span class="text-xs font-bold uppercase tracking-widest text-[#D4AF37]">Current Estimate</span>
+                <span class="font-bold text-white" id="mobile-total">£0</span>
+                <i class="fas fa-chevron-up text-gray-500"></i>
             </div>
-        </aside>
 
-    </main>
+            <div class="receipt-header hidden md:block">
+                <h2 class="serif text-2xl text-white italic">Your Plan</h2>
+                <p class="text-xs text-gray-500 mt-2">Live estimation based on your selections.</p>
+            </div>
 
+            <div class="flex-1 overflow-y-auto" id="ledger">
+                <div class="text-center mt-10 opacity-30 text-xs uppercase tracking-widest">
+                    Awaiting Selections
+                </div>
+            </div>
+
+            <div class="line-item total">
+                <span>Estimated Total</span>
+                <span class="text-[#D4AF37]" id="main-total">£0</span>
+            </div>
+            
+            <button onclick="submitPlan()" id="submit-btn" class="w-full bg-[#D4AF37] text-black font-bold py-4 rounded mt-6 text-xs uppercase tracking-widest hover:bg-white transition-colors opacity-50 cursor-not-allowed" disabled>
+                Complete Arrangement
+            </button>
+        </div>
+
+    </div>
+
+    <script>
+        // === 1. DATA STRUCTURE ===
+        const LOGIC = {
+            start: {
+                text: "Hello. I am the FuneralMatch arrangement assistant. My goal is to guide you through creating a dignified plan and provide an instant estimate. <br><br>First, what type of service are you looking to arrange?",
+                options: [
+                    { label: "Cremation", price: 0, next: 'attendance_crem' },
+                    { label: "Burial", price: 0, next: 'attendance_burial' }
+                ]
+            },
+            // Branch: Cremation
+            attendance_crem: {
+                text: "Thank you. For the cremation, which level of attendance best suits your needs?",
+                options: [
+                    { label: "Direct Cremation", desc: "No mourners, no service. Respectful and simple.", price: 995, next: 'urn', tags: ['direct'] },
+                    { label: "Simple Service", desc: "Short committal in the chapel. Up to 20 people.", price: 1850, next: 'coffin' },
+                    { label: "Traditional Service", desc: "Full service with limousine and bearers.", price: 2900, next: 'coffin' }
+                ]
+            },
+            // Branch: Burial
+            attendance_burial: {
+                text: "Understood. For the burial, do you require a service at a church or chapel beforehand?",
+                options: [
+                    { label: "Graveside Only", desc: "Service takes place at the grave.", price: 2200, next: 'coffin' },
+                    { label: "Church Service", desc: "Service at place of worship, then burial.", price: 3100, next: 'coffin' }
+                ]
+            },
+            // Shared: Coffin
+            coffin: {
+                text: "Let's discuss the coffin. We have three curated options included in our packages, or premium upgrades.",
+                options: [
+                    { label: "Simple Oak Veneer", desc: "Clean, dignified, traditional.", price: 0, next: 'transport' },
+                    { label: "Willow / Wicker", desc: "Natural, eco-friendly, softer aesthetic.", price: 450, next: 'transport' },
+                    { label: "Solid Mahogany", desc: "Premium dark wood with raised lid.", price: 800, next: 'transport' }
+                ]
+            },
+            // Logic Skip: If Direct Cremation, we skip transport/flowers
+            urn: {
+                text: "For a direct cremation, the ashes will be returned to you. Would you like a decorative urn?",
+                options: [
+                    { label: "Standard Poly-Container", desc: "Included. Suitable for scattering.", price: 0, next: 'final' },
+                    { label: "Solid Oak Casket", desc: "For interment or keeping at home.", price: 95, next: 'final' }
+                ]
+            },
+            // Shared: Transport
+            transport: {
+                text: "A Hearse is included in your plan. Do you require Limousines for the family?",
+                options: [
+                    { label: "Hearse Only", desc: "Meet family at the venue.", price: 0, next: 'flowers' },
+                    { label: "1 Limousine", desc: "Seats 7 people.", price: 250, next: 'flowers' },
+                    { label: "2 Limousines", desc: "Seats 14 people.", price: 500, next: 'flowers' }
+                ]
+            },
+            // Shared: Flowers
+            flowers: {
+                text: "Would you like us to arrange the main floral tribute for the coffin?",
+                options: [
+                    { label: "No Flowers", desc: "Family will provide / Donations only.", price: 0, next: 'stationery' },
+                    { label: "Coffin Spray (3ft)", desc: "Seasonal mix.", price: 150, next: 'stationery' },
+                    { label: "Letters (Name)", desc: "e.g., MUM or DAD (Price per letter approx).", price: 40, next: 'stationery' } // Logic simplification
+                ]
+            },
+            // Shared: Stationery
+            stationery: {
+                text: "Finally, do you need Order of Service booklets designed and printed?",
+                options: [
+                    { label: "No Stationery", price: 0, next: 'final' },
+                    { label: "30 Copies", desc: "Professionally designed.", price: 90, next: 'final' },
+                    { label: "50 Copies", desc: "Professionally designed.", price: 120, next: 'final' },
+                    { label: "100 Copies", desc: "Professionally designed.", price: 180, next: 'final' }
+                ]
+            },
+            // End State
+            final: {
+                text: "Thank you. I have generated your full estimate. Please review the breakdown on the right.<br><br>Click 'Complete Arrangement' to send this to our Funeral Director for immediate confirmation.",
+                options: [] // End of flow
+            }
+        };
+
+        // === 2. STATE MANAGEMENT ===
+        let currentState = {
+            step: 'start',
+            ledger: [], // Array of { item: string, price: number }
+            total: 0
+        };
+
+        // === 3. BOT ENGINE ===
+        const chatFeed = document.getElementById('chat-feed');
+        const inputContainer = document.getElementById('input-container');
+        const ledgerEl = document.getElementById('ledger');
+
+        function init() {
+            processStep('start');
+        }
+
+        function processStep(stepKey) {
+            // 1. Show Typing Indicator
+            showTyping();
+
+            // 2. Delay for realism
+            setTimeout(() => {
+                removeTyping();
+                
+                const stepData = LOGIC[stepKey];
+                
+                // Add Bot Message
+                addBubble(stepData.text, 'bot');
+
+                // Render Options
+                renderOptions(stepData.options);
+
+                // If Final step, enable submit
+                if(stepKey === 'final') {
+                    const btn = document.getElementById('submit-btn');
+                    btn.disabled = false;
+                    btn.classList.remove('opacity-50', 'cursor-not-allowed');
+                    btn.classList.add('animate-pulse');
+                }
+
+            }, 800); // 800ms natural delay
+        }
+
+        function renderOptions(options) {
+            inputContainer.innerHTML = '';
+            
+            if (options.length === 0) return;
+
+            options.forEach(opt => {
+                const btn = document.createElement('div');
+                btn.className = 'option-btn';
+                
+                let priceHtml = opt.price > 0 ? `<span class="price-tag">+£${opt.price}</span>` : `<span class="price-tag">INCLUDED</span>`;
+                let descHtml = opt.desc ? `<span class="option-desc">${opt.desc}</span>` : '';
+
+                btn.innerHTML = `
+                    <div>
+                        <span class="font-bold text-sm">${opt.label}</span>
+                        ${descHtml}
+                    </div>
+                    ${priceHtml}
+                `;
+
+                btn.onclick = () => handleSelection(opt);
+                inputContainer.appendChild(btn);
+            });
+            
+            // Scroll to bottom
+            chatFeed.scrollTo({ top: chatFeed.scrollHeight, behavior: 'smooth' });
+        }
+
+        function handleSelection(option) {
+            // 1. Add User Bubble
+            addBubble(option.label, 'user');
+            
+            // 2. Update Ledger
+            if (option.price > 0 || option.label.includes('Service') || option.label.includes('Cremation')) {
+                addToLedger(option.label, option.price);
+            }
+
+            // 3. Clear Inputs
+            inputContainer.innerHTML = '';
+
+            // 4. Move to Next
+            processStep(option.next);
+        }
+
+        // === 4. UI COMPONENTS ===
+        function addBubble(text, type) {
+            const bubble = document.createElement('div');
+            bubble.className = `chat-bubble bubble-${type}`;
+            bubble.innerHTML = text;
+            // Insert before the input container
+            chatFeed.insertBefore(bubble, inputContainer);
+            chatFeed.scrollTo({ top: chatFeed.scrollHeight, behavior: 'smooth' });
+        }
+
+        function showTyping() {
+            const typing = document.createElement('div');
+            typing.id = 'typing-indicator';
+            typing.className = 'typing-indicator';
+            typing.innerHTML = `<div class="dot"></div><div class="dot"></div><div class="dot"></div>`;
+            chatFeed.insertBefore(typing, inputContainer);
+            chatFeed.scrollTo({ top: chatFeed.scrollHeight, behavior: 'smooth' });
+        }
+
+        function removeTyping() {
+            const el = document.getElementById('typing-indicator');
+            if(el) el.remove();
+        }
+
+        // === 5. FINANCE ENGINE ===
+        function addToLedger(item, price) {
+            currentState.ledger.push({ item, price });
+            currentState.total += price;
+            renderLedger();
+        }
+
+        function renderLedger() {
+            ledgerEl.innerHTML = '';
+            currentState.ledger.forEach(entry => {
+                const row = document.createElement('div');
+                row.className = 'line-item';
+                row.innerHTML = `
+                    <span>${entry.item}</span>
+                    <span>${entry.price > 0 ? '£'+entry.price : '-'}</span>
+                `;
+                ledgerEl.appendChild(row);
+            });
+
+            // Update Totals
+            document.getElementById('main-total').innerText = `£${currentState.total.toLocaleString()}`;
+            document.getElementById('mobile-total').innerText = `£${currentState.total.toLocaleString()}`;
+        }
+
+        // === 6. SUBMISSION ===
+        function submitPlan() {
+            const btn = document.getElementById('submit-btn');
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+            
+            // Simulate API call
+            setTimeout(() => {
+                btn.innerHTML = '<i class="fas fa-check"></i> Arrangement Sent';
+                btn.style.backgroundColor = '#22c55e'; // Green
+                btn.style.color = 'white';
+                
+                addBubble("We have received your arrangement details. A Funeral Director will call you within 15 minutes to confirm these details and answer any final questions.", "bot");
+                
+                // Final interaction clear
+                inputContainer.innerHTML = '';
+            }, 1500);
+        }
+
+        // Mobile Panel Logic
+        function toggleReceipt() {
+            document.getElementById('receipt').classList.toggle('open');
+            document.querySelector('.receipt-toggle i').classList.toggle('fa-chevron-down');
+            document.querySelector('.receipt-toggle i').classList.toggle('fa-chevron-up');
+        }
+
+        // Start
+        init();
+
+    </script>
 </body>
 </html>
