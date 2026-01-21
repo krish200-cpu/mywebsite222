@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>FuneralMatch | First Call OS</title>
+    <title>FuneralMatch | Elite First Call OS</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
@@ -15,112 +15,119 @@
         tailwind.config = {
             theme: {
                 extend: {
-                    colors: { brand: '#C5A059', dark: '#121212', surface: '#FAFAFA', glass: 'rgba(255,255,255,0.7)' },
-                    fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'], serif: ['Playfair Display', 'serif'] }
+                    colors: { brand: '#C5A059', dark: '#121212', glass: 'rgba(255,255,255,0.7)', gray950: '#0A0A0A' },
+                    fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'], serif: ['Playfair Display', 'serif'] },
+                    borderRadius: { 'pill': '9999px' }
                 }
             }
         }
     </script>
 
     <style>
-        body { background-color: #FAFAFA; color: #121212; -webkit-font-smoothing: antialiased; }
+        /* CORE UI ARCHITECTURE */
+        body { background-color: #FAFAFA; color: #121212; -webkit-font-smoothing: antialiased; overflow: hidden; }
         
-        /* PILL DESIGN LANGUAGE */
-        .pill-card { @apply bg-white border border-gray-100 rounded-[2.5rem] p-6 md:p-10 shadow-sm transition-all duration-500; }
-        .pill-input { @apply w-full bg-gray-50 border border-transparent rounded-full px-8 py-4 outline-none transition-all focus:bg-white focus:border-brand focus:ring-4 focus:ring-brand/10 text-sm font-medium; }
-        .pill-label { @apply block text-[10px] font-bold text-gray-400 uppercase tracking-[0.15em] ml-8 mb-2; }
+        /* PILL DESIGN SYSTEM */
+        .pill-card { @apply bg-white border border-gray-100 rounded-[2.5rem] p-8 md:p-12 shadow-sm transition-all duration-500; }
+        .pill-input { @apply w-full bg-gray-50 border border-transparent rounded-full px-8 py-4 outline-none transition-all focus:bg-white focus:border-brand focus:ring-4 focus:ring-brand/10 text-sm font-semibold; }
+        .pill-label { @apply block text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] ml-8 mb-2; }
         .pill-btn { @apply px-10 py-4 rounded-full font-bold uppercase tracking-widest text-[10px] transition-all active:scale-95 shadow-md; }
         
-        /* TBC TOGGLE */
-        .tbc-check { appearance: none; width: 40px; height: 20px; background: #E5E7EB; border-radius: 20px; position: relative; cursor: pointer; transition: 0.3s; }
+        /* TBC TOGGLE SYSTEM */
+        .tbc-check { appearance: none; width: 44px; height: 24px; background: #E5E7EB; border-radius: 99px; position: relative; cursor: pointer; transition: 0.3s; }
         .tbc-check:checked { background: #C5A059; }
-        .tbc-check::after { content: ''; position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; background: white; border-radius: 50%; transition: 0.3s; }
+        .tbc-check::after { content: ''; position: absolute; top: 2px; left: 2px; width: 20px; height: 20px; background: white; border-radius: 50%; transition: 0.3s; }
         .tbc-check:checked::after { transform: translateX(20px); }
 
-        /* SCROLL REVEAL */
-        .reveal { opacity: 0; transform: translateY(20px); transition: all 0.6s cubic-bezier(0.2, 1, 0.3, 1); }
+        /* ANIMATIONS */
+        .fade-enter-active, .fade-leave-active { transition: all 0.4s cubic-bezier(0.2, 1, 0.3, 1); }
+        .fade-enter-from { opacity: 0; transform: translateY(20px); }
+        .fade-leave-to { opacity: 0; transform: translateY(-20px); position: absolute; width: 100%; }
+
+        /* SCROLL REVEAL (THE SMOOTH PROCESS) */
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.2, 1, 0.3, 1); }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
+        /* MOBILE FIXES */
+        .ios-scroll { -webkit-overflow-scrolling: touch; scrollbar-width: none; }
         ::-webkit-scrollbar { display: none; }
     </style>
 </head>
 <body class="h-screen flex flex-col overflow-hidden">
 
-<div id="app" class="h-full flex flex-col relative">
+<div id="app" class="h-full flex flex-col relative bg-white">
 
-    <header class="h-24 bg-white/80 backdrop-blur-md border-b border-gray-100 flex items-center justify-between px-6 lg:px-12 shrink-0 z-50 sticky top-0">
+    <header class="h-24 bg-white/80 backdrop-blur-xl border-b border-gray-100 flex items-center justify-between px-6 lg:px-12 shrink-0 z-50 sticky top-0">
         <div class="flex items-center gap-6">
-            <div @click="triggerLogo" class="w-14 h-14 rounded-full border border-gray-100 flex items-center justify-center cursor-pointer bg-surface overflow-hidden group shadow-inner">
+            <div @click="triggerLogo" class="w-14 h-14 rounded-full border border-gray-100 flex items-center justify-center cursor-pointer bg-gray-50 overflow-hidden group shadow-inner transition-all hover:border-brand">
                 <img v-if="brand.logo" :src="brand.logo" class="w-full h-full object-contain p-2">
                 <span v-else class="text-brand font-serif text-3xl group-hover:scale-110 transition">F</span>
             </div>
             <div>
-                <div class="text-[9px] font-bold text-brand uppercase tracking-[0.3em] mb-0.5">Professional Console</div>
-                <div class="font-serif text-2xl font-bold tracking-tight">First Call Arrangement</div>
+                <div class="text-[9px] font-bold text-brand uppercase tracking-[0.4em] mb-0.5">At-Need Intake</div>
+                <div class="font-serif text-2xl font-bold tracking-tight">{{ form.deceased.lastName || 'New Case' }}</div>
             </div>
         </div>
 
-        <div class="hidden lg:flex items-center gap-8">
-            <div class="text-right">
-                <div class="text-[9px] font-bold text-gray-300 uppercase tracking-widest">Case Progress</div>
-                <div class="flex gap-1 mt-1">
-                    <div v-for="n in 5" :key="n" class="h-1 w-6 rounded-full" :class="currentStep >= n-1 ? 'bg-brand' : 'bg-gray-100'"></div>
-                </div>
+        <div class="flex items-center gap-8">
+            <div class="text-right hidden md:block">
+                <div class="text-[9px] font-bold text-gray-300 uppercase tracking-widest">Marketplace Estimate</div>
+                <div class="font-mono text-xl font-bold text-brand">{{ formattedTotal }}</div>
             </div>
             <button @click="generatePDF" class="pill-btn bg-dark text-white hover:bg-brand">
-                <i class="fa-solid fa-file-export mr-2"></i> Export File
+                <i class="fa-solid fa-file-pdf mr-2"></i> File Export
             </button>
         </div>
     </header>
 
-    <main class="flex-1 overflow-y-auto p-4 md:p-12 bg-surface relative scroll-smooth" ref="workspace">
-        <div class="max-w-4xl mx-auto space-y-12 pb-40">
+    <main class="flex-1 overflow-y-auto p-4 md:p-12 bg-surface relative ios-scroll" ref="mainStage">
+        <div class="max-w-4xl mx-auto pb-40">
             
             <transition name="fade" mode="out-in">
-                <div :key="currentStep">
+                <div :key="currentStep" class="space-y-12">
 
-                    <div v-if="currentStep === 0" class="space-y-8">
-                        <div class="text-center mb-12">
-                            <h1 class="font-serif text-5xl mb-4">First Call Intake</h1>
-                            <p class="text-gray-400 font-light">Establishing the legal and logistical foundation.</p>
+                    <div v-if="currentStep === 0" class="space-y-12">
+                        <div class="text-center mb-16">
+                            <h1 class="font-serif text-5xl md:text-6xl mb-6">Reporting Party.</h1>
+                            <p class="text-gray-400 font-light max-w-md mx-auto">Capture the primary point of contact for the Director.</p>
                         </div>
 
                         <div class="pill-card reveal active">
-                            <h2 class="font-serif text-2xl mb-8 flex justify-between items-center">
-                                1. Reporting Party
-                                <span class="text-[10px] bg-gray-100 px-3 py-1 rounded-full text-gray-400 uppercase font-bold">Log: {{meta.timestamp}}</span>
+                            <h2 class="font-serif text-2xl mb-10 flex justify-between items-center">
+                                1. Personal Details
+                                <span class="text-[10px] bg-gray-50 px-4 py-1.5 rounded-full text-gray-400 uppercase font-bold tracking-widest">{{meta.timestamp}}</span>
                             </h2>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                                <div>
+                                <div class="space-y-2">
                                     <label class="pill-label">Caller Full Name</label>
-                                    <input v-model="form.caller.name" class="pill-input" placeholder="e.g. Sarah Jenkins">
+                                    <input v-model="form.caller.name" class="pill-input" placeholder="e.g. Elizabeth Ashford">
                                 </div>
-                                <div>
-                                    <label class="pill-label">Relationship to Deceased</label>
+                                <div class="space-y-2">
+                                    <label class="pill-label">Relationship</label>
                                     <select v-model="form.caller.relation" class="pill-input">
-                                        <option>Spouse / Partner</option>
                                         <option>Son / Daughter</option>
+                                        <option>Spouse / Partner</option>
                                         <option>Executor</option>
-                                        <option>Hospital Staff</option>
+                                        <option>Hospital / Care Manager</option>
                                     </select>
                                 </div>
-                                <div class="md:col-span-2">
-                                    <label class="pill-label">Primary Contact Number</label>
-                                    <input v-model="form.caller.phone" class="pill-input" placeholder="07...">
+                                <div class="md:col-span-2 space-y-2">
+                                    <label class="pill-label">Contact Number (At-Need Priority)</label>
+                                    <input v-model="form.caller.phone" class="pill-input" placeholder="Enter mobile for SMS alerts">
                                 </div>
                             </div>
                         </div>
 
                         <div class="pill-card reveal active delay-100">
-                            <div class="flex justify-between items-center mb-8">
-                                <h2 class="font-serif text-2xl">2. Location of Deceased</h2>
-                                <label class="flex items-center gap-3 cursor-pointer">
-                                    <span class="text-[10px] font-bold text-gray-400">PENDING TBC</span>
+                             <div class="flex justify-between items-center mb-10">
+                                <h2 class="font-serif text-2xl">2. Location Status</h2>
+                                <div class="flex items-center gap-3">
+                                    <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">TBC</span>
                                     <input type="checkbox" v-model="form.logistics.locationTbc" class="tbc-check">
-                                </label>
+                                </div>
                             </div>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-8" :class="{'opacity-30 pointer-events-none': form.logistics.locationTbc}">
-                                <div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 transition-opacity duration-500" :class="{'opacity-20 pointer-events-none': form.logistics.locationTbc}">
+                                <div class="space-y-2">
                                     <label class="pill-label">Current Facility</label>
                                     <select v-model="form.logistics.placeType" class="pill-input">
                                         <option>Public Hospital (NHS)</option>
@@ -129,93 +136,111 @@
                                         <option>Coroner's Mortuary</option>
                                     </select>
                                 </div>
-                                <div>
-                                    <label class="pill-label">Address / Ward</label>
-                                    <input v-model="form.logistics.address" class="pill-input" placeholder="Room or Ward Number">
+                                <div class="space-y-2">
+                                    <label class="pill-label">Ward / Address Details</label>
+                                    <input v-model="form.logistics.address" class="pill-input" placeholder="e.g. Ward 4B or Full Address">
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div v-if="currentStep === 1" class="space-y-8">
-                        <div class="text-center mb-12">
-                            <h1 class="font-serif text-5xl mb-4">The Deceased</h1>
-                            <p class="text-gray-400 font-light">Bio-data required for the Registrar and Coroners.</p>
+                    <div v-if="currentStep === 1" class="space-y-12">
+                         <div class="text-center mb-16">
+                            <h1 class="font-serif text-5xl md:text-6xl mb-6">The Deceased.</h1>
+                            <p class="text-gray-400 font-light max-w-md mx-auto">Bio-data required for all legal certifications.</p>
                         </div>
 
                         <div class="pill-card reveal active">
-                            <div class="grid grid-cols-12 gap-6 mb-10">
-                                <div class="col-span-3">
+                             <div class="grid grid-cols-12 gap-8 mb-12">
+                                <div class="col-span-3 md:col-span-2">
                                     <label class="pill-label">Title</label>
                                     <select v-model="form.deceased.title" class="pill-input"><option>Mr</option><option>Mrs</option><option>Ms</option><option>Dr</option></select>
                                 </div>
-                                <div class="col-span-9">
+                                <div class="col-span-9 md:col-span-5">
                                     <label class="pill-label">First Name(s)</label>
                                     <input v-model="form.deceased.first" class="pill-input">
                                 </div>
-                                <div class="col-span-12">
-                                    <label class="pill-label">Last Name / Surname</label>
+                                <div class="col-span-12 md:col-span-5">
+                                    <label class="pill-label">Surname</label>
                                     <input v-model="form.deceased.last" class="pill-input">
                                 </div>
                                 <div class="col-span-12">
                                     <label class="pill-label">Maiden Name / Previous Aliases</label>
-                                    <input v-model="form.deceased.alias" class="pill-input" placeholder="Required for legal certificate">
+                                    <input v-model="form.deceased.alias" class="pill-input" placeholder="Leave blank if none">
                                 </div>
                             </div>
 
-                            <div class="bg-dark rounded-[2rem] p-8 text-white relative overflow-hidden shadow-2xl">
-                                <div class="absolute top-0 right-0 p-10 opacity-10"><i class="fa-solid fa-calculator text-9xl"></i></div>
-                                <h3 class="text-brand text-xs font-bold uppercase tracking-widest mb-6">Auto-Age Estimator</h3>
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-                                    <div>
-                                        <label class="block text-[9px] font-bold text-gray-500 uppercase mb-2">Date of Birth</label>
-                                        <input type="date" v-model="form.deceased.dob" class="w-full bg-white/5 border border-white/10 rounded-full px-6 py-3 outline-none focus:border-brand transition text-sm">
+                            <div class="bg-gray-950 rounded-[3rem] p-10 text-white relative overflow-hidden shadow-2xl">
+                                <div class="absolute top-0 right-0 p-12 opacity-5"><i class="fa-solid fa-calendar-check text-9xl"></i></div>
+                                <div class="relative z-10">
+                                    <h3 class="text-brand text-xs font-bold uppercase tracking-[0.3em] mb-10 flex items-center gap-3">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-brand animate-pulse"></span>
+                                        Precision Age Engine
+                                    </h3>
+                                    
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                                        <div class="space-y-4">
+                                            <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest">Date of Birth</label>
+                                            <input type="date" v-model="form.deceased.dob" class="w-full bg-white/5 border border-white/10 rounded-full px-8 py-4 outline-none focus:border-brand transition-all text-lg font-mono">
+                                        </div>
+                                        <div class="space-y-4">
+                                            <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest">Date of Death</label>
+                                            <input type="date" v-model="form.deceased.dod" class="w-full bg-white/5 border border-white/10 rounded-full px-8 py-4 outline-none focus:border-brand transition-all text-lg font-mono">
+                                        </div>
                                     </div>
-                                    <div>
-                                        <label class="block text-[9px] font-bold text-gray-500 uppercase mb-2">Date of Death</label>
-                                        <input type="date" v-model="form.deceased.dod" class="w-full bg-white/5 border border-white/10 rounded-full px-6 py-3 outline-none focus:border-brand transition text-sm">
+
+                                    <div class="mt-16 flex flex-col md:flex-row items-center justify-between border-t border-white/10 pt-10 gap-6">
+                                        <span class="text-lg font-light text-gray-400">Biological Age:</span>
+                                        <div class="flex items-baseline gap-4">
+                                            <span class="font-serif text-7xl text-brand">{{ calculatedAge || '--' }}</span>
+                                            <span class="text-xs uppercase font-bold tracking-[0.2em] text-gray-500">Years of Age</span>
+                                        </div>
                                     </div>
-                                </div>
-                                
-                                <div class="mt-8 flex items-center justify-between border-t border-white/10 pt-6">
-                                    <span class="text-sm font-light text-gray-400">Calculated Chronological Age:</span>
-                                    <span class="font-serif text-4xl text-brand">{{ calculatedAge || '--' }} <span class="text-sm uppercase tracking-tighter text-white/50">Years</span></span>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div v-if="currentStep === 2" class="space-y-8">
-                         <div class="pill-card reveal active">
-                            <h2 class="font-serif text-2xl mb-8">Clinical Risk & Preparation</h2>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div v-if="currentStep === 2" class="space-y-12">
+                         <div class="text-center mb-16">
+                            <h1 class="font-serif text-5xl md:text-6xl mb-6">Operations.</h1>
+                            <p class="text-gray-400 font-light max-w-md mx-auto">Physical and clinical logistics for the removal team.</p>
+                        </div>
+
+                        <div class="pill-card reveal active">
+                            <h2 class="font-serif text-2xl mb-10">Removal Logistics</h2>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                                 <div @click="form.risks.pacemaker = !form.risks.pacemaker" 
-                                     class="p-6 rounded-[2rem] border-2 cursor-pointer transition-all flex items-center justify-between"
-                                     :class="form.risks.pacemaker ? 'border-brand bg-brand/5' : 'border-gray-50'">
-                                    <div class="flex items-center gap-4">
-                                        <i class="fa-solid fa-heart-pulse text-xl" :class="form.risks.pacemaker ? 'text-brand' : 'text-gray-300'"></i>
+                                     class="p-8 rounded-[2.5rem] border-2 cursor-pointer transition-all duration-300 flex items-center justify-between"
+                                     :class="form.risks.pacemaker ? 'border-brand bg-brand/5 ring-4 ring-brand/5' : 'border-gray-50 bg-white'">
+                                    <div class="flex items-center gap-6">
+                                        <div class="w-12 h-12 rounded-full flex items-center justify-center transition-colors" :class="form.risks.pacemaker ? 'bg-brand text-white' : 'bg-gray-100 text-gray-400'">
+                                            <i class="fa-solid fa-heart-pulse text-xl"></i>
+                                        </div>
                                         <div>
-                                            <div class="font-bold text-sm">Pacemaker Present?</div>
-                                            <div class="text-[10px] text-gray-400">Requires removal for cremation</div>
+                                            <div class="font-bold text-sm uppercase tracking-wider">Pacemaker</div>
+                                            <div class="text-xs text-gray-400 mt-1">Requires clinical removal</div>
                                         </div>
                                     </div>
-                                    <div v-if="form.risks.pacemaker" class="text-brand"><i class="fa-solid fa-circle-check"></i></div>
+                                    <i v-if="form.risks.pacemaker" class="fa-solid fa-circle-check text-brand text-2xl"></i>
                                 </div>
 
                                 <div @click="form.risks.oversize = !form.risks.oversize" 
-                                     class="p-6 rounded-[2rem] border-2 cursor-pointer transition-all flex items-center justify-between"
-                                     :class="form.risks.oversize ? 'border-brand bg-brand/5' : 'border-gray-50'">
-                                    <div class="flex items-center gap-4">
-                                        <i class="fa-solid fa-ruler-combined text-xl" :class="form.risks.oversize ? 'text-brand' : 'text-gray-300'"></i>
+                                     class="p-8 rounded-[2.5rem] border-2 cursor-pointer transition-all duration-300 flex items-center justify-between"
+                                     :class="form.risks.oversize ? 'border-brand bg-brand/5 ring-4 ring-brand/5' : 'border-gray-50 bg-white'">
+                                    <div class="flex items-center gap-6">
+                                        <div class="w-12 h-12 rounded-full flex items-center justify-center transition-colors" :class="form.risks.oversize ? 'bg-brand text-white' : 'bg-gray-100 text-gray-400'">
+                                            <i class="fa-solid fa-ruler-combined text-xl"></i>
+                                        </div>
                                         <div>
-                                            <div class="font-bold text-sm">Heavy / Bariatric?</div>
-                                            <div class="text-[10px] text-gray-400">Flags workshop for reinforced coffin</div>
+                                            <div class="font-bold text-sm uppercase tracking-wider">Heavy / Bariatric</div>
+                                            <div class="text-xs text-gray-400 mt-1">Specialized equipment needed</div>
                                         </div>
                                     </div>
-                                    <div v-if="form.risks.oversize" class="text-brand"><i class="fa-solid fa-circle-check"></i></div>
+                                    <i v-if="form.risks.oversize" class="fa-solid fa-circle-check text-brand text-2xl"></i>
                                 </div>
                             </div>
-                         </div>
+                        </div>
                     </div>
 
                 </div>
@@ -224,18 +249,22 @@
         </div>
     </main>
 
-    <footer class="h-28 bg-white/80 backdrop-blur-md border-t border-gray-100 flex items-center justify-between px-6 lg:px-12 shrink-0 z-50 pb-safe">
-        <button @click="prevStep" :disabled="currentStep === 0" class="pill-btn bg-gray-100 text-gray-400 disabled:opacity-30">Back</button>
+    <footer class="h-32 bg-white/90 backdrop-blur-2xl border-t border-gray-100 flex items-center justify-between px-6 lg:px-12 shrink-0 z-[60] pb-safe">
+        <button @click="prevStep" :disabled="currentStep === 0" class="pill-btn bg-gray-50 text-gray-300 disabled:opacity-20 shadow-none">Back</button>
         
         <div class="flex flex-col items-center">
-            <div class="text-[8px] font-bold text-gray-300 uppercase tracking-[0.4em] mb-2">Secure Cloud Session</div>
-            <div class="flex gap-2">
-                <div v-for="(s, i) in steps" :key="i" class="w-1.5 h-1.5 rounded-full transition-all" :class="currentStep === i ? 'bg-brand scale-150' : 'bg-gray-200'"></div>
+            <div class="flex gap-2.5 mb-2">
+                <div v-for="(s, i) in steps" :key="i" class="w-2 h-2 rounded-full transition-all duration-500" :class="currentStep === i ? 'bg-brand scale-150 shadow-lg' : 'bg-gray-200'"></div>
             </div>
+            <div class="text-[8px] font-bold text-gray-400 uppercase tracking-[0.4em]">Integrated OS v5.0</div>
         </div>
 
-        <button @click="nextStep" v-if="currentStep < steps.length - 1" class="pill-btn bg-dark text-white hover:bg-brand">Next Details</button>
-        <button @click="finalizeMatch" v-else class="pill-btn bg-brand text-dark shadow-[0_0_20px_rgba(197,160,89,0.3)]">Find Matches</button>
+        <button @click="nextStep" v-if="currentStep < steps.length - 1" class="pill-btn bg-dark text-white hover:bg-brand shadow-xl">
+            Next Details <i class="fa-solid fa-chevron-right ml-2 text-[8px]"></i>
+        </button>
+        <button @click="finalizeEnquiry" v-else class="pill-btn bg-brand text-white shadow-[0_0_30px_rgba(197,160,89,0.3)]">
+            Match Partners <i class="fa-solid fa-bolt ml-2"></i>
+        </button>
     </footer>
 
     <input type="file" ref="logoInput" class="hidden" accept="image/*" @change="handleLogo">
@@ -243,19 +272,20 @@
 </div>
 
 <script>
-    const { createApp, reactive, computed, ref, onMounted } = Vue;
+    const { createApp, reactive, computed, ref, onMounted, watch } = Vue;
 
     createApp({
         setup() {
+            // -- SYSTEM ENGINE --
             const currentStep = ref(0);
             const logoInput = ref(null);
             const brand = reactive({ logo: null });
-            const meta = reactive({ ref: 'FM-2026-X', timestamp: new Date().toLocaleTimeString() });
+            const meta = reactive({ timestamp: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) });
 
             const steps = [
-                { id: 'intake', label: 'Intake' },
+                { id: 'intake', label: 'Lead' },
                 { id: 'deceased', label: 'Identity' },
-                { id: 'care', label: 'Risk' }
+                { id: 'ops', label: 'Ops' }
             ];
 
             const form = reactive({
@@ -265,7 +295,7 @@
                 risks: { pacemaker: false, oversize: false }
             });
 
-            // LOGIC BOT: AUTO AGE ESTIMATOR
+            // -- LOGIC BOT 1: PRECISION AGE CALCULATOR --
             const calculatedAge = computed(() => {
                 if(!form.deceased.dob || !form.deceased.dod) return null;
                 const b = new Date(form.deceased.dob);
@@ -273,18 +303,23 @@
                 let age = d.getFullYear() - b.getFullYear();
                 const m = d.getMonth() - b.getMonth();
                 if (m < 0 || (m === 0 && d.getDate() < b.getDate())) age--;
-                return age;
+                return age < 0 ? 0 : age;
+            });
+
+            // -- LOGIC BOT 2: DYNAMIC MARKETPLACE PRICING --
+            const totalRaw = computed(() => {
+                let base = 1200; // Marketplace Match/Management Fee
+                if(form.risks.pacemaker) base += 95;
+                if(form.risks.oversize) base += 275;
+                return base;
             });
 
             const formattedTotal = computed(() => {
-                let total = 1200; // Prof Fee Base
-                if(form.risks.pacemaker) total += 95;
-                if(form.risks.oversize) total += 250;
-                return new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'GBP' }).format(total);
+                return new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'GBP' }).format(totalRaw.value);
             });
 
-            // ACTIONS
-            const nextStep = () => { currentStep.value++; window.scrollTo(0,0); };
+            // -- ACTIONS --
+            const nextStep = () => { currentStep.value++; };
             const prevStep = () => { currentStep.value--; };
             
             const triggerLogo = () => logoInput.value.click();
@@ -292,34 +327,48 @@
                 const file = e.target.files[0];
                 if(file) {
                     const reader = new FileReader();
-                    reader.onload = (ev) => { brand.logo = ev.target.result; localStorage.setItem('fm_logo_pro', ev.target.result); };
+                    reader.onload = (ev) => {
+                        brand.logo = ev.target.result;
+                        localStorage.setItem('fm_permanent_logo', ev.target.result);
+                    };
                     reader.readAsDataURL(file);
                 }
-            };
-
-            const finalizeMatch = () => {
-                alert("Searching Marketplace for FD matches in your area...");
             };
 
             const generatePDF = () => {
                 const { jsPDF } = window.jspdf;
                 const doc = new jsPDF();
-                doc.setFont("times", "bold"); doc.text("FuneralMatch First Call File", 15, 20);
-                doc.setFont("helvetica", "normal"); doc.setFontSize(10);
-                doc.text(`Deceased: ${form.deceased.first} ${form.deceased.last}`, 15, 40);
-                doc.text(`Calculated Age: ${calculatedAge.value}`, 15, 50);
-                doc.save("FirstCall.pdf");
+                doc.setFont("playfair", "bold");
+                doc.text("FuneralMatch At-Need File", 20, 20);
+                doc.setFont("helvetica", "normal");
+                doc.text(`Reference ID: ${Math.random().toString(36).substr(2, 9).toUpperCase()}`, 20, 30);
+                doc.text(`Deceased: ${form.deceased.first} ${form.deceased.last}`, 20, 50);
+                doc.text(`Verified Age: ${calculatedAge.value || 'N/A'}`, 20, 60);
+                doc.text(`Marketplace Estimate: ${formattedTotal.value}`, 20, 80);
+                doc.save(`Intake_${form.deceased.last || 'NewCase'}.pdf`);
             };
 
+            const finalizeEnquiry = () => {
+                alert("LEAD CAPTURED. Searching Marketplace for immediate availability...");
+            };
+
+            // -- AUTO-SAVE SYSTEM --
+            watch(form, (newVal) => {
+                localStorage.setItem('fm_lead_draft', JSON.stringify(newVal));
+            }, { deep: true });
+
             onMounted(() => {
-                const savedLogo = localStorage.getItem('fm_logo_pro');
+                const savedLogo = localStorage.getItem('fm_permanent_logo');
                 if(savedLogo) brand.logo = savedLogo;
+
+                const savedLead = localStorage.getItem('fm_lead_draft');
+                if(savedLead) Object.assign(form, JSON.parse(savedLead));
             });
 
             return {
                 currentStep, steps, form, brand, meta, logoInput,
                 calculatedAge, formattedTotal,
-                nextStep, prevStep, triggerLogo, handleLogo, finalizeMatch, generatePDF
+                nextStep, prevStep, triggerLogo, handleLogo, finalizeEnquiry, generatePDF
             };
         }
     }).mount('#app');
