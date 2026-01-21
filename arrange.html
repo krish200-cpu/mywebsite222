@@ -3,22 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>FuneralMatch | Master Arrangement</title>
+    <title>FuneralMatch | Master Arrangement Suite</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,600;1,400;1,500&family=Inter:wght@300;400;500;600&family=Cinzel:wght@600&family=Great+Vibes&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&family=Cinzel:wght@600&family=Great+Vibes&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --bg-body: #F7F5F0;
+            --bg-body: #F9F8F6;
             --gold: #C5A059;
-            --gold-light: #F2EBE0;
-            --border: #E0E0E0;
-            --text-main: #1F1F1F;
-            --radius: 20px;
+            --gold-dim: #D4C3A3;
+            --text-main: #2D2D2D;
+            --success: #10B981;
         }
 
         body {
@@ -28,341 +25,359 @@
             height: 100vh; display: flex; flex-direction: column; overflow: hidden;
         }
 
-        /* --- LAYOUT --- */
-        .app-shell {
-            display: grid; grid-template-columns: 260px 1fr 380px; /* Nav | Form | Doc */
-            flex: 1; overflow: hidden;
+        /* --- UI COMPONENTS --- */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid #E5E5E5;
         }
 
-        /* --- 1. SIDEBAR --- */
-        .sidebar {
-            background: white; border-right: 1px solid var(--border);
-            overflow-y: auto; padding-bottom: 40px;
+        .tooltip-trigger {
+            color: #999; cursor: help; margin-left: 6px; transition: 0.2s;
         }
-        .nav-group { padding: 24px 20px 8px 20px; font-size: 10px; font-weight: 800; color: #999; text-transform: uppercase; letter-spacing: 0.1em; }
-        .nav-link {
-            padding: 10px 20px; margin: 2px 10px; border-radius: 8px;
-            font-size: 13px; color: #555; cursor: pointer; display: flex; align-items: center; gap: 10px;
-            transition: 0.2s;
-        }
-        .nav-link:hover { background: #f5f5f5; color: black; }
-        .nav-link.active { background: var(--gold-light); color: black; font-weight: 600; }
-        .nav-icon { width: 16px; text-align: center; color: var(--gold); }
+        .tooltip-trigger:hover { color: var(--gold); }
 
-        /* --- 2. MAIN FORM --- */
-        .main-form {
-            overflow-y: auto; scroll-behavior: smooth; padding: 40px 60px 100px 60px;
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #DDD; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #BBB; }
+
+        /* Sidebar Navigation */
+        .sidebar { background: white; border-right: 1px solid #E5E5E5; width: 260px; display: flex; flex-direction: column; transition: transform 0.3s ease; z-index: 40; }
+        .nav-item {
+            padding: 12px 20px; font-size: 13px; color: #666; cursor: pointer;
+            border-left: 3px solid transparent; transition: all 0.2s; display: flex; justify-content: space-between; align-items: center;
         }
+        .nav-item:hover { background: #FAF9F6; color: #000; }
+        .nav-item.active { background: #FFFCF5; border-left-color: var(--gold); color: #000; font-weight: 600; }
+        .nav-check { color: var(--success); opacity: 0; transition: 0.2s; }
+        .nav-item.completed .nav-check { opacity: 1; }
+
+        /* Main Form Area */
+        .main-stage { flex: 1; overflow-y: auto; scroll-behavior: smooth; padding: 40px 8%; position: relative; }
         
-        .section-block { margin-bottom: 60px; scroll-margin-top: 20px; }
-        .block-title { font-family: 'Bodoni Moda', serif; font-size: 28px; margin-bottom: 10px; border-bottom: 1px solid var(--border); padding-bottom: 10px; }
-        
-        .form-row { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-bottom: 20px; }
-        .form-full { grid-column: span 2; }
-        
-        .lbl { display: block; font-size: 11px; font-weight: 700; text-transform: uppercase; color: #888; margin-bottom: 6px; }
-        .inp {
-            width: 100%; padding: 12px 16px; border: 1px solid var(--border); border-radius: 12px;
-            font-size: 14px; outline: none; transition: 0.2s; background: white;
+        /* Input Styling */
+        .input-group { position: relative; margin-bottom: 20px; }
+        .floating-label {
+            position: absolute; top: 14px; left: 16px; font-size: 14px; color: #888;
+            pointer-events: none; transition: 0.2s ease all;
         }
-        .inp:focus { border-color: var(--gold); box-shadow: 0 0 0 3px var(--gold-light); }
-
-        /* Custom Radio Cards */
-        .radio-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
-        .radio-card {
-            background: white; border: 1px solid var(--border); border-radius: 12px;
-            padding: 16px; cursor: pointer; text-align: center; transition: 0.2s;
+        .smart-input {
+            width: 100%; padding: 14px 16px; border: 1px solid #E0E0E0; border-radius: 8px;
+            font-size: 15px; outline: none; background: white; transition: 0.2s;
         }
-        .radio-card:hover { border-color: #999; }
-        .radio-card.selected { border-color: var(--gold); background: #FFFCF5; color: var(--gold); font-weight: 700; }
-
-        /* Coffin Grid */
-        .coffin-card {
-            border: 1px solid var(--border); border-radius: 16px; overflow: hidden; cursor: pointer; background: white;
-            transition: 0.2s;
+        .smart-input:focus { border-color: var(--gold); box-shadow: 0 0 0 4px rgba(197, 160, 89, 0.1); }
+        .smart-input:focus ~ .floating-label,
+        .smart-input:not(:placeholder-shown) ~ .floating-label {
+            top: -10px; left: 12px; font-size: 11px; background: white; padding: 0 4px; color: var(--gold); font-weight: 600;
         }
-        .coffin-card:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
-        .coffin-card.selected { border: 2px solid var(--gold); }
-        .coffin-img { width: 100%; height: 120px; object-fit: cover; background: #eee; }
 
-        /* --- 3. LIVE DOCUMENT --- */
+        /* Interactive Cards */
+        .selection-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 16px; }
+        .select-card {
+            border: 1px solid #E0E0E0; border-radius: 12px; padding: 20px; cursor: pointer;
+            text-align: center; background: white; transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative; overflow: hidden;
+        }
+        .select-card:hover { transform: translateY(-3px); box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1); border-color: #CCC; }
+        .select-card.active { border: 2px solid var(--gold); background: #FFFCF5; }
+        .select-card.active::after {
+            content: '\f00c'; font-family: 'Font Awesome 6 Free'; font-weight: 900;
+            position: absolute; top: 8px; right: 8px; color: var(--gold); font-size: 12px;
+        }
+
+        /* Pricing Badge */
+        .price-badge {
+            background: #2D2D2D; color: white; padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: 700;
+            position: absolute; bottom: 10px; right: 10px;
+        }
+
+        /* Document Preview */
         .doc-panel {
-            background: #EBEAE8; border-left: 1px solid var(--border);
-            display: flex; flex-direction: column; padding: 20px;
+            width: 400px; background: #EBEAE8; border-left: 1px solid #E5E5E5;
+            display: flex; flex-direction: column; padding: 24px;
+            transform: translateX(0); transition: transform 0.3s;
         }
-        .paper-sheet {
-            background: white; flex: 1; width: 100%; box-shadow: 0 5px 20px rgba(0,0,0,0.05);
-            padding: 40px; overflow-y: auto; font-family: 'Times New Roman', serif; font-size: 14px; line-height: 1.4;
+        .live-doc {
+            background: white; flex: 1; box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            padding: 40px; font-family: 'Times New Roman', serif; overflow-y: auto;
+            position: relative;
         }
-        .doc-h1 { text-align: center; font-family: 'Cinzel', serif; font-size: 18px; margin-bottom: 20px; border-bottom: 2px solid black; padding-bottom: 10px; }
-        .doc-section { margin-bottom: 20px; }
-        .doc-label { font-weight: bold; font-size: 12px; text-transform: uppercase; color: #444; }
-        .doc-val { color: #000; min-height: 18px; border-bottom: 1px dotted #ccc; margin-bottom: 8px; }
-        .doc-val:empty::before { content: '----------------'; color: #ddd; }
+        .watermark {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-45deg);
+            font-size: 60px; color: rgba(0,0,0,0.03); white-space: nowrap; pointer-events: none;
+        }
 
-        /* Signature Pad */
-        .sig-box { font-family: 'Great Vibes', cursive; font-size: 32px; color: #000; border-bottom: 1px solid black; padding: 10px; min-height: 50px; }
+        /* Animations */
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .section-animate { animation: fadeIn 0.4s ease-out forwards; }
 
         /* Responsive */
         @media (max-width: 1024px) {
-            .app-shell { grid-template-columns: 1fr; display: block; overflow-y: auto; }
-            .sidebar, .doc-panel { display: none; }
+            .app-container { flex-direction: column; overflow-y: auto; }
+            .sidebar { position: fixed; height: 100%; transform: translateX(-100%); }
+            .sidebar.open { transform: translateX(0); }
+            .doc-panel { display: none; } /* Hide doc on mobile, user relies on summary */
+            .main-stage { padding: 20px; }
         }
     </style>
 </head>
 <body>
 
-    <header class="h-16 bg-white border-b border-[#E5E5E5] flex items-center justify-between px-6 sticky top-0 z-50">
-        <div class="flex items-center gap-3">
-            <div class="w-8 h-8 bg-[#C5A059] rounded-full flex items-center justify-center text-white font-serif italic font-bold">F</div>
-            <div>
-                <span class="text-[10px] font-bold text-[#C5A059] uppercase tracking-widest block">FuneralMatch</span>
-                <span class="text-sm font-bold">Master Arrangement</span>
+    <nav class="h-16 glass-panel flex items-center justify-between px-6 sticky top-0 z-50">
+        <div class="flex items-center gap-4">
+            <button class="lg:hidden text-gray-600 text-xl" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 bg-black text-[#C5A059] flex items-center justify-center font-serif font-bold text-lg rounded-sm">F</div>
+                <div class="leading-tight">
+                    <div class="text-xs font-bold tracking-widest uppercase text-[#C5A059]">FuneralMatch</div>
+                    <div class="text-xs text-gray-500">Arrangement Suite v2.1</div>
+                </div>
             </div>
         </div>
-        <div class="flex gap-3">
-            <span class="text-xs bg-green-50 text-green-700 px-3 py-1.5 rounded-full font-bold border border-green-200"><i class="fas fa-check-circle mr-1"></i> Auto-Saving</span>
-            <button onclick="window.print()" class="text-xs bg-black text-white px-4 py-1.5 rounded-full font-bold hover:bg-[#C5A059] transition">Finalize Pack</button>
-        </div>
-    </header>
 
-    <div class="app-shell">
+        <div class="flex items-center gap-6">
+            <div class="hidden md:block text-right">
+                <div class="text-[10px] text-gray-400 uppercase font-bold tracking-wider">Estimated Total</div>
+                <div class="text-xl font-bold font-serif" id="header-total">£0.00</div>
+            </div>
+            
+            <div class="h-8 w-px bg-gray-200 hidden md:block"></div>
+
+            <button onclick="saveProgress()" class="text-xs font-bold text-gray-500 hover:text-black transition flex items-center gap-2">
+                <span id="save-status"><i class="fas fa-cloud"></i> Saved</span>
+            </button>
+            <button onclick="window.print()" class="bg-[#C5A059] text-white text-xs font-bold px-5 py-2.5 rounded shadow-lg hover:bg-[#b08d4b] transition">
+                Finalize
+            </button>
+        </div>
+    </nav>
+
+    <div class="flex flex-1 overflow-hidden app-container">
         
-        <nav class="sidebar">
-            <div class="nav-group">Phase 1: Intake</div>
-            <div class="nav-link active" onclick="scrollToId('sec-1')"><i class="fas fa-user nav-icon"></i> General Details</div>
-            <div class="nav-link" onclick="scrollToId('sec-2')"><i class="fas fa-file-contract nav-icon"></i> Documentation</div>
-            <div class="nav-link" onclick="scrollToId('sec-3')"><i class="fas fa-church nav-icon"></i> Service Type</div>
-            
-            <div class="nav-group">Phase 2: Ceremony</div>
-            <div class="nav-link" onclick="scrollToId('sec-4')"><i class="fas fa-music nav-icon"></i> Ceremony</div>
-            <div class="nav-link" onclick="scrollToId('sec-5')"><i class="fas fa-box nav-icon"></i> Casket & Care</div>
-            <div class="nav-link" onclick="scrollToId('sec-6')"><i class="fas fa-fire nav-icon"></i> Cremation / Burial</div>
-            
-            <div class="nav-group">Phase 3: Logistics</div>
-            <div class="nav-link" onclick="scrollToId('sec-9')"><i class="fas fa-car nav-icon"></i> Transportation</div>
-            <div class="nav-link" onclick="scrollToId('sec-10')"><i class="fas fa-glass-cheers nav-icon"></i> Reception</div>
-            
-            <div class="nav-group">Phase 4: Handover</div>
-            <div class="nav-link" onclick="scrollToId('sec-13')"><i class="fas fa-credit-card nav-icon"></i> Payments</div>
-            <div class="nav-link" onclick="scrollToId('sec-15')"><i class="fas fa-signature nav-icon"></i> Consent</div>
-        </nav>
+        <aside class="sidebar" id="sidebar">
+            <div class="p-6">
+                <div class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-4">Progression</div>
+                <div class="h-1.5 bg-gray-100 rounded-full overflow-hidden mb-2">
+                    <div class="h-full bg-[#C5A059] transition-all duration-500" style="width: 0%" id="progress-bar"></div>
+                </div>
+                <div class="text-xs text-right text-gray-500"><span id="progress-text">0</span>% Complete</div>
+            </div>
 
-        <main class="main-form">
+            <div class="overflow-y-auto flex-1 pb-10">
+                <div class="nav-group mb-6">
+                    <div class="px-6 py-2 text-[10px] font-bold text-gray-400 uppercase">Intake</div>
+                    <div class="nav-item active" onclick="scrollToSection('sec-details')">
+                        <span><i class="fas fa-user mr-3 w-4 text-center"></i> Deceased Details</span>
+                        <i class="fas fa-check-circle nav-check"></i>
+                    </div>
+                    <div class="nav-item" onclick="scrollToSection('sec-docs')">
+                        <span><i class="fas fa-file-contract mr-3 w-4 text-center"></i> Legal Docs</span>
+                        <i class="fas fa-check-circle nav-check"></i>
+                    </div>
+                </div>
+
+                <div class="nav-group mb-6">
+                    <div class="px-6 py-2 text-[10px] font-bold text-gray-400 uppercase">Ceremony</div>
+                    <div class="nav-item" onclick="scrollToSection('sec-service')">
+                        <span><i class="fas fa-church mr-3 w-4 text-center"></i> Service Type</span>
+                        <i class="fas fa-check-circle nav-check"></i>
+                    </div>
+                    <div class="nav-item" onclick="scrollToSection('sec-coffin')">
+                        <span><i class="fas fa-box mr-3 w-4 text-center"></i> Casket Selection</span>
+                        <i class="fas fa-check-circle nav-check"></i>
+                    </div>
+                </div>
+
+                <div class="nav-group">
+                    <div class="px-6 py-2 text-[10px] font-bold text-gray-400 uppercase">Logistics</div>
+                    <div class="nav-item" onclick="scrollToSection('sec-transport')">
+                        <span><i class="fas fa-car mr-3 w-4 text-center"></i> Fleet</span>
+                        <i class="fas fa-check-circle nav-check"></i>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-stage" id="main-scroll">
             
-            <div id="sec-1" class="section-block">
-                <div class="block-title">1. General Details</div>
-                <div class="form-row">
-                    <div><label class="lbl">Full Name of Deceased</label><input class="inp" oninput="update('name', this.value)"></div>
-                    <div><label class="lbl">Known As / Alias</label><input class="inp" oninput="update('alias', this.value)"></div>
+            <div id="sec-details" class="section-animate mb-20">
+                <div class="border-b border-gray-200 pb-4 mb-8 flex justify-between items-end">
+                    <div>
+                        <h2 class="font-serif text-3xl mb-1">Deceased Details</h2>
+                        <p class="text-gray-500 text-sm">Please provide accurate information for the Registrar.</p>
+                    </div>
+                    <div class="text-gray-300 text-5xl font-serif italic opacity-20">01</div>
                 </div>
-                <div class="form-row">
-                    <div><label class="lbl">Date of Birth</label><input type="date" class="inp" oninput="update('dob', this.value)"></div>
-                    <div><label class="lbl">Date of Death</label><input type="date" class="inp" oninput="update('dod', this.value)"></div>
-                </div>
-                <div class="form-row">
-                    <div><label class="lbl">Place of Death</label><input class="inp" placeholder="Hospital / Home" oninput="update('place', this.value)"></div>
-                    <div><label class="lbl">NI / SS Number</label><input class="inp" oninput="update('ni', this.value)"></div>
-                </div>
-                <div class="form-full mb-4"><label class="lbl">Home Address</label><input class="inp" oninput="update('addr', this.value)"></div>
-                
-                <div class="p-4 bg-yellow-50 border border-yellow-100 rounded-xl">
-                    <div class="form-row mb-0">
-                        <div><label class="lbl">Next of Kin Name</label><input class="inp" oninput="update('nok', this.value)"></div>
-                        <div><label class="lbl">Relationship</label><input class="inp" oninput="update('rel', this.value)"></div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="input-group md:col-span-2">
+                        <input type="text" class="smart-input" id="inp-name" placeholder=" " oninput="handleInput('name', this.value)">
+                        <label class="floating-label">Full Legal Name</label>
+                    </div>
+
+                    <div class="input-group">
+                        <input type="date" class="smart-input" id="inp-dob" oninput="handleInput('dob', this.value)">
+                        <label class="floating-label">Date of Birth</label>
+                    </div>
+                    <div class="input-group">
+                        <input type="date" class="smart-input" id="inp-dod" oninput="handleInput('dod', this.value)">
+                        <label class="floating-label">Date of Death</label>
+                    </div>
+
+                    <div class="input-group">
+                        <input type="text" class="smart-input" id="inp-ni" placeholder=" " oninput="handleInput('ni', this.value)">
+                        <label class="floating-label">NI Number <i class="fas fa-question-circle tooltip-trigger" title="Required by the DWP for any benefit claims."></i></label>
+                    </div>
+                    <div class="input-group">
+                        <input type="text" class="smart-input" id="inp-religion" placeholder=" " oninput="handleInput('religion', this.value)">
+                        <label class="floating-label">Religious Denomination (Optional)</label>
                     </div>
                 </div>
             </div>
 
-            <div id="sec-2" class="section-block">
-                <div class="block-title">2. Documentation</div>
-                <div class="form-row">
+            <div id="sec-service" class="section-animate mb-20">
+                <div class="border-b border-gray-200 pb-4 mb-8 flex justify-between items-end">
                     <div>
-                        <label class="lbl">Deceased has a Will?</label>
-                        <div class="radio-grid">
-                            <div class="radio-card" onclick="select(this, 'will', 'Yes')">Yes</div>
-                            <div class="radio-card" onclick="select(this, 'will', 'No')">No</div>
+                        <h2 class="font-serif text-3xl mb-1">Service Preferences</h2>
+                        <p class="text-gray-500 text-sm">This determines the core fees.</p>
+                    </div>
+                    <div class="text-gray-300 text-5xl font-serif italic opacity-20">02</div>
+                </div>
+
+                <div class="selection-grid">
+                    <div class="select-card" onclick="selectOption('service', 'Cremation', 850, this)">
+                        <div class="text-2xl text-gray-400 mb-2"><i class="fas fa-fire"></i></div>
+                        <div class="font-bold text-sm mb-1">Cremation</div>
+                        <div class="text-xs text-gray-500">Standard Service</div>
+                        <div class="price-badge">£850</div>
+                    </div>
+                    <div class="select-card" onclick="selectOption('service', 'Burial', 1200, this)">
+                        <div class="text-2xl text-gray-400 mb-2"><i class="fas fa-cross"></i></div>
+                        <div class="font-bold text-sm mb-1">Burial</div>
+                        <div class="text-xs text-gray-500">Excl. Plot Purchase</div>
+                        <div class="price-badge">£1,200</div>
+                    </div>
+                    <div class="select-card" onclick="selectOption('service', 'Direct', 450, this)">
+                        <div class="text-2xl text-gray-400 mb-2"><i class="fas fa-stopwatch"></i></div>
+                        <div class="font-bold text-sm mb-1">Direct</div>
+                        <div class="text-xs text-gray-500">Unattended</div>
+                        <div class="price-badge">£450</div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="sec-coffin" class="section-animate mb-20">
+                <div class="border-b border-gray-200 pb-4 mb-8 flex justify-between items-end">
+                    <div>
+                        <h2 class="font-serif text-3xl mb-1">The Casket</h2>
+                        <p class="text-gray-500 text-sm">Select a dignified resting place.</p>
+                    </div>
+                    <div class="text-gray-300 text-5xl font-serif italic opacity-20">03</div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="select-card p-0 overflow-hidden group" onclick="selectOption('coffin', 'The Morpeth', 0, this)">
+                        <div class="h-32 bg-gray-100 overflow-hidden relative">
+                            <img src="https://images.unsplash.com/photo-1518640165980-d3e0e2aa6c1e?auto=format&fit=crop&q=80&w=400" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                            <div class="absolute top-2 right-2 bg-green-500 text-white text-[10px] font-bold px-2 py-1 rounded">INCLUDED</div>
+                        </div>
+                        <div class="p-4 text-left">
+                            <div class="font-bold text-sm">The Morpeth</div>
+                            <div class="text-xs text-gray-500 mt-1">Light oak veneer, traditional fittings.</div>
                         </div>
                     </div>
-                    <div>
-                        <label class="lbl">Coroner Involvement?</label>
-                        <div class="radio-grid">
-                            <div class="radio-card" onclick="select(this, 'coroner', 'Yes')">Yes</div>
-                            <div class="radio-card" onclick="select(this, 'coroner', 'No')">No</div>
+
+                    <div class="select-card p-0 overflow-hidden group" onclick="selectOption('coffin', 'The Willow', 450, this)">
+                        <div class="h-32 bg-gray-100 overflow-hidden relative">
+                            <img src="https://images.unsplash.com/photo-1589182373726-e4f658ab50f0?auto=format&fit=crop&q=80&w=400" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                            <div class="price-badge">+£450</div>
+                        </div>
+                        <div class="p-4 text-left">
+                            <div class="font-bold text-sm">The Willow</div>
+                            <div class="text-xs text-gray-500 mt-1">Hand-woven, 100% biodegradable natural willow.</div>
+                        </div>
+                    </div>
+
+                     <div class="select-card p-0 overflow-hidden group" onclick="selectOption('coffin', 'The Buckingham', 1800, this)">
+                        <div class="h-32 bg-gray-100 overflow-hidden relative">
+                            <img src="https://images.unsplash.com/photo-1595846519845-68e298c2edd8?auto=format&fit=crop&q=80&w=400" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                            <div class="price-badge">+£1,800</div>
+                        </div>
+                        <div class="p-4 text-left">
+                            <div class="font-bold text-sm">The Buckingham</div>
+                            <div class="text-xs text-gray-500 mt-1">Solid mahogany with brass handles and silk lining.</div>
                         </div>
                     </div>
                 </div>
-                <div class="form-full">
-                    <label class="lbl">Upload Death Certificate</label>
-                    <div class="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center cursor-pointer hover:bg-white transition" onclick="alert('Upload Dialog')">
-                        <i class="fas fa-cloud-upload-alt text-2xl text-gray-300 mb-2"></i>
-                        <div class="text-xs font-bold text-gray-500">Click to upload scanned certificate</div>
-                    </div>
-                </div>
             </div>
 
-            <div id="sec-3" class="section-block">
-                <div class="block-title">3. Service & Venue</div>
-                <div class="radio-grid mb-4">
-                    <div class="radio-card" onclick="select(this, 'serviceType', 'Burial')">Burial</div>
-                    <div class="radio-card" onclick="select(this, 'serviceType', 'Cremation')">Cremation</div>
-                    <div class="radio-card" onclick="select(this, 'serviceType', 'Green')">Natural</div>
-                    <div class="radio-card" onclick="select(this, 'serviceType', 'Direct')">Direct</div>
-                </div>
-                <div class="form-row">
-                    <div class="form-full"><label class="lbl">Preferred Venue</label><input class="inp" placeholder="Church / Crematorium Name" oninput="update('venue', this.value)"></div>
-                </div>
-                <div class="form-row">
-                    <div><label class="lbl">Service Date</label><input type="date" class="inp" oninput="update('sDate', this.value)"></div>
-                    <div><label class="lbl">Time</label><input type="time" class="inp" oninput="update('sTime', this.value)"></div>
-                </div>
-            </div>
-
-            <div id="sec-4" class="section-block">
-                <div class="block-title">4. Ceremony Details</div>
-                <div class="form-row">
-                    <div><label class="lbl">Officiant Required?</label><div class="radio-grid"><div class="radio-card" onclick="select(this,'officiant','Yes')">Yes</div><div class="radio-card" onclick="select(this,'officiant','No')">No</div></div></div>
-                    <div><label class="lbl">Music?</label><div class="radio-grid"><div class="radio-card" onclick="select(this,'music','Yes')">Yes</div><div class="radio-card" onclick="select(this,'music','No')">No</div></div></div>
-                </div>
-                <div class="form-full mb-4"><label class="lbl">Entry Music</label><input class="inp" oninput="update('mEntry', this.value)"></div>
-                <div class="form-full mb-4"><label class="lbl">Exit Music</label><input class="inp" oninput="update('mExit', this.value)"></div>
-                <div class="form-full"><label class="lbl">Eulogy Speaker(s)</label><input class="inp" oninput="update('eulogy', this.value)"></div>
-            </div>
-
-            <div id="sec-5" class="section-block">
-                <div class="block-title">5. Casket & Disposition</div>
-                <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
-                    <div class="coffin-card" onclick="pickCoffin(this, 'The Morpeth (Oak)', 0)">
-                        <img src="https://images.unsplash.com/photo-1518640165980-d3e0e2aa6c1e?auto=format&fit=crop&q=80&w=300&h=200" class="coffin-img">
-                        <div class="p-3 text-xs font-bold text-center">The Morpeth (Included)</div>
-                    </div>
-                    <div class="coffin-card" onclick="pickCoffin(this, 'The Willow', 450)">
-                        <img src="https://images.unsplash.com/photo-1589182373726-e4f658ab50f0?auto=format&fit=crop&q=80&w=300&h=200" class="coffin-img">
-                        <div class="p-3 text-xs font-bold text-center">Natural Willow (+£450)</div>
-                    </div>
-                    <div class="coffin-card" onclick="pickCoffin(this, 'American Casket', 2200)">
-                        <img src="https://images.unsplash.com/photo-1595846519845-68e298c2edd8?auto=format&fit=crop&q=80&w=300&h=200" class="coffin-img">
-                        <div class="p-3 text-xs font-bold text-center">Metal Casket (+£2200)</div>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div><label class="lbl">Embalming?</label><div class="radio-grid"><div class="radio-card" onclick="select(this,'embalm','Yes')">Yes</div><div class="radio-card" onclick="select(this,'embalm','No')">No</div></div></div>
-                    <div><label class="lbl">Viewing?</label><div class="radio-grid"><div class="radio-card" onclick="select(this,'view','Yes')">Yes</div><div class="radio-card" onclick="select(this,'view','No')">No</div></div></div>
-                </div>
-            </div>
-
-            <div id="sec-6" class="section-block">
-                <div class="block-title">6. Cremation / Burial Details</div>
-                <div class="form-full mb-4">
-                    <label class="lbl">Ashes Instructions / Plot Reference</label>
-                    <textarea class="inp" rows="3" oninput="update('remains', this.value)" placeholder="e.g. Scattered in Garden of Remembrance OR Family Plot Row 4, Grave 20"></textarea>
-                </div>
-            </div>
-
-            <div id="sec-9" class="section-block">
-                <div class="block-title">9. Transportation</div>
-                <div class="radio-grid mb-4">
-                    <div class="radio-card" onclick="select(this, 'transport', 'Motor Hearse')">Hearse</div>
-                    <div class="radio-card" onclick="select(this, 'transport', 'Horse Drawn')">Horse Drawn</div>
-                    <div class="radio-card" onclick="select(this, 'transport', 'Motorcycle')">Bike Hearse</div>
-                </div>
-                <div class="form-row">
+             <div id="sec-transport" class="section-animate mb-20">
+                <div class="border-b border-gray-200 pb-4 mb-8 flex justify-between items-end">
                     <div>
-                        <label class="lbl">Limousines (7 Seats)</label>
-                        <select class="inp" onchange="update('limos', this.value)">
-                            <option value="0">None</option>
-                            <option value="1">1 Car</option>
-                            <option value="2">2 Cars</option>
-                            <option value="3">3 Cars</option>
-                        </select>
+                        <h2 class="font-serif text-3xl mb-1">Fleet Requirements</h2>
+                        <p class="text-gray-500 text-sm">Cortege logistics.</p>
                     </div>
-                    <div>
-                        <label class="lbl">Collection Address</label>
-                        <input class="inp" oninput="update('pickup', this.value)">
+                    <div class="text-gray-300 text-5xl font-serif italic opacity-20">04</div>
+                </div>
+
+                <div class="mb-6">
+                    <div class="text-sm font-bold text-gray-700 mb-3">Limousines (7 Seats each)</div>
+                    <div class="flex items-center gap-4">
+                        <button class="w-10 h-10 rounded-full border border-gray-300 hover:border-[#C5A059] flex items-center justify-center transition" onclick="adjustLimo(-1)"><i class="fas fa-minus"></i></button>
+                        <span class="text-xl font-bold font-serif w-8 text-center" id="limo-count">0</span>
+                        <button class="w-10 h-10 rounded-full border border-gray-300 hover:border-[#C5A059] flex items-center justify-center transition" onclick="adjustLimo(1)"><i class="fas fa-plus"></i></button>
+                        <span class="text-xs text-gray-400 ml-2">£250 per vehicle</span>
                     </div>
-                </div>
-            </div>
-
-            <div id="sec-10" class="section-block">
-                <div class="block-title">10. Reception</div>
-                <div class="form-full">
-                    <label class="lbl">Venue & Catering</label>
-                    <textarea class="inp" rows="2" oninput="update('reception', this.value)" placeholder="Venue name and estimated guests"></textarea>
-                </div>
-            </div>
-
-            <div id="sec-11" class="section-block">
-                <div class="block-title">11. Donations</div>
-                <div class="form-full">
-                    <label class="lbl">Charity Name(s)</label>
-                    <input class="inp" oninput="update('charity', this.value)">
-                </div>
-            </div>
-
-            <div id="sec-13" class="section-block">
-                <div class="block-title">13. Payments</div>
-                <div class="form-row">
-                    <div><label class="lbl">Billing Contact</label><input class="inp" oninput="update('billing', this.value)"></div>
-                    <div>
-                        <label class="lbl">Method</label>
-                        <select class="inp" onchange="update('payment', this.value)">
-                            <option>Credit Card</option>
-                            <option>Bank Transfer</option>
-                            <option>Insurance Policy</option>
-                            <option>DWP Social Fund</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-
-            <div id="sec-15" class="section-block">
-                <div class="block-title">15. Consent</div>
-                <p class="text-xs text-gray-500 mb-4">By signing, I authorize FuneralMatch to conduct the arrangements as specified.</p>
-                <div class="form-full">
-                    <label class="lbl">Electronic Signature</label>
-                    <input class="inp font-serif italic text-2xl" placeholder="Type Name to Sign" oninput="update('sig', this.value)">
                 </div>
             </div>
 
         </main>
 
         <aside class="doc-panel">
-            <div class="paper-sheet" id="print-area">
-                <div class="doc-h1">Arrangement Instructions</div>
-                <div style="text-align:center; margin-bottom:20px; font-size:10px; color:#666;">REF: FM-2026-X</div>
+            <div class="live-doc">
+                <div class="watermark">DRAFT</div>
+                
+                <div class="text-center border-b-2 border-black pb-4 mb-6">
+                    <h1 class="font-serif text-2xl uppercase tracking-widest font-bold">Arrangement</h1>
+                    <div class="text-xs mt-1">ID: <span id="doc-id">PENDING</span></div>
+                </div>
 
-                <div class="doc-section">
-                    <div class="doc-label">Deceased</div>
-                    <div class="doc-val" id="doc-name"></div>
-                    <div class="doc-val" style="font-size:12px;">
-                        DOB: <span id="doc-dob"></span> | DOD: <span id="doc-dod"></span>
+                <div class="mb-6">
+                    <div class="text-[10px] uppercase font-bold text-gray-500 mb-1">Deceased</div>
+                    <div id="doc-name" class="font-serif text-lg border-b border-dotted border-gray-400 min-h-[1.5rem] italic"></div>
+                </div>
+
+                <div class="mb-6 grid grid-cols-2 gap-4">
+                    <div>
+                        <div class="text-[10px] uppercase font-bold text-gray-500 mb-1">DOB</div>
+                        <div id="doc-dob" class="text-sm border-b border-dotted border-gray-400 min-h-[1.2rem]"></div>
                     </div>
-                    <div class="doc-val" id="doc-addr"></div>
+                    <div>
+                        <div class="text-[10px] uppercase font-bold text-gray-500 mb-1">DOD</div>
+                        <div id="doc-dod" class="text-sm border-b border-dotted border-gray-400 min-h-[1.2rem]"></div>
+                    </div>
                 </div>
 
-                <div class="doc-section">
-                    <div class="doc-label">Primary Contact</div>
-                    <div class="doc-val" id="doc-nok"></div>
-                    <div class="doc-val" id="doc-rel"></div>
-                </div>
-
-                <div class="doc-section">
-                    <div class="doc-label">Service Details</div>
-                    <div class="doc-val"><span id="doc-serviceType"></span> @ <span id="doc-venue"></span></div>
-                    <div class="doc-val"><span id="doc-sDate"></span> <span id="doc-sTime"></span></div>
-                </div>
-
-                <div class="doc-section">
-                    <div class="doc-label">Instructions</div>
-                    <div class="doc-val">Coffin: <span id="doc-coffin">Standard</span></div>
-                    <div class="doc-val">Embalming: <span id="doc-embalm">Pending</span></div>
-                    <div class="doc-val">Transport: <span id="doc-transport">Hearse</span> + <span id="doc-limos">0</span> Limos</div>
-                </div>
-
-                <div class="doc-section" style="margin-top:40px;">
-                    <div class="doc-label">Authorized By</div>
-                    <div class="sig-box" id="doc-sig"></div>
-                    <div style="font-size:10px; margin-top:4px;">Date: <span id="doc-date"></span></div>
+                <div class="bg-gray-50 p-4 rounded mb-6">
+                    <div class="text-[10px] uppercase font-bold text-gray-500 mb-2 border-b border-gray-200 pb-1">Cost Breakdown</div>
+                    <div class="flex justify-between text-xs mb-1">
+                        <span>Service (<span id="doc-service-name">Pending</span>)</span>
+                        <span id="doc-service-price">£0</span>
+                    </div>
+                    <div class="flex justify-between text-xs mb-1">
+                        <span>Coffin (<span id="doc-coffin-name">Included</span>)</span>
+                        <span id="doc-coffin-price">£0</span>
+                    </div>
+                    <div class="flex justify-between text-xs mb-1">
+                        <span>Limos (<span id="doc-limo-count">0</span>)</span>
+                        <span id="doc-limo-price">£0</span>
+                    </div>
+                    <div class="border-t border-gray-300 mt-2 pt-2 flex justify-between font-bold text-sm">
+                        <span>Total Estimated</span>
+                        <span id="doc-total">£0.00</span>
+                    </div>
                 </div>
             </div>
         </aside>
@@ -370,36 +385,144 @@
     </div>
 
     <script>
-        // Init Date
-        document.getElementById('doc-date').innerText = new Date().toLocaleDateString();
+        // --- 1. STATE MANAGEMENT ---
+        const state = {
+            details: { name: '', dob: '', dod: '', ni: '' },
+            service: { type: 'Not Selected', price: 0 },
+            coffin: { name: 'The Morpeth', price: 0 },
+            logistics: { limos: 0, limoPrice: 250 },
+            total: 0
+        };
 
-        // 1. Text Update Logic
-        function update(id, val) {
-            const el = document.getElementById('doc-' + id);
-            if(el) el.innerText = val;
+        // --- 2. INIT & RESTORE ---
+        window.addEventListener('DOMContentLoaded', () => {
+            // Generate Random ID
+            document.getElementById('doc-id').innerText = 'FM-' + Math.floor(Math.random() * 10000);
+            
+            // Try load from local storage
+            const saved = localStorage.getItem('funeralMatchState');
+            if(saved) {
+                Object.assign(state, JSON.parse(saved));
+                restoreUI();
+            }
+            calculateTotal();
+        });
+
+        function saveProgress() {
+            localStorage.setItem('funeralMatchState', JSON.stringify(state));
+            const saveBtn = document.getElementById('save-status');
+            saveBtn.innerHTML = '<i class="fas fa-check text-green-500"></i> Saved';
+            setTimeout(() => saveBtn.innerHTML = '<i class="fas fa-cloud"></i> Saved', 2000);
+            updateProgressBar();
         }
 
-        // 2. Radio Selection Logic
-        function select(el, docId, val) {
-            // UI
-            el.parentElement.querySelectorAll('.radio-card').forEach(c => c.classList.remove('selected'));
-            el.classList.add('selected');
-            // Doc
-            update(docId, val);
+        // --- 3. INPUT HANDLERS ---
+        function handleInput(field, value) {
+            state.details[field] = value;
+            
+            // Update Doc
+            const docEl = document.getElementById(`doc-${field}`);
+            if(docEl) docEl.innerText = value;
+            
+            // Auto-save logic (debounce could be added here for perf)
+            saveProgress();
         }
 
-        // 3. Coffin Selection Logic
-        function pickCoffin(el, name, price) {
-            document.querySelectorAll('.coffin-card').forEach(c => c.classList.remove('selected'));
-            el.classList.add('selected');
-            update('coffin', name);
+        function selectOption(category, name, price, el) {
+            // Update State
+            state[category].type = name; // simplified logic
+            if(category === 'coffin') state.coffin.name = name;
+            state[category].price = price;
+
+            // UI Feedback
+            const container = el.parentElement;
+            Array.from(container.children).forEach(child => child.classList.remove('active'));
+            el.classList.add('active');
+
+            // Doc Update
+            if(category === 'service') {
+                document.getElementById('doc-service-name').innerText = name;
+                document.getElementById('doc-service-price').innerText = `£${price}`;
+            }
+            if(category === 'coffin') {
+                document.getElementById('doc-coffin-name').innerText = name;
+                document.getElementById('doc-coffin-price').innerText = `£${price}`;
+            }
+
+            calculateTotal();
+            saveProgress();
         }
 
-        // 4. Scroll Logic
-        function scrollToId(id) {
+        function adjustLimo(delta) {
+            let newCount = state.logistics.limos + delta;
+            if(newCount < 0) newCount = 0;
+            if(newCount > 5) newCount = 5;
+            
+            state.logistics.limos = newCount;
+            
+            // Update UI
+            document.getElementById('limo-count').innerText = newCount;
+            document.getElementById('doc-limo-count').innerText = newCount;
+            document.getElementById('doc-limo-price').innerText = `£${newCount * state.logistics.limoPrice}`;
+            
+            calculateTotal();
+            saveProgress();
+        }
+
+        // --- 4. CALCULATION ENGINE ---
+        function calculateTotal() {
+            const service = state.service.price || 0;
+            const coffin = state.coffin.price || 0;
+            const transport = state.logistics.limos * state.logistics.limoPrice;
+            
+            state.total = service + coffin + transport;
+            
+            const fmt = new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'GBP' }).format(state.total);
+            
+            document.getElementById('header-total').innerText = fmt;
+            document.getElementById('doc-total').innerText = fmt;
+        }
+
+        // --- 5. UTILITIES ---
+        function updateProgressBar() {
+            // Simple completion logic
+            let points = 0;
+            let totalPoints = 5; // Name, DOB, DOD, Service, Coffin
+
+            if(state.details.name) points++;
+            if(state.details.dob) points++;
+            if(state.details.dod) points++;
+            if(state.service.price > 0) points++;
+            if(state.coffin.name) points++;
+
+            const pct = (points / totalPoints) * 100;
+            document.getElementById('progress-bar').style.width = `${pct}%`;
+            document.getElementById('progress-text').innerText = Math.round(pct);
+        }
+
+        function restoreUI() {
+            // Restore Inputs
+            document.getElementById('inp-name').value = state.details.name;
+            document.getElementById('doc-name').innerText = state.details.name;
+            document.getElementById('inp-dob').value = state.details.dob;
+            document.getElementById('inp-dod').value = state.details.dod;
+            
+            // Restore Limos
+            document.getElementById('limo-count').innerText = state.logistics.limos;
+
+            // Note: Restoring "Active" classes on cards would require ID matching, 
+            // omitted here for brevity but State is restored.
+        }
+
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+        }
+
+        function scrollToSection(id) {
             document.getElementById(id).scrollIntoView({ behavior: 'smooth', block: 'start' });
+            // Mobile: Close sidebar after click
+            if(window.innerWidth < 1024) toggleSidebar();
         }
-
     </script>
 </body>
 </html>
