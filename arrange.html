@@ -3,298 +3,349 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>FuneralMatch | Onyx Arrangement Suite</title>
+    <title>FuneralMatch | Logic Flow</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Manrope:wght@300;400;600;700&display=swap" rel="stylesheet">
 
     <script>
         tailwind.config = {
             theme: {
                 extend: {
-                    colors: { 
-                        onyx: '#1A1A1A', 
-                        charcoal: '#2D2D2D',
-                        gold: '#C5A059', 
-                        goldlight: '#E6D5B8',
-                        cream: '#F9F8F6',
-                        paper: '#FFFFFF'
-                    },
-                    fontFamily: { 
-                        serif: ['Playfair Display', 'serif'], 
-                        sans: ['Lato', 'sans-serif'] 
-                    }
+                    colors: { onyx: '#1A1A1A', gold: '#C5A059', cream: '#F9F8F6', concrete: '#F3F4F6' },
+                    fontFamily: { serif: ['Playfair Display', 'serif'], sans: ['Manrope', 'sans-serif'] },
+                    borderRadius: { 'pill': '9999px' }
                 }
             }
         }
     </script>
 
     <style>
-        /* LUXURY OVERRIDES */
-        body { background-color: #F5F2EB; color: #1A1A1A; -webkit-font-smoothing: antialiased; }
+        body { background-color: #F3F4F6; color: #1A1A1A; }
         
-        /* The "Paper" Effect */
-        .sheet { background: white; box-shadow: 0 20px 40px -10px rgba(0,0,0,0.08); border: 1px solid rgba(0,0,0,0.03); }
-        
-        /* TBC Toggle Switch */
-        .tbc-toggle {
-            appearance: none; width: 36px; height: 20px; background: #E5E7EB; border-radius: 20px; position: relative; cursor: pointer; transition: 0.3s;
+        /* THE PILL INPUT SYSTEM */
+        .input-pill {
+            width: 100%; background: white; border: 1px solid #E5E7EB; border-radius: 9999px;
+            padding: 14px 24px; font-family: 'Manrope', sans-serif; font-size: 14px;
+            outline: none; transition: all 0.2s;
         }
-        .tbc-toggle:checked { background: #C5A059; }
-        .tbc-toggle::after {
-            content: ''; position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; background: white; border-radius: 50%; transition: 0.3s;
-        }
-        .tbc-toggle:checked::after { transform: translateX(16px); }
+        .input-pill:focus { border-color: #C5A059; box-shadow: 0 0 0 4px rgba(197, 160, 89, 0.1); }
+        .input-pill::placeholder { color: #9CA3AF; }
 
-        /* Typography */
-        h1, h2, h3 { font-family: 'Playfair Display', serif; }
-        .label-lux { font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: #888; font-weight: 700; font-family: 'Lato', sans-serif; margin-bottom: 6px; display: block; }
-        .input-lux { 
-            width: 100%; border: none; border-bottom: 1px solid #DDD; padding: 12px 0; 
-            font-family: 'Playfair Display', serif; font-size: 18px; color: #1A1A1A; background: transparent; 
-            border-radius: 0; outline: none; transition: 0.3s;
+        .label-pill {
+            margin-left: 20px; margin-bottom: 6px; display: block;
+            font-size: 11px; font-weight: 700; text-transform: uppercase; color: #6B7280; letter-spacing: 0.05em;
         }
-        .input-lux:focus { border-bottom-color: #C5A059; }
-        .input-lux::placeholder { color: #CCC; font-style: italic; }
 
-        /* Mobile Optimization */
-        .safe-pb { padding-bottom: env(safe-area-inset-bottom); }
-        
-        /* Transitions */
-        .slide-up-enter-active, .slide-up-leave-active { transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); }
-        .slide-up-enter-from, .slide-up-leave-to { transform: translateY(100%); opacity: 0; }
-        
-        .fade-enter-active { transition: opacity 0.5s ease; }
-        .fade-enter-from { opacity: 0; }
+        /* Toggle Switch (Pill Style) */
+        .toggle-pill { appearance: none; width: 44px; height: 24px; background: #E5E7EB; border-radius: 999px; position: relative; cursor: pointer; transition: 0.3s; }
+        .toggle-pill:checked { background: #C5A059; }
+        .toggle-pill::after { content: ''; position: absolute; top: 2px; left: 2px; width: 20px; height: 20px; background: white; border-radius: 50%; transition: 0.3s; }
+        .toggle-pill:checked::after { transform: translateX(20px); }
+
+        /* Animations */
+        .slide-enter-active, .slide-leave-active { transition: all 0.4s ease; }
+        .slide-enter-from { opacity: 0; transform: translateX(20px); }
+        .slide-leave-to { opacity: 0; transform: translateX(-20px); }
     </style>
 </head>
-<body class="h-screen overflow-hidden flex flex-col">
+<body class="h-screen flex flex-col overflow-hidden">
 
-<div id="app" class="h-full flex flex-col relative">
+<div id="app" class="h-full flex flex-col">
 
-    <header class="h-20 bg-onyx text-white flex items-center justify-between px-6 z-50 shadow-xl shrink-0">
+    <header class="h-20 bg-onyx text-white flex items-center justify-between px-6 shrink-0 z-50">
         <div class="flex items-center gap-4">
-            <div class="w-12 h-12 border border-gold/30 flex items-center justify-center bg-charcoal overflow-hidden cursor-pointer" @click="triggerLogoUpload">
-                <img v-if="branding.logo" :src="branding.logo" class="object-cover w-full h-full">
-                <span v-else class="text-gold font-serif text-2xl italic">F</span>
-            </div>
-            <div>
-                <div class="text-gold text-[10px] uppercase tracking-[0.2em] font-bold">FuneralMatch</div>
-                <div class="font-serif text-xl leading-none">Arrangement Suite</div>
+            <div class="w-10 h-10 rounded-full bg-gold flex items-center justify-center font-serif font-bold text-onyx text-xl">F</div>
+            <div class="hidden md:block">
+                <div class="text-[10px] text-gold uppercase tracking-widest font-bold">New Arrangement</div>
+                <div class="font-serif text-lg">Logic Flow</div>
             </div>
         </div>
-        
-        <div class="flex items-center bg-charcoal rounded-full p-1 border border-white/10">
-            <button @click="viewMode = 'director'" class="px-4 py-1.5 rounded-full text-[10px] font-bold uppercase transition-all" :class="viewMode === 'director' ? 'bg-gold text-onyx' : 'text-gray-500'">Director</button>
-            <button @click="viewMode = 'client'" class="px-4 py-1.5 rounded-full text-[10px] font-bold uppercase transition-all" :class="viewMode === 'client' ? 'bg-white text-onyx' : 'text-gray-500'">Client View</button>
+
+        <div class="flex gap-2">
+            <div v-for="(step, index) in steps" :key="index" 
+                 class="h-2 rounded-full transition-all duration-500"
+                 :class="currentStep >= index ? 'bg-gold w-8' : 'bg-gray-700 w-2'"></div>
         </div>
     </header>
 
-    <main class="flex-1 overflow-y-auto bg-cream relative scroll-smooth" ref="scrollContainer">
+    <main class="flex-1 overflow-y-auto bg-gray-50 p-4 md:p-10 flex flex-col items-center">
         
-        <div v-if="viewMode === 'director'" class="max-w-3xl mx-auto p-4 pb-32">
+        <transition name="slide" mode="out-in">
             
-            <div class="flex justify-between items-end mb-8 mt-4 px-2">
-                <div>
-                    <div class="label-lux text-gold">Arrangement Reference</div>
-                    <div class="font-serif text-3xl">{{ meta.ref }}</div>
-                </div>
-                <div class="text-right">
-                    <div class="label-lux">Status</div>
-                    <span class="inline-block px-3 py-1 bg-gray-200 text-gray-600 text-[10px] font-bold uppercase tracking-wider rounded">{{ meta.status }}</span>
-                </div>
-            </div>
-
-            <div class="sheet rounded-none md:rounded-xl p-8 mb-6 relative overflow-hidden group">
-                <div class="absolute top-0 left-0 w-1 h-full bg-gold"></div>
-                
-                <div class="flex justify-between items-center mb-6 cursor-pointer" @click="toggleSection('intake')">
-                    <h2 class="text-2xl text-onyx">1. Intake & Deceased</h2>
-                    <i :class="sections.intake ? 'fa-minus' : 'fa-plus'" class="text-gold text-xl"></i>
+            <div v-if="currentStep === 0" class="w-full max-w-2xl" key="step1">
+                <div class="text-center mb-8">
+                    <h1 class="font-serif text-3xl text-onyx mb-2">Who are we caring for?</h1>
+                    <p class="text-gray-500">Legal identity required for Registrar.</p>
                 </div>
 
-                <div v-if="sections.intake" class="space-y-8 animate-fade">
-                    <div class="flex items-center justify-between bg-gray-50 p-3 rounded mb-4">
-                        <span class="text-xs font-bold text-gray-500 uppercase">Is Intake Complete?</span>
-                        <div class="flex items-center gap-2">
-                            <span class="text-[10px] font-bold" :class="data.intake.tbc ? 'text-red-500' : 'text-green-500'">{{ data.intake.tbc ? 'PENDING DETAILS' : 'CONFIRMED' }}</span>
-                            <input type="checkbox" class="tbc-toggle" v-model="data.intake.tbc">
+                <div class="bg-white p-8 rounded-[30px] shadow-sm space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
+                        <div class="md:col-span-3">
+                            <label class="label-pill">Title</label>
+                            <select v-model="form.deceased.title" class="input-pill appearance-none">
+                                <option>Mr</option><option>Mrs</option><option>Ms</option><option>Dr</option>
+                            </select>
+                        </div>
+                        <div class="md:col-span-9">
+                            <label class="label-pill">Full Legal Name</label>
+                            <input v-model="form.deceased.firstName" class="input-pill" placeholder="First & Middle Names">
                         </div>
                     </div>
+                    
+                    <div>
+                        <label class="label-pill">Surname</label>
+                        <input v-model="form.deceased.lastName" class="input-pill" placeholder="Surname">
+                    </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <label class="label-pill">Maiden Name / Aliases</label>
+                        <input v-model="form.deceased.alias" class="input-pill" placeholder="If applicable (Required for Death Cert)">
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
-                            <label class="label-lux">Full Legal Name</label>
-                            <input v-model="data.intake.name" class="input-lux" placeholder="e.g. Mr Arthur Pendragon">
+                            <label class="label-pill">Marital Status</label>
+                            <select v-model="form.deceased.marital" class="input-pill">
+                                <option>Married / Civil Partner</option>
+                                <option>Widowed</option>
+                                <option>Divorced</option>
+                                <option>Single</option>
+                            </select>
                         </div>
-                         <div>
-                            <label class="label-lux">Date of Death</label>
-                            <input type="date" v-model="data.intake.dod" class="input-lux">
-                        </div>
-                        <div class="md:col-span-2">
-                            <label class="label-lux">Current Location</label>
-                            <input v-model="data.intake.location" class="input-lux" placeholder="Hospital / Private Residence">
+                        <div>
+                            <label class="label-pill">Occupation (Prior to retirement)</label>
+                            <input v-model="form.deceased.occupation" class="input-pill" placeholder="e.g. Engineer">
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="sheet rounded-none md:rounded-xl p-8 mb-6 relative overflow-hidden">
-                <div class="absolute top-0 left-0 w-1 h-full bg-onyx"></div>
-                <div class="flex justify-between items-center mb-6 cursor-pointer" @click="toggleSection('ceremony')">
-                    <h2 class="text-2xl text-onyx">2. Ceremony & Fleet</h2>
-                    <i :class="sections.ceremony ? 'fa-minus' : 'fa-plus'" class="text-gold text-xl"></i>
+            <div v-else-if="currentStep === 1" class="w-full max-w-2xl" key="step2">
+                <div class="text-center mb-8">
+                    <h1 class="font-serif text-3xl text-onyx mb-2">When & Where?</h1>
+                    <p class="text-gray-500">Establishing timeline and jurisdiction.</p>
                 </div>
 
-                <div v-if="sections.ceremony" class="space-y-8 animate-fade">
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div v-for="svc in inventory.services" :key="svc.id" 
-                             @click="selectService(svc)"
-                             class="border p-5 text-center cursor-pointer transition hover:shadow-lg"
-                             :class="data.ceremony.serviceId === svc.id ? 'border-gold bg-gold/5' : 'border-gray-200'">
-                            <div class="font-serif text-xl mb-1">{{ svc.name }}</div>
-                            <div class="text-xs text-gray-500 mb-2">{{ svc.desc }}</div>
-                            <div class="font-bold text-onyx">£{{ svc.price }}</div>
+                <div class="bg-white p-8 rounded-[30px] shadow-sm space-y-6">
+                    <div class="grid grid-cols-2 gap-6">
+                        <div>
+                            <label class="label-pill">Date of Birth</label>
+                            <input type="date" v-model="form.deceased.dob" class="input-pill">
                         </div>
-                    </div>
-
-                    <div class="bg-gray-50 p-4 border-l-2 border-gray-300">
-                        <div class="flex justify-between items-center mb-4">
-                            <h3 class="font-bold text-sm uppercase text-gray-500">Service Timing</h3>
-                            <label class="flex items-center gap-2 cursor-pointer">
-                                <span class="text-[10px] font-bold text-gray-400">MARK DATE TBC</span>
-                                <input type="checkbox" v-model="data.ceremony.dateTbc" class="accent-gold">
-                            </label>
-                        </div>
-                        <div class="grid grid-cols-2 gap-4" :class="{'opacity-50 pointer-events-none': data.ceremony.dateTbc}">
-                            <div><label class="label-lux">Date</label><input type="date" class="input-lux"></div>
-                            <div><label class="label-lux">Time</label><input type="time" class="input-lux"></div>
+                        <div>
+                            <label class="label-pill">Date of Death</label>
+                            <input type="date" v-model="form.deceased.dod" class="input-pill">
                         </div>
                     </div>
 
                     <div>
+                        <label class="label-pill">Place of Death</label>
+                        <select v-model="form.deceased.deathPlaceType" class="input-pill mb-3">
+                            <option>Hospital (NHS)</option>
+                            <option>Nursing / Care Home</option>
+                            <option>Private Residence</option>
+                            <option>Public Place / Coroner</option>
+                        </select>
+                        <input v-model="form.deceased.deathAddress" class="input-pill" placeholder="Full Address / Ward Name">
+                    </div>
+
+                    <div class="bg-blue-50 p-6 rounded-[20px] border border-blue-100">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h3 class="font-serif text-lg text-blue-900">Coroner Involvement?</h3>
+                                <p class="text-xs text-blue-600">If death was sudden or cause unknown.</p>
+                            </div>
+                            <input type="checkbox" v-model="form.legal.coroner" class="toggle-pill">
+                        </div>
+                        <div v-if="form.legal.coroner" class="mt-4 animate-fade">
+                            <label class="label-pill text-blue-800">Coroner's Officer Name</label>
+                            <input v-model="form.legal.coronerOfficer" class="input-pill border-blue-200" placeholder="Officer Name & Ref">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div v-else-if="currentStep === 2" class="w-full max-w-2xl" key="step3">
+                <div class="text-center mb-8">
+                    <h1 class="font-serif text-3xl text-onyx mb-2">Care & Disposition</h1>
+                    <p class="text-gray-500">Preparation and final resting details.</p>
+                </div>
+
+                <div class="bg-white p-8 rounded-[30px] shadow-sm space-y-8">
+                    
+                    <div class="flex bg-gray-100 p-1 rounded-full">
+                        <button @click="form.disposition.type = 'cremation'" class="flex-1 py-3 rounded-full text-sm font-bold transition-all" :class="form.disposition.type === 'cremation' ? 'bg-onyx text-white shadow-lg' : 'text-gray-500 hover:text-onyx'">Cremation</button>
+                        <button @click="form.disposition.type = 'burial'" class="flex-1 py-3 rounded-full text-sm font-bold transition-all" :class="form.disposition.type === 'burial' ? 'bg-onyx text-white shadow-lg' : 'text-gray-500 hover:text-onyx'">Burial</button>
+                    </div>
+
+                    <div>
+                        <h3 class="font-serif text-lg mb-4">Clinical Safety Checks</h3>
+                        <div class="space-y-3">
+                            <label class="flex items-center justify-between p-4 border rounded-[20px] cursor-pointer hover:bg-gray-50 transition" :class="{'border-red-500 bg-red-50': form.clinical.pacemaker}">
+                                <span class="font-bold text-sm">Pacemaker Fitted?</span>
+                                <input type="checkbox" v-model="form.clinical.pacemaker" class="toggle-pill">
+                            </label>
+                            <label class="flex items-center justify-between p-4 border rounded-[20px] cursor-pointer hover:bg-gray-50 transition">
+                                <span class="font-bold text-sm">Embalming Permission?</span>
+                                <input type="checkbox" v-model="form.clinical.embalming" class="toggle-pill">
+                            </label>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="label-pill">Chapel of Rest Viewing</label>
+                        <select v-model="form.ceremony.viewing" class="input-pill">
+                            <option>No Viewing</option>
+                            <option>Family Only (Closed Casket)</option>
+                            <option>Open Viewing (By Appointment)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div v-else-if="currentStep === 3" class="w-full max-w-2xl" key="step4">
+                <div class="text-center mb-8">
+                    <h1 class="font-serif text-3xl text-onyx mb-2">The Service</h1>
+                    <p class="text-gray-500">Logistics of the ceremony.</p>
+                </div>
+
+                <div class="bg-white p-8 rounded-[30px] shadow-sm space-y-6">
+                    
+                    <div>
+                        <label class="label-pill">Service Venue</label>
+                        <input v-model="form.ceremony.venue" class="input-pill" placeholder="e.g. West Chapel Crematorium">
+                    </div>
+
+                    <div class="bg-gray-50 p-6 rounded-[24px]">
                         <div class="flex justify-between items-center mb-4">
-                            <label class="label-lux">Limousines Required</label>
-                            <span class="font-serif text-2xl">£{{ data.ceremony.limos * 275 }}</span>
+                            <label class="label-pill mb-0">Date & Time</label>
+                            <div class="flex items-center gap-2">
+                                <span class="text-[10px] font-bold text-gray-400">MARK AS TBC</span>
+                                <input type="checkbox" v-model="form.ceremony.dateTbc" class="toggle-pill scale-75">
+                            </div>
                         </div>
-                        <div class="flex items-center gap-4">
-                            <button @click="data.ceremony.limos = Math.max(0, data.ceremony.limos - 1)" class="w-12 h-12 border border-gray-300 rounded-full flex items-center justify-center text-xl hover:bg-gray-100">-</button>
-                            <span class="font-serif text-3xl w-12 text-center">{{ data.ceremony.limos }}</span>
-                            <button @click="data.ceremony.limos = data.ceremony.limos + 1" class="w-12 h-12 border border-gray-300 rounded-full flex items-center justify-center text-xl hover:bg-gray-100">+</button>
+                        <div class="grid grid-cols-2 gap-4" :class="{'opacity-40 pointer-events-none': form.ceremony.dateTbc}">
+                            <input type="date" v-model="form.ceremony.date" class="input-pill">
+                            <input type="time" v-model="form.ceremony.time" class="input-pill">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="label-pill">Officiant / Minister</label>
+                        <input v-model="form.ceremony.officiant" class="input-pill" placeholder="Name or 'Allocated by Church'">
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="label-pill">Music: Entry</label>
+                            <input v-model="form.ceremony.musicEntry" class="input-pill" placeholder="Artist - Song">
+                        </div>
+                        <div>
+                            <label class="label-pill">Music: Exit</label>
+                            <input v-model="form.ceremony.musicExit" class="input-pill" placeholder="Artist - Song">
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="sheet rounded-none md:rounded-xl p-8 mb-6 relative overflow-hidden">
-                <div class="absolute top-0 left-0 w-1 h-full bg-onyx"></div>
-                <div class="flex justify-between items-center mb-6 cursor-pointer" @click="toggleSection('finance')">
-                    <h2 class="text-2xl text-onyx">3. Financial Ledger</h2>
-                    <i :class="sections.finance ? 'fa-minus' : 'fa-plus'" class="text-gold text-xl"></i>
+            <div v-else-if="currentStep === 4" class="w-full max-w-2xl" key="step5">
+                <div class="text-center mb-8">
+                    <h1 class="font-serif text-3xl text-onyx mb-2">Vehicles & Merchandise</h1>
+                    <p class="text-gray-500">Finalizing resources.</p>
                 </div>
 
-                <div v-if="sections.finance" class="space-y-6 animate-fade">
-                    <table class="w-full text-left">
-                        <thead class="text-[10px] uppercase font-bold text-gray-400 border-b border-gray-200">
-                            <tr><th class="py-2">Item</th><th class="py-2 text-right">Cost</th></tr>
-                        </thead>
-                        <tbody class="font-serif text-lg">
-                            <tr><td class="py-3">Professional Fees</td><td class="py-3 text-right">£1,200.00</td></tr>
-                            <tr v-if="selectedService"><td class="py-3">{{ selectedService.name }}</td><td class="py-3 text-right">£{{ selectedService.price }}</td></tr>
-                            <tr v-if="data.ceremony.limos"><td class="py-3">Limousines (x{{data.ceremony.limos}})</td><td class="py-3 text-right">£{{ data.ceremony.limos * 275 }}</td></tr>
-                        </tbody>
-                        <tfoot class="border-t-2 border-onyx">
-                            <tr>
-                                <td class="py-4 text-sm font-bold uppercase tracking-wider text-gray-500">Total Estimate</td>
-                                <td class="py-4 text-right text-3xl font-serif text-gold">{{ formattedTotal }}</td>
-                            </tr>
-                        </tfoot>
-                    </table>
+                <div class="bg-white p-8 rounded-[30px] shadow-sm space-y-8">
+                    
+                    <div>
+                        <label class="label-pill">Casket Selection</label>
+                        <select v-model="form.resources.coffin" class="input-pill">
+                            <option value="Morpeth Oak">Morpeth Oak (Std)</option>
+                            <option value="Willow">Natural Willow (+£650)</option>
+                            <option value="Solid">Solid Wood (+£1200)</option>
+                            <option value="Cardboard">Eco Cardboard (+£200)</option>
+                        </select>
+                    </div>
+
+                    <div class="bg-gray-900 text-white p-6 rounded-[24px]">
+                        <h3 class="font-serif text-lg mb-4">Fleet Requirements</h3>
+                        
+                        <div class="flex items-center justify-between mb-4">
+                            <span>Hearse Type</span>
+                            <div class="flex bg-gray-800 rounded-full p-1">
+                                <button @click="form.resources.hearse = 'motor'" class="px-4 py-1 rounded-full text-xs font-bold" :class="form.resources.hearse === 'motor' ? 'bg-gold text-onyx' : 'text-gray-400'">Motor</button>
+                                <button @click="form.resources.hearse = 'horse'" class="px-4 py-1 rounded-full text-xs font-bold" :class="form.resources.hearse === 'horse' ? 'bg-gold text-onyx' : 'text-gray-400'">Horse</button>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between">
+                            <span>Limousines (7 Seats)</span>
+                            <div class="flex items-center gap-3">
+                                <button @click="form.resources.limos = Math.max(0, form.resources.limos - 1)" class="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center">-</button>
+                                <span class="font-mono text-xl w-6 text-center">{{ form.resources.limos }}</span>
+                                <button @click="form.resources.limos = form.resources.limos + 1" class="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center">+</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-        </div>
-
-        <div v-else class="h-full bg-onyx text-white p-6 flex flex-col items-center pt-12 animate-fade">
-            
-            <div class="text-center mb-10">
-                <div class="w-20 h-20 border border-gold/30 mx-auto flex items-center justify-center bg-charcoal mb-4">
-                    <img v-if="branding.logo" :src="branding.logo" class="object-cover w-full h-full">
-                    <span v-else class="text-gold font-serif text-4xl italic">F</span>
+            <div v-else class="w-full max-w-2xl" key="step6">
+                 <div class="text-center mb-8">
+                    <h1 class="font-serif text-3xl text-onyx mb-2">Arrangement Review</h1>
+                    <p class="text-gray-500">Confirm details and generate contract.</p>
                 </div>
-                <div class="text-gold text-xs uppercase tracking-[0.2em] font-bold mb-2">Arrangement Progress</div>
-                <h1 class="font-serif text-3xl">For {{ data.intake.name || 'Our Loved One' }}</h1>
+
+                <div class="bg-white p-8 rounded-[30px] shadow-lg border border-gold/20">
+                    
+                    <div class="flex justify-between items-start border-b pb-6 mb-6">
+                        <div>
+                            <div class="label-pill ml-0">Deceased</div>
+                            <div class="font-serif text-2xl">{{ form.deceased.firstName }} {{ form.deceased.lastName }}</div>
+                            <div class="text-sm text-gray-500">{{ form.deceased.dob }} — {{ form.deceased.dod }}</div>
+                        </div>
+                        <div class="text-right">
+                             <div class="label-pill ml-0">Service</div>
+                             <div class="font-bold">{{ form.disposition.type.toUpperCase() }}</div>
+                             <div class="text-sm text-gray-500">{{ form.ceremony.venue }}</div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-3 mb-8">
+                        <div class="flex justify-between text-sm"><span>Professional Fees</span><span class="font-mono">£1,200.00</span></div>
+                        <div class="flex justify-between text-sm"><span>Casket ({{ form.resources.coffin }})</span><span class="font-mono">£{{ getCoffinPrice }}</span></div>
+                        <div class="flex justify-between text-sm"><span>Limousines (x{{ form.resources.limos }})</span><span class="font-mono">£{{ form.resources.limos * 275 }}</span></div>
+                         <div v-if="form.clinical.pacemaker" class="flex justify-between text-sm text-red-600 font-bold"><span>Pacemaker Removal</span><span class="font-mono">£95.00</span></div>
+                         <div v-if="form.resources.hearse === 'horse'" class="flex justify-between text-sm"><span>Horse Drawn Upgrade</span><span class="font-mono">£950.00</span></div>
+                        
+                        <div class="border-t pt-4 flex justify-between items-center mt-4">
+                            <span class="font-bold uppercase tracking-widest text-xs">Total Estimate</span>
+                            <span class="font-serif text-3xl text-gold">{{ formattedTotal }}</span>
+                        </div>
+                    </div>
+
+                    <button @click="generatePDF" class="w-full py-4 bg-onyx text-white rounded-full font-bold shadow-lg hover:bg-gray-800 transition flex items-center justify-center gap-3">
+                        <i class="fas fa-file-contract"></i> Generate Arrangement Contract
+                    </button>
+                </div>
             </div>
 
-            <div class="w-full max-w-md space-y-8 relative">
-                <div class="absolute left-4 top-4 bottom-4 w-px bg-white/20"></div>
-
-                <div class="relative pl-12">
-                    <div class="absolute left-0 w-9 h-9 rounded-full border-2 border-gold bg-onyx flex items-center justify-center z-10">
-                        <i class="fas fa-check text-gold text-sm"></i>
-                    </div>
-                    <div class="opacity-100">
-                        <h3 class="font-serif text-xl text-white">First Call</h3>
-                        <p class="text-xs text-gray-400 mt-1">We have brought your loved one into our care.</p>
-                        <div class="text-[10px] text-gold mt-2 uppercase font-bold">COMPLETED</div>
-                    </div>
-                </div>
-
-                <div class="relative pl-12">
-                    <div class="absolute left-0 w-9 h-9 rounded-full border-2 bg-onyx flex items-center justify-center z-10" 
-                        :class="data.intake.tbc ? 'border-gray-600' : 'border-gold'">
-                        <i class="fas fa-file-signature text-sm" :class="data.intake.tbc ? 'text-gray-600' : 'text-gold'"></i>
-                    </div>
-                    <div :class="data.intake.tbc ? 'opacity-50' : 'opacity-100'">
-                        <h3 class="font-serif text-xl text-white">Arrangement Interview</h3>
-                        <p class="text-xs text-gray-400 mt-1">Meeting to discuss service details and legal forms.</p>
-                        <div class="text-[10px] mt-2 uppercase font-bold" :class="data.intake.tbc ? 'text-gray-500' : 'text-gold'">{{ data.intake.tbc ? 'PENDING' : 'IN PROGRESS' }}</div>
-                    </div>
-                </div>
-
-                <div class="relative pl-12">
-                     <div class="absolute left-0 w-9 h-9 rounded-full border-2 border-gray-600 bg-onyx flex items-center justify-center z-10">
-                        <i class="fas fa-church text-gray-600 text-sm"></i>
-                    </div>
-                    <div class="opacity-50">
-                        <h3 class="font-serif text-xl text-white">The Ceremony</h3>
-                        <p class="text-xs text-gray-400 mt-1">Date: {{ data.ceremony.dateTbc ? 'To Be Confirmed' : 'Scheduled' }}</p>
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="mt-auto mb-8 w-full max-w-md bg-charcoal p-4 border border-white/10 text-center">
-                <div class="text-xs text-gray-400 uppercase font-bold mb-1">Your Director</div>
-                <div class="font-serif text-lg text-white">Sarah Jenkins</div>
-                <a href="tel:555-0123" class="inline-block mt-3 bg-gold text-onyx px-6 py-2 rounded-full text-xs font-bold uppercase">Contact</a>
-            </div>
-
-        </div>
+        </transition>
 
     </main>
 
-    <footer v-if="viewMode === 'director'" class="bg-white border-t border-gray-200 px-6 py-4 safe-pb shadow-[0_-5px_20px_rgba(0,0,0,0.05)] z-40">
-        <div class="flex items-center justify-between max-w-3xl mx-auto">
-            <div>
-                <div class="text-[9px] text-gray-400 uppercase font-bold tracking-wider">Total Estimate</div>
-                <div class="text-2xl font-serif text-onyx">{{ formattedTotal }}</div>
-            </div>
-            <div class="flex gap-3">
-                <button class="w-12 h-12 rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200 flex items-center justify-center transition"><i class="fas fa-save"></i></button>
-                <button @click="generatePDF" class="px-6 h-12 bg-onyx text-white text-xs font-bold uppercase tracking-widest hover:bg-gold hover:text-onyx transition flex items-center gap-2">
-                    <span>Generate Contract</span>
-                    <i class="fas fa-arrow-right"></i>
-                </button>
-            </div>
-        </div>
+    <footer class="h-24 bg-white border-t border-gray-200 flex items-center justify-between px-6 shrink-0 z-50 pb-safe">
+        <button @click="prevStep" :disabled="currentStep === 0" class="px-8 py-3 rounded-full border border-gray-300 font-bold text-gray-500 disabled:opacity-30 hover:bg-gray-50 transition">
+            Back
+        </button>
+        
+        <button v-if="currentStep < steps.length - 1" @click="nextStep" class="px-8 py-3 rounded-full bg-gold text-onyx font-bold shadow-lg hover:bg-yellow-500 transition flex items-center gap-2">
+            Next Step <i class="fas fa-arrow-right"></i>
+        </button>
     </footer>
-
-    <input type="file" ref="logoInput" class="hidden" accept="image/*" @change="handleLogoUpload">
 
 </div>
 
@@ -303,94 +354,64 @@
 
     createApp({
         setup() {
-            // STATE
-            const viewMode = ref('director'); // 'director' or 'client'
-            const logoInput = ref(null);
-            
-            const meta = reactive({
-                ref: `FM-${new Date().getFullYear()}-${Math.floor(Math.random()*1000)}`,
-                status: 'Drafting'
+            const currentStep = ref(0);
+            const steps = ['Identity', 'Timeline', 'Care', 'Service', 'Resources', 'Review'];
+
+            // DEEP DATA STRUCTURE
+            const form = reactive({
+                deceased: { title: 'Mr', firstName: '', lastName: '', alias: '', dob: '', dod: '', marital: 'Married / Civil Partner', occupation: '', deathPlaceType: 'Hospital (NHS)', deathAddress: '' },
+                legal: { coroner: false, coronerOfficer: '' },
+                disposition: { type: 'cremation' },
+                clinical: { pacemaker: false, embalming: true },
+                ceremony: { venue: '', date: '', time: '', dateTbc: true, viewing: 'No Viewing', officiant: '', musicEntry: '', musicExit: '' },
+                resources: { coffin: 'Morpeth Oak', hearse: 'motor', limos: 0 }
             });
 
-            const branding = reactive({
-                logo: null // URL string
-            });
-
-            const sections = reactive({
-                intake: true,
-                ceremony: true,
-                finance: true
-            });
-
-            const data = reactive({
-                intake: { name: '', dod: '', location: '', tbc: true },
-                ceremony: { serviceId: 'simple', dateTbc: true, limos: 0 },
-            });
-
-            const inventory = {
-                services: [
-                    { id: 'direct', name: 'Direct Cremation', price: 1200, desc: 'Unattended' },
-                    { id: 'simple', name: 'Simple Service', price: 2800, desc: 'Hearse Only' },
-                    { id: 'trad', name: 'Traditional', price: 3500, desc: 'Full Service' },
-                ]
+            // LOGIC
+            const nextStep = () => {
+                if (currentStep.value < steps.length - 1) currentStep.value++;
+            };
+            const prevStep = () => {
+                if (currentStep.value > 0) currentStep.value--;
             };
 
-            // COMPUTED
-            const selectedService = computed(() => inventory.services.find(s => s.id === data.ceremony.serviceId));
-            
+            const getCoffinPrice = computed(() => {
+                const prices = { 'Morpeth Oak': 0, 'Willow': 650, 'Solid': 1200, 'Cardboard': 200 };
+                return prices[form.resources.coffin] || 0;
+            });
+
             const formattedTotal = computed(() => {
-                let total = 1200; // Prof Fees
-                if(selectedService.value) total += selectedService.value.price;
-                total += (data.ceremony.limos * 275);
+                let total = 1200; // Base
+                total += getCoffinPrice.value;
+                total += (form.resources.limos * 275);
+                if (form.resources.hearse === 'horse') total += 950;
+                if (form.clinical.pacemaker) total += 95;
                 return new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'GBP' }).format(total);
             });
-
-            // METHODS
-            const toggleSection = (sec) => sections[sec] = !sections[sec];
-            const selectService = (svc) => data.ceremony.serviceId = svc.id;
-            
-            const triggerLogoUpload = () => logoInput.value.click();
-            
-            const handleLogoUpload = (e) => {
-                const file = e.target.files[0];
-                if(file) {
-                    const reader = new FileReader();
-                    reader.onload = (e) => branding.logo = e.target.result;
-                    reader.readAsDataURL(file);
-                }
-            };
 
             const generatePDF = () => {
                 const { jsPDF } = window.jspdf;
                 const doc = new jsPDF();
+                doc.setFont("times", "bold"); doc.setFontSize(22); doc.text("FuneralMatch Arrangement", 20, 20);
+                doc.setFontSize(12); doc.setFont("helvetica", "normal");
                 
-                // Luxury Header
-                doc.setFillColor(26, 26, 26); // Onyx
-                doc.rect(0, 0, 210, 50, 'F');
-                doc.setTextColor(197, 160, 89); // Gold
-                doc.setFont("times", "italic"); doc.setFontSize(30);
-                doc.text("FuneralMatch", 20, 30);
-                doc.setFont("helvetica", "normal"); doc.setFontSize(10); doc.setTextColor(255,255,255);
-                doc.text("ARRANGEMENT CONTRACT", 20, 42);
-
-                // Content
-                doc.setTextColor(0,0,0); doc.setFontSize(12);
-                doc.text(`Reference: ${meta.ref}`, 20, 70);
-                doc.text(`Deceased: ${data.intake.name || 'Not Specified'}`, 20, 80);
+                let y = 40;
+                doc.text(`Deceased: ${form.deceased.firstName} ${form.deceased.lastName}`, 20, y); y+=10;
+                doc.text(`Date of Death: ${form.deceased.dod}`, 20, y); y+=10;
+                doc.text(`Marital Status: ${form.deceased.marital}`, 20, y); y+=10;
+                doc.text(`Occupation: ${form.deceased.occupation}`, 20, y); y+=20;
                 
-                doc.setDrawColor(200); doc.line(20, 90, 190, 90);
-
-                doc.text("FINANCIAL BREAKDOWN", 20, 105);
-                doc.text(`Total Estimate: ${formattedTotal.value}`, 20, 115);
+                doc.setFont("helvetica", "bold"); doc.text("Service Details", 20, y); y+=10;
+                doc.setFont("helvetica", "normal");
+                doc.text(`Type: ${form.disposition.type.toUpperCase()}`, 20, y); y+=10;
+                doc.text(`Venue: ${form.ceremony.venue}`, 20, y); y+=10;
+                doc.text(`Pacemaker: ${form.clinical.pacemaker ? 'YES' : 'NO'}`, 20, y); y+=20;
                 
-                doc.save(`Contract-${meta.ref}.pdf`);
+                doc.setFont("helvetica", "bold"); doc.text(`Total Estimate: ${formattedTotal.value}`, 20, y);
+                doc.save("Arrangement.pdf");
             };
 
-            return {
-                viewMode, meta, branding, sections, data, inventory,
-                selectedService, formattedTotal, logoInput,
-                toggleSection, selectService, triggerLogoUpload, handleLogoUpload, generatePDF
-            };
+            return { currentStep, steps, form, nextStep, prevStep, formattedTotal, getCoffinPrice, generatePDF };
         }
     }).mount('#app');
 </script>
