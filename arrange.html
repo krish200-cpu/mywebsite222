@@ -42,6 +42,40 @@
             .app-shell { display: flex; flex-direction: column; height: 100vh; }
             .sidebar, .flight-deck { display: none; } /* We handle mobile nav separately */
             .workspace { padding: 1rem; padding-bottom: 80px; }
+            /* 1. SMOOTH TAB SWITCHING */
+.fade-enter-active,
+.fade-leave-active {
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.fade-enter-from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.98);
+}
+
+.fade-leave-to {
+    opacity: 0;
+    transform: translateY(-10px);
+    display: none; /* Keeps layout stable during switch */
+}
+
+/* 2. SCROLL REVEAL (The "Fade In" Effect) */
+.reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+}
+
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Staggered delays for child elements */
+.reveal.delay-100 { transition-delay: 100ms; }
+.reveal.delay-200 { transition-delay: 200ms; }
+.reveal.delay-300 { transition-delay: 300ms; }
+
         }
     </style>
 </head>
