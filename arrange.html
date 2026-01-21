@@ -2,367 +2,369 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>FuneralMatch Mobile</title>
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FuneralMatch | Tele-Arranger Console</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 
     <style>
-        :root {
-            --gold: #C5A059;
-            --dark: #111827;
-        }
-        body { font-family: 'Inter', sans-serif; background: #F3F4F6; -webkit-tap-highlight-color: transparent; }
+        :root { --sidebar: #111827; --panel: #1F2937; --gold: #D4AF37; --border: #E5E7EB; }
+        body { font-family: 'Inter', sans-serif; background: #F3F4F6; height: 100vh; overflow: hidden; }
         
-        /* App-Like Scrolling */
-        .app-view { height: calc(100vh - 60px - 60px); overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; padding-bottom: 80px; }
-        
-        /* Hide Scrollbar but keep functionality */
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-
-        /* Mobile Bottom Nav */
-        .bottom-nav { 
-            position: fixed; bottom: 0; left: 0; width: 100%; height: 70px; 
-            background: white; border-top: 1px solid #E5E5E5; display: flex; 
-            justify-content: space-around; align-items: center; z-index: 50;
-            padding-bottom: env(safe-area-inset-bottom); /* iPhone Home Bar Safe Area */
+        /* Dense Layout Overrides */
+        .input-dense { 
+            width: 100%; font-size: 13px; padding: 6px 10px; border: 1px solid #D1D5DB; 
+            border-radius: 4px; transition: 0.1s; background: white;
         }
-        .nav-btn { display: flex; flex-direction: column; align-items: center; color: #9CA3AF; font-size: 10px; font-weight: 500; transition: 0.2s; width: 25%; }
-        .nav-btn i { font-size: 20px; margin-bottom: 4px; }
-        .nav-btn.active { color: var(--gold); }
+        .input-dense:focus { border-color: var(--gold); outline: none; box-shadow: 0 0 0 1px var(--gold); }
+        .label-dense { font-size: 10px; font-weight: 700; text-transform: uppercase; color: #6B7280; margin-bottom: 2px; display: block; }
+        
+        /* Section Headers */
+        .sec-head { background: #F9FAFB; padding: 8px 12px; border-bottom: 1px solid #E5E7EB; border-top: 1px solid #E5E7EB; font-weight: 700; font-size: 12px; color: #374151; display: flex; justify-content: space-between; align-items: center; }
+        
+        /* Scroll Areas */
+        .scroll-area { overflow-y: auto; height: 100%; scrollbar-width: thin; }
+        .scroll-area::-webkit-scrollbar { width: 6px; }
+        .scroll-area::-webkit-scrollbar-thumb { background: #CBD5E1; }
 
-        /* Canvas */
-        canvas { touch-action: none; background: #fff; border: 1px dashed #ccc; border-radius: 8px; }
+        /* The Audit Log (Matrix Style) */
+        .audit-log { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #10B981; background: #111827; padding: 10px; height: 150px; overflow-y: auto; border-radius: 4px; margin-top: 10px; }
+        .log-entry { margin-bottom: 4px; border-bottom: 1px solid #1F2937; padding-bottom: 2px; }
 
-        /* Animations */
-        .slide-in { animation: slideIn 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); }
-        @keyframes slideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* Toast */
-        #toast-box { position: fixed; top: 10px; left: 50%; transform: translateX(-50%); z-index: 100; width: 90%; max-width: 400px; }
-        .toast { background: #333; color: white; padding: 12px 20px; border-radius: 30px; display: flex; items-center; gap: 10px; font-size: 13px; shadow: lg; box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
+        /* Alerts */
+        .risk-badge { background: #FEE2E2; color: #991B1B; padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: 800; border: 1px solid #FCA5A5; display: none; }
+        .risk-badge.active { display: inline-block; }
     </style>
 </head>
-<body class="flex flex-col h-screen overflow-hidden">
+<body class="flex">
 
-    <header class="h-16 bg-white flex items-center justify-between px-5 shadow-sm z-40 shrink-0">
-        <div class="flex items-center gap-2">
-            <div class="w-8 h-8 bg-black rounded flex items-center justify-center text-[#C5A059] font-serif font-bold">F</div>
-            <span class="font-serif text-lg font-bold text-gray-800 tracking-wide">FuneralMatch</span>
-        </div>
-        <div class="text-right">
-            <div class="text-[9px] uppercase font-bold text-gray-400">Total</div>
-            <div id="header-total" class="text-sm font-bold text-[#C5A059] font-serif">£0.00</div>
-        </div>
-    </header>
+    <aside class="w-16 bg-[#111827] flex flex-col items-center py-4 z-20 shrink-0">
+        <div class="w-8 h-8 bg-[#D4AF37] text-black font-bold flex items-center justify-center rounded mb-8">FM</div>
+        
+        <nav class="space-y-6 w-full">
+            <button onclick="scrollToId('sec-caller')" class="nav-btn w-full text-gray-400 hover:text-white flex flex-col items-center gap-1">
+                <i class="fas fa-phone-alt"></i><span class="text-[8px] uppercase">Call</span>
+            </button>
+            <button onclick="scrollToId('sec-deceased')" class="nav-btn w-full text-gray-400 hover:text-white flex flex-col items-center gap-1">
+                <i class="fas fa-user"></i><span class="text-[8px] uppercase">Body</span>
+            </button>
+            <button onclick="scrollToId('sec-logistics')" class="nav-btn w-full text-gray-400 hover:text-white flex flex-col items-center gap-1">
+                <i class="fas fa-truck"></i><span class="text-[8px] uppercase">Logs</span>
+            </button>
+            <button onclick="scrollToId('sec-finance')" class="nav-btn w-full text-gray-400 hover:text-white flex flex-col items-center gap-1">
+                <i class="fas fa-pound-sign"></i><span class="text-[8px] uppercase">$</span>
+            </button>
+        </nav>
+    </aside>
 
-    <main id="app-container" class="app-view bg-gray-50 relative w-full">
-        </main>
-
-    <nav class="bottom-nav">
-        <button onclick="Router.go('dashboard')" class="nav-btn active" id="nav-dashboard">
-            <i class="fas fa-home"></i> Home
-        </button>
-        <button onclick="Router.go('details')" class="nav-btn" id="nav-details">
-            <i class="fas fa-user-edit"></i> Intake
-        </button>
-        <button onclick="Router.go('logistics')" class="nav-btn" id="nav-logistics">
-            <i class="fas fa-church"></i> Service
-        </button>
-        <button onclick="Router.go('review')" class="nav-btn" id="nav-review">
-            <i class="fas fa-file-signature"></i> Sign
-        </button>
-    </nav>
-
-    <div id="sig-modal" class="fixed inset-0 bg-black/90 z-[60] hidden flex flex-col justify-end">
-        <div class="bg-white rounded-t-2xl p-5 slide-in pb-10">
-            <div class="flex justify-between items-center mb-4">
-                <h3 class="font-bold text-lg">Sign Agreement</h3>
-                <button onclick="Modal.close()" class="w-8 h-8 bg-gray-100 rounded-full text-gray-500"><i class="fas fa-times"></i></button>
+    <main class="flex-1 bg-white border-r border-gray-200 flex flex-col h-screen">
+        
+        <header class="h-12 border-b flex items-center justify-between px-4 bg-gray-50 shrink-0">
+            <div class="flex items-center gap-3">
+                <span class="bg-red-100 text-red-700 text-xs font-bold px-2 py-1 rounded border border-red-200 animate-pulse">LIVE CALL</span>
+                <span class="text-sm font-bold text-gray-700">Arrangement #TR-2026-889</span>
             </div>
-            <p class="text-xs text-gray-500 mb-4">Please sign within the box below.</p>
+            <div class="text-xs text-gray-500" id="clock">00:00:00</div>
+        </header>
+
+        <div class="scroll-area p-6" id="master-form">
             
-            <div id="canvas-container" class="w-full h-48 mb-4">
-                <canvas id="signature-pad"></canvas>
+            <div id="sec-caller" class="mb-8">
+                <div class="sec-head mb-4"><i class="fas fa-phone mr-2"></i> INTAKE / CALLER</div>
+                <div class="grid grid-cols-12 gap-3">
+                    <div class="col-span-6">
+                        <label class="label-dense">Caller Name</label>
+                        <input type="text" class="input-dense bg-yellow-50" placeholder="Who are you speaking to?" oninput="Log('Caller identified as ' + this.value)">
+                    </div>
+                    <div class="col-span-3">
+                        <label class="label-dense">Relation</label>
+                        <select class="input-dense"><option>Son/Daughter</option><option>Spouse</option><option>Executor</option></select>
+                    </div>
+                    <div class="col-span-3">
+                        <label class="label-dense">Phone</label>
+                        <input type="text" class="input-dense">
+                    </div>
+                    <div class="col-span-12 bg-blue-50 p-2 text-[10px] text-blue-800 border border-blue-100 rounded mt-1">
+                        <strong>SCRIPT:</strong> "I am so sorry for your loss. My name is [Name], and I will personally handle everything. Is now a good time to gather some details?"
+                    </div>
+                </div>
             </div>
 
-            <div class="flex gap-3">
-                <button onclick="SigPad.clear()" class="flex-1 py-3 text-sm font-bold text-gray-500 bg-gray-100 rounded-xl">Clear</button>
-                <button onclick="App.finalize()" class="flex-[2] py-3 text-sm font-bold text-white bg-[#C5A059] rounded-xl shadow-lg">Confirm Signature</button>
+            <div id="sec-deceased" class="mb-8">
+                <div class="sec-head mb-4"><i class="fas fa-user-clock mr-2"></i> DECEASED BIOMETRICS</div>
+                <div class="grid grid-cols-12 gap-3">
+                    <div class="col-span-2">
+                        <label class="label-dense">Title</label>
+                        <select class="input-dense"><option>Mr</option><option>Mrs</option><option>Ms</option><option>Dr</option></select>
+                    </div>
+                    <div class="col-span-4">
+                        <label class="label-dense">First Name</label>
+                        <input type="text" class="input-dense" oninput="updateDeceased(this.value)">
+                    </div>
+                    <div class="col-span-6">
+                        <label class="label-dense">Surname</label>
+                        <input type="text" class="input-dense">
+                    </div>
+                    
+                    <div class="col-span-4">
+                        <label class="label-dense">Date of Birth</label>
+                        <input type="date" id="inp-dob" class="input-dense" onchange="Bot.calcAge()">
+                    </div>
+                    <div class="col-span-4">
+                        <label class="label-dense">Date of Death</label>
+                        <input type="date" id="inp-dod" class="input-dense" onchange="Bot.calcAge()">
+                    </div>
+                    <div class="col-span-4">
+                        <label class="label-dense">Calc. Age</label>
+                        <input type="text" id="out-age" class="input-dense bg-gray-100 font-bold text-black" readonly>
+                    </div>
+
+                    <div class="col-span-12 flex gap-4 mt-2 border-t pt-2">
+                        <label class="flex items-center gap-2 text-xs font-bold">
+                            <input type="checkbox" onchange="Bot.toggleCoroner(this.checked)"> 
+                            Coroner Case?
+                        </label>
+                        <div id="coroner-fields" class="hidden flex gap-2 flex-1">
+                            <input type="text" class="input-dense" placeholder="Coroner Officer Name">
+                            <input type="text" class="input-dense" placeholder="Ref Number">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="sec-logistics" class="mb-8">
+                <div class="sec-head mb-4"><i class="fas fa-ambulance mr-2"></i> FIRST CALL REMOVAL</div>
+                <div class="grid grid-cols-12 gap-3 bg-gray-50 p-3 rounded border border-gray-200">
+                    <div class="col-span-8">
+                        <label class="label-dense">Collection Address</label>
+                        <input type="text" class="input-dense" placeholder="Hospital / Care Home / Private Res">
+                    </div>
+                    <div class="col-span-4">
+                        <label class="label-dense">Postcode (Mileage Bot)</label>
+                        <input type="text" class="input-dense" onblur="Bot.calcMileage()">
+                    </div>
+                    
+                    <div class="col-span-4">
+                        <label class="label-dense">Preferred Date</label>
+                        <input type="date" class="input-dense">
+                    </div>
+                    <div class="col-span-4">
+                        <label class="label-dense">Time</label>
+                        <input type="time" class="input-dense" onchange="Bot.checkOOH(this.value)">
+                    </div>
+                    <div class="col-span-4">
+                        <label class="label-dense">Staff Required</label>
+                        <select class="input-dense" id="staff-req" onchange="Pricing.calc()">
+                            <option value="2">2 Bearers (Std)</option>
+                            <option value="4">4 Bearers (Complex)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="col-span-12" id="alert-zone-logistics"></div>
+                </div>
+            </div>
+
+            <div id="sec-ops" class="mb-8">
+                <div class="sec-head mb-4"><i class="fas fa-box mr-2"></i> WORKSHOP OPS</div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="label-dense">Casket Selection</label>
+                        <select class="input-dense h-10 font-bold" id="sel-coffin" onchange="Pricing.calc(); Log('Coffin changed to ' + this.value)">
+                            <option value="0">Simple (Included)</option>
+                            <option value="450">Willow Weave (+£450)</option>
+                            <option value="800">Oak Veneer (+£800)</option>
+                            <option value="1200">Solid Oak (+£1200)</option>
+                        </select>
+                    </div>
+                    <div class="bg-red-50 border border-red-200 p-2 rounded">
+                        <label class="label-dense text-red-800">Clinical Risks</label>
+                        <div class="flex items-center justify-between mt-1">
+                            <span class="text-xs font-bold">Pacemaker Present?</span>
+                            <input type="checkbox" id="chk-pace" class="w-5 h-5 accent-red-600" onchange="Bot.togglePacemaker(this.checked)">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-8">
+                <label class="label-dense">Internal Notes (Not visible to client)</label>
+                <textarea class="input-dense h-24 bg-yellow-50 font-mono" placeholder="Family mentioned dispute over will..."></textarea>
+            </div>
+
+        </div>
+    </main>
+
+    <aside class="w-80 bg-white border-l border-gray-200 flex flex-col z-10 shadow-xl shrink-0">
+        
+        <div class="p-6 bg-[#1F2937] text-white">
+            <div class="text-[10px] uppercase font-bold text-gray-400">Total Estimated Cost</div>
+            <div class="text-3xl font-bold font-mono text-[#D4AF37] mt-1" id="display-total">£0.00</div>
+            
+            <div class="mt-4 space-y-1 text-xs text-gray-300 border-t border-gray-700 pt-2">
+                <div class="flex justify-between"><span>Professional Fees</span><span>£1,200</span></div>
+                <div class="flex justify-between"><span>Coffin</span><span id="cost-coffin">£0</span></div>
+                <div class="flex justify-between"><span>Logistics</span><span id="cost-logs">£0</span></div>
+                <div class="flex justify-between text-red-400 hidden" id="row-pace"><span>Pacemaker Removal</span><span>£90</span></div>
+                <div class="flex justify-between text-red-400 hidden" id="row-ooh"><span>Out of Hours</span><span>£150</span></div>
             </div>
         </div>
-    </div>
 
-    <div id="toast-box"></div>
+        <div class="p-4 border-b border-gray-200 bg-gray-50 flex-1">
+            <div class="text-[10px] uppercase font-bold text-gray-500 mb-2">Active Risks</div>
+            <div id="risk-container" class="space-y-2">
+                <div class="text-xs text-gray-400 italic" id="no-risks">No risks identified yet.</div>
+                <span id="badge-pace" class="risk-badge">PACEMAKER</span>
+                <span id="badge-coroner" class="risk-badge bg-blue-100 text-blue-800 border-blue-200">CORONER</span>
+                <span id="badge-ooh" class="risk-badge bg-orange-100 text-orange-800 border-orange-200">OUT OF HOURS</span>
+                <span id="badge-weight" class="risk-badge bg-purple-100 text-purple-800 border-purple-200">HEAVY LIFT</span>
+            </div>
+        </div>
+
+        <div class="p-4 bg-black">
+            <div class="text-[10px] uppercase font-bold text-gray-500 mb-1">System Audit</div>
+            <div class="audit-log" id="audit-feed">
+                <div class="log-entry">> System Initialized</div>
+                <div class="log-entry">> Rate Card Loaded</div>
+            </div>
+        </div>
+
+        <div class="p-4 grid grid-cols-2 gap-2 bg-gray-100 border-t">
+            <button class="bg-white border border-gray-300 text-gray-700 font-bold text-xs py-3 rounded hover:bg-gray-50">Save Draft</button>
+            <button class="bg-[#D4AF37] text-black font-bold text-xs py-3 rounded shadow hover:bg-[#b08d4b]" onclick="alert('Sent to Email Queue')">Generate Contract</button>
+        </div>
+
+    </aside>
 
     <script>
-        // --- DATA STORE ---
-        const Store = {
-            data: {
-                name: '', dob: '', 
-                service: { name: 'Direct Cremation', price: 1450 },
-                limos: 0,
-                total: 0
-            },
-            save() {
-                // Real-time calculation
-                this.data.total = this.data.service.price + (this.data.limos * 250);
-                
-                // Update Header
-                const fmt = new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'GBP' }).format(this.data.total);
-                document.getElementById('header-total').innerText = fmt;
-                
-                // Update Chart if visible
-                if(window.myChart) {
-                    window.myChart.data.datasets[0].data = [this.data.service.price, (this.data.limos * 250)];
-                    window.myChart.update();
+        // --- 1. THE BRAIN (Logic Bots) ---
+        const Bot = {
+            calcAge: () => {
+                const dob = new Date(document.getElementById('inp-dob').value);
+                const dod = new Date(document.getElementById('inp-dod').value);
+                if(dob && dod) {
+                    const diff = dod - dob;
+                    const age = Math.floor(diff / (1000 * 60 * 60 * 24 * 365.25));
+                    document.getElementById('out-age').value = age + " Years";
+                    Log(`Age calculated: ${age}`);
                 }
-            }
-        };
-
-        // --- VIEWS ---
-        const Views = {
-            dashboard: () => `
-                <div class="p-5 slide-in">
-                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 mb-6 text-center">
-                        <div class="w-32 h-32 mx-auto relative">
-                            <canvas id="dash-chart"></canvas>
-                            <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
-                                <span class="text-xs font-bold text-gray-400">BUDGET</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="grid grid-cols-2 gap-4">
-                        <div onclick="Router.go('details')" class="bg-white p-5 rounded-xl shadow-sm border border-gray-100 active:scale-95 transition text-center cursor-pointer">
-                            <div class="w-10 h-10 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-2"><i class="fas fa-user"></i></div>
-                            <div class="text-xs font-bold">Edit Details</div>
-                        </div>
-                        <div onclick="Router.go('logistics')" class="bg-white p-5 rounded-xl shadow-sm border border-gray-100 active:scale-95 transition text-center cursor-pointer">
-                            <div class="w-10 h-10 bg-amber-50 text-amber-600 rounded-full flex items-center justify-center mx-auto mb-2"><i class="fas fa-car"></i></div>
-                            <div class="text-xs font-bold">Fleet</div>
-                        </div>
-                    </div>
-                </div>
-            `,
-            
-            details: () => `
-                <div class="p-5 slide-in">
-                    <h2 class="text-xl font-serif font-bold mb-4">Client Intake</h2>
-                    <div class="space-y-4">
-                        <div class="bg-white p-4 rounded-xl border border-gray-200">
-                            <label class="text-[10px] font-bold text-gray-400 uppercase">Deceased Name</label>
-                            <input type="text" class="w-full mt-1 text-lg font-bold outline-none bg-transparent" placeholder="Tap to type..." 
-                                value="${Store.data.name}" oninput="Store.data.name = this.value">
-                        </div>
-                        <div class="bg-white p-4 rounded-xl border border-gray-200">
-                            <label class="text-[10px] font-bold text-gray-400 uppercase">Date of Birth</label>
-                            <input type="date" class="w-full mt-1 text-lg font-bold outline-none bg-transparent" 
-                                value="${Store.data.dob}" oninput="Store.data.dob = this.value">
-                        </div>
-                    </div>
-                    <div class="mt-8 flex justify-end">
-                        <button onclick="Router.go('logistics')" class="bg-black text-white px-6 py-3 rounded-full text-sm font-bold shadow-lg">Next Step <i class="fas fa-arrow-right ml-2"></i></button>
-                    </div>
-                </div>
-            `,
-
-            logistics: () => `
-                <div class="p-5 slide-in">
-                    <h2 class="text-xl font-serif font-bold mb-4">Arrangement</h2>
-                    
-                    <div class="space-y-3 mb-8">
-                        ${[
-                            {n: 'Direct Cremation', p: 1450, i: 'fire'},
-                            {n: 'Attended Burial', p: 2200, i: 'cross'},
-                            {n: 'Green Funeral', p: 1850, i: 'leaf'}
-                        ].map(opt => `
-                            <div onclick="App.setService('${opt.n}', ${opt.p})" 
-                                 class="p-4 rounded-xl border transition flex items-center justify-between cursor-pointer ${Store.data.service.name === opt.n ? 'border-[#C5A059] bg-[#FFFCF5] ring-1 ring-[#C5A059]' : 'border-gray-200 bg-white'}">
-                                <div class="flex items-center gap-3">
-                                    <div class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-500"><i class="fas fa-${opt.i}"></i></div>
-                                    <div>
-                                        <div class="font-bold text-sm">${opt.n}</div>
-                                        <div class="text-xs text-gray-500">Standard Package</div>
-                                    </div>
-                                </div>
-                                <div class="font-bold text-sm">£${opt.p}</div>
-                            </div>
-                        `).join('')}
-                    </div>
-
-                    <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm">
-                        <div class="flex justify-between items-center mb-2">
-                            <span class="font-bold text-sm">Limousines</span>
-                            <span class="text-xs bg-gray-100 px-2 py-1 rounded text-gray-500">£250 ea</span>
-                        </div>
-                        <div class="flex items-center justify-between bg-gray-50 rounded-lg p-1">
-                            <button onclick="App.adjLimo(-1)" class="w-10 h-10 bg-white shadow rounded flex items-center justify-center active:scale-90 transition"><i class="fas fa-minus"></i></button>
-                            <span class="text-xl font-bold w-10 text-center">${Store.data.limos}</span>
-                            <button onclick="App.adjLimo(1)" class="w-10 h-10 bg-white shadow rounded flex items-center justify-center active:scale-90 transition"><i class="fas fa-plus"></i></button>
-                        </div>
-                    </div>
-                </div>
-            `,
-
-            review: () => `
-                <div class="p-5 slide-in">
-                    <h2 class="text-xl font-serif font-bold mb-4">Final Review</h2>
-                    <div class="bg-white p-6 rounded-xl shadow-lg relative overflow-hidden">
-                        <div class="absolute top-0 left-0 w-full h-1 bg-[#C5A059]"></div>
-                        <div class="flex justify-between items-end border-b border-gray-100 pb-4 mb-4">
-                            <div>
-                                <div class="text-[10px] uppercase font-bold text-gray-400">Prepared For</div>
-                                <div class="font-bold text-lg">${Store.data.name || 'Unknown'}</div>
-                            </div>
-                            <div class="text-right">
-                                <div class="text-[10px] uppercase font-bold text-gray-400">Ref</div>
-                                <div class="font-mono text-xs">#FM-${Math.floor(Math.random()*9999)}</div>
-                            </div>
-                        </div>
-                        <div class="space-y-2 text-sm mb-6">
-                            <div class="flex justify-between"><span>Service</span><span class="font-medium">${Store.data.service.name}</span></div>
-                            <div class="flex justify-between"><span>Limos (${Store.data.limos})</span><span class="font-medium">£${Store.data.limos * 250}</span></div>
-                            <div class="flex justify-between pt-2 border-t font-bold text-lg"><span>Total</span><span>£${Store.data.total}</span></div>
-                        </div>
-
-                        <button onclick="Modal.open()" class="w-full py-4 bg-black text-white rounded-xl font-bold text-sm shadow-lg active:scale-[0.98] transition">
-                            <i class="fas fa-pen-nib mr-2"></i> Tap to Sign
-                        </button>
-                    </div>
-                </div>
-            `
-        };
-
-        // --- CONTROLLERS ---
-        const Router = {
-            go(page) {
-                // UI Update
-                document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-                document.getElementById(`nav-${page}`).classList.add('active');
+            },
+            toggleCoroner: (checked) => {
+                const fields = document.getElementById('coroner-fields');
+                const badge = document.getElementById('badge-coroner');
+                if(checked) {
+                    fields.classList.remove('hidden');
+                    badge.classList.add('active');
+                    Log('Flagged as Coroner Case');
+                } else {
+                    fields.classList.add('hidden');
+                    badge.classList.remove('active');
+                    Log('Coroner flag removed');
+                }
+                checkRisks();
+            },
+            togglePacemaker: (checked) => {
+                const row = document.getElementById('row-pace');
+                const badge = document.getElementById('badge-pace');
+                if(checked) {
+                    row.classList.remove('hidden');
+                    badge.classList.add('active');
+                    Log('CRITICAL: Pacemaker added');
+                } else {
+                    row.classList.add('hidden');
+                    badge.classList.remove('active');
+                }
+                Pricing.calc();
+                checkRisks();
+            },
+            checkOOH: (timeStr) => {
+                if(!timeStr) return;
+                const hour = parseInt(timeStr.split(':')[0]);
+                const isOOH = (hour < 8 || hour >= 17);
+                const badge = document.getElementById('badge-ooh');
+                const row = document.getElementById('row-ooh');
                 
-                // Content Injection
-                document.getElementById('app-container').innerHTML = Views[page]();
+                if(isOOH) {
+                    badge.classList.add('active');
+                    row.classList.remove('hidden');
+                    Log('Time set to Out of Hours');
+                } else {
+                    badge.classList.remove('active');
+                    row.classList.add('hidden');
+                }
+                Pricing.calc();
+                checkRisks();
+            },
+            calcMileage: () => {
+                // Mock calculation
+                Log('Calculating mileage from HQ...');
+                setTimeout(() => Log('Distance: 12 miles (Zone A)'), 500);
+            }
+        };
+
+        // --- 2. PRICING ENGINE ---
+        const Pricing = {
+            base: 1200,
+            calc: () => {
+                let total = Pricing.base;
                 
-                // Post-Render Logic
-                Store.save();
-                if(page === 'dashboard') App.initChart();
-                window.scrollTo(0,0);
-            }
-        };
+                // Coffin
+                const coffinPrice = parseInt(document.getElementById('sel-coffin').value);
+                document.getElementById('cost-coffin').innerText = `£${coffinPrice}`;
+                total += coffinPrice;
 
-        const App = {
-            setService(name, price) {
-                Store.data.service.name = name;
-                Store.data.service.price = price;
-                Store.save();
-                Router.go('logistics'); // Re-render
-            },
-            adjLimo(n) {
-                let v = Store.data.limos + n;
-                if(v < 0) v = 0; if(v > 5) v = 5;
-                Store.data.limos = v;
-                Store.save();
-                Router.go('logistics');
-            },
-            initChart() {
-                const ctx = document.getElementById('dash-chart').getContext('2d');
-                window.myChart = new Chart(ctx, {
-                    type: 'doughnut',
-                    data: {
-                        labels: ['Service', 'Logistics'],
-                        datasets: [{ data: [Store.data.service.price, 0], backgroundColor: ['#C5A059', '#111827'], borderWidth: 0 }]
-                    },
-                    options: { cutout: '75%', plugins: { legend: { display: false }, tooltip: { enabled: false } } }
-                });
-            },
-            finalize() {
-                Modal.close();
-                Toast.show('Arrangement Successfully Saved', 'success');
-                setTimeout(() => Router.go('dashboard'), 1500);
-            }
-        };
+                // Pacemaker
+                if(document.getElementById('chk-pace').checked) total += 90;
 
-        const Modal = {
-            open() {
-                document.getElementById('sig-modal').classList.remove('hidden');
-                SigPad.init();
-            },
-            close() {
-                document.getElementById('sig-modal').classList.add('hidden');
-            }
-        };
-
-        const Toast = {
-            show(msg) {
-                const box = document.getElementById('toast-box');
-                box.innerHTML = `<div class="toast"><i class="fas fa-check-circle text-green-400"></i> ${msg}</div>`;
-                setTimeout(() => box.innerHTML = '', 3000);
-            }
-        };
-
-        // --- MOBILE SIGNATURE ENGINE ---
-        const SigPad = {
-            init() {
-                const container = document.getElementById('canvas-container');
-                const canvas = document.getElementById('signature-pad');
-                // Auto-resize to fit mobile screen width
-                canvas.width = container.offsetWidth;
-                canvas.height = container.offsetHeight;
-                
-                const ctx = canvas.getContext('2d');
-                ctx.lineWidth = 2;
-                ctx.strokeStyle = "#000";
-
-                let drawing = false;
-
-                // Touch Events (Mobile)
-                const getTouchPos = (e) => {
-                    const rect = canvas.getBoundingClientRect();
-                    return { x: e.touches[0].clientX - rect.left, y: e.touches[0].clientY - rect.top };
+                // OOH
+                const timeStr = document.querySelector('input[type="time"]').value;
+                if(timeStr) {
+                    const h = parseInt(timeStr.split(':')[0]);
+                    if(h < 8 || h >= 17) total += 150;
                 }
 
-                canvas.addEventListener('touchstart', (e) => {
-                    e.preventDefault(); // Stop scrolling while signing
-                    drawing = true;
-                    const pos = getTouchPos(e);
-                    ctx.beginPath();
-                    ctx.moveTo(pos.x, pos.y);
-                }, { passive: false });
+                // Bearers
+                const staff = document.getElementById('staff-req').value;
+                let logCost = 0;
+                if(staff === "4") { logCost += 200; Log('Complex Lift: 4 Bearers added'); }
+                document.getElementById('cost-logs').innerText = `£${logCost}`;
+                total += logCost;
 
-                canvas.addEventListener('touchmove', (e) => {
-                    e.preventDefault(); 
-                    if(!drawing) return;
-                    const pos = getTouchPos(e);
-                    ctx.lineTo(pos.x, pos.y);
-                    ctx.stroke();
-                }, { passive: false });
-
-                canvas.addEventListener('touchend', () => drawing = false);
-
-                // Mouse Events (Desktop Fallback)
-                canvas.addEventListener('mousedown', (e) => {
-                    drawing = true;
-                    ctx.beginPath();
-                    ctx.moveTo(e.offsetX, e.offsetY);
-                });
-                canvas.addEventListener('mousemove', (e) => {
-                    if(drawing) { ctx.lineTo(e.offsetX, e.offsetY); ctx.stroke(); }
-                });
-                canvas.addEventListener('mouseup', () => drawing = false);
-            },
-            clear() {
-                const canvas = document.getElementById('signature-pad');
-                canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
+                // Render
+                document.getElementById('display-total').innerText = new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'GBP' }).format(total);
             }
         };
+
+        // --- 3. UTILITIES ---
+        function Log(msg) {
+            const feed = document.getElementById('audit-feed');
+            const time = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', second:'2-digit'});
+            feed.innerHTML += `<div class="log-entry text-gray-300">> [${time}] <span class="text-white">${msg}</span></div>`;
+            feed.scrollTop = feed.scrollHeight;
+        }
+
+        function checkRisks() {
+            const badges = document.querySelectorAll('.risk-badge.active');
+            const empty = document.getElementById('no-risks');
+            if(badges.length > 0) empty.style.display = 'none';
+            else empty.style.display = 'block';
+        }
+
+        function scrollToId(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function updateDeceased(name) {
+            // Update Tab Title or generic header if needed
+        }
+
+        // Clock
+        setInterval(() => {
+            document.getElementById('clock').innerText = new Date().toLocaleTimeString();
+        }, 1000);
 
         // Init
-        Router.go('dashboard');
+        Pricing.calc();
 
     </script>
 </body>
