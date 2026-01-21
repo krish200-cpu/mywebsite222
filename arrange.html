@@ -2,450 +2,367 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>FuneralMatch OS | Enterprise</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>FuneralMatch Mobile</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --primary: #1F2937;
-            --accent: #D4AF37; /* Metallic Gold */
-            --bg: #F3F4F6;
-            --surface: #FFFFFF;
+            --gold: #C5A059;
+            --dark: #111827;
         }
+        body { font-family: 'Inter', sans-serif; background: #F3F4F6; -webkit-tap-highlight-color: transparent; }
+        
+        /* App-Like Scrolling */
+        .app-view { height: calc(100vh - 60px - 60px); overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; padding-bottom: 80px; }
+        
+        /* Hide Scrollbar but keep functionality */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-        body { font-family: 'Inter', sans-serif; background: var(--bg); height: 100vh; overflow: hidden; }
-        
-        /* Typography */
-        .font-serif-display { font-family: 'Cinzel', serif; }
-        
-        /* Custom Scroll */
-        .scroller::-webkit-scrollbar { width: 4px; }
-        .scroller::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 4px; }
-        
+        /* Mobile Bottom Nav */
+        .bottom-nav { 
+            position: fixed; bottom: 0; left: 0; width: 100%; height: 70px; 
+            background: white; border-top: 1px solid #E5E5E5; display: flex; 
+            justify-content: space-around; align-items: center; z-index: 50;
+            padding-bottom: env(safe-area-inset-bottom); /* iPhone Home Bar Safe Area */
+        }
+        .nav-btn { display: flex; flex-direction: column; align-items: center; color: #9CA3AF; font-size: 10px; font-weight: 500; transition: 0.2s; width: 25%; }
+        .nav-btn i { font-size: 20px; margin-bottom: 4px; }
+        .nav-btn.active { color: var(--gold); }
+
+        /* Canvas */
+        canvas { touch-action: none; background: #fff; border: 1px dashed #ccc; border-radius: 8px; }
+
         /* Animations */
-        .fade-in { animation: fadeIn 0.3s ease-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        .slide-in { animation: slideIn 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Signature Canvas */
-        canvas { touch-action: none; background: #fff; background-image: radial-gradient(#ddd 1px, transparent 1px); background-size: 20px 20px; }
-
-        /* Custom Toggle Switch */
-        .toggle-checkbox:checked { right: 0; border-color: var(--accent); }
-        .toggle-checkbox:checked + .toggle-label { background-color: var(--accent); }
-
-        /* Toast Notifications */
-        #toast-container { position: fixed; top: 20px; right: 20px; z-index: 9999; }
-        .toast { background: white; border-left: 4px solid var(--accent); padding: 16px 20px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1); display: flex; align-items: center; gap: 12px; margin-bottom: 10px; border-radius: 4px; animation: slideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1); min-width: 300px; }
-        @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-
-        /* Interactive Cards */
-        .action-card { transition: all 0.2s; border: 1px solid transparent; }
-        .action-card:hover { transform: translateY(-2px); border-color: var(--accent); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
-        .action-card.active { border-color: var(--accent); background: #FFFDF5; ring: 2px solid var(--accent); }
+        /* Toast */
+        #toast-box { position: fixed; top: 10px; left: 50%; transform: translateX(-50%); z-index: 100; width: 90%; max-width: 400px; }
+        .toast { background: #333; color: white; padding: 12px 20px; border-radius: 30px; display: flex; items-center; gap: 10px; font-size: 13px; shadow: lg; box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
     </style>
 </head>
-<body class="text-gray-800 antialiased flex">
+<body class="flex flex-col h-screen overflow-hidden">
 
-    <aside class="w-64 bg-[#111827] text-white flex flex-col shadow-2xl z-20">
-        <div class="h-16 flex items-center px-6 border-b border-gray-800">
-            <div class="w-8 h-8 bg-[#D4AF37] rounded flex items-center justify-center text-black font-bold font-serif mr-3">F</div>
-            <div>
-                <div class="font-serif-display font-bold tracking-wider text-[#D4AF37]">FuneralMatch</div>
-                <div class="text-[10px] text-gray-500 uppercase tracking-widest">Enterprise OS</div>
-            </div>
+    <header class="h-16 bg-white flex items-center justify-between px-5 shadow-sm z-40 shrink-0">
+        <div class="flex items-center gap-2">
+            <div class="w-8 h-8 bg-black rounded flex items-center justify-center text-[#C5A059] font-serif font-bold">F</div>
+            <span class="font-serif text-lg font-bold text-gray-800 tracking-wide">FuneralMatch</span>
         </div>
-
-        <nav class="flex-1 py-6 space-y-1">
-            <a href="#" onclick="Router.navigate('dashboard')" class="nav-link flex items-center px-6 py-3 text-gray-400 hover:bg-gray-800 hover:text-white border-l-2 border-transparent hover:border-[#D4AF37] transition-all" id="nav-dashboard">
-                <i class="fas fa-th-large w-6"></i> <span class="text-sm font-medium">Dashboard</span>
-            </a>
-            <a href="#" onclick="Router.navigate('intake')" class="nav-link flex items-center px-6 py-3 text-gray-400 hover:bg-gray-800 hover:text-white border-l-2 border-transparent hover:border-[#D4AF37] transition-all" id="nav-intake">
-                <i class="fas fa-user w-6"></i> <span class="text-sm font-medium">Deceased Intake</span>
-            </a>
-            <a href="#" onclick="Router.navigate('logistics')" class="nav-link flex items-center px-6 py-3 text-gray-400 hover:bg-gray-800 hover:text-white border-l-2 border-transparent hover:border-[#D4AF37] transition-all" id="nav-logistics">
-                <i class="fas fa-layer-group w-6"></i> <span class="text-sm font-medium">Logistics & Casket</span>
-            </a>
-            <a href="#" onclick="Router.navigate('review')" class="nav-link flex items-center px-6 py-3 text-gray-400 hover:bg-gray-800 hover:text-white border-l-2 border-transparent hover:border-[#D4AF37] transition-all" id="nav-review">
-                <i class="fas fa-file-signature w-6"></i> <span class="text-sm font-medium">Sign & Finalize</span>
-            </a>
-        </nav>
-
-        <div class="p-4 bg-gray-900 border-t border-gray-800">
-            <div class="flex items-center gap-3">
-                <div class="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center"><i class="fas fa-user-tie text-xs"></i></div>
-                <div>
-                    <div class="text-xs font-bold text-white">Director Mode</div>
-                    <div class="text-[10px] text-green-500"><i class="fas fa-circle text-[8px] mr-1"></i>System Online</div>
-                </div>
-            </div>
+        <div class="text-right">
+            <div class="text-[9px] uppercase font-bold text-gray-400">Total</div>
+            <div id="header-total" class="text-sm font-bold text-[#C5A059] font-serif">£0.00</div>
         </div>
-    </aside>
+    </header>
 
-    <main class="flex-1 flex flex-col h-screen overflow-hidden relative">
-        
-        <header class="h-16 bg-white border-b flex items-center justify-between px-8 shadow-sm z-10">
-            <h2 id="page-title" class="text-lg font-bold text-gray-700">Overview</h2>
+    <main id="app-container" class="app-view bg-gray-50 relative w-full">
+        </main>
+
+    <nav class="bottom-nav">
+        <button onclick="Router.go('dashboard')" class="nav-btn active" id="nav-dashboard">
+            <i class="fas fa-home"></i> Home
+        </button>
+        <button onclick="Router.go('details')" class="nav-btn" id="nav-details">
+            <i class="fas fa-user-edit"></i> Intake
+        </button>
+        <button onclick="Router.go('logistics')" class="nav-btn" id="nav-logistics">
+            <i class="fas fa-church"></i> Service
+        </button>
+        <button onclick="Router.go('review')" class="nav-btn" id="nav-review">
+            <i class="fas fa-file-signature"></i> Sign
+        </button>
+    </nav>
+
+    <div id="sig-modal" class="fixed inset-0 bg-black/90 z-[60] hidden flex flex-col justify-end">
+        <div class="bg-white rounded-t-2xl p-5 slide-in pb-10">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="font-bold text-lg">Sign Agreement</h3>
+                <button onclick="Modal.close()" class="w-8 h-8 bg-gray-100 rounded-full text-gray-500"><i class="fas fa-times"></i></button>
+            </div>
+            <p class="text-xs text-gray-500 mb-4">Please sign within the box below.</p>
             
-            <div class="flex items-center gap-6">
-                <div class="flex flex-col items-end">
-                    <span class="text-[10px] text-gray-400 uppercase font-bold tracking-wider">Projected Cost</span>
-                    <span id="header-total" class="text-xl font-bold font-serif-display text-[#D4AF37]">£0.00</span>
-                </div>
-                <button onclick="App.reset()" class="text-gray-400 hover:text-red-500 transition"><i class="fas fa-power-off"></i></button>
-            </div>
-        </header>
-
-        <div id="app-view" class="flex-1 overflow-y-auto bg-[#F3F4F6] p-8 scroller relative">
+            <div id="canvas-container" class="w-full h-48 mb-4">
+                <canvas id="signature-pad"></canvas>
             </div>
 
-    </main>
-
-    <div id="toast-container"></div>
-
-    <div id="modal-sign" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center fade-in">
-        <div class="bg-white rounded-xl shadow-2xl w-full max-w-lg overflow-hidden">
-            <div class="bg-gray-100 px-6 py-4 border-b flex justify-between items-center">
-                <h3 class="font-bold text-gray-800"><i class="fas fa-pen-nib mr-2 text-[#D4AF37]"></i>Digital Consent</h3>
-                <button onclick="Modal.close('modal-sign')" class="text-gray-400 hover:text-black"><i class="fas fa-times"></i></button>
-            </div>
-            <div class="p-6">
-                <p class="text-sm text-gray-500 mb-4">I hereby authorize FuneralMatch to conduct the arrangements as specified. This electronic signature is legally binding.</p>
-                <div class="border-2 border-dashed border-gray-300 rounded-lg relative">
-                    <canvas id="sig-canvas" width="460" height="200" class="w-full cursor-crosshair"></canvas>
-                    <div class="absolute bottom-2 right-2 text-[10px] text-gray-300 pointer-events-none">X: SIGN HERE</div>
-                </div>
-                <div class="flex justify-between mt-2">
-                    <button onclick="SignaturePad.clear()" class="text-xs text-red-500 hover:underline">Clear Signature</button>
-                </div>
-            </div>
-            <div class="bg-gray-50 px-6 py-4 border-t flex justify-end gap-3">
-                <button onclick="Modal.close('modal-sign')" class="px-4 py-2 text-sm text-gray-600 font-medium">Cancel</button>
-                <button onclick="App.finalizeOrder()" class="px-6 py-2 bg-[#D4AF37] text-white text-sm font-bold rounded shadow-lg hover:bg-[#b59226] transition">Authenticate & Submit</button>
+            <div class="flex gap-3">
+                <button onclick="SigPad.clear()" class="flex-1 py-3 text-sm font-bold text-gray-500 bg-gray-100 rounded-xl">Clear</button>
+                <button onclick="App.finalize()" class="flex-[2] py-3 text-sm font-bold text-white bg-[#C5A059] rounded-xl shadow-lg">Confirm Signature</button>
             </div>
         </div>
     </div>
 
+    <div id="toast-box"></div>
+
     <script>
-        // --- 1. CORE DATA STORE (SINGLE SOURCE OF TRUTH) ---
+        // --- DATA STORE ---
         const Store = {
             data: {
-                details: { name: '', dob: '', religion: '' },
-                service: { type: null, price: 0 },
-                casket: { name: 'Standard', price: 0 },
-                logistics: { limos: 0, pricePerLimo: 250 },
-                signed: false,
-                signatureData: null
+                name: '', dob: '', 
+                service: { name: 'Direct Cremation', price: 1450 },
+                limos: 0,
+                total: 0
             },
-            
-            update(path, value) {
-                const keys = path.split('.');
-                let ref = this.data;
-                for(let i=0; i<keys.length-1; i++) ref = ref[keys[i]];
-                ref[keys[keys.length-1]] = value;
+            save() {
+                // Real-time calculation
+                this.data.total = this.data.service.price + (this.data.limos * 250);
                 
-                this.calculate();
-            },
-
-            calculate() {
-                const total = this.data.service.price + this.data.casket.price + (this.data.logistics.limos * this.data.logistics.pricePerLimo);
-                document.getElementById('header-total').innerText = new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'GBP' }).format(total);
+                // Update Header
+                const fmt = new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'GBP' }).format(this.data.total);
+                document.getElementById('header-total').innerText = fmt;
                 
-                // If on dashboard, update chart
-                if(document.getElementById('costChart')) Dashboard.renderChart();
+                // Update Chart if visible
+                if(window.myChart) {
+                    window.myChart.data.datasets[0].data = [this.data.service.price, (this.data.limos * 250)];
+                    window.myChart.update();
+                }
             }
         };
 
-        // --- 2. UI RENDERER (COMPONENT SYSTEM) ---
+        // --- VIEWS ---
         const Views = {
             dashboard: () => `
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 fade-in">
-                    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 col-span-2">
-                        <h3 class="font-serif-display font-bold text-gray-800 mb-6">Active Arrangement</h3>
-                        <div class="grid grid-cols-2 gap-4">
-                            <div class="bg-blue-50 p-4 rounded-lg border border-blue-100">
-                                <div class="text-xs text-blue-500 font-bold uppercase mb-1">Status</div>
-                                <div class="text-lg font-bold text-gray-800">Drafting</div>
-                            </div>
-                            <div class="bg-amber-50 p-4 rounded-lg border border-amber-100">
-                                <div class="text-xs text-amber-600 font-bold uppercase mb-1">Tasks Pending</div>
-                                <div class="text-lg font-bold text-gray-800">3 Actions Required</div>
-                            </div>
-                        </div>
-                        <div class="mt-8">
-                            <h4 class="text-xs font-bold text-gray-400 uppercase mb-3">Recent Activity</h4>
-                            <div class="space-y-3">
-                                <div class="flex items-center text-sm text-gray-600"><i class="fas fa-check-circle text-green-500 mr-3"></i> System initialized for new client</div>
-                                <div class="flex items-center text-sm text-gray-600"><i class="fas fa-clock text-gray-400 mr-3"></i> Awaiting Deceased Details</div>
+                <div class="p-5 slide-in">
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 mb-6 text-center">
+                        <div class="w-32 h-32 mx-auto relative">
+                            <canvas id="dash-chart"></canvas>
+                            <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                                <span class="text-xs font-bold text-gray-400">BUDGET</span>
                             </div>
                         </div>
                     </div>
-
-                    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-                        <h3 class="font-serif-display font-bold text-gray-800 mb-4">Budget Allocation</h3>
-                        <div class="relative h-48 w-full flex items-center justify-center">
-                            <canvas id="costChart"></canvas>
+                    
+                    <div class="grid grid-cols-2 gap-4">
+                        <div onclick="Router.go('details')" class="bg-white p-5 rounded-xl shadow-sm border border-gray-100 active:scale-95 transition text-center cursor-pointer">
+                            <div class="w-10 h-10 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-2"><i class="fas fa-user"></i></div>
+                            <div class="text-xs font-bold">Edit Details</div>
+                        </div>
+                        <div onclick="Router.go('logistics')" class="bg-white p-5 rounded-xl shadow-sm border border-gray-100 active:scale-95 transition text-center cursor-pointer">
+                            <div class="w-10 h-10 bg-amber-50 text-amber-600 rounded-full flex items-center justify-center mx-auto mb-2"><i class="fas fa-car"></i></div>
+                            <div class="text-xs font-bold">Fleet</div>
                         </div>
                     </div>
                 </div>
             `,
-
-            intake: () => `
-                <div class="max-w-3xl mx-auto bg-white p-8 rounded-xl shadow-sm fade-in">
-                    <h2 class="font-serif-display text-2xl mb-6">Deceased Intake</h2>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Full Legal Name</label>
-                            <input type="text" value="${Store.data.details.name}" oninput="Store.update('details.name', this.value)" class="w-full bg-gray-50 border border-gray-200 p-3 rounded focus:outline-none focus:border-[#D4AF37] transition">
+            
+            details: () => `
+                <div class="p-5 slide-in">
+                    <h2 class="text-xl font-serif font-bold mb-4">Client Intake</h2>
+                    <div class="space-y-4">
+                        <div class="bg-white p-4 rounded-xl border border-gray-200">
+                            <label class="text-[10px] font-bold text-gray-400 uppercase">Deceased Name</label>
+                            <input type="text" class="w-full mt-1 text-lg font-bold outline-none bg-transparent" placeholder="Tap to type..." 
+                                value="${Store.data.name}" oninput="Store.data.name = this.value">
                         </div>
-                        <div>
-                            <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Date of Birth</label>
-                            <input type="date" value="${Store.data.details.dob}" oninput="Store.update('details.dob', this.value)" class="w-full bg-gray-50 border border-gray-200 p-3 rounded focus:outline-none focus:border-[#D4AF37]">
+                        <div class="bg-white p-4 rounded-xl border border-gray-200">
+                            <label class="text-[10px] font-bold text-gray-400 uppercase">Date of Birth</label>
+                            <input type="date" class="w-full mt-1 text-lg font-bold outline-none bg-transparent" 
+                                value="${Store.data.dob}" oninput="Store.data.dob = this.value">
                         </div>
-                        <div>
-                            <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Religion / Faith</label>
-                            <input type="text" value="${Store.data.details.religion}" oninput="Store.update('details.religion', this.value)" class="w-full bg-gray-50 border border-gray-200 p-3 rounded focus:outline-none focus:border-[#D4AF37]">
-                        </div>
-                        
-                        <div class="md:col-span-2 mt-4">
-                            <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Death Certificate</label>
-                            <div class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:bg-gray-50 transition cursor-pointer" onclick="Toaster.show('File Upload Module connected to AWS S3 (Simulated)', 'info')">
-                                <i class="fas fa-cloud-upload-alt text-3xl text-gray-300 mb-2"></i>
-                                <div class="text-sm font-medium text-gray-600">Click to upload scanned document</div>
-                                <div class="text-xs text-gray-400">PDF, JPG up to 10MB</div>
-                            </div>
-                        </div>
+                    </div>
+                    <div class="mt-8 flex justify-end">
+                        <button onclick="Router.go('logistics')" class="bg-black text-white px-6 py-3 rounded-full text-sm font-bold shadow-lg">Next Step <i class="fas fa-arrow-right ml-2"></i></button>
                     </div>
                 </div>
             `,
 
             logistics: () => `
-                <div class="max-w-4xl mx-auto fade-in">
-                    <div class="bg-white p-8 rounded-xl shadow-sm mb-6">
-                        <h2 class="font-serif-display text-xl mb-6">Service Type</h2>
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                            ${['Cremation|850', 'Burial|1200', 'Direct|450'].map(opt => {
-                                const [name, price] = opt.split('|');
-                                const active = Store.data.service.type === name ? 'active' : '';
-                                return `<div onclick="Store.update('service.type', '${name}'); Store.update('service.price', ${price}); Router.refresh();" class="action-card ${active} p-4 rounded-lg border border-gray-200 cursor-pointer text-center relative overflow-hidden">
-                                    <div class="font-bold text-gray-800">${name}</div>
-                                    <div class="text-sm text-gray-500">£${price}</div>
-                                    ${active ? '<div class="absolute top-2 right-2 text-[#D4AF37]"><i class="fas fa-check-circle"></i></div>' : ''}
-                                </div>`
-                            }).join('')}
-                        </div>
+                <div class="p-5 slide-in">
+                    <h2 class="text-xl font-serif font-bold mb-4">Arrangement</h2>
+                    
+                    <div class="space-y-3 mb-8">
+                        ${[
+                            {n: 'Direct Cremation', p: 1450, i: 'fire'},
+                            {n: 'Attended Burial', p: 2200, i: 'cross'},
+                            {n: 'Green Funeral', p: 1850, i: 'leaf'}
+                        ].map(opt => `
+                            <div onclick="App.setService('${opt.n}', ${opt.p})" 
+                                 class="p-4 rounded-xl border transition flex items-center justify-between cursor-pointer ${Store.data.service.name === opt.n ? 'border-[#C5A059] bg-[#FFFCF5] ring-1 ring-[#C5A059]' : 'border-gray-200 bg-white'}">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-500"><i class="fas fa-${opt.i}"></i></div>
+                                    <div>
+                                        <div class="font-bold text-sm">${opt.n}</div>
+                                        <div class="text-xs text-gray-500">Standard Package</div>
+                                    </div>
+                                </div>
+                                <div class="font-bold text-sm">£${opt.p}</div>
+                            </div>
+                        `).join('')}
                     </div>
 
-                    <div class="bg-white p-8 rounded-xl shadow-sm">
-                        <div class="flex justify-between items-center">
-                            <div>
-                                <h2 class="font-serif-display text-xl">Fleet Logistics</h2>
-                                <p class="text-sm text-gray-500">Mercedes E-Class Limousines (7 Seats)</p>
-                            </div>
-                            <div class="flex items-center gap-4 bg-gray-50 p-2 rounded-lg">
-                                <button onclick="App.adjustLimo(-1)" class="w-8 h-8 rounded bg-white shadow text-gray-600 hover:text-black font-bold">-</button>
-                                <span class="font-serif-display font-bold text-xl w-6 text-center">${Store.data.logistics.limos}</span>
-                                <button onclick="App.adjustLimo(1)" class="w-8 h-8 rounded bg-white shadow text-gray-600 hover:text-black font-bold">+</button>
-                            </div>
+                    <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="font-bold text-sm">Limousines</span>
+                            <span class="text-xs bg-gray-100 px-2 py-1 rounded text-gray-500">£250 ea</span>
+                        </div>
+                        <div class="flex items-center justify-between bg-gray-50 rounded-lg p-1">
+                            <button onclick="App.adjLimo(-1)" class="w-10 h-10 bg-white shadow rounded flex items-center justify-center active:scale-90 transition"><i class="fas fa-minus"></i></button>
+                            <span class="text-xl font-bold w-10 text-center">${Store.data.limos}</span>
+                            <button onclick="App.adjLimo(1)" class="w-10 h-10 bg-white shadow rounded flex items-center justify-center active:scale-90 transition"><i class="fas fa-plus"></i></button>
                         </div>
                     </div>
                 </div>
             `,
 
             review: () => `
-                <div class="max-w-3xl mx-auto bg-white p-10 rounded-xl shadow-lg fade-in relative overflow-hidden">
-                    <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-gray-200 via-[#D4AF37] to-gray-200"></div>
-                    
-                    <div class="flex justify-between items-end border-b border-gray-200 pb-6 mb-6">
-                        <div>
-                            <h1 class="font-serif-display text-3xl text-gray-800">Arrangement Summary</h1>
-                            <p class="text-gray-500 text-sm mt-1">Ref: ${Math.random().toString(36).substr(2, 9).toUpperCase()}</p>
+                <div class="p-5 slide-in">
+                    <h2 class="text-xl font-serif font-bold mb-4">Final Review</h2>
+                    <div class="bg-white p-6 rounded-xl shadow-lg relative overflow-hidden">
+                        <div class="absolute top-0 left-0 w-full h-1 bg-[#C5A059]"></div>
+                        <div class="flex justify-between items-end border-b border-gray-100 pb-4 mb-4">
+                            <div>
+                                <div class="text-[10px] uppercase font-bold text-gray-400">Prepared For</div>
+                                <div class="font-bold text-lg">${Store.data.name || 'Unknown'}</div>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-[10px] uppercase font-bold text-gray-400">Ref</div>
+                                <div class="font-mono text-xs">#FM-${Math.floor(Math.random()*9999)}</div>
+                            </div>
                         </div>
-                        <div class="text-right">
-                             <div class="text-xs text-gray-400 uppercase tracking-widest">Total Value</div>
-                             <div class="text-2xl font-serif-display font-bold text-gray-900" id="review-total">£0.00</div>
+                        <div class="space-y-2 text-sm mb-6">
+                            <div class="flex justify-between"><span>Service</span><span class="font-medium">${Store.data.service.name}</span></div>
+                            <div class="flex justify-between"><span>Limos (${Store.data.limos})</span><span class="font-medium">£${Store.data.limos * 250}</span></div>
+                            <div class="flex justify-between pt-2 border-t font-bold text-lg"><span>Total</span><span>£${Store.data.total}</span></div>
                         </div>
-                    </div>
 
-                    <div class="space-y-4 mb-8">
-                        <div class="flex justify-between py-3 border-b border-gray-100">
-                            <span class="text-gray-600">Client Name</span>
-                            <span class="font-medium text-gray-900">${Store.data.details.name || '<span class="text-red-400">Required</span>'}</span>
-                        </div>
-                         <div class="flex justify-between py-3 border-b border-gray-100">
-                            <span class="text-gray-600">Service Type</span>
-                            <span class="font-medium text-gray-900">${Store.data.service.type || '<span class="text-red-400">Not Selected</span>'}</span>
-                        </div>
-                        <div class="flex justify-between py-3 border-b border-gray-100">
-                            <span class="text-gray-600">Fleet</span>
-                            <span class="font-medium text-gray-900">${Store.data.logistics.limos} Limousines</span>
-                        </div>
-                    </div>
-
-                    <div class="flex justify-end pt-4">
-                         <button onclick="Modal.open('modal-sign')" class="bg-[#111827] text-white px-8 py-3 rounded shadow hover:bg-black transition flex items-center gap-3">
-                            <i class="fas fa-pen-nib"></i> Sign & Finalize Order
+                        <button onclick="Modal.open()" class="w-full py-4 bg-black text-white rounded-xl font-bold text-sm shadow-lg active:scale-[0.98] transition">
+                            <i class="fas fa-pen-nib mr-2"></i> Tap to Sign
                         </button>
                     </div>
                 </div>
             `
         };
 
-        // --- 3. APP LOGIC CONTROLLERS ---
+        // --- CONTROLLERS ---
         const Router = {
-            current: 'dashboard',
-            navigate(view) {
-                this.current = view;
-                // Update Nav UI
-                document.querySelectorAll('.nav-link').forEach(el => {
-                    el.classList.remove('bg-gray-800', 'text-white', 'border-[#D4AF37]');
-                    el.classList.add('text-gray-400', 'border-transparent');
-                });
-                const active = document.getElementById('nav-' + view);
-                if(active) {
-                    active.classList.add('bg-gray-800', 'text-white', 'border-[#D4AF37]');
-                    active.classList.remove('text-gray-400', 'border-transparent');
-                }
-
-                // Render View
-                document.getElementById('app-view').innerHTML = Views[view]();
-                document.getElementById('page-title').innerText = view.charAt(0).toUpperCase() + view.slice(1);
+            go(page) {
+                // UI Update
+                document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+                document.getElementById(`nav-${page}`).classList.add('active');
                 
-                // Post-render hooks
-                Store.calculate();
-                if(view === 'review') {
-                     const total = Store.data.service.price + Store.data.casket.price + (Store.data.logistics.limos * Store.data.logistics.pricePerLimo);
-                     document.getElementById('review-total').innerText = new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'GBP' }).format(total);
-                }
-            },
-            refresh() { this.navigate(this.current); }
+                // Content Injection
+                document.getElementById('app-container').innerHTML = Views[page]();
+                
+                // Post-Render Logic
+                Store.save();
+                if(page === 'dashboard') App.initChart();
+                window.scrollTo(0,0);
+            }
         };
 
         const App = {
-            adjustLimo(delta) {
-                let n = Store.data.logistics.limos + delta;
-                if(n < 0) n = 0; if(n > 10) n = 10;
-                Store.update('logistics.limos', n);
-                Router.refresh();
+            setService(name, price) {
+                Store.data.service.name = name;
+                Store.data.service.price = price;
+                Store.save();
+                Router.go('logistics'); // Re-render
             },
-            finalizeOrder() {
-                if(!Store.data.details.name || !Store.data.service.type) {
-                    Modal.close('modal-sign');
-                    Toaster.show('Error: Missing Details or Service Type', 'error');
-                    return;
-                }
-                
-                // Convert Canvas to Image
-                const canvas = document.getElementById('sig-canvas');
-                Store.data.signatureData = canvas.toDataURL();
-                Store.data.signed = true;
-
-                Modal.close('modal-sign');
-                
-                // Simulate API Call
-                Toaster.show('Encrypting Signature...', 'info');
-                setTimeout(() => {
-                    Toaster.show('Order Finalized & Sent to HQ', 'success');
-                    document.getElementById('app-view').innerHTML = `
-                        <div class="flex flex-col items-center justify-center h-full text-center fade-in">
-                            <div class="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-4xl mb-6"><i class="fas fa-check"></i></div>
-                            <h2 class="text-2xl font-bold text-gray-800">Arrangement Locked</h2>
-                            <p class="text-gray-500 mt-2">Reference ID: ${Math.random().toString(36).substr(2, 9).toUpperCase()}</p>
-                            <button onclick="location.reload()" class="mt-8 text-sm text-gray-400 hover:text-black underline">Start New Order</button>
-                        </div>
-                    `;
-                }, 1500);
+            adjLimo(n) {
+                let v = Store.data.limos + n;
+                if(v < 0) v = 0; if(v > 5) v = 5;
+                Store.data.limos = v;
+                Store.save();
+                Router.go('logistics');
             },
-            reset() {
-                if(confirm('Reset entire system?')) location.reload();
-            }
-        };
-
-        const Dashboard = {
-            renderChart() {
-                const ctx = document.getElementById('costChart').getContext('2d');
-                new Chart(ctx, {
+            initChart() {
+                const ctx = document.getElementById('dash-chart').getContext('2d');
+                window.myChart = new Chart(ctx, {
                     type: 'doughnut',
                     data: {
-                        labels: ['Service', 'Logistics', 'Casket'],
-                        datasets: [{
-                            data: [Store.data.service.price, (Store.data.logistics.limos * 250), Store.data.casket.price],
-                            backgroundColor: ['#1F2937', '#D4AF37', '#E5E7EB'],
-                            borderWidth: 0
-                        }]
+                        labels: ['Service', 'Logistics'],
+                        datasets: [{ data: [Store.data.service.price, 0], backgroundColor: ['#C5A059', '#111827'], borderWidth: 0 }]
                     },
-                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'right' } } }
+                    options: { cutout: '75%', plugins: { legend: { display: false }, tooltip: { enabled: false } } }
                 });
-            }
-        };
-
-        const Toaster = {
-            show(msg, type = 'success') {
-                const div = document.createElement('div');
-                div.className = 'toast';
-                const icon = type === 'success' ? 'check-circle text-green-500' : (type === 'error' ? 'exclamation-circle text-red-500' : 'info-circle text-blue-500');
-                div.innerHTML = `<i class="fas fa-${icon} text-lg"></i> <span class="font-medium text-sm text-gray-700">${msg}</span>`;
-                document.getElementById('toast-container').appendChild(div);
-                setTimeout(() => div.remove(), 3000);
+            },
+            finalize() {
+                Modal.close();
+                Toast.show('Arrangement Successfully Saved', 'success');
+                setTimeout(() => Router.go('dashboard'), 1500);
             }
         };
 
         const Modal = {
-            open(id) { 
-                document.getElementById(id).classList.remove('hidden'); 
-                if(id === 'modal-sign') SignaturePad.init();
+            open() {
+                document.getElementById('sig-modal').classList.remove('hidden');
+                SigPad.init();
             },
-            close(id) { document.getElementById(id).classList.add('hidden'); }
-        };
-
-        // --- 4. SIGNATURE PAD ENGINE ---
-        const SignaturePad = {
-            isDrawing: false,
-            init() {
-                const cvs = document.getElementById('sig-canvas');
-                const ctx = cvs.getContext('2d');
-                ctx.lineWidth = 2; ctx.lineCap = 'round'; ctx.strokeStyle = '#000';
-                
-                const start = (e) => {
-                    this.isDrawing = true;
-                    ctx.beginPath();
-                    const { x, y } = this.getPos(cvs, e);
-                    ctx.moveTo(x, y);
-                };
-                const draw = (e) => {
-                    if(!this.isDrawing) return;
-                    const { x, y } = this.getPos(cvs, e);
-                    ctx.lineTo(x, y);
-                    ctx.stroke();
-                };
-                const stop = () => this.isDrawing = false;
-
-                cvs.addEventListener('mousedown', start);
-                cvs.addEventListener('mousemove', draw);
-                cvs.addEventListener('mouseup', stop);
-                // Touch support
-                cvs.addEventListener('touchstart', (e) => start(e.touches[0]));
-                cvs.addEventListener('touchmove', (e) => { e.preventDefault(); draw(e.touches[0]); });
-                cvs.addEventListener('touchend', stop);
-            },
-            getPos(cvs, e) {
-                const rect = cvs.getBoundingClientRect();
-                return { x: e.clientX - rect.left, y: e.clientY - rect.top };
-            },
-            clear() {
-                const cvs = document.getElementById('sig-canvas');
-                cvs.getContext('2d').clearRect(0,0, cvs.width, cvs.height);
+            close() {
+                document.getElementById('sig-modal').classList.add('hidden');
             }
         };
 
-        // --- INIT ---
-        window.addEventListener('DOMContentLoaded', () => {
-            Router.navigate('dashboard');
-        });
+        const Toast = {
+            show(msg) {
+                const box = document.getElementById('toast-box');
+                box.innerHTML = `<div class="toast"><i class="fas fa-check-circle text-green-400"></i> ${msg}</div>`;
+                setTimeout(() => box.innerHTML = '', 3000);
+            }
+        };
+
+        // --- MOBILE SIGNATURE ENGINE ---
+        const SigPad = {
+            init() {
+                const container = document.getElementById('canvas-container');
+                const canvas = document.getElementById('signature-pad');
+                // Auto-resize to fit mobile screen width
+                canvas.width = container.offsetWidth;
+                canvas.height = container.offsetHeight;
+                
+                const ctx = canvas.getContext('2d');
+                ctx.lineWidth = 2;
+                ctx.strokeStyle = "#000";
+
+                let drawing = false;
+
+                // Touch Events (Mobile)
+                const getTouchPos = (e) => {
+                    const rect = canvas.getBoundingClientRect();
+                    return { x: e.touches[0].clientX - rect.left, y: e.touches[0].clientY - rect.top };
+                }
+
+                canvas.addEventListener('touchstart', (e) => {
+                    e.preventDefault(); // Stop scrolling while signing
+                    drawing = true;
+                    const pos = getTouchPos(e);
+                    ctx.beginPath();
+                    ctx.moveTo(pos.x, pos.y);
+                }, { passive: false });
+
+                canvas.addEventListener('touchmove', (e) => {
+                    e.preventDefault(); 
+                    if(!drawing) return;
+                    const pos = getTouchPos(e);
+                    ctx.lineTo(pos.x, pos.y);
+                    ctx.stroke();
+                }, { passive: false });
+
+                canvas.addEventListener('touchend', () => drawing = false);
+
+                // Mouse Events (Desktop Fallback)
+                canvas.addEventListener('mousedown', (e) => {
+                    drawing = true;
+                    ctx.beginPath();
+                    ctx.moveTo(e.offsetX, e.offsetY);
+                });
+                canvas.addEventListener('mousemove', (e) => {
+                    if(drawing) { ctx.lineTo(e.offsetX, e.offsetY); ctx.stroke(); }
+                });
+                canvas.addEventListener('mouseup', () => drawing = false);
+            },
+            clear() {
+                const canvas = document.getElementById('signature-pad');
+                canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
+            }
+        };
+
+        // Init
+        Router.go('dashboard');
 
     </script>
 </body>
