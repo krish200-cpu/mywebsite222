@@ -2,370 +2,323 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FuneralMatch | Tele-Arranger Console</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>FuneralMatch | Enterprise Core</title>
+    
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 
     <style>
-        :root { --sidebar: #111827; --panel: #1F2937; --gold: #D4AF37; --border: #E5E7EB; }
-        body { font-family: 'Inter', sans-serif; background: #F3F4F6; height: 100vh; overflow: hidden; }
+        :root { --brand: #D4AF37; --dark: #111827; }
+        body { background: #F3F4F6; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
         
-        /* Dense Layout Overrides */
-        .input-dense { 
-            width: 100%; font-size: 13px; padding: 6px 10px; border: 1px solid #D1D5DB; 
-            border-radius: 4px; transition: 0.1s; background: white;
+        /* Transition Effects */
+        .fade-enter-active, .fade-leave-active { transition: opacity 0.2s ease; }
+        .fade-enter-from, .fade-leave-to { opacity: 0; }
+
+        /* Custom Form Styling */
+        .input-std {
+            width: 100%; background: white; border: 1px solid #E5E7EB; border-radius: 8px;
+            padding: 12px; font-size: 15px; outline: none; transition: all 0.2s;
         }
-        .input-dense:focus { border-color: var(--gold); outline: none; box-shadow: 0 0 0 1px var(--gold); }
-        .label-dense { font-size: 10px; font-weight: 700; text-transform: uppercase; color: #6B7280; margin-bottom: 2px; display: block; }
+        .input-std:focus { border-color: var(--brand); box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.15); }
+        .input-error { border-color: #EF4444; background: #FEF2F2; }
         
-        /* Section Headers */
-        .sec-head { background: #F9FAFB; padding: 8px 12px; border-bottom: 1px solid #E5E7EB; border-top: 1px solid #E5E7EB; font-weight: 700; font-size: 12px; color: #374151; display: flex; justify-content: space-between; align-items: center; }
-        
-        /* Scroll Areas */
-        .scroll-area { overflow-y: auto; height: 100%; scrollbar-width: thin; }
-        .scroll-area::-webkit-scrollbar { width: 6px; }
-        .scroll-area::-webkit-scrollbar-thumb { background: #CBD5E1; }
-
-        /* The Audit Log (Matrix Style) */
-        .audit-log { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #10B981; background: #111827; padding: 10px; height: 150px; overflow-y: auto; border-radius: 4px; margin-top: 10px; }
-        .log-entry { margin-bottom: 4px; border-bottom: 1px solid #1F2937; padding-bottom: 2px; }
-
-        /* Alerts */
-        .risk-badge { background: #FEE2E2; color: #991B1B; padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: 800; border: 1px solid #FCA5A5; display: none; }
-        .risk-badge.active { display: inline-block; }
+        /* Mobile Optimizations */
+        .ios-scroll { -webkit-overflow-scrolling: touch; }
     </style>
 </head>
-<body class="flex">
+<body>
 
-    <aside class="w-16 bg-[#111827] flex flex-col items-center py-4 z-20 shrink-0">
-        <div class="w-8 h-8 bg-[#D4AF37] text-black font-bold flex items-center justify-center rounded mb-8">FM</div>
+    <div id="app" class="h-screen flex flex-col lg:flex-row overflow-hidden">
         
-        <nav class="space-y-6 w-full">
-            <button onclick="scrollToId('sec-caller')" class="nav-btn w-full text-gray-400 hover:text-white flex flex-col items-center gap-1">
-                <i class="fas fa-phone-alt"></i><span class="text-[8px] uppercase">Call</span>
-            </button>
-            <button onclick="scrollToId('sec-deceased')" class="nav-btn w-full text-gray-400 hover:text-white flex flex-col items-center gap-1">
-                <i class="fas fa-user"></i><span class="text-[8px] uppercase">Body</span>
-            </button>
-            <button onclick="scrollToId('sec-logistics')" class="nav-btn w-full text-gray-400 hover:text-white flex flex-col items-center gap-1">
-                <i class="fas fa-truck"></i><span class="text-[8px] uppercase">Logs</span>
-            </button>
-            <button onclick="scrollToId('sec-finance')" class="nav-btn w-full text-gray-400 hover:text-white flex flex-col items-center gap-1">
-                <i class="fas fa-pound-sign"></i><span class="text-[8px] uppercase">$</span>
+        <nav class="lg:hidden fixed bottom-0 left-0 w-full bg-white border-t border-gray-200 z-50 pb-safe flex justify-between px-6 py-3">
+            <button v-for="tab in tabs" :key="tab.id" @click="currentView = tab.id"
+                class="flex flex-col items-center gap-1 transition-colors"
+                :class="currentView === tab.id ? 'text-yellow-600' : 'text-gray-400'">
+                <i :class="['fas', tab.icon, 'text-xl']"></i>
+                <span class="text-[10px] font-bold uppercase">{{ tab.label }}</span>
             </button>
         </nav>
-    </aside>
 
-    <main class="flex-1 bg-white border-r border-gray-200 flex flex-col h-screen">
-        
-        <header class="h-12 border-b flex items-center justify-between px-4 bg-gray-50 shrink-0">
-            <div class="flex items-center gap-3">
-                <span class="bg-red-100 text-red-700 text-xs font-bold px-2 py-1 rounded border border-red-200 animate-pulse">LIVE CALL</span>
-                <span class="text-sm font-bold text-gray-700">Arrangement #TR-2026-889</span>
+        <aside class="hidden lg:flex w-64 bg-[#111827] flex-col text-white shrink-0">
+            <div class="h-16 flex items-center px-6 border-b border-gray-800 gap-3">
+                <div class="w-8 h-8 bg-yellow-600 rounded flex items-center justify-center font-bold text-black">FM</div>
+                <div class="font-bold tracking-wide">ENTERPRISE</div>
             </div>
-            <div class="text-xs text-gray-500" id="clock">00:00:00</div>
-        </header>
-
-        <div class="scroll-area p-6" id="master-form">
-            
-            <div id="sec-caller" class="mb-8">
-                <div class="sec-head mb-4"><i class="fas fa-phone mr-2"></i> INTAKE / CALLER</div>
-                <div class="grid grid-cols-12 gap-3">
-                    <div class="col-span-6">
-                        <label class="label-dense">Caller Name</label>
-                        <input type="text" class="input-dense bg-yellow-50" placeholder="Who are you speaking to?" oninput="Log('Caller identified as ' + this.value)">
-                    </div>
-                    <div class="col-span-3">
-                        <label class="label-dense">Relation</label>
-                        <select class="input-dense"><option>Son/Daughter</option><option>Spouse</option><option>Executor</option></select>
-                    </div>
-                    <div class="col-span-3">
-                        <label class="label-dense">Phone</label>
-                        <input type="text" class="input-dense">
-                    </div>
-                    <div class="col-span-12 bg-blue-50 p-2 text-[10px] text-blue-800 border border-blue-100 rounded mt-1">
-                        <strong>SCRIPT:</strong> "I am so sorry for your loss. My name is [Name], and I will personally handle everything. Is now a good time to gather some details?"
-                    </div>
+            <div class="p-4 space-y-2">
+                <button v-for="tab in tabs" :key="tab.id" @click="currentView = tab.id"
+                    class="w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all"
+                    :class="currentView === tab.id ? 'bg-yellow-600 text-black font-bold' : 'text-gray-400 hover:bg-gray-800'">
+                    <i :class="['fas', tab.icon, 'w-5 text-center']"></i>
+                    <span>{{ tab.label }}</span>
+                </button>
+            </div>
+            <div class="mt-auto p-4 border-t border-gray-800">
+                <div class="text-[10px] uppercase text-gray-500 font-bold mb-2">Live Audit Stream</div>
+                <div class="h-32 overflow-y-auto font-mono text-[10px] text-green-400 space-y-1 scrollbar-hide">
+                    <div v-for="(log, i) in auditLog" :key="i">> {{ log }}</div>
                 </div>
             </div>
+        </aside>
 
-            <div id="sec-deceased" class="mb-8">
-                <div class="sec-head mb-4"><i class="fas fa-user-clock mr-2"></i> DECEASED BIOMETRICS</div>
-                <div class="grid grid-cols-12 gap-3">
-                    <div class="col-span-2">
-                        <label class="label-dense">Title</label>
-                        <select class="input-dense"><option>Mr</option><option>Mrs</option><option>Ms</option><option>Dr</option></select>
-                    </div>
-                    <div class="col-span-4">
-                        <label class="label-dense">First Name</label>
-                        <input type="text" class="input-dense" oninput="updateDeceased(this.value)">
-                    </div>
-                    <div class="col-span-6">
-                        <label class="label-dense">Surname</label>
-                        <input type="text" class="input-dense">
-                    </div>
+        <main class="flex-1 flex flex-col bg-gray-50 relative lg:border-r border-gray-200">
+            
+            <header class="h-14 bg-white border-b flex items-center justify-between px-4 lg:px-8 shrink-0">
+                <div class="flex items-center gap-3">
+                    <span class="bg-red-100 text-red-600 text-[10px] font-bold px-2 py-0.5 rounded border border-red-200 animate-pulse">LIVE</span>
+                    <h1 class="font-bold text-gray-700 text-sm lg:text-base">Arrangement #{{ caseRef }}</h1>
+                </div>
+                <div class="lg:hidden font-mono font-bold text-yellow-700">{{ formattedTotal }}</div>
+            </header>
+
+            <div class="flex-1 overflow-y-auto ios-scroll p-4 lg:p-8 pb-24 lg:pb-8">
+                
+                <transition name="fade" mode="out-in">
                     
-                    <div class="col-span-4">
-                        <label class="label-dense">Date of Birth</label>
-                        <input type="date" id="inp-dob" class="input-dense" onchange="Bot.calcAge()">
-                    </div>
-                    <div class="col-span-4">
-                        <label class="label-dense">Date of Death</label>
-                        <input type="date" id="inp-dod" class="input-dense" onchange="Bot.calcAge()">
-                    </div>
-                    <div class="col-span-4">
-                        <label class="label-dense">Calc. Age</label>
-                        <input type="text" id="out-age" class="input-dense bg-gray-100 font-bold text-black" readonly>
-                    </div>
+                    <div v-if="currentView === 'intake'" class="max-w-2xl mx-auto space-y-6">
+                        <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-200">
+                            <h2 class="text-sm font-bold text-gray-400 uppercase mb-4 tracking-wider">Deceased Profile</h2>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-xs font-bold text-gray-500 mb-1">First Name</label>
+                                    <input v-model="form.firstName" @input="log('Updated Name')" class="input-std" :class="{'input-error': !form.firstName && touched}">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-gray-500 mb-1">Surname</label>
+                                    <input v-model="form.lastName" class="input-std">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-gray-500 mb-1">Date of Birth</label>
+                                    <input type="date" v-model="form.dob" class="input-std">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-gray-500 mb-1">Date of Death</label>
+                                    <input type="date" v-model="form.dod" class="input-std">
+                                </div>
+                            </div>
+                            <div class="mt-4 pt-4 border-t border-gray-100 flex items-center justify-between">
+                                <span class="text-xs font-bold text-gray-500">Calculated Age</span>
+                                <span class="text-lg font-mono font-bold text-gray-800">{{ calculatedAge }} Years</span>
+                            </div>
+                        </div>
 
-                    <div class="col-span-12 flex gap-4 mt-2 border-t pt-2">
-                        <label class="flex items-center gap-2 text-xs font-bold">
-                            <input type="checkbox" onchange="Bot.toggleCoroner(this.checked)"> 
-                            Coroner Case?
-                        </label>
-                        <div id="coroner-fields" class="hidden flex gap-2 flex-1">
-                            <input type="text" class="input-dense" placeholder="Coroner Officer Name">
-                            <input type="text" class="input-dense" placeholder="Ref Number">
+                        <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-200">
+                            <h2 class="text-sm font-bold text-gray-400 uppercase mb-4 tracking-wider">Critical Care</h2>
+                            <label class="flex items-center justify-between p-3 border rounded-lg mb-2 cursor-pointer transition"
+                                :class="form.pacemaker ? 'bg-red-50 border-red-200' : 'bg-gray-50 border-gray-200'">
+                                <span class="text-sm font-bold" :class="form.pacemaker ? 'text-red-700' : 'text-gray-600'">Pacemaker Present?</span>
+                                <input type="checkbox" v-model="form.pacemaker" @change="log(form.pacemaker ? 'ALERT: Pacemaker Added' : 'Pacemaker Removed')" class="w-5 h-5 accent-red-600">
+                            </label>
+                            
+                            <label class="flex items-center justify-between p-3 border rounded-lg cursor-pointer transition"
+                                :class="form.coroner ? 'bg-blue-50 border-blue-200' : 'bg-gray-50 border-gray-200'">
+                                <span class="text-sm font-bold" :class="form.coroner ? 'text-blue-700' : 'text-gray-600'">Coroner Case?</span>
+                                <input type="checkbox" v-model="form.coroner" class="w-5 h-5 accent-blue-600">
+                            </label>
                         </div>
                     </div>
-                </div>
-            </div>
 
-            <div id="sec-logistics" class="mb-8">
-                <div class="sec-head mb-4"><i class="fas fa-ambulance mr-2"></i> FIRST CALL REMOVAL</div>
-                <div class="grid grid-cols-12 gap-3 bg-gray-50 p-3 rounded border border-gray-200">
-                    <div class="col-span-8">
-                        <label class="label-dense">Collection Address</label>
-                        <input type="text" class="input-dense" placeholder="Hospital / Care Home / Private Res">
-                    </div>
-                    <div class="col-span-4">
-                        <label class="label-dense">Postcode (Mileage Bot)</label>
-                        <input type="text" class="input-dense" onblur="Bot.calcMileage()">
-                    </div>
-                    
-                    <div class="col-span-4">
-                        <label class="label-dense">Preferred Date</label>
-                        <input type="date" class="input-dense">
-                    </div>
-                    <div class="col-span-4">
-                        <label class="label-dense">Time</label>
-                        <input type="time" class="input-dense" onchange="Bot.checkOOH(this.value)">
-                    </div>
-                    <div class="col-span-4">
-                        <label class="label-dense">Staff Required</label>
-                        <select class="input-dense" id="staff-req" onchange="Pricing.calc()">
-                            <option value="2">2 Bearers (Std)</option>
-                            <option value="4">4 Bearers (Complex)</option>
-                        </select>
-                    </div>
-                    
-                    <div class="col-span-12" id="alert-zone-logistics"></div>
-                </div>
-            </div>
+                    <div v-else-if="currentView === 'logistics'" class="max-w-2xl mx-auto space-y-6">
+                        <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-200">
+                            <h2 class="text-sm font-bold text-gray-400 uppercase mb-4 tracking-wider">Service Configuration</h2>
+                            <div class="grid grid-cols-1 gap-3">
+                                <div v-for="svc in serviceOptions" :key="svc.name" 
+                                    @click="selectService(svc)"
+                                    class="p-4 border rounded-xl cursor-pointer transition flex items-center justify-between"
+                                    :class="form.serviceType === svc.name ? 'border-yellow-500 bg-yellow-50 ring-1 ring-yellow-500' : 'border-gray-200 hover:border-gray-300'">
+                                    <div>
+                                        <div class="font-bold text-gray-800">{{ svc.name }}</div>
+                                        <div class="text-xs text-gray-500">{{ svc.desc }}</div>
+                                    </div>
+                                    <div class="font-bold text-gray-900">£{{ svc.price }}</div>
+                                </div>
+                            </div>
+                        </div>
 
-            <div id="sec-ops" class="mb-8">
-                <div class="sec-head mb-4"><i class="fas fa-box mr-2"></i> WORKSHOP OPS</div>
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label class="label-dense">Casket Selection</label>
-                        <select class="input-dense h-10 font-bold" id="sel-coffin" onchange="Pricing.calc(); Log('Coffin changed to ' + this.value)">
-                            <option value="0">Simple (Included)</option>
-                            <option value="450">Willow Weave (+£450)</option>
-                            <option value="800">Oak Veneer (+£800)</option>
-                            <option value="1200">Solid Oak (+£1200)</option>
-                        </select>
-                    </div>
-                    <div class="bg-red-50 border border-red-200 p-2 rounded">
-                        <label class="label-dense text-red-800">Clinical Risks</label>
-                        <div class="flex items-center justify-between mt-1">
-                            <span class="text-xs font-bold">Pacemaker Present?</span>
-                            <input type="checkbox" id="chk-pace" class="w-5 h-5 accent-red-600" onchange="Bot.togglePacemaker(this.checked)">
+                        <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-200">
+                            <h2 class="text-sm font-bold text-gray-400 uppercase mb-4 tracking-wider">Fleet Management</h2>
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <div class="font-bold text-gray-800">Limousines</div>
+                                    <div class="text-xs text-gray-500">Mercedes E-Class (7 Seats)</div>
+                                </div>
+                                <div class="flex items-center bg-gray-100 rounded-lg p-1">
+                                    <button @click="adjustLimos(-1)" class="w-10 h-10 bg-white shadow rounded flex items-center justify-center active:scale-95 transition"><i class="fas fa-minus text-xs"></i></button>
+                                    <span class="w-10 text-center font-bold text-lg">{{ form.limos }}</span>
+                                    <button @click="adjustLimos(1)" class="w-10 h-10 bg-white shadow rounded flex items-center justify-center active:scale-95 transition"><i class="fas fa-plus text-xs"></i></button>
+                                </div>
+                            </div>
                         </div>
                     </div>
+
+                    <div v-else class="max-w-2xl mx-auto space-y-6">
+                        <div class="bg-[#1F2937] text-white p-6 rounded-xl shadow-lg">
+                            <div class="text-[10px] uppercase font-bold text-gray-400 mb-1">Total Estimated Cost</div>
+                            <div class="text-4xl font-mono font-bold text-[#D4AF37]">{{ formattedTotal }}</div>
+                        </div>
+                        
+                        <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                            <table class="w-full text-sm">
+                                <thead class="bg-gray-50 border-b border-gray-200">
+                                    <tr>
+                                        <th class="text-left p-4 font-bold text-gray-500 uppercase text-[10px]">Description</th>
+                                        <th class="text-right p-4 font-bold text-gray-500 uppercase text-[10px]">Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-gray-100">
+                                    <tr v-if="selectedServiceObj">
+                                        <td class="p-4 text-gray-800 font-medium">{{ selectedServiceObj.name }}</td>
+                                        <td class="p-4 text-right font-mono text-gray-600">£{{ selectedServiceObj.price }}</td>
+                                    </tr>
+                                    <tr v-if="form.limos > 0">
+                                        <td class="p-4 text-gray-800 font-medium">Limousines (x{{ form.limos }})</td>
+                                        <td class="p-4 text-right font-mono text-gray-600">£{{ form.limos * 250 }}</td>
+                                    </tr>
+                                    <tr v-if="form.pacemaker">
+                                        <td class="p-4 text-red-600 font-bold flex items-center gap-2">
+                                            <i class="fas fa-heart-broken"></i> Pacemaker Removal
+                                        </td>
+                                        <td class="p-4 text-right font-mono text-red-600">£95</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-4 text-gray-800 font-medium">Professional Fees</td>
+                                        <td class="p-4 text-right font-mono text-gray-600">£1,200</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <button @click="saveArrangement" class="w-full py-4 bg-[#D4AF37] text-white font-bold text-lg rounded-xl shadow-lg active:scale-[0.98] transition">
+                            <i class="fas fa-file-contract mr-2"></i> Finalize Arrangement
+                        </button>
+                    </div>
+
+                </transition>
+            </div>
+        </main>
+
+        <aside class="hidden lg:block w-80 bg-white border-l border-gray-200 p-6 shrink-0 z-20 shadow-xl">
+            <div class="text-xs font-bold text-gray-400 uppercase mb-4">Live Financials</div>
+            <div class="text-3xl font-mono font-bold text-[#D4AF37] mb-6 border-b border-gray-100 pb-6">{{ formattedTotal }}</div>
+            
+            <div class="text-xs font-bold text-gray-400 uppercase mb-4">Risk Matrix</div>
+            <div class="space-y-2">
+                <div v-if="!hasRisks" class="text-xs text-gray-400 italic bg-gray-50 p-3 rounded">No active risks identified.</div>
+                <div v-if="form.pacemaker" class="flex items-center gap-2 p-2 bg-red-50 text-red-700 rounded text-xs font-bold border border-red-100">
+                    <i class="fas fa-exclamation-triangle"></i> Pacemaker Removal
+                </div>
+                <div v-if="form.coroner" class="flex items-center gap-2 p-2 bg-blue-50 text-blue-700 rounded text-xs font-bold border border-blue-100">
+                    <i class="fas fa-file-medical"></i> Coroner Protocol
+                </div>
+                <div v-if="calculatedAge !== '0' && calculatedAge < 18" class="flex items-center gap-2 p-2 bg-purple-50 text-purple-700 rounded text-xs font-bold border border-purple-100">
+                    <i class="fas fa-child"></i> Child Fund Protocol
                 </div>
             </div>
+        </aside>
 
-            <div class="mt-8">
-                <label class="label-dense">Internal Notes (Not visible to client)</label>
-                <textarea class="input-dense h-24 bg-yellow-50 font-mono" placeholder="Family mentioned dispute over will..."></textarea>
-            </div>
-
-        </div>
-    </main>
-
-    <aside class="w-80 bg-white border-l border-gray-200 flex flex-col z-10 shadow-xl shrink-0">
-        
-        <div class="p-6 bg-[#1F2937] text-white">
-            <div class="text-[10px] uppercase font-bold text-gray-400">Total Estimated Cost</div>
-            <div class="text-3xl font-bold font-mono text-[#D4AF37] mt-1" id="display-total">£0.00</div>
-            
-            <div class="mt-4 space-y-1 text-xs text-gray-300 border-t border-gray-700 pt-2">
-                <div class="flex justify-between"><span>Professional Fees</span><span>£1,200</span></div>
-                <div class="flex justify-between"><span>Coffin</span><span id="cost-coffin">£0</span></div>
-                <div class="flex justify-between"><span>Logistics</span><span id="cost-logs">£0</span></div>
-                <div class="flex justify-between text-red-400 hidden" id="row-pace"><span>Pacemaker Removal</span><span>£90</span></div>
-                <div class="flex justify-between text-red-400 hidden" id="row-ooh"><span>Out of Hours</span><span>£150</span></div>
-            </div>
-        </div>
-
-        <div class="p-4 border-b border-gray-200 bg-gray-50 flex-1">
-            <div class="text-[10px] uppercase font-bold text-gray-500 mb-2">Active Risks</div>
-            <div id="risk-container" class="space-y-2">
-                <div class="text-xs text-gray-400 italic" id="no-risks">No risks identified yet.</div>
-                <span id="badge-pace" class="risk-badge">PACEMAKER</span>
-                <span id="badge-coroner" class="risk-badge bg-blue-100 text-blue-800 border-blue-200">CORONER</span>
-                <span id="badge-ooh" class="risk-badge bg-orange-100 text-orange-800 border-orange-200">OUT OF HOURS</span>
-                <span id="badge-weight" class="risk-badge bg-purple-100 text-purple-800 border-purple-200">HEAVY LIFT</span>
-            </div>
-        </div>
-
-        <div class="p-4 bg-black">
-            <div class="text-[10px] uppercase font-bold text-gray-500 mb-1">System Audit</div>
-            <div class="audit-log" id="audit-feed">
-                <div class="log-entry">> System Initialized</div>
-                <div class="log-entry">> Rate Card Loaded</div>
-            </div>
-        </div>
-
-        <div class="p-4 grid grid-cols-2 gap-2 bg-gray-100 border-t">
-            <button class="bg-white border border-gray-300 text-gray-700 font-bold text-xs py-3 rounded hover:bg-gray-50">Save Draft</button>
-            <button class="bg-[#D4AF37] text-black font-bold text-xs py-3 rounded shadow hover:bg-[#b08d4b]" onclick="alert('Sent to Email Queue')">Generate Contract</button>
-        </div>
-
-    </aside>
+    </div>
 
     <script>
-        // --- 1. THE BRAIN (Logic Bots) ---
-        const Bot = {
-            calcAge: () => {
-                const dob = new Date(document.getElementById('inp-dob').value);
-                const dod = new Date(document.getElementById('inp-dod').value);
-                if(dob && dod) {
-                    const diff = dod - dob;
-                    const age = Math.floor(diff / (1000 * 60 * 60 * 24 * 365.25));
-                    document.getElementById('out-age').value = age + " Years";
-                    Log(`Age calculated: ${age}`);
-                }
-            },
-            toggleCoroner: (checked) => {
-                const fields = document.getElementById('coroner-fields');
-                const badge = document.getElementById('badge-coroner');
-                if(checked) {
-                    fields.classList.remove('hidden');
-                    badge.classList.add('active');
-                    Log('Flagged as Coroner Case');
-                } else {
-                    fields.classList.add('hidden');
-                    badge.classList.remove('active');
-                    Log('Coroner flag removed');
-                }
-                checkRisks();
-            },
-            togglePacemaker: (checked) => {
-                const row = document.getElementById('row-pace');
-                const badge = document.getElementById('badge-pace');
-                if(checked) {
-                    row.classList.remove('hidden');
-                    badge.classList.add('active');
-                    Log('CRITICAL: Pacemaker added');
-                } else {
-                    row.classList.add('hidden');
-                    badge.classList.remove('active');
-                }
-                Pricing.calc();
-                checkRisks();
-            },
-            checkOOH: (timeStr) => {
-                if(!timeStr) return;
-                const hour = parseInt(timeStr.split(':')[0]);
-                const isOOH = (hour < 8 || hour >= 17);
-                const badge = document.getElementById('badge-ooh');
-                const row = document.getElementById('row-ooh');
+        const { createApp, reactive, computed, ref } = Vue;
+
+        createApp({
+            setup() {
+                // --- STATE ---
+                const currentView = ref('intake');
+                const touched = ref(false);
+                const caseRef = ref(`FM-${new Date().getFullYear()}-${Math.floor(Math.random() * 9000)}`);
+                const auditLog = reactive([`System initialized for Case #${caseRef.value}`]);
                 
-                if(isOOH) {
-                    badge.classList.add('active');
-                    row.classList.remove('hidden');
-                    Log('Time set to Out of Hours');
-                } else {
-                    badge.classList.remove('active');
-                    row.classList.add('hidden');
-                }
-                Pricing.calc();
-                checkRisks();
-            },
-            calcMileage: () => {
-                // Mock calculation
-                Log('Calculating mileage from HQ...');
-                setTimeout(() => Log('Distance: 12 miles (Zone A)'), 500);
-            }
-        };
+                const tabs = [
+                    { id: 'intake', label: 'Intake', icon: 'fa-user' },
+                    { id: 'logistics', label: 'Logistics', icon: 'fa-truck' },
+                    { id: 'finance', label: 'Financials', icon: 'fa-file-invoice-dollar' }
+                ];
 
-        // --- 2. PRICING ENGINE ---
-        const Pricing = {
-            base: 1200,
-            calc: () => {
-                let total = Pricing.base;
+                const serviceOptions = [
+                    { name: 'Direct Cremation', price: 950, desc: 'Unattended service' },
+                    { name: 'Simple Service', price: 1800, desc: 'Chapel service, standard hours' },
+                    { name: 'Traditional', price: 2600, desc: 'Full service with cortege' }
+                ];
+
+                // Reactive Form Data
+                const form = reactive({
+                    firstName: '',
+                    lastName: '',
+                    dob: '',
+                    dod: '',
+                    pacemaker: false,
+                    coroner: false,
+                    serviceType: 'Simple Service',
+                    limos: 0
+                });
+
+                // --- LOGIC ---
+                const log = (msg) => {
+                    const time = new Date().toLocaleTimeString([], { hour12: false });
+                    auditLog.unshift(`[${time}] ${msg}`);
+                };
+
+                const selectService = (svc) => {
+                    form.serviceType = svc.name;
+                    log(`Service changed to: ${svc.name}`);
+                };
+
+                const adjustLimos = (delta) => {
+                    let n = form.limos + delta;
+                    if(n < 0) n = 0; if(n > 10) n = 10;
+                    form.limos = n;
+                    log(`Fleet updated: ${n} Limousines`);
+                };
+
+                // --- COMPUTED ENGINES ---
+                const selectedServiceObj = computed(() => serviceOptions.find(s => s.name === form.serviceType));
                 
-                // Coffin
-                const coffinPrice = parseInt(document.getElementById('sel-coffin').value);
-                document.getElementById('cost-coffin').innerText = `£${coffinPrice}`;
-                total += coffinPrice;
+                const totalCost = computed(() => {
+                    let total = 1200; // Prof Fees
+                    if (selectedServiceObj.value) total += selectedServiceObj.value.price;
+                    total += (form.limos * 250);
+                    if (form.pacemaker) total += 95;
+                    return total;
+                });
 
-                // Pacemaker
-                if(document.getElementById('chk-pace').checked) total += 90;
+                const formattedTotal = computed(() => {
+                    return new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'GBP' }).format(totalCost.value);
+                });
 
-                // OOH
-                const timeStr = document.querySelector('input[type="time"]').value;
-                if(timeStr) {
-                    const h = parseInt(timeStr.split(':')[0]);
-                    if(h < 8 || h >= 17) total += 150;
-                }
+                const calculatedAge = computed(() => {
+                    if(!form.dob || !form.dod) return '0';
+                    const start = new Date(form.dob);
+                    const end = new Date(form.dod);
+                    const diff = end - start;
+                    return Math.floor(diff / (1000 * 60 * 60 * 24 * 365.25));
+                });
 
-                // Bearers
-                const staff = document.getElementById('staff-req').value;
-                let logCost = 0;
-                if(staff === "4") { logCost += 200; Log('Complex Lift: 4 Bearers added'); }
-                document.getElementById('cost-logs').innerText = `£${logCost}`;
-                total += logCost;
+                const hasRisks = computed(() => form.pacemaker || form.coroner || (calculatedAge.value > 0 && calculatedAge.value < 18));
 
-                // Render
-                document.getElementById('display-total').innerText = new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'GBP' }).format(total);
+                const saveArrangement = () => {
+                    if(!form.firstName || !form.lastName) {
+                        touched.value = true;
+                        alert("Validation Error: Please complete Deceased Profile.");
+                        currentView.value = 'intake';
+                        return;
+                    }
+                    alert(`✅ ARRANGEMENT SAVED\n\nRef: ${caseRef.value}\nTotal Value: ${formattedTotal.value}\n\nData committed to local store.`);
+                    log('** DATA COMMITTED TO DATABASE **');
+                };
+
+                return {
+                    currentView, tabs, form, serviceOptions,
+                    auditLog, log,
+                    selectService, adjustLimos,
+                    selectedServiceObj, totalCost, formattedTotal, calculatedAge, hasRisks,
+                    touched, saveArrangement, caseRef
+                };
             }
-        };
-
-        // --- 3. UTILITIES ---
-        function Log(msg) {
-            const feed = document.getElementById('audit-feed');
-            const time = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', second:'2-digit'});
-            feed.innerHTML += `<div class="log-entry text-gray-300">> [${time}] <span class="text-white">${msg}</span></div>`;
-            feed.scrollTop = feed.scrollHeight;
-        }
-
-        function checkRisks() {
-            const badges = document.querySelectorAll('.risk-badge.active');
-            const empty = document.getElementById('no-risks');
-            if(badges.length > 0) empty.style.display = 'none';
-            else empty.style.display = 'block';
-        }
-
-        function scrollToId(id) {
-            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
-        }
-
-        function updateDeceased(name) {
-            // Update Tab Title or generic header if needed
-        }
-
-        // Clock
-        setInterval(() => {
-            document.getElementById('clock').innerText = new Date().toLocaleTimeString();
-        }, 1000);
-
-        // Init
-        Pricing.calc();
-
+        }).mount('#app');
     </script>
 </body>
 </html>
