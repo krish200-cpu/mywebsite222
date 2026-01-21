@@ -3,361 +3,356 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>FuneralOS | Enterprise Edition</title>
+    <title>FuneralOS | Master Console</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
     <style>
-        /* FACTORY-GRADE CSS RESET & UTILITIES */
-        :root { --brand: #D4AF37; --brand-dark: #b59226; --slate-900: #0f172a; --slate-800: #1e293b; }
-        body { background: #F8FAFC; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+        /* --- 1. CORE CONFIGURATION --- */
+        :root { --brand: #D4AF37; --slate-900: #0f172a; --slate-800: #1e293b; }
+        body { background: #F1F5F9; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; overflow: hidden; }
         
-        /* High-Density Inputs */
-        .input-group { margin-bottom: 1.5rem; position: relative; }
-        .input-label { display: block; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; color: #64748B; margin-bottom: 0.4rem; letter-spacing: 0.05em; }
-        .input-field { 
-            width: 100%; background: white; border: 1px solid #CBD5E1; border-radius: 6px; 
-            padding: 0.75rem 1rem; font-size: 0.9rem; color: #1E293B; outline: none; transition: all 0.2s;
+        /* --- 2. ANIMATION ENGINE --- */
+        /* Tab Switching Transition */
+        .fade-enter-active, .fade-leave-active { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .fade-enter-from { opacity: 0; transform: translateY(10px); }
+        .fade-leave-to { opacity: 0; transform: translateY(-10px); display: none; }
+        
+        /* Scroll Reveal Effect */
+        .reveal { opacity: 0; transform: translateY(20px); transition: all 0.6s ease-out; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+        .delay-100 { transition-delay: 100ms; }
+        .delay-200 { transition-delay: 200ms; }
+
+        /* --- 3. COMPONENT STYLING --- */
+        .app-shell { display: flex; height: 100vh; width: 100vw; }
+        
+        /* Inputs */
+        .input-std { 
+            width: 100%; background: white; border: 1px solid #CBD5E1; border-radius: 8px; 
+            padding: 10px 14px; font-size: 14px; outline: none; transition: 0.2s; 
         }
-        .input-field:focus { border-color: var(--brand); box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1); }
-        .input-field.error { border-color: #EF4444; background: #FEF2F2; }
-        
-        /* Verification Badges */
-        .status-badge { display: inline-flex; align-items: center; padding: 2px 8px; border-radius: 4px; font-size: 0.65rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; }
-        .status-pending { background: #FEF3C7; color: #92400E; }
-        .status-verified { background: #DCFCE7; color: #166534; }
-        .status-critical { background: #FEE2E2; color: #991B1B; }
+        .input-std:focus { border-color: var(--brand); ring: 2px solid rgba(212, 175, 55, 0.2); }
+        .label-std { font-size: 11px; font-weight: 700; text-transform: uppercase; color: #64748B; margin-bottom: 6px; display: block; letter-spacing: 0.05em; }
 
-        /* App Shell Layout */
-        .app-shell { display: grid; grid-template-columns: 280px 1fr 320px; height: 100vh; overflow: hidden; }
-        .sidebar { background: var(--slate-900); color: white; display: flex; flex-direction: column; z-index: 20; }
-        .workspace { overflow-y: auto; background: #F1F5F9; padding: 2rem; }
-        .flight-deck { background: white; border-left: 1px solid #E2E8F0; display: flex; flex-direction: column; z-index: 20; }
-        
-        /* Mobile Adapters */
+        /* Scrollbars */
+        .scroller { overflow-y: auto; -webkit-overflow-scrolling: touch; }
+        .scroller::-webkit-scrollbar { width: 6px; }
+        .scroller::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 3px; }
+
+        /* Mobile Adjustments */
         @media (max-width: 1024px) {
-            .app-shell { display: flex; flex-direction: column; height: 100vh; }
-            .sidebar, .flight-deck { display: none; } /* We handle mobile nav separately */
-            .workspace { padding: 1rem; padding-bottom: 80px; }
-            /* 1. SMOOTH TAB SWITCHING */
-.fade-enter-active,
-.fade-leave-active {
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.fade-enter-from {
-    opacity: 0;
-    transform: translateY(10px) scale(0.98);
-}
-
-.fade-leave-to {
-    opacity: 0;
-    transform: translateY(-10px);
-    display: none; /* Keeps layout stable during switch */
-}
-
-/* 2. SCROLL REVEAL (The "Fade In" Effect) */
-.reveal {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
-}
-
-.reveal.active {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-/* Staggered delays for child elements */
-.reveal.delay-100 { transition-delay: 100ms; }
-.reveal.delay-200 { transition-delay: 200ms; }
-.reveal.delay-300 { transition-delay: 300ms; }
-
+            .desktop-only { display: none !important; }
+            .mobile-nav { display: flex !important; }
+            .workspace { padding-bottom: 100px; }
         }
     </style>
 </head>
 <body>
 
 <div id="app" class="app-shell">
-    
-    <aside class="sidebar">
-        <div class="h-16 flex items-center px-6 border-b border-slate-700 gap-3">
-            <div class="w-8 h-8 bg-yellow-500 rounded flex items-center justify-center font-bold text-slate-900">OS</div>
-            <div class="font-bold tracking-wide text-sm">FUNERAL<span class="text-yellow-500">MATCH</span></div>
+
+    <aside class="w-72 bg-slate-900 text-white flex-col desktop-only z-50 shadow-xl">
+        <div class="h-20 flex items-center px-6 border-b border-slate-800 gap-3">
+            <div class="w-10 h-10 bg-yellow-600 rounded flex items-center justify-center font-bold text-slate-900 text-xl">F</div>
+            <div>
+                <div class="font-bold tracking-wide">FuneralOS</div>
+                <div class="text-[10px] text-slate-500 uppercase tracking-widest font-bold">Enterprise v2.0</div>
+            </div>
         </div>
-        
-        <nav class="flex-1 py-6 px-3 space-y-1 overflow-y-auto">
-            <div class="text-[10px] font-bold text-slate-500 uppercase px-3 mb-2">Case Management</div>
+
+        <nav class="p-4 space-y-2 flex-1">
+            <div class="text-[10px] font-bold text-slate-500 uppercase px-4 mb-2">Modules</div>
             <button v-for="tab in tabs" :key="tab.id" @click="activeTab = tab.id"
-                class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all"
-                :class="activeTab === tab.id ? 'bg-yellow-500 text-slate-900 font-bold' : 'text-slate-400 hover:bg-slate-800 hover:text-white'">
-                <i :class="['fas', tab.icon, 'w-5 text-center']"></i>
-                {{ tab.label }}
-                <span v-if="tab.alert" class="ml-auto w-2 h-2 bg-red-500 rounded-full"></span>
+                class="w-full flex items-center gap-4 px-4 py-3 rounded-lg transition-all"
+                :class="activeTab === tab.id ? 'bg-yellow-600 text-slate-900 font-bold shadow-lg' : 'text-slate-400 hover:bg-slate-800 hover:text-white'">
+                <i :class="['fas', tab.icon, 'w-6 text-center']"></i>
+                <span class="text-sm">{{ tab.label }}</span>
             </button>
         </nav>
 
-        <div class="p-4 border-t border-slate-700 bg-slate-800">
-            <div class="text-[10px] text-slate-400 uppercase font-bold mb-1">Director On Duty</div>
-            <div class="text-sm font-bold text-white">Senior Arranger</div>
-            <div class="text-xs text-green-400 flex items-center gap-1 mt-1"><i class="fas fa-circle text-[8px]"></i> System Online</div>
+        <div class="h-48 bg-slate-950 border-t border-slate-800 p-4 flex flex-col">
+            <div class="text-[10px] font-bold text-slate-500 uppercase mb-2">System Audit Stream</div>
+            <div class="flex-1 overflow-y-auto space-y-1 scroller" ref="auditBox">
+                <div v-for="log in auditLog" :key="log.id" class="text-[10px] font-mono text-green-500 border-l-2 border-green-800 pl-2 opacity-80">
+                    > {{ log.msg }}
+                </div>
+            </div>
         </div>
     </aside>
 
-    <main class="workspace">
+    <main class="flex-1 flex flex-col min-w-0 bg-gray-50 relative">
         
-        <header class="flex justify-between items-end mb-8">
-            <div>
-                <div class="flex items-center gap-3 mb-1">
-                    <span class="bg-blue-100 text-blue-700 text-[10px] font-bold px-2 py-0.5 rounded border border-blue-200">NEW INTAKE</span>
-                    <span class="text-xs font-mono text-gray-400">REF: {{ caseRef }}</span>
-                </div>
-                <h1 class="text-2xl font-bold text-slate-800">{{ currentViewLabel }}</h1>
+        <header class="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-6 shadow-sm shrink-0 z-40">
+            <div class="flex items-center gap-4">
+                <span class="bg-red-50 text-red-600 border border-red-100 text-[10px] font-bold px-2 py-0.5 rounded animate-pulse">LIVE</span>
+                <h1 class="text-lg font-bold text-slate-800">Arrangement #{{ caseRef }}</h1>
             </div>
-            <div class="hidden lg:block">
-                <button @click="saveProgress" class="bg-slate-900 text-white px-6 py-2.5 rounded-lg text-sm font-bold shadow-lg hover:bg-slate-800 active:scale-95 transition">
-                    <i class="fas fa-save mr-2"></i> Save Changes
+            <div class="flex items-center gap-4">
+                <div class="text-right desktop-only">
+                    <div class="text-[10px] font-bold text-gray-400 uppercase">Total Estimate</div>
+                    <div class="font-mono font-bold text-yellow-600 text-lg">{{ formattedTotal }}</div>
+                </div>
+                <button @click="generateContract" class="bg-slate-900 text-white px-4 py-2 rounded-lg text-sm font-bold shadow hover:bg-black transition active:scale-95">
+                    <i class="fas fa-file-contract mr-2"></i> Contract
                 </button>
             </div>
         </header>
 
-        <div v-if="activeTab === 'intake'" class="max-w-4xl space-y-8 animate-fade">
-            
-            <section class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-                <div class="bg-gray-50 px-6 py-3 border-b border-gray-200 flex justify-between items-center">
-                    <h2 class="text-sm font-bold text-slate-700 uppercase tracking-wide">First Call Logistics</h2>
-                    <span class="status-badge status-pending">Incomplete</span>
-                </div>
-                <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <label class="input-label">Date of First Call</label>
-                        <input type="datetime-local" v-model="form.intake.callTime" class="input-field">
-                    </div>
-                    <div>
-                        <label class="input-label">Caller Name & Relation</label>
-                        <input type="text" v-model="form.intake.caller" placeholder="e.g. John Smith (Son)" class="input-field">
-                    </div>
-                    <div class="md:col-span-2">
-                        <label class="input-label">Current Location of Deceased</label>
-                        <select v-model="form.intake.locationType" class="input-field mb-3">
-                            <option value="Hospital">Hospital / Hospice</option>
-                            <option value="Residential">Private Residence</option>
-                            <option value="Nursing">Nursing Home</option>
-                            <option value="Public">Public Place / Coroner</option>
-                        </select>
-                        <input type="text" v-model="form.intake.address" placeholder="Full Address & Ward Number" class="input-field">
-                    </div>
-                </div>
-            </section>
+        <div class="flex-1 scroller workspace p-4 lg:p-10 relative">
+            <transition name="fade" mode="out-in">
 
-            <section class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-                <div class="bg-gray-50 px-6 py-3 border-b border-gray-200">
-                    <h2 class="text-sm font-bold text-slate-700 uppercase tracking-wide">Deceased Profile</h2>
-                </div>
-                <div class="p-6 grid grid-cols-1 md:grid-cols-12 gap-5">
-                    <div class="md:col-span-2">
-                        <label class="input-label">Title</label>
-                        <select v-model="form.deceased.title" class="input-field"><option>Mr</option><option>Mrs</option><option>Ms</option><option>Dr</option><option>Rev</option></select>
-                    </div>
-                    <div class="md:col-span-5">
-                        <label class="input-label">First Name(s)</label>
-                        <input type="text" v-model="form.deceased.firstName" class="input-field">
-                    </div>
-                    <div class="md:col-span-5">
-                        <label class="input-label">Surname</label>
-                        <input type="text" v-model="form.deceased.lastName" class="input-field">
-                    </div>
+                <div v-if="activeTab === 'intake'" class="max-w-4xl space-y-6 mx-auto" key="intake">
                     
-                    <div class="md:col-span-4">
-                        <label class="input-label">Date of Birth</label>
-                        <input type="date" v-model="form.deceased.dob" class="input-field">
-                    </div>
-                    <div class="md:col-span-4">
-                        <label class="input-label">Date of Death</label>
-                        <input type="date" v-model="form.deceased.dod" class="input-field">
-                    </div>
-                    <div class="md:col-span-4">
-                        <label class="input-label">Calculated Age</label>
-                        <div class="input-field bg-gray-100 text-gray-500 font-mono">{{ calculatedAge }} Years</div>
-                    </div>
-
-                    <div class="md:col-span-12 border-t border-gray-100 my-2"></div>
-                    
-                    <div class="md:col-span-4">
-                        <label class="input-label">Approx Height</label>
-                        <select v-model="form.deceased.height" class="input-field">
-                            <option value="std">Standard (Under 6'2")</option>
-                            <option value="tall">Tall (6'2" - 6'6")</option>
-                            <option value="xtall">Extra Tall (6'7"+)</option>
-                        </select>
-                    </div>
-                    <div class="md:col-span-4">
-                        <label class="input-label">Approx Weight</label>
-                        <select v-model="form.deceased.weight" class="input-field">
-                            <option value="std">Standard</option>
-                            <option value="heavy">Heavy (16-20 Stone)</option>
-                            <option value="bariatric">Bariatric (20 Stone+)</option>
-                        </select>
-                    </div>
-                    <div class="md:col-span-4">
-                        <label class="input-label">Shoulder Width</label>
-                        <select v-model="form.deceased.width" class="input-field">
-                            <option value="std">Standard (Up to 22")</option>
-                            <option value="wide">Wide (22" - 26")</option>
-                            <option value="xwide">Extra Wide (26"+)</option>
-                        </select>
-                    </div>
-                </div>
-            </section>
-
-            <section class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-                <div class="bg-red-50 px-6 py-3 border-b border-red-100 flex items-center gap-2">
-                    <i class="fas fa-heart-pulse text-red-600"></i>
-                    <h2 class="text-sm font-bold text-red-800 uppercase tracking-wide">Clinical Risk Assessment</h2>
-                </div>
-                <div class="p-6">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div @click="form.clinical.pacemaker = !form.clinical.pacemaker" 
-                             class="cursor-pointer border-2 rounded-xl p-4 flex items-center gap-4 transition-all"
-                             :class="form.clinical.pacemaker ? 'border-red-500 bg-red-50' : 'border-gray-200 hover:border-gray-300'">
-                            <div class="w-6 h-6 rounded border flex items-center justify-center bg-white"
-                                 :class="form.clinical.pacemaker ? 'border-red-500' : 'border-gray-300'">
-                                 <div v-if="form.clinical.pacemaker" class="w-3 h-3 bg-red-500 rounded-sm"></div>
+                    <section class="reveal bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                        <div class="bg-gray-50 px-6 py-3 border-b border-gray-200 flex justify-between">
+                            <h2 class="text-sm font-bold text-slate-700 uppercase">First Call Logistics</h2>
+                            <span class="text-[10px] font-bold bg-yellow-100 text-yellow-800 px-2 py-0.5 rounded">STEP 1</span>
+                        </div>
+                        <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="label-std">Caller Name</label>
+                                <input v-model="form.intake.caller" class="input-std" placeholder="Full Name">
                             </div>
                             <div>
-                                <div class="font-bold text-slate-800">Pacemaker Present</div>
-                                <div class="text-xs text-slate-500">Requires removal for cremation</div>
+                                <label class="label-std">Relationship</label>
+                                <select v-model="form.intake.relation" class="input-std">
+                                    <option>Next of Kin (NOK)</option>
+                                    <option>Executor</option>
+                                    <option>Official / Coroner</option>
+                                </select>
+                            </div>
+                            <div class="md:col-span-2">
+                                <label class="label-std">Current Location</label>
+                                <input v-model="form.intake.address" class="input-std" placeholder="Hospital Ward or Residential Address">
                             </div>
                         </div>
+                    </section>
 
-                        <div @click="form.clinical.infectious = !form.clinical.infectious" 
-                             class="cursor-pointer border-2 rounded-xl p-4 flex items-center gap-4 transition-all"
-                             :class="form.clinical.infectious ? 'border-orange-500 bg-orange-50' : 'border-gray-200 hover:border-gray-300'">
-                            <div class="w-6 h-6 rounded border flex items-center justify-center bg-white"
-                                 :class="form.clinical.infectious ? 'border-orange-500' : 'border-gray-300'">
-                                 <div v-if="form.clinical.infectious" class="w-3 h-3 bg-orange-500 rounded-sm"></div>
+                    <section class="reveal delay-100 bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                        <div class="bg-gray-50 px-6 py-3 border-b border-gray-200">
+                            <h2 class="text-sm font-bold text-slate-700 uppercase">Deceased Profile</h2>
+                        </div>
+                        <div class="p-6 grid grid-cols-1 md:grid-cols-12 gap-5">
+                            <div class="md:col-span-2">
+                                <label class="label-std">Title</label>
+                                <select v-model="form.deceased.title" class="input-std"><option>Mr</option><option>Mrs</option><option>Ms</option></select>
                             </div>
-                            <div>
-                                <div class="font-bold text-slate-800">Infectious / Biohazard</div>
-                                <div class="text-xs text-slate-500">Requires sealed transport</div>
+                            <div class="md:col-span-5">
+                                <label class="label-std">First Name</label>
+                                <input v-model="form.deceased.firstName" class="input-std">
+                            </div>
+                            <div class="md:col-span-5">
+                                <label class="label-std">Surname</label>
+                                <input v-model="form.deceased.lastName" class="input-std">
+                            </div>
+                            
+                            <div class="md:col-span-4">
+                                <label class="label-std">Date of Birth</label>
+                                <input type="date" v-model="form.deceased.dob" class="input-std">
+                            </div>
+                            <div class="md:col-span-4">
+                                <label class="label-std">Date of Death</label>
+                                <input type="date" v-model="form.deceased.dod" class="input-std">
+                            </div>
+                            <div class="md:col-span-4">
+                                <label class="label-std">Calculated Age</label>
+                                <div class="input-std bg-gray-100 text-gray-500 font-mono">{{ calculatedAge }} Years</div>
+                            </div>
+
+                            <div class="md:col-span-6">
+                                <label class="label-std">Weight Class</label>
+                                <select v-model="form.deceased.weight" class="input-std">
+                                    <option value="std">Standard</option>
+                                    <option value="heavy">Heavy (16-20 Stone)</option>
+                                    <option value="bariatric">Bariatric (20 Stone+)</option>
+                                </select>
+                            </div>
+                            <div class="md:col-span-6" v-if="form.deceased.weight !== 'std'">
+                                <div class="bg-red-50 border border-red-200 rounded p-3 text-xs text-red-700 font-bold mt-6">
+                                    <i class="fas fa-exclamation-triangle mr-1"></i> ALERT: Oversize Coffin & Staff Required
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </section>
+
+                    <section class="reveal delay-200 bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                        <div class="bg-red-50 px-6 py-3 border-b border-red-100">
+                            <h2 class="text-sm font-bold text-red-800 uppercase">Clinical Risk Assessment</h2>
+                        </div>
+                        <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div @click="form.clinical.pacemaker = !form.clinical.pacemaker" 
+                                 class="cursor-pointer border-2 rounded-xl p-4 flex items-center gap-4 transition-all"
+                                 :class="form.clinical.pacemaker ? 'border-red-500 bg-red-50' : 'border-gray-200 hover:border-gray-300'">
+                                <div class="w-6 h-6 rounded border bg-white flex items-center justify-center" :class="form.clinical.pacemaker ? 'border-red-500' : 'border-gray-300'">
+                                     <div v-if="form.clinical.pacemaker" class="w-3 h-3 bg-red-500 rounded-sm"></div>
+                                </div>
+                                <div>
+                                    <div class="font-bold text-slate-800">Pacemaker Present</div>
+                                    <div class="text-xs text-slate-500">Requires removal (+£95)</div>
+                                </div>
+                            </div>
+
+                            <div @click="form.clinical.infectious = !form.clinical.infectious" 
+                                 class="cursor-pointer border-2 rounded-xl p-4 flex items-center gap-4 transition-all"
+                                 :class="form.clinical.infectious ? 'border-orange-500 bg-orange-50' : 'border-gray-200 hover:border-gray-300'">
+                                <div class="w-6 h-6 rounded border bg-white flex items-center justify-center" :class="form.clinical.infectious ? 'border-orange-500' : 'border-gray-300'">
+                                     <div v-if="form.clinical.infectious" class="w-3 h-3 bg-orange-500 rounded-sm"></div>
+                                </div>
+                                <div>
+                                    <div class="font-bold text-slate-800">Infectious / Biohazard</div>
+                                    <div class="text-xs text-slate-500">Sealed transport required</div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+                <div v-else-if="activeTab === 'arrange'" class="max-w-5xl space-y-6 mx-auto" key="arrange">
                     
-                    <div class="mt-4">
-                        <label class="input-label">GP / Doctor Details</label>
-                        <input type="text" v-model="form.clinical.doctor" placeholder="Dr Name & Surgery" class="input-field">
-                    </div>
-                </div>
-            </section>
-        </div>
+                    <section class="reveal">
+                        <h2 class="text-sm font-bold text-slate-500 uppercase mb-4 px-2">1. Select Service Package</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div v-for="svc in inventory.services" :key="svc.id" 
+                                @click="form.arrange.serviceId = svc.id"
+                                class="cursor-pointer bg-white border-2 rounded-xl p-5 relative transition-all duration-200 hover:-translate-y-1 hover:shadow-lg"
+                                :class="form.arrange.serviceId === svc.id ? 'border-yellow-500 ring-1 ring-yellow-500 bg-yellow-50' : 'border-gray-200'">
+                                
+                                <div class="flex justify-between items-start mb-3">
+                                    <i :class="['fas', svc.icon, 'text-2xl', form.arrange.serviceId === svc.id ? 'text-yellow-600' : 'text-gray-300']"></i>
+                                    <span class="font-mono font-bold text-slate-700">£{{ svc.price }}</span>
+                                </div>
+                                <div class="font-bold text-slate-900 text-lg mb-1">{{ svc.name }}</div>
+                                <div class="text-xs text-slate-500 leading-relaxed">{{ svc.desc }}</div>
+                                <div v-if="form.arrange.serviceId === svc.id" class="absolute top-3 right-3 text-yellow-500 bg-white rounded-full"><i class="fas fa-check-circle text-xl"></i></div>
+                            </div>
+                        </div>
+                    </section>
 
-        </        <div v-if="activeTab === 'finance'" class="max-w-4xl space-y-8 animate-fade">
-            
-            <div class="bg-slate-900 text-white rounded-xl shadow-lg p-8 flex flex-col md:flex-row justify-between items-center gap-6">
-                <div>
-                    <div class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Total Outstanding Balance</div>
-                    <div class="text-5xl font-mono font-bold text-yellow-500">{{ formattedTotal }}</div>
-                    <div class="text-xs text-slate-400 mt-2 flex gap-4">
-                        <span><i class="fas fa-file-invoice mr-1"></i> Inv #{{ caseRef }}</span>
-                        <span><i class="fas fa-calendar-alt mr-1"></i> Due: On Arrangement</span>
-                    </div>
+                    <section class="reveal delay-100">
+                        <h2 class="text-sm font-bold text-slate-500 uppercase mb-4 px-2">2. Casket Inventory</h2>
+                        <div class="bg-white rounded-xl border border-gray-200 p-4 overflow-x-auto">
+                            <div class="flex gap-4 pb-2" style="min-width: max-content;">
+                                <div v-for="casket in inventory.caskets" :key="casket.id" 
+                                    @click="form.arrange.casketId = casket.id"
+                                    class="w-48 cursor-pointer rounded-lg border-2 p-3 text-center transition-all relative"
+                                    :class="form.arrange.casketId === casket.id ? 'border-yellow-500 bg-yellow-50' : 'border-gray-100 hover:border-gray-300'">
+                                    
+                                    <div class="h-28 bg-gray-100 rounded mb-3 flex items-center justify-center text-gray-400 mb-2 shadow-inner">
+                                        <i :class="['fas', casket.img, 'text-4xl']"></i>
+                                    </div>
+                                    <div class="font-bold text-sm text-slate-800">{{ casket.name }}</div>
+                                    <div class="text-xs font-mono text-slate-500 mt-1">£{{ casket.price }}</div>
+                                    <div v-if="form.arrange.casketId === casket.id" class="absolute top-2 right-2 text-yellow-500"><i class="fas fa-check-circle"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
                 </div>
-                <button @click="generateContract" class="bg-yellow-500 text-slate-900 px-8 py-4 rounded-lg font-bold shadow-lg hover:bg-yellow-400 active:scale-95 transition flex items-center gap-3">
-                    <i class="fas fa-file-contract text-xl"></i>
-                    <span>Generate Contract</span>
-                </button>
-            </div>
 
-            <section class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-                <div class="bg-gray-50 px-6 py-3 border-b border-gray-200 flex justify-between">
-                    <h2 class="text-sm font-bold text-slate-700 uppercase tracking-wide">Service Bill of Quantities</h2>
-                    <span class="text-xs font-bold text-slate-400 uppercase">Net Amount</span>
-                </div>
-                
-                <table class="w-full text-sm text-left">
-                    <tbody class="divide-y divide-gray-100">
-                        <tr class="hover:bg-gray-50 transition">
-                            <td class="p-4 pl-6 font-medium text-slate-700">Professional Services & Administration</td>
-                            <td class="p-4 pr-6 text-right font-mono text-slate-600">£1,200.00</td>
-                        </tr>
+                <div v-else-if="activeTab === 'logistics'" class="max-w-4xl space-y-6 mx-auto" key="logistics">
+                    
+                    <section class="reveal bg-slate-900 rounded-xl shadow-lg p-6 text-white relative overflow-hidden">
+                        <div class="absolute top-0 right-0 p-10 opacity-10"><i class="fas fa-route text-9xl"></i></div>
+                        <h2 class="text-sm font-bold text-gray-400 uppercase mb-6 border-b border-gray-700 pb-2">Fleet Management</h2>
                         
-                        <tr v-if="selectedService" class="hover:bg-gray-50 transition">
-                            <td class="p-4 pl-6 text-slate-600"><span class="font-bold text-slate-800">{{ selectedService.name }}</span><br><span class="text-xs text-gray-400">Service Fee</span></td>
-                            <td class="p-4 pr-6 text-right font-mono text-slate-600">£{{ selectedService.price.toFixed(2) }}</td>
-                        </tr>
-                        <tr v-if="selectedCasket" class="hover:bg-gray-50 transition">
-                            <td class="p-4 pl-6 text-slate-600">{{ selectedCasket.name }}</td>
-                            <td class="p-4 pr-6 text-right font-mono text-slate-600">£{{ selectedCasket.price.toFixed(2) }}</td>
-                        </tr>
-                        <tr v-if="form.logistics.limousines > 0" class="hover:bg-gray-50 transition">
-                            <td class="p-4 pl-6 text-slate-600">Limousines (x{{ form.logistics.limousines }})</td>
-                            <td class="p-4 pr-6 text-right font-mono text-slate-600">£{{ (form.logistics.limousines * inventory.fleet.limoPrice).toFixed(2) }}</td>
-                        </tr>
-                        <tr v-if="form.logistics.hearseType === 'horse'" class="hover:bg-gray-50 transition">
-                            <td class="p-4 pl-6 text-slate-600">Horse Drawn Hearse Upgrade</td>
-                            <td class="p-4 pr-6 text-right font-mono text-slate-600">£{{ inventory.fleet.horseHearsePrice.toFixed(2) }}</td>
-                        </tr>
-                        <tr v-if="form.clinical.pacemaker" class="bg-red-50 hover:bg-red-100 transition">
-                            <td class="p-4 pl-6 text-red-700 font-bold"><i class="fas fa-heart-broken mr-2"></i>Pacemaker Removal (Clinical Fee)</td>
-                            <td class="p-4 pr-6 text-right font-mono text-red-700">£95.00</td>
-                        </tr>
-                    </tbody>
-                    <tfoot class="bg-gray-50 font-bold text-slate-800">
-                        <tr>
-                            <td class="p-4 pl-6 text-right uppercase text-xs tracking-wider">Total GBP</td>
-                            <td class="p-4 pr-6 text-right font-mono text-lg">{{ formattedTotal }}</td>
-                        </tr>
-                    </tfoot>
-                </table>
-            </section>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 relative z-10">
+                            <div>
+                                <label class="block text-xs font-bold text-gray-400 uppercase mb-2">Principal Hearse</label>
+                                <div class="space-y-2">
+                                    <div @click="form.logistics.hearseType = 'motor'" class="cursor-pointer bg-slate-800 p-3 rounded border border-slate-700 hover:bg-slate-700 flex justify-between items-center" :class="{'ring-2 ring-yellow-500': form.logistics.hearseType === 'motor'}">
+                                        <span class="font-bold text-sm">Motor Hearse (Black)</span>
+                                        <i class="fas fa-car-side text-gray-400"></i>
+                                    </div>
+                                    <div @click="form.logistics.hearseType = 'horse'" class="cursor-pointer bg-slate-800 p-3 rounded border border-slate-700 hover:bg-slate-700 flex justify-between items-center" :class="{'ring-2 ring-yellow-500': form.logistics.hearseType === 'horse'}">
+                                        <div><span class="font-bold text-sm block">Horse Drawn</span><span class="text-[10px] text-gray-400">+£950</span></div>
+                                        <i class="fas fa-horse-head text-gray-400"></i>
+                                    </div>
+                                </div>
+                            </div>
 
-            <section class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-                    <h3 class="text-xs font-bold text-gray-400 uppercase mb-4">Payment Schedule</h3>
-                    <div class="flex justify-between items-center mb-2">
-                        <span class="text-sm font-bold text-slate-700">Deposit Required (50%)</span>
-                        <span class="font-mono font-bold text-slate-900">£{{ (totalRaw / 2).toFixed(2) }}</span>
-                    </div>
-                    <div class="w-full bg-gray-100 rounded-full h-2 mb-4">
-                        <div class="bg-yellow-500 h-2 rounded-full" style="width: 0%"></div>
-                    </div>
-                    <button class="w-full py-2 border border-slate-300 rounded text-sm font-bold hover:bg-slate-50">Record Payment</button>
+                            <div>
+                                <label class="block text-xs font-bold text-gray-400 uppercase mb-2">Limousines (7 Seats)</label>
+                                <div class="flex items-center gap-4 bg-slate-800 p-2 rounded-lg border border-slate-700 w-max">
+                                    <button @click="form.logistics.limousines = Math.max(0, form.logistics.limousines - 1)" class="w-10 h-10 bg-slate-700 hover:bg-slate-600 rounded flex items-center justify-center transition"><i class="fas fa-minus"></i></button>
+                                    <span class="w-12 text-center font-mono font-bold text-2xl text-yellow-500">{{ form.logistics.limousines }}</span>
+                                    <button @click="form.logistics.limousines = Math.min(10, form.logistics.limousines + 1)" class="w-10 h-10 bg-slate-700 hover:bg-slate-600 rounded flex items-center justify-center transition"><i class="fas fa-plus"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="reveal delay-100 bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                        <h2 class="text-sm font-bold text-slate-500 uppercase mb-4">Journey Route</h2>
+                        <div class="space-y-4">
+                            <div class="flex items-center gap-4">
+                                <div class="w-3 h-3 rounded-full bg-green-500 shrink-0"></div>
+                                <div class="flex-1"><label class="label-std">Collection</label><input disabled :value="form.intake.address || 'Pending Intake'" class="input-std bg-gray-50 text-gray-500"></div>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <div class="w-3 h-3 rounded-full bg-yellow-500 shrink-0"></div>
+                                <div class="flex-1"><label class="label-std">Service Venue</label><input v-model="form.logistics.serviceLocation" class="input-std" placeholder="Church / Crematorium"></div>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <div class="w-3 h-3 rounded-full bg-red-500 shrink-0"></div>
+                                <div class="flex-1"><label class="label-std">Committal</label><input v-model="form.logistics.committalLocation" class="input-std" placeholder="Cemetery / Wake"></div>
+                            </div>
+                        </div>
+                    </section>
                 </div>
 
-                <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-                    <h3 class="text-xs font-bold text-gray-400 uppercase mb-4">Declaration</h3>
-                    <label class="flex items-start gap-3 cursor-pointer">
-                        <input type="checkbox" class="mt-1 w-4 h-4 accent-slate-900">
-                        <span class="text-xs text-slate-500">I confirm that I have the authority to make these arrangements and accept full financial responsibility for the balance shown above.</span>
-                    </label>
+                <div v-else-if="activeTab === 'finance'" class="max-w-4xl space-y-6 mx-auto" key="finance">
+                    
+                    <div class="reveal bg-slate-900 text-white rounded-xl shadow-lg p-8 flex flex-col md:flex-row justify-between items-center gap-6">
+                        <div>
+                            <div class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Total Outstanding Balance</div>
+                            <div class="text-5xl font-mono font-bold text-yellow-500">{{ formattedTotal }}</div>
+                        </div>
+                        <button @click="generateContract" class="bg-yellow-500 text-slate-900 px-8 py-4 rounded-lg font-bold shadow-lg hover:bg-yellow-400 active:scale-95 transition flex items-center gap-3">
+                            <i class="fas fa-file-contract text-xl"></i>
+                            <span>Download Contract</span>
+                        </button>
+                    </div>
+
+                    <section class="reveal delay-100 bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                        <table class="w-full text-sm text-left">
+                            <thead class="bg-gray-50 text-xs uppercase font-bold text-gray-500">
+                                <tr><th class="p-4 pl-6">Description</th><th class="p-4 pr-6 text-right">Amount</th></tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-100">
+                                <tr><td class="p-4 pl-6 font-medium">Professional Services</td><td class="p-4 pr-6 text-right font-mono">£1,200.00</td></tr>
+                                <tr v-if="selectedService"><td class="p-4 pl-6">{{ selectedService.name }}</td><td class="p-4 pr-6 text-right font-mono">£{{ selectedService.price }}</td></tr>
+                                <tr v-if="selectedCasket"><td class="p-4 pl-6">{{ selectedCasket.name }}</td><td class="p-4 pr-6 text-right font-mono">£{{ selectedCasket.price }}</td></tr>
+                                <tr v-if="form.logistics.limousines"><td class="p-4 pl-6">Limousines (x{{ form.logistics.limousines }})</td><td class="p-4 pr-6 text-right font-mono">£{{ form.logistics.limousines * 275 }}</td></tr>
+                                <tr v-if="form.logistics.hearseType === 'horse'"><td class="p-4 pl-6">Horse Drawn Upgrade</td><td class="p-4 pr-6 text-right font-mono">£950.00</td></tr>
+                                <tr v-if="form.clinical.pacemaker" class="bg-red-50"><td class="p-4 pl-6 text-red-700 font-bold">Clinical Fee: Pacemaker</td><td class="p-4 pr-6 text-right font-mono text-red-700">£95.00</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
                 </div>
-            </section>
+
+            </transition>
         </div>
+    </main>
 
-
-    <aside class="flight-deck w-80">
+    <aside class="w-80 bg-white border-l border-gray-200 desktop-only z-40 flex flex-col">
         <div class="p-6 border-b border-gray-200 bg-slate-900 text-white">
-            <div class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Estimated Total</div>
-            <div class="text-3xl font-mono font-bold text-yellow-500 mb-4">£0.00</div>
-            <div class="text-xs text-slate-400 flex justify-between">
-                <span>Items Selected:</span>
-                <span class="font-mono text-white">0</span>
-            </div>
+            <div class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Live Estimate</div>
+            <div class="text-3xl font-mono font-bold text-yellow-500 mb-2">{{ formattedTotal }}</div>
+            <div class="text-xs text-slate-400">Includes VAT & Disbursements</div>
         </div>
-
-        <div class="p-6 border-b border-gray-200 flex-1 overflow-y-auto">
+        
+        <div class="p-6 flex-1 overflow-y-auto">
             <div class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-4">Risk Matrix</div>
             
-            <div v-if="activeRisks.length === 0" class="text-xs text-gray-400 italic bg-gray-50 p-4 rounded text-center">
-                No active risks identified.<br>Proceed with standard care.
-            </div>
+            <div v-if="activeRisks.length === 0" class="text-xs text-gray-400 italic bg-gray-50 p-4 rounded text-center">No active risks.</div>
 
             <div class="space-y-2">
-                <div v-for="risk in activeRisks" :key="risk" class="bg-red-50 border border-red-200 p-3 rounded-lg flex items-start gap-3">
+                <div v-for="(risk, i) in activeRisks" :key="i" class="bg-red-50 border border-red-200 p-3 rounded-lg flex items-start gap-3 animate-pulse">
                     <i class="fas fa-exclamation-triangle text-red-500 mt-0.5"></i>
                     <div>
                         <div class="text-xs font-bold text-red-800 uppercase">{{ risk.title }}</div>
@@ -366,213 +361,136 @@
                 </div>
             </div>
         </div>
-
-        <div class="p-4 bg-gray-50 border-t border-gray-200 h-48 flex flex-col">
-            <div class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Audit Log</div>
-            <div class="flex-1 overflow-y-auto font-mono text-[10px] space-y-1 text-slate-600">
-                <div v-for="log in auditLog" :key="log.id">> {{ log.msg }}</div>
-            </div>
-        </div>
     </aside>
+
+    <nav class="mobile-nav hidden fixed bottom-0 left-0 w-full bg-white border-t border-gray-200 z-50 justify-between px-6 py-3 pb-safe">
+        <button v-for="tab in tabs" :key="tab.id" @click="activeTab = tab.id"
+            class="flex flex-col items-center gap-1"
+            :class="activeTab === tab.id ? 'text-yellow-600' : 'text-gray-400'">
+            <i :class="['fas', tab.icon, 'text-xl']"></i>
+            <span class="text-[10px] font-bold uppercase">{{ tab.label }}</span>
+        </button>
+    </nav>
 
 </div>
 
 <script>
-    const { createApp, reactive, computed, ref, onMounted } = Vue;
+    const { createApp, reactive, computed, ref, onMounted, watch, nextTick } = Vue;
 
     createApp({
         setup() {
-            // --- 1. ENTERPRISE DATA STORE ---
-            const caseRef = ref(`FM-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`);
-            const activeTab = ref('intake');
-            const auditLog = reactive([]);
-
-            // Navigation Tabs
-            const tabs = [
-                { id: 'intake', label: 'Intake & Bio', icon: 'fa-user-nurse', alert: false },
-                { id: 'arrange', label: 'Arrangement', icon: 'fa-church', alert: false },
-                { id: 'logistics', label: 'Fleet & Ops', icon: 'fa-truck', alert: false },
-                { id: 'finance', label: 'Financials', icon: 'fa-file-invoice-dollar', alert: false }
-            ];
-
-            // THE DEEP FORM STATE
-            const form = reactive({
-                intake: { callTime: '', caller: '', locationType: 'Hospital', address: '' },
-                deceased: { title: 'Mr', firstName: '', lastName: '', dob: '', dod: '', height: 'std', weight: 'std', width: 'std' },
-                clinical: { pacemaker: false, infectious: false, doctor: '' }
-            });
-
-            // --- 2. LOGIC ENGINES ---
-            
-            // Age Calculator
-            const calculatedAge = computed(() => {
-                if(!form.deceased.dob || !form.deceased.dod) return '0';
-                const diff = new Date(form.deceased.dod) - new Date(form.deceased.dob);
-                return Math.floor(diff / (1000 * 60 * 60 * 24 * 365.25));
-            });
-
-            // Risk Engine
-            const activeRisks = computed(() => {
-                const risks = [];
-                if(form.clinical.pacemaker) risks.push({ title: 'Pacemaker Present', desc: 'Must be removed prior to cremation.' });
-                if(form.clinical.infectious) risks.push({ title: 'Biohazard', desc: 'Full PPE required. Sealed transport.' });
-                if(form.deceased.weight === 'bariatric' || form.deceased.width === 'xwide') risks.push({ title: 'Oversize Logistics', desc: 'Check crematorium aperture dimensions.' });
-                return risks;
-            });
-
-            // Utilities
-            const currentViewLabel = computed(() => tabs.find(t => t.id === activeTab.value)?.label);
-
-            const log = (msg) => {
-                auditLog.unshift({ id: Date.now(), msg: `[${new Date().toLocaleTimeString()}] ${msg}` });
-            };
-            
-            const saveProgress = () => {
-                alert("Data committed to Secure Storage.");
-                log("User manually triggered Save.");
-            }
-
-            // Init
-            onMounted(() => log(`System Initialized. Case: ${caseRef.value}`));
-
-            return {
-                caseRef, activeTab, tabs, form, auditLog,
-                calculatedAge, activeRisks, currentViewLabel,
-                saveProgress
-            };
-        }
-    }).mount('#app');
-<script>
-    const { createApp, reactive, computed, ref, onMounted, watch } = Vue;
-
-    createApp({
-        setup() {
-            // --- 1. ENTERPRISE DATA STORE ---
             const caseRef = ref(`FM-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`);
             const activeTab = ref('intake');
             const auditLog = reactive([]);
 
             const tabs = [
-                { id: 'intake', label: 'Intake & Bio', icon: 'fa-user-nurse', alert: false },
-                { id: 'arrange', label: 'Arrangement', icon: 'fa-church', alert: false }, // NEW
-                { id: 'logistics', label: 'Fleet & Ops', icon: 'fa-truck', alert: false }, // NEW
-                { id: 'finance', label: 'Financials', icon: 'fa-file-invoice-dollar', alert: false }
+                { id: 'intake', label: 'Intake', icon: 'fa-user-nurse' },
+                { id: 'arrange', label: 'Arrange', icon: 'fa-church' },
+                { id: 'logistics', label: 'Fleet', icon: 'fa-truck' },
+                { id: 'finance', label: 'Finance', icon: 'fa-coins' }
             ];
 
-            // THE DEEP FORM STATE (Expanded for Part 2)
+            // 1. DATA MODEL
             const form = reactive({
-                // Part 1 Data
-                intake: { callTime: '', caller: '', locationType: 'Hospital', address: '' },
-                deceased: { title: 'Mr', firstName: '', lastName: '', dob: '', dod: '', height: 'std', weight: 'std', width: 'std' },
-                clinical: { pacemaker: false, infectious: false, doctor: '' },
-                
-                // Part 2 Data (NEW)
-                arrange: {
-                    serviceId: null, // Selected Service
-                    casketId: 'std', // Selected Casket
-                    musicRequests: '',
-                    officiant: 'Religious'
-                },
-                logistics: {
-                    limousines: 0,
-                    hearseType: 'motor', // motor, horse, motorcycle
-                    collectionDate: '',
-                    serviceDate: '',
-                    serviceLocation: '',
-                    committalLocation: ''
-                }
+                intake: { caller: '', relation: 'Next of Kin (NOK)', address: '' },
+                deceased: { title: 'Mr', firstName: '', lastName: '', dob: '', dod: '', height: 'std', weight: 'std' },
+                clinical: { pacemaker: false, infectious: false },
+                arrange: { serviceId: null, casketId: 'std' },
+                logistics: { limousines: 0, hearseType: 'motor', serviceLocation: '', committalLocation: '' }
             });
 
-            // --- 2. INVENTORY DATABASE (The Catalog) ---
             const inventory = {
                 services: [
-                    { id: 'direct', name: 'Direct Cremation', price: 995, desc: 'Unattended. No service. Includes basic coffin.', icon: 'fa-fire' },
-                    { id: 'simple', name: 'Simple Service', price: 2200, desc: 'Chapel service at standard time. Hearse only.', icon: 'fa-church' },
-                    { id: 'trad', name: 'Traditional Burial', price: 2950, desc: 'Full service. Viewing included. Limousine optional.', icon: 'fa-cross' }
+                    { id: 'direct', name: 'Direct Cremation', price: 995, desc: 'Unattended. Includes basic coffin.', icon: 'fa-fire' },
+                    { id: 'simple', name: 'Simple Service', price: 2200, desc: 'Chapel service. Hearse only.', icon: 'fa-church' },
+                    { id: 'trad', name: 'Traditional Burial', price: 2950, desc: 'Full service. Viewing included.', icon: 'fa-cross' }
                 ],
                 caskets: [
                     { id: 'std', name: 'Morpeth Oak', price: 0, img: 'fa-box' },
                     { id: 'willow', name: 'Natural Willow', price: 650, img: 'fa-leaf' },
-                    { id: 'card', name: 'Eco Cardboard', price: 250, img: 'fa-recycle' },
-                    { id: 'solid', name: 'Solid Mahogany', price: 1400, img: 'fa-tree' },
-                    { id: 'us', name: 'American Casket', price: 2800, img: 'fa-flag-usa' }
+                    { id: 'solid', name: 'Solid Mahogany', price: 1400, img: 'fa-tree' }
                 ],
-                fleet: {
-                    limoPrice: 275,
-                    horseHearsePrice: 950
-                }
+                fleet: { limoPrice: 275, horseHearsePrice: 950 }
             };
 
-            // --- 3. LOGIC ENGINES ---
-            
-            // Pricing Engine (Real-time Financials)
+            // 2. LOGIC ENGINES
+            const log = (msg) => {
+                const time = new Date().toLocaleTimeString([], { hour12: false, hour: '2-digit', minute:'2-digit', second:'2-digit' });
+                auditLog.unshift({ id: Date.now(), msg: `[${time}] ${msg}` });
+            };
+
+            const selectedService = computed(() => inventory.services.find(s => s.id === form.arrange.serviceId));
+            const selectedCasket = computed(() => inventory.caskets.find(c => c.id === form.arrange.casketId));
+
             const totalCost = computed(() => {
-                let total = 1200; // Base Professional Fee
-                
-                // Service
-                const svc = inventory.services.find(s => s.id === form.arrange.serviceId);
-                if(svc) total += svc.price;
-
-                // Casket
-                const csk = inventory.caskets.find(c => c.id === form.arrange.casketId);
-                if(csk) total += csk.price;
-
-                // Logistics
+                let total = 1200;
+                if(selectedService.value) total += selectedService.value.price;
+                if(selectedCasket.value) total += selectedCasket.value.price;
                 total += (form.logistics.limousines * inventory.fleet.limoPrice);
                 if(form.logistics.hearseType === 'horse') total += inventory.fleet.horseHearsePrice;
-
-                // Clinical
-                if(form.clinical.pacemaker) total += 95; // Removal fee
-
+                if(form.clinical.pacemaker) total += 95;
                 return total;
             });
 
-            const formattedTotal = computed(() => {
-                return new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'GBP' }).format(totalCost.value);
-            });
+            const formattedTotal = computed(() => new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'GBP' }).format(totalCost.value));
 
-            // Utilities & Helpers
             const calculatedAge = computed(() => {
                 if(!form.deceased.dob || !form.deceased.dod) return '0';
-                const diff = new Date(form.deceased.dod) - new Date(form.deceased.dob);
-                return Math.floor(diff / (1000 * 60 * 60 * 24 * 365.25));
+                return Math.floor((new Date(form.deceased.dod) - new Date(form.deceased.dob)) / (31557600000));
             });
 
             const activeRisks = computed(() => {
                 const risks = [];
-                if(form.clinical.pacemaker) risks.push({ title: 'Pacemaker Present', desc: 'Must be removed prior to cremation.' });
-                if(form.clinical.infectious) risks.push({ title: 'Biohazard', desc: 'Full PPE required. Sealed transport.' });
-                if(form.deceased.weight === 'bariatric' || form.deceased.width === 'xwide') risks.push({ title: 'Oversize Logistics', desc: 'Check crematorium aperture dimensions.' });
-                if(form.logistics.hearseType === 'horse') risks.push({ title: 'Horse Drawn', desc: 'Requires stable booking & route check.' });
+                if(form.clinical.pacemaker) risks.push({ title: 'Pacemaker', desc: 'Removal Required (+£95)' });
+                if(form.clinical.infectious) risks.push({ title: 'Biohazard', desc: 'Sealed Transport' });
+                if(form.deceased.weight !== 'std') risks.push({ title: 'Oversize', desc: 'Check Aperture Dims' });
+                if(form.logistics.hearseType === 'horse') risks.push({ title: 'Equine', desc: 'Stable Booking' });
                 return risks;
             });
 
-            const currentViewLabel = computed(() => tabs.find(t => t.id === activeTab.value)?.label);
-
-            const log = (msg) => {
-                auditLog.unshift({ id: Date.now(), msg: `[${new Date().toLocaleTimeString()}] ${msg}` });
+            // 3. ANIMATION OBSERVER
+            const initScroll = () => {
+                nextTick(() => {
+                    const observer = new IntersectionObserver((entries) => {
+                        entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('active'); observer.unobserve(e.target); }});
+                    }, { threshold: 0.1 });
+                    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+                });
             };
-            
-            const saveProgress = () => {
-                log("Manual Save: Data committed to Secure Storage.");
-                alert("Data Saved.");
-            }
 
-            // Watchers for Audit
-            watch(() => form.arrange.serviceId, (newVal) => {
-                const name = inventory.services.find(s => s.id === newVal)?.name;
-                log(`Service selection changed to: ${name}`);
-            });
+            watch(activeTab, () => initScroll());
 
-            onMounted(() => log(`System Initialized. Case: ${caseRef.value}`));
+            // 4. PDF GENERATOR
+            const generateContract = () => {
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF();
+                
+                doc.setFillColor(15, 23, 42); doc.rect(0, 0, 210, 40, 'F');
+                doc.setTextColor(212, 175, 55); doc.setFontSize(20); doc.text("FUNERALMATCH OS", 15, 20);
+                doc.setTextColor(255, 255, 255); doc.setFontSize(10); doc.text(`REF: ${caseRef.value}`, 160, 20);
+                
+                doc.setTextColor(0,0,0);
+                let y = 60;
+                doc.setFontSize(12); doc.text("Contract Details", 15, y); y+=10;
+                doc.setFontSize(10);
+                doc.text(`Deceased: ${form.deceased.firstName} ${form.deceased.lastName}`, 15, y); y+=10;
+                doc.text(`Caller: ${form.intake.caller}`, 15, y); y+=20;
+                
+                doc.text(`TOTAL ESTIMATE: ${formattedTotal.value}`, 15, y);
+                
+                doc.save(`Contract_${caseRef.value}.pdf`);
+                log("Contract Generated");
+            };
+
+            onMounted(() => { log(`System Online: ${caseRef.value}`); initScroll(); });
 
             return {
                 caseRef, activeTab, tabs, form, auditLog, inventory,
-                calculatedAge, activeRisks, currentViewLabel, formattedTotal,
-                saveProgress, log
+                selectedService, selectedCasket, formattedTotal, calculatedAge, activeRisks,
+                generateContract
             };
         }
     }).mount('#app');
 </script>
-
-
+</body>
+</html>
