@@ -221,7 +221,89 @@
             </section>
         </div>
 
-        </main>
+        </        <div v-if="activeTab === 'finance'" class="max-w-4xl space-y-8 animate-fade">
+            
+            <div class="bg-slate-900 text-white rounded-xl shadow-lg p-8 flex flex-col md:flex-row justify-between items-center gap-6">
+                <div>
+                    <div class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Total Outstanding Balance</div>
+                    <div class="text-5xl font-mono font-bold text-yellow-500">{{ formattedTotal }}</div>
+                    <div class="text-xs text-slate-400 mt-2 flex gap-4">
+                        <span><i class="fas fa-file-invoice mr-1"></i> Inv #{{ caseRef }}</span>
+                        <span><i class="fas fa-calendar-alt mr-1"></i> Due: On Arrangement</span>
+                    </div>
+                </div>
+                <button @click="generateContract" class="bg-yellow-500 text-slate-900 px-8 py-4 rounded-lg font-bold shadow-lg hover:bg-yellow-400 active:scale-95 transition flex items-center gap-3">
+                    <i class="fas fa-file-contract text-xl"></i>
+                    <span>Generate Contract</span>
+                </button>
+            </div>
+
+            <section class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                <div class="bg-gray-50 px-6 py-3 border-b border-gray-200 flex justify-between">
+                    <h2 class="text-sm font-bold text-slate-700 uppercase tracking-wide">Service Bill of Quantities</h2>
+                    <span class="text-xs font-bold text-slate-400 uppercase">Net Amount</span>
+                </div>
+                
+                <table class="w-full text-sm text-left">
+                    <tbody class="divide-y divide-gray-100">
+                        <tr class="hover:bg-gray-50 transition">
+                            <td class="p-4 pl-6 font-medium text-slate-700">Professional Services & Administration</td>
+                            <td class="p-4 pr-6 text-right font-mono text-slate-600">£1,200.00</td>
+                        </tr>
+                        
+                        <tr v-if="selectedService" class="hover:bg-gray-50 transition">
+                            <td class="p-4 pl-6 text-slate-600"><span class="font-bold text-slate-800">{{ selectedService.name }}</span><br><span class="text-xs text-gray-400">Service Fee</span></td>
+                            <td class="p-4 pr-6 text-right font-mono text-slate-600">£{{ selectedService.price.toFixed(2) }}</td>
+                        </tr>
+                        <tr v-if="selectedCasket" class="hover:bg-gray-50 transition">
+                            <td class="p-4 pl-6 text-slate-600">{{ selectedCasket.name }}</td>
+                            <td class="p-4 pr-6 text-right font-mono text-slate-600">£{{ selectedCasket.price.toFixed(2) }}</td>
+                        </tr>
+                        <tr v-if="form.logistics.limousines > 0" class="hover:bg-gray-50 transition">
+                            <td class="p-4 pl-6 text-slate-600">Limousines (x{{ form.logistics.limousines }})</td>
+                            <td class="p-4 pr-6 text-right font-mono text-slate-600">£{{ (form.logistics.limousines * inventory.fleet.limoPrice).toFixed(2) }}</td>
+                        </tr>
+                        <tr v-if="form.logistics.hearseType === 'horse'" class="hover:bg-gray-50 transition">
+                            <td class="p-4 pl-6 text-slate-600">Horse Drawn Hearse Upgrade</td>
+                            <td class="p-4 pr-6 text-right font-mono text-slate-600">£{{ inventory.fleet.horseHearsePrice.toFixed(2) }}</td>
+                        </tr>
+                        <tr v-if="form.clinical.pacemaker" class="bg-red-50 hover:bg-red-100 transition">
+                            <td class="p-4 pl-6 text-red-700 font-bold"><i class="fas fa-heart-broken mr-2"></i>Pacemaker Removal (Clinical Fee)</td>
+                            <td class="p-4 pr-6 text-right font-mono text-red-700">£95.00</td>
+                        </tr>
+                    </tbody>
+                    <tfoot class="bg-gray-50 font-bold text-slate-800">
+                        <tr>
+                            <td class="p-4 pl-6 text-right uppercase text-xs tracking-wider">Total GBP</td>
+                            <td class="p-4 pr-6 text-right font-mono text-lg">{{ formattedTotal }}</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </section>
+
+            <section class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                    <h3 class="text-xs font-bold text-gray-400 uppercase mb-4">Payment Schedule</h3>
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-sm font-bold text-slate-700">Deposit Required (50%)</span>
+                        <span class="font-mono font-bold text-slate-900">£{{ (totalRaw / 2).toFixed(2) }}</span>
+                    </div>
+                    <div class="w-full bg-gray-100 rounded-full h-2 mb-4">
+                        <div class="bg-yellow-500 h-2 rounded-full" style="width: 0%"></div>
+                    </div>
+                    <button class="w-full py-2 border border-slate-300 rounded text-sm font-bold hover:bg-slate-50">Record Payment</button>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                    <h3 class="text-xs font-bold text-gray-400 uppercase mb-4">Declaration</h3>
+                    <label class="flex items-start gap-3 cursor-pointer">
+                        <input type="checkbox" class="mt-1 w-4 h-4 accent-slate-900">
+                        <span class="text-xs text-slate-500">I confirm that I have the authority to make these arrangements and accept full financial responsibility for the balance shown above.</span>
+                    </label>
+                </div>
+            </section>
+        </div>
+
 
     <aside class="flight-deck w-80">
         <div class="p-6 border-b border-gray-200 bg-slate-900 text-white">
