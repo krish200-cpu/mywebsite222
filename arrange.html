@@ -3,526 +3,450 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>FuneralMatch | Master Arrangement Suite</title>
+    <title>FuneralMatch OS | Enterprise</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&family=Cinzel:wght@600&family=Great+Vibes&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --bg-body: #F9F8F6;
-            --gold: #C5A059;
-            --gold-dim: #D4C3A3;
-            --text-main: #2D2D2D;
-            --success: #10B981;
+            --primary: #1F2937;
+            --accent: #D4AF37; /* Metallic Gold */
+            --bg: #F3F4F6;
+            --surface: #FFFFFF;
         }
 
-        body {
-            background-color: var(--bg-body);
-            color: var(--text-main);
-            font-family: 'Inter', sans-serif;
-            height: 100vh; display: flex; flex-direction: column; overflow: hidden;
-        }
-
-        /* --- UI COMPONENTS --- */
-        .glass-panel {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid #E5E5E5;
-        }
-
-        .tooltip-trigger {
-            color: #999; cursor: help; margin-left: 6px; transition: 0.2s;
-        }
-        .tooltip-trigger:hover { color: var(--gold); }
-
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #DDD; border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: #BBB; }
-
-        /* Sidebar Navigation */
-        .sidebar { background: white; border-right: 1px solid #E5E5E5; width: 260px; display: flex; flex-direction: column; transition: transform 0.3s ease; z-index: 40; }
-        .nav-item {
-            padding: 12px 20px; font-size: 13px; color: #666; cursor: pointer;
-            border-left: 3px solid transparent; transition: all 0.2s; display: flex; justify-content: space-between; align-items: center;
-        }
-        .nav-item:hover { background: #FAF9F6; color: #000; }
-        .nav-item.active { background: #FFFCF5; border-left-color: var(--gold); color: #000; font-weight: 600; }
-        .nav-check { color: var(--success); opacity: 0; transition: 0.2s; }
-        .nav-item.completed .nav-check { opacity: 1; }
-
-        /* Main Form Area */
-        .main-stage { flex: 1; overflow-y: auto; scroll-behavior: smooth; padding: 40px 8%; position: relative; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); height: 100vh; overflow: hidden; }
         
-        /* Input Styling */
-        .input-group { position: relative; margin-bottom: 20px; }
-        .floating-label {
-            position: absolute; top: 14px; left: 16px; font-size: 14px; color: #888;
-            pointer-events: none; transition: 0.2s ease all;
-        }
-        .smart-input {
-            width: 100%; padding: 14px 16px; border: 1px solid #E0E0E0; border-radius: 8px;
-            font-size: 15px; outline: none; background: white; transition: 0.2s;
-        }
-        .smart-input:focus { border-color: var(--gold); box-shadow: 0 0 0 4px rgba(197, 160, 89, 0.1); }
-        .smart-input:focus ~ .floating-label,
-        .smart-input:not(:placeholder-shown) ~ .floating-label {
-            top: -10px; left: 12px; font-size: 11px; background: white; padding: 0 4px; color: var(--gold); font-weight: 600;
-        }
+        /* Typography */
+        .font-serif-display { font-family: 'Cinzel', serif; }
+        
+        /* Custom Scroll */
+        .scroller::-webkit-scrollbar { width: 4px; }
+        .scroller::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 4px; }
+        
+        /* Animations */
+        .fade-in { animation: fadeIn 0.3s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Signature Canvas */
+        canvas { touch-action: none; background: #fff; background-image: radial-gradient(#ddd 1px, transparent 1px); background-size: 20px 20px; }
+
+        /* Custom Toggle Switch */
+        .toggle-checkbox:checked { right: 0; border-color: var(--accent); }
+        .toggle-checkbox:checked + .toggle-label { background-color: var(--accent); }
+
+        /* Toast Notifications */
+        #toast-container { position: fixed; top: 20px; right: 20px; z-index: 9999; }
+        .toast { background: white; border-left: 4px solid var(--accent); padding: 16px 20px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1); display: flex; align-items: center; gap: 12px; margin-bottom: 10px; border-radius: 4px; animation: slideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1); min-width: 300px; }
+        @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
 
         /* Interactive Cards */
-        .selection-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 16px; }
-        .select-card {
-            border: 1px solid #E0E0E0; border-radius: 12px; padding: 20px; cursor: pointer;
-            text-align: center; background: white; transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative; overflow: hidden;
-        }
-        .select-card:hover { transform: translateY(-3px); box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1); border-color: #CCC; }
-        .select-card.active { border: 2px solid var(--gold); background: #FFFCF5; }
-        .select-card.active::after {
-            content: '\f00c'; font-family: 'Font Awesome 6 Free'; font-weight: 900;
-            position: absolute; top: 8px; right: 8px; color: var(--gold); font-size: 12px;
-        }
-
-        /* Pricing Badge */
-        .price-badge {
-            background: #2D2D2D; color: white; padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: 700;
-            position: absolute; bottom: 10px; right: 10px;
-        }
-
-        /* Document Preview */
-        .doc-panel {
-            width: 400px; background: #EBEAE8; border-left: 1px solid #E5E5E5;
-            display: flex; flex-direction: column; padding: 24px;
-            transform: translateX(0); transition: transform 0.3s;
-        }
-        .live-doc {
-            background: white; flex: 1; box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-            padding: 40px; font-family: 'Times New Roman', serif; overflow-y: auto;
-            position: relative;
-        }
-        .watermark {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-45deg);
-            font-size: 60px; color: rgba(0,0,0,0.03); white-space: nowrap; pointer-events: none;
-        }
-
-        /* Animations */
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .section-animate { animation: fadeIn 0.4s ease-out forwards; }
-
-        /* Responsive */
-        @media (max-width: 1024px) {
-            .app-container { flex-direction: column; overflow-y: auto; }
-            .sidebar { position: fixed; height: 100%; transform: translateX(-100%); }
-            .sidebar.open { transform: translateX(0); }
-            .doc-panel { display: none; } /* Hide doc on mobile, user relies on summary */
-            .main-stage { padding: 20px; }
-        }
+        .action-card { transition: all 0.2s; border: 1px solid transparent; }
+        .action-card:hover { transform: translateY(-2px); border-color: var(--accent); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
+        .action-card.active { border-color: var(--accent); background: #FFFDF5; ring: 2px solid var(--accent); }
     </style>
 </head>
-<body>
+<body class="text-gray-800 antialiased flex">
 
-    <nav class="h-16 glass-panel flex items-center justify-between px-6 sticky top-0 z-50">
-        <div class="flex items-center gap-4">
-            <button class="lg:hidden text-gray-600 text-xl" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
-            <div class="flex items-center gap-2">
-                <div class="w-8 h-8 bg-black text-[#C5A059] flex items-center justify-center font-serif font-bold text-lg rounded-sm">F</div>
-                <div class="leading-tight">
-                    <div class="text-xs font-bold tracking-widest uppercase text-[#C5A059]">FuneralMatch</div>
-                    <div class="text-xs text-gray-500">Arrangement Suite v2.1</div>
+    <aside class="w-64 bg-[#111827] text-white flex flex-col shadow-2xl z-20">
+        <div class="h-16 flex items-center px-6 border-b border-gray-800">
+            <div class="w-8 h-8 bg-[#D4AF37] rounded flex items-center justify-center text-black font-bold font-serif mr-3">F</div>
+            <div>
+                <div class="font-serif-display font-bold tracking-wider text-[#D4AF37]">FuneralMatch</div>
+                <div class="text-[10px] text-gray-500 uppercase tracking-widest">Enterprise OS</div>
+            </div>
+        </div>
+
+        <nav class="flex-1 py-6 space-y-1">
+            <a href="#" onclick="Router.navigate('dashboard')" class="nav-link flex items-center px-6 py-3 text-gray-400 hover:bg-gray-800 hover:text-white border-l-2 border-transparent hover:border-[#D4AF37] transition-all" id="nav-dashboard">
+                <i class="fas fa-th-large w-6"></i> <span class="text-sm font-medium">Dashboard</span>
+            </a>
+            <a href="#" onclick="Router.navigate('intake')" class="nav-link flex items-center px-6 py-3 text-gray-400 hover:bg-gray-800 hover:text-white border-l-2 border-transparent hover:border-[#D4AF37] transition-all" id="nav-intake">
+                <i class="fas fa-user w-6"></i> <span class="text-sm font-medium">Deceased Intake</span>
+            </a>
+            <a href="#" onclick="Router.navigate('logistics')" class="nav-link flex items-center px-6 py-3 text-gray-400 hover:bg-gray-800 hover:text-white border-l-2 border-transparent hover:border-[#D4AF37] transition-all" id="nav-logistics">
+                <i class="fas fa-layer-group w-6"></i> <span class="text-sm font-medium">Logistics & Casket</span>
+            </a>
+            <a href="#" onclick="Router.navigate('review')" class="nav-link flex items-center px-6 py-3 text-gray-400 hover:bg-gray-800 hover:text-white border-l-2 border-transparent hover:border-[#D4AF37] transition-all" id="nav-review">
+                <i class="fas fa-file-signature w-6"></i> <span class="text-sm font-medium">Sign & Finalize</span>
+            </a>
+        </nav>
+
+        <div class="p-4 bg-gray-900 border-t border-gray-800">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center"><i class="fas fa-user-tie text-xs"></i></div>
+                <div>
+                    <div class="text-xs font-bold text-white">Director Mode</div>
+                    <div class="text-[10px] text-green-500"><i class="fas fa-circle text-[8px] mr-1"></i>System Online</div>
                 </div>
             </div>
         </div>
+    </aside>
 
-        <div class="flex items-center gap-6">
-            <div class="hidden md:block text-right">
-                <div class="text-[10px] text-gray-400 uppercase font-bold tracking-wider">Estimated Total</div>
-                <div class="text-xl font-bold font-serif" id="header-total">£0.00</div>
-            </div>
-            
-            <div class="h-8 w-px bg-gray-200 hidden md:block"></div>
-
-            <button onclick="saveProgress()" class="text-xs font-bold text-gray-500 hover:text-black transition flex items-center gap-2">
-                <span id="save-status"><i class="fas fa-cloud"></i> Saved</span>
-            </button>
-            <button onclick="window.print()" class="bg-[#C5A059] text-white text-xs font-bold px-5 py-2.5 rounded shadow-lg hover:bg-[#b08d4b] transition">
-                Finalize
-            </button>
-        </div>
-    </nav>
-
-    <div class="flex flex-1 overflow-hidden app-container">
+    <main class="flex-1 flex flex-col h-screen overflow-hidden relative">
         
-        <aside class="sidebar" id="sidebar">
-            <div class="p-6">
-                <div class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-4">Progression</div>
-                <div class="h-1.5 bg-gray-100 rounded-full overflow-hidden mb-2">
-                    <div class="h-full bg-[#C5A059] transition-all duration-500" style="width: 0%" id="progress-bar"></div>
-                </div>
-                <div class="text-xs text-right text-gray-500"><span id="progress-text">0</span>% Complete</div>
-            </div>
-
-            <div class="overflow-y-auto flex-1 pb-10">
-                <div class="nav-group mb-6">
-                    <div class="px-6 py-2 text-[10px] font-bold text-gray-400 uppercase">Intake</div>
-                    <div class="nav-item active" onclick="scrollToSection('sec-details')">
-                        <span><i class="fas fa-user mr-3 w-4 text-center"></i> Deceased Details</span>
-                        <i class="fas fa-check-circle nav-check"></i>
-                    </div>
-                    <div class="nav-item" onclick="scrollToSection('sec-docs')">
-                        <span><i class="fas fa-file-contract mr-3 w-4 text-center"></i> Legal Docs</span>
-                        <i class="fas fa-check-circle nav-check"></i>
-                    </div>
-                </div>
-
-                <div class="nav-group mb-6">
-                    <div class="px-6 py-2 text-[10px] font-bold text-gray-400 uppercase">Ceremony</div>
-                    <div class="nav-item" onclick="scrollToSection('sec-service')">
-                        <span><i class="fas fa-church mr-3 w-4 text-center"></i> Service Type</span>
-                        <i class="fas fa-check-circle nav-check"></i>
-                    </div>
-                    <div class="nav-item" onclick="scrollToSection('sec-coffin')">
-                        <span><i class="fas fa-box mr-3 w-4 text-center"></i> Casket Selection</span>
-                        <i class="fas fa-check-circle nav-check"></i>
-                    </div>
-                </div>
-
-                <div class="nav-group">
-                    <div class="px-6 py-2 text-[10px] font-bold text-gray-400 uppercase">Logistics</div>
-                    <div class="nav-item" onclick="scrollToSection('sec-transport')">
-                        <span><i class="fas fa-car mr-3 w-4 text-center"></i> Fleet</span>
-                        <i class="fas fa-check-circle nav-check"></i>
-                    </div>
-                </div>
-            </div>
-        </aside>
-
-        <main class="main-stage" id="main-scroll">
+        <header class="h-16 bg-white border-b flex items-center justify-between px-8 shadow-sm z-10">
+            <h2 id="page-title" class="text-lg font-bold text-gray-700">Overview</h2>
             
-            <div id="sec-details" class="section-animate mb-20">
-                <div class="border-b border-gray-200 pb-4 mb-8 flex justify-between items-end">
-                    <div>
-                        <h2 class="font-serif text-3xl mb-1">Deceased Details</h2>
-                        <p class="text-gray-500 text-sm">Please provide accurate information for the Registrar.</p>
-                    </div>
-                    <div class="text-gray-300 text-5xl font-serif italic opacity-20">01</div>
+            <div class="flex items-center gap-6">
+                <div class="flex flex-col items-end">
+                    <span class="text-[10px] text-gray-400 uppercase font-bold tracking-wider">Projected Cost</span>
+                    <span id="header-total" class="text-xl font-bold font-serif-display text-[#D4AF37]">£0.00</span>
                 </div>
+                <button onclick="App.reset()" class="text-gray-400 hover:text-red-500 transition"><i class="fas fa-power-off"></i></button>
+            </div>
+        </header>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="input-group md:col-span-2">
-                        <input type="text" class="smart-input" id="inp-name" placeholder=" " oninput="handleInput('name', this.value)">
-                        <label class="floating-label">Full Legal Name</label>
-                    </div>
-
-                    <div class="input-group">
-                        <input type="date" class="smart-input" id="inp-dob" oninput="handleInput('dob', this.value)">
-                        <label class="floating-label">Date of Birth</label>
-                    </div>
-                    <div class="input-group">
-                        <input type="date" class="smart-input" id="inp-dod" oninput="handleInput('dod', this.value)">
-                        <label class="floating-label">Date of Death</label>
-                    </div>
-
-                    <div class="input-group">
-                        <input type="text" class="smart-input" id="inp-ni" placeholder=" " oninput="handleInput('ni', this.value)">
-                        <label class="floating-label">NI Number <i class="fas fa-question-circle tooltip-trigger" title="Required by the DWP for any benefit claims."></i></label>
-                    </div>
-                    <div class="input-group">
-                        <input type="text" class="smart-input" id="inp-religion" placeholder=" " oninput="handleInput('religion', this.value)">
-                        <label class="floating-label">Religious Denomination (Optional)</label>
-                    </div>
-                </div>
+        <div id="app-view" class="flex-1 overflow-y-auto bg-[#F3F4F6] p-8 scroller relative">
             </div>
 
-            <div id="sec-service" class="section-animate mb-20">
-                <div class="border-b border-gray-200 pb-4 mb-8 flex justify-between items-end">
-                    <div>
-                        <h2 class="font-serif text-3xl mb-1">Service Preferences</h2>
-                        <p class="text-gray-500 text-sm">This determines the core fees.</p>
-                    </div>
-                    <div class="text-gray-300 text-5xl font-serif italic opacity-20">02</div>
-                </div>
+    </main>
 
-                <div class="selection-grid">
-                    <div class="select-card" onclick="selectOption('service', 'Cremation', 850, this)">
-                        <div class="text-2xl text-gray-400 mb-2"><i class="fas fa-fire"></i></div>
-                        <div class="font-bold text-sm mb-1">Cremation</div>
-                        <div class="text-xs text-gray-500">Standard Service</div>
-                        <div class="price-badge">£850</div>
-                    </div>
-                    <div class="select-card" onclick="selectOption('service', 'Burial', 1200, this)">
-                        <div class="text-2xl text-gray-400 mb-2"><i class="fas fa-cross"></i></div>
-                        <div class="font-bold text-sm mb-1">Burial</div>
-                        <div class="text-xs text-gray-500">Excl. Plot Purchase</div>
-                        <div class="price-badge">£1,200</div>
-                    </div>
-                    <div class="select-card" onclick="selectOption('service', 'Direct', 450, this)">
-                        <div class="text-2xl text-gray-400 mb-2"><i class="fas fa-stopwatch"></i></div>
-                        <div class="font-bold text-sm mb-1">Direct</div>
-                        <div class="text-xs text-gray-500">Unattended</div>
-                        <div class="price-badge">£450</div>
-                    </div>
+    <div id="toast-container"></div>
+
+    <div id="modal-sign" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center fade-in">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-lg overflow-hidden">
+            <div class="bg-gray-100 px-6 py-4 border-b flex justify-between items-center">
+                <h3 class="font-bold text-gray-800"><i class="fas fa-pen-nib mr-2 text-[#D4AF37]"></i>Digital Consent</h3>
+                <button onclick="Modal.close('modal-sign')" class="text-gray-400 hover:text-black"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="p-6">
+                <p class="text-sm text-gray-500 mb-4">I hereby authorize FuneralMatch to conduct the arrangements as specified. This electronic signature is legally binding.</p>
+                <div class="border-2 border-dashed border-gray-300 rounded-lg relative">
+                    <canvas id="sig-canvas" width="460" height="200" class="w-full cursor-crosshair"></canvas>
+                    <div class="absolute bottom-2 right-2 text-[10px] text-gray-300 pointer-events-none">X: SIGN HERE</div>
+                </div>
+                <div class="flex justify-between mt-2">
+                    <button onclick="SignaturePad.clear()" class="text-xs text-red-500 hover:underline">Clear Signature</button>
                 </div>
             </div>
-
-            <div id="sec-coffin" class="section-animate mb-20">
-                <div class="border-b border-gray-200 pb-4 mb-8 flex justify-between items-end">
-                    <div>
-                        <h2 class="font-serif text-3xl mb-1">The Casket</h2>
-                        <p class="text-gray-500 text-sm">Select a dignified resting place.</p>
-                    </div>
-                    <div class="text-gray-300 text-5xl font-serif italic opacity-20">03</div>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <div class="select-card p-0 overflow-hidden group" onclick="selectOption('coffin', 'The Morpeth', 0, this)">
-                        <div class="h-32 bg-gray-100 overflow-hidden relative">
-                            <img src="https://images.unsplash.com/photo-1518640165980-d3e0e2aa6c1e?auto=format&fit=crop&q=80&w=400" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-                            <div class="absolute top-2 right-2 bg-green-500 text-white text-[10px] font-bold px-2 py-1 rounded">INCLUDED</div>
-                        </div>
-                        <div class="p-4 text-left">
-                            <div class="font-bold text-sm">The Morpeth</div>
-                            <div class="text-xs text-gray-500 mt-1">Light oak veneer, traditional fittings.</div>
-                        </div>
-                    </div>
-
-                    <div class="select-card p-0 overflow-hidden group" onclick="selectOption('coffin', 'The Willow', 450, this)">
-                        <div class="h-32 bg-gray-100 overflow-hidden relative">
-                            <img src="https://images.unsplash.com/photo-1589182373726-e4f658ab50f0?auto=format&fit=crop&q=80&w=400" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-                            <div class="price-badge">+£450</div>
-                        </div>
-                        <div class="p-4 text-left">
-                            <div class="font-bold text-sm">The Willow</div>
-                            <div class="text-xs text-gray-500 mt-1">Hand-woven, 100% biodegradable natural willow.</div>
-                        </div>
-                    </div>
-
-                     <div class="select-card p-0 overflow-hidden group" onclick="selectOption('coffin', 'The Buckingham', 1800, this)">
-                        <div class="h-32 bg-gray-100 overflow-hidden relative">
-                            <img src="https://images.unsplash.com/photo-1595846519845-68e298c2edd8?auto=format&fit=crop&q=80&w=400" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-                            <div class="price-badge">+£1,800</div>
-                        </div>
-                        <div class="p-4 text-left">
-                            <div class="font-bold text-sm">The Buckingham</div>
-                            <div class="text-xs text-gray-500 mt-1">Solid mahogany with brass handles and silk lining.</div>
-                        </div>
-                    </div>
-                </div>
+            <div class="bg-gray-50 px-6 py-4 border-t flex justify-end gap-3">
+                <button onclick="Modal.close('modal-sign')" class="px-4 py-2 text-sm text-gray-600 font-medium">Cancel</button>
+                <button onclick="App.finalizeOrder()" class="px-6 py-2 bg-[#D4AF37] text-white text-sm font-bold rounded shadow-lg hover:bg-[#b59226] transition">Authenticate & Submit</button>
             </div>
-
-             <div id="sec-transport" class="section-animate mb-20">
-                <div class="border-b border-gray-200 pb-4 mb-8 flex justify-between items-end">
-                    <div>
-                        <h2 class="font-serif text-3xl mb-1">Fleet Requirements</h2>
-                        <p class="text-gray-500 text-sm">Cortege logistics.</p>
-                    </div>
-                    <div class="text-gray-300 text-5xl font-serif italic opacity-20">04</div>
-                </div>
-
-                <div class="mb-6">
-                    <div class="text-sm font-bold text-gray-700 mb-3">Limousines (7 Seats each)</div>
-                    <div class="flex items-center gap-4">
-                        <button class="w-10 h-10 rounded-full border border-gray-300 hover:border-[#C5A059] flex items-center justify-center transition" onclick="adjustLimo(-1)"><i class="fas fa-minus"></i></button>
-                        <span class="text-xl font-bold font-serif w-8 text-center" id="limo-count">0</span>
-                        <button class="w-10 h-10 rounded-full border border-gray-300 hover:border-[#C5A059] flex items-center justify-center transition" onclick="adjustLimo(1)"><i class="fas fa-plus"></i></button>
-                        <span class="text-xs text-gray-400 ml-2">£250 per vehicle</span>
-                    </div>
-                </div>
-            </div>
-
-        </main>
-
-        <aside class="doc-panel">
-            <div class="live-doc">
-                <div class="watermark">DRAFT</div>
-                
-                <div class="text-center border-b-2 border-black pb-4 mb-6">
-                    <h1 class="font-serif text-2xl uppercase tracking-widest font-bold">Arrangement</h1>
-                    <div class="text-xs mt-1">ID: <span id="doc-id">PENDING</span></div>
-                </div>
-
-                <div class="mb-6">
-                    <div class="text-[10px] uppercase font-bold text-gray-500 mb-1">Deceased</div>
-                    <div id="doc-name" class="font-serif text-lg border-b border-dotted border-gray-400 min-h-[1.5rem] italic"></div>
-                </div>
-
-                <div class="mb-6 grid grid-cols-2 gap-4">
-                    <div>
-                        <div class="text-[10px] uppercase font-bold text-gray-500 mb-1">DOB</div>
-                        <div id="doc-dob" class="text-sm border-b border-dotted border-gray-400 min-h-[1.2rem]"></div>
-                    </div>
-                    <div>
-                        <div class="text-[10px] uppercase font-bold text-gray-500 mb-1">DOD</div>
-                        <div id="doc-dod" class="text-sm border-b border-dotted border-gray-400 min-h-[1.2rem]"></div>
-                    </div>
-                </div>
-
-                <div class="bg-gray-50 p-4 rounded mb-6">
-                    <div class="text-[10px] uppercase font-bold text-gray-500 mb-2 border-b border-gray-200 pb-1">Cost Breakdown</div>
-                    <div class="flex justify-between text-xs mb-1">
-                        <span>Service (<span id="doc-service-name">Pending</span>)</span>
-                        <span id="doc-service-price">£0</span>
-                    </div>
-                    <div class="flex justify-between text-xs mb-1">
-                        <span>Coffin (<span id="doc-coffin-name">Included</span>)</span>
-                        <span id="doc-coffin-price">£0</span>
-                    </div>
-                    <div class="flex justify-between text-xs mb-1">
-                        <span>Limos (<span id="doc-limo-count">0</span>)</span>
-                        <span id="doc-limo-price">£0</span>
-                    </div>
-                    <div class="border-t border-gray-300 mt-2 pt-2 flex justify-between font-bold text-sm">
-                        <span>Total Estimated</span>
-                        <span id="doc-total">£0.00</span>
-                    </div>
-                </div>
-            </div>
-        </aside>
-
+        </div>
     </div>
 
     <script>
-        // --- 1. STATE MANAGEMENT ---
-        const state = {
-            details: { name: '', dob: '', dod: '', ni: '' },
-            service: { type: 'Not Selected', price: 0 },
-            coffin: { name: 'The Morpeth', price: 0 },
-            logistics: { limos: 0, limoPrice: 250 },
-            total: 0
+        // --- 1. CORE DATA STORE (SINGLE SOURCE OF TRUTH) ---
+        const Store = {
+            data: {
+                details: { name: '', dob: '', religion: '' },
+                service: { type: null, price: 0 },
+                casket: { name: 'Standard', price: 0 },
+                logistics: { limos: 0, pricePerLimo: 250 },
+                signed: false,
+                signatureData: null
+            },
+            
+            update(path, value) {
+                const keys = path.split('.');
+                let ref = this.data;
+                for(let i=0; i<keys.length-1; i++) ref = ref[keys[i]];
+                ref[keys[keys.length-1]] = value;
+                
+                this.calculate();
+            },
+
+            calculate() {
+                const total = this.data.service.price + this.data.casket.price + (this.data.logistics.limos * this.data.logistics.pricePerLimo);
+                document.getElementById('header-total').innerText = new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'GBP' }).format(total);
+                
+                // If on dashboard, update chart
+                if(document.getElementById('costChart')) Dashboard.renderChart();
+            }
         };
 
-        // --- 2. INIT & RESTORE ---
-        window.addEventListener('DOMContentLoaded', () => {
-            // Generate Random ID
-            document.getElementById('doc-id').innerText = 'FM-' + Math.floor(Math.random() * 10000);
-            
-            // Try load from local storage
-            const saved = localStorage.getItem('funeralMatchState');
-            if(saved) {
-                Object.assign(state, JSON.parse(saved));
-                restoreUI();
+        // --- 2. UI RENDERER (COMPONENT SYSTEM) ---
+        const Views = {
+            dashboard: () => `
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 fade-in">
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 col-span-2">
+                        <h3 class="font-serif-display font-bold text-gray-800 mb-6">Active Arrangement</h3>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="bg-blue-50 p-4 rounded-lg border border-blue-100">
+                                <div class="text-xs text-blue-500 font-bold uppercase mb-1">Status</div>
+                                <div class="text-lg font-bold text-gray-800">Drafting</div>
+                            </div>
+                            <div class="bg-amber-50 p-4 rounded-lg border border-amber-100">
+                                <div class="text-xs text-amber-600 font-bold uppercase mb-1">Tasks Pending</div>
+                                <div class="text-lg font-bold text-gray-800">3 Actions Required</div>
+                            </div>
+                        </div>
+                        <div class="mt-8">
+                            <h4 class="text-xs font-bold text-gray-400 uppercase mb-3">Recent Activity</h4>
+                            <div class="space-y-3">
+                                <div class="flex items-center text-sm text-gray-600"><i class="fas fa-check-circle text-green-500 mr-3"></i> System initialized for new client</div>
+                                <div class="flex items-center text-sm text-gray-600"><i class="fas fa-clock text-gray-400 mr-3"></i> Awaiting Deceased Details</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                        <h3 class="font-serif-display font-bold text-gray-800 mb-4">Budget Allocation</h3>
+                        <div class="relative h-48 w-full flex items-center justify-center">
+                            <canvas id="costChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            `,
+
+            intake: () => `
+                <div class="max-w-3xl mx-auto bg-white p-8 rounded-xl shadow-sm fade-in">
+                    <h2 class="font-serif-display text-2xl mb-6">Deceased Intake</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Full Legal Name</label>
+                            <input type="text" value="${Store.data.details.name}" oninput="Store.update('details.name', this.value)" class="w-full bg-gray-50 border border-gray-200 p-3 rounded focus:outline-none focus:border-[#D4AF37] transition">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Date of Birth</label>
+                            <input type="date" value="${Store.data.details.dob}" oninput="Store.update('details.dob', this.value)" class="w-full bg-gray-50 border border-gray-200 p-3 rounded focus:outline-none focus:border-[#D4AF37]">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Religion / Faith</label>
+                            <input type="text" value="${Store.data.details.religion}" oninput="Store.update('details.religion', this.value)" class="w-full bg-gray-50 border border-gray-200 p-3 rounded focus:outline-none focus:border-[#D4AF37]">
+                        </div>
+                        
+                        <div class="md:col-span-2 mt-4">
+                            <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Death Certificate</label>
+                            <div class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:bg-gray-50 transition cursor-pointer" onclick="Toaster.show('File Upload Module connected to AWS S3 (Simulated)', 'info')">
+                                <i class="fas fa-cloud-upload-alt text-3xl text-gray-300 mb-2"></i>
+                                <div class="text-sm font-medium text-gray-600">Click to upload scanned document</div>
+                                <div class="text-xs text-gray-400">PDF, JPG up to 10MB</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `,
+
+            logistics: () => `
+                <div class="max-w-4xl mx-auto fade-in">
+                    <div class="bg-white p-8 rounded-xl shadow-sm mb-6">
+                        <h2 class="font-serif-display text-xl mb-6">Service Type</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            ${['Cremation|850', 'Burial|1200', 'Direct|450'].map(opt => {
+                                const [name, price] = opt.split('|');
+                                const active = Store.data.service.type === name ? 'active' : '';
+                                return `<div onclick="Store.update('service.type', '${name}'); Store.update('service.price', ${price}); Router.refresh();" class="action-card ${active} p-4 rounded-lg border border-gray-200 cursor-pointer text-center relative overflow-hidden">
+                                    <div class="font-bold text-gray-800">${name}</div>
+                                    <div class="text-sm text-gray-500">£${price}</div>
+                                    ${active ? '<div class="absolute top-2 right-2 text-[#D4AF37]"><i class="fas fa-check-circle"></i></div>' : ''}
+                                </div>`
+                            }).join('')}
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-8 rounded-xl shadow-sm">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <h2 class="font-serif-display text-xl">Fleet Logistics</h2>
+                                <p class="text-sm text-gray-500">Mercedes E-Class Limousines (7 Seats)</p>
+                            </div>
+                            <div class="flex items-center gap-4 bg-gray-50 p-2 rounded-lg">
+                                <button onclick="App.adjustLimo(-1)" class="w-8 h-8 rounded bg-white shadow text-gray-600 hover:text-black font-bold">-</button>
+                                <span class="font-serif-display font-bold text-xl w-6 text-center">${Store.data.logistics.limos}</span>
+                                <button onclick="App.adjustLimo(1)" class="w-8 h-8 rounded bg-white shadow text-gray-600 hover:text-black font-bold">+</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `,
+
+            review: () => `
+                <div class="max-w-3xl mx-auto bg-white p-10 rounded-xl shadow-lg fade-in relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-gray-200 via-[#D4AF37] to-gray-200"></div>
+                    
+                    <div class="flex justify-between items-end border-b border-gray-200 pb-6 mb-6">
+                        <div>
+                            <h1 class="font-serif-display text-3xl text-gray-800">Arrangement Summary</h1>
+                            <p class="text-gray-500 text-sm mt-1">Ref: ${Math.random().toString(36).substr(2, 9).toUpperCase()}</p>
+                        </div>
+                        <div class="text-right">
+                             <div class="text-xs text-gray-400 uppercase tracking-widest">Total Value</div>
+                             <div class="text-2xl font-serif-display font-bold text-gray-900" id="review-total">£0.00</div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4 mb-8">
+                        <div class="flex justify-between py-3 border-b border-gray-100">
+                            <span class="text-gray-600">Client Name</span>
+                            <span class="font-medium text-gray-900">${Store.data.details.name || '<span class="text-red-400">Required</span>'}</span>
+                        </div>
+                         <div class="flex justify-between py-3 border-b border-gray-100">
+                            <span class="text-gray-600">Service Type</span>
+                            <span class="font-medium text-gray-900">${Store.data.service.type || '<span class="text-red-400">Not Selected</span>'}</span>
+                        </div>
+                        <div class="flex justify-between py-3 border-b border-gray-100">
+                            <span class="text-gray-600">Fleet</span>
+                            <span class="font-medium text-gray-900">${Store.data.logistics.limos} Limousines</span>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-end pt-4">
+                         <button onclick="Modal.open('modal-sign')" class="bg-[#111827] text-white px-8 py-3 rounded shadow hover:bg-black transition flex items-center gap-3">
+                            <i class="fas fa-pen-nib"></i> Sign & Finalize Order
+                        </button>
+                    </div>
+                </div>
+            `
+        };
+
+        // --- 3. APP LOGIC CONTROLLERS ---
+        const Router = {
+            current: 'dashboard',
+            navigate(view) {
+                this.current = view;
+                // Update Nav UI
+                document.querySelectorAll('.nav-link').forEach(el => {
+                    el.classList.remove('bg-gray-800', 'text-white', 'border-[#D4AF37]');
+                    el.classList.add('text-gray-400', 'border-transparent');
+                });
+                const active = document.getElementById('nav-' + view);
+                if(active) {
+                    active.classList.add('bg-gray-800', 'text-white', 'border-[#D4AF37]');
+                    active.classList.remove('text-gray-400', 'border-transparent');
+                }
+
+                // Render View
+                document.getElementById('app-view').innerHTML = Views[view]();
+                document.getElementById('page-title').innerText = view.charAt(0).toUpperCase() + view.slice(1);
+                
+                // Post-render hooks
+                Store.calculate();
+                if(view === 'review') {
+                     const total = Store.data.service.price + Store.data.casket.price + (Store.data.logistics.limos * Store.data.logistics.pricePerLimo);
+                     document.getElementById('review-total').innerText = new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'GBP' }).format(total);
+                }
+            },
+            refresh() { this.navigate(this.current); }
+        };
+
+        const App = {
+            adjustLimo(delta) {
+                let n = Store.data.logistics.limos + delta;
+                if(n < 0) n = 0; if(n > 10) n = 10;
+                Store.update('logistics.limos', n);
+                Router.refresh();
+            },
+            finalizeOrder() {
+                if(!Store.data.details.name || !Store.data.service.type) {
+                    Modal.close('modal-sign');
+                    Toaster.show('Error: Missing Details or Service Type', 'error');
+                    return;
+                }
+                
+                // Convert Canvas to Image
+                const canvas = document.getElementById('sig-canvas');
+                Store.data.signatureData = canvas.toDataURL();
+                Store.data.signed = true;
+
+                Modal.close('modal-sign');
+                
+                // Simulate API Call
+                Toaster.show('Encrypting Signature...', 'info');
+                setTimeout(() => {
+                    Toaster.show('Order Finalized & Sent to HQ', 'success');
+                    document.getElementById('app-view').innerHTML = `
+                        <div class="flex flex-col items-center justify-center h-full text-center fade-in">
+                            <div class="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-4xl mb-6"><i class="fas fa-check"></i></div>
+                            <h2 class="text-2xl font-bold text-gray-800">Arrangement Locked</h2>
+                            <p class="text-gray-500 mt-2">Reference ID: ${Math.random().toString(36).substr(2, 9).toUpperCase()}</p>
+                            <button onclick="location.reload()" class="mt-8 text-sm text-gray-400 hover:text-black underline">Start New Order</button>
+                        </div>
+                    `;
+                }, 1500);
+            },
+            reset() {
+                if(confirm('Reset entire system?')) location.reload();
             }
-            calculateTotal();
+        };
+
+        const Dashboard = {
+            renderChart() {
+                const ctx = document.getElementById('costChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Service', 'Logistics', 'Casket'],
+                        datasets: [{
+                            data: [Store.data.service.price, (Store.data.logistics.limos * 250), Store.data.casket.price],
+                            backgroundColor: ['#1F2937', '#D4AF37', '#E5E7EB'],
+                            borderWidth: 0
+                        }]
+                    },
+                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'right' } } }
+                });
+            }
+        };
+
+        const Toaster = {
+            show(msg, type = 'success') {
+                const div = document.createElement('div');
+                div.className = 'toast';
+                const icon = type === 'success' ? 'check-circle text-green-500' : (type === 'error' ? 'exclamation-circle text-red-500' : 'info-circle text-blue-500');
+                div.innerHTML = `<i class="fas fa-${icon} text-lg"></i> <span class="font-medium text-sm text-gray-700">${msg}</span>`;
+                document.getElementById('toast-container').appendChild(div);
+                setTimeout(() => div.remove(), 3000);
+            }
+        };
+
+        const Modal = {
+            open(id) { 
+                document.getElementById(id).classList.remove('hidden'); 
+                if(id === 'modal-sign') SignaturePad.init();
+            },
+            close(id) { document.getElementById(id).classList.add('hidden'); }
+        };
+
+        // --- 4. SIGNATURE PAD ENGINE ---
+        const SignaturePad = {
+            isDrawing: false,
+            init() {
+                const cvs = document.getElementById('sig-canvas');
+                const ctx = cvs.getContext('2d');
+                ctx.lineWidth = 2; ctx.lineCap = 'round'; ctx.strokeStyle = '#000';
+                
+                const start = (e) => {
+                    this.isDrawing = true;
+                    ctx.beginPath();
+                    const { x, y } = this.getPos(cvs, e);
+                    ctx.moveTo(x, y);
+                };
+                const draw = (e) => {
+                    if(!this.isDrawing) return;
+                    const { x, y } = this.getPos(cvs, e);
+                    ctx.lineTo(x, y);
+                    ctx.stroke();
+                };
+                const stop = () => this.isDrawing = false;
+
+                cvs.addEventListener('mousedown', start);
+                cvs.addEventListener('mousemove', draw);
+                cvs.addEventListener('mouseup', stop);
+                // Touch support
+                cvs.addEventListener('touchstart', (e) => start(e.touches[0]));
+                cvs.addEventListener('touchmove', (e) => { e.preventDefault(); draw(e.touches[0]); });
+                cvs.addEventListener('touchend', stop);
+            },
+            getPos(cvs, e) {
+                const rect = cvs.getBoundingClientRect();
+                return { x: e.clientX - rect.left, y: e.clientY - rect.top };
+            },
+            clear() {
+                const cvs = document.getElementById('sig-canvas');
+                cvs.getContext('2d').clearRect(0,0, cvs.width, cvs.height);
+            }
+        };
+
+        // --- INIT ---
+        window.addEventListener('DOMContentLoaded', () => {
+            Router.navigate('dashboard');
         });
 
-        function saveProgress() {
-            localStorage.setItem('funeralMatchState', JSON.stringify(state));
-            const saveBtn = document.getElementById('save-status');
-            saveBtn.innerHTML = '<i class="fas fa-check text-green-500"></i> Saved';
-            setTimeout(() => saveBtn.innerHTML = '<i class="fas fa-cloud"></i> Saved', 2000);
-            updateProgressBar();
-        }
-
-        // --- 3. INPUT HANDLERS ---
-        function handleInput(field, value) {
-            state.details[field] = value;
-            
-            // Update Doc
-            const docEl = document.getElementById(`doc-${field}`);
-            if(docEl) docEl.innerText = value;
-            
-            // Auto-save logic (debounce could be added here for perf)
-            saveProgress();
-        }
-
-        function selectOption(category, name, price, el) {
-            // Update State
-            state[category].type = name; // simplified logic
-            if(category === 'coffin') state.coffin.name = name;
-            state[category].price = price;
-
-            // UI Feedback
-            const container = el.parentElement;
-            Array.from(container.children).forEach(child => child.classList.remove('active'));
-            el.classList.add('active');
-
-            // Doc Update
-            if(category === 'service') {
-                document.getElementById('doc-service-name').innerText = name;
-                document.getElementById('doc-service-price').innerText = `£${price}`;
-            }
-            if(category === 'coffin') {
-                document.getElementById('doc-coffin-name').innerText = name;
-                document.getElementById('doc-coffin-price').innerText = `£${price}`;
-            }
-
-            calculateTotal();
-            saveProgress();
-        }
-
-        function adjustLimo(delta) {
-            let newCount = state.logistics.limos + delta;
-            if(newCount < 0) newCount = 0;
-            if(newCount > 5) newCount = 5;
-            
-            state.logistics.limos = newCount;
-            
-            // Update UI
-            document.getElementById('limo-count').innerText = newCount;
-            document.getElementById('doc-limo-count').innerText = newCount;
-            document.getElementById('doc-limo-price').innerText = `£${newCount * state.logistics.limoPrice}`;
-            
-            calculateTotal();
-            saveProgress();
-        }
-
-        // --- 4. CALCULATION ENGINE ---
-        function calculateTotal() {
-            const service = state.service.price || 0;
-            const coffin = state.coffin.price || 0;
-            const transport = state.logistics.limos * state.logistics.limoPrice;
-            
-            state.total = service + coffin + transport;
-            
-            const fmt = new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'GBP' }).format(state.total);
-            
-            document.getElementById('header-total').innerText = fmt;
-            document.getElementById('doc-total').innerText = fmt;
-        }
-
-        // --- 5. UTILITIES ---
-        function updateProgressBar() {
-            // Simple completion logic
-            let points = 0;
-            let totalPoints = 5; // Name, DOB, DOD, Service, Coffin
-
-            if(state.details.name) points++;
-            if(state.details.dob) points++;
-            if(state.details.dod) points++;
-            if(state.service.price > 0) points++;
-            if(state.coffin.name) points++;
-
-            const pct = (points / totalPoints) * 100;
-            document.getElementById('progress-bar').style.width = `${pct}%`;
-            document.getElementById('progress-text').innerText = Math.round(pct);
-        }
-
-        function restoreUI() {
-            // Restore Inputs
-            document.getElementById('inp-name').value = state.details.name;
-            document.getElementById('doc-name').innerText = state.details.name;
-            document.getElementById('inp-dob').value = state.details.dob;
-            document.getElementById('inp-dod').value = state.details.dod;
-            
-            // Restore Limos
-            document.getElementById('limo-count').innerText = state.logistics.limos;
-
-            // Note: Restoring "Active" classes on cards would require ID matching, 
-            // omitted here for brevity but State is restored.
-        }
-
-        function toggleSidebar() {
-            document.getElementById('sidebar').classList.toggle('open');
-        }
-
-        function scrollToSection(id) {
-            document.getElementById(id).scrollIntoView({ behavior: 'smooth', block: 'start' });
-            // Mobile: Close sidebar after click
-            if(window.innerWidth < 1024) toggleSidebar();
-        }
     </script>
 </body>
 </html>
