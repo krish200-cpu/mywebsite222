@@ -3,36 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>FuneralOS | Aether</title>
+    <title>FuneralOS | Lumina</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Cormorant+Garamond:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
 
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: { 
-                        'void': '#050505', 
-                        'surface': '#121212', 
-                        'gold': '#D4AF37', 
-                        'gold-dim': 'rgba(212, 175, 55, 0.1)',
-                        'glass': 'rgba(255, 255, 255, 0.03)'
+                        surface: '#FAFAFA', 
+                        paper: '#FFFFFF', 
+                        ink: '#1A1A1A', 
+                        gold: '#C5A059', 
+                        goldlight: '#F4EBD9',
+                        subtle: '#F4F4F5'
                     },
                     fontFamily: { 
                         sans: ['Plus Jakarta Sans', 'sans-serif'], 
-                        serif: ['Cormorant Garamond', 'serif'] 
+                        serif: ['Playfair Display', 'serif'] 
                     },
                     boxShadow: {
-                        'glow': '0 0 20px rgba(212, 175, 55, 0.15)',
-                        'float': '0 10px 40px -10px rgba(0,0,0,0.5)'
-                    },
-                    animation: {
-                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'soft': '0 4px 20px -2px rgba(0, 0, 0, 0.05)',
+                        'float': '0 10px 40px -10px rgba(0, 0, 0, 0.08)'
                     }
                 }
             }
@@ -40,265 +38,292 @@
     </script>
 
     <style>
-        /* AETHER UI SYSTEM */
-        body { background-color: #050505; color: #FFFFFF; -webkit-font-smoothing: antialiased; }
+        body { background-color: #FAFAFA; color: #1A1A1A; -webkit-font-smoothing: antialiased; }
         
-        /* The Glass Panel */
-        .glass-panel {
-            background: rgba(18, 18, 18, 0.6);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+        /* Modern Input Architecture */
+        .field-group { margin-bottom: 24px; position: relative; }
+        .field-label {
+            font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #9CA3AF;
+            margin-bottom: 8px; display: block; transition: 0.2s;
+        }
+        .field-input {
+            width: 100%; background: #FFFFFF; border: 1px solid #E4E4E7; border-radius: 12px;
+            padding: 14px 16px; font-size: 15px; font-weight: 500; color: #18181B; outline: none;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+        }
+        .field-input:focus { border-color: #C5A059; box-shadow: 0 0 0 3px rgba(197, 160, 89, 0.15); transform: translateY(-1px); }
+        .field-input::placeholder { color: #D4D4D8; }
+
+        /* The Age Pill */
+        .age-badge {
+            position: absolute; right: 12px; top: 40px; background: #F4EBD9; color: #855F19;
+            font-size: 11px; font-weight: 700; padding: 4px 8px; border-radius: 6px;
         }
 
-        /* Fluid Inputs */
-        .input-fluid {
-            background: transparent; border: none; border-bottom: 1px solid #333;
-            width: 100%; padding: 16px 0; font-size: 16px; color: white;
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            font-family: 'Plus Jakarta Sans', sans-serif;
-        }
-        .input-fluid:focus { border-bottom-color: #D4AF37; padding-left: 10px; outline: none; }
-        .input-fluid::placeholder { color: #444; }
+        /* Soft Cards */
+        .card { background: white; border-radius: 20px; padding: 32px; box-shadow: var(--theme-shadow-soft); border: 1px solid #F4F4F5; }
 
-        /* Label Animation */
-        .input-group:focus-within label { color: #D4AF37; transform: translateY(-4px); font-size: 10px; }
-        .input-group label { transition: 0.3s; font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: #666; display: block; }
-
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 4px; }
-        ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
-        
-        /* Selection Pills */
-        .pill-select {
-            cursor: pointer; border-radius: 99px; border: 1px solid #333; padding: 12px 24px;
-            font-size: 13px; font-weight: 500; transition: all 0.3s; background: rgba(255,255,255,0.02);
+        /* Select Pills */
+        .pill-grid { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); }
+        .pill-option {
+            cursor: pointer; border: 1px solid #E4E4E7; background: white; border-radius: 12px; padding: 16px;
+            text-align: center; transition: 0.2s; position: relative; overflow: hidden;
         }
-        .pill-select:hover { border-color: #666; }
-        .pill-select.active { background: #D4AF37; color: black; border-color: #D4AF37; font-weight: 700; box-shadow: 0 0 15px rgba(212,175,55,0.4); }
+        .pill-option:hover { border-color: #D4D4D8; }
+        .pill-option.active { border-color: #C5A059; background: #FFFDF5; color: #855F19; box-shadow: 0 4px 12px rgba(197, 160, 89, 0.15); }
+        .pill-option i { font-size: 20px; margin-bottom: 8px; display: block; color: #A1A1AA; }
+        .pill-option.active i { color: #C5A059; }
 
         /* Transitions */
-        .page-enter-active, .page-leave-active { transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); }
-        .page-enter-from, .page-leave-to { opacity: 0; transform: translateY(20px) scale(0.98); }
+        .fade-enter-active, .fade-leave-active { transition: opacity 0.3s ease; }
+        .fade-enter-from, .fade-leave-to { opacity: 0; }
     </style>
 </head>
-<body class="h-screen overflow-hidden flex flex-col">
+<body class="h-screen flex flex-col overflow-hidden">
 
-<div id="app" class="h-full flex flex-col relative">
+<div id="app" class="h-full flex flex-col relative max-w-[1600px] mx-auto w-full shadow-2xl bg-white">
 
-    <header class="h-20 glass-panel z-50 flex items-center justify-between px-6 lg:px-12 shrink-0">
+    <header class="h-20 bg-white border-b border-gray-100 flex items-center justify-between px-6 lg:px-10 shrink-0 z-50">
         <div class="flex items-center gap-6">
-            <div @click="triggerLogo" class="group w-10 h-10 rounded-full border border-white/10 flex items-center justify-center cursor-pointer overflow-hidden transition hover:border-gold">
-                <img v-if="settings.logo" :src="settings.logo" class="w-full h-full object-cover">
-                <div v-else class="w-2 h-2 rounded-full bg-gold group-hover:scale-150 transition-transform"></div>
+            <div @click="triggerLogo" class="w-10 h-10 rounded-xl bg-gray-50 border border-gray-200 flex items-center justify-center cursor-pointer overflow-hidden transition hover:border-gold">
+                <img v-if="brand.logo" :src="brand.logo" class="w-full h-full object-contain p-1">
+                <span v-else class="text-gray-300 font-bold text-xs"><i class="fa-solid fa-plus"></i></span>
             </div>
             
-            <div class="hidden md:block">
-                <div class="text-[9px] text-gray-500 uppercase tracking-[0.2em] mb-1">Active Arrangement</div>
-                <div class="font-serif text-xl tracking-wide text-white">{{ form.deceased.lastName || 'New Case' }}</div>
+            <div>
+                <div class="text-[10px] text-gold uppercase tracking-widest font-bold mb-0.5">First Call Arrangement</div>
+                <div class="font-serif text-xl text-ink font-bold">{{ data.deceased.lastName || 'New Case' }}</div>
             </div>
         </div>
 
-        <nav class="flex gap-1 bg-surface/50 p-1 rounded-full border border-white/5">
+        <nav class="hidden md:flex bg-subtle p-1 rounded-xl">
             <button v-for="step in steps" :key="step.id" @click="currentStep = step.id"
-                class="px-5 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest transition-all"
-                :class="currentStep === step.id ? 'bg-gold text-black shadow-glow' : 'text-gray-500 hover:text-white'">
+                class="px-6 py-2 rounded-lg text-xs font-bold uppercase tracking-wide transition-all"
+                :class="currentStep === step.id ? 'bg-white text-ink shadow-sm' : 'text-gray-400 hover:text-gray-600'">
                 {{ step.label }}
             </button>
         </nav>
 
         <div class="flex items-center gap-4">
              <div class="text-right hidden lg:block">
-                <div class="text-[9px] text-gray-500 uppercase tracking-widest">Estimated Total</div>
-                <div class="font-mono text-gold text-lg">{{ formattedTotal }}</div>
+                <div class="text-[10px] text-gray-400 uppercase font-bold">Estimate</div>
+                <div class="font-mono text-ink font-bold">{{ formattedTotal }}</div>
             </div>
-            <button @click="generateContract" class="w-10 h-10 rounded-full bg-white text-black flex items-center justify-center hover:bg-gold transition shadow-glow">
-                <i class="fa-solid fa-arrow-down"></i>
+            <button @click="generatePDF" class="w-10 h-10 rounded-full bg-ink text-white flex items-center justify-center hover:bg-gold transition shadow-lg">
+                <i class="fa-solid fa-download"></i>
             </button>
         </div>
     </header>
 
-    <main class="flex-1 overflow-y-auto relative p-6 lg:p-0">
-        <div class="max-w-4xl mx-auto py-12 lg:py-20 relative">
+    <main class="flex-1 overflow-y-auto bg-surface p-4 lg:p-12 pb-32 scroll-smooth">
+        <div class="max-w-3xl mx-auto">
             
-            <transition name="page" mode="out-in">
-                
-                <div v-if="currentStep === 'identity'" key="identity" class="space-y-12">
-                    <div class="text-center space-y-2 mb-12">
-                        <h1 class="font-serif text-4xl lg:text-5xl">The Deceased</h1>
-                        <p class="text-gray-500 font-light">Legal identity and biometric data.</p>
-                    </div>
+            <transition name="fade" mode="out-in">
 
-                    <div class="glass-panel p-8 lg:p-12 rounded-[32px] space-y-8">
-                        <div class="grid grid-cols-12 gap-8">
-                            <div class="col-span-3">
-                                <div class="input-group">
-                                    <label>Title</label>
-                                    <select v-model="form.deceased.title" class="input-fluid bg-transparent"><option>Mr</option><option>Mrs</option><option>Ms</option><option>Dr</option></select>
-                                </div>
-                            </div>
-                            <div class="col-span-9">
-                                <div class="input-group">
-                                    <label>Full Legal Name</label>
-                                    <input v-model="form.deceased.firstName" class="input-fluid" placeholder="First & Middle Names">
-                                </div>
-                            </div>
-                            <div class="col-span-12">
-                                <div class="input-group">
-                                    <label>Surname</label>
-                                    <input v-model="form.deceased.lastName" class="input-fluid" placeholder="Surname">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="grid grid-cols-2 gap-8 pt-4">
-                            <div class="input-group">
-                                <label>Date of Birth</label>
-                                <input type="date" v-model="form.deceased.dob" class="input-fluid">
-                            </div>
-                            <div class="input-group">
-                                <label>Date of Death</label>
-                                <input type="date" v-model="form.deceased.dod" class="input-fluid">
-                            </div>
-                        </div>
-                    </div>
+                <div v-if="currentStep === 'intake'" key="intake" class="space-y-6">
                     
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div @click="form.legal.greenForm = !form.legal.greenForm" 
-                             class="glass-panel p-6 rounded-[24px] cursor-pointer flex justify-between items-center transition hover:border-green-500/50"
-                             :class="{'border-green-500': form.legal.greenForm}">
-                            <div>
-                                <div class="font-bold text-sm">Registrar's Cert.</div>
-                                <div class="text-[10px] text-gray-500 uppercase">Green Form</div>
-                            </div>
-                            <div class="w-6 h-6 rounded-full border border-gray-600 flex items-center justify-center">
-                                <div v-if="form.legal.greenForm" class="w-3 h-3 bg-green-500 rounded-full"></div>
-                            </div>
-                        </div>
-
-                        <div @click="form.legal.coroner = !form.legal.coroner" 
-                             class="glass-panel p-6 rounded-[24px] cursor-pointer flex justify-between items-center transition hover:border-blue-500/50"
-                             :class="{'border-blue-500': form.legal.coroner}">
-                            <div>
-                                <div class="font-bold text-sm">Coroner's Case</div>
-                                <div class="text-[10px] text-gray-500 uppercase">Form 6</div>
-                            </div>
-                             <div class="w-6 h-6 rounded-full border border-gray-600 flex items-center justify-center">
-                                <div v-if="form.legal.coroner" class="w-3 h-3 bg-blue-500 rounded-full"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div v-else-if="currentStep === 'logistics'" key="logistics" class="space-y-12">
-                    <div class="text-center space-y-2 mb-12">
-                        <h1 class="font-serif text-4xl lg:text-5xl">Care & Disposition</h1>
-                        <p class="text-gray-500 font-light">Preparation requirements and method.</p>
+                    <div class="text-center mb-10">
+                        <h1 class="font-serif text-4xl mb-2">First Call Intake</h1>
+                        <p class="text-gray-400 text-sm">Capture essential identity and caller details.</p>
                     </div>
 
-                    <div class="glass-panel p-8 lg:p-12 rounded-[32px] space-y-10">
-                        
-                        <div class="flex justify-center gap-4">
-                            <button @click="form.disposition = 'cremation'" class="pill-select" :class="{'active': form.disposition === 'cremation'}">Cremation</button>
-                            <button @click="form.disposition = 'burial'" class="pill-select" :class="{'active': form.disposition === 'burial'}">Burial</button>
-                        </div>
-
-                        <div class="h-px w-full bg-white/5"></div>
-
-                        <div class="space-y-6">
-                            <div class="flex justify-between items-center">
-                                <div>
-                                    <div class="font-medium text-lg">Pacemaker Present?</div>
-                                    <div class="text-xs text-gray-500">Requires surgical removal (+£95)</div>
-                                </div>
-                                <label class="relative inline-flex items-center cursor-pointer">
-                                    <input type="checkbox" v-model="form.clinical.pacemaker" class="sr-only peer">
-                                    <div class="w-11 h-6 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-gold"></div>
-                                </label>
+                    <div class="card">
+                        <h2 class="font-serif text-xl mb-6 flex items-center gap-2"><i class="fa-solid fa-phone text-gold text-sm"></i> The Caller</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="field-group">
+                                <label class="field-label">Caller Name</label>
+                                <input v-model="data.intake.caller" class="field-input" placeholder="Full Name">
                             </div>
-
-                            <div class="flex justify-between items-center">
-                                <div>
-                                    <div class="font-medium text-lg">Embalming Required?</div>
-                                    <div class="text-xs text-gray-500">Recommended for chapel viewing</div>
-                                </div>
-                                <label class="relative inline-flex items-center cursor-pointer">
-                                    <input type="checkbox" v-model="form.clinical.embalming" class="sr-only peer">
-                                    <div class="w-11 h-6 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-gold"></div>
-                                </label>
+                            <div class="field-group">
+                                <label class="field-label">Relationship</label>
+                                <select v-model="data.intake.relation" class="field-input">
+                                    <option>Son / Daughter</option>
+                                    <option>Spouse / Partner</option>
+                                    <option>Executor</option>
+                                    <option>Care Home Staff</option>
+                                </select>
+                            </div>
+                            <div class="field-group md:col-span-2 mb-0">
+                                <label class="field-label">Contact Number</label>
+                                <input v-model="data.intake.phone" type="tel" class="field-input">
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div v-else-if="currentStep === 'ceremony'" key="ceremony" class="space-y-12">
-                     <div class="text-center space-y-2 mb-12">
-                        <h1 class="font-serif text-4xl lg:text-5xl">The Arrangement</h1>
-                        <p class="text-gray-500 font-light">Service details and merchandise.</p>
-                    </div>
+                    <div class="card">
+                         <h2 class="font-serif text-xl mb-6 flex items-center gap-2"><i class="fa-solid fa-user text-gold text-sm"></i> The Deceased</h2>
+                         
+                         <div class="grid grid-cols-12 gap-5 mb-6">
+                             <div class="col-span-3">
+                                <label class="field-label">Title</label>
+                                <select v-model="data.deceased.title" class="field-input"><option>Mr</option><option>Mrs</option><option>Ms</option><option>Dr</option></select>
+                             </div>
+                             <div class="col-span-9">
+                                <label class="field-label">First Name(s)</label>
+                                <input v-model="data.deceased.firstName" class="field-input">
+                             </div>
+                             <div class="col-span-12">
+                                <label class="field-label">Surname</label>
+                                <input v-model="data.deceased.lastName" class="field-input">
+                             </div>
+                         </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <div v-for="svc in inventory.services" :key="svc.id" 
-                             @click="form.arrange.serviceId = svc.id"
-                             class="glass-panel p-8 rounded-[32px] cursor-pointer transition-all duration-300 hover:border-gold/50 group"
-                             :class="form.arrange.serviceId === svc.id ? 'border-gold bg-gold-dim' : ''">
+                         <div class="grid grid-cols-2 gap-6 p-4 bg-subtle rounded-xl border border-gray-200 relative">
+                             <div class="field-group mb-0">
+                                 <label class="field-label">Date of Birth</label>
+                                 <input type="date" v-model="data.deceased.dob" class="field-input">
+                             </div>
+                             <div class="field-group mb-0">
+                                 <label class="field-label">Date of Death</label>
+                                 <input type="date" v-model="data.deceased.dod" class="field-input">
+                             </div>
                              
-                             <div class="text-gold text-2xl mb-4 opacity-50 group-hover:opacity-100 transition"><i :class="svc.icon"></i></div>
-                             <h3 class="font-serif text-2xl mb-2">{{ svc.name }}</h3>
-                             <p class="text-xs text-gray-500 leading-relaxed mb-6 min-h-[40px]">{{ svc.desc }}</p>
-                             <div class="font-mono text-lg tracking-wide">£{{ svc.price }}</div>
-                        </div>
+                             <div v-if="calculatedAge" class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-white shadow-lg border border-gold px-4 py-1 rounded-full text-xs font-bold text-gold z-10">
+                                 {{ calculatedAge }} Years Old
+                             </div>
+                         </div>
                     </div>
 
-                    <div class="glass-panel p-8 lg:p-12 rounded-[32px] flex flex-col md:flex-row justify-between items-center gap-8">
-                        <div>
-                            <h3 class="font-serif text-2xl">The Cortege</h3>
-                            <p class="text-xs text-gray-500 mt-2">Mercedes Limousines (7 Seats)</p>
-                        </div>
-                        <div class="flex items-center gap-6">
-                            <button @click="form.arrange.limos = Math.max(0, form.arrange.limos - 1)" class="w-12 h-12 rounded-full border border-white/10 hover:bg-white hover:text-black transition text-xl">-</button>
-                            <span class="font-mono text-4xl w-12 text-center">{{ form.arrange.limos }}</span>
-                            <button @click="form.arrange.limos = form.arrange.limos + 1" class="w-12 h-12 rounded-full border border-white/10 hover:bg-white hover:text-black transition text-xl">+</button>
+                    <div class="card">
+                        <h2 class="font-serif text-xl mb-6 flex items-center gap-2"><i class="fa-solid fa-location-dot text-gold text-sm"></i> Location</h2>
+                        <div class="field-group">
+                            <label class="field-label">Place of Death</label>
+                            <div class="pill-grid mb-4">
+                                <div @click="data.deceased.locationType = 'Hospital'" class="pill-option" :class="{active: data.deceased.locationType === 'Hospital'}">Hospital</div>
+                                <div @click="data.deceased.locationType = 'Residence'" class="pill-option" :class="{active: data.deceased.locationType === 'Residence'}">Residence</div>
+                                <div @click="data.deceased.locationType = 'Care Home'" class="pill-option" :class="{active: data.deceased.locationType === 'Care Home'}">Care Home</div>
+                            </div>
+                            <input v-model="data.deceased.address" class="field-input" placeholder="Address / Ward Number">
                         </div>
                     </div>
                 </div>
 
-                <div v-else key="finance" class="space-y-12">
-                    <div class="text-center space-y-2 mb-8">
-                        <div class="w-16 h-16 rounded-full bg-gold mx-auto flex items-center justify-center text-black text-2xl mb-4 shadow-glow"><i class="fa-solid fa-check"></i></div>
-                        <h1 class="font-serif text-4xl">Arrangement Review</h1>
+                <div v-else-if="currentStep === 'arrange'" key="arrange" class="space-y-6">
+                    <div class="text-center mb-10">
+                        <h1 class="font-serif text-4xl mb-2">Arrangement</h1>
+                        <p class="text-gray-400 text-sm">Service type and merchandise selection.</p>
                     </div>
 
-                    <div class="glass-panel p-8 lg:p-12 rounded-[32px] relative overflow-hidden">
-                        <div class="absolute top-0 right-0 w-64 h-64 bg-gold opacity-5 blur-[100px] pointer-events-none"></div>
+                    <div class="card">
+                        <h2 class="font-serif text-xl mb-6">Service Type</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div v-for="svc in inventory.services" :key="svc.id" 
+                                 @click="data.arrange.serviceId = svc.id"
+                                 class="border rounded-xl p-6 cursor-pointer hover:border-gold transition-all"
+                                 :class="data.arrange.serviceId === svc.id ? 'border-gold bg-goldlight/20 ring-1 ring-gold' : 'border-gray-200'">
+                                <div class="text-xs font-bold text-gold uppercase mb-2">{{ svc.type }}</div>
+                                <div class="font-serif text-xl mb-1">{{ svc.name }}</div>
+                                <div class="text-sm text-gray-500 mb-4 h-10">{{ svc.desc }}</div>
+                                <div class="font-bold">£{{ svc.price }}</div>
+                            </div>
+                        </div>
+                    </div>
 
-                        <div class="space-y-4">
-                            <div class="flex justify-between items-center py-4 border-b border-white/5">
-                                <span class="text-sm text-gray-400">Professional Fees</span>
-                                <span class="font-mono">£1,200.00</span>
+                    <div class="card">
+                        <h2 class="font-serif text-xl mb-6">Casket Selection</h2>
+                        <div class="pill-grid">
+                            <div v-for="c in inventory.caskets" :key="c.id" 
+                                 @click="data.arrange.casketId = c.id"
+                                 class="pill-option" :class="{active: data.arrange.casketId === c.id}">
+                                <i class="fa-solid fa-box-open"></i>
+                                <div class="font-bold text-sm">{{ c.name }}</div>
+                                <div class="text-xs text-gray-400 mt-1">£{{ c.price }}</div>
                             </div>
-                            <div v-if="selectedService" class="flex justify-between items-center py-4 border-b border-white/5">
-                                <span class="text-sm text-gray-400">{{ selectedService.name }}</span>
-                                <span class="font-mono">£{{ selectedService.price }}</span>
+                        </div>
+                        
+                        <div class="mt-8 pt-6 border-t border-gray-100">
+                             <h3 class="font-serif text-lg mb-4">Dimensions & Safety</h3>
+                             <div class="flex items-center gap-4">
+                                 <label class="flex-1 cursor-pointer border rounded-xl p-3 flex items-center justify-between hover:bg-gray-50 transition">
+                                     <span class="text-sm font-bold text-gray-600">Standard Size</span>
+                                     <input type="radio" v-model="data.deceased.size" value="std" class="accent-gold w-4 h-4">
+                                 </label>
+                                 <label class="flex-1 cursor-pointer border rounded-xl p-3 flex items-center justify-between hover:bg-gray-50 transition" :class="data.deceased.size === 'oversize' ? 'border-red-300 bg-red-50' : ''">
+                                     <span class="text-sm font-bold text-gray-600">Oversize / Heavy</span>
+                                     <input type="radio" v-model="data.deceased.size" value="oversize" class="accent-red-500 w-4 h-4">
+                                 </label>
+                             </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div v-else-if="currentStep === 'logistics'" key="logistics" class="space-y-6">
+                    <div class="text-center mb-10">
+                        <h1 class="font-serif text-4xl mb-2">Operations</h1>
+                        <p class="text-gray-400 text-sm">Fleet and viewing details.</p>
+                    </div>
+
+                    <div class="card">
+                        <h2 class="font-serif text-xl mb-6">Fleet Requirements</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div class="p-6 bg-gray-50 rounded-xl border border-gray-100">
+                                <div class="text-xs font-bold text-gray-400 uppercase mb-2">Hearse Type</div>
+                                <div class="space-y-3">
+                                    <label class="flex items-center justify-between cursor-pointer">
+                                        <span class="font-bold text-sm">Motor Hearse (Black)</span>
+                                        <input type="radio" v-model="data.logistics.hearse" value="motor" class="accent-gold w-4 h-4">
+                                    </label>
+                                    <label class="flex items-center justify-between cursor-pointer">
+                                        <span class="font-bold text-sm">Horse Drawn (+£950)</span>
+                                        <input type="radio" v-model="data.logistics.hearse" value="horse" class="accent-gold w-4 h-4">
+                                    </label>
+                                </div>
                             </div>
-                            <div v-if="form.arrange.limos" class="flex justify-between items-center py-4 border-b border-white/5">
-                                <span class="text-sm text-gray-400">Limousines (x{{ form.arrange.limos }})</span>
-                                <span class="font-mono">£{{ form.arrange.limos * 275 }}</span>
+
+                            <div class="p-6 bg-gray-50 rounded-xl border border-gray-100">
+                                <div class="text-xs font-bold text-gray-400 uppercase mb-4">Limousines (£275 ea)</div>
+                                <div class="flex items-center justify-between">
+                                    <button @click="data.logistics.limos = Math.max(0, data.logistics.limos - 1)" class="w-10 h-10 rounded-lg bg-white shadow-sm flex items-center justify-center hover:bg-gold hover:text-white transition">-</button>
+                                    <span class="font-serif text-3xl">{{ data.logistics.limos }}</span>
+                                    <button @click="data.logistics.limos = data.logistics.limos + 1" class="w-10 h-10 rounded-lg bg-white shadow-sm flex items-center justify-center hover:bg-gold hover:text-white transition">+</button>
+                                </div>
                             </div>
-                            <div v-if="form.clinical.pacemaker" class="flex justify-between items-center py-4 border-b border-white/5">
-                                <span class="text-sm text-red-400">Pacemaker Removal</span>
-                                <span class="font-mono text-red-400">£95.00</span>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h2 class="font-serif text-xl mb-6">Visiting</h2>
+                        <div class="pill-grid mb-6">
+                            <div @click="data.logistics.viewing = 'none'" class="pill-option" :class="{active: data.logistics.viewing === 'none'}">No Viewing</div>
+                            <div @click="data.logistics.viewing = 'closed'" class="pill-option" :class="{active: data.logistics.viewing === 'closed'}">Closed Casket</div>
+                            <div @click="data.logistics.viewing = 'open'" class="pill-option" :class="{active: data.logistics.viewing === 'open'}">Open Chapel</div>
+                        </div>
+                        <div v-if="data.logistics.viewing === 'open'" class="field-group mb-0">
+                            <label class="field-label">Instruction</label>
+                            <input v-model="data.logistics.viewingNote" class="field-input" placeholder="e.g. Own clothes, jewelry to stay on">
+                        </div>
+                    </div>
+                </div>
+
+                <div v-else key="finance" class="space-y-6">
+                    <div class="text-center mb-10">
+                        <h1 class="font-serif text-4xl mb-2">Review</h1>
+                        <p class="text-gray-400 text-sm">Confirm details and generate contract.</p>
+                    </div>
+
+                    <div class="card border-gold/30 shadow-float">
+                        <div class="flex justify-between items-center pb-6 border-b border-gray-100">
+                            <div>
+                                <div class="text-xs font-bold text-gold uppercase tracking-widest mb-1">Total Estimate</div>
+                                <div class="font-serif text-5xl">{{ formattedTotal }}</div>
+                            </div>
+                             <div class="w-12 h-12 rounded-full bg-gold/10 text-gold flex items-center justify-center text-xl">
+                                <i class="fa-solid fa-file-invoice"></i>
                             </div>
                         </div>
 
-                        <div class="mt-12 flex justify-between items-end">
-                            <div>
-                                <div class="text-[10px] uppercase tracking-widest text-gray-500 mb-1">Total Estimate</div>
-                                <div class="font-serif text-5xl text-gold">{{ formattedTotal }}</div>
-                            </div>
-                            <button @click="generateContract" class="px-8 py-3 bg-white text-black rounded-full font-bold hover:bg-gold transition shadow-glow">
-                                Finalize & Print
+                        <div class="py-6 space-y-3">
+                            <div class="flex justify-between text-sm"><span>Professional Fees</span><span class="font-mono">£1,200.00</span></div>
+                            <div v-if="selectedService" class="flex justify-between text-sm"><span>{{ selectedService.name }}</span><span class="font-mono">£{{ selectedService.price }}</span></div>
+                            <div v-if="selectedCasket" class="flex justify-between text-sm"><span>{{ selectedCasket.name }}</span><span class="font-mono">£{{ selectedCasket.price }}</span></div>
+                            <div v-if="data.logistics.limos" class="flex justify-between text-sm"><span>Limousines (x{{ data.logistics.limos }})</span><span class="font-mono">£{{ data.logistics.limos * 275 }}</span></div>
+                            <div v-if="data.logistics.hearse === 'horse'" class="flex justify-between text-sm"><span>Horse Hearse Upgrade</span><span class="font-mono">£950.00</span></div>
+                        </div>
+
+                        <div class="pt-6 border-t border-gray-100">
+                            <button @click="generatePDF" class="w-full py-4 bg-ink text-white rounded-xl font-bold hover:bg-gold transition shadow-lg">
+                                Finalize & Download
                             </button>
                         </div>
                     </div>
@@ -308,105 +333,111 @@
         </div>
     </main>
 
-    <input type="file" ref="logoInput" class="hidden" @change="handleLogo" accept="image/*">
+    <input type="file" ref="logoInput" class="hidden" accept="image/*" @change="handleLogo">
 
 </div>
 
 <script>
-    const { createApp, reactive, computed, ref, watch, onMounted } = Vue;
+    const { createApp, reactive, computed, ref, onMounted, watch } = Vue;
 
     createApp({
         setup() {
-            // STATE
-            const currentStep = ref('identity');
+            const currentStep = ref('intake');
             const logoInput = ref(null);
             
-            const settings = reactive({ logo: null });
-            
-            const form = reactive({
-                deceased: { title: 'Mr', firstName: '', lastName: '', dob: '', dod: '' },
-                legal: { greenForm: false, coroner: false },
-                disposition: 'cremation',
-                clinical: { pacemaker: false, embalming: false },
-                arrange: { serviceId: 'simple', limos: 0 }
+            const steps = [
+                { id: 'intake', label: '1. Intake' },
+                { id: 'arrange', label: '2. Arrange' },
+                { id: 'logistics', label: '3. Operations' },
+                { id: 'finance', label: '4. Review' }
+            ];
+
+            const brand = reactive({ logo: null });
+
+            const data = reactive({
+                intake: { caller: '', relation: 'Son / Daughter', phone: '' },
+                deceased: { title: 'Mr', firstName: '', lastName: '', dob: '', dod: '', locationType: 'Hospital', address: '', size: 'std' },
+                arrange: { serviceId: 'simple', casketId: 'std' },
+                logistics: { hearse: 'motor', limos: 0, viewing: 'none', viewingNote: '' },
+                clinical: { pacemaker: false, embalming: false }
             });
 
             const inventory = {
                 services: [
-                    { id: 'direct', name: 'Direct', price: 1200, desc: 'Unattended cremation. No service.', icon: 'fa-solid fa-fire' },
-                    { id: 'simple', name: 'Simple', price: 2800, desc: 'Chapel service with hearse only.', icon: 'fa-solid fa-church' },
-                    { id: 'trad', name: 'Traditional', price: 3500, desc: 'Full service with viewing & cortege.', icon: 'fa-solid fa-cross' }
+                    { id: 'direct', type: 'Unattended', name: 'Direct Cremation', price: 1200, desc: 'No service. Basic care.' },
+                    { id: 'simple', type: 'Attended', name: 'Simple Service', price: 2800, desc: 'Chapel service. Hearse only.' },
+                    { id: 'trad', type: 'Full Service', name: 'Traditional', price: 3500, desc: 'Full cortege & viewing.' }
+                ],
+                caskets: [
+                    { id: 'std', name: 'Morpeth Oak', price: 0 },
+                    { id: 'willow', name: 'Willow', price: 650 },
+                    { id: 'solid', name: 'Solid Wood', price: 1200 }
                 ]
             };
 
-            const steps = [
-                { id: 'identity', label: 'Identity' },
-                { id: 'logistics', label: 'Logistics' },
-                { id: 'ceremony', label: 'Ceremony' },
-                { id: 'finance', label: 'Finance' }
-            ];
-
             // LOGIC
-            const selectedService = computed(() => inventory.services.find(s => s.id === form.arrange.serviceId));
+            const calculatedAge = computed(() => {
+                if(!data.deceased.dob || !data.deceased.dod) return null;
+                const diff = new Date(data.deceased.dod) - new Date(data.deceased.dob);
+                return Math.floor(diff / (1000 * 60 * 60 * 24 * 365.25));
+            });
 
+            const selectedService = computed(() => inventory.services.find(s => s.id === data.arrange.serviceId));
+            const selectedCasket = computed(() => inventory.caskets.find(c => c.id === data.arrange.casketId));
+            
             const total = computed(() => {
                 let sum = 1200;
                 if(selectedService.value) sum += selectedService.value.price;
-                sum += (form.arrange.limos * 275);
-                if(form.clinical.pacemaker) sum += 95;
+                if(selectedCasket.value) sum += selectedCasket.value.price;
+                sum += (data.logistics.limos * 275);
+                if(data.logistics.hearse === 'horse') sum += 950;
                 return sum;
             });
 
             const formattedTotal = computed(() => new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'GBP' }).format(total.value));
 
-            // ACTIONS
+            // METHODS
             const triggerLogo = () => logoInput.value.click();
-            
             const handleLogo = (e) => {
                 const file = e.target.files[0];
                 if(file) {
                     const reader = new FileReader();
-                    reader.onload = (e) => {
-                        settings.logo = e.target.result;
-                        localStorage.setItem('funeral_logo', e.target.result);
+                    reader.onload = (ev) => {
+                        brand.logo = ev.target.result;
+                        localStorage.setItem('lumina_logo', ev.target.result);
                     };
                     reader.readAsDataURL(file);
                 }
             };
 
-            const generateContract = () => {
+            const generatePDF = () => {
                 const { jsPDF } = window.jspdf;
                 const doc = new jsPDF();
                 
-                doc.setFillColor(5, 5, 5); doc.rect(0,0,210,297,'F'); // Dark Background
-                doc.setTextColor(212, 175, 55); // Gold
-                doc.setFont("times", "italic"); doc.setFontSize(40);
-                doc.text("FuneralOS", 105, 40, { align: "center" });
+                // Light Branding
+                doc.setTextColor(197, 160, 89); doc.setFontSize(22); doc.setFont("times", "italic");
+                doc.text("FuneralMatch Lumina", 15, 20);
                 
-                doc.setTextColor(255,255,255); doc.setFont("helvetica", "normal"); doc.setFontSize(12);
-                doc.text(`Deceased: ${form.deceased.firstName} ${form.deceased.lastName}`, 20, 80);
-                doc.text(`Total: ${formattedTotal.value}`, 20, 100);
+                // Content
+                doc.setTextColor(0,0,0); doc.setFont("helvetica", "normal"); doc.setFontSize(10);
+                doc.text(`Deceased: ${data.deceased.firstName} ${data.deceased.lastName}`, 15, 40);
+                doc.text(`Service: ${selectedService.value.name}`, 15, 50);
                 
-                doc.save("Contract.pdf");
+                doc.setFontSize(14); doc.setFont("helvetica", "bold");
+                doc.text(`Total: ${formattedTotal.value}`, 15, 80);
+                
+                doc.save("Arrangement.pdf");
             };
 
-            // PERSISTENCE
-            watch(form, (newVal) => {
-                localStorage.setItem('funeral_form_data', JSON.stringify(newVal));
-            }, { deep: true });
-
             onMounted(() => {
-                const logo = localStorage.getItem('funeral_logo');
-                if(logo) settings.logo = logo;
-                
-                const savedForm = localStorage.getItem('funeral_form_data');
-                if(savedForm) Object.assign(form, JSON.parse(savedForm));
+                const logo = localStorage.getItem('lumina_logo');
+                if(logo) brand.logo = logo;
             });
 
             return { 
-                currentStep, steps, form, settings, inventory, logoInput,
-                selectedService, formattedTotal,
-                triggerLogo, handleLogo, generateContract
+                currentStep, steps, data, brand, inventory, logoInput,
+                calculatedAge, selectedService, selectedCasket, formattedTotal,
+                triggerLogo, handleLogo, generatePDF 
             };
         }
     }).mount('#app');
