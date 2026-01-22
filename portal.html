@@ -1,199 +1,225 @@
 <!DOCTYPE html>
-<html lang="en-GB">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Director Command | FuneralMatch</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>Growth & Wallet | Funeral Match</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@1,400;1,700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-
-    <style>
-        :root {
-            --gold: #C5A059;
-            --black: #1a1a1a;
-            --soft-bg: #F8F7F5;
-            --glass: rgba(255, 255, 255, 0.9);
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
-        body { font-family: 'Inter', sans-serif; background-color: var(--soft-bg); color: var(--black); }
-        .serif { font-family: 'Bodoni Moda', serif; }
-        
-        /* Sidebar Logic for Desktop */
-        .sidebar { height: 100vh; width: 280px; position: fixed; left: 0; top: 0; background: white; border-right: 1px solid #EEE; padding: 3rem 2rem; z-index: 100; }
-        .main-content { margin-left: 280px; padding: 4rem; min-height: 100vh; }
-
-        @media (max-width: 1024px) {
-            .sidebar { display: none; }
-            .main-content { margin-left: 0; padding: 2rem 1.5rem; }
-        }
-
-        .nav-item { display: flex; align-items: center; gap: 1rem; padding: 1rem; border-radius: 1rem; color: #888; transition: 0.3s; cursor: pointer; margin-bottom: 0.5rem; font-size: 0.85rem; font-weight: 500; }
-        .nav-item.active { background: var(--soft-bg); color: var(--black); font-weight: 700; }
-        .nav-item:hover { color: var(--black); background: var(--soft-bg); }
-
-        .stat-card { background: white; padding: 2.5rem; border-radius: 2rem; border: 1px solid #F0F0F0; transition: 0.4s; }
-        .stat-card:hover { border-color: var(--gold); transform: translateY(-5px); }
-
-        .lead-row { transition: 0.3s; }
-        .lead-row:hover { background: #fafafa; }
-        
-        .btn-gold { background: var(--gold); color: white; padding: 0.8rem 1.5rem; border-radius: 9999px; font-size: 0.65rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; transition: 0.3s; }
-        .btn-gold:hover { opacity: 0.9; transform: scale(1.05); }
-    </style>
-</head>
-<body>
-
-    <aside class="sidebar">
-        <div class="mb-16">
-            <h1 class="serif text-xl font-bold uppercase tracking-widest">Funeral <span class="text-[#C5A059]">Match</span></h1>
-            <p class="text-[9px] uppercase tracking-[0.4em] text-stone-400 mt-2">Director Command</p>
-        </div>
-
-        <nav>
-            <div class="nav-item active">
-                <span>Dashboard</span>
-            </div>
-            <div class="nav-item">
-                <span>Live Marketplace</span>
-            </div>
-            <div class="nav-item">
-                <span>Active Matches</span>
-            </div>
-            <div class="nav-item">
-                <span>Revenue & Billing</span>
-            </div>
-            <div class="nav-item">
-                <span>Firm Profile</span>
-            </div>
-        </nav>
-
-        <div class="absolute bottom-12 left-8 right-8">
-            <div class="p-4 bg-stone-50 rounded-2xl">
-                <p class="text-[10px] font-bold uppercase mb-1">Account Health</p>
-                <div class="w-full bg-stone-200 h-1 rounded-full overflow-hidden">
-                    <div class="bg-green-500 h-full w-[92%]"></div>
-                </div>
-                <p class="text-[9px] text-stone-400 mt-2">92% Compliance Rating</p>
-            </div>
-        </div>
-    </aside>
-
-    <main class="main-content">
-        
-        <header class="flex justify-between items-start mb-16">
-            <div data-aos="fade-right">
-                <h2 class="serif italic text-4xl mb-2">Welcome, Premier Care</h2>
-                <p class="text-xs text-stone-400 font-medium">Relay Active: panchalkrish47@gmail.com</p>
-            </div>
-            <div class="flex gap-4" data-aos="fade-left">
-                <button class="px-6 py-3 bg-white border border-stone-200 rounded-full text-[10px] font-bold uppercase tracking-widest">Support Hub</button>
-                <div class="w-12 h-12 bg-stone-200 rounded-full border-4 border-white shadow-sm"></div>
-            </div>
-        </header>
-
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
-            <div class="stat-card" data-aos="fade-up">
-                <p class="text-[10px] uppercase tracking-widest text-stone-400 mb-4">Marketplace Leads</p>
-                <div class="flex items-baseline gap-2">
-                    <span class="serif text-4xl italic">24</span>
-                    <span class="text-[10px] text-green-500 font-bold">+12%</span>
-                </div>
-            </div>
-            <div class="stat-card" data-aos="fade-up" data-aos-delay="100">
-                <p class="text-[10px] uppercase tracking-widest text-stone-400 mb-4">Conversion Rate</p>
-                <div class="flex items-baseline gap-2">
-                    <span class="serif text-4xl italic">18%</span>
-                </div>
-            </div>
-            <div class="stat-card" data-aos="fade-up" data-aos-delay="200">
-                <p class="text-[10px] uppercase tracking-widest text-stone-400 mb-4">Total Revenue</p>
-                <div class="flex items-baseline gap-2">
-                    <span class="serif text-4xl italic">£8.4k</span>
-                </div>
-            </div>
-            <div class="stat-card border-[#C5A059]" data-aos="fade-up" data-aos-delay="300">
-                <p class="text-[10px] uppercase tracking-widest text-[#C5A059] mb-4">Unclaimed Urgent</p>
-                <div class="flex items-baseline gap-2">
-                    <span class="serif text-4xl italic text-[#C5A059]">03</span>
-                </div>
-            </div>
-        </div>
-
-        <section class="bg-white rounded-[2.5rem] border border-stone-100 shadow-sm overflow-hidden" data-aos="fade-up">
-            <div class="p-10 border-b border-stone-50 flex justify-between items-center">
-                <div>
-                    <h3 class="serif italic text-2xl">Verified Lead Marketplace</h3>
-                    <p class="text-[10px] uppercase tracking-widest text-stone-400 mt-1">Real-time inquiries from your service area</p>
-                </div>
-                <div class="flex gap-2">
-                    <input type="text" placeholder="Filter by Postcode" class="bg-stone-50 border-none rounded-full px-6 py-2 text-xs outline-none">
-                </div>
-            </div>
-
-            <div class="overflow-x-auto">
-                <table class="w-full text-left">
-                    <thead class="bg-stone-50/50 text-[9px] uppercase tracking-[0.2em] text-stone-500">
-                        <tr>
-                            <th class="p-8">Timestamp</th>
-                            <th class="p-8">Case Type</th>
-                            <th class="p-8">Location</th>
-                            <th class="p-8">Inquirer</th>
-                            <th class="p-8">Status</th>
-                            <th class="p-8 text-right">Acquisition</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-stone-50">
-                        <tr class="lead-row">
-                            <td class="p-8 text-xs font-medium">Today, 18:42</td>
-                            <td class="p-8">
-                                <span class="bg-amber-50 text-amber-700 text-[9px] font-bold px-3 py-1 rounded-full uppercase tracking-tighter">Immediate Need</span>
-                            </td>
-                            <td class="p-8 text-xs font-bold">SW1A 1AA</td>
-                            <td class="p-8 text-xs">M. Chambers <span class="text-stone-300 ml-1">(Daughter)</span></td>
-                            <td class="p-8">
-                                <div class="flex items-center gap-2">
-                                    <div class="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></div>
-                                    <span class="text-[10px] font-bold text-stone-400 uppercase tracking-widest">Active</span>
-                                </div>
-                            </td>
-                            <td class="p-8 text-right">
-                                <button class="btn-gold">Claim Lead for £45</button>
-                            </td>
-                        </tr>
-                        <tr class="lead-row">
-                            <td class="p-8 text-xs font-medium">Today, 17:15</td>
-                            <td class="p-8">
-                                <span class="bg-blue-50 text-blue-700 text-[9px] font-bold px-3 py-1 rounded-full uppercase tracking-tighter">Pre-Planning</span>
-                            </td>
-                            <td class="p-8 text-xs font-bold">NW1 6XE</td>
-                            <td class="p-8 text-xs">P. Harrison <span class="text-stone-300 ml-1">(Self)</span></td>
-                            <td class="p-8">
-                                <div class="flex items-center gap-2">
-                                    <div class="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></div>
-                                    <span class="text-[10px] font-bold text-stone-400 uppercase tracking-widest">Active</span>
-                                </div>
-                            </td>
-                            <td class="p-8 text-right">
-                                <button class="btn-gold">Claim Lead for £20</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            
-            <div class="p-8 bg-stone-50/30 text-center">
-                <p class="text-[10px] text-stone-400 uppercase tracking-widest">Director ID: 2917681399450303860 | Logged in as Premier Care</p>
-            </div>
-        </section>
-
-    </main>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
 
     <script>
-        AOS.init({ duration: 1000, once: true });
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { gold: '#C5A059', slate: { 850: '#1e293b' } },
+                    fontFamily: { sans: ['Inter', 'sans-serif'], serif: ['Bodoni Moda', 'serif'] },
+                    borderRadius: { 'pill': '9999px', 'card': '2rem' }
+                }
+            }
+        }
+    </script>
+    <style>
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        [x-cloak] { display: none !important; }
+        
+        /* Funnel Gradient */
+        .funnel-bar {
+            background: linear-gradient(90deg, #1e293b 0%, #334155 100%);
+        }
+    </style>
+</head>
+<body class="bg-[#F8F9FC] text-slate-800 antialiased" x-data="{ walletBalance: 150, boostActive: false }">
+
+    <div class="flex min-h-screen">
+        
+        <aside class="hidden lg:flex flex-col w-72 bg-white border-r border-slate-100 fixed h-full z-20">
+            <div class="p-8">
+                <div class="flex items-center gap-3 mb-10">
+                    <div class="w-8 h-8 bg-slate-900 rounded-full flex items-center justify-center text-white text-xs font-bold">FM</div>
+                    <span class="font-serif font-bold text-lg">Funeral Match</span>
+                </div>
+                <nav class="space-y-1">
+                    <a href="#" class="flex items-center gap-3 px-4 py-3 bg-slate-900 text-white shadow-lg shadow-slate-200 rounded-pill transition-colors text-sm font-medium">
+                        <i data-lucide="wallet" class="w-4 h-4 text-gold"></i> Wallet & Growth
+                    </a>
+                    <a href="#" class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-slate-900 hover:bg-slate-50 rounded-pill transition-colors text-sm font-medium">
+                        <i data-lucide="edit-3" class="w-4 h-4"></i> Profile Editor
+                    </a>
+                    <a href="#" class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-slate-900 hover:bg-slate-50 rounded-pill transition-colors text-sm font-medium">
+                        <i data-lucide="message-square" class="w-4 h-4"></i> Enquiries
+                    </a>
+                </nav>
+            </div>
+            
+            <div class="mt-auto p-6 m-4 bg-slate-50 rounded-[1.5rem] border border-slate-100">
+                <p class="text-[10px] uppercase tracking-widest text-slate-400 font-bold mb-2">"To-Go" Balance</p>
+                <div class="flex justify-between items-end mb-3">
+                    <p class="text-3xl font-serif text-slate-900">£<span x-text="walletBalance"></span></p>
+                    <button @click="walletBalance += 50" class="text-[10px] font-bold text-blue-600 hover:underline">+ Top Up</button>
+                </div>
+                <div class="w-full bg-slate-200 h-1.5 rounded-full overflow-hidden">
+                    <div class="bg-green-500 h-full w-3/4"></div>
+                </div>
+                <p class="text-[10px] text-slate-400 mt-2">Auto-top up: <span class="text-slate-900 font-bold">Off</span></p>
+            </div>
+        </aside>
+
+        <main class="flex-1 lg:ml-72 p-6 lg:p-12 overflow-x-hidden">
+            
+            <header class="mb-10 flex justify-between items-end" data-aos="fade-down">
+                <div>
+                    <h1 class="font-serif italic text-4xl text-slate-900 mb-2">Performance Funnel</h1>
+                    <p class="text-slate-400 text-sm">Track how families move from "Awareness" to "Consideration".</p>
+                </div>
+                <div class="hidden md:flex items-center gap-3 bg-white px-4 py-2 rounded-full border border-slate-100 shadow-sm animate-pulse">
+                    <span class="relative flex h-3 w-3">
+                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                      <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+                    </span>
+                    <p class="text-xs font-bold text-slate-700">2 Families shortlisted you <span class="text-slate-400 font-normal">in the last hour</span></p>
+                </div>
+            </header>
+
+            <div class="grid grid-cols-1 xl:grid-cols-3 gap-8 pb-20">
+                
+                <div class="xl:col-span-2 space-y-6">
+                    
+                    <div class="bg-white rounded-card p-8 border border-slate-100 shadow-sm" data-aos="fade-up">
+                        <div class="flex justify-between items-center mb-8">
+                            <h3 class="font-serif text-xl">Conversion Funnel</h3>
+                            <select class="bg-slate-50 border-none text-xs font-bold rounded-pill px-4 py-2 text-slate-600 focus:ring-0 cursor-pointer">
+                                <option>Last 7 Days</option>
+                                <option>Last 30 Days</option>
+                            </select>
+                        </div>
+
+                        <div class="space-y-8">
+                            
+                            <div class="relative">
+                                <div class="flex justify-between text-xs font-bold uppercase tracking-widest mb-2 text-slate-400">
+                                    <span>Search Impressions</span>
+                                    <span>2,400</span>
+                                </div>
+                                <div class="w-full bg-slate-100 h-3 rounded-full overflow-hidden">
+                                    <div class="funnel-bar h-full w-full rounded-full"></div>
+                                </div>
+                            </div>
+
+                            <div class="relative pl-8 border-l-2 border-slate-100 border-dashed">
+                                <div class="flex justify-between text-xs font-bold uppercase tracking-widest mb-2 text-slate-900">
+                                    <span class="flex items-center gap-2"><i data-lucide="eye" class="w-3 h-3 text-blue-500"></i> Profile Views</span>
+                                    <span>340</span>
+                                </div>
+                                <div class="w-full bg-slate-100 h-3 rounded-full overflow-hidden">
+                                    <div class="bg-blue-500 h-full w-[45%] rounded-full"></div>
+                                </div>
+                                <p class="text-[10px] text-slate-400 mt-1">14% Conversion Rate</p>
+                            </div>
+
+                            <div class="relative pl-8 border-l-2 border-slate-100 border-dashed">
+                                <div class="flex justify-between text-xs font-bold uppercase tracking-widest mb-2 text-gold">
+                                    <span class="flex items-center gap-2"><i data-lucide="bookmark" class="w-3 h-3 fill-gold"></i> Shortlisted / Saved</span>
+                                    <span>24</span>
+                                </div>
+                                <div class="w-full bg-slate-100 h-3 rounded-full overflow-hidden">
+                                    <div class="bg-gold h-full w-[15%] rounded-full"></div>
+                                </div>
+                                <div class="mt-2 flex justify-between items-center bg-amber-50 p-3 rounded-xl">
+                                    <p class="text-[10px] text-amber-800 font-medium">Families are comparing you right now.</p>
+                                    <button class="text-[10px] font-bold text-amber-900 underline decoration-amber-300 decoration-2 underline-offset-2">View Competition</button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4" data-aos="fade-up" data-aos-delay="100">
+                        <div class="bg-slate-900 text-white p-6 rounded-[2rem] relative overflow-hidden">
+                            <i data-lucide="trending-up" class="absolute right-4 top-4 text-white/10 w-16 h-16"></i>
+                            <p class="text-[10px] uppercase tracking-widest opacity-60 font-bold">Search Ranking</p>
+                            <p class="text-3xl font-serif mt-2">#8 <span class="text-sm font-sans font-normal opacity-50">avg</span></p>
+                            <p class="text-xs mt-4 opacity-80">You are visible, but below the fold.</p>
+                        </div>
+                        <div class="bg-white border border-slate-100 p-6 rounded-[2rem]">
+                            <p class="text-[10px] uppercase tracking-widest text-slate-400 font-bold">Missed Connections</p>
+                            <p class="text-3xl font-serif text-slate-900 mt-2">42</p>
+                            <p class="text-xs mt-4 text-slate-500">Families in your area booked a "Recommended" partner.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="space-y-6">
+                    
+                    <div class="bg-white border-2 border-gold/30 rounded-card p-6 relative overflow-hidden shadow-xl" data-aos="fade-left">
+                        <div class="absolute top-0 right-0 bg-gold text-white text-[9px] font-bold px-3 py-1 rounded-bl-xl uppercase tracking-wider">Pay As You Go</div>
+                        
+                        <div class="mb-6">
+                            <h3 class="font-serif text-2xl italic text-slate-900">Spotlight Boost</h3>
+                            <p class="text-xs text-slate-500 mt-1">Instant visibility. No monthly fees.</p>
+                        </div>
+
+                        <div class="space-y-4 mb-6">
+                            <div class="flex justify-between items-center text-sm">
+                                <span class="text-slate-600 font-medium">Duration</span>
+                                <span class="font-bold text-slate-900">7 Days</span>
+                            </div>
+                            <div class="flex justify-between items-center text-sm">
+                                <span class="text-slate-600 font-medium">Target Area</span>
+                                <span class="font-bold text-slate-900">Manchester (+5mi)</span>
+                            </div>
+                            <div class="flex justify-between items-center text-sm pt-4 border-t border-slate-100">
+                                <span class="text-slate-600 font-bold">Cost</span>
+                                <span class="font-serif text-xl text-slate-900">£49.00</span>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100 text-center">
+                            <p class="text-[10px] uppercase tracking-widest text-slate-400 font-bold mb-1">Wallet Balance</p>
+                            <p class="text-lg font-bold text-slate-900" :class="walletBalance < 49 ? 'text-red-600' : 'text-slate-900'">£<span x-text="walletBalance"></span></p>
+                            
+                            <div class="mt-3">
+                                <button x-show="walletBalance >= 49" @click="walletBalance -= 49; boostActive = true" class="w-full py-3 bg-slate-900 text-white rounded-pill text-xs font-bold uppercase hover:bg-slate-800 transition-all active:scale-95 shadow-lg">
+                                    Pay with Wallet
+                                </button>
+                                <button x-show="walletBalance < 49" class="w-full py-3 bg-white border border-slate-200 text-slate-900 rounded-pill text-xs font-bold uppercase hover:bg-slate-50 transition-all">
+                                    Top Up £<span x-text="49 - walletBalance"></span> to Buy
+                                </button>
+                            </div>
+                        </div>
+
+                        <div x-show="boostActive" x-transition class="absolute inset-0 bg-slate-900/95 backdrop-blur-sm flex flex-col items-center justify-center text-white text-center p-6">
+                            <div class="w-12 h-12 rounded-full bg-green-500 flex items-center justify-center mb-4 shadow-lg shadow-green-500/50">
+                                <i data-lucide="check" class="w-6 h-6 text-white"></i>
+                            </div>
+                            <h4 class="font-serif text-xl mb-1">Boost Active!</h4>
+                            <p class="text-xs text-white/70">Your profile is now #2 in Manchester results.</p>
+                            <button @click="boostActive = false" class="mt-6 text-[10px] uppercase tracking-widest font-bold border-b border-white/30 pb-1">Close</button>
+                        </div>
+                    </div>
+
+                    <div class="p-6 rounded-[2rem] border border-slate-100 opacity-60 hover:opacity-100 transition-opacity cursor-pointer">
+                        <div class="flex justify-between items-center mb-2">
+                            <p class="text-[10px] uppercase tracking-widest font-bold text-slate-400">Monthly Plan</p>
+                            <span class="text-[10px] font-bold bg-slate-100 px-2 py-1 rounded-full text-slate-500">Inactive</span>
+                        </div>
+                        <h4 class="font-serif text-lg text-slate-900">Enable Professional Tools</h4>
+                        <p class="text-xs text-slate-500 mt-2 mb-4">Get verified badges and detailed analytics.</p>
+                        <span class="text-xs font-bold text-slate-900 underline decoration-slate-300 underline-offset-4">View Subscriptions</span>
+                    </div>
+
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        lucide.createIcons();
+        AOS.init({ duration: 800, easing: 'ease-out-cubic', once: true, offset: 50 });
     </script>
 </body>
 </html>
