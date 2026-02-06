@@ -2,66 +2,222 @@
 <html lang="en-GB">
 <head>
     <meta charset="UTF-8">
-    <title>Simple Farewell | Direct Cremation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Direct Cremation | FuneralMatch</title>
+    
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@1,400;1,700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
     <style>
-        :root { --gold: #C5A059; --soft-bg: #F8F7F5; }
-        body { font-family: 'Inter', sans-serif; background: var(--soft-bg); }
+        /* SYSTEM TOKENS */
+        :root {
+            --gold-primary: #B08D55;
+            --gold-subtle: #F0EAE0;
+            --obsidian: #1A1A1A;
+            --stone-50: #FAFAF9;
+            --stone-100: #F5F5F4;
+            --stone-200: #E7E5E4;
+            --border-light: rgba(0,0,0,0.06);
+        }
+
+        body { font-family: 'Manrope', sans-serif; background: var(--stone-50); color: var(--obsidian); }
         .serif { font-family: 'Bodoni Moda', serif; }
-        .simple-card { background: white; border-radius: 2rem; padding: 3rem; border: 1px solid #eee; text-align: center; transition: 0.3s; }
-        .simple-card:hover { border-color: var(--gold); transform: translateY(-5px); }
+
+        /* Component: Card */
+        .panel {
+            background: white; border: 1px solid var(--border-light);
+            border-radius: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+            transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+            position: relative; overflow: hidden;
+        }
+        .panel:hover { 
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.05); 
+            border-color: rgba(176, 141, 85, 0.3); 
+        }
+
+        /* Component: Watermark */
+        .watermark {
+            position: fixed; top: 10%; left: 50%; transform: translateX(-50%);
+            font-size: 40vw; font-family: 'Bodoni Moda'; opacity: 0.015; 
+            color: var(--obsidian); pointer-events: none; z-index: 0; line-height: 1;
+        }
+
+        /* Feature List Styling */
+        .feature-item { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px; font-size: 0.85rem; color: #57534E; }
+        .feature-icon { 
+            color: var(--gold-primary); flex-shrink: 0; margin-top: 2px; 
+            background: var(--gold-subtle); border-radius: 50%; padding: 2px;
+        }
+
+        /* Badge */
+        .badge-pill {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 6px 16px; border-radius: 99px;
+            font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
+        }
+        
+        .most-popular-flag {
+            position: absolute; top: 0; left: 0; right: 0; height: 6px;
+            background: var(--gold-primary);
+        }
     </style>
 </head>
-<body class="py-24 px-8">
+<body class="flex flex-col min-h-screen">
 
-    <main class="max-w-5xl mx-auto">
-        <header class="text-center mb-20">
-            <span class="text-[10px] uppercase font-bold tracking-[0.4em] text-stone-400">The Simple Option</span>
-            <h1 class="serif italic text-6xl mt-4 mb-6">Direct Cremation.</h1>
-            <p class="max-w-lg mx-auto text-stone-500 text-sm">A dignified cremation without a ceremony. Ashes returned to you personally. The lowest cost, highest dignity solution.</p>
-        </header>
+    <div class="watermark">D</div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-            <div class="simple-card">
-                <h3 class="serif text-2xl mb-2">Essential</h3>
-                <p class="text-3xl font-bold text-[#C5A059] mb-6">£995</p>
-                <ul class="text-[10px] uppercase font-bold text-stone-400 space-y-3 mb-8 text-left pl-8">
-                    <li>✓ Collection from Hospital</li>
-                    <li>✓ Standard Coffin</li>
-                    <li>✓ Ashes Scattered at Garden</li>
-                </ul>
-                <button class="w-full py-3 bg-stone-100 rounded-full text-[10px] font-bold uppercase">Select Essential</button>
+    <header class="bg-white/80 backdrop-blur sticky top-0 z-40 border-b border-stone-200">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 bg-[#1A1A1A] text-white rounded flex items-center justify-center font-serif text-lg">F</div>
+                <span class="serif font-bold text-lg tracking-tight">Funeral<span class="text-[#B08D55]">Match</span></span>
+            </div>
+            
+            <nav class="hidden md:flex gap-8 text-sm font-medium text-stone-600">
+                <a href="#" class="hover:text-black transition">How it Works</a>
+                <a href="#" class="hover:text-black transition">Pricing</a>
+                <a href="#" class="hover:text-black transition">Reviews</a>
+            </nav>
+
+            <div class="flex gap-4">
+                <div class="hidden md:flex flex-col items-end mr-2">
+                    <span class="text-[10px] uppercase font-bold text-stone-400">24/7 Support</span>
+                    <span class="font-serif font-bold text-[#B08D55]">0800 111 222</span>
+                </div>
+                <button class="bg-stone-100 hover:bg-stone-200 px-5 py-2 rounded-lg text-xs font-bold transition">Sign In</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow relative z-10 py-20 px-6">
+        
+        <div class="max-w-4xl mx-auto text-center mb-20" data-aos="fade-up">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-stone-100 border border-stone-200 mb-6">
+                <span class="w-1.5 h-1.5 rounded-full bg-[#B08D55]"></span>
+                <span class="text-[10px] font-bold uppercase tracking-widest text-stone-500">The Simple Option</span>
+            </div>
+            <h1 class="serif italic text-5xl md:text-7xl mb-6 text-[#1A1A1A]">Direct Cremation.</h1>
+            <p class="text-stone-500 text-lg max-w-xl mx-auto leading-relaxed">
+                A dignified cremation without a ceremony. We care for your loved one, perform the cremation privately, and return the ashes to you personally.
+            </p>
+        </div>
+
+        <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 items-start mb-24">
+            
+            <div class="panel p-8" data-aos="fade-up" data-aos-delay="100">
+                <h3 class="serif text-2xl mb-1">Essential</h3>
+                <p class="text-xs text-stone-400 mb-6">Simplicity & Dignity.</p>
+                <div class="mb-8">
+                    <span class="text-4xl font-serif font-bold text-[#1A1A1A]">£995</span>
+                    <span class="text-stone-400 text-sm">/ total</span>
+                </div>
+                
+                <div class="space-y-3 mb-8 min-h-[160px]">
+                    <div class="feature-item"><i data-lucide="check" width="12" class="feature-icon"></i> <span>Collection from Hospital</span></div>
+                    <div class="feature-item"><i data-lucide="check" width="12" class="feature-icon"></i> <span>Simple Coffin provided</span></div>
+                    <div class="feature-item"><i data-lucide="check" width="12" class="feature-icon"></i> <span>Dignified private cremation</span></div>
+                    <div class="feature-item"><i data-lucide="check" width="12" class="feature-icon"></i> <span>Ashes scattered in Garden of Remembrance</span></div>
+                </div>
+
+                <button class="w-full py-4 border border-stone-200 rounded-xl text-xs font-bold uppercase tracking-wider hover:bg-[#1A1A1A] hover:text-white hover:border-[#1A1A1A] transition">
+                    Select Essential
+                </button>
             </div>
 
-            <div class="simple-card border-[#C5A059] relative shadow-xl">
-                <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#C5A059] text-white px-4 py-1 rounded-full text-[9px] font-bold uppercase">Most Chosen</div>
-                <h3 class="serif text-2xl mb-2">Return</h3>
-                <p class="text-3xl font-bold text-[#C5A059] mb-6">£1,250</p>
-                <ul class="text-[10px] uppercase font-bold text-stone-500 space-y-3 mb-8 text-left pl-8">
-                    <li>✓ Collection from Anywhere</li>
-                    <li>✓ Doctor's Fees Included</li>
-                    <li>✓ Ashes Hand-Delivered</li>
-                </ul>
-                <button class="w-full py-3 bg-black text-white rounded-full text-[10px] font-bold uppercase">Select Return</button>
+            <div class="panel p-8 border-[#B08D55] shadow-xl relative transform md:-translate-y-4" data-aos="fade-up" data-aos-delay="200">
+                <div class="most-popular-flag"></div>
+                <div class="absolute top-4 right-4 bg-[#B08D55] text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">Most Chosen</div>
+                
+                <h3 class="serif text-2xl mb-1">Return</h3>
+                <p class="text-xs text-stone-400 mb-6">Ashes returned home.</p>
+                <div class="mb-8">
+                    <span class="text-5xl font-serif font-bold text-[#B08D55]">£1,250</span>
+                    <span class="text-stone-400 text-sm">/ total</span>
+                </div>
+                
+                <div class="space-y-3 mb-8 min-h-[160px]">
+                    <div class="feature-item"><i data-lucide="check" width="12" class="feature-icon bg-[#B08D55] text-white"></i> <span class="font-bold text-black">Collection from Anywhere (24/7)</span></div>
+                    <div class="feature-item"><i data-lucide="check" width="12" class="feature-icon bg-[#B08D55] text-white"></i> <span class="font-bold text-black">Ashes Hand-Delivered to you</span></div>
+                    <div class="feature-item"><i data-lucide="check" width="12" class="feature-icon"></i> <span>Doctor's Fees Included</span></div>
+                    <div class="feature-item"><i data-lucide="check" width="12" class="feature-icon"></i> <span>Simple Coffin provided</span></div>
+                    <div class="feature-item"><i data-lucide="check" width="12" class="feature-icon"></i> <span>Dignified private cremation</span></div>
+                </div>
+
+                <button class="w-full py-4 bg-[#1A1A1A] text-white rounded-xl text-xs font-bold uppercase tracking-wider hover:bg-[#B08D55] transition shadow-lg">
+                    Select Return
+                </button>
+                <p class="text-center text-[10px] text-stone-400 mt-3">Pay in 3 interest-free instalments</p>
             </div>
 
-            <div class="simple-card">
-                <h3 class="serif text-2xl mb-2">Freedom</h3>
-                <p class="text-3xl font-bold text-[#C5A059] mb-6">£1,600</p>
-                <ul class="text-[10px] uppercase font-bold text-stone-400 space-y-3 mb-8 text-left pl-8">
-                    <li>✓ Pick Your Date</li>
-                    <li>✓ Witness the Committal</li>
-                    <li>✓ Premium Urn Included</li>
-                </ul>
-                <button class="w-full py-3 bg-stone-100 rounded-full text-[10px] font-bold uppercase">Select Freedom</button>
+            <div class="panel p-8" data-aos="fade-up" data-aos-delay="300">
+                <h3 class="serif text-2xl mb-1">Freedom</h3>
+                <p class="text-xs text-stone-400 mb-6">Witness the farewell.</p>
+                <div class="mb-8">
+                    <span class="text-4xl font-serif font-bold text-[#1A1A1A]">£1,600</span>
+                    <span class="text-stone-400 text-sm">/ total</span>
+                </div>
+                
+                <div class="space-y-3 mb-8 min-h-[160px]">
+                    <div class="feature-item"><i data-lucide="check" width="12" class="feature-icon"></i> <span class="font-bold">Attend the Committal (15 mins)</span></div>
+                    <div class="feature-item"><i data-lucide="check" width="12" class="feature-icon"></i> <span>Choose Date & Time</span></div>
+                    <div class="feature-item"><i data-lucide="check" width="12" class="feature-icon"></i> <span>Premium Urn Included</span></div>
+                    <div class="feature-item"><i data-lucide="check" width="12" class="feature-icon"></i> <span>Collection from Anywhere</span></div>
+                    <div class="feature-item"><i data-lucide="check" width="12" class="feature-icon"></i> <span>Ashes Hand-Delivered</span></div>
+                </div>
+
+                <button class="w-full py-4 border border-stone-200 rounded-xl text-xs font-bold uppercase tracking-wider hover:bg-[#1A1A1A] hover:text-white hover:border-[#1A1A1A] transition">
+                    Select Freedom
+                </button>
+            </div>
+
+        </div>
+
+        <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6" data-aos="fade-up">
+            <div class="panel p-8 flex gap-5">
+                <div class="w-12 h-12 rounded-full bg-stone-100 flex items-center justify-center text-[#B08D55] shrink-0">
+                    <i data-lucide="shield-check" width="24"></i>
+                </div>
+                <div>
+                    <h4 class="font-serif font-bold text-lg mb-2">Our Guarantee</h4>
+                    <p class="text-sm text-stone-500 leading-relaxed">We own our own mortuaries and use rigorous identification protocols. Your loved one never leaves our care until the ashes are returned.</p>
+                </div>
+            </div>
+            
+            <div class="panel p-8 flex gap-5">
+                <div class="w-12 h-12 rounded-full bg-stone-100 flex items-center justify-center text-[#B08D55] shrink-0">
+                    <i data-lucide="help-circle" width="24"></i>
+                </div>
+                <div>
+                    <h4 class="font-serif font-bold text-lg mb-2">Not sure?</h4>
+                    <p class="text-sm text-stone-500 leading-relaxed mb-3">If you would prefer a traditional service with a hearse and ceremony, compare local directors instead.</p>
+                    <a href="#" class="text-xs font-bold uppercase border-b border-[#B08D55] text-[#B08D55] hover:text-black hover:border-black transition">Compare Full Services</a>
+                </div>
             </div>
         </div>
 
-        <div class="text-center">
-            <p class="text-xs text-stone-400 mb-4">Looking for a full service instead?</p>
-            <a href="#" class="text-[10px] font-bold uppercase border-b border-black">Go to Main Search</a>
-        </div>
     </main>
+
+    <footer class="bg-[#1A1A1A] text-stone-400 py-12 px-6 relative z-10 border-t-4 border-[#B08D55]">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+            <div>
+                <span class="serif font-bold text-xl text-white tracking-tight">Funeral<span class="text-[#B08D55]">Match</span></span>
+                <p class="text-xs mt-2 opacity-60">&copy; 2026 FuneralMatch Ltd. Regulated Standards.</p>
+            </div>
+            <div class="flex gap-6 text-xs font-bold uppercase tracking-wider">
+                <a href="#" class="hover:text-white">Privacy</a>
+                <a href="#" class="hover:text-white">Terms</a>
+                <a href="#" class="hover:text-white">Cookies</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        AOS.init({ duration: 800, once: true });
+        lucide.createIcons();
+    </script>
 </body>
 </html>
