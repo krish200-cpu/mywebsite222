@@ -2,161 +2,327 @@
 <html lang="en-GB">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Command Center | FuneralMatch Platform</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Arrangement Console | FuneralMatch</title>
+    
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@1,400;1,700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,600;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
     <style>
-        :root { --gold: #C5A059; --black: #1a1a1a; --soft-bg: #F3F4F6; }
-        body { font-family: 'Inter', sans-serif; background: var(--soft-bg); color: var(--black); }
-        .serif { font-family: 'Bodoni Moda', serif; }
-        
-        .nav-item { display: flex; align-items: center; gap: 12px; padding: 12px 20px; border-radius: 12px; color: #6B7280; font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: 0.3s; }
-        .nav-item:hover, .nav-item.active { background: white; color: black; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
-        .nav-icon { font-size: 1.2rem; }
-        
-        .dash-card { background: white; border-radius: 1.5rem; padding: 1.5rem; border: 1px solid #E5E7EB; height: 100%; }
-        .status-pill { padding: 4px 12px; border-radius: 99px; font-size: 0.65rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; }
-        .status-pending { background: #FEF3C7; color: #D97706; }
-        .status-complete { background: #D1FAE5; color: #059669; }
+        /* =========================================
+         * 1. DESIGN TOKENS (Calm Authority)
+         * ========================================= */
+        :root {
+            --gold: #B08D55;
+            --gold-light: #F3EFE9;
+            --charcoal: #1F1F1F;
+            --stone: #F9F8F6;
+            --white: #FFFFFF;
+            --border-soft: rgba(0,0,0,0.06);
+            --shadow-soft: 0 4px 20px rgba(0,0,0,0.03);
+            --shadow-hover: 0 10px 30px rgba(0,0,0,0.06);
+            --curve: 1.25rem;
+        }
 
-        .marketplace-thumb { width: 100%; height: 120px; background: #f0f0f0; border-radius: 1rem; object-fit: cover; margin-bottom: 1rem; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--stone);
+            color: var(--charcoal);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .serif { font-family: 'Bodoni Moda', serif; }
+
+        /* =========================================
+         * 2. SUBTLE BRAND WATERMARK
+         * ========================================= */
+        .brand-watermark {
+            position: fixed;
+            bottom: -5%;
+            right: -5%;
+            width: 40vw;
+            height: 40vw;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50' y='80' font-family='Bodoni Moda' font-size='120' fill='%23B08D55' opacity='0.03'%3EF%3C/text%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* =========================================
+         * 3. COMPONENT ARCHITECTURE
+         * ========================================= */
+        .nav-item {
+            display: flex; align-items: center; gap: 14px;
+            padding: 12px 16px; border-radius: 12px;
+            color: #64748B; font-size: 0.9rem; font-weight: 500;
+            transition: all 0.2s ease; cursor: pointer;
+        }
+        .nav-item:hover { background: rgba(255,255,255,0.5); color: var(--charcoal); }
+        .nav-item.active { background: var(--white); color: var(--charcoal); box-shadow: var(--shadow-soft); font-weight: 600; }
+        .nav-item.active i { color: var(--gold); }
+
+        .dash-card {
+            background: var(--white); border-radius: var(--curve);
+            padding: 1.5rem; border: 1px solid var(--border-soft);
+            box-shadow: var(--shadow-soft); transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+            position: relative; z-index: 10; height: 100%; display: flex; flex-direction: column;
+        }
+        .dash-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-hover); border-color: rgba(176, 141, 85, 0.3); }
+
+        .progress-ring { width: 100%; height: 6px; background: #F1F5F9; border-radius: 99px; overflow: hidden; margin-top: 1rem; }
+        .progress-fill { height: 100%; background: var(--gold); border-radius: 99px; width: 65%; }
+
+        .status-badge {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 4px 10px; border-radius: 20px;
+            font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
+        }
+        .badge-amber { background: #FFFBEB; color: #B45309; border: 1px solid #FEF3C7; }
+        .badge-green { background: #ECFDF5; color: #047857; border: 1px solid #D1FAE5; }
+
+        /* Mobile Optimization */
+        @media (max-width: 768px) {
+            .mobile-nav-bottom {
+                position: fixed; bottom: 0; left: 0; right: 0;
+                background: white; border-top: 1px solid var(--border-soft);
+                display: flex; justify-content: space-around; padding: 12px;
+                z-index: 50; box-shadow: 0 -4px 20px rgba(0,0,0,0.05);
+            }
+            .mobile-hide { display: none; }
+            .mobile-pad-bottom { padding-bottom: 100px; }
+        }
     </style>
 </head>
-<body class="flex h-screen overflow-hidden">
+<body class="h-screen flex overflow-hidden">
 
-    <aside class="w-64 bg-[#F9FAFB] border-r border-gray-200 p-6 flex flex-col justify-between hidden md:flex">
+    <div class="brand-watermark"></div>
+
+    <aside class="w-72 bg-[#FBFBFD] border-r border-gray-100 p-8 flex flex-col justify-between hidden md:flex z-20">
         <div>
-            <div class="mb-10 pl-2">
-                <span class="serif italic text-2xl font-bold">Funeral<span class="text-[#C5A059]">Match</span></span>
+            <div class="mb-12 flex items-center gap-3">
+                <div class="w-8 h-8 bg-black text-white rounded-full flex items-center justify-center font-serif italic font-bold">F</div>
+                <span class="serif font-semibold text-xl tracking-tight">Funeral<span class="text-[#B08D55]">Match</span></span>
             </div>
             
             <nav class="space-y-2">
                 <div class="nav-item active">
-                    <span class="nav-icon">📊</span> Overview
+                    <i data-lucide="layout-dashboard" width="18"></i> Dashboard
                 </div>
                 <div class="nav-item">
-                    <span class="nav-icon">📋</span> The Plan
+                    <i data-lucide="list-checks" width="18"></i> The Plan
+                    <span class="ml-auto text-[10px] bg-red-100 text-red-700 px-2 py-0.5 rounded-full font-bold">2</span>
                 </div>
                 <div class="nav-item">
-                    <span class="nav-icon">💰</span> Finances
+                    <i data-lucide="wallet" width="18"></i> Finances
                 </div>
                 <div class="nav-item">
-                    <span class="nav-icon">👥</span> Guest List
+                    <i data-lucide="users" width="18"></i> Guest List
                 </div>
                 <div class="nav-item">
-                    <span class="nav-icon">🛍️</span> Marketplace
+                    <i data-lucide="store" width="18"></i> Marketplace
                 </div>
                 <div class="nav-item">
-                    <span class="nav-icon">⚖️</span> Legal Docs
+                    <i data-lucide="file-text" width="18"></i> Documents
                 </div>
             </nav>
         </div>
 
-        <div class="bg-black text-white p-4 rounded-2xl text-center">
-            <p class="text-[9px] uppercase font-bold text-stone-400 mb-2">Director On Call</p>
-            <div class="w-10 h-10 bg-[#C5A059] rounded-full mx-auto mb-2 flex items-center justify-center font-bold">JD</div>
-            <p class="text-xs font-bold">John Doe</p>
-            <button class="w-full mt-3 py-2 bg-white/10 rounded-lg text-[9px] font-bold uppercase hover:bg-white/20">Chat Now</button>
+        <div class="bg-white border border-gray-100 p-4 rounded-2xl shadow-sm">
+            <div class="flex items-center gap-3 mb-3">
+                <div class="w-10 h-10 rounded-full bg-[#B08D55] text-white flex items-center justify-center font-serif italic text-lg">JD</div>
+                <div>
+                    <p class="text-[10px] uppercase font-bold text-gray-400 tracking-wider">Your Director</p>
+                    <p class="text-sm font-bold">John Doe</p>
+                </div>
+            </div>
+            <button class="w-full py-2.5 bg-black text-white rounded-lg text-xs font-bold hover:bg-gray-800 transition">
+                Message Director
+            </button>
         </div>
     </aside>
 
-    <main class="flex-1 overflow-y-auto p-8">
+    <main class="flex-1 overflow-y-auto mobile-pad-bottom relative z-10">
         
-        <header class="flex justify-between items-end mb-10">
-            <div>
-                <span class="text-[10px] uppercase font-bold tracking-widest text-stone-400">Project Dashboard</span>
-                <h1 class="serif italic text-4xl mt-2">Arrangement for Eleanor</h1>
-            </div>
-            <div class="flex gap-4">
-                <button class="bg-white border border-gray-200 px-6 py-3 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-gray-50">Share Access</button>
-                <button class="bg-[#C5A059] text-white px-6 py-3 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-[#b08d4b]">+ Add Item</button>
-            </div>
-        </header>
-
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
-            <div class="dash-card flex flex-col justify-between">
-                <div>
-                    <p class="text-[10px] uppercase font-bold text-stone-400 mb-1">Total Estimated Cost</p>
-                    <h3 class="text-3xl font-bold">£3,450</h3>
-                </div>
-                <div class="w-full bg-gray-100 h-2 rounded-full mt-4">
-                    <div class="bg-green-500 h-2 rounded-full w-[40%]"></div>
-                </div>
-                <p class="text-[9px] text-stone-400 mt-2">£1,450 Paid (Crowdfund)</p>
-            </div>
-
-            <div class="dash-card">
-                <p class="text-[10px] uppercase font-bold text-stone-400 mb-1">Time to Service</p>
-                <h3 class="text-3xl font-bold text-[#C5A059]">4 Days</h3>
-                <p class="text-xs font-bold mt-2">Friday, 24th Jan</p>
-                <span class="status-pill status-pending mt-3 inline-block">Director Confirming</span>
-            </div>
-
-            <div class="dash-card">
-                <p class="text-[10px] uppercase font-bold text-stone-400 mb-1">Guest List</p>
-                <h3 class="text-3xl font-bold">42</h3>
-                <p class="text-xs text-stone-400 mt-2">Confirmed via RSVP</p>
-                <button class="text-[9px] font-bold uppercase border-b border-black mt-3">Manage List</button>
-            </div>
-
-            <div class="dash-card bg-black text-white border-black">
-                <p class="text-[10px] uppercase font-bold text-stone-400 mb-1">Action Required</p>
-                <h3 class="text-xl font-bold mb-4">Upload Green Form</h3>
-                <p class="text-[10px] text-stone-400 mb-4">Director needs this to proceed.</p>
-                <button class="w-full py-2 bg-[#C5A059] rounded-lg text-[9px] font-bold uppercase text-black">Upload Now</button>
+        <div class="md:hidden flex justify-between items-center p-6 bg-white/80 backdrop-blur border-b border-gray-100 sticky top-0 z-40">
+            <span class="serif font-bold text-lg">Funeral<span class="text-[#B08D55]">Match</span></span>
+            <div class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center">
+                <i data-lucide="bell" width="16" class="text-gray-600"></i>
             </div>
         </div>
 
-        <section>
-            <div class="flex justify-between items-center mb-6">
-                <h2 class="serif italic text-2xl">Complete the Arrangement</h2>
-                <a href="#" class="text-[10px] font-bold uppercase text-[#C5A059]">Visit Marketplace -></a>
+        <div class="p-6 md:p-10 max-w-7xl mx-auto">
+            
+            <header class="flex flex-col md:flex-row md:justify-between md:items-end mb-10 gap-6">
+                <div data-aos="fade-up">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="status-badge badge-amber">Arrangement In Progress</span>
+                        <span class="text-xs text-gray-400 font-medium">Ref: #FM-8292</span>
+                    </div>
+                    <h1 class="serif italic text-3xl md:text-5xl text-gray-900 leading-tight">
+                        Arranging for <br><span class="not-italic text-[#B08D55]">Eleanor Rigby</span>
+                    </h1>
+                </div>
+                <div class="flex gap-3" data-aos="fade-up" data-aos-delay="100">
+                    <button class="bg-white border border-gray-200 px-5 py-3 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-gray-50 flex items-center gap-2 shadow-sm">
+                        <i data-lucide="share-2" width="14"></i> Share
+                    </button>
+                    <button class="bg-[#B08D55] text-white px-6 py-3 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-[#9A7B48] shadow-lg shadow-[#B08D55]/20 flex items-center gap-2 transition transform hover:-translate-y-0.5">
+                        <i data-lucide="plus" width="14"></i> Add Service
+                    </button>
+                </div>
+            </header>
+
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-6 mb-10">
+                
+                <div class="dash-card border-l-4 border-l-[#B08D55]" data-aos="fade-up" data-aos-delay="100">
+                    <div class="flex justify-between items-start">
+                        <p class="text-[10px] uppercase font-bold text-gray-400">Service Date</p>
+                        <i data-lucide="calendar-clock" class="text-[#B08D55]" width="20"></i>
+                    </div>
+                    <div class="mt-4">
+                        <h3 class="text-3xl font-bold text-gray-900">4 Days</h3>
+                        <p class="text-xs font-medium text-gray-500 mt-1">Friday, 24th Jan • 11:00 AM</p>
+                    </div>
+                </div>
+
+                <div class="dash-card" data-aos="fade-up" data-aos-delay="150">
+                    <div class="flex justify-between items-start">
+                        <p class="text-[10px] uppercase font-bold text-gray-400">Total Estimate</p>
+                        <i data-lucide="pound-sterling" class="text-gray-300" width="20"></i>
+                    </div>
+                    <div class="mt-auto">
+                        <h3 class="text-2xl font-bold">£3,450</h3>
+                        <div class="progress-ring">
+                            <div class="progress-fill" style="width: 45%;"></div>
+                        </div>
+                        <p class="text-[10px] text-gray-400 mt-2 flex justify-between">
+                            <span>£1,450 Paid</span>
+                            <span class="text-[#B08D55]">45%</span>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="dash-card bg-[#1F1F1F] text-white border-none" data-aos="fade-up" data-aos-delay="200">
+                    <div class="flex items-center gap-2 mb-4">
+                        <div class="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
+                        <p class="text-[10px] uppercase font-bold text-gray-400">Action Required</p>
+                    </div>
+                    <h3 class="text-lg font-bold mb-1">Upload Green Form</h3>
+                    <p class="text-[11px] text-gray-400 mb-4 leading-relaxed">The Registrar's certificate is needed to confirm the booking.</p>
+                    <button class="w-full py-2 bg-[#B08D55] rounded-lg text-[10px] font-bold uppercase text-black hover:bg-white transition">
+                        Upload Document
+                    </button>
+                </div>
+
+                 <div class="dash-card" data-aos="fade-up" data-aos-delay="250">
+                    <div class="flex justify-between items-start">
+                        <p class="text-[10px] uppercase font-bold text-gray-400">Attendance</p>
+                        <i data-lucide="users" class="text-gray-300" width="20"></i>
+                    </div>
+                    <div class="mt-4">
+                        <h3 class="text-3xl font-bold">42</h3>
+                        <p class="text-xs text-gray-500 mt-1">RSVPs Confirmed</p>
+                        <a href="#" class="inline-block mt-3 text-[10px] font-bold uppercase border-b border-gray-300 hover:border-[#B08D55] hover:text-[#B08D55] transition">View Guest List</a>
+                    </div>
+                </div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="dash-card group cursor-pointer hover:border-[#C5A059]">
-                    <img src="https://images.unsplash.com/photo-1596068586938-1b6e1590209f?q=80&w=1000&auto=format&fit=crop" class="marketplace-thumb">
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <h4 class="font-bold text-sm">Floral Tributes</h4>
-                            <p class="text-[10px] text-stone-400">Coffin sprays & wreaths</p>
-                        </div>
-                        <span class="text-xs font-bold text-[#C5A059]">+£120</span>
+            <section class="mb-20">
+                <div class="flex justify-between items-end mb-6" data-aos="fade-up">
+                    <div>
+                        <h2 class="serif text-xl md:text-2xl font-semibold mb-1">Personalise the Service</h2>
+                        <p class="text-xs text-gray-500">Recommended additions based on your plan.</p>
                     </div>
+                    <a href="#" class="text-[11px] font-bold uppercase text-[#B08D55] flex items-center gap-1 hover:gap-2 transition-all">
+                        Browse Store <i data-lucide="arrow-right" width="12"></i>
+                    </a>
                 </div>
 
-                <div class="dash-card group cursor-pointer hover:border-[#C5A059]">
-                    <img src="https://images.unsplash.com/photo-1516962215378-7fa2e137ae93?q=80&w=1000&auto=format&fit=crop" class="marketplace-thumb">
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <h4 class="font-bold text-sm">Order of Service</h4>
-                            <p class="text-[10px] text-stone-400">50x Printed Booklets</p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="dash-card p-0 overflow-hidden group cursor-pointer border-transparent hover:border-[#B08D55]" data-aos="fade-up">
+                        <div class="h-32 bg-gray-100 relative overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1596068586938-1b6e1590209f?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover transition duration-700 group-hover:scale-110">
+                            <div class="absolute top-3 right-3 bg-white/90 backdrop-blur px-2 py-1 rounded text-[10px] font-bold">+£120</div>
                         </div>
-                        <span class="text-xs font-bold text-[#C5A059]">+£85</span>
+                        <div class="p-5">
+                            <h4 class="font-bold text-sm mb-1">Floral Tributes</h4>
+                            <p class="text-xs text-gray-500 mb-3 line-clamp-2">Seasonal white lily coffin spray with personalized ribbon.</p>
+                            <button class="w-full py-2 border border-gray-200 rounded-lg text-[10px] font-bold uppercase hover:bg-black hover:text-white transition">Add to Plan</button>
+                        </div>
+                    </div>
+
+                    <div class="dash-card p-0 overflow-hidden group cursor-pointer border-transparent hover:border-[#B08D55]" data-aos="fade-up" data-aos-delay="100">
+                        <div class="h-32 bg-gray-100 relative overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1516962215378-7fa2e137ae93?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover transition duration-700 group-hover:scale-110">
+                            <div class="absolute top-3 right-3 bg-white/90 backdrop-blur px-2 py-1 rounded text-[10px] font-bold">+£85</div>
+                        </div>
+                        <div class="p-5">
+                            <h4 class="font-bold text-sm mb-1">Order of Service</h4>
+                            <p class="text-xs text-gray-500 mb-3 line-clamp-2">50x Printed luxury booklets on cream cardstock.</p>
+                            <button class="w-full py-2 border border-gray-200 rounded-lg text-[10px] font-bold uppercase hover:bg-black hover:text-white transition">Design Now</button>
+                        </div>
+                    </div>
+
+                    <div class="dash-card p-0 overflow-hidden group cursor-pointer border-transparent hover:border-[#B08D55]" data-aos="fade-up" data-aos-delay="200">
+                        <div class="h-32 bg-gray-100 relative overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1617260010903-888997a48856?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover transition duration-700 group-hover:scale-110">
+                            <div class="absolute top-3 right-3 bg-white/90 backdrop-blur px-2 py-1 rounded text-[10px] font-bold">+£450</div>
+                        </div>
+                        <div class="p-5">
+                            <h4 class="font-bold text-sm mb-1">Transport Upgrade</h4>
+                            <p class="text-xs text-gray-500 mb-3 line-clamp-2">Add 2x Mercedes Limousines for the family procession.</p>
+                            <button class="w-full py-2 border border-gray-200 rounded-lg text-[10px] font-bold uppercase hover:bg-black hover:text-white transition">Add to Plan</button>
+                        </div>
                     </div>
                 </div>
-
-                <div class="dash-card group cursor-pointer hover:border-[#C5A059]">
-                    <img src="https://images.unsplash.com/photo-1617260010903-888997a48856?q=80&w=1000&auto=format&fit=crop" class="marketplace-thumb">
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <h4 class="font-bold text-sm">Transport Upgrade</h4>
-                            <p class="text-[10px] text-stone-400">Add 2x Limousines</p>
-                        </div>
-                        <span class="text-xs font-bold text-[#C5A059]">+£450</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-
+            </section>
+        </div>
     </main>
 
+    <div class="fixed bottom-0 left-0 right-0 md:left-72 bg-[#1F1F1F] text-white p-3 z-50 flex justify-between items-center px-6 shadow-2xl transform translate-y-0 transition-transform">
+        <div class="flex items-center gap-3">
+            <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+            <p class="text-xs font-medium">Director Online: <span class="text-gray-400">John is reviewing your file...</span></p>
+        </div>
+        <button class="text-[10px] font-bold uppercase bg-white/10 hover:bg-white/20 px-3 py-1.5 rounded transition">
+            Open Chat
+        </button>
+    </div>
+
+    <div class="md:hidden mobile-nav-bottom">
+        <div class="flex flex-col items-center gap-1 text-[#B08D55]">
+            <i data-lucide="layout-dashboard" width="20"></i>
+            <span class="text-[9px] font-bold">Home</span>
+        </div>
+        <div class="flex flex-col items-center gap-1 text-gray-400">
+            <i data-lucide="list-checks" width="20"></i>
+            <span class="text-[9px] font-bold">Plan</span>
+        </div>
+        <div class="flex flex-col items-center gap-1 text-gray-400">
+            <div class="w-10 h-10 bg-black rounded-full flex items-center justify-center -mt-6 border-4 border-white shadow-lg">
+                <i data-lucide="plus" width="20" class="text-white"></i>
+            </div>
+        </div>
+        <div class="flex flex-col items-center gap-1 text-gray-400">
+            <i data-lucide="store" width="20"></i>
+            <span class="text-[9px] font-bold">Shop</span>
+        </div>
+        <div class="flex flex-col items-center gap-1 text-gray-400">
+            <i data-lucide="message-square" width="20"></i>
+            <span class="text-[9px] font-bold">Chat</span>
+        </div>
+    </div>
+
     <script>
-        AOS.init({ duration: 1000, once: true });
+        // Init Animations
+        AOS.init({ duration: 800, once: true, offset: 50 });
+        
+        // Init Icons
+        lucide.createIcons();
     </script>
 </body>
 </html>
