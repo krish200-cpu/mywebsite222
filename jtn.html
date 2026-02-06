@@ -3,104 +3,285 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Join the Network | FuneralMatch Professional</title>
-
+    <title>Partner Application | FuneralMatch Professional</title>
+    
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@1,400;1,700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
+        /* SYSTEM TOKENS (Shared with Console) */
         :root {
-            --gold: #C5A059;
-            --black: #1a1a1a;
-            --soft-bg: #F8F7F5;
+            --gold-primary: #B08D55;
+            --gold-subtle: #F0EAE0;
+            --obsidian: #1A1A1A;
+            --stone-50: #FAFAF9;
+            --stone-100: #F5F5F4;
+            --stone-200: #E7E5E4;
+            --border-light: rgba(0,0,0,0.06);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
-        body { font-family: 'Inter', sans-serif; background-color: var(--soft-bg); color: var(--black); overflow-x: hidden; }
+        body { font-family: 'Manrope', sans-serif; background: var(--stone-50); color: var(--obsidian); }
         .serif { font-family: 'Bodoni Moda', serif; }
 
-        /* PERSISTENT BACKGROUND */
-        .sanctuary-bg {
-            position: fixed;
-            inset: 0;
-            z-index: -1;
-            background: linear-gradient(rgba(255,255,255,0.4), rgba(255,255,255,0.5)), 
-                        url('https://images.unsplash.com/photo-1517457373958-b7bdd4587205?q=80&w=2669&auto=format&fit=crop');
-            background-size: cover;
-            background-position: center;
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #D6D3D1; border-radius: 10px; }
+
+        /* Component: Card */
+        .panel {
+            background: white; border: 1px solid var(--border-light);
+            border-radius: 1rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+            transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        .panel:hover { box-shadow: 0 12px 24px -6px rgba(0, 0, 0, 0.05); border-color: rgba(176, 141, 85, 0.2); }
+
+        /* Component: Navigation */
+        .nav-link {
+            display: flex; align-items: center; gap: 12px; padding: 10px 14px;
+            border-radius: 0.75rem; color: #57534E; font-size: 0.85rem; font-weight: 500;
+            transition: 0.2s; cursor: pointer; border: 1px solid transparent;
+        }
+        .nav-link:hover { background: white; color: var(--obsidian); border-color: var(--border-light); }
+        .nav-link.active { background: var(--obsidian); color: white; font-weight: 600; }
+        .nav-link.active i { color: var(--gold-primary); }
+
+        /* Component: Watermark */
+        .watermark {
+            position: fixed; bottom: -10vh; right: -5vw; font-size: 35vw;
+            font-family: 'Bodoni Moda'; opacity: 0.02; color: var(--gold-primary);
+            pointer-events: none; z-index: 0; line-height: 1; user-select: none;
         }
 
-        .vetting-card { background: white; border-radius: 3rem; box-shadow: 0 40px 100px rgba(0,0,0,0.05); }
-        .input-pill { width: 100%; padding: 1.2rem 2rem; border-radius: 9999px; border: 1px solid #EEE; outline: none; transition: 0.3s; }
-        .input-pill:focus { border-color: var(--gold); }
-        
-        .checkbox-group { display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 1.5rem; }
-        .checkbox-group input { margin-top: 0.3rem; }
+        /* Inputs & Forms */
+        .input-group label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #78716C; margin-bottom: 0.5rem; display: block; }
+        .input-field {
+            width: 100%; padding: 0.875rem; border: 1px solid var(--stone-200); border-radius: 0.5rem;
+            font-size: 0.9rem; transition: 0.2s; background: var(--stone-50);
+        }
+        .input-field:focus { background: white; border-color: var(--gold-primary); outline: none; box-shadow: 0 0 0 3px rgba(176, 141, 85, 0.1); }
 
-        .btn-gold { background: var(--gold); color: white; padding: 1.2rem 3rem; border-radius: 9999px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.2em; font-size: 0.75rem; border: none; cursor: pointer; }
+        /* Custom Checkbox */
+        .check-card {
+            border: 1px solid var(--stone-200); border-radius: 0.75rem; padding: 1rem;
+            cursor: pointer; transition: 0.2s; display: flex; gap: 1rem; align-items: start;
+        }
+        .check-card:hover { background: var(--stone-50); }
+        .check-card input:checked + div { color: var(--obsidian); }
+        .check-card input:checked ~ .check-icon { background: var(--gold-primary); border-color: var(--gold-primary); color: white; }
+        
+        .check-icon {
+            width: 20px; height: 20px; border: 2px solid #D6D3D1; border-radius: 6px;
+            display: flex; align-items: center; justify-content: center; transition: 0.2s; flex-shrink: 0; margin-top: 2px;
+        }
     </style>
 </head>
-<body class="pt-24 pb-24">
+<body class="flex h-screen overflow-hidden text-sm">
 
-    <div class="sanctuary-bg"></div>
+    <div class="watermark">P</div>
 
-    <main class="max-w-4xl mx-auto px-6">
+    <aside class="w-64 bg-white border-r border-stone-200 flex flex-col z-20 hidden md:flex">
+        <div class="p-6 border-b border-stone-100">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 bg-[#1A1A1A] text-[#B08D55] rounded flex items-center justify-center font-serif text-lg">P</div>
+                <span class="serif font-bold text-lg tracking-tight">Funeral<span class="text-[#B08D55]">Match</span><br><span class="font-sans text-[9px] uppercase tracking-widest text-stone-400 font-normal">Professional</span></span>
+            </div>
+        </div>
+
+        <nav class="flex-1 overflow-y-auto p-4 space-y-1">
+            <div class="nav-link active"><i data-lucide="building-2" width="16"></i> Firm Application</div>
+            <div class="nav-link"><i data-lucide="shield-check" width="16"></i> Vetting Status</div>
+            <div class="nav-link opacity-50"><i data-lucide="layout-dashboard" width="16"></i> Dashboard <i data-lucide="lock" width="10" class="ml-auto"></i></div>
+            <div class="nav-link opacity-50"><i data-lucide="users" width="16"></i> Team Access <i data-lucide="lock" width="10" class="ml-auto"></i></div>
+        </nav>
+
+        <div class="p-4 bg-stone-50 border-t border-stone-200">
+            <p class="text-[10px] uppercase font-bold text-stone-500 mb-2">Network Support</p>
+            <div class="flex items-center gap-2 text-xs font-bold mb-3">
+                <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                <span>Admissions Team Online</span>
+            </div>
+            <button class="w-full py-2 bg-white border border-stone-300 rounded-lg text-xs font-bold hover:bg-black hover:text-white transition">Ask a Question</button>
+        </div>
+    </aside>
+
+    <main class="flex-1 overflow-y-auto relative z-10">
         
-        <header class="text-center mb-16" data-aos="fade-up">
-            <h1 class="serif italic text-5xl mb-6">Elevate your standards.</h1>
-            <p class="text-stone-500 max-w-xl mx-auto leading-relaxed">Join the UK's premier independent network. We connect vetted, high-standard funeral directors with families seeking clarity and quality.</p>
+        <header class="bg-white/80 backdrop-blur sticky top-0 z-30 border-b border-stone-200 px-8 py-5 flex justify-between items-center">
+            <div>
+                <div class="flex items-center gap-2 mb-1 text-stone-500">
+                    <span class="text-[10px] uppercase font-bold tracking-wider">New Application</span>
+                    <span class="w-1 h-1 bg-stone-300 rounded-full"></span>
+                    <span class="text-[10px] uppercase font-bold tracking-wider text-[#B08D55]">Step 1 of 3</span>
+                </div>
+                <h1 class="serif text-2xl font-medium">Join the Network</h1>
+            </div>
+            <div class="flex items-center gap-4">
+                <span class="text-xs text-stone-500">Already a partner?</span>
+                <button class="text-xs font-bold text-[#B08D55] hover:underline">Log In</button>
+            </div>
         </header>
 
-        <section class="vetting-card p-10 md:p-20" data-aos="fade-up" data-aos-delay="100">
-            <h2 class="serif italic text-3xl mb-8">Application for Network Entry</h2>
-            
-            <form action="https://formspree.io/f/mvzzkjeq" method="POST">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                    <div>
-                        <label class="text-[10px] uppercase font-bold tracking-widest text-stone-400 ml-4 mb-2 block">Firm Name</label>
-                        <input type="text" name="firm_name" class="input-pill" placeholder="e.g. Premier Care" required>
-                    </div>
-                    <div>
-                        <label class="text-[10px] uppercase font-bold tracking-widest text-stone-400 ml-4 mb-2 block">Postcode Area</label>
-                        <input type="text" name="coverage_area" class="input-pill" placeholder="e.g. SW1, SW2" required>
-                    </div>
-                </div>
+        <div class="p-8 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8">
 
-                <div class="mb-12">
-                    <label class="text-[10px] uppercase font-bold tracking-widest text-stone-400 ml-4 mb-2 block">Lead Contact Email</label>
-                    <input type="email" name="director_email" class="input-pill" placeholder="director@firm.com" required>
-                </div>
-
-                <h3 class="text-xs uppercase font-bold tracking-widest text-[#C5A059] mb-8 border-b border-stone-100 pb-4">Compliance & Ethics Declaration</h3>
+            <div class="lg:col-span-8 space-y-6">
                 
-                <div class="checkbox-group">
-                    <input type="checkbox" name="independent_status" required>
-                    <p class="text-sm text-stone-600">I confirm this firm is an <strong>Independent Funeral Director</strong> and is not part of a national conglomerate.</p>
+                <div class="panel p-8 bg-[#1A1A1A] text-white border-none relative overflow-hidden">
+                    <div class="absolute right-0 top-0 bottom-0 w-1/2 opacity-20 bg-[url('https://images.unsplash.com/photo-1517457373958-b7bdd4587205?q=80&w=2669&auto=format&fit=crop')] bg-cover bg-center mix-blend-overlay"></div>
+                    <div class="relative z-10 max-w-lg">
+                        <h2 class="serif italic text-3xl mb-4">Elevate your standards.</h2>
+                        <p class="text-stone-300 text-sm leading-relaxed mb-6">
+                            Join the UK's premier independent network. We connect vetted, high-standard funeral directors with families seeking clarity and quality.
+                        </p>
+                        <div class="flex gap-4 text-xs font-bold uppercase tracking-wider text-[#B08D55]">
+                            <span class="flex items-center gap-2"><i data-lucide="check" width="14"></i> Zero Commission</span>
+                            <span class="flex items-center gap-2"><i data-lucide="check" width="14"></i> Direct Payments</span>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="checkbox-group">
-                    <input type="checkbox" name="facility_audit" required>
-                    <p class="text-sm text-stone-600">I agree to a <strong>Physical Facility Audit</strong> by FuneralMatch to verify mortuary and service room standards.</p>
+                <form action="https://formspree.io/f/mvzzkjeq" method="POST" class="space-y-6">
+                    
+                    <div class="panel p-6">
+                        <div class="flex items-center gap-3 mb-6 border-b border-stone-100 pb-4">
+                            <div class="w-8 h-8 rounded-full bg-stone-100 flex items-center justify-center text-stone-500 font-bold text-xs">1</div>
+                            <h3 class="serif font-bold text-lg">Firm Details</h3>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="input-group">
+                                <label>Registered Firm Name</label>
+                                <input type="text" name="firm_name" class="input-field" placeholder="e.g. Smith & Sons" required>
+                            </div>
+                            <div class="input-group">
+                                <label>Primary Postcode Area</label>
+                                <input type="text" name="postcode" class="input-field" placeholder="e.g. SW1, SW2" required>
+                            </div>
+                            <div class="input-group md:col-span-2">
+                                <label>Director Email (Lead Contact)</label>
+                                <input type="email" name="email" class="input-field" placeholder="director@firm.com" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel p-6">
+                        <div class="flex items-center gap-3 mb-6 border-b border-stone-100 pb-4">
+                            <div class="w-8 h-8 rounded-full bg-stone-100 flex items-center justify-center text-stone-500 font-bold text-xs">2</div>
+                            <h3 class="serif font-bold text-lg">Compliance Standards</h3>
+                        </div>
+
+                        <div class="space-y-4">
+                            <label class="check-card">
+                                <input type="checkbox" name="independent" class="hidden" required>
+                                <div class="check-icon"><i data-lucide="check" width="12"></i></div>
+                                <div>
+                                    <h4 class="font-bold text-sm">Independent Status</h4>
+                                    <p class="text-xs text-stone-500 mt-1">I confirm this firm is independently owned and is NOT a subsidiary of a national conglomerate (e.g. Dignity, Co-op).</p>
+                                </div>
+                            </label>
+
+                            <label class="check-card">
+                                <input type="checkbox" name="audit" class="hidden" required>
+                                <div class="check-icon"><i data-lucide="check" width="12"></i></div>
+                                <div>
+                                    <h4 class="font-bold text-sm">Facility Audit Agreement</h4>
+                                    <p class="text-xs text-stone-500 mt-1">I agree to a scheduled physical inspection of our mortuary and care facilities by a FuneralMatch compliance officer.</p>
+                                </div>
+                            </label>
+
+                            <label class="check-card">
+                                <input type="checkbox" name="transparency" class="hidden" required>
+                                <div class="check-icon"><i data-lucide="check" width="12"></i></div>
+                                <div>
+                                    <h4 class="font-bold text-sm">Price Transparency Pledge</h4>
+                                    <p class="text-xs text-stone-500 mt-1">I agree to display fully itemised pricing on the platform and honour all quotes generated via the system.</p>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+
+            <div class="lg:col-span-4 space-y-6">
+                
+                <div class="panel p-6">
+                    <h3 class="serif font-bold text-base mb-4">Vetting Roadmap</h3>
+                    <div class="relative pl-6 border-l border-stone-200 space-y-6">
+                        <div class="relative">
+                            <span class="absolute -left-[31px] w-4 h-4 rounded-full bg-[#B08D55] border-2 border-white shadow-sm"></span>
+                            <p class="text-xs font-bold text-[#B08D55] uppercase tracking-wider mb-1">Step 1</p>
+                            <h4 class="font-bold text-sm">Application Review</h4>
+                            <p class="text-xs text-stone-500 mt-1">We verify your ownership structure and companies house records.</p>
+                        </div>
+                        <div class="relative opacity-60">
+                            <span class="absolute -left-[31px] w-4 h-4 rounded-full bg-stone-200 border-2 border-white"></span>
+                            <p class="text-xs font-bold text-stone-400 uppercase tracking-wider mb-1">Step 2</p>
+                            <h4 class="font-bold text-sm">Facility Audit</h4>
+                            <p class="text-xs text-stone-500 mt-1">In-person visit to inspect care standards.</p>
+                        </div>
+                        <div class="relative opacity-60">
+                            <span class="absolute -left-[31px] w-4 h-4 rounded-full bg-stone-200 border-2 border-white"></span>
+                            <p class="text-xs font-bold text-stone-400 uppercase tracking-wider mb-1">Step 3</p>
+                            <h4 class="font-bold text-sm">Onboarding</h4>
+                            <p class="text-xs text-stone-500 mt-1">Profile setup and pricing integration.</p>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="checkbox-group">
-                    <input type="checkbox" name="price_transparency" required>
-                    <p class="text-sm text-stone-600">I agree to maintain **Total Price Transparency** and will provide a fixed-fee framework for platform users.</p>
+                <div class="panel bg-stone-50 p-6">
+                    <div class="w-10 h-10 rounded bg-white border border-stone-200 flex items-center justify-center mb-4 text-[#B08D55]">
+                        <i data-lucide="trending-up" width="20"></i>
+                    </div>
+                    <h3 class="serif font-bold text-base mb-2">Why Join?</h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-start gap-3">
+                            <i data-lucide="check" width="14" class="text-green-600 mt-1"></i>
+                            <p class="text-xs text-stone-600"><strong>High-Intent Leads:</strong> Families on our platform have already built a plan and viewed pricing.</p>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i data-lucide="check" width="14" class="text-green-600 mt-1"></i>
+                            <p class="text-xs text-stone-600"><strong>Reduced Admin:</strong> Digital green forms and automated itinerary generation.</p>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i data-lucide="check" width="14" class="text-green-600 mt-1"></i>
+                            <p class="text-xs text-stone-600"><strong>Upfront Payment:</strong> We secure funds from families before dispatch.</p>
+                        </li>
+                    </ul>
                 </div>
 
-                <div class="mt-12 text-center">
-                    <button type="submit" class="btn-gold shadow-lg shadow-amber-100">Submit for Vetting</button>
-                    <p class="text-[10px] text-stone-400 mt-6 uppercase tracking-widest">Audit Ref: 2917681399450303860</p>
+                <div class="panel p-5 border-l-4 border-l-[#B08D55]">
+                    <h4 class="font-bold text-xs uppercase tracking-wider text-stone-400 mb-2">Need Help?</h4>
+                    <p class="text-sm font-bold mb-1">Call our Director Line</p>
+                    <p class="text-lg font-serif text-[#B08D55]">0800 111 222</p>
+                    <p class="text-xs text-stone-400 mt-2">Mon-Fri, 9am - 6pm</p>
                 </div>
-            </form>
-        </section>
+
+            </div>
+
+        </div>
+
+        <div class="h-24"></div>
 
     </main>
 
+    <div class="fixed bottom-0 left-0 right-0 md:left-64 bg-white border-t border-stone-200 p-4 z-40 flex justify-between items-center px-8 shadow-[0_-5px_20px_rgba(0,0,0,0.02)]">
+        <div class="text-xs text-stone-500">
+            By submitting, you agree to our <a href="#" class="underline text-black">Partner Terms</a>.
+        </div>
+        <div class="flex gap-4">
+            <button class="bg-[#1A1A1A] text-white px-8 py-3 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-[#B08D55] transition shadow-lg transform hover:-translate-y-0.5">
+                Submit Application
+            </button>
+        </div>
+    </div>
+
     <script>
-        AOS.init({ duration: 1000, once: true });
+        AOS.init();
+        lucide.createIcons();
     </script>
 </body>
 </html>
