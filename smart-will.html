@@ -3,453 +3,559 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Smart Will | FuneralMatch Legal</title>
+    <title>Smart Will Professional | FuneralMatch</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
-        /* SYSTEM TOKENS */
+        /* --- DESIGN TOKENS --- */
         :root {
-            --gold-primary: #B08D55;
-            --gold-subtle: #F0EAE0;
+            --gold: #B08D55;
+            --gold-light: #F3EFE9;
             --obsidian: #1A1A1A;
-            --stone-50: #FAFAF9;
-            --stone-100: #F5F5F4;
-            --stone-200: #E7E5E4;
-            --border-light: rgba(0,0,0,0.06);
+            --stone: #F5F5F4;
+            --border: #E7E5E4;
         }
 
-        body { font-family: 'Manrope', sans-serif; background: var(--stone-50); color: var(--obsidian); }
+        body { font-family: 'Manrope', sans-serif; background: #FAFAF9; color: var(--obsidian); }
         .serif { font-family: 'Bodoni Moda', serif; }
 
-        /* Component: Panel */
+        /* --- COMPONENTS --- */
         .panel {
-            background: white; border: 1px solid var(--border-light);
-            border-radius: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
-            transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
-            position: relative; overflow: hidden;
+            background: white; border: 1px solid var(--border);
+            border-radius: 1.5rem; box-shadow: 0 10px 30px -10px rgba(0,0,0,0.05);
+            overflow: hidden; transition: 0.3s;
         }
 
-        /* Component: Watermark */
-        .watermark {
-            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            font-size: 40vw; font-family: 'Bodoni Moda'; opacity: 0.015; 
-            color: var(--obsidian); pointer-events: none; z-index: 0; line-height: 1;
+        .input-field {
+            width: 100%; padding: 1rem; border: 1px solid var(--border); border-radius: 0.75rem;
+            font-size: 0.95rem; background: #FAFAF9; transition: 0.3s;
         }
-
-        /* Component: Form Elements */
-        .input-standard {
-            width: 100%; padding: 1rem; border: 1px solid var(--stone-200); border-radius: 0.75rem;
-            font-size: 0.95rem; transition: 0.3s; background: var(--stone-50);
-        }
-        .input-standard:focus {
-            outline: none; border-color: var(--gold-primary); background: white;
+        .input-field:focus {
+            background: white; border-color: var(--gold); outline: none;
             box-shadow: 0 0 0 3px rgba(176, 141, 85, 0.1);
         }
 
-        /* Option Card */
-        .option-card {
-            border: 1px solid var(--stone-200); background: white; padding: 1.25rem;
-            border-radius: 1rem; cursor: pointer; transition: 0.2s; display: flex; align-items: center; gap: 1rem;
+        .radio-card {
+            border: 1px solid var(--border); padding: 1.25rem; border-radius: 1rem;
+            cursor: pointer; display: flex; align-items: center; gap: 1rem; transition: 0.2s;
         }
-        .option-card:hover { border-color: var(--gold-primary); background: var(--stone-50); }
-        .option-card.selected { border-color: var(--gold-primary); background: var(--gold-subtle); }
+        .radio-card:hover { border-color: var(--gold); background: var(--stone); }
+        .radio-card.selected { border-color: var(--gold); background: var(--gold-light); }
         
-        .radio-circle {
-            width: 20px; height: 20px; border: 2px solid var(--stone-200); border-radius: 50%;
-            display: flex; align-items: center; justify-content: center; transition: 0.2s;
+        .step-indicator {
+            width: 100%; height: 4px; background: var(--border); border-radius: 99px; margin-top: 8px;
         }
-        .option-card.selected .radio-circle { border-color: var(--gold-primary); background: white; }
-        .inner-dot { width: 10px; height: 10px; background: var(--gold-primary); border-radius: 50%; display: none; }
-        .option-card.selected .inner-dot { display: block; }
+        .step-progress { height: 100%; background: var(--gold); border-radius: 99px; transition: width 0.4s ease; }
 
-        /* Progress Bar */
-        .progress-track { width: 100%; height: 4px; background: var(--stone-200); border-radius: 99px; overflow: hidden; }
-        .progress-fill { height: 100%; background: var(--gold-primary); width: 0%; transition: width 0.5s ease; }
+        /* Step Animations */
+        .step-panel { display: none; animation: slideUp 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); }
+        .step-panel.active { display: block; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Step Visibility */
-        .step-container { display: none; animation: fadeIn 0.4s ease; }
-        .step-container.active { display: block; }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        /* List Item */
+        .list-row {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 1rem; background: #FAFAF9; border-radius: 0.75rem; border: 1px solid transparent; margin-bottom: 0.5rem;
+        }
+        .list-row:hover { border-color: var(--gold); background: white; }
     </style>
 </head>
 <body class="flex flex-col min-h-screen">
 
-    <div class="watermark">Will</div>
-
-    <header class="bg-white/80 backdrop-blur sticky top-0 z-40 border-b border-stone-200">
-        <div class="max-w-5xl mx-auto px-6 py-4 flex justify-between items-center">
+    <nav class="fixed top-0 w-full bg-white/90 backdrop-blur z-50 border-b border-stone-200">
+        <div class="max-w-5xl mx-auto px-6 h-20 flex justify-between items-center">
             <div class="flex items-center gap-3">
-                <div class="w-8 h-8 bg-[#1A1A1A] text-white rounded flex items-center justify-center font-serif text-lg">F</div>
-                <div class="flex flex-col">
-                    <span class="serif font-bold text-lg tracking-tight leading-none">Funeral<span class="text-[#B08D55]">Match</span></span>
-                    <span class="text-[8px] uppercase tracking-widest font-bold text-stone-400">Legal Services</span>
+                <div class="w-10 h-10 bg-[#1A1A1A] text-white rounded flex items-center justify-center font-serif text-xl">F</div>
+                <div>
+                    <span class="serif font-bold text-lg tracking-tight block leading-none">Funeral<span class="text-[#B08D55]">Match</span></span>
+                    <span class="text-[9px] uppercase tracking-widest font-bold text-stone-400">Legal Services</span>
                 </div>
             </div>
-            <div class="flex items-center gap-2 text-xs font-bold text-stone-500">
-                <i data-lucide="lock" width="12"></i> 256-bit Secure
+            <div class="hidden md:flex items-center gap-6 text-xs font-bold uppercase tracking-wider text-stone-500">
+                <span><i data-lucide="shield-check" width="14" class="inline mb-1 text-[#B08D55]"></i> SRA Compliant Logic</span>
+                <span><i data-lucide="lock" width="14" class="inline mb-1 text-[#B08D55]"></i> AES-256 Encrypted</span>
             </div>
         </div>
-    </header>
+    </nav>
 
-    <main class="flex-grow relative z-10 py-12 px-6">
-        <div class="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12">
+    <main class="flex-grow pt-32 pb-20 px-6">
+        <div class="max-w-4xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-10">
 
-            <div class="lg:col-span-5 space-y-8">
+            <div class="lg:col-span-4 space-y-6">
                 <div>
-                    <h1 class="serif italic text-4xl md:text-5xl mb-6 text-[#1A1A1A]">Protect what <br>matters most.</h1>
-                    <p class="text-stone-500 text-sm leading-relaxed mb-8">
-                        Creating a will ensures your wishes are respected and saves your family from legal stress later. Our tool creates a legally binding document in under 15 minutes.
+                    <h1 class="serif italic text-4xl mb-4 text-[#1A1A1A]">Smart Will.</h1>
+                    <p class="text-sm text-stone-500 leading-relaxed">
+                        Create a fully legal Last Will & Testament. Our intelligent engine formats your specific legacies, residuary estate, and guardianship clauses into a valid legal document.
                     </p>
                 </div>
 
-                <div class="panel p-6 bg-[#1A1A1A] text-white border-none">
-                    <div class="flex items-start gap-4">
-                        <div class="p-3 bg-white/10 rounded-full text-[#B08D55]">
-                            <i data-lucide="scale" width="24"></i>
-                        </div>
-                        <div>
-                            <h3 class="font-bold text-lg mb-1">Legally Binding</h3>
-                            <p class="text-stone-400 text-xs leading-relaxed">
-                                Generated based on the Wills Act 1837. Valid in England & Wales when signed and witnessed correctly.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
                 <div class="panel p-6">
-                    <h4 class="text-xs font-bold uppercase tracking-widest text-stone-400 mb-4">Why use this tool?</h4>
-                    <ul class="space-y-3 text-sm text-stone-600">
-                        <li class="flex gap-3"><i data-lucide="check" width="16" class="text-[#B08D55]"></i> Avoids intestacy rules</li>
-                        <li class="flex gap-3"><i data-lucide="check" width="16" class="text-[#B08D55]"></i> Appoints guardians for children</li>
-                        <li class="flex gap-3"><i data-lucide="check" width="16" class="text-[#B08D55]"></i> Saves £200+ vs. High St Solicitor</li>
+                    <div class="flex justify-between items-end mb-2">
+                        <span class="text-xs font-bold uppercase tracking-widest text-stone-400">Progress</span>
+                        <span class="text-xl font-serif font-bold text-[#B08D55]" id="progress-text">0%</span>
+                    </div>
+                    <div class="step-indicator"><div class="step-progress" style="width: 0%"></div></div>
+                    
+                    <ul class="mt-6 space-y-3 text-sm text-stone-600" id="progress-list">
+                        <li class="flex gap-3 items-center text-[#B08D55] font-bold"><div class="w-2 h-2 rounded-full bg-[#B08D55]"></div> 1. Capacity & Details</li>
+                        <li class="flex gap-3 items-center opacity-50"><div class="w-2 h-2 rounded-full bg-stone-300"></div> 2. Family & Guardians</li>
+                        <li class="flex gap-3 items-center opacity-50"><div class="w-2 h-2 rounded-full bg-stone-300"></div> 3. Executors</li>
+                        <li class="flex gap-3 items-center opacity-50"><div class="w-2 h-2 rounded-full bg-stone-300"></div> 4. Gifts & Assets</li>
+                        <li class="flex gap-3 items-center opacity-50"><div class="w-2 h-2 rounded-full bg-stone-300"></div> 5. Funeral Wishes</li>
                     </ul>
                 </div>
             </div>
 
-            <div class="lg:col-span-7">
-                <div class="panel p-8 md:p-10 shadow-xl">
+            <div class="lg:col-span-8">
+                <form id="willForm" onsubmit="return false;" class="panel p-8 md:p-10 relative">
                     
-                    <div class="mb-8">
-                        <div class="flex justify-between text-xs font-bold uppercase tracking-widest text-stone-400 mb-2">
-                            <span id="step-label">Capacity Check</span>
-                            <span id="step-count">Step 1 of 5</span>
-                        </div>
-                        <div class="progress-track">
-                            <div class="progress-fill" id="progress-bar" style="width: 20%"></div>
-                        </div>
-                    </div>
-
-                    <div id="step-1" class="step-container active">
-                        <h2 class="serif text-2xl mb-2">Legal Requirements</h2>
-                        <p class="text-sm text-stone-500 mb-6">Before we begin, we must confirm your eligibility.</p>
-                        
-                        <div class="space-y-4 mb-8">
-                            <label class="option-card" onclick="toggleCheck(this, 'capacity1')">
-                                <div class="radio-circle"><div class="inner-dot"></div></div>
-                                <div>
-                                    <p class="font-bold text-sm">I am over 18 years of age</p>
-                                </div>
-                            </label>
-                            <label class="option-card" onclick="toggleCheck(this, 'capacity2')">
-                                <div class="radio-circle"><div class="inner-dot"></div></div>
-                                <div>
-                                    <p class="font-bold text-sm">I am of sound mind</p>
-                                    <p class="text-[10px] text-stone-400">I understand the nature of making a will.</p>
-                                </div>
-                            </label>
-                            <label class="option-card" onclick="toggleCheck(this, 'capacity3')">
-                                <div class="radio-circle"><div class="inner-dot"></div></div>
-                                <div>
-                                    <p class="font-bold text-sm">England or Wales</p>
-                                    <p class="text-[10px] text-stone-400">My permanent home is in England or Wales.</p>
-                                </div>
-                            </label>
-                        </div>
-                        
-                        <button onclick="nextStep(1)" class="w-full bg-[#B08D55] text-white py-4 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-black transition-all">Start My Will</button>
-                    </div>
-
-                    <div id="step-2" class="step-container">
-                        <h2 class="serif text-2xl mb-2">Your Details</h2>
-                        <p class="text-sm text-stone-500 mb-6">This identifies you as the Testator.</p>
-                        
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                            <div class="space-y-1">
-                                <label class="text-[10px] uppercase font-bold text-stone-400">First Name</label>
-                                <input type="text" id="firstName" class="input-standard" placeholder="e.g. John">
+                    <div id="step-1" class="step-panel active">
+                        <h2 class="serif text-3xl mb-6">About You</h2>
+                        <div class="grid grid-cols-2 gap-4 mb-4">
+                            <div>
+                                <label class="text-xs font-bold uppercase text-stone-400 mb-1 block">First Name</label>
+                                <input type="text" id="t_firstName" class="input-field" placeholder="John">
                             </div>
-                            <div class="space-y-1">
-                                <label class="text-[10px] uppercase font-bold text-stone-400">Last Name</label>
-                                <input type="text" id="lastName" class="input-standard" placeholder="e.g. Doe">
+                            <div>
+                                <label class="text-xs font-bold uppercase text-stone-400 mb-1 block">Last Name</label>
+                                <input type="text" id="t_lastName" class="input-field" placeholder="Doe">
                             </div>
                         </div>
-                        <div class="space-y-1 mb-8">
-                            <label class="text-[10px] uppercase font-bold text-stone-400">Full Address</label>
-                            <input type="text" id="address" class="input-standard" placeholder="e.g. 12 High Street, London, SW1 1AA">
+                        <div class="mb-6">
+                            <label class="text-xs font-bold uppercase text-stone-400 mb-1 block">Full Address</label>
+                            <input type="text" id="t_address" class="input-field" placeholder="e.g. 10 Downing Street, London, SW1A 2AA">
+                        </div>
+                        
+                        <div class="mb-8">
+                            <label class="text-xs font-bold uppercase text-stone-400 mb-3 block">Relationship Status</label>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                <div class="radio-card" onclick="selectRadio('status', 'single')">
+                                    <div class="w-4 h-4 rounded-full border border-stone-300 flex items-center justify-center radio-dot"></div>
+                                    <span class="text-sm font-bold">Single / Divorced</span>
+                                </div>
+                                <div class="radio-card" onclick="selectRadio('status', 'married')">
+                                    <div class="w-4 h-4 rounded-full border border-stone-300 flex items-center justify-center radio-dot"></div>
+                                    <span class="text-sm font-bold">Married / Civil Partner</span>
+                                </div>
+                                <div class="radio-card" onclick="selectRadio('status', 'cohabiting')">
+                                    <div class="w-4 h-4 rounded-full border border-stone-300 flex items-center justify-center radio-dot"></div>
+                                    <span class="text-sm font-bold">Cohabiting</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button onclick="nextStep(1)" class="w-full bg-[#1A1A1A] text-white py-4 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-[#B08D55] transition-all">Continue to Family</button>
+                    </div>
+
+                    <div id="step-2" class="step-panel">
+                        <h2 class="serif text-3xl mb-2">Children</h2>
+                        <p class="text-sm text-stone-500 mb-6">Do you have any children under the age of 18?</p>
+                        
+                        <div class="flex gap-4 mb-8">
+                            <div class="radio-card w-full justify-center" onclick="toggleKids(true)">
+                                <span class="text-sm font-bold">Yes</span>
+                            </div>
+                            <div class="radio-card w-full justify-center" onclick="toggleKids(false)">
+                                <span class="text-sm font-bold">No</span>
+                            </div>
+                        </div>
+
+                        <div id="guardians-section" class="hidden border-l-2 border-[#B08D55] pl-6 mb-8">
+                            <h3 class="font-bold text-lg mb-2">Appoint Guardians</h3>
+                            <p class="text-xs text-stone-500 mb-4">Who should look after your children if you pass away while they are minors?</p>
+                            
+                            <div id="guardian-list" class="space-y-3 mb-4"></div>
+                            
+                            <button onclick="addGuardianField()" class="text-xs font-bold text-[#B08D55] flex items-center gap-2 hover:underline">
+                                <i data-lucide="plus-circle" width="14"></i> Add Guardian
+                            </button>
                         </div>
 
                         <div class="flex gap-4">
-                            <button onclick="prevStep(2)" class="px-6 py-4 rounded-xl border border-stone-200 text-xs font-bold uppercase hover:bg-stone-50">Back</button>
-                            <button onclick="nextStep(2)" class="flex-1 bg-black text-white py-4 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-[#B08D55] transition-all">Next: Executors</button>
+                            <button onclick="prevStep(2)" class="px-6 py-4 rounded-xl border border-stone-200 text-xs font-bold uppercase">Back</button>
+                            <button onclick="nextStep(2)" class="flex-1 bg-[#1A1A1A] text-white py-4 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-[#B08D55]">Continue to Executors</button>
                         </div>
                     </div>
 
-                    <div id="step-3" class="step-container">
-                        <h2 class="serif text-2xl mb-2">Executors</h2>
-                        <p class="text-sm text-stone-500 mb-6">Who will carry out the instructions in your will? (Min. 1)</p>
+                    <div id="step-3" class="step-panel">
+                        <h2 class="serif text-3xl mb-2">Executors</h2>
+                        <p class="text-sm text-stone-500 mb-6">Who will be responsible for administering your estate? We recommend at least two.</p>
+
+                        <div id="executor-list" class="space-y-3 mb-6">
+                            </div>
                         
-                        <div id="executor-list" class="space-y-3 mb-4">
-                            <input type="text" class="input-standard executor-input" placeholder="Full Name of Executor 1">
-                        </div>
-                        
-                        <button onclick="addInput('executor-list', 'Executor')" class="text-xs font-bold text-[#B08D55] flex items-center gap-2 mb-8 hover:underline">
+                        <button onclick="addExecutorField()" class="text-xs font-bold text-[#B08D55] flex items-center gap-2 mb-8 hover:underline">
                             <i data-lucide="plus-circle" width="14"></i> Add another Executor
                         </button>
 
                         <div class="flex gap-4">
-                            <button onclick="prevStep(3)" class="px-6 py-4 rounded-xl border border-stone-200 text-xs font-bold uppercase hover:bg-stone-50">Back</button>
-                            <button onclick="nextStep(3)" class="flex-1 bg-black text-white py-4 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-[#B08D55] transition-all">Next: Beneficiaries</button>
+                            <button onclick="prevStep(3)" class="px-6 py-4 rounded-xl border border-stone-200 text-xs font-bold uppercase">Back</button>
+                            <button onclick="nextStep(3)" class="flex-1 bg-[#1A1A1A] text-white py-4 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-[#B08D55]">Continue to Assets</button>
                         </div>
                     </div>
 
-                    <div id="step-4" class="step-container">
-                        <h2 class="serif text-2xl mb-2">Beneficiaries</h2>
-                        <p class="text-sm text-stone-500 mb-6">Who will inherit your estate (Residual Estate)?</p>
+                    <div id="step-4" class="step-panel">
+                        <h2 class="serif text-3xl mb-2">Gifts & Estate</h2>
                         
-                        <div id="beneficiary-list" class="space-y-3 mb-4">
-                            <input type="text" class="input-standard beneficiary-input" placeholder="Full Name of Beneficiary 1">
+                        <div class="flex border-b border-stone-200 mb-6">
+                            <button onclick="switchAssetTab('specific')" id="tab-specific" class="pb-2 border-b-2 border-[#B08D55] text-[#B08D55] font-bold text-xs uppercase mr-6">Specific Gifts</button>
+                            <button onclick="switchAssetTab('residuary')" id="tab-residuary" class="pb-2 text-stone-400 font-bold text-xs uppercase">Residuary Estate</button>
                         </div>
 
-                        <button onclick="addInput('beneficiary-list', 'Beneficiary')" class="text-xs font-bold text-[#B08D55] flex items-center gap-2 mb-8 hover:underline">
-                            <i data-lucide="plus-circle" width="14"></i> Add another Beneficiary
-                        </button>
-
-                        <div class="flex gap-4">
-                            <button onclick="prevStep(4)" class="px-6 py-4 rounded-xl border border-stone-200 text-xs font-bold uppercase hover:bg-stone-50">Back</button>
-                            <button onclick="nextStep(4)" class="flex-1 bg-black text-white py-4 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-[#B08D55] transition-all">Next: Review</button>
-                        </div>
-                    </div>
-
-                    <div id="step-5" class="step-container">
-                        <h2 class="serif text-2xl mb-2">Review & Download</h2>
-                        <p class="text-sm text-stone-500 mb-6">Review your details before generating your legal document.</p>
-                        
-                        <div class="bg-stone-50 rounded-xl p-6 border border-stone-200 mb-8 space-y-4">
-                            <div>
-                                <span class="text-[10px] font-bold uppercase text-stone-400">Testator</span>
-                                <p class="font-bold" id="review-name">Loading...</p>
-                            </div>
-                            <div>
-                                <span class="text-[10px] font-bold uppercase text-stone-400">Executors</span>
-                                <p class="text-sm" id="review-executors">Loading...</p>
-                            </div>
-                            <div>
-                                <span class="text-[10px] font-bold uppercase text-stone-400">Beneficiaries</span>
-                                <p class="text-sm" id="review-beneficiaries">Loading...</p>
-                            </div>
-                        </div>
-
-                        <div class="flex gap-4">
-                            <button onclick="prevStep(5)" class="px-6 py-4 rounded-xl border border-stone-200 text-xs font-bold uppercase hover:bg-stone-50">Back</button>
-                            <button onclick="generatePDF()" class="flex-1 bg-[#B08D55] text-white py-4 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-black transition-all shadow-lg shadow-[#B08D55]/20 flex items-center justify-center gap-2">
-                                <i data-lucide="download" width="16"></i> Download Legal Will
+                        <div id="view-specific">
+                            <p class="text-sm text-stone-500 mb-4">Do you want to leave specific items or cash sums to individuals before the main estate is divided?</p>
+                            <div id="gift-list" class="space-y-3 mb-4"></div>
+                            <button onclick="addGiftField()" class="text-xs font-bold text-[#B08D55] flex items-center gap-2 mb-8 hover:underline">
+                                <i data-lucide="gift" width="14"></i> Add Specific Gift
                             </button>
                         </div>
-                        <p class="text-center text-[10px] text-stone-400 mt-4">By downloading, you agree to our Terms of Service.</p>
+
+                        <div id="view-residuary" class="hidden">
+                            <p class="text-sm text-stone-500 mb-4">Who gets everything else (the "Residuary Estate") after debts and specific gifts are paid?</p>
+                            <div id="residuary-list" class="space-y-3 mb-4"></div>
+                            <button onclick="addResiduaryField()" class="text-xs font-bold text-[#B08D55] flex items-center gap-2 mb-8 hover:underline">
+                                <i data-lucide="users" width="14"></i> Add Beneficiary
+                            </button>
+                        </div>
+
+                        <div class="flex gap-4 mt-8">
+                            <button onclick="prevStep(4)" class="px-6 py-4 rounded-xl border border-stone-200 text-xs font-bold uppercase">Back</button>
+                            <button onclick="nextStep(4)" class="flex-1 bg-[#1A1A1A] text-white py-4 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-[#B08D55]">Continue to Funeral</button>
+                        </div>
                     </div>
 
-                </div>
+                    <div id="step-5" class="step-panel">
+                        <h2 class="serif text-3xl mb-2">Funeral Wishes</h2>
+                        <p class="text-sm text-stone-500 mb-6">These wishes are not legally binding but guide your executors.</p>
+
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                            <div class="radio-card justify-center flex-col text-center" onclick="selectRadio('funeral', 'cremation')">
+                                <i data-lucide="flame" width="24" class="text-stone-400 mb-2"></i>
+                                <span class="text-sm font-bold">Cremation</span>
+                            </div>
+                            <div class="radio-card justify-center flex-col text-center" onclick="selectRadio('funeral', 'burial')">
+                                <i data-lucide="flower" width="24" class="text-stone-400 mb-2"></i>
+                                <span class="text-sm font-bold">Burial</span>
+                            </div>
+                            <div class="radio-card justify-center flex-col text-center" onclick="selectRadio('funeral', 'none')">
+                                <i data-lucide="minus-circle" width="24" class="text-stone-400 mb-2"></i>
+                                <span class="text-sm font-bold">No Preference</span>
+                            </div>
+                        </div>
+
+                        <div class="mb-8">
+                            <label class="text-xs font-bold uppercase text-stone-400 mb-1 block">Specific Instructions</label>
+                            <textarea id="funeral_notes" class="input-field h-32" placeholder="e.g. Ashes to be scattered at sea, hymns to be sung..."></textarea>
+                        </div>
+
+                        <div class="flex gap-4">
+                            <button onclick="prevStep(5)" class="px-6 py-4 rounded-xl border border-stone-200 text-xs font-bold uppercase">Back</button>
+                            <button onclick="generateWill()" class="flex-1 bg-[#B08D55] text-white py-4 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-black transition-all shadow-xl shadow-[#B08D55]/20 flex items-center justify-center gap-2">
+                                <i data-lucide="file-signature" width="16"></i> Generate Legal Will
+                            </button>
+                        </div>
+                    </div>
+
+                </form>
             </div>
         </div>
     </main>
 
-    <footer class="bg-white border-t border-stone-200 py-12 px-6 relative z-10">
-        <div class="max-w-5xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
-            <div>
-                <span class="serif font-bold text-xl text-[#1A1A1A] tracking-tight">Funeral<span class="text-[#B08D55]">Match</span></span>
-                <p class="text-xs mt-2 text-stone-500">&copy; 2026 FuneralMatch Legal Services.</p>
-            </div>
-            <div class="flex gap-6 text-xs font-bold uppercase tracking-wider text-stone-400">
-                <a href="#" class="hover:text-black">Privacy</a>
-                <a href="#" class="hover:text-black">Disclaimer</a>
-            </div>
-        </div>
-    </footer>
-
     <script>
-        // === STATE ===
+        // === STATE MANAGEMENT ===
         const state = {
-            capacity: { q1: false, q2: false, q3: false },
-            details: { first: '', last: '', address: '' },
-            executors: [],
-            beneficiaries: []
+            step: 1,
+            details: { first: '', last: '', address: '', status: '' },
+            hasKids: false,
+            guardians: [],
+            executors: [''],
+            gifts: [],
+            residuary: [''],
+            funeral: { type: '', notes: '' }
         };
 
-        // === NAVIGATION ===
-        function nextStep(current) {
-            if (!validateStep(current)) return;
-            
-            if (current === 4) populateReview();
+        // === UI HELPERS ===
+        function init() {
+            lucide.createIcons();
+            // Initial field population
+            addExecutorField();
+            addResiduaryField();
+        }
 
-            document.getElementById(`step-${current}`).classList.remove('active');
-            document.getElementById(`step-${current + 1}`).classList.add('active');
+        function nextStep(current) {
+            if(!validate(current)) return;
             
-            updateProgress(current + 1);
+            // Save Data for current step
+            if(current === 1) {
+                state.details.first = document.getElementById('t_firstName').value;
+                state.details.last = document.getElementById('t_lastName').value;
+                state.details.address = document.getElementById('t_address').value;
+            }
+            if(current === 5) {
+                state.funeral.notes = document.getElementById('funeral_notes').value;
+            }
+
+            // Animation Transition
+            document.getElementById(`step-${current}`).classList.remove('active');
+            state.step++;
+            document.getElementById(`step-${state.step}`).classList.add('active');
+            updateProgress();
         }
 
         function prevStep(current) {
             document.getElementById(`step-${current}`).classList.remove('active');
-            document.getElementById(`step-${current - 1}`).classList.add('active');
-            updateProgress(current - 1);
+            state.step--;
+            document.getElementById(`step-${state.step}`).classList.add('active');
+            updateProgress();
         }
 
-        function updateProgress(step) {
-            const width = step * 20;
-            document.getElementById('progress-bar').style.width = `${width}%`;
-            document.getElementById('step-count').innerText = `Step ${step} of 5`;
+        function updateProgress() {
+            const pct = (state.step - 1) * 25;
+            document.querySelector('.step-progress').style.width = `${pct}%`;
+            document.getElementById('progress-text').innerText = `${pct}%`;
             
-            const labels = ["Capacity", "Your Details", "Executors", "Beneficiaries", "Review"];
-            document.getElementById('step-label').innerText = labels[step - 1];
+            // Highlight list
+            const listItems = document.querySelectorAll('#progress-list li');
+            listItems.forEach((li, idx) => {
+                if(idx < state.step) {
+                    li.classList.remove('opacity-50');
+                    li.classList.add('text-[#B08D55]', 'font-bold');
+                    li.querySelector('div').classList.add('bg-[#B08D55]');
+                    li.querySelector('div').classList.remove('bg-stone-300');
+                }
+            });
         }
 
-        // === VALIDATION & LOGIC ===
-        function toggleCheck(el, key) {
-            // Simplified toggle logic for visual radio effect
-            el.classList.toggle('selected');
-            if (key === 'capacity1') state.capacity.q1 = !state.capacity.q1;
-            if (key === 'capacity2') state.capacity.q2 = !state.capacity.q2;
-            if (key === 'capacity3') state.capacity.q3 = !state.capacity.q3;
-        }
-
-        function addInput(containerId, placeholder) {
-            const container = document.getElementById(containerId);
-            const count = container.children.length + 1;
-            const input = document.createElement('input');
-            input.type = 'text';
-            input.className = `input-standard ${placeholder.toLowerCase()}-input`;
-            input.placeholder = `Full Name of ${placeholder} ${count}`;
-            container.appendChild(input);
-        }
-
-        function validateStep(step) {
-            if (step === 1) {
-                if (!state.capacity.q1 || !state.capacity.q2 || !state.capacity.q3) {
-                    alert("You must confirm all legal requirements to proceed.");
-                    return false;
-                }
-            }
-            if (step === 2) {
-                const first = document.getElementById('firstName').value;
-                const last = document.getElementById('lastName').value;
-                const address = document.getElementById('address').value;
-                if (!first || !last || !address) {
-                    alert("Please fill in all details.");
-                    return false;
-                }
-                state.details = { first, last, address };
-            }
-            if (step === 3) {
-                const inputs = document.querySelectorAll('.executor-input');
-                state.executors = Array.from(inputs).map(i => i.value).filter(v => v !== '');
-                if (state.executors.length === 0) {
-                    alert("Please appoint at least one executor.");
-                    return false;
-                }
-            }
-            if (step === 4) {
-                const inputs = document.querySelectorAll('.beneficiary-input');
-                state.beneficiaries = Array.from(inputs).map(i => i.value).filter(v => v !== '');
-                if (state.beneficiaries.length === 0) {
-                    alert("Please name at least one beneficiary.");
-                    return false;
-                }
+        function validate(step) {
+            // Basic validation for prototype
+            if(step === 1 && (!document.getElementById('t_firstName').value || !state.details.status)) {
+                alert("Please complete all details.");
+                return false;
             }
             return true;
         }
 
-        function populateReview() {
-            document.getElementById('review-name').innerText = `${state.details.first} ${state.details.last}`;
-            document.getElementById('review-executors').innerText = state.executors.join(', ');
-            document.getElementById('review-beneficiaries').innerText = state.beneficiaries.join(', ');
+        // === LOGIC HANDLERS ===
+        function selectRadio(group, value) {
+            // Visual toggle
+            const container = event.currentTarget.parentElement;
+            container.querySelectorAll('.radio-card').forEach(el => {
+                el.classList.remove('selected');
+                el.querySelector('.radio-dot')?.classList.remove('bg-[#B08D55]', 'border-[#B08D55]');
+            });
+            event.currentTarget.classList.add('selected');
+            event.currentTarget.querySelector('.radio-dot')?.classList.add('bg-[#B08D55]', 'border-[#B08D55]');
+
+            // Data bind
+            if(group === 'status') state.details.status = value;
+            if(group === 'funeral') state.funeral.type = value;
         }
 
-        // === PDF GENERATION ===
-        function generatePDF() {
+        function toggleKids(hasKids) {
+            state.hasKids = hasKids;
+            const section = document.getElementById('guardians-section');
+            if(hasKids) {
+                section.classList.remove('hidden');
+                if(state.guardians.length === 0) addGuardianField();
+            } else {
+                section.classList.add('hidden');
+            }
+            // Visual toggle for the Yes/No cards
+            selectRadio('kids', hasKids ? 'yes' : 'no'); // Reusing visual logic
+        }
+
+        // === DYNAMIC FIELDS ===
+        function addExecutorField() {
+            const div = document.createElement('div');
+            div.className = 'list-row';
+            div.innerHTML = `
+                <input type="text" class="bg-transparent outline-none w-full text-sm font-bold exec-name" placeholder="Full Name of Executor">
+                <i data-lucide="trash-2" width="16" class="text-stone-400 cursor-pointer hover:text-red-500" onclick="this.parentElement.remove()"></i>
+            `;
+            document.getElementById('executor-list').appendChild(div);
+            lucide.createIcons();
+        }
+
+        function addGuardianField() {
+            const div = document.createElement('div');
+            div.className = 'list-row';
+            div.innerHTML = `
+                <input type="text" class="bg-transparent outline-none w-full text-sm font-bold guardian-name" placeholder="Full Name of Guardian">
+                <i data-lucide="trash-2" width="16" class="text-stone-400 cursor-pointer hover:text-red-500" onclick="this.parentElement.remove()"></i>
+            `;
+            document.getElementById('guardian-list').appendChild(div);
+            lucide.createIcons();
+        }
+
+        function addGiftField() {
+            const div = document.createElement('div');
+            div.className = 'list-row gap-4';
+            div.innerHTML = `
+                <input type="text" class="bg-transparent outline-none w-1/2 text-sm font-bold gift-desc" placeholder="Item or Sum (e.g. £1000)">
+                <div class="h-4 w-px bg-stone-300"></div>
+                <input type="text" class="bg-transparent outline-none w-1/2 text-sm gift-to" placeholder="To: Full Name">
+                <i data-lucide="trash-2" width="16" class="text-stone-400 cursor-pointer hover:text-red-500" onclick="this.parentElement.remove()"></i>
+            `;
+            document.getElementById('gift-list').appendChild(div);
+            lucide.createIcons();
+        }
+
+        function addResiduaryField() {
+            const div = document.createElement('div');
+            div.className = 'list-row';
+            div.innerHTML = `
+                <input type="text" class="bg-transparent outline-none w-full text-sm font-bold res-name" placeholder="Full Name of Beneficiary">
+                <i data-lucide="trash-2" width="16" class="text-stone-400 cursor-pointer hover:text-red-500" onclick="this.parentElement.remove()"></i>
+            `;
+            document.getElementById('residuary-list').appendChild(div);
+            lucide.createIcons();
+        }
+
+        function switchAssetTab(tab) {
+            document.getElementById('view-specific').classList.add('hidden');
+            document.getElementById('view-residuary').classList.add('hidden');
+            document.getElementById(`view-${tab}`).classList.remove('hidden');
+            
+            document.getElementById('tab-specific').className = tab === 'specific' ? "pb-2 border-b-2 border-[#B08D55] text-[#B08D55] font-bold text-xs uppercase mr-6" : "pb-2 text-stone-400 font-bold text-xs uppercase mr-6";
+            document.getElementById('tab-residuary').className = tab === 'residuary' ? "pb-2 border-b-2 border-[#B08D55] text-[#B08D55] font-bold text-xs uppercase" : "pb-2 text-stone-400 font-bold text-xs uppercase";
+        }
+
+        // === PDF ENGINE (The Heavy Lifting) ===
+        async function generateWill() {
+            // 1. Scrape Data
+            state.executors = Array.from(document.querySelectorAll('.exec-name')).map(i => i.value).filter(v=>v);
+            state.guardians = Array.from(document.querySelectorAll('.guardian-name')).map(i => i.value).filter(v=>v);
+            state.residuary = Array.from(document.querySelectorAll('.res-name')).map(i => i.value).filter(v=>v);
+            
+            state.gifts = [];
+            document.querySelectorAll('#gift-list .list-row').forEach(row => {
+                const desc = row.querySelector('.gift-desc').value;
+                const to = row.querySelector('.gift-to').value;
+                if(desc && to) state.gifts.push({ desc, to });
+            });
+
+            // 2. Init PDF
             const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
-
-            const margin = 20;
+            const doc = new jsPDF({ format: 'a4', unit: 'mm' });
+            
+            const margin = 25;
             let y = 30;
+            const width = 160;
 
-            // Title
+            function checkPageBreak(h) {
+                if (y + h > 270) {
+                    doc.addPage();
+                    y = 30;
+                }
+            }
+
+            function addHeading(text) {
+                checkPageBreak(15);
+                doc.setFont("times", "bold");
+                doc.setFontSize(14);
+                doc.text(text, margin, y);
+                y += 10;
+            }
+
+            function addPara(text) {
+                doc.setFont("times", "normal");
+                doc.setFontSize(11);
+                const lines = doc.splitTextToSize(text, width);
+                checkPageBreak(lines.length * 6);
+                doc.text(lines, margin, y);
+                y += (lines.length * 6) + 4;
+            }
+
+            // --- TITLE ---
             doc.setFont("times", "bold");
-            doc.setFontSize(22);
-            doc.text("LAST WILL AND TESTAMENT", 105, y, null, null, "center");
+            doc.setFontSize(24);
+            doc.text("LAST WILL AND TESTAMENT", 105, y, { align: 'center' });
+            y += 10;
+            doc.setFontSize(14);
+            doc.text(`of ${state.details.first} ${state.details.last}`, 105, y, { align: 'center' });
             y += 20;
 
-            // Revocation Clause
-            doc.setFont("times", "normal");
-            doc.setFontSize(12);
-            const intro = `I, ${state.details.first} ${state.details.last}, of ${state.details.address}, declare this to be my last Will and revoke all prior Wills and testamentary dispositions.`;
-            const introSplit = doc.splitTextToSize(intro, 170);
-            doc.text(introSplit, margin, y);
-            y += 20 + (introSplit.length * 5);
+            // --- 1. REVOCATION ---
+            addHeading("1. REVOCATION");
+            addPara(`I, ${state.details.first} ${state.details.last} of ${state.details.address}, declare this to be my last Will and revoke all prior Wills and testamentary dispositions.`);
 
-            // Appointment of Executors
-            doc.setFont("times", "bold");
-            doc.text("1. APPOINTMENT OF EXECUTORS", margin, y);
+            // --- 2. EXECUTORS ---
+            addHeading("2. APPOINTMENT OF EXECUTORS");
+            const execStr = state.executors.join(' and ');
+            addPara(`I APPOINT ${execStr} to be the Executor(s) and Trustee(s) of this my Will.`);
+
+            // --- 3. GUARDIANS ---
+            if (state.hasKids && state.guardians.length > 0) {
+                addHeading("3. APPOINTMENT OF GUARDIANS");
+                const guardStr = state.guardians.join(' and ');
+                addPara(`I APPOINT ${guardStr} to be the Guardian(s) of any children of mine who are under the age of 18 years at the time of my death.`);
+            }
+
+            // --- 4. SPECIFIC GIFTS ---
+            if (state.gifts.length > 0) {
+                addHeading("4. SPECIFIC LEGACIES");
+                addPara("I GIVE the following specific gifts free of tax and costs of transfer:");
+                state.gifts.forEach(gift => {
+                    addPara(`- To ${gift.to}: ${gift.desc}`);
+                });
+            }
+
+            // --- 5. RESIDUARY ESTATE ---
+            addHeading("5. RESIDUARY ESTATE");
+            addPara("I GIVE my Residuary Estate to my Trustees upon trust to pay my debts, funeral and testamentary expenses and legacies, and subject thereto to hold the remainder for:");
+            const resStr = state.residuary.join(', in equal shares, and ');
+            addPara(`${resStr} in equal shares absolutely.`);
+
+            // --- 6. FUNERAL WISHES ---
+            if (state.funeral.type) {
+                addHeading("6. FUNERAL WISHES");
+                let wish = `It is my wish that my body be ${state.funeral.type === 'cremation' ? 'cremated' : 'buried'}.`;
+                if(state.funeral.notes) wish += ` ${state.funeral.notes}`;
+                addPara(wish);
+            }
+
+            // --- 7. STANDARD PROVISIONS ---
+            addHeading("7. STANDARD PROVISIONS");
+            addPara("My Trustees shall have the Standard Provisions of the Society of Trust and Estate Practitioners (2nd Edition) incorporated into this Will.");
+
+            // --- ATTESTATION ---
             y += 10;
-            doc.setFont("times", "normal");
-            const execText = `I appoint ${state.executors.join(' and ')} to be the Executor(s) and Trustee(s) of this my Will.`;
-            const execSplit = doc.splitTextToSize(execText, 170);
-            doc.text(execSplit, margin, y);
-            y += 20 + (execSplit.length * 5);
-
-            // Distribution
-            doc.setFont("times", "bold");
-            doc.text("2. DISTRIBUTION OF ESTATE", margin, y);
-            y += 10;
-            doc.setFont("times", "normal");
-            const beneText = `I give my Residuary Estate to be divided equally among: ${state.beneficiaries.join(', ')}.`;
-            const beneSplit = doc.splitTextToSize(beneText, 170);
-            doc.text(beneSplit, margin, y);
-            y += 30;
-
-            // Attestation Clause (Crucial for validity)
+            checkPageBreak(60);
+            
             doc.setFont("times", "bold");
             doc.text("SIGNED by the Testator", margin, y);
-            y += 10;
+            y += 8;
             doc.setFont("times", "normal");
-            const signText = `SIGNED by ${state.details.first} ${state.details.last} in our presence and then by us in theirs.`;
-            doc.text(signText, margin, y);
-            y += 25;
-
-            // Signature Boxes
-            doc.rect(margin, y, 80, 30); // Testator
-            doc.text("TESTATOR SIGNATURE", margin + 5, y + 25);
+            addPara(`In our presence and then by us in theirs.`);
+            
+            y += 15;
+            
+            // Signatures
+            doc.rect(margin, y, 70, 30);
+            doc.setFontSize(8);
+            doc.text("TESTATOR SIGNATURE", margin + 2, y + 28);
+            
+            doc.rect(margin + 80, y, 70, 30);
+            doc.text("DATE", margin + 82, y + 28);
             
             y += 40;
-            doc.rect(margin, y, 80, 30); // Witness 1
-            doc.text("WITNESS 1 SIGNATURE", margin + 5, y + 25);
+            checkPageBreak(40);
             
-            doc.rect(110, y, 80, 30); // Witness 2
-            doc.text("WITNESS 2 SIGNATURE", 115, y + 25);
-
-            // Disclaimer Footer
-            doc.setFontSize(8);
-            doc.text("Generated by FuneralMatch Legal. This document must be signed by the testator in the presence of two witnesses to be valid.", 105, 280, null, null, "center");
+            doc.rect(margin, y, 70, 30);
+            doc.text("WITNESS 1 SIGNATURE", margin + 2, y + 28);
+            
+            doc.rect(margin + 80, y, 70, 30);
+            doc.text("WITNESS 2 SIGNATURE", margin + 82, y + 28);
 
             // Save
             doc.save(`${state.details.last}_Will.pdf`);
         }
 
-        // Init Icons
-        lucide.createIcons();
+        init();
     </script>
 </body>
 </html>
