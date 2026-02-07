@@ -3,218 +3,260 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>FuneralMatch | Ethereal Studio</title>
+    <title>Order of Service Designer | FuneralMatch</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
-    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,600;1,400&family=Cinzel:wght@400;600&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Cinzel:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,500&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 
     <style>
-        /* --- 1. ETHEREAL DESIGN SYSTEM --- */
+        /* =========================================
+         * 1. DESIGN SYSTEM TOKENS
+         * ========================================= */
         :root {
-            --bg-deep: #000000;
-            --bg-glass: rgba(20, 20, 20, 0.7);
-            --border-glass: rgba(255, 255, 255, 0.08);
-            
+            /* Palette */
+            --bg-deep: #050505;
+            --bg-panel: #121212;
+            --surface-glass: rgba(20, 20, 20, 0.85);
             --gold-primary: #D4AF37;
-            --gold-gradient: linear-gradient(135deg, #D4AF37 0%, #C5A059 100%);
-            --gold-glow: 0 0 20px rgba(212, 175, 55, 0.3);
+            --gold-dim: #8A7326;
+            --text-main: #F2F2F2;
+            --text-mute: #888888;
             
-            --radius-soft: 32px;
+            /* Shapes */
+            --radius-xl: 32px;
+            --radius-md: 16px;
             --radius-pill: 999px;
             
-            --page-ratio: 1.414; /* A-Series */
-            --ease-elastic: cubic-bezier(0.34, 1.56, 0.64, 1);
+            /* Motion */
+            --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+            --shadow-float: 0 20px 50px -10px rgba(0,0,0,0.6);
+            --shadow-gold: 0 0 0 2px rgba(212, 175, 55, 0.5);
+            
+            /* A5 Dimensions (Screen Scaled) */
+            --page-width: 148mm;
+            --page-height: 210mm;
+            --scale-ratio: 0.8; /* Visual scaling for desktop */
         }
 
-        /* --- 2. GLOBAL RESET --- */
-        html { background: var(--bg-deep); scroll-behavior: smooth; }
+        /* =========================================
+         * 2. GLOBAL RESET & UTILITIES
+         * ========================================= */
+        html { background: var(--bg-deep); height: 100%; }
         body {
-            font-family: 'Inter', sans-serif; color: white;
-            min-height: 100vh; overflow-x: hidden;
-            background-image: 
-                radial-gradient(circle at 50% 0%, #1a1a1a 0%, transparent 40%),
-                radial-gradient(circle at 80% 80%, #0f0f0f 0%, transparent 40%);
+            font-family: 'Inter', sans-serif; color: var(--text-main);
+            min-height: 100vh; margin: 0; overflow-x: hidden;
             display: flex; flex-direction: column;
+            background-image: radial-gradient(circle at 50% 0%, #1a1a1a 0%, #050505 60%);
         }
 
-        /* --- 3. HEADER (Floating Island) --- */
+        /* Scrollbar Hide */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--bg-deep); }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+
+        /* =========================================
+         * 3. FLOATING INTERFACE
+         * ========================================= */
         .header-island {
-            position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
-            width: 90%; max-width: 600px; height: 64px;
-            background: rgba(15, 15, 15, 0.85); backdrop-filter: blur(20px);
-            border: 1px solid var(--border-glass);
+            position: fixed; top: 24px; left: 50%; transform: translateX(-50%);
+            width: 92%; max-width: 680px; height: 72px;
+            background: rgba(18, 18, 18, 0.8); backdrop-filter: blur(24px);
+            border: 1px solid rgba(255,255,255,0.08);
             border-radius: var(--radius-pill);
             display: flex; align-items: center; justify-content: space-between;
-            padding: 0 8px 0 24px;
-            z-index: 50;
-            box-shadow: 0 20px 40px -10px rgba(0,0,0,0.5);
+            padding: 0 12px 0 32px; z-index: 100;
+            box-shadow: 0 24px 48px -12px rgba(0,0,0,0.5);
+            transition: all 0.3s var(--ease-out);
         }
 
-        .logo-text { font-family: 'Bodoni Moda', serif; font-weight: 700; letter-spacing: 0.05em; font-size: 16px; }
-        .logo-sub { font-size: 9px; text-transform: uppercase; color: var(--gold-primary); letter-spacing: 0.15em; font-weight: 700; }
+        .brand-block { display: flex; flex-direction: column; }
+        .brand-logo { font-family: 'Bodoni Moda', serif; font-weight: 700; letter-spacing: -0.02em; font-size: 18px; color: white; }
+        .brand-sub { font-size: 9px; text-transform: uppercase; color: var(--gold-primary); letter-spacing: 0.2em; font-weight: 700; margin-top: 2px; }
 
-        .price-pill {
-            background: #222; padding: 8px 16px; border-radius: var(--radius-pill);
-            font-size: 12px; font-weight: 600; color: white; border: 1px solid #333;
-            transition: 0.3s;
+        .action-group { display: flex; gap: 8px; }
+        
+        .header-btn {
+            height: 48px; padding: 0 20px; border-radius: var(--radius-pill);
+            display: flex; align-items: center; gap: 8px;
+            font-size: 12px; font-weight: 600; color: var(--text-mute);
+            background: rgba(255,255,255,0.03); border: 1px solid transparent;
+            cursor: pointer; transition: 0.2s;
         }
-        .price-pill.updated { border-color: var(--gold-primary); color: var(--gold-primary); transform: scale(1.05); }
+        .header-btn:hover { background: rgba(255,255,255,0.08); color: white; }
+        .header-btn.primary {
+            background: var(--gold-primary); color: #000;
+            font-weight: 700; box-shadow: 0 4px 20px rgba(212, 175, 55, 0.2);
+        }
+        .header-btn.primary:hover { background: #E5C14D; transform: translateY(-1px); }
 
-        /* --- 4. CANVAS (The Desk) --- */
+        /* =========================================
+         * 4. CANVAS AREA (The Desk)
+         * ========================================= */
         .workspace {
-            flex: 1; padding: 120px 20px 160px 20px;
-            display: flex; flex-direction: column; align-items: center; gap: 40px;
+            flex: 1; padding: 140px 20px 180px 20px;
+            display: flex; flex-direction: column; align-items: center; gap: 60px;
+            perspective: 1000px;
         }
 
-        /* The Sheet (Physical Feel) */
-        .sheet-card {
+        /* The Page (Physical Object) */
+        .page-sheet {
             position: relative;
-            width: 100%; max-width: 500px;
-            aspect-ratio: 1 / var(--page-ratio);
-            background: white; color: black;
-            border-radius: var(--radius-soft); /* Soft Corners per request */
-            box-shadow: 0 30px 80px -20px rgba(0,0,0,0.7);
-            transition: transform 0.4s var(--ease-elastic), box-shadow 0.4s ease;
+            width: 100%; max-width: 460px; /* A5 Scaled */
+            aspect-ratio: 148 / 210;
+            background: #FAFAFA; color: #1a1a1a;
+            border-radius: 4px; /* Crisp paper corners */
+            box-shadow: var(--shadow-float);
+            transform-origin: center top;
+            transition: transform 0.4s var(--ease-out), box-shadow 0.4s var(--ease-out);
             overflow: hidden;
             display: flex; flex-direction: column;
         }
 
-        /* Active Focus State */
-        .sheet-card.active {
-            transform: scale(1.02);
-            box-shadow: 0 0 0 3px var(--gold-primary), 0 40px 100px -20px rgba(0,0,0,0.9);
-            z-index: 10;
+        .page-sheet:hover { transform: translateY(-8px) scale(1.01); box-shadow: 0 30px 60px -15px rgba(0,0,0,0.5); }
+        .page-sheet.active { ring: 3px solid var(--gold-primary); ring-offset: 4px; ring-offset-color: var(--bg-deep); }
+
+        /* Page Indicators */
+        .page-meta {
+            position: absolute; top: 0; left: -40px; bottom: 0; width: 30px;
+            display: flex; flex-direction: column; justify-content: space-between;
+            opacity: 0.4; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em;
+            writing-mode: vertical-rl; text-orientation: mixed; transform: rotate(180deg);
         }
 
-        /* Page Badge */
-        .page-badge {
-            position: absolute; top: 20px; right: 20px;
-            background: rgba(0,0,0,0.05); padding: 4px 12px;
-            border-radius: var(--radius-pill);
-            font-size: 9px; font-weight: 700; text-transform: uppercase; color: #888;
-            pointer-events: none;
-        }
-
-        /* --- 5. EDITABLE CONTENT --- */
-        .content-wrap { flex: 1; padding: 40px; display: flex; flex-direction: column; }
-
-        [contenteditable] {
-            outline: none; border: 1px dashed transparent; border-radius: 8px;
-            transition: 0.2s; cursor: text;
-        }
-        [contenteditable]:hover { background: rgba(0,0,0,0.03); }
-        [contenteditable]:focus { 
-            background: rgba(212, 175, 55, 0.08); 
-            border-color: rgba(212, 175, 55, 0.3);
-        }
-
-        /* Photo Uploaders */
-        .photo-slot {
-            width: 100%; background: #f4f4f4; 
-            border-radius: 20px; overflow: hidden;
+        /* Delete Button */
+        .delete-page-btn {
+            position: absolute; top: 16px; right: -50px;
+            width: 36px; height: 36px; border-radius: 50%;
+            background: #2a1a1a; color: #ff4444; border: 1px solid #442222;
             display: flex; align-items: center; justify-content: center;
-            cursor: pointer; transition: 0.3s; position: relative;
+            opacity: 0; transition: 0.3s; cursor: pointer;
         }
-        .photo-slot:hover { opacity: 0.9; transform: scale(0.99); }
-        .photo-slot img { width: 100%; height: 100%; object-fit: cover; }
-        .photo-empty { display: flex; flex-direction: column; align-items: center; color: #ccc; gap: 8px; }
+        .workspace:hover .delete-page-btn { opacity: 1; right: -60px; }
 
-        /* --- 6. BOTTOM DOCK (Glass Action Bar) --- */
-        .dock-wrapper {
-            position: fixed; bottom: 40px; left: 0; right: 0;
-            display: flex; justify-content: center; z-index: 50;
+        /* =========================================
+         * 5. EDITABLE CONTENT
+         * ========================================= */
+        .editable-area {
+            outline: none; border: 1px dashed transparent; border-radius: 4px;
+            transition: 0.2s; cursor: text; min-height: 1.2em;
+        }
+        .editable-area:hover { background: rgba(0,0,0,0.03); border-color: rgba(0,0,0,0.1); }
+        .editable-area:focus { background: rgba(212, 175, 55, 0.05); border-color: var(--gold-primary); }
+        
+        /* Placeholder logic */
+        .editable-area:empty:before {
+            content: attr(data-placeholder);
+            color: #aaa; font-style: italic; pointer-events: none;
+        }
+
+        /* Image Handling */
+        .img-container {
+            width: 100%; height: 100%; background: #f0f0f0;
+            display: flex; align-items: center; justify-content: center;
+            overflow: hidden; cursor: pointer; transition: 0.3s; position: relative;
+        }
+        .img-container:hover { opacity: 0.9; }
+        .img-container img { width: 100%; height: 100%; object-fit: cover; }
+        .img-placeholder { display: flex; flex-direction: column; align-items: center; gap: 8px; color: #999; }
+
+        /* =========================================
+         * 6. BOTTOM DOCK (Toolbar)
+         * ========================================= */
+        .dock-container {
+            position: fixed; bottom: 32px; left: 0; right: 0;
+            display: flex; justify-content: center; z-index: 90;
             pointer-events: none;
         }
 
-        .dock {
+        .dock-bar {
             pointer-events: auto;
-            background: rgba(18, 18, 18, 0.9);
-            backdrop-filter: blur(25px);
-            border: 1px solid rgba(255,255,255,0.15);
-            border-radius: var(--radius-pill);
-            padding: 8px;
-            display: flex; align-items: center; gap: 8px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.8);
-            transform: translateY(0); transition: 0.4s var(--ease-elastic);
+            background: rgba(20, 20, 20, 0.9); backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.1); border-radius: var(--radius-pill);
+            padding: 6px; display: flex; gap: 6px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
         }
 
-        .dock-btn {
-            height: 52px; padding: 0 24px; border-radius: var(--radius-pill);
-            display: flex; align-items: center; gap: 10px;
-            font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
-            color: #aaa; background: transparent; border: 1px solid transparent;
-            cursor: pointer; transition: 0.2s;
+        .tool-btn {
+            width: 50px; height: 50px; border-radius: 50%;
+            background: transparent; border: none; color: #888;
+            font-size: 18px; cursor: pointer; transition: 0.2s;
+            display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
         }
-        .dock-btn:hover { color: white; background: rgba(255,255,255,0.05); }
-        .dock-btn.active { color: var(--gold-primary); background: rgba(212, 175, 55, 0.1); border-color: rgba(212, 175, 55, 0.2); }
+        .tool-btn span { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; opacity: 0; transform: translateY(5px); transition: 0.2s; }
+        .tool-btn:hover { background: rgba(255,255,255,0.1); color: white; width: 60px; border-radius: 20px; }
+        .tool-btn:hover span { opacity: 1; transform: translateY(0); }
+        
+        .tool-separator { width: 1px; height: 24px; background: rgba(255,255,255,0.1); margin: auto 4px; }
 
-        .dock-btn.primary {
-            background: var(--gold-gradient); color: black; border: none;
-            box-shadow: var(--gold-glow);
+        /* =========================================
+         * 7. DRAWERS (Context Menus)
+         * ========================================= */
+        .drawer-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(5px);
+            z-index: 150; opacity: 0; pointer-events: none; transition: 0.3s;
         }
-        .dock-btn.primary:hover { transform: scale(1.05); color: black; }
+        .drawer-overlay.active { opacity: 1; pointer-events: auto; }
 
-        /* --- 7. BOTTOM SHEET (Drawers) --- */
-        .overlay {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(8px);
-            z-index: 90; opacity: 0; pointer-events: none; transition: 0.4s;
-        }
-        .overlay.active { opacity: 1; pointer-events: auto; }
-
-        .sheet-drawer {
+        .drawer-panel {
             position: fixed; bottom: 0; left: 0; right: 0;
-            background: #121212;
-            border-radius: 40px 40px 0 0; /* Super soft top corners */
-            border-top: 1px solid #333;
-            padding: 32px; padding-bottom: 60px;
-            z-index: 100;
-            transform: translateY(110%); transition: transform 0.5s var(--ease-elastic);
-            max-height: 85vh; overflow-y: auto;
-            box-shadow: 0 -20px 80px black;
+            background: #181818; border-top: 1px solid #333;
+            border-radius: 32px 32px 0 0;
+            padding: 32px; padding-bottom: 60px; z-index: 200;
+            transform: translateY(110%); transition: transform 0.4s cubic-bezier(0.3, 1.2, 0.6, 1);
+            max-width: 800px; margin: 0 auto;
         }
-        .sheet-drawer.open { transform: translateY(0); }
+        .drawer-panel.open { transform: translateY(0); }
 
-        .drawer-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
-        .drawer-title { font-size: 18px; font-weight: 700; color: white; }
+        .drawer-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px; }
+        .drawer-title { font-family: 'Bodoni Moda', serif; font-size: 24px; color: white; }
 
-        /* Option Grid */
-        .option-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+        /* Template Grid */
+        .template-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 16px; }
         
-        .option-card {
-            background: #1a1a1a; border: 1px solid #333; border-radius: 20px;
-            padding: 20px; display: flex; flex-direction: column; align-items: center; gap: 12px;
-            cursor: pointer; transition: 0.2s;
+        .template-option {
+            background: #222; border: 1px solid #333; border-radius: 16px;
+            padding: 20px; cursor: pointer; transition: 0.2s;
+            display: flex; flex-direction: column; align-items: center; gap: 12px; text-align: center;
         }
-        .option-card:hover { background: #222; border-color: #666; }
-        .option-card.selected { background: rgba(212, 175, 55, 0.1); border-color: var(--gold-primary); }
+        .template-option:hover { background: #2a2a2a; border-color: #555; transform: translateY(-2px); }
+        .template-option i { font-size: 24px; color: var(--gold-primary); opacity: 0.8; }
+        .template-label { font-size: 11px; font-weight: 600; color: #ccc; text-transform: uppercase; letter-spacing: 0.05em; }
+
+        /* Style Controls */
+        .style-group { margin-bottom: 32px; }
+        .style-label { font-size: 10px; font-weight: 700; color: #666; text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 12px; display: block; }
         
-        .option-icon { font-size: 24px; color: #666; }
-        .option-card.selected .option-icon { color: var(--gold-primary); }
-        .option-label { font-size: 11px; font-weight: 600; color: white; }
-
-        /* Typography Preview Cards */
-        .type-card {
-            background: white; color: black; border-radius: 16px; padding: 16px; text-align: center;
-            border: 2px solid transparent; cursor: pointer; transition: 0.2s;
+        .swatch-row { display: flex; gap: 12px; }
+        .color-swatch {
+            width: 48px; height: 48px; border-radius: 12px; cursor: pointer;
+            border: 2px solid transparent; transition: 0.2s; position: relative;
         }
-        .type-card.selected { border-color: var(--gold-primary); box-shadow: 0 0 20px rgba(212, 175, 55, 0.3); }
+        .color-swatch.active { border-color: var(--gold-primary); transform: scale(1.1); }
+        .color-swatch.cream { background: #F9F7F2; }
+        .color-swatch.white { background: #FFFFFF; }
+        .color-swatch.stone { background: #EBEBEB; }
+        .color-swatch.navy { background: #1a2a3a; }
 
-        /* --- 8. PRINT CSS --- */
+        /* =========================================
+         * 8. PRINT & EXPORT STYLES
+         * ========================================= */
         @media print {
-            body { background: white; height: auto; display: block; overflow: visible; }
-            .header-island, .dock-wrapper, .page-badge, .sheet-drawer, .overlay { display: none !important; }
+            body { background: white; margin: 0; display: block; }
+            .header-island, .dock-container, .delete-page-btn, .page-meta, .drawer-overlay { display: none !important; }
             .workspace { padding: 0; margin: 0; display: block; }
-            
-            .sheet-card {
-                box-shadow: none; border-radius: 0; width: 100%; max-width: 100%;
+            .page-sheet {
+                box-shadow: none; border-radius: 0; margin: 0; width: 100%; max-width: 100%;
                 break-after: page; page-break-after: always;
-                border: none; margin: 0;
+                border: none; aspect-ratio: auto; height: 100vh;
             }
-            [contenteditable] { border: none !important; }
+            .editable-area { border: none !important; }
+            .editable-area:empty:before { content: none; }
             @page { size: A5; margin: 0; }
         }
 
@@ -223,318 +265,419 @@
 <body>
 
     <header class="header-island">
-        <div>
-            <div class="logo-text">FuneralMatch</div>
-            <div class="logo-sub">Ethereal Studio</div>
+        <div class="brand-block">
+            <span class="brand-logo">FuneralMatch</span>
+            <span class="brand-sub">Order of Service</span>
         </div>
-        <div class="price-pill" id="total-price">£80.00</div>
+        
+        <div class="action-group">
+            <button class="header-btn" onclick="saveProject()">
+                <i class="fas fa-cloud-upload-alt"></i> <span class="hidden sm:inline">Save</span>
+            </button>
+            <button class="header-btn primary" onclick="exportPDF()">
+                <span>Finalise PDF</span> <i class="fas fa-chevron-right text-xs"></i>
+            </button>
+        </div>
     </header>
 
     <div id="workspace" class="workspace">
         </div>
 
-    <div class="dock-wrapper">
-        <div class="dock">
-            <button class="dock-btn" onclick="openDrawer('add')">
-                <i class="fas fa-plus-circle text-lg"></i> <span class="hidden sm:inline">Add</span>
+    <div class="dock-container">
+        <div class="dock-bar">
+            <button class="tool-btn" onclick="openDrawer('add')">
+                <i class="fas fa-plus"></i>
+                <span>Add Page</span>
             </button>
-            <button class="dock-btn" onclick="openDrawer('style')">
-                <i class="fas fa-swatchbook text-lg"></i> <span class="hidden sm:inline">Style</span>
+            <div class="tool-separator"></div>
+            <button class="tool-btn" onclick="openDrawer('style')">
+                <i class="fas fa-palette"></i>
+                <span>Theme</span>
             </button>
-            <div class="w-px h-6 bg-white/10 mx-2"></div>
-            <button class="dock-btn primary" onclick="printBooklet()">
-                <span>Checkout</span> <i class="fas fa-arrow-right"></i>
+            <button class="tool-btn" onclick="openDrawer('type')">
+                <i class="fas fa-font"></i>
+                <span>Type</span>
+            </button>
+            <div class="tool-separator"></div>
+            <button class="tool-btn" onclick="togglePreviewMode()">
+                <i class="fas fa-eye"></i>
+                <span>Preview</span>
             </button>
         </div>
     </div>
 
-    <div id="overlay" class="overlay" onclick="closeDrawers()"></div>
+    <div id="drawer-overlay" class="drawer-overlay" onclick="closeDrawers()"></div>
 
-    <div id="drawer-add" class="sheet-drawer">
+    <div id="drawer-add" class="drawer-panel">
         <div class="drawer-header">
-            <span class="drawer-title">Add Content</span>
-            <button onclick="closeDrawers()" class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20"><i class="fas fa-times"></i></button>
+            <span class="drawer-title">Select Layout</span>
+            <button onclick="closeDrawers()" class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-gray-400 hover:text-white"><i class="fas fa-times"></i></button>
         </div>
-        <div class="option-grid">
-            <div class="option-card" onclick="addPage('hymn')">
-                <i class="fas fa-music option-icon"></i> <span class="option-label">Hymn</span>
+        <div class="template-grid">
+            <div class="template-option" onclick="addPage('cover')">
+                <i class="far fa-id-card"></i> <span class="template-label">Cover</span>
             </div>
-            <div class="option-card" onclick="addPage('reading')">
-                <i class="fas fa-book-open option-icon"></i> <span class="option-label">Reading</span>
+            <div class="template-option" onclick="addPage('hymn')">
+                <i class="fas fa-music"></i> <span class="template-label">Hymn</span>
             </div>
-            <div class="option-card" onclick="addPage('photo')">
-                <i class="fas fa-image option-icon"></i> <span class="option-label">Full Photo</span>
+            <div class="template-option" onclick="addPage('reading')">
+                <i class="fas fa-book-open"></i> <span class="template-label">Reading</span>
             </div>
-            <div class="option-card" onclick="addPage('collage')">
-                <i class="fas fa-th-large option-icon"></i> <span class="option-label">Collage</span>
+            <div class="template-option" onclick="addPage('photo')">
+                <i class="far fa-image"></i> <span class="template-label">Photo Full</span>
             </div>
-            <div class="option-card" onclick="addPage('text')">
-                <i class="fas fa-align-left option-icon"></i> <span class="option-label">Text Block</span>
+            <div class="template-option" onclick="addPage('collage')">
+                <i class="fas fa-th-large"></i> <span class="template-label">Collage</span>
             </div>
-            <div class="option-card" onclick="addPage('timeline')">
-                <i class="fas fa-stream option-icon"></i> <span class="option-label">Timeline</span>
+            <div class="template-option" onclick="addPage('timeline')">
+                <i class="fas fa-stream"></i> <span class="template-label">Timeline</span>
             </div>
         </div>
     </div>
 
-    <div id="drawer-style" class="sheet-drawer">
+    <div id="drawer-style" class="drawer-panel">
         <div class="drawer-header">
-            <span class="drawer-title">Design Language</span>
-            <button onclick="closeDrawers()" class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20"><i class="fas fa-times"></i></button>
+            <span class="drawer-title">Paper & Theme</span>
+            <button onclick="closeDrawers()" class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-gray-400 hover:text-white"><i class="fas fa-times"></i></button>
         </div>
         
-        <p class="text-xs font-bold text-gray-500 uppercase mb-4 tracking-widest">Typography</p>
-        <div class="grid grid-cols-2 gap-4 mb-8">
-            <div class="type-card" onclick="setFont('classic')">
-                <span class="font-serif text-3xl block mb-2">Aa</span>
-                <span class="text-xs font-bold uppercase tracking-widest">Bodoni</span>
+        <div class="style-group">
+            <span class="style-label">Paper Stock</span>
+            <div class="swatch-row">
+                <div class="color-swatch cream active" onclick="setTheme('cream')"></div>
+                <div class="color-swatch white" onclick="setTheme('white')"></div>
+                <div class="color-swatch stone" onclick="setTheme('stone')"></div>
             </div>
-            <div class="type-card" onclick="setFont('modern')">
-                <span class="font-sans font-bold text-3xl block mb-2">Aa</span>
-                <span class="text-xs font-bold uppercase tracking-widest">Modern</span>
-            </div>
-            <div class="type-card" onclick="setFont('formal')">
-                <span style="font-family: 'Cinzel', serif" class="text-3xl block mb-2">Aa</span>
-                <span class="text-xs font-bold uppercase tracking-widest">Formal</span>
-            </div>
-            <div class="type-card" onclick="setFont('soft')">
-                <span style="font-family: 'Cormorant Garamond', serif" class="text-3xl italic block mb-2">Aa</span>
-                <span class="text-xs font-bold uppercase tracking-widest">Soft</span>
-            </div>
-        </div>
-
-        <p class="text-xs font-bold text-gray-500 uppercase mb-4 tracking-widest">Paper Stock</p>
-        <div class="flex gap-4">
-            <div onclick="setPaper('cream')" class="w-14 h-14 rounded-full bg-[#fdfbf7] border-2 border-transparent cursor-pointer hover:border-[#D4AF37]"></div>
-            <div onclick="setPaper('stone')" class="w-14 h-14 rounded-full bg-[#e5e5e5] border-2 border-transparent cursor-pointer hover:border-[#D4AF37]"></div>
-            <div onclick="setPaper('white')" class="w-14 h-14 rounded-full bg-white border-2 border-transparent cursor-pointer hover:border-[#D4AF37]"></div>
         </div>
     </div>
 
-    <input type="file" id="img-upload" class="hidden" accept="image/*">
+    <div id="drawer-type" class="drawer-panel">
+        <div class="drawer-header">
+            <span class="drawer-title">Typography</span>
+            <button onclick="closeDrawers()" class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-gray-400 hover:text-white"><i class="fas fa-times"></i></button>
+        </div>
+        
+        <div class="template-grid">
+            <div class="template-option" onclick="setFont('bodoni')">
+                <span style="font-family: 'Bodoni Moda', serif; font-size: 24px;">Ag</span>
+                <span class="template-label">Classic</span>
+            </div>
+            <div class="template-option" onclick="setFont('inter')">
+                <span style="font-family: 'Inter', sans-serif; font-size: 24px; font-weight: 600;">Ag</span>
+                <span class="template-label">Modern</span>
+            </div>
+            <div class="template-option" onclick="setFont('cinzel')">
+                <span style="font-family: 'Cinzel', serif; font-size: 20px;">Ag</span>
+                <span class="template-label">Formal</span>
+            </div>
+            <div class="template-option" onclick="setFont('cormorant')">
+                <span style="font-family: 'Cormorant Garamond', serif; font-size: 26px; font-style: italic;">Ag</span>
+                <span class="template-label">Soft</span>
+            </div>
+        </div>
+    </div>
+
+    <input type="file" id="img-input" class="hidden" accept="image/*">
 
     <script>
-        // === 1. DATA ===
+        // === STATE MANAGEMENT ===
         const state = {
             pages: [],
-            settings: { font: 'classic', paper: 'cream' }
+            theme: 'cream',
+            font: 'bodoni',
+            projectID: 'OOS_' + Date.now()
         };
 
+        // === HTML TEMPLATES ===
         const TEMPLATES = {
             cover: `
-                <div class="content-wrap items-center justify-center text-center">
-                    <div class="mb-8 text-xs uppercase tracking-[0.2em] text-gray-500 font-bold" contenteditable="true">In Loving Memory</div>
-                    <div class="photo-slot rounded-full w-48 h-48 mb-8 shadow-xl border-[6px] border-double border-gray-100" onclick="upload(this)">
-                        <div class="photo-empty"><i class="fas fa-camera text-2xl opacity-20"></i></div>
+                <div class="flex-1 flex flex-col items-center justify-center text-center p-8">
+                    <div class="editable-area text-[10px] uppercase tracking-[0.25em] font-bold text-gray-400 mb-8" contenteditable="true" data-placeholder="SUBTITLE">IN LOVING MEMORY OF</div>
+                    
+                    <div class="img-container w-48 h-48 rounded-full shadow-xl mb-10 border-4 border-white" onclick="triggerUpload(this)">
+                        <div class="img-placeholder"><i class="fas fa-camera"></i><span class="text-[9px] font-bold uppercase">Add Photo</span></div>
                     </div>
-                    <div class="text-5xl mb-4 font-bold leading-none" contenteditable="true">Name<br>Here</div>
-                    <div class="text-sm opacity-60 italic mb-12" contenteditable="true">1950 — 2026</div>
-                    <div class="mt-auto text-[10px] uppercase font-bold opacity-40 tracking-widest" contenteditable="true">St Mary's Church</div>
-                </div>`,
-            
-            text: `
-                <div class="content-wrap">
-                    <div class="text-lg font-bold mb-6 border-b border-black/10 pb-4 text-[#D4AF37]" contenteditable="true">Reading</div>
-                    <div class="text-sm leading-loose opacity-80 whitespace-pre-wrap" contenteditable="true">
-Tap here to edit text. 
-Share a poem, a eulogy, or a favorite memory.
-                    </div>
-                </div>`,
-            
-            photo: `
-                <div class="content-wrap p-0">
-                    <div class="photo-slot w-full h-[65%] bg-gray-100 rounded-none" onclick="upload(this)">
-                        <div class="photo-empty"><i class="fas fa-image text-3xl mb-2"></i><span class="text-xs font-bold uppercase tracking-widest opacity-50">Add Photo</span></div>
-                    </div>
-                    <div class="p-10 text-center">
-                        <div class="text-xl font-bold mb-2" contenteditable="true">Caption Title</div>
-                        <div class="text-xs opacity-60" contenteditable="true">Add a description of this moment...</div>
+                    
+                    <div class="editable-area text-5xl font-bold mb-4 leading-tight text-gray-900" contenteditable="true" data-placeholder="Full Name">Name Here</div>
+                    
+                    <div class="editable-area text-lg italic text-gray-500 mb-12" contenteditable="true" data-placeholder="Dates">1950 — 2026</div>
+                    
+                    <div class="mt-auto border-t border-gray-200 pt-6 w-full max-w-[200px]">
+                        <div class="editable-area text-[10px] font-bold uppercase tracking-widest text-gray-400" contenteditable="true" data-placeholder="Location">St Mary's Church</div>
+                        <div class="editable-area text-[10px] font-bold uppercase tracking-widest text-gray-400 mt-1" contenteditable="true" data-placeholder="Date & Time">24th Jan • 11:00 AM</div>
                     </div>
                 </div>`,
             
             hymn: `
-                <div class="content-wrap items-center pt-16 text-center px-8">
-                    <div class="text-[10px] uppercase font-bold text-gray-300 mb-6 tracking-[0.2em]" contenteditable="true">Hymn</div>
-                    <div class="text-3xl italic mb-8 font-bold text-gray-800" contenteditable="true">Abide With Me</div>
-                    <div class="text-sm italic opacity-60 leading-loose" contenteditable="true">
-Abide with me;<br>fast falls the eventide;<br>The darkness deepens;<br>Lord with me abide.<br>When other helpers fail<br>and comforts flee,<br>Help of the helpless,<br>O abide with me.
+                <div class="flex-1 flex flex-col items-center pt-16 px-10 text-center">
+                    <div class="editable-area text-[10px] uppercase tracking-[0.2em] font-bold text-[#D4AF37] mb-6" contenteditable="true">HYMN</div>
+                    <div class="editable-area text-2xl font-bold text-gray-800 mb-8" contenteditable="true">Abide With Me</div>
+                    <div class="editable-area text-sm leading-loose text-gray-600 whitespace-pre-wrap font-medium" contenteditable="true">
+Abide with me; fast falls the eventide;
+The darkness deepens; Lord with me abide.
+When other helpers fail and comforts flee,
+Help of the helpless, O abide with me.
+
+Swift to its close ebbs out life’s little day;
+Earth’s joys grow dim; its glories pass away;
+Change and decay in all around I see;
+O Thou who changest not, abide with me.
+                    </div>
+                </div>`,
+
+            reading: `
+                <div class="flex-1 flex flex-col justify-center px-12 text-left">
+                    <div class="editable-area text-xl font-bold text-[#D4AF37] mb-6 border-b border-gray-200 pb-4" contenteditable="true">Reading</div>
+                    <div class="editable-area text-base leading-relaxed text-gray-700 whitespace-pre-wrap" contenteditable="true">
+"Death is nothing at all.
+I have only slipped away into the next room.
+I am I and you are you.
+Whatever we were to each other, that we still are.
+
+Call me by my old familiar name.
+Speak to me in the easy way which you always used.
+Put no difference in your tone."
+                    </div>
+                    <div class="editable-area text-xs font-bold uppercase tracking-widest text-gray-400 mt-6" contenteditable="true">— Henry Scott Holland</div>
+                </div>`,
+
+            photo: `
+                <div class="flex-1 flex flex-col">
+                    <div class="img-container w-full h-[70%] bg-gray-100" onclick="triggerUpload(this)">
+                        <div class="img-placeholder"><i class="far fa-image text-3xl"></i><span class="text-[10px] font-bold uppercase mt-2">Add Full Image</span></div>
+                    </div>
+                    <div class="flex-1 flex flex-col justify-center items-center text-center p-8 bg-white">
+                        <div class="editable-area text-lg font-bold mb-2" contenteditable="true">A Life Well Lived</div>
+                        <div class="editable-area text-xs text-gray-400 max-w-[200px]" contenteditable="true">Capture a caption here...</div>
                     </div>
                 </div>`
         };
 
-        // === 2. INIT ===
+        // === INITIALIZATION ===
         function init() {
-            // Load Saved or Default
-            const saved = localStorage.getItem('ethereal_v1');
-            if(saved) {
+            // Check for saved project
+            const saved = localStorage.getItem('fm_oos_v1');
+            if (saved) {
                 const data = JSON.parse(saved);
                 state.pages = data.pages;
-                state.settings = data.settings;
+                state.theme = data.theme;
+                state.font = data.font;
+                restorePages();
             } else {
+                // Default setup
                 addPage('cover', false);
-                addPage('text', false);
                 addPage('hymn', false);
-                addPage('text', false); // Back cover
+                addPage('reading', false);
+                addPage('photo', false);
             }
-            render();
-            updatePrice();
+            applyTheme();
+            applyFont();
         }
 
-        // === 3. RENDER ENGINE ===
-        function render() {
-            const workspace = document.getElementById('workspace');
-            workspace.innerHTML = '';
+        // === CORE FUNCTIONS ===
+        function addPage(type, save = true) {
+            const id = Date.now();
+            const html = TEMPLATES[type];
+            
+            const pageObj = { id, type, html };
+            state.pages.push(pageObj);
+            
+            renderPage(pageObj, state.pages.length - 1);
+            
+            if(save) {
+                saveProject();
+                closeDrawers();
+                // Smooth scroll to new page
+                setTimeout(() => window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }), 100);
+            }
+        }
 
-            state.pages.forEach((page, index) => {
-                const sheet = document.createElement('div');
-                // Apply Design System Classes
-                let fontClass = state.settings.font === 'classic' ? 'font-serif' : 
-                                state.settings.font === 'modern' ? 'font-sans' : 
-                                state.settings.font === 'formal' ? 'font-[Cinzel]' : 'italic';
-                
-                let paperColor = state.settings.paper === 'cream' ? '#fdfbf7' : 
-                                 state.settings.paper === 'stone' ? '#e5e5e5' : '#ffffff';
+        function renderPage(pageObj, index) {
+            const container = document.getElementById('workspace');
+            const sheet = document.createElement('div');
+            
+            sheet.className = 'page-sheet';
+            sheet.id = `page-${pageObj.id}`;
+            sheet.innerHTML = `
+                <div class="page-meta">Page ${index + 1}</div>
+                <button class="delete-page-btn" onclick="removePage(${index})"><i class="fas fa-trash"></i></button>
+                ${pageObj.html}
+            `;
 
-                sheet.className = `sheet-card ${fontClass}`;
-                sheet.style.backgroundColor = paperColor;
-                sheet.id = `page-${index}`;
+            // Interaction logic
+            sheet.addEventListener('click', () => {
+                document.querySelectorAll('.page-sheet').forEach(p => p.classList.remove('active'));
+                sheet.classList.add('active');
+            });
 
-                // Inject Content
-                sheet.innerHTML = `
-                    <div class="page-badge">Page ${index + 1}</div>
-                    <div class="sheet-content h-full flex flex-col">${page.html}</div>
-                    ${state.pages.length > 4 ? `<button onclick="deletePage(${index})" class="absolute top-4 left-4 w-8 h-8 rounded-full bg-red-50 text-red-400 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity"><i class="fas fa-trash text-xs"></i></button>` : ''}
-                `;
+            // Content update listener
+            sheet.addEventListener('input', () => {
+                // Debounce save could go here
+            });
 
-                // Logic: Focus/Save
-                sheet.addEventListener('click', () => {
-                    document.querySelectorAll('.sheet-card').forEach(c => c.classList.remove('active'));
-                    sheet.classList.add('active');
-                });
+            container.appendChild(sheet);
+            applyThemeToElement(sheet);
+            applyFontToElement(sheet);
+        }
 
-                sheet.addEventListener('input', () => {
-                    state.pages[index].html = sheet.querySelector('.sheet-content').innerHTML;
-                    saveState();
-                });
+        function restorePages() {
+            const container = document.getElementById('workspace');
+            container.innerHTML = '';
+            state.pages.forEach((page, index) => renderPage(page, index));
+        }
 
-                workspace.appendChild(sheet);
+        function removePage(index) {
+            if(confirm("Are you sure you want to delete this page?")) {
+                state.pages.splice(index, 1);
+                document.getElementById('workspace').innerHTML = '';
+                state.pages.forEach((p, i) => renderPage(p, i));
+                saveProject();
+            }
+        }
+
+        // === STYLING ENGINE ===
+        function setTheme(theme) {
+            state.theme = theme;
+            applyTheme();
+            saveProject();
+        }
+
+        function applyTheme() {
+            const sheets = document.querySelectorAll('.page-sheet');
+            const colors = {
+                'cream': '#F9F7F2',
+                'white': '#FFFFFF',
+                'stone': '#EBEBEB'
+            };
+            
+            sheets.forEach(sheet => {
+                sheet.style.backgroundColor = colors[state.theme];
+            });
+
+            // Update UI active states
+            document.querySelectorAll('.color-swatch').forEach(el => el.classList.remove('active'));
+            document.querySelector(`.color-swatch.${state.theme}`)?.classList.add('active');
+        }
+
+        function applyThemeToElement(el) {
+            const colors = { 'cream': '#F9F7F2', 'white': '#FFFFFF', 'stone': '#EBEBEB' };
+            el.style.backgroundColor = colors[state.theme];
+        }
+
+        function setFont(font) {
+            state.font = font;
+            applyFont();
+            saveProject();
+        }
+
+        function applyFont() {
+            const sheets = document.querySelectorAll('.page-sheet');
+            const fonts = {
+                'bodoni': "'Bodoni Moda', serif",
+                'inter': "'Inter', sans-serif",
+                'cinzel': "'Cinzel', serif",
+                'cormorant': "'Cormorant Garamond', serif"
+            };
+            
+            sheets.forEach(sheet => {
+                sheet.style.fontFamily = fonts[state.font];
             });
         }
 
-        // === 4. ACTIONS ===
-        function addPage(type, save=true) {
-            let html = TEMPLATES[type] || TEMPLATES.text;
-            state.pages.push({ id: Date.now(), html: html });
-            if(save) {
-                render();
-                saveState();
-                closeDrawers();
-                updatePrice();
-                // Scroll to bottom smoothly
-                window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-            }
-        }
-
-        function deletePage(index) {
-            if(confirm("Remove this page?")) {
-                state.pages.splice(index, 1);
-                render();
-                saveState();
-                updatePrice();
-            }
-        }
-
-        // === 5. STYLING SYSTEM ===
-        function setFont(font) {
-            state.settings.font = font;
-            // Update CSS mapping for render
-            const fontMap = {
-                'classic': "'Bodoni Moda', serif",
-                'modern': "'Inter', sans-serif",
-                'formal': "'Cinzel', serif",
-                'soft': "'Cormorant Garamond', serif"
+        function applyFontToElement(el) {
+            const fonts = {
+                'bodoni': "'Bodoni Moda', serif",
+                'inter': "'Inter', sans-serif",
+                'cinzel': "'Cinzel', serif",
+                'cormorant': "'Cormorant Garamond', serif"
             };
-            document.documentElement.style.setProperty('--font-current', fontMap[font]);
-            render(); // Re-render to apply classes
-            saveState();
-            closeDrawers();
+            el.style.fontFamily = fonts[state.font];
         }
 
-        function setPaper(color) {
-            state.settings.paper = color;
-            render();
-            saveState();
-            closeDrawers();
+        // === IMAGE UPLOAD ===
+        let currentImgTarget = null;
+        
+        function triggerUpload(el) {
+            currentImgTarget = el;
+            document.getElementById('img-input').click();
         }
 
-        // === 6. PHOTO HANDLING ===
-        let uploadTarget = null;
-        function upload(el) {
-            uploadTarget = el;
-            document.getElementById('img-upload').click();
-        }
-        document.getElementById('img-upload').onchange = (e) => {
-            if(e.target.files[0] && uploadTarget) {
+        document.getElementById('img-input').onchange = (e) => {
+            if(e.target.files && e.target.files[0] && currentImgTarget) {
                 const reader = new FileReader();
                 reader.onload = (evt) => {
-                    uploadTarget.innerHTML = `<img src="${evt.target.result}">`;
-                    uploadTarget.style.background = 'transparent';
-                    // Trigger Input Event for Save
-                    const pageIndex = uploadTarget.closest('.sheet-card').id.split('-')[1];
-                    state.pages[pageIndex].html = document.getElementById(`page-${pageIndex}`).querySelector('.sheet-content').innerHTML;
-                    saveState();
-                    updatePrice();
+                    currentImgTarget.innerHTML = `<img src="${evt.target.result}" />`;
+                    saveProject(); // Save state with image (base64)
                 };
                 reader.readAsDataURL(e.target.files[0]);
             }
         };
 
-        // === 7. UI UTILITIES ===
+        // === PERSISTENCE & EXPORT ===
+        function saveProject() {
+            // Scrape current HTML state to update state object
+            const pageElements = document.querySelectorAll('.page-sheet');
+            pageElements.forEach((el, index) => {
+                // Remove UI meta elements before saving content
+                const clone = el.cloneNode(true);
+                clone.querySelector('.page-meta')?.remove();
+                clone.querySelector('.delete-page-btn')?.remove();
+                state.pages[index].html = clone.innerHTML;
+            });
+
+            localStorage.setItem('fm_oos_v1', JSON.stringify(state));
+            
+            // Visual feedback
+            const saveBtn = document.querySelector('.header-btn i.fa-cloud-upload-alt');
+            saveBtn.className = 'fas fa-check text-green-400';
+            setTimeout(() => saveBtn.className = 'fas fa-cloud-upload-alt', 1000);
+        }
+
+        async function exportPDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF('p', 'mm', 'a5'); // A5 size
+            
+            const pages = document.querySelectorAll('.page-sheet');
+            const overlay = document.createElement('div');
+            
+            // Visual loading state
+            const btn = document.querySelector('.header-btn.primary');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Generating...';
+
+            for (let i = 0; i < pages.length; i++) {
+                if (i > 0) doc.addPage();
+                
+                // Use html2canvas
+                const canvas = await html2canvas(pages[i], {
+                    scale: 2, // High res
+                    useCORS: true,
+                    logging: false
+                });
+                
+                const imgData = canvas.toDataURL('image/jpeg', 0.95);
+                doc.addImage(imgData, 'JPEG', 0, 0, 148, 210); // A5 dimensions
+            }
+
+            doc.save('Order_of_Service_FuneralMatch.pdf');
+            
+            // Reset button
+            btn.innerHTML = originalText;
+        }
+
+        // === DRAWER LOGIC ===
         function openDrawer(id) {
             closeDrawers();
-            document.getElementById('overlay').classList.add('active');
+            document.getElementById('drawer-overlay').classList.add('active');
             document.getElementById(`drawer-${id}`).classList.add('open');
         }
 
         function closeDrawers() {
-            document.getElementById('overlay').classList.remove('active');
-            document.querySelectorAll('.sheet-drawer').forEach(d => d.classList.remove('open'));
+            document.getElementById('drawer-overlay').classList.remove('active');
+            document.querySelectorAll('.drawer-panel').forEach(d => d.classList.remove('open'));
         }
 
-        function saveState() {
-            localStorage.setItem('ethereal_v1', JSON.stringify(state));
-        }
-
-        function updatePrice() {
-            // Count photos
-            let photos = 0;
-            state.pages.forEach(p => photos += (p.html.match(/<img/g) || []).length);
-            
-            let price = 80;
-            if(state.pages.length > 4) price += (state.pages.length - 4) * 10;
-            if(photos > 5) price += (photos - 5) * 7.50;
-
-            const pill = document.getElementById('total-price');
-            pill.innerText = `£${price.toFixed(2)}`;
-            pill.classList.add('updated');
-            setTimeout(() => pill.classList.remove('updated'), 300);
-        }
-
-        function printBooklet() {
-            window.print();
-        }
-
-        // Typography CSS Mapping Helper (Dynamic Injection)
-        const style = document.createElement('style');
-        style.innerHTML = `
-            .font-serif { font-family: 'Bodoni Moda', serif; }
-            .font-sans { font-family: 'Inter', sans-serif; font-weight: 600; text-transform: uppercase; }
-            .font-formal { font-family: 'Cinzel', serif; }
-            .font-soft { font-family: 'Cormorant Garamond', serif; font-style: italic; }
-        `;
-        document.head.appendChild(style);
-
-        // Start
+        // Initialize App
         init();
 
     </script>
