@@ -2,86 +2,215 @@
 <html lang="en-GB">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ancillary Partnerships | FuneralMatch</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Partnership Network | FuneralMatch</title>
+    
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@1,400;1,700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
-        :root { --gold: #C5A059; --black: #1a1a1a; --soft-bg: #F8F7F5; }
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
-        body { font-family: 'Inter', sans-serif; background: var(--soft-bg); color: var(--black); }
+        /* SYSTEM TOKENS */
+        :root {
+            --gold-primary: #B08D55;
+            --gold-subtle: #F0EAE0;
+            --obsidian: #1A1A1A;
+            --stone-50: #FAFAF9;
+            --stone-100: #F5F5F4;
+            --stone-200: #E7E5E4;
+            --border-light: rgba(0,0,0,0.06);
+        }
+
+        body { font-family: 'Manrope', sans-serif; background: var(--stone-50); color: var(--obsidian); }
         .serif { font-family: 'Bodoni Moda', serif; }
-        
-        .partner-card { background: white; border-radius: 2.5rem; padding: 3rem; border: 1px solid #EEE; transition: 0.4s; }
-        .partner-card:hover { border-color: var(--gold); transform: translateY(-5px); }
-        .icon-circle { width: 60px; height: 60px; background: #FFFDF9; border: 1px solid #F0E6D2; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem; }
+
+        /* Component: Card */
+        .panel {
+            background: white; border: 1px solid var(--border-light);
+            border-radius: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+            transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+            position: relative; overflow: hidden;
+        }
+        .panel:hover { 
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.05); 
+            border-color: rgba(176, 141, 85, 0.3); 
+        }
+
+        /* Component: Watermark */
+        .watermark {
+            position: fixed; top: 10%; left: 50%; transform: translateX(-50%);
+            font-size: 40vw; font-family: 'Bodoni Moda'; opacity: 0.015; 
+            color: var(--obsidian); pointer-events: none; z-index: 0; line-height: 1;
+        }
+
+        /* Icon Circle */
+        .icon-circle {
+            width: 64px; height: 64px; background: var(--stone-50); 
+            border: 1px solid var(--stone-200); border-radius: 50%; 
+            display: flex; align-items: center; justify-content: center; 
+            margin-bottom: 1.5rem; color: var(--obsidian); transition: 0.3s;
+        }
+        .panel:hover .icon-circle { background: var(--gold-primary); color: white; border-color: var(--gold-primary); }
+
+        /* List Styling */
+        .feature-list li {
+            position: relative; padding-left: 2rem; margin-bottom: 1.5rem;
+        }
+        .feature-number {
+            position: absolute; left: 0; top: 0; 
+            font-family: 'Bodoni Moda', serif; font-weight: 700; color: var(--gold-primary);
+        }
     </style>
 </head>
-<body class="py-24 px-8">
+<body class="flex flex-col min-h-screen">
 
-    <main class="max-w-6xl mx-auto">
-        <header class="text-center mb-24" data-aos="fade-up">
-            <h1 class="serif italic text-6xl mb-8">Beyond the Service.</h1>
-            <p class="text-stone-400 uppercase tracking-[0.4em] text-[10px] font-bold">Partner with the UK's Highest Standard Network</p>
-        </header>
+    <div class="watermark">Partners</div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-24">
+    <header class="bg-white/80 backdrop-blur sticky top-0 z-40 border-b border-stone-200">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 bg-[#1A1A1A] text-white rounded flex items-center justify-center font-serif text-lg">F</div>
+                <span class="serif font-bold text-lg tracking-tight">Funeral<span class="text-[#B08D55]">Match</span></span>
+            </div>
             
-            <div class="partner-card" data-aos="fade-up">
-                <div class="icon-circle">🍴</div>
+            <nav class="hidden md:flex gap-8 text-sm font-medium text-stone-600">
+                <a href="#" class="hover:text-black transition">For Directors</a>
+                <a href="#" class="text-black font-bold transition">Ancillary Network</a>
+                <a href="#" class="hover:text-black transition">Login</a>
+            </nav>
+
+            <div class="flex gap-4">
+                <button class="bg-stone-100 hover:bg-stone-200 px-5 py-2 rounded-lg text-xs font-bold transition">Partner Portal</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow relative z-10 py-20 px-6">
+        
+        <div class="max-w-4xl mx-auto text-center mb-24" data-aos="fade-up">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-stone-100 border border-stone-200 mb-6">
+                <i data-lucide="network" width="14" class="text-[#B08D55]"></i>
+                <span class="text-[10px] font-bold uppercase tracking-widest text-stone-500">Commercial Partnerships</span>
+            </div>
+            <h1 class="serif italic text-5xl md:text-7xl mb-6 text-[#1A1A1A]">Beyond the Service.</h1>
+            <p class="text-stone-500 text-lg max-w-xl mx-auto leading-relaxed">
+                Partner with the UK's highest standard network. We connect premium suppliers directly with families and directors planning funerals.
+            </p>
+        </div>
+
+        <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 mb-24">
+            
+            <div class="panel p-8 group" data-aos="fade-up" data-aos-delay="100">
+                <div class="icon-circle">
+                    <i data-lucide="utensils-crossed" width="24"></i>
+                </div>
                 <h3 class="serif text-2xl mb-4">Catering & Wakes</h3>
-                <p class="text-sm text-stone-500 mb-8">Join our recommended sidebar for families booking venues and memorial refreshments.</p>
-                <button class="text-[10px] font-bold uppercase tracking-widest text-[#C5A059] border-b border-[#C5A059]">Apply as Partner</button>
+                <p class="text-sm text-stone-500 mb-8 leading-relaxed">
+                    Join our recommended venue and refreshment sidebar. Appear precisely when families are booking dates and locations.
+                </p>
+                <button class="text-[10px] font-bold uppercase tracking-widest text-[#B08D55] border-b border-[#B08D55] pb-1 hover:text-black hover:border-black transition">
+                    Apply as Partner
+                </button>
             </div>
 
-            <div class="partner-card" data-aos="fade-up" data-aos-delay="100">
-                <div class="icon-circle">⚖️</div>
+            <div class="panel p-8 group" data-aos="fade-up" data-aos-delay="200">
+                <div class="icon-circle">
+                    <i data-lucide="scale" width="24"></i>
+                </div>
                 <h3 class="serif text-2xl mb-4">Legal & Probate</h3>
-                <p class="text-sm text-stone-500 mb-8">Direct integration for estate executors and solicitors seeking vetted family leads.</p>
-                <button class="text-[10px] font-bold uppercase tracking-widest text-[#C5A059] border-b border-[#C5A059]">Apply as Partner</button>
+                <p class="text-sm text-stone-500 mb-8 leading-relaxed">
+                    Direct integration for solicitors and estate executors. Receive high-intent leads from families needing immediate probate assistance.
+                </p>
+                <button class="text-[10px] font-bold uppercase tracking-widest text-[#B08D55] border-b border-[#B08D55] pb-1 hover:text-black hover:border-black transition">
+                    Apply as Partner
+                </button>
             </div>
 
-            <div class="partner-card" data-aos="fade-up" data-aos-delay="200">
-                <div class="icon-circle">🌿</div>
+            <div class="panel p-8 group" data-aos="fade-up" data-aos-delay="300">
+                <div class="icon-circle">
+                    <i data-lucide="flower-2" width="24"></i>
+                </div>
                 <h3 class="serif text-2xl mb-4">Floral Tributes</h3>
-                <p class="text-sm text-stone-500 mb-8">Supply premium arrangements directly to our 1,200+ director network.</p>
-                <button class="text-[10px] font-bold uppercase tracking-widest text-[#C5A059] border-b border-[#C5A059]">Apply as Partner</button>
+                <p class="text-sm text-stone-500 mb-8 leading-relaxed">
+                    Supply premium arrangements directly to our 1,200+ director network via the integrated Arrangement Console.
+                </p>
+                <button class="text-[10px] font-bold uppercase tracking-widest text-[#B08D55] border-b border-[#B08D55] pb-1 hover:text-black hover:border-black transition">
+                    Apply as Partner
+                </button>
             </div>
 
         </div>
 
-        <section class="bg-black text-white rounded-[3.5rem] p-12 md:p-24 overflow-hidden relative" data-aos="zoom-in">
-            <div class="relative z-10 max-w-2xl">
-                <h2 class="serif italic text-4xl mb-8">Why Partner with FuneralMatch?</h2>
-                <ul class="space-y-6">
-                    <li class="flex items-start gap-4">
-                        <span class="text-[#C5A059] font-bold">01.</span>
-                        <p class="text-stone-400 text-sm"><strong class="text-white">Direct Lead Routing:</strong> Our concierge service suggests your firm the moment a family starts planning.</p>
-                    </li>
-                    <li class="flex items-start gap-4">
-                        <span class="text-[#C5A059] font-bold">02.</span>
-                        <p class="text-stone-400 text-sm"><strong class="text-white">Seamless Billing:</strong> We handle the referral tracking and commission reporting through your dedicated portal.</p>
-                    </li>
-                    <li class="flex items-start gap-4">
-                        <span class="text-[#C5A059] font-bold">03.</span>
-                        <p class="text-stone-400 text-sm"><strong class="text-white">Vetted Status:</strong> Use the FuneralMatch "Vetted Partner" seal on your own website to boost conversion.</p>
-                    </li>
-                </ul>
-                <form action="https://formspree.io/f/mvzzkjeq" method="POST" class="mt-12">
-                    <input type="hidden" name="_subject" value="NEW ANCILLARY PARTNER APPLICATION">
-                    <button type="submit" class="bg-[#C5A059] text-white px-10 py-4 rounded-full text-[10px] font-bold uppercase tracking-widest">Register Interest</button>
-                </form>
+        <div class="max-w-5xl mx-auto" data-aos="zoom-in">
+            <div class="bg-[#1A1A1A] text-white rounded-[2.5rem] p-10 md:p-20 relative overflow-hidden shadow-2xl">
+                <div class="absolute top-0 left-0 w-full h-full opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
+                <div class="absolute -right-20 -bottom-20 text-[15rem] font-serif text-[#B08D55] opacity-5 italic pointer-events-none">FM</div>
+
+                <div class="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-12">
+                    <div>
+                        <h2 class="serif italic text-4xl mb-8">Why Partner with FuneralMatch?</h2>
+                        <ul class="feature-list space-y-2">
+                            <li>
+                                <span class="feature-number">01.</span>
+                                <p class="text-stone-300 text-sm"><strong class="text-white block mb-1">Direct Lead Routing</strong> Our concierge service suggests your firm the moment a family starts planning.</p>
+                            </li>
+                            <li>
+                                <span class="feature-number">02.</span>
+                                <p class="text-stone-300 text-sm"><strong class="text-white block mb-1">Seamless Billing</strong> We handle referral tracking and commission reporting through your dedicated portal.</p>
+                            </li>
+                            <li>
+                                <span class="feature-number">03.</span>
+                                <p class="text-stone-300 text-sm"><strong class="text-white block mb-1">Vetted Status</strong> Use the FuneralMatch "Verified Partner" seal on your own website to boost trust.</p>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="flex flex-col justify-center">
+                        <div class="bg-white/5 backdrop-blur border border-white/10 p-8 rounded-2xl">
+                            <h3 class="font-bold text-sm uppercase tracking-wide mb-6">Register Interest</h3>
+                            <form action="https://formspree.io/f/mvzzkjeq" method="POST" class="space-y-4">
+                                <input type="hidden" name="_subject" value="NEW ANCILLARY PARTNER APPLICATION">
+                                <div>
+                                    <input type="text" name="company" placeholder="Company Name" class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-sm text-white placeholder-stone-400 focus:outline-none focus:border-[#B08D55] transition">
+                                </div>
+                                <div>
+                                    <input type="email" name="email" placeholder="Business Email" class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-sm text-white placeholder-stone-400 focus:outline-none focus:border-[#B08D55] transition">
+                                </div>
+                                <button type="submit" class="w-full bg-[#B08D55] text-white px-8 py-4 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-white hover:text-black transition shadow-lg shadow-[#B08D55]/20 mt-2">
+                                    Start Application
+                                </button>
+                            </form>
+                            <p class="text-[10px] text-stone-500 mt-4 text-center">
+                                Vetting typically takes 3-5 business days.
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="absolute -right-20 -bottom-20 opacity-10 serif italic text-[20rem] pointer-events-none">FM</div>
-        </section>
+        </div>
 
     </main>
 
+    <footer class="bg-white border-t border-stone-200 py-12 px-6 relative z-10">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+            <div>
+                <span class="serif font-bold text-xl text-[#1A1A1A] tracking-tight">Funeral<span class="text-[#B08D55]">Match</span></span>
+                <p class="text-xs mt-2 text-stone-500">&copy; 2026 FuneralMatch Ltd. Regulated Standards.</p>
+            </div>
+            <div class="flex gap-6 text-xs font-bold uppercase tracking-wider text-stone-400">
+                <a href="#" class="hover:text-black">Privacy</a>
+                <a href="#" class="hover:text-black">Terms</a>
+                <a href="#" class="hover:text-black">Cookies</a>
+            </div>
+        </div>
+    </footer>
+
     <script>
-        AOS.init({ duration: 1000, once: true });
+        AOS.init({ duration: 800, once: true });
+        lucide.createIcons();
     </script>
 </body>
 </html>
