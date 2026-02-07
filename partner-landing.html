@@ -2,127 +2,265 @@
 <html lang="en-GB">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Partner Network | FuneralMatch Professional</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Director Network | FuneralMatch Professional</title>
+    
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@1,400;1,700&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
-        :root { --gold: #C5A059; --black: #1a1a1a; --soft-bg: #F8F7F5; }
-        body { font-family: 'Inter', sans-serif; background: var(--black); color: white; }
-        .serif { font-family: 'Bodoni Moda', serif; }
-        
-        .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 3rem; margin-top: 4rem; }
-        .stat-num { font-size: 3.5rem; color: var(--gold); font-family: 'Bodoni Moda', serif; font-style: italic; line-height: 1; }
-        .stat-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.2em; color: #888; margin-top: 1rem; display: block; }
+        /* SYSTEM TOKENS (Professional Dark Mode Variation) */
+        :root {
+            --gold-primary: #B08D55;
+            --gold-subtle: #F0EAE0;
+            --obsidian: #0A0A0A; /* Darker base for pro portal */
+            --charcoal: #171717;
+            --stone-800: #292524;
+            --stone-500: #78716C;
+            --border-dark: rgba(255,255,255,0.08);
+        }
 
-        .benefit-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); padding: 3rem; border-radius: 2rem; transition: 0.4s; }
-        .benefit-card:hover { background: rgba(197, 160, 89, 0.1); border-color: var(--gold); transform: translateY(-5px); }
+        body { font-family: 'Manrope', sans-serif; background: var(--obsidian); color: white; }
+        .serif { font-family: 'Bodoni Moda', serif; }
+
+        /* Component: Dark Panel */
+        .panel {
+            background: var(--charcoal); border: 1px solid var(--border-dark);
+            border-radius: 1.5rem; box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+            transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+            position: relative; overflow: hidden;
+        }
+        .panel:hover { 
+            transform: translateY(-8px);
+            border-color: var(--gold-primary); 
+            background: #1F1F1F;
+        }
+
+        /* Component: Watermark */
+        .watermark {
+            position: fixed; top: 10%; right: -10%; 
+            font-size: 40vw; font-family: 'Bodoni Moda'; opacity: 0.03; 
+            color: var(--gold-primary); pointer-events: none; z-index: 0; line-height: 1;
+        }
+
+        /* Stat Number Styling */
+        .stat-value {
+            font-family: 'Bodoni Moda', serif; font-size: 3.5rem; line-height: 1;
+            background: linear-gradient(135deg, #FFF 0%, #AAA 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Form Input Styling */
+        .input-dark {
+            width: 100%; padding: 1rem 1.25rem; background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border-dark); border-radius: 0.75rem;
+            color: white; font-size: 0.9rem; transition: 0.3s;
+        }
+        .input-dark:focus {
+            outline: none; border-color: var(--gold-primary); background: rgba(255,255,255,0.05);
+        }
+        .input-dark::placeholder { color: var(--stone-500); }
     </style>
 </head>
-<body class="py-24 px-8">
+<body class="flex flex-col min-h-screen">
 
-    <nav class="fixed top-0 left-0 w-full p-8 z-50 flex justify-between items-center bg-black/80 backdrop-blur-md border-b border-white/10">
-        <div class="flex flex-col items-start">
-            <span class="serif text-xs font-bold uppercase tracking-[0.4em] mb-1">Funeral</span>
-            <div style="width: 30px; height: 1px; background: var(--gold); margin-bottom: 4px;"></div>
-            <span class="serif text-xs font-bold text-[#C5A059] uppercase tracking-[0.7em]">Match</span>
+    <div class="watermark">Pro</div>
+
+    <nav class="fixed top-0 left-0 w-full p-6 z-50 flex justify-between items-center bg-[#0A0A0A]/90 backdrop-blur-md border-b border-white/5">
+        <div class="flex items-center gap-3">
+            <div class="w-8 h-8 bg-white text-black rounded flex items-center justify-center font-serif text-lg">P</div>
+            <div class="flex flex-col">
+                <span class="serif font-bold text-lg tracking-tight leading-none text-white">Funeral<span class="text-[#B08D55]">Match</span></span>
+                <span class="text-[9px] uppercase tracking-[0.2em] text-[#B08D55] font-bold mt-1">Professional</span>
+            </div>
         </div>
-        <a href="#apply" class="text-[10px] font-bold uppercase tracking-widest border-b border-[#C5A059] text-[#C5A059] pb-1">Director Login</a>
+        
+        <div class="hidden md:flex gap-8 text-xs font-bold uppercase tracking-widest text-stone-400">
+            <a href="#benefits" class="hover:text-white transition">Network Benefits</a>
+            <a href="#growth" class="hover:text-white transition">Growth Calculator</a>
+            <a href="#apply" class="hover:text-white transition">Vetting Criteria</a>
+        </div>
+
+        <a href="#apply" class="text-[10px] font-bold uppercase tracking-widest border border-white/20 px-4 py-2 rounded-lg hover:bg-white hover:text-black transition">
+            Partner Login
+        </a>
     </nav>
 
-    <main class="max-w-6xl mx-auto pt-20">
+    <main class="flex-grow relative z-10 pt-32 pb-20 px-6">
         
-        <header class="mb-32" data-aos="fade-up">
-            <span class="text-[10px] uppercase font-bold tracking-[0.4em] text-[#C5A059]">For Independent Directors</span>
-            <h1 class="serif italic text-7xl mt-6 mb-8 leading-tight">Reclaim your <br>market share.</h1>
-            <p class="text-stone-400 text-lg max-w-2xl leading-relaxed">The corporate chains are winning on Google Ads. We built the infrastructure to help you beat them. Join the UK's only merit-based network for independent funeral directors.</p>
+        <header class="max-w-5xl mx-auto mb-32" data-aos="fade-up">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 mb-8">
+                <i data-lucide="shield-check" width="14" class="text-[#B08D55]"></i>
+                <span class="text-[10px] font-bold uppercase tracking-widest text-stone-400">For Independent Directors Only</span>
+            </div>
             
-            <div class="stat-grid">
-                <div>
-                    <span class="stat-num">15k+</span>
-                    <span class="stat-label">Monthly Family Searches</span>
-                </div>
-                <div>
-                    <span class="stat-num">£3.2m</span>
-                    <span class="stat-label">Revenue Generated for Partners</span>
-                </div>
-                <div>
-                    <span class="stat-num">0%</span>
-                    <span class="stat-label">Upfront Join Fee</span>
+            <h1 class="serif italic text-6xl md:text-8xl mb-8 leading-tight">
+                Reclaim your <br><span class="text-[#B08D55]">market share.</span>
+            </h1>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-end">
+                <p class="text-stone-400 text-lg leading-relaxed max-w-xl">
+                    The corporate chains are winning on Google Ads through spending power alone. We built the infrastructure to help you beat them. Join the UK's only merit-based network.
+                </p>
+                
+                <div class="grid grid-cols-3 gap-8 border-t border-white/10 pt-8">
+                    <div>
+                        <div class="stat-value">15k+</div>
+                        <span class="text-[10px] uppercase tracking-widest text-stone-500 font-bold">Monthly Searches</span>
+                    </div>
+                    <div>
+                        <div class="stat-value">£3.2m</div>
+                        <span class="text-[10px] uppercase tracking-widest text-stone-500 font-bold">Partner Revenue</span>
+                    </div>
+                    <div>
+                        <div class="stat-value text-[#B08D55]">0%</div>
+                        <span class="text-[10px] uppercase tracking-widest text-stone-500 font-bold">Joining Fee</span>
+                    </div>
                 </div>
             </div>
         </header>
 
-        <section class="mb-32">
-            <div class="flex justify-between items-end mb-16">
+        <section id="benefits" class="max-w-6xl mx-auto mb-32">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-16 border-b border-white/10 pb-8">
                 <h2 class="serif italic text-4xl">Why Partner with us?</h2>
-                <span class="hidden md:block text-[10px] font-bold uppercase tracking-widest text-stone-600">Strictly Vetted • Invite Only</span>
+                <div class="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-[#B08D55] mt-4 md:mt-0">
+                    <i data-lucide="lock" width="12"></i> Strictly Vetted • Invite Only
+                </div>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="benefit-card" data-aos="fade-up">
-                    <p class="text-[#C5A059] font-bold text-xl mb-4">01.</p>
+                <div class="panel p-8 group" data-aos="fade-up">
+                    <div class="flex justify-between items-start mb-6">
+                        <span class="font-serif text-2xl text-[#B08D55]">01.</span>
+                        <div class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-[#B08D55] group-hover:text-black transition duration-500">
+                            <i data-lucide="target" width="20"></i>
+                        </div>
+                    </div>
                     <h3 class="font-bold text-xl mb-4">High-Intent Leads</h3>
-                    <p class="text-sm text-stone-500 leading-relaxed">Stop paying for "tyre kickers." Our leads have already built an arrangement, selected a coffin, and entered their budget. They are ready to book.</p>
+                    <p class="text-sm text-stone-400 leading-relaxed">
+                        Stop paying for "tyre kickers." Our leads have already built an arrangement, selected a coffin, and entered their budget. They are ready to book.
+                    </p>
                 </div>
-                <div class="benefit-card" data-aos="fade-up" data-aos-delay="100">
-                    <p class="text-[#C5A059] font-bold text-xl mb-4">02.</p>
+
+                <div class="panel p-8 group" data-aos="fade-up" data-aos-delay="100">
+                    <div class="flex justify-between items-start mb-6">
+                        <span class="font-serif text-2xl text-[#B08D55]">02.</span>
+                        <div class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-[#B08D55] group-hover:text-black transition duration-500">
+                            <i data-lucide="award" width="20"></i>
+                        </div>
+                    </div>
                     <h3 class="font-bold text-xl mb-4">Merit, Not Budget</h3>
-                    <p class="text-sm text-stone-500 leading-relaxed">We don't just list the cheapest. Our algorithm prioritizes quality scores and facility audits, allowing premium independents to shine.</p>
+                    <p class="text-sm text-stone-400 leading-relaxed">
+                        We don't just list the cheapest. Our algorithm prioritizes quality scores and facility audits, allowing premium independents to shine based on care standards.
+                    </p>
                 </div>
-                <div class="benefit-card" data-aos="fade-up" data-aos-delay="200">
-                    <p class="text-[#C5A059] font-bold text-xl mb-4">03.</p>
+
+                <div class="panel p-8 group" data-aos="fade-up" data-aos-delay="200">
+                    <div class="flex justify-between items-start mb-6">
+                        <span class="font-serif text-2xl text-[#B08D55]">03.</span>
+                        <div class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-[#B08D55] group-hover:text-black transition duration-500">
+                            <i data-lucide="laptop" width="20"></i>
+                        </div>
+                    </div>
                     <h3 class="font-bold text-xl mb-4">Digital Arrangement</h3>
-                    <p class="text-sm text-stone-500 leading-relaxed">Receive fully digitized arrangement forms instantly. Reduce your admin time by 60% and focus on caring for the family.</p>
+                    <p class="text-sm text-stone-400 leading-relaxed">
+                        Receive fully digitized arrangement forms instantly. Reduce your admin time by 60% and focus on caring for the family rather than paperwork.
+                    </p>
                 </div>
             </div>
         </section>
 
-        <section class="bg-[#C5A059] text-black rounded-[3rem] p-12 md:p-24 relative overflow-hidden" data-aos="zoom-in">
-            <div class="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-                <div>
-                    <h2 class="serif italic text-5xl mb-6">Calculate your Growth.</h2>
-                    <p class="font-medium opacity-80 max-w-md leading-relaxed">Based on an average lead conversion rate of 35% for vetted partners in high-density postcodes.</p>
-                </div>
-                <div class="bg-white/10 backdrop-blur-sm p-8 rounded-3xl border border-black/10">
-                    <div class="flex justify-between mb-4">
-                        <span class="text-xs font-bold uppercase tracking-widest">Monthly Leads</span>
-                        <span class="font-bold text-2xl">12</span>
+        <section id="growth" class="max-w-5xl mx-auto mb-32" data-aos="zoom-in">
+            <div class="bg-gradient-to-br from-[#B08D55] to-[#8C6D3B] text-black rounded-[2.5rem] p-12 md:p-20 relative overflow-hidden shadow-2xl">
+                <div class="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
+                
+                <div class="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                    <div>
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-black/10 border border-black/5 mb-6">
+                            <i data-lucide="trending-up" width="14" class="text-white"></i>
+                            <span class="text-[10px] font-bold uppercase tracking-widest text-black/70">Revenue Projection</span>
+                        </div>
+                        <h2 class="serif italic text-5xl mb-6 text-white">Calculate your <br>Growth.</h2>
+                        <p class="font-medium opacity-80 max-w-md leading-relaxed text-black/80">
+                            Based on an average lead conversion rate of 35% for vetted partners in high-density postcodes (London/South East).
+                        </p>
                     </div>
-                    <div class="flex justify-between mb-8 pb-8 border-b border-black/10">
-                        <span class="text-xs font-bold uppercase tracking-widest">Avg. Lead Value</span>
-                        <span class="font-bold text-2xl">£3,200</span>
-                    </div>
-                    <div class="flex justify-between items-end">
-                        <span class="text-xs font-bold uppercase tracking-widest">Est. New Revenue</span>
-                        <span class="serif italic text-5xl">£13,440<span class="text-lg not-italic font-bold">/mo</span></span>
+
+                    <div class="bg-white/20 backdrop-blur-md p-8 rounded-3xl border border-white/20 shadow-lg">
+                        <div class="flex justify-between mb-4 items-center">
+                            <span class="text-xs font-bold uppercase tracking-widest text-black/60">Monthly Leads</span>
+                            <div class="bg-white/30 px-3 py-1 rounded-lg font-bold text-xl">12</div>
+                        </div>
+                        <div class="flex justify-between mb-8 pb-8 border-b border-black/10 items-center">
+                            <span class="text-xs font-bold uppercase tracking-widest text-black/60">Avg. Lead Value</span>
+                            <div class="bg-white/30 px-3 py-1 rounded-lg font-bold text-xl">£3,200</div>
+                        </div>
+                        <div class="flex justify-between items-end">
+                            <span class="text-xs font-bold uppercase tracking-widest text-black/70 mb-2">Est. New Revenue</span>
+                            <span class="serif italic text-5xl text-white drop-shadow-sm">£13,440<span class="text-lg not-italic font-bold text-black/50 ml-1">/mo</span></span>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="apply" class="mt-32 max-w-2xl mx-auto text-center">
-            <h2 class="serif italic text-4xl mb-6">Apply for Vetting.</h2>
-            <p class="text-stone-500 text-sm mb-12">We reject 18% of applicants. If you meet our facility and pricing standards, we'd love to have you.</p>
+        <section id="apply" class="max-w-2xl mx-auto text-center" data-aos="fade-up">
+            <h2 class="serif italic text-4xl mb-4 text-white">Apply for Vetting.</h2>
+            <p class="text-stone-400 text-sm mb-10 max-w-md mx-auto">
+                We reject 18% of applicants to maintain network quality. If you meet our facility and pricing standards, we'd love to have you.
+            </p>
             
-            <form action="https://formspree.io/f/mvzzkjeq" method="POST" class="space-y-4">
+            <form action="https://formspree.io/f/mvzzkjeq" method="POST" class="space-y-4 text-left">
                 <input type="hidden" name="_subject" value="NEW PARTNER APPLICATION">
-                <div class="grid grid-cols-2 gap-4">
-                    <input type="text" name="business_name" placeholder="Funeral Home Name" class="w-full p-4 bg-white/5 border border-white/10 rounded-xl text-white outline-none focus:border-[#C5A059]" required>
-                    <input type="text" name="postcode" placeholder="Postcode" class="w-full p-4 bg-white/5 border border-white/10 rounded-xl text-white outline-none focus:border-[#C5A059]" required>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="space-y-1">
+                        <label class="text-[10px] font-bold uppercase tracking-widest text-stone-500 pl-2">Business Name</label>
+                        <input type="text" name="business_name" placeholder="e.g. Smith & Sons" class="input-dark" required>
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-[10px] font-bold uppercase tracking-widest text-stone-500 pl-2">Postcode</label>
+                        <input type="text" name="postcode" placeholder="e.g. SW1" class="input-dark" required>
+                    </div>
                 </div>
-                <input type="email" name="email" placeholder="Director Email" class="w-full p-4 bg-white/5 border border-white/10 rounded-xl text-white outline-none focus:border-[#C5A059]" required>
-                <button type="submit" class="w-full bg-[#C5A059] text-black py-5 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-white transition-all mt-6">Start Audit Process</button>
+                
+                <div class="space-y-1">
+                    <label class="text-[10px] font-bold uppercase tracking-widest text-stone-500 pl-2">Director Email</label>
+                    <input type="email" name="email" placeholder="director@firm.com" class="input-dark" required>
+                </div>
+
+                <button type="submit" class="w-full bg-[#B08D55] text-white py-5 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-white hover:text-black transition-all shadow-lg shadow-[#B08D55]/20 mt-6">
+                    Start Audit Process
+                </button>
+                <p class="text-center text-[10px] text-stone-600 mt-4">
+                    By applying, you agree to our Facility Audit Terms.
+                </p>
             </form>
         </section>
 
     </main>
 
+    <footer class="bg-[#0A0A0A] border-t border-white/5 py-12 px-6 relative z-10 mt-20">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="flex items-center gap-3">
+                <div class="w-6 h-6 bg-white/10 rounded flex items-center justify-center text-[10px] font-bold">P</div>
+                <span class="text-xs text-stone-500">&copy; 2026 FuneralMatch Professional.</span>
+            </div>
+            <div class="flex gap-6 text-[10px] font-bold uppercase tracking-wider text-stone-600">
+                <a href="#" class="hover:text-white transition">Network Rules</a>
+                <a href="#" class="hover:text-white transition">Fee Structure</a>
+                <a href="#" class="hover:text-white transition">Support</a>
+            </div>
+        </div>
+    </footer>
+
     <script>
-        AOS.init({ duration: 1000, once: true });
+        AOS.init({ duration: 800, once: true });
+        lucide.createIcons();
     </script>
 </body>
 </html>
