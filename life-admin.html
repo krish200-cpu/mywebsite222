@@ -2,103 +2,221 @@
 <html lang="en-GB">
 <head>
     <meta charset="UTF-8">
-    <title>Life Admin Automator | FuneralMatch</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Help & Advice | FuneralMatch</title>
+    
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@1,400;1,700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
     <style>
-        :root { --gold: #C5A059; --soft-bg: #F3F4F6; }
-        body { font-family: 'Inter', sans-serif; background: var(--soft-bg); color: #1a1a1a; }
+        /* SYSTEM TOKENS */
+        :root {
+            --gold-primary: #B08D55;
+            --gold-subtle: #F0EAE0;
+            --obsidian: #1A1A1A;
+            --stone-50: #FAFAF9;
+            --stone-100: #F5F5F4;
+            --stone-200: #E7E5E4;
+            --border-light: rgba(0,0,0,0.06);
+        }
+
+        body { font-family: 'Manrope', sans-serif; background: var(--stone-50); color: var(--obsidian); }
         .serif { font-family: 'Bodoni Moda', serif; }
-        .brand-icon { width: 40px; height: 40px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.8rem; border: 1px solid #eee; }
-        .toggle-switch { width: 40px; height: 20px; background: #C5A059; border-radius: 99px; position: relative; }
-        .toggle-dot { width: 16px; height: 16px; background: white; border-radius: 50%; position: absolute; top: 2px; right: 2px; }
+
+        /* Component: Card */
+        .panel {
+            background: white; border: 1px solid var(--border-light);
+            border-radius: 1rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+            transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        .panel:hover { 
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px -8px rgba(0, 0, 0, 0.08); 
+            border-color: rgba(176, 141, 85, 0.3); 
+        }
+
+        /* Component: Search Input */
+        .search-container { position: relative; max-width: 600px; margin: 0 auto; }
+        .search-input {
+            width: 100%; padding: 1.25rem 1.5rem 1.25rem 3.5rem;
+            border-radius: 99px; border: 1px solid var(--stone-200);
+            background: white; font-size: 1rem; transition: 0.2s;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+        }
+        .search-input:focus { outline: none; border-color: var(--gold-primary); box-shadow: 0 8px 20px rgba(176, 141, 85, 0.15); }
+        .search-icon { position: absolute; left: 1.25rem; top: 50%; transform: translateY(-50%); color: #A8A29E; }
+
+        /* Component: Category Pill */
+        .cat-pill {
+            display: flex; align-items: center; gap: 8px;
+            background: white; border: 1px solid var(--stone-200);
+            padding: 8px 16px; border-radius: 99px; font-size: 0.8rem; font-weight: 600;
+            color: var(--obsidian); cursor: pointer; transition: 0.2s;
+        }
+        .cat-pill:hover { border-color: var(--gold-primary); color: var(--gold-primary); }
+        .cat-pill.active { background: var(--gold-primary); border-color: var(--gold-primary); color: white; }
+
+        /* Typography Override */
+        h2, h3 { color: var(--obsidian); }
+        p { color: #57534E; }
     </style>
 </head>
-<body class="py-12 px-6">
+<body class="flex flex-col min-h-screen">
 
-    <main class="max-w-4xl mx-auto">
-        <header class="text-center mb-12">
-            <span class="text-[10px] uppercase font-bold tracking-[0.4em] text-[#C5A059]">Digital Death Notification</span>
-            <h1 class="serif italic text-5xl mt-4 mb-6">Close their Digital Life.</h1>
-            <p class="max-w-xl mx-auto text-stone-500 text-sm">Don't spend hours on hold. We notify 300+ UK companies (Utilities, Social Media, Subscriptions) that your loved one has passed, stopping bills and preventing fraud.</p>
-        </header>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+    <header class="bg-white border-b border-stone-200 relative z-40">
+        <div class="max-w-7xl mx-auto px-6 py-6 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 bg-[#1A1A1A] text-white rounded flex items-center justify-center font-serif text-lg">F</div>
+                <span class="serif font-bold text-lg tracking-tight">Funeral<span class="text-[#B08D55]">Match</span></span>
+            </div>
             
-            <div class="bg-white rounded-[2rem] p-8 shadow-xl border border-stone-200">
-                <div class="flex justify-between items-center mb-6 pb-6 border-b border-stone-100">
-                    <div>
-                        <h3 class="font-bold text-lg">Active Accounts</h3>
-                        <p class="text-xs text-stone-400">Select accounts to close or freeze.</p>
-                    </div>
-                    <div class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-[10px] font-bold uppercase">Verified</div>
-                </div>
+            <nav class="hidden md:flex gap-8 text-sm font-medium text-stone-600">
+                <a href="#" class="hover:text-black transition">Planning</a>
+                <a href="#" class="hover:text-black transition">Services</a>
+                <a href="#" class="text-black font-bold transition">Advice</a>
+            </nav>
 
-                <div class="space-y-4">
-                    <div class="flex justify-between items-center">
-                        <div class="flex items-center gap-4">
-                            <div class="brand-icon text-red-600">N</div>
-                            <div>
-                                <p class="font-bold text-sm">Netflix</p>
-                                <p class="text-[10px] text-stone-400">Subscription</p>
-                            </div>
-                        </div>
-                        <div class="toggle-switch"><div class="toggle-dot"></div></div>
-                    </div>
-                    <div class="flex justify-between items-center">
-                        <div class="flex items-center gap-4">
-                            <div class="brand-icon text-blue-600">f</div>
-                            <div>
-                                <p class="font-bold text-sm">Facebook</p>
-                                <p class="text-[10px] text-stone-400">Memorialize Account</p>
-                            </div>
-                        </div>
-                        <div class="toggle-switch"><div class="toggle-dot"></div></div>
-                    </div>
-                    <div class="flex justify-between items-center">
-                        <div class="flex items-center gap-4">
-                            <div class="brand-icon text-blue-400">BG</div>
-                            <div>
-                                <p class="font-bold text-sm">British Gas</p>
-                                <p class="text-[10px] text-stone-400">Utility Bill</p>
-                            </div>
-                        </div>
-                        <div class="toggle-switch"><div class="toggle-dot"></div></div>
-                    </div>
-                </div>
+            <div class="flex gap-4">
+                <button class="bg-stone-100 hover:bg-stone-200 px-5 py-2 rounded-lg text-xs font-bold transition">Log In</button>
+            </div>
+        </div>
+    </header>
 
-                <div class="mt-8 pt-6 border-t border-stone-100 flex justify-between items-center">
-                    <span class="text-xs font-bold text-stone-400">Total Saved /mo</span>
-                    <span class="text-2xl font-bold text-[#C5A059]">£145.00</span>
-                </div>
+    <main class="flex-grow py-16 px-6">
+        
+        <div class="max-w-4xl mx-auto text-center mb-16" data-aos="fade-up">
+            <span class="text-[10px] font-bold uppercase tracking-widest text-stone-400 mb-4 block">Knowledge Base</span>
+            <h1 class="serif italic text-5xl mb-8">How can we help?</h1>
+            
+            <div class="search-container mb-8">
+                <i data-lucide="search" width="20" class="search-icon"></i>
+                <input type="text" class="search-input" placeholder="Search for 'probate', 'etiquette', or 'costs'...">
             </div>
 
-            <div>
-                <h3 class="serif italic text-3xl mb-6">One Form. Everything Stopped.</h3>
-                <ul class="space-y-6 mb-8">
-                    <li class="flex gap-4">
-                        <span class="font-bold text-[#C5A059]">01.</span>
-                        <p class="text-sm text-stone-600"><strong>Stop the Bills:</strong> We automatically cancel recurring Direct Debits for gyms, streaming, and magazines.</p>
-                    </li>
-                    <li class="flex gap-4">
-                        <span class="font-bold text-[#C5A059]">02.</span>
-                        <p class="text-sm text-stone-600"><strong>Social Media:</strong> Choose to delete accounts or turn them into "Memorial Pages."</p>
-                    </li>
-                    <li class="flex gap-4">
-                        <span class="font-bold text-[#C5A059]">03.</span>
-                        <p class="text-sm text-stone-600"><strong>Prevent Fraud:</strong> Notifying credit bureaus stops identity theft of the deceased.</p>
-                    </li>
-                </ul>
-                <div class="bg-black text-white p-6 rounded-2xl flex justify-between items-center">
-                    <div>
-                        <p class="text-[10px] uppercase font-bold text-stone-400">One-off Fee</p>
-                        <p class="text-3xl font-bold">£49</p>
-                    </div>
-                    <button class="bg-[#C5A059] text-white px-6 py-3 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-white hover:text-black transition-all">Start Now</button>
+            <div class="flex flex-wrap justify-center gap-3">
+                <div class="cat-pill active">All Topics</div>
+                <div class="cat-pill">First Steps</div>
+                <div class="cat-pill">Arranging</div>
+                <div class="cat-pill">Legal & Costs</div>
+                <div class="cat-pill">Etiquette</div>
+            </div>
+        </div>
+
+        <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 mb-20">
+            
+            <div class="panel p-8" data-aos="fade-up" data-aos-delay="100">
+                <div class="w-10 h-10 bg-amber-50 rounded-full flex items-center justify-center text-[#B08D55] mb-6">
+                    <i data-lucide="siren" width="20"></i>
                 </div>
+                <h3 class="serif font-bold text-xl mb-3">What to do first</h3>
+                <p class="text-sm leading-relaxed mb-6">A step-by-step guide on what to do immediately after a death occurs, depending on the location and circumstances.</p>
+                <a href="#" class="text-xs font-bold uppercase tracking-wider text-[#B08D55] hover:text-black transition flex items-center gap-2">
+                    Read Guide <i data-lucide="arrow-right" width="12"></i>
+                </a>
+            </div>
+
+            <div class="panel p-8" data-aos="fade-up" data-aos-delay="200">
+                <div class="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center text-blue-600 mb-6">
+                    <i data-lucide="file-text" width="20"></i>
+                </div>
+                <h3 class="serif font-bold text-xl mb-3">Registering a Death</h3>
+                <p class="text-sm leading-relaxed mb-6">Understanding the "Green Form", locating your local registrar, and the timeline you need to follow by law.</p>
+                <a href="#" class="text-xs font-bold uppercase tracking-wider text-[#B08D55] hover:text-black transition flex items-center gap-2">
+                    Read Guide <i data-lucide="arrow-right" width="12"></i>
+                </a>
+            </div>
+
+            <div class="panel p-8" data-aos="fade-up" data-aos-delay="300">
+                <div class="w-10 h-10 bg-green-50 rounded-full flex items-center justify-center text-green-600 mb-6">
+                    <i data-lucide="coins" width="20"></i>
+                </div>
+                <h3 class="serif font-bold text-xl mb-3">Help with Costs</h3>
+                <p class="text-sm leading-relaxed mb-6">Information on the government Funeral Expenses Payment, bereavement support payments, and payment plans.</p>
+                <a href="#" class="text-xs font-bold uppercase tracking-wider text-[#B08D55] hover:text-black transition flex items-center gap-2">
+                    Read Guide <i data-lucide="arrow-right" width="12"></i>
+                </a>
             </div>
 
         </div>
+
+        <div class="max-w-4xl mx-auto mb-20" data-aos="fade-up">
+            <h2 class="serif italic text-3xl mb-8 border-b border-stone-200 pb-4">Common Questions</h2>
+            
+            <div class="space-y-4">
+                <div class="panel p-6 flex justify-between items-center cursor-pointer group">
+                    <div class="flex items-center gap-4">
+                        <i data-lucide="help-circle" width="18" class="text-stone-300 group-hover:text-[#B08D55] transition"></i>
+                        <div>
+                            <h4 class="font-bold text-sm text-stone-800 group-hover:text-[#B08D55] transition">What is the difference between a coffin and a casket?</h4>
+                            <p class="text-xs text-stone-500 mt-1">Arranging • 2 min read</p>
+                        </div>
+                    </div>
+                    <i data-lucide="chevron-right" width="16" class="text-stone-300"></i>
+                </div>
+
+                <div class="panel p-6 flex justify-between items-center cursor-pointer group">
+                    <div class="flex items-center gap-4">
+                        <i data-lucide="help-circle" width="18" class="text-stone-300 group-hover:text-[#B08D55] transition"></i>
+                        <div>
+                            <h4 class="font-bold text-sm text-stone-800 group-hover:text-[#B08D55] transition">How does Direct Cremation work?</h4>
+                            <p class="text-xs text-stone-500 mt-1">Services • 4 min read</p>
+                        </div>
+                    </div>
+                    <i data-lucide="chevron-right" width="16" class="text-stone-300"></i>
+                </div>
+
+                <div class="panel p-6 flex justify-between items-center cursor-pointer group">
+                    <div class="flex items-center gap-4">
+                        <i data-lucide="help-circle" width="18" class="text-stone-300 group-hover:text-[#B08D55] transition"></i>
+                        <div>
+                            <h4 class="font-bold text-sm text-stone-800 group-hover:text-[#B08D55] transition">Can I scatter ashes anywhere in the UK?</h4>
+                            <p class="text-xs text-stone-500 mt-1">Legal • 3 min read</p>
+                        </div>
+                    </div>
+                    <i data-lucide="chevron-right" width="16" class="text-stone-300"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="max-w-4xl mx-auto" data-aos="fade-up">
+            <div class="bg-[#1A1A1A] text-white rounded-2xl p-10 flex flex-col md:flex-row items-center justify-between gap-8">
+                <div>
+                    <h3 class="serif font-bold text-2xl mb-2">Still need help?</h3>
+                    <p class="text-stone-400 text-sm max-w-sm">Our compassionate support team is available 24/7 to answer your questions, no matter how small.</p>
+                </div>
+                <div class="flex flex-col gap-3 w-full md:w-auto">
+                    <button class="bg-[#B08D55] text-white px-8 py-3 rounded-xl text-xs font-bold uppercase tracking-wider hover:bg-white hover:text-black transition">
+                        Chat with Support
+                    </button>
+                    <div class="text-center text-xs font-bold text-stone-500">
+                        or call <span class="text-white">0800 111 222</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </main>
+
+    <footer class="bg-white border-t border-stone-200 py-12 px-6 relative z-10">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+            <div>
+                <span class="serif font-bold text-xl text-[#1A1A1A] tracking-tight">Funeral<span class="text-[#B08D55]">Match</span></span>
+                <p class="text-xs mt-2 text-stone-500">&copy; 2026 FuneralMatch Ltd. Regulated Standards.</p>
+            </div>
+            <div class="flex gap-6 text-xs font-bold uppercase tracking-wider text-stone-400">
+                <a href="#" class="hover:text-black">Privacy</a>
+                <a href="#" class="hover:text-black">Terms</a>
+                <a href="#" class="hover:text-black">Cookies</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        AOS.init({ duration: 800, once: true });
+        lucide.createIcons();
+    </script>
 </body>
 </html>
