@@ -2,99 +2,454 @@
 <html lang="en-GB">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Smart Will | FuneralMatch Legal</title>
+    
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@1,400;1,700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
-        :root { --gold: #C5A059; --black: #1a1a1a; --soft-bg: #F8F7F5; }
-        body { font-family: 'Inter', sans-serif; background: var(--soft-bg); color: var(--black); }
+        /* SYSTEM TOKENS */
+        :root {
+            --gold-primary: #B08D55;
+            --gold-subtle: #F0EAE0;
+            --obsidian: #1A1A1A;
+            --stone-50: #FAFAF9;
+            --stone-100: #F5F5F4;
+            --stone-200: #E7E5E4;
+            --border-light: rgba(0,0,0,0.06);
+        }
+
+        body { font-family: 'Manrope', sans-serif; background: var(--stone-50); color: var(--obsidian); }
         .serif { font-family: 'Bodoni Moda', serif; }
+
+        /* Component: Panel */
+        .panel {
+            background: white; border: 1px solid var(--border-light);
+            border-radius: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+            transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+            position: relative; overflow: hidden;
+        }
+
+        /* Component: Watermark */
+        .watermark {
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            font-size: 40vw; font-family: 'Bodoni Moda'; opacity: 0.015; 
+            color: var(--obsidian); pointer-events: none; z-index: 0; line-height: 1;
+        }
+
+        /* Component: Form Elements */
+        .input-standard {
+            width: 100%; padding: 1rem; border: 1px solid var(--stone-200); border-radius: 0.75rem;
+            font-size: 0.95rem; transition: 0.3s; background: var(--stone-50);
+        }
+        .input-standard:focus {
+            outline: none; border-color: var(--gold-primary); background: white;
+            box-shadow: 0 0 0 3px rgba(176, 141, 85, 0.1);
+        }
+
+        /* Option Card */
+        .option-card {
+            border: 1px solid var(--stone-200); background: white; padding: 1.25rem;
+            border-radius: 1rem; cursor: pointer; transition: 0.2s; display: flex; align-items: center; gap: 1rem;
+        }
+        .option-card:hover { border-color: var(--gold-primary); background: var(--stone-50); }
+        .option-card.selected { border-color: var(--gold-primary); background: var(--gold-subtle); }
         
-        .progress-bar { width: 100%; height: 6px; background: #e5e5e5; border-radius: 99px; margin-bottom: 2rem; }
-        .progress-fill { width: 25%; height: 100%; background: var(--gold); border-radius: 99px; }
-        
-        .option-card { border: 2px solid #eee; background: white; padding: 1.5rem; border-radius: 1rem; cursor: pointer; transition: 0.2s; display: flex; align-items: center; gap: 1rem; }
-        .option-card:hover, .option-card.selected { border-color: var(--gold); background: #FFFDF9; }
-        .radio-circle { width: 24px; height: 24px; border: 2px solid #ddd; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
-        .option-card.selected .radio-circle { border-color: var(--gold); }
-        .inner-dot { width: 12px; height: 12px; background: var(--gold); border-radius: 50%; display: none; }
+        .radio-circle {
+            width: 20px; height: 20px; border: 2px solid var(--stone-200); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; transition: 0.2s;
+        }
+        .option-card.selected .radio-circle { border-color: var(--gold-primary); background: white; }
+        .inner-dot { width: 10px; height: 10px; background: var(--gold-primary); border-radius: 50%; display: none; }
         .option-card.selected .inner-dot { display: block; }
+
+        /* Progress Bar */
+        .progress-track { width: 100%; height: 4px; background: var(--stone-200); border-radius: 99px; overflow: hidden; }
+        .progress-fill { height: 100%; background: var(--gold-primary); width: 0%; transition: width 0.5s ease; }
+
+        /* Step Visibility */
+        .step-container { display: none; animation: fadeIn 0.4s ease; }
+        .step-container.active { display: block; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
-<body class="py-12 px-6">
+<body class="flex flex-col min-h-screen">
 
-    <nav class="flex justify-between items-center mb-12 border-b border-black/5 pb-6 max-w-4xl mx-auto">
-        <div class="flex flex-col items-start">
-            <span class="serif text-xs font-bold uppercase tracking-[0.4em] mb-1">Funeral</span>
-            <div style="width: 30px; height: 1px; background: var(--gold); margin-bottom: 4px;"></div>
-            <span class="serif text-xs font-bold text-[#C5A059] uppercase tracking-[0.7em]">Match</span>
+    <div class="watermark">Will</div>
+
+    <header class="bg-white/80 backdrop-blur sticky top-0 z-40 border-b border-stone-200">
+        <div class="max-w-5xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 bg-[#1A1A1A] text-white rounded flex items-center justify-center font-serif text-lg">F</div>
+                <div class="flex flex-col">
+                    <span class="serif font-bold text-lg tracking-tight leading-none">Funeral<span class="text-[#B08D55]">Match</span></span>
+                    <span class="text-[8px] uppercase tracking-widest font-bold text-stone-400">Legal Services</span>
+                </div>
+            </div>
+            <div class="flex items-center gap-2 text-xs font-bold text-stone-500">
+                <i data-lucide="lock" width="12"></i> 256-bit Secure
+            </div>
         </div>
-        <div class="text-[10px] uppercase font-bold tracking-widest text-stone-400">Legal Division</div>
-    </nav>
+    </header>
 
-    <main class="max-w-4xl mx-auto">
-        
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
-            
-            <div>
-                <h1 class="serif italic text-5xl mb-6">Protect what matters.</h1>
-                <p class="text-stone-500 text-sm leading-relaxed mb-8">Making a will doesn't have to be expensive or complicated. Our smart lawyer-approved tool asks simple questions to create a legally binding document in under 15 minutes.</p>
-                
-                <div class="bg-white p-6 rounded-2xl border border-stone-200 mb-8">
-                    <div class="flex justify-between items-center mb-4 border-b border-stone-100 pb-4">
-                        <span class="font-bold text-sm">Solicitor Cost</span>
-                        <span class="text-stone-400 line-through">£250+</span>
-                    </div>
-                    <div class="flex justify-between items-center">
-                        <span class="font-bold text-sm">Smart Will Cost</span>
-                        <span class="font-bold text-xl text-[#C5A059]">£89</span>
+    <main class="flex-grow relative z-10 py-12 px-6">
+        <div class="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12">
+
+            <div class="lg:col-span-5 space-y-8">
+                <div>
+                    <h1 class="serif italic text-4xl md:text-5xl mb-6 text-[#1A1A1A]">Protect what <br>matters most.</h1>
+                    <p class="text-stone-500 text-sm leading-relaxed mb-8">
+                        Creating a will ensures your wishes are respected and saves your family from legal stress later. Our tool creates a legally binding document in under 15 minutes.
+                    </p>
+                </div>
+
+                <div class="panel p-6 bg-[#1A1A1A] text-white border-none">
+                    <div class="flex items-start gap-4">
+                        <div class="p-3 bg-white/10 rounded-full text-[#B08D55]">
+                            <i data-lucide="scale" width="24"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-lg mb-1">Legally Binding</h3>
+                            <p class="text-stone-400 text-xs leading-relaxed">
+                                Generated based on the Wills Act 1837. Valid in England & Wales when signed and witnessed correctly.
+                            </p>
+                        </div>
                     </div>
                 </div>
 
-                <div class="flex gap-4 text-[10px] font-bold uppercase text-stone-400">
-                    <span>✓ Checked by Experts</span>
-                    <span>✓ Legally Binding</span>
-                    <span>✓ Free Updates for Life</span>
+                <div class="panel p-6">
+                    <h4 class="text-xs font-bold uppercase tracking-widest text-stone-400 mb-4">Why use this tool?</h4>
+                    <ul class="space-y-3 text-sm text-stone-600">
+                        <li class="flex gap-3"><i data-lucide="check" width="16" class="text-[#B08D55]"></i> Avoids intestacy rules</li>
+                        <li class="flex gap-3"><i data-lucide="check" width="16" class="text-[#B08D55]"></i> Appoints guardians for children</li>
+                        <li class="flex gap-3"><i data-lucide="check" width="16" class="text-[#B08D55]"></i> Saves £200+ vs. High St Solicitor</li>
+                    </ul>
                 </div>
             </div>
 
-            <div class="bg-white p-8 rounded-[2rem] shadow-xl border border-stone-100 relative overflow-hidden">
-                <div class="progress-bar"><div class="progress-fill"></div></div>
-                
-                <div id="step-1">
-                    <h3 class="serif text-2xl mb-2">Who is this will for?</h3>
-                    <p class="text-xs text-stone-400 mb-6">Select your current status.</p>
+            <div class="lg:col-span-7">
+                <div class="panel p-8 md:p-10 shadow-xl">
                     
-                    <div class="space-y-4 mb-8">
-                        <div class="option-card selected">
-                            <div class="radio-circle"><div class="inner-dot"></div></div>
-                            <div>
-                                <p class="font-bold text-sm">Just Me</p>
-                                <p class="text-[10px] text-stone-400">Single Will</p>
-                            </div>
+                    <div class="mb-8">
+                        <div class="flex justify-between text-xs font-bold uppercase tracking-widest text-stone-400 mb-2">
+                            <span id="step-label">Capacity Check</span>
+                            <span id="step-count">Step 1 of 5</span>
                         </div>
-                        <div class="option-card">
-                            <div class="radio-circle"><div class="inner-dot"></div></div>
-                            <div>
-                                <p class="font-bold text-sm">Me & Partner</p>
-                                <p class="text-[10px] text-stone-400">Mirror Wills (+£40)</p>
-                            </div>
+                        <div class="progress-track">
+                            <div class="progress-fill" id="progress-bar" style="width: 20%"></div>
                         </div>
                     </div>
 
-                    <button class="w-full bg-black text-white py-4 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-[#C5A059] transition-all">Continue to Assets</button>
-                </div>
+                    <div id="step-1" class="step-container active">
+                        <h2 class="serif text-2xl mb-2">Legal Requirements</h2>
+                        <p class="text-sm text-stone-500 mb-6">Before we begin, we must confirm your eligibility.</p>
+                        
+                        <div class="space-y-4 mb-8">
+                            <label class="option-card" onclick="toggleCheck(this, 'capacity1')">
+                                <div class="radio-circle"><div class="inner-dot"></div></div>
+                                <div>
+                                    <p class="font-bold text-sm">I am over 18 years of age</p>
+                                </div>
+                            </label>
+                            <label class="option-card" onclick="toggleCheck(this, 'capacity2')">
+                                <div class="radio-circle"><div class="inner-dot"></div></div>
+                                <div>
+                                    <p class="font-bold text-sm">I am of sound mind</p>
+                                    <p class="text-[10px] text-stone-400">I understand the nature of making a will.</p>
+                                </div>
+                            </label>
+                            <label class="option-card" onclick="toggleCheck(this, 'capacity3')">
+                                <div class="radio-circle"><div class="inner-dot"></div></div>
+                                <div>
+                                    <p class="font-bold text-sm">England or Wales</p>
+                                    <p class="text-[10px] text-stone-400">My permanent home is in England or Wales.</p>
+                                </div>
+                            </label>
+                        </div>
+                        
+                        <button onclick="nextStep(1)" class="w-full bg-[#B08D55] text-white py-4 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-black transition-all">Start My Will</button>
+                    </div>
 
-                <div class="mt-8 text-center border-t border-stone-100 pt-6">
-                    <p class="text-[9px] text-stone-400">Regulated by the Society of Will Writers</p>
+                    <div id="step-2" class="step-container">
+                        <h2 class="serif text-2xl mb-2">Your Details</h2>
+                        <p class="text-sm text-stone-500 mb-6">This identifies you as the Testator.</p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                            <div class="space-y-1">
+                                <label class="text-[10px] uppercase font-bold text-stone-400">First Name</label>
+                                <input type="text" id="firstName" class="input-standard" placeholder="e.g. John">
+                            </div>
+                            <div class="space-y-1">
+                                <label class="text-[10px] uppercase font-bold text-stone-400">Last Name</label>
+                                <input type="text" id="lastName" class="input-standard" placeholder="e.g. Doe">
+                            </div>
+                        </div>
+                        <div class="space-y-1 mb-8">
+                            <label class="text-[10px] uppercase font-bold text-stone-400">Full Address</label>
+                            <input type="text" id="address" class="input-standard" placeholder="e.g. 12 High Street, London, SW1 1AA">
+                        </div>
+
+                        <div class="flex gap-4">
+                            <button onclick="prevStep(2)" class="px-6 py-4 rounded-xl border border-stone-200 text-xs font-bold uppercase hover:bg-stone-50">Back</button>
+                            <button onclick="nextStep(2)" class="flex-1 bg-black text-white py-4 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-[#B08D55] transition-all">Next: Executors</button>
+                        </div>
+                    </div>
+
+                    <div id="step-3" class="step-container">
+                        <h2 class="serif text-2xl mb-2">Executors</h2>
+                        <p class="text-sm text-stone-500 mb-6">Who will carry out the instructions in your will? (Min. 1)</p>
+                        
+                        <div id="executor-list" class="space-y-3 mb-4">
+                            <input type="text" class="input-standard executor-input" placeholder="Full Name of Executor 1">
+                        </div>
+                        
+                        <button onclick="addInput('executor-list', 'Executor')" class="text-xs font-bold text-[#B08D55] flex items-center gap-2 mb-8 hover:underline">
+                            <i data-lucide="plus-circle" width="14"></i> Add another Executor
+                        </button>
+
+                        <div class="flex gap-4">
+                            <button onclick="prevStep(3)" class="px-6 py-4 rounded-xl border border-stone-200 text-xs font-bold uppercase hover:bg-stone-50">Back</button>
+                            <button onclick="nextStep(3)" class="flex-1 bg-black text-white py-4 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-[#B08D55] transition-all">Next: Beneficiaries</button>
+                        </div>
+                    </div>
+
+                    <div id="step-4" class="step-container">
+                        <h2 class="serif text-2xl mb-2">Beneficiaries</h2>
+                        <p class="text-sm text-stone-500 mb-6">Who will inherit your estate (Residual Estate)?</p>
+                        
+                        <div id="beneficiary-list" class="space-y-3 mb-4">
+                            <input type="text" class="input-standard beneficiary-input" placeholder="Full Name of Beneficiary 1">
+                        </div>
+
+                        <button onclick="addInput('beneficiary-list', 'Beneficiary')" class="text-xs font-bold text-[#B08D55] flex items-center gap-2 mb-8 hover:underline">
+                            <i data-lucide="plus-circle" width="14"></i> Add another Beneficiary
+                        </button>
+
+                        <div class="flex gap-4">
+                            <button onclick="prevStep(4)" class="px-6 py-4 rounded-xl border border-stone-200 text-xs font-bold uppercase hover:bg-stone-50">Back</button>
+                            <button onclick="nextStep(4)" class="flex-1 bg-black text-white py-4 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-[#B08D55] transition-all">Next: Review</button>
+                        </div>
+                    </div>
+
+                    <div id="step-5" class="step-container">
+                        <h2 class="serif text-2xl mb-2">Review & Download</h2>
+                        <p class="text-sm text-stone-500 mb-6">Review your details before generating your legal document.</p>
+                        
+                        <div class="bg-stone-50 rounded-xl p-6 border border-stone-200 mb-8 space-y-4">
+                            <div>
+                                <span class="text-[10px] font-bold uppercase text-stone-400">Testator</span>
+                                <p class="font-bold" id="review-name">Loading...</p>
+                            </div>
+                            <div>
+                                <span class="text-[10px] font-bold uppercase text-stone-400">Executors</span>
+                                <p class="text-sm" id="review-executors">Loading...</p>
+                            </div>
+                            <div>
+                                <span class="text-[10px] font-bold uppercase text-stone-400">Beneficiaries</span>
+                                <p class="text-sm" id="review-beneficiaries">Loading...</p>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-4">
+                            <button onclick="prevStep(5)" class="px-6 py-4 rounded-xl border border-stone-200 text-xs font-bold uppercase hover:bg-stone-50">Back</button>
+                            <button onclick="generatePDF()" class="flex-1 bg-[#B08D55] text-white py-4 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-black transition-all shadow-lg shadow-[#B08D55]/20 flex items-center justify-center gap-2">
+                                <i data-lucide="download" width="16"></i> Download Legal Will
+                            </button>
+                        </div>
+                        <p class="text-center text-[10px] text-stone-400 mt-4">By downloading, you agree to our Terms of Service.</p>
+                    </div>
+
                 </div>
             </div>
-
         </div>
-
     </main>
+
+    <footer class="bg-white border-t border-stone-200 py-12 px-6 relative z-10">
+        <div class="max-w-5xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+            <div>
+                <span class="serif font-bold text-xl text-[#1A1A1A] tracking-tight">Funeral<span class="text-[#B08D55]">Match</span></span>
+                <p class="text-xs mt-2 text-stone-500">&copy; 2026 FuneralMatch Legal Services.</p>
+            </div>
+            <div class="flex gap-6 text-xs font-bold uppercase tracking-wider text-stone-400">
+                <a href="#" class="hover:text-black">Privacy</a>
+                <a href="#" class="hover:text-black">Disclaimer</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // === STATE ===
+        const state = {
+            capacity: { q1: false, q2: false, q3: false },
+            details: { first: '', last: '', address: '' },
+            executors: [],
+            beneficiaries: []
+        };
+
+        // === NAVIGATION ===
+        function nextStep(current) {
+            if (!validateStep(current)) return;
+            
+            if (current === 4) populateReview();
+
+            document.getElementById(`step-${current}`).classList.remove('active');
+            document.getElementById(`step-${current + 1}`).classList.add('active');
+            
+            updateProgress(current + 1);
+        }
+
+        function prevStep(current) {
+            document.getElementById(`step-${current}`).classList.remove('active');
+            document.getElementById(`step-${current - 1}`).classList.add('active');
+            updateProgress(current - 1);
+        }
+
+        function updateProgress(step) {
+            const width = step * 20;
+            document.getElementById('progress-bar').style.width = `${width}%`;
+            document.getElementById('step-count').innerText = `Step ${step} of 5`;
+            
+            const labels = ["Capacity", "Your Details", "Executors", "Beneficiaries", "Review"];
+            document.getElementById('step-label').innerText = labels[step - 1];
+        }
+
+        // === VALIDATION & LOGIC ===
+        function toggleCheck(el, key) {
+            // Simplified toggle logic for visual radio effect
+            el.classList.toggle('selected');
+            if (key === 'capacity1') state.capacity.q1 = !state.capacity.q1;
+            if (key === 'capacity2') state.capacity.q2 = !state.capacity.q2;
+            if (key === 'capacity3') state.capacity.q3 = !state.capacity.q3;
+        }
+
+        function addInput(containerId, placeholder) {
+            const container = document.getElementById(containerId);
+            const count = container.children.length + 1;
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.className = `input-standard ${placeholder.toLowerCase()}-input`;
+            input.placeholder = `Full Name of ${placeholder} ${count}`;
+            container.appendChild(input);
+        }
+
+        function validateStep(step) {
+            if (step === 1) {
+                if (!state.capacity.q1 || !state.capacity.q2 || !state.capacity.q3) {
+                    alert("You must confirm all legal requirements to proceed.");
+                    return false;
+                }
+            }
+            if (step === 2) {
+                const first = document.getElementById('firstName').value;
+                const last = document.getElementById('lastName').value;
+                const address = document.getElementById('address').value;
+                if (!first || !last || !address) {
+                    alert("Please fill in all details.");
+                    return false;
+                }
+                state.details = { first, last, address };
+            }
+            if (step === 3) {
+                const inputs = document.querySelectorAll('.executor-input');
+                state.executors = Array.from(inputs).map(i => i.value).filter(v => v !== '');
+                if (state.executors.length === 0) {
+                    alert("Please appoint at least one executor.");
+                    return false;
+                }
+            }
+            if (step === 4) {
+                const inputs = document.querySelectorAll('.beneficiary-input');
+                state.beneficiaries = Array.from(inputs).map(i => i.value).filter(v => v !== '');
+                if (state.beneficiaries.length === 0) {
+                    alert("Please name at least one beneficiary.");
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        function populateReview() {
+            document.getElementById('review-name').innerText = `${state.details.first} ${state.details.last}`;
+            document.getElementById('review-executors').innerText = state.executors.join(', ');
+            document.getElementById('review-beneficiaries').innerText = state.beneficiaries.join(', ');
+        }
+
+        // === PDF GENERATION ===
+        function generatePDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            const margin = 20;
+            let y = 30;
+
+            // Title
+            doc.setFont("times", "bold");
+            doc.setFontSize(22);
+            doc.text("LAST WILL AND TESTAMENT", 105, y, null, null, "center");
+            y += 20;
+
+            // Revocation Clause
+            doc.setFont("times", "normal");
+            doc.setFontSize(12);
+            const intro = `I, ${state.details.first} ${state.details.last}, of ${state.details.address}, declare this to be my last Will and revoke all prior Wills and testamentary dispositions.`;
+            const introSplit = doc.splitTextToSize(intro, 170);
+            doc.text(introSplit, margin, y);
+            y += 20 + (introSplit.length * 5);
+
+            // Appointment of Executors
+            doc.setFont("times", "bold");
+            doc.text("1. APPOINTMENT OF EXECUTORS", margin, y);
+            y += 10;
+            doc.setFont("times", "normal");
+            const execText = `I appoint ${state.executors.join(' and ')} to be the Executor(s) and Trustee(s) of this my Will.`;
+            const execSplit = doc.splitTextToSize(execText, 170);
+            doc.text(execSplit, margin, y);
+            y += 20 + (execSplit.length * 5);
+
+            // Distribution
+            doc.setFont("times", "bold");
+            doc.text("2. DISTRIBUTION OF ESTATE", margin, y);
+            y += 10;
+            doc.setFont("times", "normal");
+            const beneText = `I give my Residuary Estate to be divided equally among: ${state.beneficiaries.join(', ')}.`;
+            const beneSplit = doc.splitTextToSize(beneText, 170);
+            doc.text(beneSplit, margin, y);
+            y += 30;
+
+            // Attestation Clause (Crucial for validity)
+            doc.setFont("times", "bold");
+            doc.text("SIGNED by the Testator", margin, y);
+            y += 10;
+            doc.setFont("times", "normal");
+            const signText = `SIGNED by ${state.details.first} ${state.details.last} in our presence and then by us in theirs.`;
+            doc.text(signText, margin, y);
+            y += 25;
+
+            // Signature Boxes
+            doc.rect(margin, y, 80, 30); // Testator
+            doc.text("TESTATOR SIGNATURE", margin + 5, y + 25);
+            
+            y += 40;
+            doc.rect(margin, y, 80, 30); // Witness 1
+            doc.text("WITNESS 1 SIGNATURE", margin + 5, y + 25);
+            
+            doc.rect(110, y, 80, 30); // Witness 2
+            doc.text("WITNESS 2 SIGNATURE", 115, y + 25);
+
+            // Disclaimer Footer
+            doc.setFontSize(8);
+            doc.text("Generated by FuneralMatch Legal. This document must be signed by the testator in the presence of two witnesses to be valid.", 105, 280, null, null, "center");
+
+            // Save
+            doc.save(`${state.details.last}_Will.pdf`);
+        }
+
+        // Init Icons
+        lucide.createIcons();
+    </script>
 </body>
 </html>
