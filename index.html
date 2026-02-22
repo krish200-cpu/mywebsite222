@@ -1,279 +1,412 @@
 <!DOCTYPE html>
-<html lang="en-GB">
+<html lang="en-GB" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>FuneralMatch | Vetted Independent Care</title>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FuneralMatch | Vetted Local Funeral Directors & Price Transparency</title>
+    <meta name="description" content="Find and compare vetted local funeral directors across the UK. Instant price transparency and compassionate support in your time of need.">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,ital,wght@6..96,400;6..96,700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://unpkg.com/framer-motion@10.16.4/dist/framer-motion.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        gold: {
+                            DEFAULT: '#D4AF37',
+                            light: '#F4DF4E',
+                            dark: '#AA8A22',
+                        },
+                        midnight: '#0A0A0A',
+                        soft: '#FAFAFA',
+                    },
+                    fontFamily: {
+                        serif: ['Playfair Display', 'serif'],
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Cinzel', 'serif'],
+                    },
+                    borderRadius: {
+                        '4xl': '2rem',
+                        '5xl': '3rem',
+                    }
+                }
+            }
+        }
+    </script>
 
     <style>
-        :root {
-            --gold: #C5A059;
-            --black: #1a1a1a;
-            --white: #ffffff;
-            --glass: rgba(255, 255, 255, 0.55);
-            --radius-box: 2.5rem;
-            --ease: cubic-bezier(0.16, 1, 0.3, 1);
+        /* Custom Smoothness & Luxury Effects */
+        .glass-header {
+            background: rgba(10, 10, 10, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
-        
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #F8F7F5;
-            color: var(--black);
-            overflow-x: hidden;
-            padding-top: env(safe-area-inset-top);
+        .gold-gradient-text {
+            background: linear-gradient(to right, #D4AF37, #F4DF4E, #AA8A22);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        /* PERSISTENT SANCTUARY BACKGROUND */
-        .persistent-bg {
-            position: fixed;
-            inset: 0;
-            z-index: -1;
-            background: linear-gradient(rgba(255,255,255,0.2), rgba(255,255,255,0.3)), 
-                        url('https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2560&auto=format&fit=crop');
-            background-size: cover;
-            background-position: center;
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
         }
 
-        /* LOGO ARCHITECTURE (EXACT ANIMATION) */
-        header {
-            position: absolute;
-            top: 0; left: 0; width: 100%;
-            padding: clamp(1.5rem, 5vw, 3rem) 8%;
-            z-index: 100;
+        .search-shadow {
+            box-shadow: 0 0 40px rgba(212, 175, 55, 0.15);
         }
 
-        .logo-wrap { display: flex; flex-direction: column; align-items: flex-start; }
-        .brand-text { font-family: 'Bodoni Moda', serif; font-size: clamp(0.7rem, 2vw, 0.9rem); text-transform: uppercase; }
-        .brand-funeral { color: var(--black); letter-spacing: 0.5em; animation: logoFade 2s forwards; }
-        .logo-divider { width: 40px; height: 1px; background-color: var(--gold); margin: 8px 0; animation: logoFade 2s forwards 0.8s; opacity: 0; }
-        .brand-match { color: var(--gold); letter-spacing: 0.82em; margin-right: -0.82em; animation: logoFade 2.5s forwards 0.4s; opacity: 0; }
-
-        @keyframes logoFade {
-            from { opacity: 0; filter: blur(4px); transform: translateY(5px); }
-            to { opacity: 1; filter: blur(0); transform: translateY(0); }
+        /* Prevent sharp edges on focus */
+        *:focus {
+            outline: none !important;
         }
 
-        main { padding: 18vh 8% 8rem 8%; display: flex; flex-direction: column; align-items: center; }
-        .hero-title { font-family: 'Bodoni Moda', serif; font-size: clamp(2.2rem, 8vw, 4.5rem); text-align: center; font-style: italic; margin-bottom: 2.5rem; }
+        .focus-ring:focus-visible {
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.5);
+        }
 
-        .search-stadium {
-            width: 100%; max-width: 800px;
-            background: white; padding: 0.5rem; border-radius: 9999px;
-            display: flex; align-items: center; box-shadow: 0 30px 60px rgba(0,0,0,0.06);
-            margin-bottom: 2rem;
+        /* Sidebar Transition */
+        #sidebar {
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .curve-top {
+            border-top-left-radius: 100px;
+            border-top-right-radius: 100px;
         }
 
         @media (max-width: 768px) {
-            .search-stadium { flex-direction: column; border-radius: 2rem; padding: 1.25rem; }
-            .search-input { width: 100%; text-align: center; margin-bottom: 1rem; }
-            .search-btn { width: 100%; }
+            .curve-top {
+                border-top-left-radius: 40px;
+                border-top-right-radius: 40px;
+            }
         }
-
-        .search-input { flex: 1; border: none; outline: none; padding: 0 2rem; font-size: 1.1rem; background: transparent; }
-        .search-btn { background: #000; color: white; padding: 1.2rem 3.5rem; border-radius: 9999px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.2em; border: none; cursor: pointer; }
-
-        /* REVENUE BRIDGE: DIGNITY FUNERAL PLANS */
-        .revenue-hint {
-            width: 100%; max-width: 800px; background: rgba(197, 160, 89, 0.04);
-            border: 1px dashed var(--gold); border-radius: 2rem; padding: 1.5rem 2rem;
-            margin-bottom: 8rem; display: flex; justify-content: space-between; align-items: center;
-            backdrop-filter: blur(10px);
-        }
-        @media (max-width: 640px) { .revenue-hint { flex-direction: column; text-align: center; gap: 1rem; } }
-        .hint-btn { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.25em; border-bottom: 1px solid var(--gold); cursor: pointer; padding-bottom: 2px; }
-
-        /* EMERGENCY SYSTEM */
-        #emergency-system {
-            position: fixed; bottom: 2rem; right: 2rem;
-            z-index: 3000; display: flex; align-items: center; gap: 0.5rem;
-            transform: translateY(150%); transition: 0.8s var(--ease);
-        }
-        #emergency-system.active { transform: translateY(0); }
-
-        .emergency-trigger {
-            background: white; padding: 0.8rem 1.5rem; border-radius: 9999px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15); display: flex; align-items: center; gap: 12px;
-            cursor: pointer; border: 1px solid var(--gold);
-        }
-
-        /* LEAD CAPTURE MODAL */
-        .modal-overlay {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.4);
-            backdrop-filter: blur(25px); z-index: 4000;
-            display: none; align-items: center; justify-content: center;
-            padding: 1.5rem; opacity: 0; transition: 0.5s ease;
-        }
-        .modal-overlay.active { display: flex; opacity: 1; }
-
-        .lead-card {
-            background: white; width: 500px; max-width: 100%;
-            padding: 3.5rem 2.5rem; border-radius: 3rem; position: relative;
-            max-height: 90vh; overflow-y: auto;
-        }
-
-        .input-group { margin-bottom: 1.2rem; }
-        .input-group label { display: block; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--gold); font-weight: 700; margin-bottom: 0.5rem; }
-        .lead-input { width: 100%; padding: 1.1rem 1.5rem; border-radius: 1.2rem; border: 1px solid #eee; outline: none; font-size: 1rem; }
-        .submit-btn { width: 100%; background: #000; color: white; padding: 1.25rem; border-radius: 9999px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.2em; border: none; cursor: pointer; }
-
-        /* INFORMATION GRID (5 BOXES) */
-        .info-grid { display: grid; grid-template-cols: repeat(auto-fit, minmax(320px, 1fr)); gap: 2.5rem; width: 100%; max-width: 1400px; margin-top: 6rem; }
-        .info-box { background: var(--glass); backdrop-filter: blur(30px); padding: 4.5rem 2.5rem; border-radius: var(--radius-box); border: 1px solid rgba(255,255,255,0.7); text-align: center; transition: 0.5s; }
-        .tag { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.45em; color: var(--gold); font-weight: 700; margin-bottom: 1.5rem; display: block; }
-        .h2-box { font-family: 'Bodoni Moda', serif; font-size: 2.4rem; font-style: italic; line-height: 1; margin-bottom: 1.2rem; }
-
-        /* FOOTER */
-        footer {
-            background: white; padding: 6rem 8% 4rem 8%; border-top: 1px solid #EEE;
-            display: grid; grid-template-cols: repeat(auto-fit, minmax(200px, 1fr)); gap: 4rem; width: 100%;
-        }
-        .footer-col h4 { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.3em; margin-bottom: 2rem; color: var(--gold); }
-        .footer-link { display: block; font-size: 0.85rem; color: #777; margin-bottom: 1rem; text-decoration: none; transition: 0.3s; }
     </style>
 </head>
-<body>
+<body class="bg-midnight font-sans text-soft antialiased overflow-x-hidden">
 
-    <div class="persistent-bg"></div>
+    <div id="sidebar-overlay" class="fixed inset-0 bg-black/60 z-[70] hidden opacity-0 transition-opacity duration-300 pointer-events-none"></div>
+    <aside id="sidebar" class="fixed top-0 left-0 h-full w-[320px] bg-midnight border-r border-gold/20 z-[80] -translate-x-full p-8 flex flex-col">
+        <div class="flex justify-between items-center mb-12">
+            <span class="font-display text-gold tracking-widest">Services</span>
+            <button onclick="toggleSidebar()" class="p-2 hover:bg-white/5 rounded-full transition-transform hover:rotate-90">
+                <i data-lucide="x" class="text-white w-6 h-6"></i>
+            </button>
+        </div>
+        
+        <nav class="space-y-8">
+            <a href="#" class="group flex items-center gap-4 text-xl font-light hover:text-gold transition-colors">
+                <span class="w-1 h-8 bg-gold scale-y-0 group-hover:scale-y-100 transition-transform origin-bottom rounded-full"></span>
+                Find a Director
+            </a>
+            <a href="#" class="group flex items-center gap-4 text-xl font-light hover:text-gold transition-colors">
+                <span class="w-1 h-8 bg-gold scale-y-0 group-hover:scale-y-100 transition-transform origin-bottom rounded-full"></span>
+                Cremation Services
+            </a>
+            <a href="#" class="group flex items-center gap-4 text-xl font-light hover:text-gold transition-colors">
+                <span class="w-1 h-8 bg-gold scale-y-0 group-hover:scale-y-100 transition-transform origin-bottom rounded-full"></span>
+                Burial Options
+            </a>
+            <a href="#" class="group flex items-center gap-4 text-xl font-light hover:text-gold transition-colors">
+                <span class="w-1 h-8 bg-gold scale-y-0 group-hover:scale-y-100 transition-transform origin-bottom rounded-full"></span>
+                Repatriation
+            </a>
+            <a href="#" class="group flex items-center gap-4 text-xl font-light hover:text-gold transition-colors">
+                <span class="w-1 h-8 bg-gold scale-y-0 group-hover:scale-y-100 transition-transform origin-bottom rounded-full"></span>
+                Legal & Probate
+            </a>
+        </nav>
 
-    <header>
-        <div class="logo-wrap">
-            <span class="brand-text brand-funeral">Funeral</span>
-            <div class="logo-divider"></div>
-            <span class="brand-text brand-match">Match</span>
+        <div class="mt-auto pt-8 border-t border-white/10">
+            <p class="text-white/40 text-sm italic mb-4">Urgent 24/7 Assistance</p>
+            <a href="tel:0800123456" class="text-gold text-2xl font-serif">0800 123 456</a>
+        </div>
+    </aside>
+
+    <header class="glass-header sticky top-0 z-50 px-6 py-4 border-b border-white/5">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-6">
+                <button onclick="toggleSidebar()" class="p-3 hover:bg-white/5 rounded-full transition-all active:scale-90" aria-label="Menu">
+                    <i data-lucide="menu" class="text-gold w-6 h-6"></i>
+                </button>
+                
+                <div class="flex items-center gap-3 group cursor-pointer">
+                    <div class="w-10 h-10 bg-gold rounded-full flex items-center justify-center shadow-lg shadow-gold/20 transition-transform group-hover:scale-110">
+                        <span class="text-midnight font-display font-bold text-xl">F</span>
+                    </div>
+                    <span class="font-display text-2xl tracking-[0.2em] uppercase hidden sm:block">FuneralMatch</span>
+                </div>
+            </div>
+
+            <nav class="hidden md:flex items-center gap-8 text-sm tracking-widest uppercase font-medium">
+                <a href="#" class="hover:text-gold transition-colors">How it works</a>
+                <a href="#" class="hover:text-gold transition-colors">Why us?</a>
+                <a href="#" class="bg-gold text-midnight px-6 py-3 rounded-full hover:bg-white transition-all transform hover:-translate-y-0.5">
+                    Start Match
+                </a>
+            </nav>
         </div>
     </header>
 
     <main>
-        <div data-aos="fade-up">
-            <h1 class="hero-title">Clarity in <br><span style="font-style: normal; color: #555;">every step.</span></h1>
-        </div>
+        <section class="relative min-h-[90vh] flex flex-col items-center justify-center px-6 py-20 overflow-hidden">
+            <div class="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-gold/5 blur-[120px] rounded-full animate-pulse"></div>
+            <div class="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-gold/10 blur-[150px] rounded-full"></div>
 
-        <div class="search-stadium" data-aos="zoom-in">
-            <input type="text" placeholder="Search from 1,200+ directors nationwide..." class="search-input">
-            <button class="search-btn">Begin Match</button>
-        </div>
+            <div class="max-w-4xl w-full text-center relative z-10" id="hero-content">
+                <h1 class="font-serif text-5xl md:text-8xl text-white mb-8 leading-[1.1]">
+                    Grace in the <br>
+                    <span class="italic text-gold italic">Final Goodbye.</span>
+                </h1>
+                
+                <p class="text-white/60 text-lg md:text-2xl font-light mb-12 max-w-2xl mx-auto leading-relaxed">
+                    Connecting grieving families with the UK's most distinguished, vetted funeral directors. Dignified care, without the burden of choice.
+                </p>
 
-        <div class="revenue-hint" data-aos="fade-up">
-            <p class="italic text-sm text-stone-600">Planning ahead? Explore <strong>Dignity Funeral Plans</strong> for future peace of mind.</p>
-            <span class="hint-btn" onclick="toggleModal(true)">Explore Plans</span>
-        </div>
+                <div class="search-shadow bg-white p-2 rounded-full flex flex-col md:flex-row items-center gap-2 max-w-3xl mx-auto transition-all hover:scale-[1.01]">
+                    <div class="flex items-center gap-4 px-8 w-full py-4 border-r border-gray-100">
+                        <i data-lucide="map-pin" class="text-gold w-6 h-6"></i>
+                        <input 
+                            type="text" 
+                            id="postcode-search"
+                            placeholder="Enter your UK Postcode or Town"
+                            class="w-full text-midnight text-xl font-light placeholder:text-gray-300 outline-none"
+                        >
+                    </div>
+                    <button class="w-full md:w-auto bg-midnight text-white px-12 py-5 rounded-full text-lg font-medium hover:bg-gold hover:text-midnight transition-all flex items-center justify-center gap-3 group">
+                        Find Care <i data-lucide="arrow-right" class="w-5 h-5 group-hover:translate-x-1 transition-transform"></i>
+                    </button>
+                </div>
 
-        <div class="info-grid">
-            <div class="info-box" data-aos="fade-up">
-                <span class="tag">Identity</span>
-                <h2 class="h2-box">Independent <br>Advocacy.</h2>
-                <p>We represent the family, not the director, ensuring unbiased merit and service transparency.</p>
+                <div class="mt-16 inline-flex items-center gap-4 bg-white/5 border border-white/10 px-8 py-4 rounded-4xl backdrop-blur-md cursor-pointer hover:border-gold/40 hover:bg-white/10 transition-all group">
+                    <div class="flex -space-x-3">
+                        <div class="w-8 h-8 rounded-full border-2 border-midnight bg-stone-800"></div>
+                        <div class="w-8 h-8 rounded-full border-2 border-midnight bg-gold/40"></div>
+                    </div>
+                    <p class="text-sm text-white/80 font-light">
+                        Planning for the future? 
+                        <span class="text-gold font-semibold group-hover:underline ml-1">View Pre-paid Plans</span>
+                    </p>
+                </div>
             </div>
-            <div class="info-box" data-aos="fade-up" data-aos-delay="100">
-                <span class="tag">Standard</span>
-                <h2 class="h2-box">Vetted <br>Networks.</h2>
-                <p>Every director is audited for professional conduct and facility standards for your safety.</p>
+        </section>
+
+        <section class="bg-soft curve-top py-32 px-6">
+            <div class="max-w-7xl mx-auto">
+                <div class="flex flex-col md:flex-row items-end justify-between gap-12 mb-20">
+                    <div class="max-w-2xl text-midnight">
+                        <h2 class="font-serif text-4xl md:text-6xl mb-8 leading-tight">
+                            Not every director <br>meets our standard.
+                        </h2>
+                        <p class="text-midnight/60 text-xl font-light">
+                            We operate as a selective guild. If a service is overpriced, under-reviewed, or lacks transparency, they aren't on FuneralMatch.
+                        </p>
+                    </div>
+                    <div class="hidden md:block">
+                        <div class="w-40 h-40 border border-gold/30 rounded-full flex items-center justify-center animate-spin-slow">
+                            <span class="text-[10px] text-gold uppercase tracking-[0.3em] font-bold text-center">
+                                Vetted • Trusted • Local
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="group bg-white p-12 rounded-5xl shadow-sm border border-stone-100 hover:shadow-2xl hover:shadow-gold/5 transition-all duration-500 transform hover:-translate-y-4">
+                        <div class="w-16 h-16 bg-midnight rounded-3xl flex items-center justify-center mb-8 rotate-3 group-hover:rotate-12 transition-transform">
+                            <i data-lucide="shield-check" class="text-gold w-8 h-8"></i>
+                        </div>
+                        <h3 class="font-serif text-2xl text-midnight mb-4">Elite Vetting</h3>
+                        <p class="text-midnight/50 leading-relaxed">
+                            We manually verify every director. Reputation, license status, and historical pricing are audited before they join our network.
+                        </p>
+                    </div>
+
+                    <div class="group bg-white p-12 rounded-5xl shadow-sm border border-stone-100 hover:shadow-2xl hover:shadow-gold/5 transition-all duration-500 transform hover:-translate-y-4">
+                        <div class="w-16 h-16 bg-midnight rounded-3xl flex items-center justify-center mb-8 -rotate-6 group-hover:rotate-0 transition-transform">
+                            <i data-lucide="banknote" class="text-gold w-8 h-8"></i>
+                        </div>
+                        <h3 class="font-serif text-2xl text-midnight mb-4">Full Transparency</h3>
+                        <p class="text-midnight/50 leading-relaxed">
+                            No hidden disbursements or "quote-first" delays. Compare full package costs side-by-side with absolute clarity.
+                        </p>
+                    </div>
+
+                    <div class="group bg-white p-12 rounded-5xl shadow-sm border border-stone-100 hover:shadow-2xl hover:shadow-gold/5 transition-all duration-500 transform hover:-translate-y-4">
+                        <div class="w-16 h-16 bg-midnight rounded-3xl flex items-center justify-center mb-8 rotate-12 group-hover:-rotate-12 transition-transform">
+                            <i data-lucide="heart" class="text-gold w-8 h-8"></i>
+                        </div>
+                        <h3 class="font-serif text-2xl text-midnight mb-4">Empathetic Matching</h3>
+                        <p class="text-midnight/50 leading-relaxed">
+                            Our algorithm matches you based on religious, cultural, and personal preferences, ensuring the right fit in minutes.
+                        </p>
+                    </div>
+                </div>
             </div>
-            <div class="info-box" data-aos="fade-up" data-aos-delay="200">
-                <span class="tag">Costing</span>
-                <h2 class="h2-box">Transparent <br>Pricing.</h2>
-                <p>Zero hidden fees. Access high-quality care through a fixed-cost framework designed for families.</p>
+        </section>
+
+        <section class="bg-soft py-20 px-6 border-t border-stone-200">
+            <div class="max-w-7xl mx-auto text-center">
+                <span class="text-gold uppercase tracking-widest text-xs font-bold">Nationwide Coverage</span>
+                <h3 class="text-midnight font-serif text-3xl mt-4 mb-12 italic">Serving communities across the United Kingdom</h3>
+                
+                <div class="flex flex-wrap justify-center gap-4 no-scrollbar overflow-x-auto pb-4 text-midnight/40 text-sm">
+                    <span class="px-6 py-2 border border-stone-300 rounded-full hover:border-gold hover:text-gold transition-colors cursor-pointer">London</span>
+                    <span class="px-6 py-2 border border-stone-300 rounded-full hover:border-gold hover:text-gold transition-colors cursor-pointer">Manchester</span>
+                    <span class="px-6 py-2 border border-stone-300 rounded-full hover:border-gold hover:text-gold transition-colors cursor-pointer">Edinburgh</span>
+                    <span class="px-6 py-2 border border-stone-300 rounded-full hover:border-gold hover:text-gold transition-colors cursor-pointer">Birmingham</span>
+                    <span class="px-6 py-2 border border-stone-300 rounded-full hover:border-gold hover:text-gold transition-colors cursor-pointer">Glasgow</span>
+                    <span class="px-6 py-2 border border-stone-300 rounded-full hover:border-gold hover:text-gold transition-colors cursor-pointer">Bristol</span>
+                    <span class="px-6 py-2 border border-stone-300 rounded-full hover:border-gold hover:text-gold transition-colors cursor-pointer">Leeds</span>
+                </div>
             </div>
-            <div class="info-box" data-aos="fade-up" data-aos-delay="300">
-                <span class="tag">Revolution</span>
-                <h2 class="h2-box">Digital <br>Efficiency.</h2>
-                <p>The evolution of care: manage dignified tributes securely through our modern digital portal.</p>
-            </div>
-            <div class="info-box" data-aos="fade-up" data-aos-delay="400">
-                <span class="tag">Vision</span>
-                <h2 class="h2-box">Absolute <br>Clarity.</h2>
-                <p>Standardizing the vetting process to empower you with direct, honest data in your time of need.</p>
-            </div>
-        </div>
+        </section>
     </main>
 
-    <div id="emergency-system">
-        <div class="emergency-trigger" onclick="toggleModal(true)">
-            <div style="width: 8px; height: 8px; background: #FFB800; border-radius: 50%; animation: pulse 2s infinite;"></div>
-            <span style="font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em;">Need Emergency Help?</span>
-        </div>
-        <div style="background: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; border: 1px solid #eee;" onclick="document.getElementById('emergency-system').style.display='none'">&times;</div>
-    </div>
-
-    <div id="lead-modal" class="modal-overlay" onclick="toggleModal(false)">
-        <div class="lead-card" onclick="event.stopPropagation()">
-            <div style="position: absolute; top: 1.5rem; right: 2rem; cursor: pointer; font-size: 1.5rem; color: #ccc;" onclick="toggleModal(false)">&times;</div>
-            <h3 class="serif italic text-3xl mb-1">Priority Support</h3>
-            <p class="text-[10px] uppercase tracking-widest text-stone-400 mb-8">Lead captured to panchalkrish47@gmail.com</p>
-
-            <form action="https://formspree.io/f/mvzzkjeq" method="POST">
-                <div class="input-group">
-                    <label>Reporter Name</label>
-                    <input type="text" name="reporter_name" class="lead-input" required>
-                </div>
-                <div class="input-group">
-                    <label>Contact Number</label>
-                    <input type="tel" name="phone_number" class="lead-input" required>
-                </div>
-                <div class="input-group">
-                    <label>Situation Status</label>
-                    <select name="lead_type" class="lead-input" onchange="document.getElementById('deceased-section').style.display = (this.value === 'immediate' ? 'block' : 'none')" required>
-                        <option value="inquiry">General Inquiry</option>
-                        <option value="immediate">Death has occurred (Urgent Assistance)</option>
-                    </select>
-                </div>
-
-                <div id="deceased-section" style="display: none; border-top: 1px solid #f0f0f0; padding-top: 1rem;">
-                    <div class="input-group">
-                        <label>Deceased Name</label>
-                        <input type="text" name="deceased_name" class="lead-input">
+    <footer class="bg-midnight text-white pt-32 pb-12 px-6">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-16 mb-24">
+                <div class="col-span-1 md:col-span-1">
+                    <div class="flex items-center gap-3 mb-8">
+                        <div class="w-8 h-8 bg-gold rounded-full flex items-center justify-center">
+                            <span class="text-midnight font-display font-bold text-sm">F</span>
+                        </div>
+                        <span class="font-display text-xl tracking-widest uppercase">FuneralMatch</span>
                     </div>
-                    <div class="input-group">
-                        <label>Reporter's Relation</label>
-                        <input type="text" name="relationship" class="lead-input" placeholder="e.g. Spouse, Child">
+                    <p class="text-white/40 leading-relaxed font-light mb-8 italic">
+                        The UK's premier concierge for funeral service comparison. Elevating the standard of care through data and empathy.
+                    </p>
+                    <div class="flex gap-4">
+                        <a href="#" class="w-10 h-10 border border-white/10 rounded-full flex items-center justify-center hover:border-gold transition-colors">
+                            <i data-lucide="instagram" class="w-4 h-4"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 border border-white/10 rounded-full flex items-center justify-center hover:border-gold transition-colors">
+                            <i data-lucide="twitter" class="w-4 h-4"></i>
+                        </a>
                     </div>
                 </div>
 
-                <input type="hidden" name="_subject" value="URGENT: New FuneralMatch Lead Captured">
-                <button type="submit" class="submit-btn">Dispatch Priority Lead</button>
-            </form>
-        </div>
-    </div>
+                <div>
+                    <h4 class="font-display text-gold tracking-widest text-sm mb-8 uppercase">Company</h4>
+                    <ul class="space-y-4 font-light text-white/60">
+                        <li><a href="#" class="hover:text-gold transition-colors">About Us</a></li>
+                        <li><a href="#" class="hover:text-gold transition-colors">Our Vetting Process</a></li>
+                        <li><a href="#" class="hover:text-gold transition-colors">Partner With Us</a></li>
+                        <li><a href="#" class="hover:text-gold transition-colors">Careers</a></li>
+                    </ul>
+                </div>
 
-    <footer>
-        <div class="footer-col">
-            <h4>Platform</h4>
-            <a href="#" class="footer-link">How it Works</a>
-            <a href="#" class="footer-link">Vetting Criteria</a>
-            <a href="#" class="footer-link">Dignity Plans</a>
-        </div>
-        <div class="footer-col">
-            <h4>Support</h4>
-            <a href="#" class="footer-link">Contact Us</a>
-            <a href="#" class="footer-link">Help Centre</a>
-        </div>
-        <div class="footer-col">
-            <h4>Legal</h4>
-            <a href="#" class="footer-link">Privacy Policy</a>
-            <a href="#" class="footer-link">Terms of Service</a>
-        </div>
-        <div class="footer-col">
-            <h4>Industry</h4>
-            <a href="#" class="footer-link">Director Portal Login</a>
-            <p style="font-size: 10px; color: #AAA; margin-top: 1rem;">© 2026 FuneralMatch. panchalkrish47@gmail.com Relay Active.</p>
+                <div>
+                    <h4 class="font-display text-gold tracking-widest text-sm mb-8 uppercase">Resources</h4>
+                    <ul class="space-y-4 font-light text-white/60">
+                        <li><a href="#" class="hover:text-gold transition-colors">Bereavement Guide</a></li>
+                        <li><a href="#" class="hover:text-gold transition-colors">Cost Calculator</a></li>
+                        <li><a href="#" class="hover:text-gold transition-colors">Legal Assistance</a></li>
+                        <li><a href="#" class="hover:text-gold transition-colors">Funeral Plans</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-display text-gold tracking-widest text-sm mb-8 uppercase">Regulatory</h4>
+                    <ul class="space-y-4 font-light text-white/60">
+                        <li><a href="#" class="hover:text-gold transition-colors">CMA Compliance</a></li>
+                        <li><a href="#" class="hover:text-gold transition-colors">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-gold transition-colors">Terms of Service</a></li>
+                        <li><a href="#" class="hover:text-gold transition-colors">Data Handling</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6 text-white/20 text-[10px] tracking-[0.2em] uppercase font-bold text-center">
+                <p>&copy; 2026 FuneralMatch Ltd. Registered in England & Wales.</p>
+                <div class="flex gap-8">
+                    <span>Designed for Dignity</span>
+                    <span>London & Nationwide</span>
+                </div>
+            </div>
         </div>
     </footer>
 
     <script>
-        AOS.init({ duration: 1500, once: true });
-        window.addEventListener('load', () => { setTimeout(() => { document.getElementById('emergency-system').classList.add('active'); }, 3000); });
-        function toggleModal(show) {
-            const m = document.getElementById('lead-modal');
-            if (show) { m.style.display = 'flex'; setTimeout(() => m.classList.add('active'), 10); } 
-            else { m.classList.remove('active'); setTimeout(() => m.style.display = 'none', 500); }
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Sidebar Toggle Logic
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebar-overlay');
+            const isOpen = sidebar.style.transform === 'translateX(0px)';
+
+            if (isOpen) {
+                sidebar.style.transform = 'translateX(-100%)';
+                overlay.style.opacity = '0';
+                setTimeout(() => overlay.classList.add('hidden'), 300);
+                document.body.style.overflow = '';
+            } else {
+                sidebar.style.transform = 'translateX(0px)';
+                overlay.classList.remove('hidden');
+                setTimeout(() => overlay.style.opacity = '1', 10);
+                overlay.style.pointerEvents = 'auto';
+                document.body.style.overflow = 'hidden';
+            }
         }
+
+        // Close sidebar on overlay click
+        document.getElementById('sidebar-overlay').addEventListener('click', toggleSidebar);
+
+        // Simple Search Interaction
+        const searchBtn = document.querySelector('button');
+        const input = document.getElementById('postcode-search');
+
+        searchBtn.addEventListener('click', (e) => {
+            if(input.value.length < 3) {
+                input.parentElement.classList.add('animate-shake');
+                setTimeout(() => input.parentElement.classList.remove('animate-shake'), 400);
+            } else {
+                // Tracking Logic Hook
+                console.log(`Search initiated for: ${input.value}`);
+                // Redirect to results...
+            }
+        });
+
+        // Framer Motion-like Entry Animation via JS
+        window.addEventListener('DOMContentLoaded', () => {
+            const hero = document.getElementById('hero-content');
+            hero.style.opacity = '0';
+            hero.style.transform = 'translateY(20px)';
+            
+            setTimeout(() => {
+                hero.style.transition = 'all 1.2s cubic-bezier(0.16, 1, 0.3, 1)';
+                hero.style.opacity = '1';
+                hero.style.transform = 'translateY(0)';
+            }, 100);
+        });
     </script>
+
+    <style>
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        .animate-shake {
+            animation: shake 0.4s ease-in-out;
+            border-color: rgba(212, 175, 55, 0.5) !important;
+        }
+        .animate-spin-slow {
+            animation: spin 15s linear infinite;
+        }
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+    </style>
 </body>
 </html>
