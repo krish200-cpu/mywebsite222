@@ -24,13 +24,13 @@
                             light: '#DBC291',
                             dark: '#8C6F39',
                         },
-                        midnight: '#121212', /* Softer off-black for reduced eye strain */
+                        midnight: '#1A2332', /* Deep Oxford Blue/Slate for luxury without morbidity */
                         soft: '#F8F9FA',
                     },
                     fontFamily: {
                         serif: ['Libre Baskerville', 'serif'],
                         sans: ['Inter', 'sans-serif'],
-                        display: ['Inter', 'sans-serif'], /* Removed cursive display font */
+                        display: ['Inter', 'sans-serif'], 
                     },
                     borderRadius: {
                         '4xl': '2rem',
@@ -50,6 +50,10 @@
 
         .no-scrollbar::-webkit-scrollbar {
             display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
         }
 
         /* Prevent sharp edges on focus, utilizing subtle gold rings */
@@ -81,41 +85,118 @@
 </head>
 <body class="bg-midnight font-sans text-soft overflow-x-hidden selection:bg-gold selection:text-white">
 
-    <div id="sidebar-overlay" class="fixed inset-0 bg-black/70 z-[70] hidden opacity-0 transition-opacity duration-300 pointer-events-none backdrop-blur-sm"></div>
-    <aside id="sidebar" class="fixed top-0 left-0 h-full w-[320px] bg-midnight border-r border-white/5 z-[80] -translate-x-full p-8 flex flex-col">
-        <div class="flex justify-between items-center mb-12">
-            <span class="font-sans text-gold tracking-widest text-sm uppercase font-semibold">Services</span>
+    <div id="sidebar-overlay" class="fixed inset-0 bg-[#0B1018]/70 z-[70] hidden opacity-0 transition-opacity duration-300 pointer-events-none backdrop-blur-sm"></div>
+    <aside id="sidebar" class="fixed top-0 left-0 h-full w-[340px] bg-midnight border-r border-white/5 z-[80] -translate-x-full p-8 flex flex-col">
+        <div class="flex justify-between items-center mb-10 flex-shrink-0">
+            <span class="font-sans text-gold tracking-widest text-sm uppercase font-semibold">Our Services</span>
             <button onclick="toggleSidebar()" class="p-2 hover:bg-white/5 rounded-lg transition-transform hover:rotate-90">
                 <i data-lucide="x" class="text-white w-6 h-6"></i>
             </button>
         </div>
         
-        <nav class="space-y-8">
-            <a href="#" class="group flex items-center gap-4 text-lg font-light hover:text-gold transition-colors">
-                <span class="w-1 h-6 bg-gold scale-y-0 group-hover:scale-y-100 transition-transform origin-bottom rounded-full"></span>
-                Find a Director
-            </a>
-            <a href="#" class="group flex items-center gap-4 text-lg font-light hover:text-gold transition-colors">
-                <span class="w-1 h-6 bg-gold scale-y-0 group-hover:scale-y-100 transition-transform origin-bottom rounded-full"></span>
-                Cremation Services
-            </a>
-            <a href="#" class="group flex items-center gap-4 text-lg font-light hover:text-gold transition-colors">
-                <span class="w-1 h-6 bg-gold scale-y-0 group-hover:scale-y-100 transition-transform origin-bottom rounded-full"></span>
-                Burial Options
-            </a>
-            <a href="#" class="group flex items-center gap-4 text-lg font-light hover:text-gold transition-colors">
-                <span class="w-1 h-6 bg-gold scale-y-0 group-hover:scale-y-100 transition-transform origin-bottom rounded-full"></span>
-                Repatriation
-            </a>
-            <a href="#" class="group flex items-center gap-4 text-lg font-light hover:text-gold transition-colors">
-                <span class="w-1 h-6 bg-gold scale-y-0 group-hover:scale-y-100 transition-transform origin-bottom rounded-full"></span>
-                Legal & Probate
-            </a>
-        </nav>
+        <div class="flex-1 overflow-y-auto no-scrollbar pr-2 space-y-8 pb-6">
+            
+            <div>
+                <h5 class="text-[10px] tracking-[0.2em] text-white/40 uppercase font-semibold mb-4">Immediate Need</h5>
+                <nav class="space-y-4">
+                    <a href="#" class="group flex items-center gap-3 text-base font-light hover:text-gold transition-colors">
+                        <span class="w-1 h-5 bg-gold scale-y-0 group-hover:scale-y-100 transition-transform origin-bottom rounded-full"></span>
+                        Arrange a Funeral
+                    </a>
+                    <a href="#" class="group flex items-center gap-3 text-base font-light hover:text-gold transition-colors">
+                        <span class="w-1 h-5 bg-gold scale-y-0 group-hover:scale-y-100 transition-transform origin-bottom rounded-full"></span>
+                        Find a Director
+                    </a>
+                    <a href="#" class="group flex items-center gap-3 text-base font-light hover:text-gold transition-colors">
+                        <span class="w-1 h-5 bg-gold scale-y-0 group-hover:scale-y-100 transition-transform origin-bottom rounded-full"></span>
+                        Cremation Services
+                    </a>
+                    <a href="#" class="group flex items-center gap-3 text-base font-light hover:text-gold transition-colors">
+                        <span class="w-1 h-5 bg-gold scale-y-0 group-hover:scale-y-100 transition-transform origin-bottom rounded-full"></span>
+                        Burial Options
+                    </a>
+                </nav>
+            </div>
 
-        <div class="mt-auto pt-8 border-t border-white/5">
-            <p class="text-white/40 text-sm mb-3 font-light">Urgent 24/7 Assistance</p>
-            <a href="tel:0800123456" class="text-gold text-xl font-serif">0800 123 456</a>
+            <div>
+                <h5 class="text-[10px] tracking-[0.2em] text-white/40 uppercase font-semibold mb-4">The Send-Off</h5>
+                <nav class="space-y-4">
+                    <a href="#" class="group flex items-center gap-3 text-base font-light hover:text-gold transition-colors">
+                        <span class="w-1 h-5 bg-gold scale-y-0 group-hover:scale-y-100 transition-transform origin-bottom rounded-full"></span>
+                        Coffins & Caskets
+                    </a>
+                    <a href="#" class="group flex items-center gap-3 text-base font-light hover:text-gold transition-colors">
+                        <span class="w-1 h-5 bg-gold scale-y-0 group-hover:scale-y-100 transition-transform origin-bottom rounded-full"></span>
+                        Find Unique Hearses
+                    </a>
+                    <a href="#" class="group flex items-center gap-3 text-base font-light hover:text-gold transition-colors">
+                        <span class="w-1 h-5 bg-gold scale-y-0 group-hover:scale-y-100 transition-transform origin-bottom rounded-full"></span>
+                        Funeral Flowers
+                    </a>
+                    <a href="#" class="group flex items-center gap-3 text-base font-light hover:text-gold transition-colors">
+                        <span class="w-1 h-5 bg-gold scale-y-0 group-hover:scale-y-100 transition-transform origin-bottom rounded-full"></span>
+                        Order of Service Creation
+                    </a>
+                    <a href="#" class="group flex items-center gap-3 text-base font-light hover:text-gold transition-colors">
+                        <span class="w-1 h-5 bg-gold scale-y-0 group-hover:scale-y-100 transition-transform origin-bottom rounded-full"></span>
+                        Funeral Wakes
+                    </a>
+                </nav>
+            </div>
+
+            <div>
+                <h5 class="text-[10px] tracking-[0.2em] text-white/40 uppercase font-semibold mb-4">Admin & Future</h5>
+                <nav class="space-y-4">
+                    <a href="#" class="group flex items-center gap-3 text-base font-light hover:text-gold transition-colors">
+                        <span class="w-1 h-5 bg-gold scale-y-0 group-hover:scale-y-100 transition-transform origin-bottom rounded-full"></span>
+                        Legal & Probate
+                    </a>
+                    <a href="#" class="group flex items-center gap-3 text-base font-light hover:text-gold transition-colors">
+                        <span class="w-1 h-5 bg-gold scale-y-0 group-hover:scale-y-100 transition-transform origin-bottom rounded-full"></span>
+                        Will Writing
+                    </a>
+                    <a href="#" class="group flex items-center gap-3 text-base font-light hover:text-gold transition-colors">
+                        <span class="w-1 h-5 bg-gold scale-y-0 group-hover:scale-y-100 transition-transform origin-bottom rounded-full"></span>
+                        Life Admin
+                    </a>
+                    <a href="#" class="group flex items-center gap-3 text-base font-light hover:text-gold transition-colors">
+                        <span class="w-1 h-5 bg-gold scale-y-0 group-hover:scale-y-100 transition-transform origin-bottom rounded-full"></span>
+                        Pre Need Planning
+                    </a>
+                </nav>
+            </div>
+
+            <div>
+                <h5 class="text-[10px] tracking-[0.2em] text-white/40 uppercase font-semibold mb-4">Specialised Care</h5>
+                <nav class="space-y-4">
+                    <a href="#" class="group flex items-center gap-3 text-base font-light hover:text-gold transition-colors">
+                        <span class="w-1 h-5 bg-gold scale-y-0 group-hover:scale-y-100 transition-transform origin-bottom rounded-full"></span>
+                        Repatriation
+                    </a>
+                    <a href="#" class="group flex items-center gap-3 text-base font-light hover:text-gold transition-colors">
+                        <span class="w-1 h-5 bg-gold scale-y-0 group-hover:scale-y-100 transition-transform origin-bottom rounded-full"></span>
+                        Grave Care
+                    </a>
+                    <a href="#" class="group flex items-center gap-3 text-base font-light hover:text-gold transition-colors">
+                        <span class="w-1 h-5 bg-gold scale-y-0 group-hover:scale-y-100 transition-transform origin-bottom rounded-full"></span>
+                        Care Packages
+                    </a>
+                    <a href="#" class="group flex items-center gap-3 text-base font-light hover:text-gold transition-colors">
+                        <span class="w-1 h-5 bg-gold scale-y-0 group-hover:scale-y-100 transition-transform origin-bottom rounded-full"></span>
+                        Pets Cremation
+                    </a>
+                    <a href="#" class="group flex items-center gap-3 text-base font-light hover:text-gold transition-colors">
+                        <span class="w-1 h-5 bg-gold scale-y-0 group-hover:scale-y-100 transition-transform origin-bottom rounded-full"></span>
+                        Voice Bank
+                    </a>
+                </nav>
+            </div>
+            
+        </div>
+
+        <div class="pt-6 border-t border-white/5 flex-shrink-0">
+            <p class="text-white/40 text-xs mb-2 font-light">Urgent 24/7 Assistance</p>
+            <a href="tel:0800123456" class="text-gold text-xl font-serif block">0800 123 456</a>
         </div>
     </aside>
 
@@ -173,7 +254,7 @@
                     </button>
                 </div>
 
-                <div class="mt-20 w-full max-w-2xl mx-auto p-6 rounded-xl bg-[#1A1A1A] border border-white/5 flex flex-col sm:flex-row items-start sm:items-center justify-between group cursor-pointer hover:bg-[#222] transition-colors gap-4 sm:gap-0 relative z-20">
+                <div class="mt-20 w-full max-w-2xl mx-auto p-6 rounded-xl bg-[#222E40] border border-white/5 flex flex-col sm:flex-row items-start sm:items-center justify-between group cursor-pointer hover:bg-[#2A384E] transition-colors gap-4 sm:gap-0 relative z-20">
                     <div class="text-left">
                         <span class="text-[10px] tracking-[0.2em] text-gold uppercase font-bold">Planning Ahead</span>
                         <h4 class="text-white text-base font-medium mt-1">Professional Pre-Need Partner Network</h4>
