@@ -19,13 +19,20 @@
             theme: {
                 extend: {
                     colors: {
-                        gold: {
-                            DEFAULT: '#A89B9D', /* Dusky Mauve / Soft Silver accent */
-                            light: '#C2B6B8',
-                            dark: '#7A6E70',
-                        },
-                        midnight: '#2A242B', /* Deep Plum / Ethereal Night */
-                        soft: '#F7F5F6', /* Ethereal Pearl */
+                        brand: '#1F6F78',      /* Deep Teal */
+                        secondary: '#4FA3A5',  /* Muted Teal */
+                        mist: '#F5FAFA',       /* Mist White */
+                        fog: '#E6F2F2',        /* Soft Fog */
+                        cta: '#2F9EA0',        /* Calm Teal */
+                        ctaHover: '#258C8E',   /* Hover CTA */
+                        textMain: '#0F172A',   /* Primary Text */
+                        textMuted: '#475569',  /* Muted Text */
+                        borderLight: '#D1E7E7',/* Light Teal Gray */
+                        status: {
+                            success: '#2F855A',
+                            warning: '#C0841A',
+                            error: '#B91C1C'
+                        }
                     },
                     fontFamily: {
                         serif: ['Libre Baskerville', 'serif'],
@@ -56,13 +63,13 @@
             scrollbar-width: none;
         }
 
-        /* Prevent sharp edges on focus, utilizing subtle gold rings */
+        /* Prevent sharp edges on focus, utilizing subtle calm teal rings */
         *:focus {
             outline: none !important;
         }
 
         .focus-ring:focus-visible {
-            box-shadow: 0 0 0 2px rgba(168, 155, 157, 0.4); /* Matches new Dusky Mauve */
+            box-shadow: 0 0 0 2px rgba(47, 158, 160, 0.4); /* Calm Teal */
         }
 
         /* Sidebar Transition */
@@ -83,110 +90,110 @@
         }
     </style>
 </head>
-<body class="bg-midnight font-sans text-soft overflow-x-hidden selection:bg-gold selection:text-white">
+<body class="bg-mist font-sans text-textMain overflow-x-hidden selection:bg-cta selection:text-white">
 
-    <div id="sidebar-overlay" class="fixed inset-0 bg-[#171318]/70 z-[70] hidden opacity-0 transition-opacity duration-300 pointer-events-none backdrop-blur-sm"></div>
-    <aside id="sidebar" class="fixed top-0 left-0 h-full w-[340px] bg-midnight border-r border-white/5 z-[80] -translate-x-full p-8 flex flex-col">
+    <div id="sidebar-overlay" class="fixed inset-0 bg-textMain/70 z-[70] hidden opacity-0 transition-opacity duration-300 pointer-events-none backdrop-blur-sm"></div>
+    <aside id="sidebar" class="fixed top-0 left-0 h-full w-[340px] bg-brand border-r border-brand z-[80] -translate-x-full p-8 flex flex-col shadow-2xl">
         <div class="flex justify-between items-center mb-10 flex-shrink-0">
-            <span class="font-sans text-gold tracking-widest text-sm uppercase font-semibold">Our Services</span>
-            <button onclick="toggleSidebar()" class="p-2 hover:bg-white/5 rounded-lg transition-transform hover:rotate-90">
-                <i data-lucide="x" class="text-white w-6 h-6"></i>
+            <span class="font-sans text-fog tracking-widest text-sm uppercase font-semibold">Our Services</span>
+            <button onclick="toggleSidebar()" class="p-2 hover:bg-white/10 rounded-lg transition-transform hover:rotate-90">
+                <i data-lucide="x" class="text-mist w-6 h-6"></i>
             </button>
         </div>
         
         <div class="flex-1 overflow-y-auto no-scrollbar pr-2 space-y-8 pb-6">
             
             <div>
-                <h5 class="text-[10px] tracking-[0.2em] text-white/40 uppercase font-semibold mb-4">Immediate Need</h5>
+                <h5 class="text-[10px] tracking-[0.2em] text-fog/60 uppercase font-semibold mb-4">Immediate Need</h5>
                 <nav class="space-y-4">
-                    <a href="#" class="group flex items-center gap-3 text-base font-light hover:text-gold transition-colors">
-                        <span class="w-1 h-5 bg-gold scale-y-0 group-hover:scale-y-100 transition-transform origin-bottom rounded-full"></span>
+                    <a href="#" class="group flex items-center gap-3 text-base font-light text-mist hover:text-white transition-colors">
+                        <span class="w-1 h-5 bg-secondary scale-y-0 group-hover:scale-y-100 transition-transform origin-bottom rounded-full"></span>
                         Arrange a Funeral
                     </a>
-                    <a href="#" class="group flex items-center gap-3 text-base font-light hover:text-gold transition-colors">
-                        <span class="w-1 h-5 bg-gold scale-y-0 group-hover:scale-y-100 transition-transform origin-bottom rounded-full"></span>
+                    <a href="#" class="group flex items-center gap-3 text-base font-light text-mist hover:text-white transition-colors">
+                        <span class="w-1 h-5 bg-secondary scale-y-0 group-hover:scale-y-100 transition-transform origin-bottom rounded-full"></span>
                         Find a Director
                     </a>
-                    <a href="#" class="group flex items-center gap-3 text-base font-light hover:text-gold transition-colors">
-                        <span class="w-1 h-5 bg-gold scale-y-0 group-hover:scale-y-100 transition-transform origin-bottom rounded-full"></span>
+                    <a href="#" class="group flex items-center gap-3 text-base font-light text-mist hover:text-white transition-colors">
+                        <span class="w-1 h-5 bg-secondary scale-y-0 group-hover:scale-y-100 transition-transform origin-bottom rounded-full"></span>
                         Cremation Services
                     </a>
-                    <a href="#" class="group flex items-center gap-3 text-base font-light hover:text-gold transition-colors">
-                        <span class="w-1 h-5 bg-gold scale-y-0 group-hover:scale-y-100 transition-transform origin-bottom rounded-full"></span>
+                    <a href="#" class="group flex items-center gap-3 text-base font-light text-mist hover:text-white transition-colors">
+                        <span class="w-1 h-5 bg-secondary scale-y-0 group-hover:scale-y-100 transition-transform origin-bottom rounded-full"></span>
                         Burial Options
                     </a>
                 </nav>
             </div>
 
             <div>
-                <h5 class="text-[10px] tracking-[0.2em] text-white/40 uppercase font-semibold mb-4">The Send-Off</h5>
+                <h5 class="text-[10px] tracking-[0.2em] text-fog/60 uppercase font-semibold mb-4">The Send-Off</h5>
                 <nav class="space-y-4">
-                    <a href="#" class="group flex items-center gap-3 text-base font-light hover:text-gold transition-colors">
-                        <span class="w-1 h-5 bg-gold scale-y-0 group-hover:scale-y-100 transition-transform origin-bottom rounded-full"></span>
+                    <a href="#" class="group flex items-center gap-3 text-base font-light text-mist hover:text-white transition-colors">
+                        <span class="w-1 h-5 bg-secondary scale-y-0 group-hover:scale-y-100 transition-transform origin-bottom rounded-full"></span>
                         Coffins & Caskets
                     </a>
-                    <a href="#" class="group flex items-center gap-3 text-base font-light hover:text-gold transition-colors">
-                        <span class="w-1 h-5 bg-gold scale-y-0 group-hover:scale-y-100 transition-transform origin-bottom rounded-full"></span>
+                    <a href="#" class="group flex items-center gap-3 text-base font-light text-mist hover:text-white transition-colors">
+                        <span class="w-1 h-5 bg-secondary scale-y-0 group-hover:scale-y-100 transition-transform origin-bottom rounded-full"></span>
                         Find Unique Hearses
                     </a>
-                    <a href="#" class="group flex items-center gap-3 text-base font-light hover:text-gold transition-colors">
-                        <span class="w-1 h-5 bg-gold scale-y-0 group-hover:scale-y-100 transition-transform origin-bottom rounded-full"></span>
+                    <a href="#" class="group flex items-center gap-3 text-base font-light text-mist hover:text-white transition-colors">
+                        <span class="w-1 h-5 bg-secondary scale-y-0 group-hover:scale-y-100 transition-transform origin-bottom rounded-full"></span>
                         Funeral Flowers
                     </a>
-                    <a href="#" class="group flex items-center gap-3 text-base font-light hover:text-gold transition-colors">
-                        <span class="w-1 h-5 bg-gold scale-y-0 group-hover:scale-y-100 transition-transform origin-bottom rounded-full"></span>
+                    <a href="#" class="group flex items-center gap-3 text-base font-light text-mist hover:text-white transition-colors">
+                        <span class="w-1 h-5 bg-secondary scale-y-0 group-hover:scale-y-100 transition-transform origin-bottom rounded-full"></span>
                         Order of Service Creation
                     </a>
-                    <a href="#" class="group flex items-center gap-3 text-base font-light hover:text-gold transition-colors">
-                        <span class="w-1 h-5 bg-gold scale-y-0 group-hover:scale-y-100 transition-transform origin-bottom rounded-full"></span>
+                    <a href="#" class="group flex items-center gap-3 text-base font-light text-mist hover:text-white transition-colors">
+                        <span class="w-1 h-5 bg-secondary scale-y-0 group-hover:scale-y-100 transition-transform origin-bottom rounded-full"></span>
                         Funeral Wakes
                     </a>
                 </nav>
             </div>
 
             <div>
-                <h5 class="text-[10px] tracking-[0.2em] text-white/40 uppercase font-semibold mb-4">Admin & Future</h5>
+                <h5 class="text-[10px] tracking-[0.2em] text-fog/60 uppercase font-semibold mb-4">Admin & Future</h5>
                 <nav class="space-y-4">
-                    <a href="#" class="group flex items-center gap-3 text-base font-light hover:text-gold transition-colors">
-                        <span class="w-1 h-5 bg-gold scale-y-0 group-hover:scale-y-100 transition-transform origin-bottom rounded-full"></span>
+                    <a href="#" class="group flex items-center gap-3 text-base font-light text-mist hover:text-white transition-colors">
+                        <span class="w-1 h-5 bg-secondary scale-y-0 group-hover:scale-y-100 transition-transform origin-bottom rounded-full"></span>
                         Legal & Probate
                     </a>
-                    <a href="#" class="group flex items-center gap-3 text-base font-light hover:text-gold transition-colors">
-                        <span class="w-1 h-5 bg-gold scale-y-0 group-hover:scale-y-100 transition-transform origin-bottom rounded-full"></span>
+                    <a href="#" class="group flex items-center gap-3 text-base font-light text-mist hover:text-white transition-colors">
+                        <span class="w-1 h-5 bg-secondary scale-y-0 group-hover:scale-y-100 transition-transform origin-bottom rounded-full"></span>
                         Will Writing
                     </a>
-                    <a href="#" class="group flex items-center gap-3 text-base font-light hover:text-gold transition-colors">
-                        <span class="w-1 h-5 bg-gold scale-y-0 group-hover:scale-y-100 transition-transform origin-bottom rounded-full"></span>
+                    <a href="#" class="group flex items-center gap-3 text-base font-light text-mist hover:text-white transition-colors">
+                        <span class="w-1 h-5 bg-secondary scale-y-0 group-hover:scale-y-100 transition-transform origin-bottom rounded-full"></span>
                         Life Admin
                     </a>
-                    <a href="#" class="group flex items-center gap-3 text-base font-light hover:text-gold transition-colors">
-                        <span class="w-1 h-5 bg-gold scale-y-0 group-hover:scale-y-100 transition-transform origin-bottom rounded-full"></span>
+                    <a href="#" class="group flex items-center gap-3 text-base font-light text-mist hover:text-white transition-colors">
+                        <span class="w-1 h-5 bg-secondary scale-y-0 group-hover:scale-y-100 transition-transform origin-bottom rounded-full"></span>
                         Pre Need Planning
                     </a>
                 </nav>
             </div>
 
             <div>
-                <h5 class="text-[10px] tracking-[0.2em] text-white/40 uppercase font-semibold mb-4">Specialised Care</h5>
+                <h5 class="text-[10px] tracking-[0.2em] text-fog/60 uppercase font-semibold mb-4">Specialised Care</h5>
                 <nav class="space-y-4">
-                    <a href="#" class="group flex items-center gap-3 text-base font-light hover:text-gold transition-colors">
-                        <span class="w-1 h-5 bg-gold scale-y-0 group-hover:scale-y-100 transition-transform origin-bottom rounded-full"></span>
+                    <a href="#" class="group flex items-center gap-3 text-base font-light text-mist hover:text-white transition-colors">
+                        <span class="w-1 h-5 bg-secondary scale-y-0 group-hover:scale-y-100 transition-transform origin-bottom rounded-full"></span>
                         Repatriation
                     </a>
-                    <a href="#" class="group flex items-center gap-3 text-base font-light hover:text-gold transition-colors">
-                        <span class="w-1 h-5 bg-gold scale-y-0 group-hover:scale-y-100 transition-transform origin-bottom rounded-full"></span>
+                    <a href="#" class="group flex items-center gap-3 text-base font-light text-mist hover:text-white transition-colors">
+                        <span class="w-1 h-5 bg-secondary scale-y-0 group-hover:scale-y-100 transition-transform origin-bottom rounded-full"></span>
                         Grave Care
                     </a>
-                    <a href="#" class="group flex items-center gap-3 text-base font-light hover:text-gold transition-colors">
-                        <span class="w-1 h-5 bg-gold scale-y-0 group-hover:scale-y-100 transition-transform origin-bottom rounded-full"></span>
+                    <a href="#" class="group flex items-center gap-3 text-base font-light text-mist hover:text-white transition-colors">
+                        <span class="w-1 h-5 bg-secondary scale-y-0 group-hover:scale-y-100 transition-transform origin-bottom rounded-full"></span>
                         Care Packages
                     </a>
-                    <a href="#" class="group flex items-center gap-3 text-base font-light hover:text-gold transition-colors">
-                        <span class="w-1 h-5 bg-gold scale-y-0 group-hover:scale-y-100 transition-transform origin-bottom rounded-full"></span>
+                    <a href="#" class="group flex items-center gap-3 text-base font-light text-mist hover:text-white transition-colors">
+                        <span class="w-1 h-5 bg-secondary scale-y-0 group-hover:scale-y-100 transition-transform origin-bottom rounded-full"></span>
                         Pets Cremation
                     </a>
-                    <a href="#" class="group flex items-center gap-3 text-base font-light hover:text-gold transition-colors">
-                        <span class="w-1 h-5 bg-gold scale-y-0 group-hover:scale-y-100 transition-transform origin-bottom rounded-full"></span>
+                    <a href="#" class="group flex items-center gap-3 text-base font-light text-mist hover:text-white transition-colors">
+                        <span class="w-1 h-5 bg-secondary scale-y-0 group-hover:scale-y-100 transition-transform origin-bottom rounded-full"></span>
                         Voice Bank
                     </a>
                 </nav>
@@ -194,31 +201,31 @@
             
         </div>
 
-        <div class="pt-6 border-t border-white/5 flex-shrink-0">
-            <p class="text-white/40 text-xs mb-2 font-light">Urgent 24/7 Assistance</p>
-            <a href="tel:0800123456" class="text-gold text-xl font-serif block">0800 123 456</a>
+        <div class="pt-6 border-t border-white/10 flex-shrink-0">
+            <p class="text-fog/60 text-xs mb-2 font-light">Urgent 24/7 Assistance</p>
+            <a href="tel:0800123456" class="text-mist text-xl font-serif block">0800 123 456</a>
         </div>
     </aside>
 
-    <header class="bg-midnight relative z-50 px-6 py-6 border-b border-white/5">
+    <header class="bg-brand relative z-50 px-6 py-6 shadow-sm">
         <div class="max-w-7xl mx-auto flex items-center justify-between">
             <div class="flex items-center gap-6">
-                <button onclick="toggleSidebar()" class="p-2 hover:bg-white/5 rounded-lg transition-all active:scale-95" aria-label="Menu">
-                    <i data-lucide="menu" class="text-gold w-6 h-6"></i>
+                <button onclick="toggleSidebar()" class="p-2 hover:bg-white/10 rounded-lg transition-all active:scale-95" aria-label="Menu">
+                    <i data-lucide="menu" class="text-mist w-6 h-6"></i>
                 </button>
                 
                 <div class="flex items-center gap-3 group cursor-pointer">
-                    <div class="w-9 h-9 bg-gold rounded-lg flex items-center justify-center transition-transform">
-                        <span class="text-midnight font-serif font-bold text-lg">F</span>
+                    <div class="w-9 h-9 bg-mist rounded-lg flex items-center justify-center transition-transform shadow-sm">
+                        <span class="text-brand font-serif font-bold text-lg">F</span>
                     </div>
-                    <span class="font-sans text-xl tracking-[0.15em] uppercase font-medium hidden sm:block">FuneralMatch</span>
+                    <span class="font-sans text-mist text-xl tracking-[0.15em] uppercase font-medium hidden sm:block">FuneralMatch</span>
                 </div>
             </div>
 
-            <nav class="hidden md:flex items-center gap-8 text-xs tracking-widest uppercase font-medium text-white/70">
-                <a href="#" class="hover:text-gold transition-colors">How it works</a>
-                <a href="#" class="hover:text-gold transition-colors">Why us?</a>
-                <a href="#" class="bg-gold text-midnight px-6 py-2.5 rounded-lg hover:bg-white hover:text-midnight transition-all">
+            <nav class="hidden md:flex items-center gap-8 text-xs tracking-widest uppercase font-medium text-fog/80">
+                <a href="#" class="hover:text-mist transition-colors">How it works</a>
+                <a href="#" class="hover:text-mist transition-colors">Why us?</a>
+                <a href="#" class="bg-cta text-white px-6 py-2.5 rounded-lg hover:bg-ctaHover transition-all shadow-sm">
                     Start Match
                 </a>
             </nav>
@@ -226,40 +233,40 @@
     </header>
 
     <main>
-        <section class="relative min-h-[85vh] flex flex-col items-center justify-center px-6 py-24 overflow-hidden">
-            <div class="absolute top-[0%] left-[10%] w-[40%] h-[40%] bg-gold/5 blur-[140px] rounded-full pointer-events-none"></div>
+        <section class="relative min-h-[85vh] flex flex-col items-center justify-center px-6 py-24 overflow-hidden bg-mist">
+            <div class="absolute top-[0%] left-[10%] w-[40%] h-[40%] bg-brand/5 blur-[140px] rounded-full pointer-events-none"></div>
             
             <div class="max-w-4xl w-full text-center relative z-10" id="hero-content">
-                <h1 class="font-serif text-4xl md:text-7xl text-white mb-6 leading-[1.15] tracking-tight">
+                <h1 class="font-serif text-4xl md:text-7xl text-textMain mb-6 leading-[1.15] tracking-tight">
                     Grace in the <br>
-                    <span class="italic text-gold">Final Goodbye.</span>
+                    <span class="italic text-brand">Final Goodbye.</span>
                 </h1>
                 
-                <p class="text-white/60 text-lg md:text-xl font-light mb-14 max-w-2xl mx-auto leading-relaxed">
+                <p class="text-textMuted text-lg md:text-xl font-light mb-14 max-w-2xl mx-auto leading-relaxed">
                     Connecting grieving families with the UK's most distinguished, vetted funeral directors. Dignified care, without the burden of choice.
                 </p>
 
-                <div class="bg-white p-2 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-stone-200 flex flex-col md:flex-row items-center gap-0 max-w-3xl mx-auto transition-all relative z-20 hover:shadow-[0_8px_40px_rgba(168,155,157,0.1)]">
-                    <div class="flex items-center gap-4 px-6 w-full py-4 border-b md:border-b-0 md:border-r border-gray-100">
-                        <i data-lucide="map-pin" class="text-gold w-5 h-5 flex-shrink-0"></i>
+                <div class="bg-white p-2 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-borderLight flex flex-col md:flex-row items-center gap-0 max-w-3xl mx-auto transition-all relative z-20 hover:shadow-[0_8px_40px_rgba(31,111,120,0.08)]">
+                    <div class="flex items-center gap-4 px-6 w-full py-4 border-b md:border-b-0 md:border-r border-borderLight/50">
+                        <i data-lucide="map-pin" class="text-cta w-5 h-5 flex-shrink-0"></i>
                         <input 
                             type="text" 
                             id="postcode-search"
                             placeholder="Enter your UK Postcode or Town"
-                            class="w-full text-midnight text-lg font-light placeholder:text-gray-400 outline-none bg-transparent"
+                            class="w-full text-textMain text-lg font-light placeholder:text-textMuted/50 outline-none bg-transparent"
                         >
                     </div>
-                    <button class="w-full md:w-auto bg-midnight text-white px-10 py-4 m-1 rounded-xl text-base font-medium hover:bg-gold transition-all flex items-center justify-center gap-3 group whitespace-nowrap">
+                    <button class="w-full md:w-auto bg-cta text-white px-10 py-4 m-1 rounded-xl text-base font-medium hover:bg-ctaHover transition-all flex items-center justify-center gap-3 group whitespace-nowrap shadow-sm">
                         Find Care <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
                     </button>
                 </div>
 
-                <div class="mt-20 w-full max-w-2xl mx-auto p-6 rounded-xl bg-[#363038] border border-white/5 flex flex-col sm:flex-row items-start sm:items-center justify-between group cursor-pointer hover:bg-[#423A45] transition-colors gap-4 sm:gap-0 relative z-20">
+                <div class="mt-20 w-full max-w-2xl mx-auto p-6 rounded-xl bg-white border border-borderLight flex flex-col sm:flex-row items-start sm:items-center justify-between group cursor-pointer hover:bg-fog transition-colors gap-4 sm:gap-0 relative z-20 shadow-[0_4px_20px_rgb(0,0,0,0.03)]">
                     <div class="text-left">
-                        <span class="text-[10px] tracking-[0.2em] text-gold uppercase font-bold">Planning Ahead</span>
-                        <h4 class="text-white text-base font-medium mt-1">Professional Pre-Need Partner Network</h4>
+                        <span class="text-[10px] tracking-[0.2em] text-secondary uppercase font-bold">Planning Ahead</span>
+                        <h4 class="text-textMain text-base font-medium mt-1">Professional Pre-Need Partner Network</h4>
                     </div>
-                    <div class="text-gold flex items-center gap-2 text-sm font-medium">
+                    <div class="text-cta flex items-center gap-2 text-sm font-medium">
                         <span>Explore Plans</span>
                         <i data-lucide="chevron-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
                     </div>
@@ -267,20 +274,20 @@
             </div>
         </section>
 
-        <section class="bg-soft curve-top py-32 px-6">
+        <section class="bg-fog curve-top py-32 px-6 border-t border-borderLight/40">
             <div class="max-w-7xl mx-auto">
                 <div class="flex flex-col md:flex-row items-end justify-between gap-12 mb-20">
-                    <div class="max-w-2xl text-midnight">
+                    <div class="max-w-2xl text-textMain">
                         <h2 class="font-serif text-3xl md:text-5xl mb-6 leading-tight tracking-tight">
                             Not every director <br>meets our standard.
                         </h2>
-                        <p class="text-midnight/60 text-lg font-light leading-relaxed">
+                        <p class="text-textMuted text-lg font-light leading-relaxed">
                             We operate as a selective guild. If a service is overpriced, under-reviewed, or lacks transparency, they aren't on FuneralMatch.
                         </p>
                     </div>
                     <div class="hidden md:block">
-                        <div class="w-32 h-32 border border-gold/30 rounded-full flex items-center justify-center animate-spin-slow">
-                            <span class="text-[9px] text-gold uppercase tracking-[0.2em] font-bold text-center">
+                        <div class="w-32 h-32 border border-brand/30 rounded-full flex items-center justify-center animate-spin-slow">
+                            <span class="text-[9px] text-brand uppercase tracking-[0.2em] font-bold text-center">
                                 Vetted • Trusted • Local
                             </span>
                         </div>
@@ -288,32 +295,32 @@
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div class="group bg-white p-10 rounded-3xl shadow-sm border border-stone-200 hover:shadow-lg transition-all duration-300">
-                        <div class="w-14 h-14 bg-soft rounded-2xl flex items-center justify-center mb-8 border border-stone-100 group-hover:border-gold/30 transition-colors">
-                            <i data-lucide="shield-check" class="text-gold w-6 h-6"></i>
+                    <div class="group bg-white p-10 rounded-3xl shadow-sm border border-borderLight hover:shadow-md transition-all duration-300">
+                        <div class="w-14 h-14 bg-fog rounded-2xl flex items-center justify-center mb-8 border border-borderLight/50 group-hover:border-brand/30 transition-colors">
+                            <i data-lucide="shield-check" class="text-cta w-6 h-6"></i>
                         </div>
-                        <h3 class="font-serif text-xl text-midnight mb-3">Elite Vetting</h3>
-                        <p class="text-midnight/60 font-light leading-relaxed text-sm">
+                        <h3 class="font-serif text-xl text-textMain mb-3">Elite Vetting</h3>
+                        <p class="text-textMuted font-light leading-relaxed text-sm">
                             We manually verify every director. Reputation, license status, and historical pricing are audited before they join our network.
                         </p>
                     </div>
 
-                    <div class="group bg-white p-10 rounded-3xl shadow-sm border border-stone-200 hover:shadow-lg transition-all duration-300">
-                        <div class="w-14 h-14 bg-soft rounded-2xl flex items-center justify-center mb-8 border border-stone-100 group-hover:border-gold/30 transition-colors">
-                            <i data-lucide="banknote" class="text-gold w-6 h-6"></i>
+                    <div class="group bg-white p-10 rounded-3xl shadow-sm border border-borderLight hover:shadow-md transition-all duration-300">
+                        <div class="w-14 h-14 bg-fog rounded-2xl flex items-center justify-center mb-8 border border-borderLight/50 group-hover:border-brand/30 transition-colors">
+                            <i data-lucide="banknote" class="text-cta w-6 h-6"></i>
                         </div>
-                        <h3 class="font-serif text-xl text-midnight mb-3">Full Transparency</h3>
-                        <p class="text-midnight/60 font-light leading-relaxed text-sm">
+                        <h3 class="font-serif text-xl text-textMain mb-3">Full Transparency</h3>
+                        <p class="text-textMuted font-light leading-relaxed text-sm">
                             No hidden disbursements or "quote-first" delays. Compare full package costs side-by-side with absolute clarity.
                         </p>
                     </div>
 
-                    <div class="group bg-white p-10 rounded-3xl shadow-sm border border-stone-200 hover:shadow-lg transition-all duration-300">
-                        <div class="w-14 h-14 bg-soft rounded-2xl flex items-center justify-center mb-8 border border-stone-100 group-hover:border-gold/30 transition-colors">
-                            <i data-lucide="heart" class="text-gold w-6 h-6"></i>
+                    <div class="group bg-white p-10 rounded-3xl shadow-sm border border-borderLight hover:shadow-md transition-all duration-300">
+                        <div class="w-14 h-14 bg-fog rounded-2xl flex items-center justify-center mb-8 border border-borderLight/50 group-hover:border-brand/30 transition-colors">
+                            <i data-lucide="heart" class="text-cta w-6 h-6"></i>
                         </div>
-                        <h3 class="font-serif text-xl text-midnight mb-3">Empathetic Matching</h3>
-                        <p class="text-midnight/60 font-light leading-relaxed text-sm">
+                        <h3 class="font-serif text-xl text-textMain mb-3">Empathetic Matching</h3>
+                        <p class="text-textMuted font-light leading-relaxed text-sm">
                             Our algorithm matches you based on religious, cultural, and personal preferences, ensuring the right fit in minutes.
                         </p>
                     </div>
@@ -321,79 +328,79 @@
             </div>
         </section>
 
-        <section class="bg-white py-24 px-6 border-t border-stone-100">
+        <section class="bg-white py-24 px-6 border-t border-borderLight">
             <div class="max-w-7xl mx-auto text-center">
-                <span class="text-gold uppercase tracking-[0.2em] text-xs font-bold">Nationwide Coverage</span>
-                <h3 class="text-midnight font-serif text-2xl mt-4 mb-10 text-midnight/80">Serving communities across the United Kingdom</h3>
+                <span class="text-secondary uppercase tracking-[0.2em] text-xs font-bold">Nationwide Coverage</span>
+                <h3 class="text-textMain font-serif text-2xl mt-4 mb-10">Serving communities across the United Kingdom</h3>
                 
-                <div class="flex flex-wrap justify-center gap-3 no-scrollbar overflow-x-auto pb-4 text-midnight/60 text-sm font-light">
-                    <span class="px-5 py-2 border border-stone-200 bg-soft rounded-lg hover:border-gold hover:text-gold transition-colors cursor-pointer">London</span>
-                    <span class="px-5 py-2 border border-stone-200 bg-soft rounded-lg hover:border-gold hover:text-gold transition-colors cursor-pointer">Manchester</span>
-                    <span class="px-5 py-2 border border-stone-200 bg-soft rounded-lg hover:border-gold hover:text-gold transition-colors cursor-pointer">Edinburgh</span>
-                    <span class="px-5 py-2 border border-stone-200 bg-soft rounded-lg hover:border-gold hover:text-gold transition-colors cursor-pointer">Birmingham</span>
-                    <span class="px-5 py-2 border border-stone-200 bg-soft rounded-lg hover:border-gold hover:text-gold transition-colors cursor-pointer">Glasgow</span>
-                    <span class="px-5 py-2 border border-stone-200 bg-soft rounded-lg hover:border-gold hover:text-gold transition-colors cursor-pointer">Bristol</span>
-                    <span class="px-5 py-2 border border-stone-200 bg-soft rounded-lg hover:border-gold hover:text-gold transition-colors cursor-pointer">Leeds</span>
+                <div class="flex flex-wrap justify-center gap-3 no-scrollbar overflow-x-auto pb-4 text-textMuted text-sm font-light">
+                    <span class="px-5 py-2 border border-borderLight bg-fog rounded-lg hover:border-cta hover:text-cta hover:bg-white hover:shadow-sm transition-all cursor-pointer">London</span>
+                    <span class="px-5 py-2 border border-borderLight bg-fog rounded-lg hover:border-cta hover:text-cta hover:bg-white hover:shadow-sm transition-all cursor-pointer">Manchester</span>
+                    <span class="px-5 py-2 border border-borderLight bg-fog rounded-lg hover:border-cta hover:text-cta hover:bg-white hover:shadow-sm transition-all cursor-pointer">Edinburgh</span>
+                    <span class="px-5 py-2 border border-borderLight bg-fog rounded-lg hover:border-cta hover:text-cta hover:bg-white hover:shadow-sm transition-all cursor-pointer">Birmingham</span>
+                    <span class="px-5 py-2 border border-borderLight bg-fog rounded-lg hover:border-cta hover:text-cta hover:bg-white hover:shadow-sm transition-all cursor-pointer">Glasgow</span>
+                    <span class="px-5 py-2 border border-borderLight bg-fog rounded-lg hover:border-cta hover:text-cta hover:bg-white hover:shadow-sm transition-all cursor-pointer">Bristol</span>
+                    <span class="px-5 py-2 border border-borderLight bg-fog rounded-lg hover:border-cta hover:text-cta hover:bg-white hover:shadow-sm transition-all cursor-pointer">Leeds</span>
                 </div>
             </div>
         </section>
     </main>
 
-    <footer class="bg-midnight text-white pt-24 pb-12 px-6 border-t border-white/5">
+    <footer class="bg-brand text-mist pt-24 pb-12 px-6 border-t border-brand">
         <div class="max-w-7xl mx-auto">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-16 mb-20">
                 <div class="col-span-1 md:col-span-1">
                     <div class="flex items-center gap-3 mb-6">
-                        <div class="w-8 h-8 bg-gold rounded-lg flex items-center justify-center">
-                            <span class="text-midnight font-serif font-bold text-sm">F</span>
+                        <div class="w-8 h-8 bg-mist rounded-lg flex items-center justify-center shadow-sm">
+                            <span class="text-brand font-serif font-bold text-sm">F</span>
                         </div>
                         <span class="font-sans text-lg tracking-[0.15em] uppercase font-medium">FuneralMatch</span>
                     </div>
-                    <p class="text-white/50 leading-relaxed font-light mb-8 text-sm">
+                    <p class="text-fog/70 leading-relaxed font-light mb-8 text-sm">
                         The UK's premier concierge for funeral service comparison. Elevating the standard of care through data and empathy.
                     </p>
                     <div class="flex gap-3">
-                        <a href="#" class="w-10 h-10 border border-white/10 rounded-lg flex items-center justify-center hover:border-gold hover:text-gold transition-colors bg-white/5">
+                        <a href="#" class="w-10 h-10 border border-fog/20 rounded-lg flex items-center justify-center hover:border-mist hover:text-mist transition-colors bg-white/5 text-fog">
                             <i data-lucide="instagram" class="w-4 h-4"></i>
                         </a>
-                        <a href="#" class="w-10 h-10 border border-white/10 rounded-lg flex items-center justify-center hover:border-gold hover:text-gold transition-colors bg-white/5">
+                        <a href="#" class="w-10 h-10 border border-fog/20 rounded-lg flex items-center justify-center hover:border-mist hover:text-mist transition-colors bg-white/5 text-fog">
                             <i data-lucide="twitter" class="w-4 h-4"></i>
                         </a>
                     </div>
                 </div>
 
                 <div>
-                    <h4 class="font-sans text-white tracking-widest text-xs mb-6 uppercase font-semibold">Company</h4>
-                    <ul class="space-y-4 font-light text-sm text-white/50">
-                        <li><a href="#" class="hover:text-gold transition-colors">About Us</a></li>
-                        <li><a href="#" class="hover:text-gold transition-colors">Our Vetting Process</a></li>
-                        <li><a href="#" class="hover:text-gold transition-colors">Partner With Us</a></li>
-                        <li><a href="#" class="hover:text-gold transition-colors">Careers</a></li>
+                    <h4 class="font-sans text-mist tracking-widest text-xs mb-6 uppercase font-semibold">Company</h4>
+                    <ul class="space-y-4 font-light text-sm text-fog/70">
+                        <li><a href="#" class="hover:text-mist transition-colors">About Us</a></li>
+                        <li><a href="#" class="hover:text-mist transition-colors">Our Vetting Process</a></li>
+                        <li><a href="#" class="hover:text-mist transition-colors">Partner With Us</a></li>
+                        <li><a href="#" class="hover:text-mist transition-colors">Careers</a></li>
                     </ul>
                 </div>
 
                 <div>
-                    <h4 class="font-sans text-white tracking-widest text-xs mb-6 uppercase font-semibold">Resources</h4>
-                    <ul class="space-y-4 font-light text-sm text-white/50">
-                        <li><a href="#" class="hover:text-gold transition-colors">Bereavement Guide</a></li>
-                        <li><a href="#" class="hover:text-gold transition-colors">Cost Calculator</a></li>
-                        <li><a href="#" class="hover:text-gold transition-colors">Legal Assistance</a></li>
-                        <li><a href="#" class="hover:text-gold transition-colors">Funeral Plans</a></li>
+                    <h4 class="font-sans text-mist tracking-widest text-xs mb-6 uppercase font-semibold">Resources</h4>
+                    <ul class="space-y-4 font-light text-sm text-fog/70">
+                        <li><a href="#" class="hover:text-mist transition-colors">Bereavement Guide</a></li>
+                        <li><a href="#" class="hover:text-mist transition-colors">Cost Calculator</a></li>
+                        <li><a href="#" class="hover:text-mist transition-colors">Legal Assistance</a></li>
+                        <li><a href="#" class="hover:text-mist transition-colors">Funeral Plans</a></li>
                     </ul>
                 </div>
 
                 <div>
-                    <h4 class="font-sans text-white tracking-widest text-xs mb-6 uppercase font-semibold">Regulatory</h4>
-                    <ul class="space-y-4 font-light text-sm text-white/50">
-                        <li><a href="#" class="hover:text-gold transition-colors">CMA Compliance</a></li>
-                        <li><a href="#" class="hover:text-gold transition-colors">Privacy Policy</a></li>
-                        <li><a href="#" class="hover:text-gold transition-colors">Terms of Service</a></li>
-                        <li><a href="#" class="hover:text-gold transition-colors">Data Handling</a></li>
+                    <h4 class="font-sans text-mist tracking-widest text-xs mb-6 uppercase font-semibold">Regulatory</h4>
+                    <ul class="space-y-4 font-light text-sm text-fog/70">
+                        <li><a href="#" class="hover:text-mist transition-colors">CMA Compliance</a></li>
+                        <li><a href="#" class="hover:text-mist transition-colors">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-mist transition-colors">Terms of Service</a></li>
+                        <li><a href="#" class="hover:text-mist transition-colors">Data Handling</a></li>
                     </ul>
                 </div>
             </div>
 
-            <div class="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4 text-white/30 text-[10px] tracking-[0.1em] uppercase font-medium text-center">
+            <div class="pt-8 border-t border-fog/10 flex flex-col md:flex-row justify-between items-center gap-4 text-fog/50 text-[10px] tracking-[0.1em] uppercase font-medium text-center">
                 <p>&copy; 2026 FuneralMatch Ltd. Registered in England & Wales.</p>
                 <div class="flex gap-6">
                     <span>Designed for Dignity</span>
@@ -470,7 +477,7 @@
         }
         .animate-shake {
             animation: shake 0.4s ease-in-out;
-            border-color: rgba(168, 155, 157, 0.8) !important; /* Matches new Dusky Mauve */
+            border-color: rgba(185, 28, 28, 0.8) !important; /* Error Red */
         }
         .animate-spin-slow {
             animation: spin 20s linear infinite;
