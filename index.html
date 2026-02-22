@@ -20,12 +20,12 @@
                 extend: {
                     colors: {
                         gold: {
-                            DEFAULT: '#C5A059', /* Muted, professional gold */
-                            light: '#DBC291',
-                            dark: '#8C6F39',
+                            DEFAULT: '#A89B9D', /* Dusky Mauve / Soft Silver accent */
+                            light: '#C2B6B8',
+                            dark: '#7A6E70',
                         },
-                        midnight: '#1A2332', /* Deep Oxford Blue/Slate for luxury without morbidity */
-                        soft: '#F8F9FA',
+                        midnight: '#2A242B', /* Deep Plum / Ethereal Night */
+                        soft: '#F7F5F6', /* Ethereal Pearl */
                     },
                     fontFamily: {
                         serif: ['Libre Baskerville', 'serif'],
@@ -62,7 +62,7 @@
         }
 
         .focus-ring:focus-visible {
-            box-shadow: 0 0 0 2px rgba(197, 160, 89, 0.4);
+            box-shadow: 0 0 0 2px rgba(168, 155, 157, 0.4); /* Matches new Dusky Mauve */
         }
 
         /* Sidebar Transition */
@@ -85,7 +85,7 @@
 </head>
 <body class="bg-midnight font-sans text-soft overflow-x-hidden selection:bg-gold selection:text-white">
 
-    <div id="sidebar-overlay" class="fixed inset-0 bg-[#0B1018]/70 z-[70] hidden opacity-0 transition-opacity duration-300 pointer-events-none backdrop-blur-sm"></div>
+    <div id="sidebar-overlay" class="fixed inset-0 bg-[#171318]/70 z-[70] hidden opacity-0 transition-opacity duration-300 pointer-events-none backdrop-blur-sm"></div>
     <aside id="sidebar" class="fixed top-0 left-0 h-full w-[340px] bg-midnight border-r border-white/5 z-[80] -translate-x-full p-8 flex flex-col">
         <div class="flex justify-between items-center mb-10 flex-shrink-0">
             <span class="font-sans text-gold tracking-widest text-sm uppercase font-semibold">Our Services</span>
@@ -239,7 +239,7 @@
                     Connecting grieving families with the UK's most distinguished, vetted funeral directors. Dignified care, without the burden of choice.
                 </p>
 
-                <div class="bg-white p-2 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-stone-200 flex flex-col md:flex-row items-center gap-0 max-w-3xl mx-auto transition-all relative z-20 hover:shadow-[0_8px_40px_rgba(197,160,89,0.1)]">
+                <div class="bg-white p-2 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-stone-200 flex flex-col md:flex-row items-center gap-0 max-w-3xl mx-auto transition-all relative z-20 hover:shadow-[0_8px_40px_rgba(168,155,157,0.1)]">
                     <div class="flex items-center gap-4 px-6 w-full py-4 border-b md:border-b-0 md:border-r border-gray-100">
                         <i data-lucide="map-pin" class="text-gold w-5 h-5 flex-shrink-0"></i>
                         <input 
@@ -254,7 +254,7 @@
                     </button>
                 </div>
 
-                <div class="mt-20 w-full max-w-2xl mx-auto p-6 rounded-xl bg-[#222E40] border border-white/5 flex flex-col sm:flex-row items-start sm:items-center justify-between group cursor-pointer hover:bg-[#2A384E] transition-colors gap-4 sm:gap-0 relative z-20">
+                <div class="mt-20 w-full max-w-2xl mx-auto p-6 rounded-xl bg-[#363038] border border-white/5 flex flex-col sm:flex-row items-start sm:items-center justify-between group cursor-pointer hover:bg-[#423A45] transition-colors gap-4 sm:gap-0 relative z-20">
                     <div class="text-left">
                         <span class="text-[10px] tracking-[0.2em] text-gold uppercase font-bold">Planning Ahead</span>
                         <h4 class="text-white text-base font-medium mt-1">Professional Pre-Need Partner Network</h4>
@@ -470,7 +470,7 @@
         }
         .animate-shake {
             animation: shake 0.4s ease-in-out;
-            border-color: rgba(197, 160, 89, 0.8) !important;
+            border-color: rgba(168, 155, 157, 0.8) !important; /* Matches new Dusky Mauve */
         }
         .animate-spin-slow {
             animation: spin 20s linear infinite;
