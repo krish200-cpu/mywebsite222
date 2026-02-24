@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FuneralMatch | Vetted Local Funeral Directors & Price Transparency</title>
-    <meta name="description" content="Find and compare vetted local funeral directors across the UK. Instant price transparency and compassionate support in your time of need.">
+    <title>FuneralMatch | Compare Vetted Funeral Directors</title>
+    <meta name="description" content="Filter and compare vetted local funeral directors across the UK. Instant price transparency and compassionate support.">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -105,7 +105,7 @@
             transform: scale(1);
         }
 
-        /* Sidebar Transition */
+        /* Sidebar & Filter Transitions */
         #sidebar {
             transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
@@ -137,10 +137,6 @@
                     <a href="#" class="group flex items-center gap-3 text-base font-light text-mist hover:text-white transition-colors">
                         <span class="w-1 h-5 bg-secondary scale-y-0 group-hover:scale-y-100 transition-transform origin-bottom rounded-full"></span>
                         Find a Director
-                    </a>
-                    <a href="#" class="group flex items-center gap-3 text-base font-light text-mist hover:text-white transition-colors">
-                        <span class="w-1 h-5 bg-secondary scale-y-0 group-hover:scale-y-100 transition-transform origin-bottom rounded-full"></span>
-                        Cremation Services
                     </a>
                 </nav>
             </div>
@@ -180,7 +176,7 @@
         <div class="max-w-7xl mx-auto px-6 py-4 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
             <div>
                 <h1 class="text-lg md:text-xl font-serif text-textMain font-medium">Directors near <span class="text-cta">London (SW1A)</span></h1>
-                <p class="text-textMuted text-sm font-light mt-1">Found 24 vetted professionals prioritizing your needs.</p>
+                <p class="text-textMuted text-sm font-light mt-1">Found vetted professionals prioritizing your needs.</p>
             </div>
             
             <div class="flex items-center gap-3 w-full md:w-auto">
@@ -212,19 +208,31 @@
 
             <div class="space-y-8">
                 <div class="bg-mist p-6 rounded-2xl border border-borderLight shadow-sm">
-                    <h3 class="text-xs tracking-[0.15em] uppercase text-textMuted font-semibold mb-4">Service Required</h3>
-                    <div class="space-y-3">
+                    <h3 class="text-xs tracking-[0.15em] uppercase text-textMuted font-semibold mb-4">The Send-Off</h3>
+                    <div class="space-y-3" id="send-off-filters">
                         <label class="flex items-center gap-3 cursor-pointer group">
-                            <input type="checkbox" checked>
-                            <span class="text-sm text-textMain group-hover:text-cta transition-colors">Attended Funeral</span>
+                            <input type="checkbox" value="Burial" class="filter-checkbox" onchange="applyFilters()">
+                            <span class="text-sm text-textMain group-hover:text-cta transition-colors">Burial</span>
                         </label>
                         <label class="flex items-center gap-3 cursor-pointer group">
-                            <input type="checkbox">
-                            <span class="text-sm text-textMain group-hover:text-cta transition-colors">Direct Cremation</span>
+                            <input type="checkbox" value="Cremation" class="filter-checkbox" onchange="applyFilters()">
+                            <span class="text-sm text-textMain group-hover:text-cta transition-colors">Cremation</span>
                         </label>
                         <label class="flex items-center gap-3 cursor-pointer group">
-                            <input type="checkbox">
-                            <span class="text-sm text-textMain group-hover:text-cta transition-colors">Burial Service</span>
+                            <input type="checkbox" value="Unattended cremation" class="filter-checkbox" onchange="applyFilters()">
+                            <span class="text-sm text-textMain group-hover:text-cta transition-colors">Unattended cremation</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer group">
+                            <input type="checkbox" value="Burial at sea" class="filter-checkbox" onchange="applyFilters()">
+                            <span class="text-sm text-textMain group-hover:text-cta transition-colors">Burial at sea</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer group">
+                            <input type="checkbox" value="Aquamation" class="filter-checkbox" onchange="applyFilters()">
+                            <span class="text-sm text-textMain group-hover:text-cta transition-colors">Aquamation (alkaline hydrolis)</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer group">
+                            <input type="checkbox" value="Donation to science" class="filter-checkbox" onchange="applyFilters()">
+                            <span class="text-sm text-textMain group-hover:text-cta transition-colors">Donation to science</span>
                         </label>
                     </div>
                 </div>
@@ -232,241 +240,48 @@
                 <div class="bg-mist p-6 rounded-2xl border border-borderLight shadow-sm">
                     <div class="flex justify-between items-center mb-4">
                         <h3 class="text-xs tracking-[0.15em] uppercase text-textMuted font-semibold">Max Distance</h3>
-                        <span class="text-sm text-brand font-medium">15 miles</span>
+                        <span id="distance-display" class="text-sm text-brand font-medium">15 miles</span>
                     </div>
-                    <input type="range" min="1" max="50" value="15" class="w-full accent-brand cursor-pointer focus-ring">
+                    <input type="range" id="distance-slider" min="1" max="50" value="15" class="w-full accent-brand cursor-pointer focus-ring" oninput="document.getElementById('distance-display').innerText = this.value + ' miles'; applyFilters();">
                     <div class="flex justify-between text-xs text-textMuted mt-2 font-light">
                         <span>1m</span>
                         <span>50m</span>
                     </div>
                 </div>
 
-                <div class="bg-mist p-6 rounded-2xl border border-borderLight shadow-sm">
-                    <h3 class="text-xs tracking-[0.15em] uppercase text-textMuted font-semibold mb-4">Cultural Expertise</h3>
-                    <div class="space-y-3 max-h-48 overflow-y-auto no-scrollbar pr-2">
-                        <label class="flex items-center gap-3 cursor-pointer group">
-                            <input type="checkbox">
-                            <span class="text-sm text-textMain group-hover:text-cta transition-colors">Non-Religious / Humanist</span>
+                <div class="bg-mist p-6 rounded-2xl border border-borderLight shadow-sm opacity-50">
+                    <h3 class="text-xs tracking-[0.15em] uppercase text-textMuted font-semibold mb-4 flex justify-between items-center">
+                        Cultural Expertise <span class="text-[9px] bg-fog px-2 py-0.5 rounded border border-borderLight">Coming Soon</span>
+                    </h3>
+                    <div class="space-y-3 pointer-events-none">
+                        <label class="flex items-center gap-3 group">
+                            <input type="checkbox" disabled>
+                            <span class="text-sm text-textMain">Non-Religious / Humanist</span>
                         </label>
-                        <label class="flex items-center gap-3 cursor-pointer group">
-                            <input type="checkbox">
-                            <span class="text-sm text-textMain group-hover:text-cta transition-colors">Church of England</span>
-                        </label>
-                        <label class="flex items-center gap-3 cursor-pointer group">
-                            <input type="checkbox">
-                            <span class="text-sm text-textMain group-hover:text-cta transition-colors">Catholic</span>
-                        </label>
-                        <label class="flex items-center gap-3 cursor-pointer group">
-                            <input type="checkbox">
-                            <span class="text-sm text-textMain group-hover:text-cta transition-colors">Islamic (Ghusl)</span>
-                        </label>
-                        <label class="flex items-center gap-3 cursor-pointer group">
-                            <input type="checkbox">
-                            <span class="text-sm text-textMain group-hover:text-cta transition-colors">Jewish</span>
-                        </label>
-                        <label class="flex items-center gap-3 cursor-pointer group">
-                            <input type="checkbox">
-                            <span class="text-sm text-textMain group-hover:text-cta transition-colors">Hindu</span>
-                        </label>
-                    </div>
-                </div>
-
-                <div class="bg-mist p-6 rounded-2xl border border-borderLight shadow-sm">
-                    <h3 class="text-xs tracking-[0.15em] uppercase text-textMuted font-semibold mb-4">Specific Requirements</h3>
-                    <div class="space-y-3">
-                        <label class="flex items-center gap-3 cursor-pointer group">
-                            <input type="checkbox">
-                            <span class="text-sm text-textMain group-hover:text-cta transition-colors">Eco-Friendly / Green</span>
-                        </label>
-                        <label class="flex items-center gap-3 cursor-pointer group">
-                            <input type="checkbox">
-                            <span class="text-sm text-textMain group-hover:text-cta transition-colors">Female Director Available</span>
-                        </label>
-                        <label class="flex items-center gap-3 cursor-pointer group">
-                            <input type="checkbox">
-                            <span class="text-sm text-textMain group-hover:text-cta transition-colors">Repatriation Services</span>
+                        <label class="flex items-center gap-3 group">
+                            <input type="checkbox" disabled>
+                            <span class="text-sm text-textMain">Church of England</span>
                         </label>
                     </div>
                 </div>
             </div>
         </aside>
 
-        <div class="flex-1 space-y-6">
+        <div class="flex-1 flex flex-col">
+            <div id="results-feed" class="space-y-6">
+                </div>
             
-            <article class="bg-mist rounded-3xl border border-cta/30 shadow-[0_8px_30px_rgba(197,160,89,0.08)] p-1 relative overflow-hidden group hover:border-cta/60 transition-colors">
-                <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-cta to-ctaHover"></div>
-                
-                <div class="p-6 sm:p-8 flex flex-col md:flex-row gap-6">
-                    <div class="flex-1">
-                        <div class="flex items-center gap-3 mb-2">
-                            <span class="bg-cta/10 text-cta text-[10px] uppercase tracking-widest px-2.5 py-1 rounded-md font-bold flex items-center gap-1">
-                                <i data-lucide="star" class="w-3 h-3 fill-current"></i> Featured Partner
-                            </span>
-                            <span class="flex items-center gap-1 text-xs text-textMuted font-medium">
-                                <i data-lucide="map-pin" class="w-3 h-3 text-cta"></i> 1.2 miles away
-                            </span>
-                        </div>
-                        
-                        <h2 class="text-2xl font-serif text-brand mb-2 group-hover:text-cta transition-colors">Arthur C. Reynolds & Sons</h2>
-                        
-                        <div class="flex items-center gap-2 mb-4">
-                            <div class="flex text-cta">
-                                <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                                <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                                <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                                <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                                <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                            </div>
-                            <span class="text-sm text-textMuted">4.9 (128 reviews)</span>
-                        </div>
-
-                        <p class="text-sm text-textMuted leading-relaxed mb-6 font-light line-clamp-2">
-                            A fourth-generation family-run establishment serving the community with dignity and grace since 1912. Specialized in bespoke, highly personalized arrangements with an on-site chapel of rest.
-                        </p>
-
-                        <div class="flex flex-wrap gap-2">
-                            <span class="px-3 py-1 bg-fog border border-borderLight rounded-lg text-xs text-textMuted">NAFD Member</span>
-                            <span class="px-3 py-1 bg-fog border border-borderLight rounded-lg text-xs text-textMuted">Eco-Friendly Options</span>
-                            <span class="px-3 py-1 bg-fog border border-borderLight rounded-lg text-xs text-textMuted">24/7 Care</span>
-                        </div>
-                    </div>
-
-                    <div class="w-full md:w-72 flex flex-col justify-between border-t md:border-t-0 md:border-l border-borderLight pt-6 md:pt-0 md:pl-6">
-                        <div>
-                            <p class="text-[10px] uppercase tracking-widest text-textMuted font-semibold mb-1">Standardised Price From</p>
-                            <div class="flex items-baseline gap-1 mb-1">
-                                <span class="text-3xl font-serif text-brand">£2,150</span>
-                            </div>
-                            <a href="#" class="text-xs text-cta hover:text-ctaHover underline font-light flex items-center gap-1">
-                                View CMA Price List <i data-lucide="external-link" class="w-3 h-3"></i>
-                            </a>
-                        </div>
-
-                        <div class="mt-6 flex flex-col gap-3">
-                            <button class="w-full bg-brand text-mist py-3.5 rounded-xl text-sm font-medium hover:bg-secondary transition-all shadow-sm">
-                                View Full Profile
-                            </button>
-                            <button class="w-full bg-fog border border-borderLight text-textMain py-3.5 rounded-xl text-sm font-medium hover:bg-mist transition-all hover:border-brand">
-                                Send Enquiry
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </article>
-
-            <article class="bg-mist rounded-3xl border border-borderLight shadow-sm p-6 sm:p-8 flex flex-col md:flex-row gap-6 group hover:border-borderLight/80 hover:shadow-md transition-all">
-                <div class="flex-1">
-                    <div class="flex items-center gap-3 mb-2">
-                        <span class="flex items-center gap-1 text-xs text-textMuted font-medium bg-fog px-2.5 py-1 rounded-md">
-                            <i data-lucide="map-pin" class="w-3 h-3 text-brand"></i> 2.4 miles away
-                        </span>
-                        <span class="text-[10px] uppercase tracking-widest text-status-success font-bold flex items-center gap-1">
-                            <i data-lucide="shield-check" class="w-3 h-3"></i> Verified Match
-                        </span>
-                    </div>
-                    
-                    <h2 class="text-2xl font-serif text-brand mb-2 group-hover:text-cta transition-colors">Harmony Independent Funerals</h2>
-                    
-                    <div class="flex items-center gap-2 mb-4">
-                        <div class="flex text-cta">
-                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                            <i data-lucide="star-half" class="w-4 h-4 fill-current"></i>
-                        </div>
-                        <span class="text-sm text-textMuted">4.7 (84 reviews)</span>
-                    </div>
-
-                    <p class="text-sm text-textMuted leading-relaxed mb-6 font-light line-clamp-2">
-                        Modern, compassionate funeral care focusing on transparent pricing and simple, elegant services. We guide you through every step of the process with profound respect.
-                    </p>
-
-                    <div class="flex flex-wrap gap-2">
-                        <span class="px-3 py-1 bg-fog border border-borderLight rounded-lg text-xs text-textMuted">SAIF Member</span>
-                        <span class="px-3 py-1 bg-fog border border-borderLight rounded-lg text-xs text-textMuted">Direct Cremation Specialists</span>
-                    </div>
-                </div>
-
-                <div class="w-full md:w-72 flex flex-col justify-between border-t md:border-t-0 md:border-l border-borderLight pt-6 md:pt-0 md:pl-6">
-                    <div>
-                        <p class="text-[10px] uppercase tracking-widest text-textMuted font-semibold mb-1">Standardised Price From</p>
-                        <div class="flex items-baseline gap-1 mb-1">
-                            <span class="text-3xl font-serif text-brand">£1,895</span>
-                        </div>
-                        <a href="#" class="text-xs text-brand hover:text-cta underline font-light flex items-center gap-1">
-                            View CMA Price List <i data-lucide="external-link" class="w-3 h-3"></i>
-                        </a>
-                    </div>
-
-                    <div class="mt-6 flex flex-col gap-3">
-                        <button class="w-full bg-fog border border-brand text-brand py-3.5 rounded-xl text-sm font-medium hover:bg-brand hover:text-mist transition-all">
-                            View Full Profile
-                        </button>
-                    </div>
-                </div>
-            </article>
-
-            <article class="bg-mist rounded-3xl border border-borderLight shadow-sm p-6 sm:p-8 flex flex-col md:flex-row gap-6 group hover:border-borderLight/80 hover:shadow-md transition-all">
-                <div class="flex-1">
-                    <div class="flex items-center gap-3 mb-2">
-                        <span class="flex items-center gap-1 text-xs text-textMuted font-medium bg-fog px-2.5 py-1 rounded-md">
-                            <i data-lucide="map-pin" class="w-3 h-3 text-brand"></i> 3.8 miles away
-                        </span>
-                        <span class="text-[10px] uppercase tracking-widest text-status-success font-bold flex items-center gap-1">
-                            <i data-lucide="shield-check" class="w-3 h-3"></i> Verified Match
-                        </span>
-                    </div>
-                    
-                    <h2 class="text-2xl font-serif text-brand mb-2 group-hover:text-cta transition-colors">Oakwood & Grace</h2>
-                    
-                    <div class="flex items-center gap-2 mb-4">
-                        <div class="flex text-cta">
-                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                        </div>
-                        <span class="text-sm text-textMuted">5.0 (212 reviews)</span>
-                    </div>
-
-                    <p class="text-sm text-textMuted leading-relaxed mb-6 font-light line-clamp-2">
-                        Prestigious funeral directors offering traditional carriage masters and bespoke floral tributes. Specializing in highly detailed, large-scale religious ceremonies.
-                    </p>
-
-                    <div class="flex flex-wrap gap-2">
-                        <span class="px-3 py-1 bg-fog border border-borderLight rounded-lg text-xs text-textMuted">NAFD Member</span>
-                        <span class="px-3 py-1 bg-fog border border-borderLight rounded-lg text-xs text-textMuted">Horse-drawn Hearses</span>
-                        <span class="px-3 py-1 bg-fog border border-borderLight rounded-lg text-xs text-textMuted">Multicultural Services</span>
-                    </div>
-                </div>
-
-                <div class="w-full md:w-72 flex flex-col justify-between border-t md:border-t-0 md:border-l border-borderLight pt-6 md:pt-0 md:pl-6">
-                    <div>
-                        <p class="text-[10px] uppercase tracking-widest text-textMuted font-semibold mb-1">Standardised Price From</p>
-                        <div class="flex items-baseline gap-1 mb-1">
-                            <span class="text-3xl font-serif text-brand">£2,800</span>
-                        </div>
-                        <a href="#" class="text-xs text-brand hover:text-cta underline font-light flex items-center gap-1">
-                            View CMA Price List <i data-lucide="external-link" class="w-3 h-3"></i>
-                        </a>
-                    </div>
-
-                    <div class="mt-6 flex flex-col gap-3">
-                        <button class="w-full bg-fog border border-brand text-brand py-3.5 rounded-xl text-sm font-medium hover:bg-brand hover:text-mist transition-all">
-                            View Full Profile
-                        </button>
-                    </div>
-                </div>
-            </article>
-
-            <div class="pt-8 pb-4 flex justify-center">
-                <button class="bg-mist border border-borderLight text-textMain px-8 py-3 rounded-full text-sm font-medium hover:border-cta hover:text-cta transition-colors flex items-center gap-2">
+            <div id="load-more-container" class="pt-8 pb-4 flex justify-center hidden">
+                <button onclick="loadMore()" class="bg-mist border border-borderLight text-textMain px-8 py-3 rounded-full text-sm font-medium hover:border-cta hover:text-cta transition-colors flex items-center gap-2 shadow-sm focus-ring">
                     <i data-lucide="refresh-cw" class="w-4 h-4"></i> Load More Results
                 </button>
             </div>
 
+            <div id="empty-state" class="hidden text-center py-20">
+                <i data-lucide="search-x" class="w-12 h-12 text-borderLight mx-auto mb-4"></i>
+                <h3 class="text-xl font-serif text-brand mb-2">No directors found</h3>
+                <p class="text-textMuted font-light">Try adjusting your filters or increasing the search radius.</p>
+            </div>
         </div>
     </main>
 
@@ -484,7 +299,6 @@
                         The UK's premier concierge for funeral service comparison. Elevating the standard of care through data and empathy.
                     </p>
                 </div>
-
                 <div>
                     <h4 class="font-sans text-mist tracking-widest text-xs mb-6 uppercase font-semibold">Company</h4>
                     <ul class="space-y-4 font-light text-sm text-fog/70">
@@ -492,24 +306,7 @@
                         <li><a href="#" class="hover:text-mist transition-colors">Our Vetting Process</a></li>
                     </ul>
                 </div>
-
-                <div>
-                    <h4 class="font-sans text-mist tracking-widest text-xs mb-6 uppercase font-semibold">Resources</h4>
-                    <ul class="space-y-4 font-light text-sm text-fog/70">
-                        <li><a href="#" class="hover:text-mist transition-colors">Bereavement Guide</a></li>
-                        <li><a href="#" class="hover:text-mist transition-colors">Cost Calculator</a></li>
-                    </ul>
-                </div>
-
-                <div>
-                    <h4 class="font-sans text-mist tracking-widest text-xs mb-6 uppercase font-semibold">Regulatory</h4>
-                    <ul class="space-y-4 font-light text-sm text-fog/70">
-                        <li><a href="#" class="hover:text-mist transition-colors">CMA Compliance</a></li>
-                        <li><a href="#" class="hover:text-mist transition-colors">Privacy Policy</a></li>
-                    </ul>
-                </div>
             </div>
-
             <div class="pt-8 border-t border-fog/10 flex flex-col md:flex-row justify-between items-center gap-4 text-fog/50 text-[10px] tracking-[0.1em] uppercase font-medium text-center">
                 <p>&copy; 2026 FuneralMatch Ltd. Registered in England & Wales.</p>
                 <div class="flex gap-6">
@@ -521,15 +318,161 @@
     </footer>
 
     <script>
-        // Initialize Lucide Icons
-        lucide.createIcons();
+        // 1. Mock Database (15 Vetted Directors)
+        const directors = [
+            { id: 1, name: "Arthur C. Reynolds & Sons", distance: 1.2, rating: 4.9, reviews: 128, price: "2,150", sponsored: true, verified: true, image: "https://images.unsplash.com/photo-1541888079813-812bc85b149c?auto=format&fit=crop&q=80&w=800", tags: ["NAFD Member", "Eco-Friendly"], services: ["Burial", "Cremation"], desc: "A fourth-generation family-run establishment serving the community with dignity and grace since 1912. We specialize in bespoke, highly personalized arrangements with an on-site chapel of rest. Our dedicated team is available 24/7 to provide unwavering support through every step of the arrangement process." },
+            { id: 2, name: "Harmony Independent Funerals", distance: 2.4, rating: 4.7, reviews: 84, price: "1,895", sponsored: false, verified: true, image: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&q=80&w=800", tags: ["SAIF Member", "Direct Cremation"], services: ["Cremation", "Unattended cremation"], desc: "Modern, compassionate funeral care focusing on transparent pricing and simple, elegant services. We guide you through every step of the process with profound respect, ensuring your loved one is cared for in our state-of-the-state climate-controlled facilities without the pressure of hidden fees." },
+            { id: 3, name: "Oakwood & Grace", distance: 3.8, rating: 5.0, reviews: 212, price: "2,800", sponsored: false, verified: true, image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=800", tags: ["NAFD Member", "Horse-drawn Hearses"], services: ["Burial", "Cremation"], desc: "Prestigious funeral directors offering traditional carriage masters and bespoke floral tributes. Specializing in highly detailed, large-scale religious ceremonies. Our majestic Victorian premises offer a serene and private environment for your family to gather and pay their final respects." },
+            { id: 4, name: "Serenity Sea Deployments", distance: 8.5, rating: 4.8, reviews: 56, price: "3,100", sponsored: false, verified: true, image: "https://images.unsplash.com/photo-1494587351196-bbf5f29cff42?auto=format&fit=crop&q=80&w=800", tags: ["Maritime Licensed", "Eco-Urns"], services: ["Burial at sea", "Cremation"], desc: "The UK's leading specialist in dignified maritime committals and burials at sea. We handle all complex environmental agency permits and provide fully chartered vessels for families who wish to return their loved ones to the ocean, ensuring all maritime regulations and environmental standards are strictly met." },
+            { id: 5, name: "Green Leaf Aquamation", distance: 12.0, rating: 4.9, reviews: 34, price: "2,400", sponsored: false, verified: true, image: "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&q=80&w=800", tags: ["Zero Emissions", "Carbon Neutral"], services: ["Aquamation", "Unattended cremation"], desc: "Pioneers in gentle, eco-friendly water cremation (alkaline hydrolysis). Our modern facility uses a process that accelerates natural decomposition, leaving a zero-carbon footprint while returning 20% more ashes to the family than flame cremation, wrapped in beautiful, biodegradable urns." },
+            { id: 6, name: "St. Jude Medical Liaisons", distance: 5.1, rating: 4.6, reviews: 92, price: "1,100", sponsored: false, verified: true, image: "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&q=80&w=800", tags: ["Medical Transport", "HTA Licensed"], services: ["Donation to science", "Unattended cremation"], desc: "Specialists in coordinating anatomical donations with teaching hospitals and medical science institutions. We manage all complex legal paperwork and respectful transportation, honoring your loved one's final, selfless wish to advance medical research and education." },
+            { id: 7, name: "Wellington Heritage", distance: 6.2, rating: 4.5, reviews: 150, price: "2,250", sponsored: false, verified: true, image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=800", tags: ["Traditional", "Chapel of Rest"], services: ["Burial", "Cremation"], desc: "Providing steadfast, traditional funeral services with a deep respect for historical customs. Our fleet of pristine classic hearses and highly experienced pallbearers ensure a truly majestic final journey for those who appreciate timeless dignity." },
+            { id: 8, name: "Purely Direct", distance: 14.5, rating: 4.8, reviews: 310, price: "995", sponsored: false, verified: true, image: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=800", tags: ["Low Cost", "National Coverage"], services: ["Unattended cremation"], desc: "The honest, low-cost alternative to traditional funerals. We provide strictly unattended direct cremations without any upselling, giving families the ultimate freedom to hold their own personal memorial services at a time, place, and budget of their choosing." },
+            { id: 9, name: "Willow & Co. Natural Funerals", distance: 9.3, rating: 4.9, reviews: 112, price: "2,650", sponsored: false, verified: true, image: "https://images.unsplash.com/photo-1466611653911-95081537e5b7?auto=format&fit=crop&q=80&w=800", tags: ["Woodland Burial", "Wicker Coffins"], services: ["Burial"], desc: "Specialists in natural and woodland burials. We provide hand-woven biodegradable wicker or cardboard coffins and coordinate exclusively with certified natural burial grounds across the countryside to ensure a peaceful, harmonious return to nature." },
+            { id: 10, name: "Riverside Care", distance: 4.0, rating: 4.4, reviews: 67, price: "1,950", sponsored: false, verified: true, image: "https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?auto=format&fit=crop&q=80&w=800", tags: ["Community Focused", "Bereavement Support"], services: ["Cremation", "Burial"], desc: "A deeply embedded community funeral home offering extensive post-funeral bereavement support groups. We firmly believe our duty of care extends far beyond the day of the service, providing ongoing counseling and community connection." },
+            { id: 11, name: "Apex Repatriation Services", distance: 18.2, rating: 4.7, reviews: 45, price: "4,500", sponsored: false, verified: true, image: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&q=80&w=800", tags: ["Global Transport", "Consulate Liaison"], services: ["Cremation", "Burial"], desc: "Experts in complex international repatriation. We liaise directly with embassies, consulates, global border controls, and international airlines to swiftly and respectfully bring your loved one home, regardless of where they passed away." },
+            { id: 12, name: "Gentle Departures", distance: 7.5, rating: 4.9, reviews: 88, price: "2,100", sponsored: false, verified: true, image: "https://images.unsplash.com/photo-1510627489930-0c1b0bfb6785?auto=format&fit=crop&q=80&w=800", tags: ["Female Led", "Holistic Care"], services: ["Cremation", "Burial", "Aquamation"], desc: "An entirely female-led practice focusing on holistic, gentle care. We encourage family participation in the washing and dressing process if desired, providing a deeply personal, empowering, and healing experience for those left behind." },
+            { id: 13, name: "Eternity Humanist Services", distance: 11.0, rating: 4.8, reviews: 73, price: "2,050", sponsored: false, verified: true, image: "https://images.unsplash.com/photo-1449844908441-8829872d2607?auto=format&fit=crop&q=80&w=800", tags: ["Non-Religious", "Celebrants"], services: ["Cremation", "Burial"], desc: "Dedicated exclusively to non-religious, humanist, and civil ceremonies. Our network of professional celebrants focuses entirely on celebrating the unique life, achievements, and personal story of the individual, rather than following strict liturgical scripts." },
+            { id: 14, name: "The Zenith Group", distance: 2.1, rating: 4.3, reviews: 420, price: "1,800", sponsored: false, verified: true, image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=800", tags: ["Corporate", "Payment Plans"], services: ["Cremation", "Burial", "Unattended cremation"], desc: "A large, well-resourced provider capable of handling services of any scale. We offer highly flexible payment plans, instant financing, and immediate digital arrangement tools for families needing rapid organization during difficult times." },
+            { id: 15, name: "Beacon Light Funerals", distance: 8.8, rating: 4.6, reviews: 59, price: "2,300", sponsored: false, verified: true, image: "https://images.unsplash.com/photo-1541888079813-812bc85b149c?auto=format&fit=crop&q=80&w=800", tags: ["Inclusive", "LGBTQ+ Friendly"], services: ["Cremation", "Burial"], desc: "A modern, highly inclusive funeral home proud to serve diverse communities. We provide specialized, culturally sensitive care without judgment, ensuring a safe, welcoming, and entirely bespoke space for all families to grieve and celebrate life." }
+        ];
 
-        // Main Sidebar Toggle Logic
+        // 2. State Management
+        let currentResults = [];
+        let displayCount = 5;
+        const ITEMS_PER_PAGE = 5;
+
+        // 3. Render Engine (Option A Layout: Image on Left, Full Text)
+        function generateCardHTML(d) {
+            const tagsHTML = d.tags.map(t => `<span class="px-3 py-1 bg-fog border border-borderLight rounded-lg text-xs text-textMuted">${t}</span>`).join('');
+            const servicesHTML = d.services.map(s => `<span class="px-3 py-1 bg-brand/5 border border-brand/10 rounded-lg text-xs text-brand font-medium">${s}</span>`).join('');
+            
+            return `
+            <article class="bg-mist rounded-2xl md:rounded-3xl border ${d.sponsored ? 'border-cta/50 shadow-[0_8px_30px_rgba(197,160,89,0.08)]' : 'border-borderLight shadow-sm'} flex flex-col lg:flex-row group hover:border-borderLight/80 hover:shadow-md transition-all overflow-hidden relative">
+                ${d.sponsored ? '<div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-cta to-ctaHover z-10"></div>' : ''}
+                
+                <div class="w-full lg:w-72 xl:w-80 h-56 lg:h-auto relative shrink-0 border-b lg:border-b-0 lg:border-r border-borderLight/50">
+                    <img src="${d.image}" alt="${d.name} Facility" class="w-full h-full object-cover" loading="lazy" />
+                    ${d.sponsored ? '<div class="absolute top-4 left-4 bg-mist text-cta text-[10px] uppercase tracking-widest px-2.5 py-1 rounded-md font-bold shadow-sm flex items-center gap-1"><i data-lucide="star" class="w-3 h-3 fill-current"></i> Featured</div>' : ''}
+                </div>
+
+                <div class="p-6 sm:p-8 flex flex-col md:flex-row gap-6 flex-1">
+                    <div class="flex-1">
+                        <div class="flex items-center gap-3 mb-2">
+                            <span class="flex items-center gap-1 text-xs text-textMuted font-medium bg-fog px-2.5 py-1 rounded-md border border-borderLight/50">
+                                <i data-lucide="map-pin" class="w-3 h-3 text-brand"></i> ${d.distance} miles away
+                            </span>
+                            ${d.verified ? `<span class="text-[10px] uppercase tracking-widest text-status-success font-bold flex items-center gap-1"><i data-lucide="shield-check" class="w-3 h-3"></i> Verified Match</span>` : ''}
+                        </div>
+                        
+                        <h2 class="text-2xl font-serif text-brand mb-2 group-hover:text-cta transition-colors">${d.name}</h2>
+                        
+                        <div class="flex items-center gap-2 mb-4">
+                            <div class="flex text-cta">
+                                ${[...Array(Math.floor(d.rating))].map(() => '<i data-lucide="star" class="w-4 h-4 fill-current"></i>').join('')}
+                                ${d.rating % 1 !== 0 ? '<i data-lucide="star-half" class="w-4 h-4 fill-current"></i>' : ''}
+                            </div>
+                            <span class="text-sm text-textMuted">${d.rating} (${d.reviews} reviews)</span>
+                        </div>
+
+                        <p class="text-sm text-textMuted leading-relaxed mb-6 font-light">${d.desc}</p>
+
+                        <div class="flex flex-wrap gap-2 mb-3">${servicesHTML}</div>
+                        <div class="flex flex-wrap gap-2">${tagsHTML}</div>
+                    </div>
+
+                    <div class="w-full md:w-56 flex flex-col justify-between border-t md:border-t-0 md:border-l border-borderLight pt-6 md:pt-0 md:pl-6 shrink-0">
+                        <div>
+                            <p class="text-[10px] uppercase tracking-widest text-textMuted font-semibold mb-1">Standardised Price From</p>
+                            <div class="flex items-baseline gap-1 mb-1">
+                                <span class="text-3xl font-serif text-brand">£${d.price}</span>
+                            </div>
+                            <a href="#" class="text-xs text-brand hover:text-cta underline font-light flex items-center gap-1 transition-colors">
+                                View CMA Price List <i data-lucide="external-link" class="w-3 h-3"></i>
+                            </a>
+                        </div>
+                        <div class="mt-6 flex flex-col gap-3">
+                            <button class="w-full bg-brand text-mist py-3 rounded-xl text-sm font-medium hover:bg-secondary transition-all shadow-sm focus-ring">View Full Profile</button>
+                            ${d.sponsored ? `<button class="w-full bg-mist border border-borderLight text-textMain py-3 rounded-xl text-sm font-medium hover:bg-fog hover:border-brand transition-all focus-ring">Send Enquiry</button>` : ''}
+                        </div>
+                    </div>
+                </div>
+            </article>
+            `;
+        }
+
+        // 4. Filtering Logic
+        function applyFilters() {
+            const maxDist = parseFloat(document.getElementById('distance-slider').value);
+            
+            // Get checked send-off services
+            const checkboxes = document.querySelectorAll('#send-off-filters input:checked');
+            const selectedServices = Array.from(checkboxes).map(cb => cb.value);
+            
+            currentResults = directors.filter(d => {
+                // Filter by distance
+                if (d.distance > maxDist) return false;
+                
+                // Filter by service (if any are selected, the director must offer at least one)
+                if (selectedServices.length > 0) {
+                    const matchesService = selectedServices.some(service => d.services.includes(service));
+                    if (!matchesService) return false;
+                }
+                return true;
+            });
+            
+            // Always sort sponsored to top, then by distance
+            currentResults.sort((a, b) => {
+                if (a.sponsored && !b.sponsored) return -1;
+                if (!a.sponsored && b.sponsored) return 1;
+                return a.distance - b.distance;
+            });
+
+            displayCount = ITEMS_PER_PAGE;
+            renderFeed();
+        }
+
+        // 5. Render Feed & Load More
+        function renderFeed() {
+            const feed = document.getElementById('results-feed');
+            const empty = document.getElementById('empty-state');
+            const loadMoreBtn = document.getElementById('load-more-container');
+            
+            feed.innerHTML = '';
+            
+            if (currentResults.length === 0) {
+                empty.classList.remove('hidden');
+                loadMoreBtn.classList.add('hidden');
+                return;
+            }
+            
+            empty.classList.add('hidden');
+            
+            const itemsToShow = currentResults.slice(0, displayCount);
+            itemsToShow.forEach(d => {
+                feed.innerHTML += generateCardHTML(d);
+            });
+            
+            // Re-initialize Lucide icons for dynamically injected HTML
+            lucide.createIcons(); 
+            
+            if (displayCount < currentResults.length) {
+                loadMoreBtn.classList.remove('hidden');
+            } else {
+                loadMoreBtn.classList.add('hidden');
+            }
+        }
+
+        function loadMore() {
+            displayCount += ITEMS_PER_PAGE;
+            renderFeed();
+        }
+
+        // Sidebar and Mobile Filters Toggles
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
             const overlay = document.getElementById('sidebar-overlay');
             const isOpen = sidebar.style.transform === 'translateX(0px)';
-
             if (isOpen) {
                 sidebar.style.transform = 'translateX(-100%)';
                 overlay.style.opacity = '0';
@@ -544,10 +487,8 @@
             }
         }
 
-        // Mobile Filters Toggle Logic
         function toggleMobileFilters() {
             const filters = document.getElementById('mobile-filters');
-            // Assuming we only need to slide it in on mobile lg:hidden handles desktop
             if(window.innerWidth < 1024) {
                 const isOpen = filters.style.transform === 'translateX(0px)';
                 if (isOpen) {
@@ -560,9 +501,12 @@
             }
         }
 
-        // Close main sidebar on overlay click
         document.getElementById('sidebar-overlay').addEventListener('click', toggleSidebar);
 
+        // Init
+        window.addEventListener('DOMContentLoaded', () => {
+            applyFilters();
+        });
     </script>
 </body>
 </html>
