@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Funeral Match Partnerships — Scale Your Directorship</title>
+    <meta name="description" content="Join the UK's premier e-commerce death care network. Choose an unshakeable pricing structure engineered to fill your idle capacity, maximize local volume, and automate digital CMA compliance.">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-main: #090B11;
+            --bg-card: #121622;
+            --bg-card-hover: #181E2E;
+            --border-subtle: rgba(255, 255, 255, 0.07);
+            --border-focus: #C5A880;
+            
+            --text-primary: #F3F4F6;
+            --text-secondary: #9CA3AF;
+            --text-muted: #6B7280;
+            
+            --accent-gold: #C5A880;
+            --accent-gold-hover: #B3966E;
+            --accent-gold-glow: rgba(197, 168, 128, 0.15);
+            
+            --ff-sans: 'Plus Jakarta Sans', sans-serif;
+            --ff-serif: 'Playfair Display', serif;
+            
+            --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            --transition-bounce: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            :root {
+                --transition-smooth: all 0.01s linear !important;
+                --transition-bounce: all 0.01s linear !important;
+            }
+            *, ::before, ::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background-color: var(--bg-main);
+            color: var(--text-primary);
+            font-family: var(--ff-sans);
+        }
+
+        body {
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Ambient Premium Glows */
+        body::before {
+            content: '';
+            position: absolute;
+            top: -10%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80vw;
+            height: 60vh;
+            background: radial-gradient(circle, rgba(197, 168, 128, 0.05) 0%, rgba(9, 11, 17, 0) 70%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Typography Hierarchy */
+        h1, h2, h3, h4 {
+            font-family: var(--ff-serif);
+            font-weight: 500;
+            letter-spacing: -0.02em;
+            line-height: 1.15;
+        }
+
+        p {
+            font-family: var(--ff-sans);
+            line-height: 1.6;
+            color: var(--text-secondary);
+        }
+
+        /* Layout Architecture */
+        .container {
+            width: 100%;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Hero Layout */
+        .hero {
+            padding: 120px 0 60px 0;
+            text-align: center;
+            position: relative;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 6px 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-subtle);
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--accent-gold);
+            margin-bottom: 24px;
+            font-family: var(--ff-sans);
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            max-width: 900px;
+            margin: 0 auto 24px auto;
+            color: #FFF;
+        }
+
+        .hero p {
+            font-size: clamp(1.1rem, 2vw, 1.25rem);
+            max-width: 640px;
+            margin: 0 auto 40px auto;
+        }
+
+        /* Interactive Billing Toggle */
+        .toggle-container {
+            display: inline-flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-subtle);
+            padding: 4px;
+            border-radius: 100px;
+            margin-bottom: 60px;
+            position: relative;
+        }
+
+        .toggle-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            font-family: var(--ff-sans);
+            font-size: 0.875rem;
+            font-weight: 600;
+            padding: 10px 24px;
+            cursor: pointer;
+            border-radius: 100px;
+            transition: var(--transition-smooth);
+            position: relative;
+            z-index: 1;
+        }
+
+        .toggle-btn.active {
+            color: var(--bg-main);
+        }
+
+        .toggle-slider {
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            width: calc(50% - 4px);
+            height: calc(100% - 8px);
+            background: var(--accent-gold);
+            border-radius: 100px;
+            transition: var(--transition-smooth);
+            z-index: 0;
+        }
+
+        .toggle-container[data-billing="yearly"] .toggle-slider {
+            transform: translateX(100%);
+        }
+
+        .badge-discount {
+            position: absolute;
+            right: -110px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(197, 168, 128, 0.1);
+            border: 1px solid rgba(197, 168, 128, 0.2);
+            color: var(--accent-gold);
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+        }
+
+        /* Pricing Grid Architectures */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+            align-items: stretch;
+            margin-bottom: 120px;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 24px;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            transition: var(--transition-smooth);
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+
+        /* Featured Plan Optimizations (Tier 2) */
+        .card.featured {
+            background: linear-gradient(180deg, #161B2A 0%, #121622 100%);
+            border-color: rgba(197, 168, 128, 0.3);
+            box-shadow: 0 10px 30px rgba(197, 168, 128, 0.03);
+        }
+
+        .card.featured::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 24px;
+            padding: 1px;
+            background: linear-gradient(180deg, rgba(197, 168, 128, 0.4), transparent);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+        }
+
+        .card-tag {
+            position: absolute;
+            top: 24px;
+            right: 24px;
+            background: var(--accent-gold);
+            color: var(--bg-main);
+            padding: 4px 12px;
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Card Elements */
+        .card-header h3 {
+            font-size: 1.75rem;
+            color: #FFF;
+            margin-bottom: 8px;
+        }
+
+        .card-desc {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-bottom: 32px;
+            min-height: 48px;
+        }
+
+        .card-price-container {
+            display: flex;
+            align-items: baseline;
+            gap: 4px;
+            margin-bottom: 12px;
+        }
+
+        .card-currency {
+            font-size: 1.75rem;
+            font-family: var(--ff-serif);
+            color: #FFF;
+            font-weight: 500;
+        }
+
+        .card-price {
+            font-size: 3.5rem;
+            font-family: var(--ff-serif);
+            color: #FFF;
+            font-weight: 500;
+            line-height: 1;
+            transition: var(--transition-smooth);
+        }
+
+        .card-period {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .card-metric {
+            font-size: 0.875rem;
+            color: var(--accent-gold);
+            font-weight: 600;
+            margin-bottom: 32px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Action Targets */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 16px 24px;
+            border-radius: 12px;
+            font-family: var(--ff-sans);
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition-smooth);
+            cursor: pointer;
+            margin-bottom: 32px;
+            border: 1px solid transparent;
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.03);
+            border-color: var(--border-subtle);
+            color: #FFF;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.07);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-primary {
+            background: var(--accent-gold);
+            color: var(--bg-main);
+            box-shadow: 0 4px 12px var(--accent-gold-glow);
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-gold-hover);
+            transform: scale(1.01);
+        }
+
+        .btn:focus-visible {
+            outline: 2px solid var(--border-focus);
+            outline-offset: 4px;
+        }
+
+        /* Feature Matrix Inside Cards */
+        .card-features-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-top: auto;
+        }
+
+        .card-feature-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 0.90rem;
+            color: var(--text-secondary);
+        }
+
+        .card-feature-item svg {
+            width: 18px;
+            height: 18px;
+            fill: none;
+            stroke: var(--accent-gold);
+            stroke-width: 2.5;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .card-feature-item.disabled {
+            color: var(--text-muted);
+        }
+
+        .card-feature-item.disabled svg {
+            stroke: var(--text-muted);
+            opacity: 0.5;
+        }
+
+        /* Comprehensive Matrix Table */
+        .matrix-section {
+            padding: 60px 0 120px 0;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .matrix-section h2 {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 60px;
+            color: #FFF;
+        }
+
+        .matrix-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        .matrix-table th, .matrix-table td {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border-subtle);
+            font-size: 0.95rem;
+        }
+
+        .matrix-table th {
+            font-family: var(--ff-serif);
+            font-size: 1.25rem;
+            font-weight: 500;
+            color: #FFF;
+            padding-bottom: 32px;
+        }
+
+        .matrix-col-header {
+            width: 22%;
+            text-align: center;
+        }
+
+        .matrix-row-title {
+            font-weight: 600;
+            color: #FFF;
+            width: 34%;
+        }
+
+        .matrix-table tbody tr:hover {
+            background: rgba(255, 255, 255, 0.01);
+        }
+
+        .matrix-cell-center {
+            text-align: center;
+            color: var(--text-secondary);
+        }
+
+        .matrix-check {
+            width: 20px;
+            height: 20px;
+            stroke: var(--accent-gold);
+            stroke-width: 2.5;
+            fill: none;
+        }
+
+        /* Trust Architecture & Social Proof */
+        .trust-section {
+            padding: 60px 0;
+            background: rgba(255, 255, 255, 0.01);
+            border-y: 1px solid var(--border-subtle);
+            text-align: center;
+            margin-bottom: 120px;
+        }
+
+        .trust-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .trust-logo {
+            font-family: var(--ff-serif);
+            font-size: 1.15rem;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        /* FAQ Accordion Design */
+        .faq-section {
+            max-width: 800px;
+            margin: 0 auto 120px auto;
+        }
+
+        .faq-section h2 {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 48px;
+            color: #FFF;
+        }
+
+        .faq-container {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .faq-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: var(--transition-smooth);
+        }
+
+        .faq-trigger {
+            width: 100%;
+            background: transparent;
+            border: none;
+            padding: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            text-align: left;
+            cursor: pointer;
+            color: #FFF;
+            font-family: var(--ff-sans);
+            font-size: 1.05rem;
+            font-weight: 600;
+        }
+
+        .faq-icon {
+            width: 24px;
+            height: 24px;
+            stroke: var(--text-secondary);
+            stroke-width: 2;
+            fill: none;
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .faq-panel {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .faq-content {
+            padding: 0 24px 24px 24px;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .faq-item[open] .faq-icon {
+            transform: rotate(45deg);
+            stroke: var(--accent-gold);
+        }
+
+        /* Sticky Action Strip for Mobile Viewports */
+        .sticky-cta-strip {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(18, 22, 34, 0.95);
+            backdrop-filter: blur(12px);
+            border-top: 1px solid var(--border-subtle);
+            padding: 16px 24px;
+            display: none;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            box-shadow: 0 -10px 30px rgba(0,0,0,0.5);
+        }
+
+        .sticky-info p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .sticky-info h4 {
+            font-size: 1.1rem;
+            color: #FFF;
+        }
+
+        .sticky-cta-strip .btn {
+            margin-bottom: 0;
+            width: auto;
+            padding: 12px 24px;
+            font-size: 0.875rem;
+        }
+
+        /* Responsive Layout Overrides */
+        @media (max-width: 1024px) {
+            .pricing-grid {
+                grid-template-columns: 1fr;
+                gap: 24px;
+                max-width: 600px;
+                margin: 0 auto 80px auto;
+            }
+            .matrix-section {
+                display: none; /* Hide extensive matrix on tablets/mobile for cleaner flow */
+            }
+            .trust-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 24px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                padding: 80px 0 40px 0;
+            }
+            .badge-discount {
+                position: relative;
+                right: auto;
+                top: auto;
+                transform: none;
+                display: inline-block;
+                margin-top: 12px;
+                margin-left: 12px;
+            }
+            .toggle-container {
+                flex-direction: column;
+                border-radius: 16px;
+                width: 100%;
+                max-width: 320px;
+            }
+            .toggle-slider {
+                width: calc(100% - 8px);
+                height: calc(50% - 4px);
+            }
+            .toggle-container[data-billing="yearly"] .toggle-slider {
+                transform: translateY(100%);
+            }
+            .sticky-cta-strip {
+                display: flex;
+            }
+            body {
+                padding-bottom: 80px; /* Space for sticky strip */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Main Hero Header -->
+    <header class="hero">
+        <div class="container">
+            <span class="badge">The Future of Death Care Infrastructure</span>
+            <h1>Predictable Scale for Sophisticated Funeral Directors</h1>
+            <p>Onboard your firm to Funeral Match. Streamline consumer client capture, secure localized marketplace volume, and automate legal framework compliance.</p>
+            
+            <!-- Accessible Billing Interface -->
+            <div class="toggle-container" id="billingToggleContainer" data-billing="monthly">
+                <div class="toggle-slider" aria-hidden="true"></div>
+                <button class="toggle-btn active" id="btnMonthly" aria-pressed="true">Monthly Billing</button>
+                <button class="toggle-btn" id="btnYearly" aria-pressed="false">
+                    Annual Strategy
+                    <span class="badge-discount">Save 20%</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Pricing Grid Matrix Component -->
+    <main class="container">
+        <section class="pricing-grid" aria-label="Subscription Pricing Options">
+            
+            <!-- Tier 1: Pay As You Go -->
+            <article class="card">
+                <div class="card-header">
+                    <h3>Pay-As-You-Go</h3>
+                    <p class="card-desc">Zero upfront overhead. Ideal for independent directors proving digital channel volume.</p>
+                </div>
+                <div class="card-price-container">
+                    <span class="card-currency">£</span>
+                    <span class="card-price" data-monthly="0" data-yearly="0">0</span>
+                    <span class="card-period">/month</span>
+                </div>
+                <div class="card-metric">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                    12% Commission per Arrangement
+                </div>
+                <a href="#register" class="btn btn-secondary">Initialize Account</a>
+                <ul class="card-features-list">
+                    <li class="card-feature-item">
+                        <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                        Standard Directory Placement
+                    </li>
+                    <li class="card-feature-item">
+                        <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                        CMA Pricing Compliance Module
+                    </li>
+                    <li class="card-feature-item">
+                        <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                        Basic Digital Quote Generation
+                    </li>
+                    <li class="card-feature-item disabled">
+                        <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                        Prioritized Client Allocation
+                    </li>
+                    <li class="card-feature-item disabled">
+                        <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                        Automated Will-Writing Pipeline Integration
+                    </li>
+                </ul>
+            </article>
+
+            <!-- Tier 2: Growth Partner (Highlighted) -->
+            <article class="card featured">
+                <span class="card-tag">Most Popular Strategy</span>
+                <div class="card-header">
+                    <h3>Growth Partner</h3>
+                    <p class="card-desc">Engineered for scaling operations intending to monopolize local market share.</p>
+                </div>
+                <div class="card-price-container">
+                    <span class="card-currency">£</span>
+                    <span class="card-price" id="growthPrice" data-monthly="99" data-yearly="79">99</span>
+                    <span class="card-period">/month</span>
+                </div>
+                <div class="card-metric">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                    5% Commission per Arrangement
+                </div>
+                <a href="#register" class="btn btn-primary">Accelerate Growth</a>
+                <ul class="card-features-list">
+                    <li class="card-feature-item">
+                        <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                        <strong>Priority</strong> Local Listing Match
+                    </li>
+                    <li class="card-feature-item">
+                        <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                        Automated Post-Service Review Collection
+                    </li>
+                    <li class="card-feature-item">
+                        <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                        Comprehensive CMA Portal Updates
+                    </li>
+                    <li class="card-feature-item">
+                        <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                        Will & Estate Cross-Sell Integration
+                    </li>
+                    <li class="card-feature-item disabled">
+                        <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                        Zero Platform Commission Cap
+                    </li>
+                </ul>
+            </article>
+
+            <!-- Tier 3: Market Leader -->
+            <article class="card">
+                <div class="card-header">
+                    <h3>Market Leader</h3>
+                    <p class="card-desc">Complete regional consolidation. Protect high-volume margins completely.</p>
+                </div>
+                <div class="card-price-container">
+                    <span class="card-currency">£</span>
+                    <span class="card-price" id="leaderPrice" data-monthly="299" data-yearly="239">299</span>
+                    <span class="card-period">/month</span>
+                </div>
+                <div class="card-metric">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                    0% Transaction Commission Flat
+                </div>
+                <a href="#register" class="btn btn-secondary">Dominate Region</a>
+                <ul class="card-features-list">
+                    <li class="card-feature-item">
+                        <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                        Absolute Regional Top-Tier Visibility
+                    </li>
+                    <li class="card-feature-item">
+                        <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                        Unlimited Free Quote Generation
+                    </li>
+                    <li class="card-feature-item">
+                        <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                        Dedicated CRM & Booking API Access
+                    </li>
+                    <li class="card-feature-item">
+                        <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                        Pre-Need Subscription Flow Data Feed
+                    </li>
+                    <li class="card-feature-item">
+                        <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                        Direct Checkout Integration on Own Domain
+                    </li>
+                </ul>
+            </article>
+        </section>
+
+        <!-- Social Proof Trust Section -->
+        <section class="trust-section" aria-label="Trust Indicators">
+            <div class="trust-grid">
+                <div class="trust-logo">Independent NAFD Members</div>
+                <div class="trust-logo">CMA Compliant Architecture</div>
+                <div class="trust-logo">SAAS-Enabled Fleet Efficiency</div>
+                <div class="trust-logo">Premium Legal Tech Partner</div>
+            </div>
+        </section>
+
+        <!-- Feature Comparison Matrix -->
+        <section class="matrix-section">
+            <h2>Granular Architectural Capabilities</h2>
+            <table class="matrix-table">
+                <thead>
+                    <tr>
+                        <th>Core System Features</th>
+                        <th class="matrix-col-header">Pay-As-You-Go</th>
+                        <th class="matrix-col-header">Growth Partner</th>
+                        <th class="matrix-col-header">Market Leader</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="matrix-row-title">Platform Fee Per Client</td>
+                        <td class="matrix-cell-center">12%</td>
+                        <td class="matrix-cell-center">5%</td>
+                        <td class="matrix-cell-center"><strong>0%</strong></td>
+                    </tr>
+                    <tr>
+                        <td class="matrix-row-title">CMA Digital Compliance Engine</td>
+                        <td class="matrix-cell-center"><svg class="matrix-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></td>
+                        <td class="matrix-cell-center"><svg class="matrix-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></td>
+                        <td class="matrix-cell-center"><svg class="matrix-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></td>
+                    </tr>
+                    <tr>
+                        <td class="matrix-row-title">LTV Will-Writing Funnel Integration</td>
+                        <td class="matrix-cell-center">—</td>
+                        <td class="matrix-cell-center"><svg class="matrix-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></td>
+                        <td class="matrix-cell-center"><svg class="matrix-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></td>
+                    </tr>
+                    <tr>
+                        <td class="matrix-row-title">Escrow Flow Split Payments</td>
+                        <td class="matrix-cell-center">Manual Batch</td>
+                        <td class="matrix-cell-center">Instant Automated</td>
+                        <td class="matrix-cell-center">Custom API Ledger</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- FAQ System Accordion -->
+        <section class="faq-section" aria-label="Frequently Asked Questions">
+            <h2>Frequently Analyzed Metrics</h2>
+            <div class="faq-container">
+                <div class="faq-item">
+                    <button class="faq-trigger" aria-expanded="false">
+                        <span>How are transaction commissions calculated and structured?</span>
+                        <svg class="faq-icon" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                    </button>
+                    <div class="faq-panel">
+                        <div class="faq-content">
+                            Commissions are computed solely on the base arrangement cost. Disbursements (crematorium/burial fees) are passed through completely at cost with zero platform markup.
+                        </div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-trigger" aria-expanded="false">
+                        <span>Can we upgrade or downgrade our pricing tier at any time?</span>
+                        <svg class="faq-icon" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                    </button>
+                    <div class="faq-panel">
+                        <div class="faq-content">
+                            Yes. Plan structural adjustments align seamlessly with your rolling monthly or annual billing cycle. If volume surges, upgrading immediately stops commission leakage.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Mobile Viewport Responsive Sticky Action Mechanism -->
+    <div class="sticky-cta-strip" id="mobileStickyCta">
+        <div class="sticky-info">
+            <p>Recommended Allocation</p>
+            <h4>Growth Partner</h4>
+        </div>
+        <a href="#register" class="btn btn-primary">Scale Now</a>
+    </div>
+
+    <!-- Clean, High-Fidelity Interaction Controller -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const container = document.getElementById('billingToggleContainer');
+            const btnMonthly = document.getElementById('btnMonthly');
+            const btnYearly = document.getElementById('btnYearly');
+            
+            const growthPrice = document.getElementById('growthPrice');
+            const leaderPrice = document.getElementById('leaderPrice');
+
+            function setBilling(mode) {
+                container.setAttribute('data-billing', mode);
+                if (mode === 'yearly') {
+                    btnMonthly.classList.remove('active');
+                    btnMonthly.setAttribute('aria-pressed', 'false');
+                    btnYearly.classList.add('active');
+                    btnYearly.setAttribute('aria-pressed', 'true');
+                    
+                    growthPrice.textContent = growthPrice.getAttribute('data-yearly');
+                    leaderPrice.textContent = leaderPrice.getAttribute('data-yearly');
+                } else {
+                    btnYearly.classList.remove('active');
+                    btnYearly.setAttribute('aria-pressed', 'false');
+                    btnMonthly.classList.add('active');
+                    btnMonthly.setAttribute('aria-pressed', 'true');
+                    
+                    growthPrice.textContent = growthPrice.getAttribute('data-monthly');
+                    leaderPrice.textContent = leaderPrice.getAttribute('data-monthly');
+                }
+            }
+
+            btnMonthly.addEventListener('click', () => setBilling('monthly'));
+            btnYearly.addEventListener('click', () => setBilling('yearly'));
+
+            // Optimized Accessible Accordion System
+            const triggers = document.querySelectorAll('.faq-trigger');
+            triggers.forEach(trigger => {
+                trigger.addEventListener('click', () => {
+                    const item = trigger.closest('.faq-item');
+                    const panel = trigger.nextElementSibling;
+                    const isExpanded = trigger.getAttribute('aria-expanded') === 'true';
+
+                    // Close open items
+                    document.querySelectorAll('.faq-item').forEach(el => {
+                        if (el !== item) {
+                            el.removeAttribute('open');
+                            el.querySelector('.faq-trigger').setAttribute('aria-expanded', 'false');
+                            el.querySelector('.faq-panel').style.maxHeight = null;
+                        }
+                    });
+
+                    if (isExpanded) {
+                        item.removeAttribute('open');
+                        trigger.setAttribute('aria-expanded', 'false');
+                        panel.style.maxHeight = null;
+                    } else {
+                        item.setAttribute('open', '');
+                        trigger.setAttribute('aria-expanded', 'true');
+                        panel.style.maxHeight = panel.scrollHeight + "px";
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
